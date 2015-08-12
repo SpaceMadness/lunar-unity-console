@@ -1,0 +1,606 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		844741B51B719C3100F5ABD3 /* libLunarConsole.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 844741A91B719C3100F5ABD3 /* libLunarConsole.a */; };
+		84E5B7BD1B744FA600315599 /* LUConsoleEntryListTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E5B7BC1B744FA600315599 /* LUConsoleEntryListTest.m */; };
+		EF08369E1B7ABCCE00DFB877 /* LUConsole.m in Sources */ = {isa = PBXBuildFile; fileRef = EF0836531B7ABCCE00DFB877 /* LUConsole.m */; };
+		EF08369F1B7ABCCE00DFB877 /* LUConsoleEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = EF0836551B7ABCCE00DFB877 /* LUConsoleEntry.m */; };
+		EF0836A01B7ABCCE00DFB877 /* LUConsoleEntryList.m in Sources */ = {isa = PBXBuildFile; fileRef = EF0836571B7ABCCE00DFB877 /* LUConsoleEntryList.m */; };
+		EF0836A11B7ABCCE00DFB877 /* LUConsoleController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF08365A1B7ABCCE00DFB877 /* LUConsoleController.m */; };
+		EF0836A21B7ABCCE00DFB877 /* LUExceptionWarningController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF08365D1B7ABCCE00DFB877 /* LUExceptionWarningController.m */; };
+		EF0836A31B7ABCCE00DFB877 /* LUConsolePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EF0836831B7ABCCE00DFB877 /* LUConsolePlugin.m */; };
+		EF0836A41B7ABCCE00DFB877 /* lunar_unity_native_interface.m in Sources */ = {isa = PBXBuildFile; fileRef = EF0836851B7ABCCE00DFB877 /* lunar_unity_native_interface.m */; };
+		EF0836A51B7ABCCE00DFB877 /* LUConsoleTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EF0836881B7ABCCE00DFB877 /* LUConsoleTableCell.m */; };
+		EF0836A61B7ABCCE00DFB877 /* LULogTypeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = EF08368A1B7ABCCE00DFB877 /* LULogTypeButton.m */; };
+		EF0836A71B7ABCCE00DFB877 /* LUTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = EF08368C1B7ABCCE00DFB877 /* LUTheme.m */; };
+		EF0836A81B7ABCCE00DFB877 /* LUToggleButton.m in Sources */ = {isa = PBXBuildFile; fileRef = EF08368E1B7ABCCE00DFB877 /* LUToggleButton.m */; };
+		EF0836A91B7ABCCE00DFB877 /* LUWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = EF0836901B7ABCCE00DFB877 /* LUWindow.m */; };
+		EF0836AA1B7ABCCE00DFB877 /* LUAssert.m in Sources */ = {isa = PBXBuildFile; fileRef = EF0836931B7ABCCE00DFB877 /* LUAssert.m */; };
+		EF0836AB1B7ABCCE00DFB877 /* LUAvailability.m in Sources */ = {isa = PBXBuildFile; fileRef = EF0836951B7ABCCE00DFB877 /* LUAvailability.m */; };
+		EF0836AC1B7ABCCE00DFB877 /* LULimitSizeList.m in Sources */ = {isa = PBXBuildFile; fileRef = EF0836981B7ABCCE00DFB877 /* LULimitSizeList.m */; };
+		EF0836AD1B7ABCCE00DFB877 /* LUObject.m in Sources */ = {isa = PBXBuildFile; fileRef = EF08369A1B7ABCCE00DFB877 /* LUObject.m */; };
+		EF0836AE1B7ABCCE00DFB877 /* LUThreading.m in Sources */ = {isa = PBXBuildFile; fileRef = EF08369C1B7ABCCE00DFB877 /* LUThreading.m */; };
+		EFFF63231B7553EC001E6E1E /* LULimitSizeListTest.m in Sources */ = {isa = PBXBuildFile; fileRef = EFFF63221B7553EC001E6E1E /* LULimitSizeListTest.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		844741B61B719C3100F5ABD3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 844741A11B719C3100F5ABD3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 844741A81B719C3100F5ABD3;
+			remoteInfo = LunarConsole;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		844741A71B719C3100F5ABD3 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		844741A91B719C3100F5ABD3 /* libLunarConsole.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libLunarConsole.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		844741B41B719C3100F5ABD3 /* LunarConsoleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LunarConsoleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		844741BA1B719C3100F5ABD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		84E5B7BC1B744FA600315599 /* LUConsoleEntryListTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUConsoleEntryListTest.m; sourceTree = "<group>"; };
+		EF0836521B7ABCCE00DFB877 /* LUConsole.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUConsole.h; sourceTree = "<group>"; };
+		EF0836531B7ABCCE00DFB877 /* LUConsole.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUConsole.m; sourceTree = "<group>"; };
+		EF0836541B7ABCCE00DFB877 /* LUConsoleEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUConsoleEntry.h; sourceTree = "<group>"; };
+		EF0836551B7ABCCE00DFB877 /* LUConsoleEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUConsoleEntry.m; sourceTree = "<group>"; };
+		EF0836561B7ABCCE00DFB877 /* LUConsoleEntryList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUConsoleEntryList.h; sourceTree = "<group>"; };
+		EF0836571B7ABCCE00DFB877 /* LUConsoleEntryList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUConsoleEntryList.m; sourceTree = "<group>"; };
+		EF0836591B7ABCCE00DFB877 /* LUConsoleController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUConsoleController.h; sourceTree = "<group>"; };
+		EF08365A1B7ABCCE00DFB877 /* LUConsoleController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUConsoleController.m; sourceTree = "<group>"; };
+		EF08365B1B7ABCCE00DFB877 /* LUConsoleController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LUConsoleController.xib; sourceTree = "<group>"; };
+		EF08365C1B7ABCCE00DFB877 /* LUExceptionWarningController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUExceptionWarningController.h; sourceTree = "<group>"; };
+		EF08365D1B7ABCCE00DFB877 /* LUExceptionWarningController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUExceptionWarningController.m; sourceTree = "<group>"; };
+		EF08365E1B7ABCCE00DFB877 /* LUExceptionWarningController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LUExceptionWarningController.xib; sourceTree = "<group>"; };
+		EF0836601B7ABCCE00DFB877 /* lunar_console_icon_button_clear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lunar_console_icon_button_clear.png; sourceTree = "<group>"; };
+		EF0836611B7ABCCE00DFB877 /* lunar_console_icon_button_clear@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lunar_console_icon_button_clear@2x.png"; sourceTree = "<group>"; };
+		EF0836621B7ABCCE00DFB877 /* lunar_console_icon_button_clear@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lunar_console_icon_button_clear@3x.png"; sourceTree = "<group>"; };
+		EF0836631B7ABCCE00DFB877 /* lunar_console_icon_button_clipboard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lunar_console_icon_button_clipboard.png; sourceTree = "<group>"; };
+		EF0836641B7ABCCE00DFB877 /* lunar_console_icon_button_clipboard@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lunar_console_icon_button_clipboard@2x.png"; sourceTree = "<group>"; };
+		EF0836651B7ABCCE00DFB877 /* lunar_console_icon_button_clipboard@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lunar_console_icon_button_clipboard@3x.png"; sourceTree = "<group>"; };
+		EF0836661B7ABCCE00DFB877 /* lunar_console_icon_button_close.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lunar_console_icon_button_close.png; sourceTree = "<group>"; };
+		EF0836671B7ABCCE00DFB877 /* lunar_console_icon_button_close@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lunar_console_icon_button_close@2x.png"; sourceTree = "<group>"; };
+		EF0836681B7ABCCE00DFB877 /* lunar_console_icon_button_close@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lunar_console_icon_button_close@3x.png"; sourceTree = "<group>"; };
+		EF0836691B7ABCCE00DFB877 /* lunar_console_icon_button_console.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lunar_console_icon_button_console.png; sourceTree = "<group>"; };
+		EF08366A1B7ABCCE00DFB877 /* lunar_console_icon_button_console@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lunar_console_icon_button_console@2x.png"; sourceTree = "<group>"; };
+		EF08366B1B7ABCCE00DFB877 /* lunar_console_icon_button_console@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lunar_console_icon_button_console@3x.png"; sourceTree = "<group>"; };
+		EF08366C1B7ABCCE00DFB877 /* lunar_console_icon_button_email.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lunar_console_icon_button_email.png; sourceTree = "<group>"; };
+		EF08366D1B7ABCCE00DFB877 /* lunar_console_icon_button_email@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lunar_console_icon_button_email@2x.png"; sourceTree = "<group>"; };
+		EF08366E1B7ABCCE00DFB877 /* lunar_console_icon_button_email@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lunar_console_icon_button_email@3x.png"; sourceTree = "<group>"; };
+		EF08366F1B7ABCCE00DFB877 /* lunar_console_icon_button_lock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lunar_console_icon_button_lock.png; sourceTree = "<group>"; };
+		EF0836701B7ABCCE00DFB877 /* lunar_console_icon_button_lock@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lunar_console_icon_button_lock@2x.png"; sourceTree = "<group>"; };
+		EF0836711B7ABCCE00DFB877 /* lunar_console_icon_button_lock@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lunar_console_icon_button_lock@3x.png"; sourceTree = "<group>"; };
+		EF0836721B7ABCCE00DFB877 /* lunar_console_icon_button_unlock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lunar_console_icon_button_unlock.png; sourceTree = "<group>"; };
+		EF0836731B7ABCCE00DFB877 /* lunar_console_icon_button_unlock@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lunar_console_icon_button_unlock@2x.png"; sourceTree = "<group>"; };
+		EF0836741B7ABCCE00DFB877 /* lunar_console_icon_button_unlock@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lunar_console_icon_button_unlock@3x.png"; sourceTree = "<group>"; };
+		EF0836751B7ABCCE00DFB877 /* lunar_console_icon_log.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lunar_console_icon_log.png; sourceTree = "<group>"; };
+		EF0836761B7ABCCE00DFB877 /* lunar_console_icon_log@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lunar_console_icon_log@2x.png"; sourceTree = "<group>"; };
+		EF0836771B7ABCCE00DFB877 /* lunar_console_icon_log@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lunar_console_icon_log@3x.png"; sourceTree = "<group>"; };
+		EF0836781B7ABCCE00DFB877 /* lunar_console_icon_log_error.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lunar_console_icon_log_error.png; sourceTree = "<group>"; };
+		EF0836791B7ABCCE00DFB877 /* lunar_console_icon_log_error@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lunar_console_icon_log_error@2x.png"; sourceTree = "<group>"; };
+		EF08367A1B7ABCCE00DFB877 /* lunar_console_icon_log_error@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lunar_console_icon_log_error@3x.png"; sourceTree = "<group>"; };
+		EF08367B1B7ABCCE00DFB877 /* lunar_console_icon_log_warning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lunar_console_icon_log_warning.png; sourceTree = "<group>"; };
+		EF08367C1B7ABCCE00DFB877 /* lunar_console_icon_log_warning@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lunar_console_icon_log_warning@2x.png"; sourceTree = "<group>"; };
+		EF08367D1B7ABCCE00DFB877 /* lunar_console_icon_log_warning@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lunar_console_icon_log_warning@3x.png"; sourceTree = "<group>"; };
+		EF08367E1B7ABCCE00DFB877 /* lunar_console_log_button_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lunar_console_log_button_background.png; sourceTree = "<group>"; };
+		EF08367F1B7ABCCE00DFB877 /* lunar_console_log_button_background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lunar_console_log_button_background@2x.png"; sourceTree = "<group>"; };
+		EF0836801B7ABCCE00DFB877 /* lunar_console_log_button_background@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lunar_console_log_button_background@3x.png"; sourceTree = "<group>"; };
+		EF0836821B7ABCCE00DFB877 /* LUConsolePlugin.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUConsolePlugin.h; sourceTree = "<group>"; };
+		EF0836831B7ABCCE00DFB877 /* LUConsolePlugin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUConsolePlugin.m; sourceTree = "<group>"; };
+		EF0836841B7ABCCE00DFB877 /* lunar_unity_native_interface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lunar_unity_native_interface.h; sourceTree = "<group>"; };
+		EF0836851B7ABCCE00DFB877 /* lunar_unity_native_interface.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = lunar_unity_native_interface.m; sourceTree = "<group>"; };
+		EF0836871B7ABCCE00DFB877 /* LUConsoleTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUConsoleTableCell.h; sourceTree = "<group>"; };
+		EF0836881B7ABCCE00DFB877 /* LUConsoleTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUConsoleTableCell.m; sourceTree = "<group>"; };
+		EF0836891B7ABCCE00DFB877 /* LULogTypeButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LULogTypeButton.h; sourceTree = "<group>"; };
+		EF08368A1B7ABCCE00DFB877 /* LULogTypeButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LULogTypeButton.m; sourceTree = "<group>"; };
+		EF08368B1B7ABCCE00DFB877 /* LUTheme.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUTheme.h; sourceTree = "<group>"; };
+		EF08368C1B7ABCCE00DFB877 /* LUTheme.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUTheme.m; sourceTree = "<group>"; };
+		EF08368D1B7ABCCE00DFB877 /* LUToggleButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUToggleButton.h; sourceTree = "<group>"; };
+		EF08368E1B7ABCCE00DFB877 /* LUToggleButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUToggleButton.m; sourceTree = "<group>"; };
+		EF08368F1B7ABCCE00DFB877 /* LUWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUWindow.h; sourceTree = "<group>"; };
+		EF0836901B7ABCCE00DFB877 /* LUWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUWindow.m; sourceTree = "<group>"; };
+		EF0836921B7ABCCE00DFB877 /* LUAssert.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUAssert.h; sourceTree = "<group>"; };
+		EF0836931B7ABCCE00DFB877 /* LUAssert.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUAssert.m; sourceTree = "<group>"; };
+		EF0836941B7ABCCE00DFB877 /* LUAvailability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUAvailability.h; sourceTree = "<group>"; };
+		EF0836951B7ABCCE00DFB877 /* LUAvailability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUAvailability.m; sourceTree = "<group>"; };
+		EF0836961B7ABCCE00DFB877 /* LUDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUDefines.h; sourceTree = "<group>"; };
+		EF0836971B7ABCCE00DFB877 /* LULimitSizeList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LULimitSizeList.h; sourceTree = "<group>"; };
+		EF0836981B7ABCCE00DFB877 /* LULimitSizeList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LULimitSizeList.m; sourceTree = "<group>"; };
+		EF0836991B7ABCCE00DFB877 /* LUObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUObject.h; sourceTree = "<group>"; };
+		EF08369A1B7ABCCE00DFB877 /* LUObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUObject.m; sourceTree = "<group>"; };
+		EF08369B1B7ABCCE00DFB877 /* LUThreading.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUThreading.h; sourceTree = "<group>"; };
+		EF08369C1B7ABCCE00DFB877 /* LUThreading.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUThreading.m; sourceTree = "<group>"; };
+		EF08369D1B7ABCCE00DFB877 /* Lunar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Lunar.h; sourceTree = "<group>"; };
+		EFFF63221B7553EC001E6E1E /* LULimitSizeListTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LULimitSizeListTest.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		844741A61B719C3100F5ABD3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		844741B11B719C3100F5ABD3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				844741B51B719C3100F5ABD3 /* libLunarConsole.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		844741A01B719C3100F5ABD3 = {
+			isa = PBXGroup;
+			children = (
+				844741C31B719CF600F5ABD3 /* LunarConsole */,
+				844741B81B719C3100F5ABD3 /* LunarConsoleTests */,
+				844741AA1B719C3100F5ABD3 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		844741AA1B719C3100F5ABD3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				844741A91B719C3100F5ABD3 /* libLunarConsole.a */,
+				844741B41B719C3100F5ABD3 /* LunarConsoleTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		844741B81B719C3100F5ABD3 /* LunarConsoleTests */ = {
+			isa = PBXGroup;
+			children = (
+				84E5B7BC1B744FA600315599 /* LUConsoleEntryListTest.m */,
+				EFFF63221B7553EC001E6E1E /* LULimitSizeListTest.m */,
+				844741B91B719C3100F5ABD3 /* Supporting Files */,
+			);
+			path = LunarConsoleTests;
+			sourceTree = "<group>";
+		};
+		844741B91B719C3100F5ABD3 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				844741BA1B719C3100F5ABD3 /* Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		844741C31B719CF600F5ABD3 /* LunarConsole */ = {
+			isa = PBXGroup;
+			children = (
+				EF0836511B7ABCCE00DFB877 /* Console */,
+				EF0836581B7ABCCE00DFB877 /* Controllers */,
+				EF08365F1B7ABCCE00DFB877 /* Images */,
+				EF0836811B7ABCCE00DFB877 /* Plugin */,
+				EF0836861B7ABCCE00DFB877 /* UI */,
+				EF0836911B7ABCCE00DFB877 /* Utils */,
+				EF08369D1B7ABCCE00DFB877 /* Lunar.h */,
+			);
+			path = LunarConsole;
+			sourceTree = "<group>";
+		};
+		EF0836511B7ABCCE00DFB877 /* Console */ = {
+			isa = PBXGroup;
+			children = (
+				EF0836521B7ABCCE00DFB877 /* LUConsole.h */,
+				EF0836531B7ABCCE00DFB877 /* LUConsole.m */,
+				EF0836541B7ABCCE00DFB877 /* LUConsoleEntry.h */,
+				EF0836551B7ABCCE00DFB877 /* LUConsoleEntry.m */,
+				EF0836561B7ABCCE00DFB877 /* LUConsoleEntryList.h */,
+				EF0836571B7ABCCE00DFB877 /* LUConsoleEntryList.m */,
+			);
+			path = Console;
+			sourceTree = "<group>";
+		};
+		EF0836581B7ABCCE00DFB877 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				EF0836591B7ABCCE00DFB877 /* LUConsoleController.h */,
+				EF08365A1B7ABCCE00DFB877 /* LUConsoleController.m */,
+				EF08365B1B7ABCCE00DFB877 /* LUConsoleController.xib */,
+				EF08365C1B7ABCCE00DFB877 /* LUExceptionWarningController.h */,
+				EF08365D1B7ABCCE00DFB877 /* LUExceptionWarningController.m */,
+				EF08365E1B7ABCCE00DFB877 /* LUExceptionWarningController.xib */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		EF08365F1B7ABCCE00DFB877 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				EF0836601B7ABCCE00DFB877 /* lunar_console_icon_button_clear.png */,
+				EF0836611B7ABCCE00DFB877 /* lunar_console_icon_button_clear@2x.png */,
+				EF0836621B7ABCCE00DFB877 /* lunar_console_icon_button_clear@3x.png */,
+				EF0836631B7ABCCE00DFB877 /* lunar_console_icon_button_clipboard.png */,
+				EF0836641B7ABCCE00DFB877 /* lunar_console_icon_button_clipboard@2x.png */,
+				EF0836651B7ABCCE00DFB877 /* lunar_console_icon_button_clipboard@3x.png */,
+				EF0836661B7ABCCE00DFB877 /* lunar_console_icon_button_close.png */,
+				EF0836671B7ABCCE00DFB877 /* lunar_console_icon_button_close@2x.png */,
+				EF0836681B7ABCCE00DFB877 /* lunar_console_icon_button_close@3x.png */,
+				EF0836691B7ABCCE00DFB877 /* lunar_console_icon_button_console.png */,
+				EF08366A1B7ABCCE00DFB877 /* lunar_console_icon_button_console@2x.png */,
+				EF08366B1B7ABCCE00DFB877 /* lunar_console_icon_button_console@3x.png */,
+				EF08366C1B7ABCCE00DFB877 /* lunar_console_icon_button_email.png */,
+				EF08366D1B7ABCCE00DFB877 /* lunar_console_icon_button_email@2x.png */,
+				EF08366E1B7ABCCE00DFB877 /* lunar_console_icon_button_email@3x.png */,
+				EF08366F1B7ABCCE00DFB877 /* lunar_console_icon_button_lock.png */,
+				EF0836701B7ABCCE00DFB877 /* lunar_console_icon_button_lock@2x.png */,
+				EF0836711B7ABCCE00DFB877 /* lunar_console_icon_button_lock@3x.png */,
+				EF0836721B7ABCCE00DFB877 /* lunar_console_icon_button_unlock.png */,
+				EF0836731B7ABCCE00DFB877 /* lunar_console_icon_button_unlock@2x.png */,
+				EF0836741B7ABCCE00DFB877 /* lunar_console_icon_button_unlock@3x.png */,
+				EF0836751B7ABCCE00DFB877 /* lunar_console_icon_log.png */,
+				EF0836761B7ABCCE00DFB877 /* lunar_console_icon_log@2x.png */,
+				EF0836771B7ABCCE00DFB877 /* lunar_console_icon_log@3x.png */,
+				EF0836781B7ABCCE00DFB877 /* lunar_console_icon_log_error.png */,
+				EF0836791B7ABCCE00DFB877 /* lunar_console_icon_log_error@2x.png */,
+				EF08367A1B7ABCCE00DFB877 /* lunar_console_icon_log_error@3x.png */,
+				EF08367B1B7ABCCE00DFB877 /* lunar_console_icon_log_warning.png */,
+				EF08367C1B7ABCCE00DFB877 /* lunar_console_icon_log_warning@2x.png */,
+				EF08367D1B7ABCCE00DFB877 /* lunar_console_icon_log_warning@3x.png */,
+				EF08367E1B7ABCCE00DFB877 /* lunar_console_log_button_background.png */,
+				EF08367F1B7ABCCE00DFB877 /* lunar_console_log_button_background@2x.png */,
+				EF0836801B7ABCCE00DFB877 /* lunar_console_log_button_background@3x.png */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
+		EF0836811B7ABCCE00DFB877 /* Plugin */ = {
+			isa = PBXGroup;
+			children = (
+				EF0836821B7ABCCE00DFB877 /* LUConsolePlugin.h */,
+				EF0836831B7ABCCE00DFB877 /* LUConsolePlugin.m */,
+				EF0836841B7ABCCE00DFB877 /* lunar_unity_native_interface.h */,
+				EF0836851B7ABCCE00DFB877 /* lunar_unity_native_interface.m */,
+			);
+			path = Plugin;
+			sourceTree = "<group>";
+		};
+		EF0836861B7ABCCE00DFB877 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				EF0836871B7ABCCE00DFB877 /* LUConsoleTableCell.h */,
+				EF0836881B7ABCCE00DFB877 /* LUConsoleTableCell.m */,
+				EF0836891B7ABCCE00DFB877 /* LULogTypeButton.h */,
+				EF08368A1B7ABCCE00DFB877 /* LULogTypeButton.m */,
+				EF08368B1B7ABCCE00DFB877 /* LUTheme.h */,
+				EF08368C1B7ABCCE00DFB877 /* LUTheme.m */,
+				EF08368D1B7ABCCE00DFB877 /* LUToggleButton.h */,
+				EF08368E1B7ABCCE00DFB877 /* LUToggleButton.m */,
+				EF08368F1B7ABCCE00DFB877 /* LUWindow.h */,
+				EF0836901B7ABCCE00DFB877 /* LUWindow.m */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		EF0836911B7ABCCE00DFB877 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				EF0836921B7ABCCE00DFB877 /* LUAssert.h */,
+				EF0836931B7ABCCE00DFB877 /* LUAssert.m */,
+				EF0836941B7ABCCE00DFB877 /* LUAvailability.h */,
+				EF0836951B7ABCCE00DFB877 /* LUAvailability.m */,
+				EF0836961B7ABCCE00DFB877 /* LUDefines.h */,
+				EF0836971B7ABCCE00DFB877 /* LULimitSizeList.h */,
+				EF0836981B7ABCCE00DFB877 /* LULimitSizeList.m */,
+				EF0836991B7ABCCE00DFB877 /* LUObject.h */,
+				EF08369A1B7ABCCE00DFB877 /* LUObject.m */,
+				EF08369B1B7ABCCE00DFB877 /* LUThreading.h */,
+				EF08369C1B7ABCCE00DFB877 /* LUThreading.m */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		844741A81B719C3100F5ABD3 /* LunarConsole */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 844741BD1B719C3100F5ABD3 /* Build configuration list for PBXNativeTarget "LunarConsole" */;
+			buildPhases = (
+				844741A51B719C3100F5ABD3 /* Sources */,
+				844741A61B719C3100F5ABD3 /* Frameworks */,
+				844741A71B719C3100F5ABD3 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LunarConsole;
+			productName = LunarConsole;
+			productReference = 844741A91B719C3100F5ABD3 /* libLunarConsole.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		844741B31B719C3100F5ABD3 /* LunarConsoleTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 844741C01B719C3100F5ABD3 /* Build configuration list for PBXNativeTarget "LunarConsoleTests" */;
+			buildPhases = (
+				844741B01B719C3100F5ABD3 /* Sources */,
+				844741B11B719C3100F5ABD3 /* Frameworks */,
+				844741B21B719C3100F5ABD3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				844741B71B719C3100F5ABD3 /* PBXTargetDependency */,
+			);
+			name = LunarConsoleTests;
+			productName = LunarConsoleTests;
+			productReference = 844741B41B719C3100F5ABD3 /* LunarConsoleTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		844741A11B719C3100F5ABD3 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0700;
+				ORGANIZATIONNAME = "Space Madness";
+				TargetAttributes = {
+					844741A81B719C3100F5ABD3 = {
+						CreatedOnToolsVersion = 6.4;
+					};
+					844741B31B719C3100F5ABD3 = {
+						CreatedOnToolsVersion = 6.4;
+					};
+				};
+			};
+			buildConfigurationList = 844741A41B719C3100F5ABD3 /* Build configuration list for PBXProject "LunarConsole" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 844741A01B719C3100F5ABD3;
+			productRefGroup = 844741AA1B719C3100F5ABD3 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				844741A81B719C3100F5ABD3 /* LunarConsole */,
+				844741B31B719C3100F5ABD3 /* LunarConsoleTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		844741B21B719C3100F5ABD3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		844741A51B719C3100F5ABD3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EF0836AE1B7ABCCE00DFB877 /* LUThreading.m in Sources */,
+				EF0836A11B7ABCCE00DFB877 /* LUConsoleController.m in Sources */,
+				EF0836AB1B7ABCCE00DFB877 /* LUAvailability.m in Sources */,
+				EF08369E1B7ABCCE00DFB877 /* LUConsole.m in Sources */,
+				EF0836A61B7ABCCE00DFB877 /* LULogTypeButton.m in Sources */,
+				EF08369F1B7ABCCE00DFB877 /* LUConsoleEntry.m in Sources */,
+				EF0836A51B7ABCCE00DFB877 /* LUConsoleTableCell.m in Sources */,
+				EF0836AA1B7ABCCE00DFB877 /* LUAssert.m in Sources */,
+				EF0836AC1B7ABCCE00DFB877 /* LULimitSizeList.m in Sources */,
+				EF0836A81B7ABCCE00DFB877 /* LUToggleButton.m in Sources */,
+				EF0836A91B7ABCCE00DFB877 /* LUWindow.m in Sources */,
+				EF0836A31B7ABCCE00DFB877 /* LUConsolePlugin.m in Sources */,
+				EF0836A71B7ABCCE00DFB877 /* LUTheme.m in Sources */,
+				EF0836A21B7ABCCE00DFB877 /* LUExceptionWarningController.m in Sources */,
+				EF0836AD1B7ABCCE00DFB877 /* LUObject.m in Sources */,
+				EF0836A41B7ABCCE00DFB877 /* lunar_unity_native_interface.m in Sources */,
+				EF0836A01B7ABCCE00DFB877 /* LUConsoleEntryList.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		844741B01B719C3100F5ABD3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				84E5B7BD1B744FA600315599 /* LUConsoleEntryListTest.m in Sources */,
+				EFFF63231B7553EC001E6E1E /* LULimitSizeListTest.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		844741B71B719C3100F5ABD3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 844741A81B719C3100F5ABD3 /* LunarConsole */;
+			targetProxy = 844741B61B719C3100F5ABD3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		844741BB1B719C3100F5ABD3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		844741BC1B719C3100F5ABD3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		844741BE1B719C3100F5ABD3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		844741BF1B719C3100F5ABD3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		844741C11B719C3100F5ABD3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = LunarConsoleTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.spacemadness.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		844741C21B719C3100F5ABD3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = LunarConsoleTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.spacemadness.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		844741A41B719C3100F5ABD3 /* Build configuration list for PBXProject "LunarConsole" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				844741BB1B719C3100F5ABD3 /* Debug */,
+				844741BC1B719C3100F5ABD3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		844741BD1B719C3100F5ABD3 /* Build configuration list for PBXNativeTarget "LunarConsole" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				844741BE1B719C3100F5ABD3 /* Debug */,
+				844741BF1B719C3100F5ABD3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		844741C01B719C3100F5ABD3 /* Build configuration list for PBXNativeTarget "LunarConsoleTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				844741C11B719C3100F5ABD3 /* Debug */,
+				844741C21B719C3100F5ABD3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 844741A11B719C3100F5ABD3 /* Project object */;
+}

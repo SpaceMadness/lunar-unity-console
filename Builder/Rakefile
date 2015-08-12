@@ -1,0 +1,142 @@
+require 'rake'
+require 'json'
+
+require_relative 'common'
+require_relative 'unity_helper'
+require_relative 'unity_project'
+
+include Common
+
+namespace :lunar do
+
+  task :init do
+
+    $bin_release_unity = resolve_path '/Applications/Unity/Unity.app/Contents/MacOS/Unity'
+
+    $dir_out = File.expand_path 'temp'
+    $dir_out_packages = "#{$dir_out}/packages"
+
+    $dir_builder = File.expand_path '.'
+
+    # plugin project
+    $dir_project = resolve_path File.expand_path('../Project')
+    $dir_project_plugin = resolve_path "#{$dir_project}/Assets/LunarConsole"
+    $dir_project_plugin_scripts = resolve_path "#{$dir_project_plugin}/Scripts"
+    $dir_project_plugin_editor = resolve_path "#{$dir_project_plugin}/Editor"
+    $dir_project_plugin_ios = "#{$dir_project_plugin_editor}/iOS"
+    $dir_project_plugin_android = "#{$dir_project_plugin_editor}/Android"
+
+    # native projects
+    $dir_native = resolve_path File.expand_path('../Native')
+    $dir_native_ios = resolve_path "#{$dir_native}/iOS"
+    $dir_native_ios_src = resolve_path "#{$dir_native_ios}/LunarConsole/LunarConsole"
+
+    # publisher project
+    $dir_publisher_project = resolve_path "#{$dir_builder}/PublisherProject"
+
+    def extract_package_version(dir_project)
+
+      file_version = resolve_path "#{dir_project}/Scripts/Constants.cs"
+      source = File.read file_version
+
+      source =~ /Version\s+=\s+"(\d+\.\d+.\d+\w?)"/
+      return not_nil $1
+
+    end
+
+    $package_version = not_nil(extract_package_version $dir_project_plugin)
+
+  end
+
+  desc 'Cleans temporary folders'
+  task :clean => [:init] do
+    FileUtils.rm_rf $dir_out
+    FileUtils.makedirs $dir_out
+  end
+
+  desc 'Build native part of the plugin'
+  task :build_native => [:build_native_ios] do
+  end
+
+  desc 'Build native iOS part of the plugin'
+  task :build_native_ios => [:init] do
+
+    # list ios project files
+    ios_files = list_ios_files $dir_native_ios_src, :use_relative_path => true
+
+    # cleanup old files
+    FileUtils.rm_rf $dir_project_plugin_ios
+    FileUtils.mkdir $dir_project_plugin_ios
+
+    # copy files to plugin native folder (keeping directory structure)
+    ios_files.each {|file|
+      file_src = "#{$dir_native_ios_src}/#{file}"
+      dir_dest = "#{$dir_project_plugin_ios}/#{File.dirname file}"
+      FileUtils.mkpath dir_dest unless File.directory? dir_dest
+
+      FileUtils.cp file_src, "#{dir_dest}/"
+    }
+
+    # generate .projmod
+    projmods = {
+        group: 'Lunar Console',
+        # frameworks: ['MessageUI.framework'],
+        files: ios_files,
+        excludes: %w(^.*.DS_Store$ ^.*.meta$ ^.*.mdown^ ^.*.pdf$ ^.*.svn$),
+    }
+
+    file_projmode = "#{$dir_project_plugin_ios}/lunar.projmods"
+    File.write file_projmode, JSON.pretty_generate(projmods)
+
+  end
+
+
+  task :list_package_files => [:init] do
+    $package_files = UnityHelper.list_package_assets $dir_project
+    # TODO: add readme file
+  end
+
+  desc 'Exports Unity package for standalone distribution (outside Asset Store)'
+  task :export_unity_package => [:init, :list_package_files] do
+
+    file_package = "#{$dir_out_packages}/lunar-#{$package_version}.unitypackage"
+    print_header "Exporting package: #{file_package}..."
+
+    package_files = not_nil $package_files
+
+    project = UnityProject.new $dir_project
+    project.export_unity_package file_package, package_files
+
+  end
+
+  desc 'Prepares publisher project'
+  task :prepare_publisher_project => [:export_unity_package] do
+
+    package = resolve_path Dir["#{$dir_out_packages}/lunar-*.unitypackage"].first
+
+    print_header 'Preparing publisher project...'
+
+    project = UnityProject.new $dir_publisher_project, $bin_release_unity
+    project.import_package package
+    project.open
+
+  end
+
+
+  def list_ios_files(dir_project, options = {})
+    extensions = %w(.h .m .mm .xib .nib .c .cpp .png .bundle)
+
+    files = list_files dir_project, &->(file) {
+      return false if File.directory? file
+
+      extension = File.extname file
+      return extensions.include? extension
+    }
+
+    return files.map { |file| make_relative_path file, dir_project } if options[:use_relative_path]
+
+    return files
+
+  end
+
+end
