@@ -9,7 +9,7 @@ Requires Unity 5.0 or later.
 Build a high-performance Unity iOS/Android logger using the native platform UI.  
 
 ## Platform Support
-- **iOS**: beta version
+- **iOS**: requires iOS 7 or later
 - **Android**: TBA
   
 ## Key Benefits
