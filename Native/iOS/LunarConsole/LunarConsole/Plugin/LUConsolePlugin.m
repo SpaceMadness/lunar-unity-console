@@ -72,7 +72,7 @@ static const CGFloat kWarningHeight = 45.0f;
         windowInitialFrame.origin.y -= CGRectGetHeight(windowFrame);
         
         _consoleWindow = [[LUWindow alloc] initWithFrame:windowInitialFrame];
-        _consoleWindow.rootViewController = controller;
+        _consoleWindow.rootViewController = LU_AUTORELEASE([[UINavigationController alloc] initWithRootViewController:controller]);
         _consoleWindow.opaque = YES;
         _consoleWindow.backgroundColor = [UIColor grayColor];
         _consoleWindow.hidden = NO;

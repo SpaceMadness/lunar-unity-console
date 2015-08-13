@@ -6,24 +6,13 @@ module UnityHelper
 
   def self.list_package_assets dir_project, ignored_files = []
 
-    dir_project_assets = resolve_path "#{dir_project}/Assets"
-    dir_project_assets_editor = resolve_path "#{dir_project_assets}/Editor/Lunar"
-    dir_project_assets_plugins = resolve_path "#{dir_project_assets}/Plugins/Lunar"
-
     files = []
 
-    # list editor files
-    list_assets files, dir_project_assets_editor, &->(file) {
+    # add root directory
+    files << dir_project
 
-                          # don't include ignored files
-                          return false if ignored_files.include?(File.basename file)
-
-                          # the rest is fine
-                          return true
-                        }
-
-    # list runtime files
-    list_assets files, dir_project_assets_plugins, &->(file) {
+    # list files
+    list_assets files, dir_project, &->(file) {
 
                           # don't include ignored files
                           return false if ignored_files.include?(File.basename file)

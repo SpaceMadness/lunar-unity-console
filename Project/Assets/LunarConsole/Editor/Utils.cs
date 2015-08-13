@@ -48,6 +48,11 @@ namespace LunarConsoleInternal
         {
             return EditorUtility.DisplayDialog(title, message, "Ok", "Cancel");
         }
+
+        internal static bool ShowDialog(string title, string message, string ok)
+        {
+            return EditorUtility.DisplayDialog(title, message, ok);
+        }
         
         internal static void ShowDialog(string title, string message, DialogButton buttonOk)
         {

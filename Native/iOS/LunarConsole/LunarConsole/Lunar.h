@@ -10,6 +10,7 @@
 #import "LUAvailability.h"
 #import "LUConsole.h"
 #import "LUConsoleController.h"
+#import "LUConsoleDetailsController.h"
 #import "LUConsoleEntry.h"
 #import "LUConsoleEntryList.h"
 #import "LUConsolePlugin.h"

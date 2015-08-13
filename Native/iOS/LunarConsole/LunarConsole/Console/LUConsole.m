@@ -45,7 +45,7 @@
 
 - (void)logMessage:(NSString *)message stackTrace:(NSString *)stackTrace type:(LUConsoleLogType)type
 {
-    LUConsoleEntry *entry = [[LUConsoleEntry alloc] initWithType:type message:message]; // TODO: use stack trace
+    LUConsoleEntry *entry = [[LUConsoleEntry alloc] initWithType:type message:message stackTrace:stackTrace];
     BOOL filtered = [_entries addEntry:entry];
     [_delegate lunarConsole:self didAddEntry:entry filtered:filtered];
     LU_RELEASE(entry);

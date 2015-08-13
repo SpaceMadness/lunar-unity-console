@@ -13,7 +13,7 @@ using System.Runtime.InteropServices;
 
 namespace LunarConsole
 {
-    class LunarConsole : MonoBehaviour
+    public class LunarConsole : MonoBehaviour
     {
         [Range(1, 65536)]
         public int capacity = 4096;

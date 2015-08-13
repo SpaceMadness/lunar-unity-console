@@ -85,21 +85,24 @@ namespace :lunar do
         excludes: %w(^.*.DS_Store$ ^.*.meta$ ^.*.mdown^ ^.*.pdf$ ^.*.svn$),
     }
 
-    file_projmode = "#{$dir_project_plugin_ios}/lunar.projmods"
+    file_projmode = "#{$dir_project_plugin_ios}/Lunar.projmods"
     File.write file_projmode, JSON.pretty_generate(projmods)
 
   end
 
 
   task :list_package_files => [:init] do
-    $package_files = UnityHelper.list_package_assets $dir_project
+    $package_files = UnityHelper.list_package_assets $dir_project_plugin
+
+    print_header 'Package files:'
+    puts $package_files
     # TODO: add readme file
   end
 
   desc 'Exports Unity package for standalone distribution (outside Asset Store)'
-  task :export_unity_package => [:init, :list_package_files] do
+  task :export_unity_package => [:init, :build_native, :list_package_files] do
 
-    file_package = "#{$dir_out_packages}/lunar-#{$package_version}.unitypackage"
+    file_package = "#{$dir_out_packages}/lunar-console-#{$package_version}.unitypackage"
     print_header "Exporting package: #{file_package}..."
 
     package_files = not_nil $package_files
@@ -112,7 +115,7 @@ namespace :lunar do
   desc 'Prepares publisher project'
   task :prepare_publisher_project => [:export_unity_package] do
 
-    package = resolve_path Dir["#{$dir_out_packages}/lunar-*.unitypackage"].first
+    package = resolve_path Dir["#{$dir_out_packages}/lunar-console-*.unitypackage"].first
 
     print_header 'Preparing publisher project...'
 

@@ -14,6 +14,12 @@
 static LUConsoleEntryList *createEntryListWithMessages(NSString *first, ...) NS_REQUIRES_NIL_TERMINATION;
 static LUConsoleEntryList *createEntryListWithEntries(LUConsoleEntry *first, ...) NS_REQUIRES_NIL_TERMINATION;
 
+@interface LUConsoleEntry (Initializer)
+
++ (instancetype)entryWithType:(LUConsoleLogType)type message:(NSString *)message;
+
+@end
+
 @interface LUConsoleEntryFilteredListTest : XCTestCase
 
 @end
@@ -285,6 +291,15 @@ static LUConsoleEntryList *createEntryListWithEntries(LUConsoleEntry *first, ...
         LUConsoleEntry *entry = (LUConsoleEntry *)[list entryAtIndex:i];
         XCTAssertEqual([lines objectAtIndex:i], entry.message);
     }
+}
+
+@end
+
+@implementation LUConsoleEntry (Initializer)
+
++ (instancetype)entryWithType:(LUConsoleLogType)type message:(NSString *)message
+{
+    return [self entryWithType:type message:message stackTrace:nil];
 }
 
 @end

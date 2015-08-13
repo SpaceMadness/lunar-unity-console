@@ -124,6 +124,16 @@ namespace LunarConsoleInternal
             HttpDownloader downloader = new HttpDownloader(Constants.UpdateJsonURL);
             downloader.DownloadString(delegate(string response, Exception error)
             {
+                if (error != null)
+                {
+                    Log.e(error, "Can't get updater info");
+                    if (!silent)
+                    {
+                        Utils.ShowDialog(kMessageBoxTitle, "Update info is not available.\n\nTry again later.", "OK");
+                    }
+                    return;
+                }
+
                 UpdateInfo info;
                 if (response != null && TryParseUpdateInfo(response, out info))
                 {
@@ -167,6 +177,10 @@ namespace LunarConsoleInternal
                 else
                 {
                     Log.e("Unable to parse response: '{0}'", response);
+                    if (!silent)
+                    {
+                        Utils.ShowDialog(kMessageBoxTitle, "Update info is not available.\n\nTry again later.", "OK");
+                    }
                 }
             });
         }

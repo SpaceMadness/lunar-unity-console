@@ -5,6 +5,17 @@ namespace LunarConsoleInternal
 {
     static class MenuItems
     {
+        [MenuItem("Window/Lunar Mobile Console/Install...")]
+        static void Install()
+        {
+            Installer.Install(false);
+        }
+
+        [MenuItem("Window/Lunar Mobile Console/")]
+        static void Separator()
+        {
+        }
+
         [MenuItem("Window/Lunar Mobile Console/Check for updates...")]
         static void CheckForUpdates()
         {

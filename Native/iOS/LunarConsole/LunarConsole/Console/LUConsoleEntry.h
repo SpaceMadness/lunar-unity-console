@@ -30,9 +30,10 @@ typedef uint8_t LUConsoleLogTypeMask;
 
 @property (nonatomic, readonly) LUConsoleLogType type;
 @property (nonatomic, readonly) NSString * message;
+@property (nonatomic, readonly) NSString * stackTrace;
 
-+ (instancetype)entryWithType:(LUConsoleLogType)type message:(NSString *)message;
-- (instancetype)initWithType:(LUConsoleLogType)type message:(NSString *)message;
++ (instancetype)entryWithType:(LUConsoleLogType)type message:(NSString *)message stackTrace:(NSString *)stackTrace;
+- (instancetype)initWithType:(LUConsoleLogType)type message:(NSString *)message stackTrace:(NSString *)stackTrace;
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellAtIndex:(NSUInteger)index;
 - (CGSize)cellSizeForTableView:(UITableView *)tableView;

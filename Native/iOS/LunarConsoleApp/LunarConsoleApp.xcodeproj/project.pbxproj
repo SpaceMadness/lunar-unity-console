@@ -51,6 +51,7 @@
 		EF0836B31B7ABD6D00DFB877 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 844741FA1B719DA500F5ABD3 /* LaunchScreen.xib */; };
 		EF0836B41B7ABD6D00DFB877 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 844741F51B719DA500F5ABD3 /* Main.storyboard */; };
 		EF63A15A1B75292A00B18D0B /* Data.m in Sources */ = {isa = PBXBuildFile; fileRef = EF63A1591B75292A00B18D0B /* Data.m */; };
+		EF87031B1B7BDF83004D6491 /* LUConsoleDetailsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF87031A1B7BDF83004D6491 /* LUConsoleDetailsController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -136,6 +137,7 @@
 		EF0836B01B7ABD1E00DFB877 /* LUExceptionWarningController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LUExceptionWarningController.xib; path = ../../LunarConsole/LunarConsole/Controllers/LUExceptionWarningController.xib; sourceTree = "<group>"; };
 		EF63A1581B75292A00B18D0B /* Data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Data.h; sourceTree = "<group>"; };
 		EF63A1591B75292A00B18D0B /* Data.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Data.m; sourceTree = "<group>"; };
+		EF87031A1B7BDF83004D6491 /* LUConsoleDetailsController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LUConsoleDetailsController.xib; path = ../../LunarConsole/LunarConsole/Controllers/LUConsoleDetailsController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -233,6 +235,7 @@
 			isa = PBXGroup;
 			children = (
 				EF0836AF1B7ABD1E00DFB877 /* LUConsoleController.xib */,
+				EF87031A1B7BDF83004D6491 /* LUConsoleDetailsController.xib */,
 				EF0836B01B7ABD1E00DFB877 /* LUExceptionWarningController.xib */,
 				EF08360F1B7AB5E400DFB877 /* lunar_console_icon_button_clear.png */,
 				EF0836101B7AB5E400DFB877 /* lunar_console_icon_button_clear@2x.png */,
@@ -375,6 +378,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF87031B1B7BDF83004D6491 /* LUConsoleDetailsController.xib in Resources */,
 				EF0836B31B7ABD6D00DFB877 /* LaunchScreen.xib in Resources */,
 				EF0836B41B7ABD6D00DFB877 /* Main.storyboard in Resources */,
 				EF0836B11B7ABD1E00DFB877 /* LUConsoleController.xib in Resources */,

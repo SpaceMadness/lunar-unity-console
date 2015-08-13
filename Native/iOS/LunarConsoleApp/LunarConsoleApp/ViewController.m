@@ -64,7 +64,19 @@ static const NSUInteger kConsoleCapacity = 1024;
 
 - (void)showAlert
 {
-    [_plugin logMessage:@"Alert" stackTrace:nil type:LUConsoleLogTypeException];
+    NSString *message = @"Exception: Error!";
+    NSString *stackTrace = @"Logger.LogError () (at Assets/Logger.cs:15)\n \
+    UnityEngine.Events.InvokableCall.Invoke (System.Object[] args)\n \
+    UnityEngine.Events.InvokableCallList.Invoke (System.Object[] parameters)\n \
+    UnityEngine.Events.UnityEventBase.Invoke (System.Object[] parameters)\n \
+    UnityEngine.Events.UnityEvent.Invoke ()\n \
+    UnityEngine.UI.Button.Press () (at /Users/builduser/buildslave/unity/build/Extensions/guisystem/UnityEngine.UI/UI/Core/Button.cs:35)\n \
+    UnityEngine.UI.Button.OnPointerClick (UnityEngine.EventSystems.PointerEventData eventData) (at /Users/builduser/buildslave/unity/build/Extensions/guisystem/UnityEngine.UI/UI/Core/Button.cs:44)\n \
+    UnityEngine.EventSystems.ExecuteEvents.Execute (IPointerClickHandler handler, UnityEngine.EventSystems.BaseEventData eventData) (at /Users/builduser/buildslave/unity/build/Extensions/guisystem/UnityEngine.UI/EventSystem/ExecuteEvents.cs:52)\n \
+    UnityEngine.EventSystems.ExecuteEvents.Execute[IPointerClickHandler] (UnityEngine.GameObject target, UnityEngine.EventSystems.BaseEventData eventData, UnityEngine.EventSystems.EventFunction`1 functor) (at /Users/builduser/buildslave/unity/build/Extensions/guisystem/UnityEngine.UI/EventSystem/ExecuteEvents.cs:269)\n \
+    UnityEngine.EventSystems.EventSystem:Update()";
+    
+    [_plugin logMessage:message stackTrace:stackTrace type:LUConsoleLogTypeException];
 }
 
 - (void)logNextMessage

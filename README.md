@@ -30,7 +30,11 @@ Build a high-performance Unity iOS/Android logger using the native platform UI.
 - Automatic updates!
  
 ## Installation
-// TBD
+- **Automatic**:  
+  Unity Editor Menu:  Window ▶ Lunar Mobile Console ▶ Install...
+  
+- **Manual**:  
+  Drag'n'Drop `LunarConsol.prefab` (Assets/LunarConsole/Scripts/LunarConsole.prefab) into your current scene's hierarchy and save your changes. You only need to do it once for your startup scene.
 
 ## Enable/Disable plugin for debug/release
 - To disable:  

@@ -37,18 +37,19 @@ static NSArray * _cellSkinLookup;
     }
 }
 
-+ (instancetype)entryWithType:(LUConsoleLogType)type message:(NSString *)message
++ (instancetype)entryWithType:(LUConsoleLogType)type message:(NSString *)message stackTrace:(NSString *)stackTrace
 {
-    return LU_AUTORELEASE([[[self class] alloc] initWithType:type message:message]);
+    return LU_AUTORELEASE([[[self class] alloc] initWithType:type message:message stackTrace:stackTrace]);
 }
 
-- (instancetype)initWithType:(LUConsoleLogType)type message:(NSString *)message
+- (instancetype)initWithType:(LUConsoleLogType)type message:(NSString *)message stackTrace:(NSString *)stackTrace
 {
     self = [super init];
     if (self)
     {
         _type = type;
         _message = LU_RETAIN(message);
+        _stackTrace = LU_RETAIN(stackTrace);
     }
     return self;
 }
@@ -56,6 +57,7 @@ static NSArray * _cellSkinLookup;
 - (void)dealloc
 {
     LU_RELEASE(_message);
+    LU_RELEASE(_stackTrace);
     LU_SUPER_DEALLOC
 }
 

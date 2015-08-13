@@ -85,6 +85,9 @@ static const NSTimeInterval kTableUpdateDelay = 0.1; // 100 ms
     
     LUTheme *theme = [self theme];
     
+    // title
+    self.title = @"Logs";
+    
     // background
     self.view.opaque = YES;
     self.view.backgroundColor = theme.tableColor;
@@ -100,6 +103,18 @@ static const NSTimeInterval kTableUpdateDelay = 0.1; // 100 ms
     
     // log entries count
     [self updateEntriesCount];
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
 }
 
 - (void)didReceiveMemoryWarning
@@ -243,6 +258,17 @@ static const NSTimeInterval kTableUpdateDelay = 0.1; // 100 ms
 
 #pragma mark -
 #pragma mark UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    LUConsoleEntry *entry = [self entryForRowAtIndexPath:indexPath];
+    
+    LUConsoleDetailsController *controller = [[LUConsoleDetailsController alloc] initWithEntry:entry];
+    [self.navigationController pushViewController:controller animated:YES];
+    LU_RELEASE(controller);
+    
+    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
