@@ -22,6 +22,12 @@ namespace LunarConsoleInternal
             Updater.CheckForUpdates(false);
         }
 
+        [MenuItem("Window/Lunar Mobile Console/Report bug...")]
+        static void RequestFeature()
+        {
+            Application.OpenURL("http://bit.ly/JbqhR5");
+        }
+
         #if LUNAR_DEVELOPMENT
         [MenuItem("Window/Lunar Mobile Console/Reset")]
         static void Reset()
