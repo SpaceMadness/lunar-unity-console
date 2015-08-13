@@ -1,8 +1,8 @@
 //
 //  PackageExporter.cs
 //
-//  Lunar Plugin for Unity: a command line solution for your game.
-//  https://github.com/SpaceMadness/lunar-unity-plugin
+//  Lunar Unity Mobile Console
+//  https://github.com/SpaceMadness/lunar-unity-console
 //
 //  Copyright 2015 Alex Lementuev, SpaceMadness.
 //
