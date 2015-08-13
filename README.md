@@ -50,7 +50,10 @@ Build a high-performance Unity iOS/Android logger using the native platform UI.
  
 ## Check for Updates
 Window ▶ Lunar Mobile Console ▶ Check for updates...
+
+## Bug Reports
+Window ▶ Lunar Mobile Console ▶ Report bug...
  
 ## Contacts
 
-For any questions: lunar.plugin@gmail.com
+For anything else: lunar.plugin@gmail.com
