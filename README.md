@@ -7,6 +7,10 @@ Requires Unity 5.0 or later.
 ## Project Goals
 
 Build a high-performance Unity iOS/Android logger using the native platform UI.  
+
+## Platform Support
+- **iOS**: beta version
+- **Android**: TBA
   
 ## Key Benefits
 - Heavily optimized native C/Objective-C code with a low memory footprint.
