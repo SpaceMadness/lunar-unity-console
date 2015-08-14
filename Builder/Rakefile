@@ -18,6 +18,8 @@ namespace :lunar do
 
     $dir_builder = File.expand_path '.'
 
+    $dir_repo = resolve_path File.expand_path('..')
+
     # plugin project
     $dir_project = resolve_path File.expand_path('../Project')
     $dir_project_plugin = resolve_path "#{$dir_project}/Assets/LunarConsole"
@@ -119,8 +121,21 @@ namespace :lunar do
 
     print_header 'Preparing publisher project...'
 
+    # cleanup project
+    Dir.chdir $dir_publisher_project do
+      exec_shell 'git clean -x -f -d', "Can't clean up the project"
+    end
+
+    # import plugin package
     project = UnityProject.new $dir_publisher_project, $bin_release_unity
     project.import_package package
+
+    # copy readme
+    readme_src = resolve_path "#{$dir_builder}/package_readme.txt"
+    readme_dst = "#{$dir_publisher_project}/Assets/LunarConsole/readme.txt"
+
+    FileUtils.cp readme_src, readme_dst
+
     project.open
 
   end
