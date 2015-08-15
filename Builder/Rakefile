@@ -11,7 +11,7 @@ namespace :lunar do
 
   task :init do
 
-    $bin_release_unity = resolve_path '/Applications/Unity/Unity.app/Contents/MacOS/Unity'
+    $bin_release_unity = resolve_path '/Applications/Unity5/Unity.app/Contents/MacOS/Unity'
 
     $dir_out = File.expand_path 'temp'
     $dir_out_packages = "#{$dir_out}/packages"
