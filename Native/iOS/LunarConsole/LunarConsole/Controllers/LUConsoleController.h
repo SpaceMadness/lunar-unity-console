@@ -39,3 +39,11 @@
 - (instancetype)initWithConsole:(LUConsole *)console;
 
 @end
+
+@interface LUConsoleControllerState : NSObject
+
+@property (nonatomic, assign) BOOL scrollLocked;
+
++ (instancetype)sharedControllerState;
+
+@end

@@ -168,6 +168,11 @@
     return NO;
 }
 
+- (BOOL)isFilterLogTypeEnabled:(LUConsoleLogType)type
+{
+    return (_logDisabledTypesMask & LU_CONSOLE_LOG_TYPE_MASK(type)) == 0;
+}
+
 - (BOOL)appendFilter
 {
     if (self.isFiltering)

@@ -48,6 +48,8 @@
 - (BOOL)setFilterByLogType:(LUConsoleLogType)logType disabled:(BOOL)disabled;
 - (BOOL)setFilterByLogTypeMask:(LUConsoleLogTypeMask)logTypeMask disabled:(BOOL)disabled;
 
+- (BOOL)isFilterLogTypeEnabled:(LUConsoleLogType)type;
+
 - (NSString *)getText;
 
 @end

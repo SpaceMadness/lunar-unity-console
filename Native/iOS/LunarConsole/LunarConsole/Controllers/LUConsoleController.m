@@ -25,6 +25,8 @@
 
 static const NSTimeInterval kTableUpdateDelay = 0.1; // 100 ms
 
+static LUConsoleControllerState * _sharedControllerState;
+
 @interface LUConsoleController () <LunarConsoleDelegate, LUToggleButtonDelegate, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
 {
     LUConsole * _console;
@@ -94,7 +96,7 @@ static const NSTimeInterval kTableUpdateDelay = 0.1; // 100 ms
     [super viewDidLoad];
     
     _console.delegate = self;
-    _scrollLocked = YES;
+    _scrollLocked = [self controllerState].scrollLocked;
     
     LUTheme *theme = [self theme];
     
@@ -107,9 +109,17 @@ static const NSTimeInterval kTableUpdateDelay = 0.1; // 100 ms
     _tableView.backgroundColor = theme.tableColor;
     
     // log type buttons
+    _logButton.on = ![_console.entries isFilterLogTypeEnabled:LUConsoleLogTypeLog];
     _logButton.delegate = self;
+    
+    _warningButton.on = ![_console.entries isFilterLogTypeEnabled:LUConsoleLogTypeWarning];
     _warningButton.delegate = self;
+    
+    _errorButton.on = ![_console.entries isFilterLogTypeEnabled:LUConsoleLogTypeError];
     _errorButton.delegate = self;
+    
+    // filter text
+    _filterBar.text = _console.entries.filterText;
     
     // overflow control
     _lastUpdateOverflowAmount = _console.overflowAmount;
@@ -154,9 +164,9 @@ static const NSTimeInterval kTableUpdateDelay = 0.1; // 100 ms
     }
 }
 
-- (void)setLogType:(LUConsoleLogType)logType filterDisabled:(BOOL)disabled
+- (void)setFilterByLogTypeMask:(LUConsoleLogTypeMask)logTypeMask disabled:(BOOL)disabled
 {
-    BOOL shouldReload = [_console.entries setFilterByLogType:logType disabled:disabled];
+    BOOL shouldReload = [_console.entries setFilterByLogTypeMask:logTypeMask disabled:disabled];
     if (shouldReload)
     {
         [self reloadData];
@@ -182,6 +192,7 @@ static const NSTimeInterval kTableUpdateDelay = 0.1; // 100 ms
 - (IBAction)onScrollLock:(id)sender
 {
     _scrollLocked = !_scrollLocked;
+    [self controllerState].scrollLocked = _scrollLocked;
 }
 
 - (IBAction)onCopy:(id)sender
@@ -240,10 +251,7 @@ static const NSTimeInterval kTableUpdateDelay = 0.1; // 100 ms
                 LU_CONSOLE_LOG_TYPE_MASK(LUConsoleLogTypeAssert);
     }
     
-    if ([_console.entries setFilterByLogTypeMask:mask disabled:button.isOn])
-    {
-        [self reloadData];
-    }
+    [self setFilterByLogTypeMask:mask disabled:button.isOn];
 }
 
 #pragma mark -
@@ -479,6 +487,35 @@ static const NSTimeInterval kTableUpdateDelay = 0.1; // 100 ms
 - (LUTheme *)theme
 {
     return [LUTheme mainTheme];
+}
+
+- (LUConsoleControllerState *)controllerState
+{
+    return [LUConsoleControllerState sharedControllerState];
+}
+
+@end
+
+@implementation LUConsoleControllerState
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self)
+    {
+        _scrollLocked = YES;
+    }
+    return self;
+}
+
++ (instancetype)sharedControllerState
+{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _sharedControllerState = [[self alloc] init];
+    });
+    
+    return _sharedControllerState;
 }
 
 @end
