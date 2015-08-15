@@ -19,8 +19,9 @@
 //  limitations under the License.
 //
 
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEditor;
+using UnityEditorInternal;
 
 namespace LunarConsoleInternal
 {
@@ -29,7 +30,8 @@ namespace LunarConsoleInternal
         [MenuItem("Window/Lunar Mobile Console/Install...")]
         static void Install()
         {
-            Installer.Install(false);
+            bool silent = !InternalEditorUtility.isHumanControllingUs;
+            Installer.Install(silent);
         }
 
         [MenuItem("Window/Lunar Mobile Console/")]
