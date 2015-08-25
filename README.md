@@ -1,6 +1,6 @@
 # Lunar Unity Mobile Console
 
-Asset store link: TBA
+Asset store link: [http://u3d.as/content/space-madness/lunar-mobile-console](http://bit.ly/1Ubzkpl)
 
 Requires Unity 5.0 or later.
 
