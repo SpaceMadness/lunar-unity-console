@@ -11,8 +11,6 @@ namespace :lunar do
 
   task :init do
 
-    $bin_release_unity = resolve_path '/Applications/Unity5/Unity.app/Contents/MacOS/Unity'
-
     $dir_out = File.expand_path 'temp'
     $dir_out_packages = "#{$dir_out}/packages"
 
@@ -32,9 +30,6 @@ namespace :lunar do
     $dir_native = resolve_path File.expand_path('../Native')
     $dir_native_ios = resolve_path "#{$dir_native}/iOS"
     $dir_native_ios_src = resolve_path "#{$dir_native_ios}/LunarConsole/LunarConsole"
-
-    # publisher project
-    $dir_publisher_project = resolve_path "#{$dir_builder}/PublisherProject"
 
     def extract_package_version(dir_project)
 
@@ -113,33 +108,6 @@ namespace :lunar do
     project.export_unity_package file_package, package_files
 
   end
-
-  desc 'Prepares publisher project'
-  task :prepare_publisher_project => [:export_unity_package] do
-
-    package = resolve_path Dir["#{$dir_out_packages}/lunar-console-*.unitypackage"].first
-
-    print_header 'Preparing publisher project...'
-
-    # cleanup project
-    Dir.chdir $dir_publisher_project do
-      exec_shell 'git clean -x -f -d', "Can't clean up the project"
-    end
-
-    # import plugin package
-    project = UnityProject.new $dir_publisher_project, $bin_release_unity
-    project.import_package package
-
-    # copy readme
-    readme_src = resolve_path "#{$dir_builder}/package_readme.txt"
-    readme_dst = "#{$dir_publisher_project}/Assets/LunarConsole/readme.txt"
-
-    FileUtils.cp readme_src, readme_dst
-
-    project.open
-
-  end
-
 
   def list_ios_files(dir_project, options = {})
     extensions = %w(.h .m .mm .xib .nib .c .cpp .png .bundle)
