@@ -428,8 +428,10 @@ namespace UnityEditor.XCodeEditor.LunarConsole
 			if( exclude == null )
 				exclude = new string[] {};
 			string regexExclude = string.Format( @"{0}", string.Join( "|", exclude ) );
-			
+
+			#pragma warning disable 0219
 			PBXDictionary results = new PBXDictionary();
+			#pragma warning restore 0219
 			
 			if( parent == null )
 				parent = rootGroup;
@@ -532,7 +534,9 @@ namespace UnityEditor.XCodeEditor.LunarConsole
 			PBXGroup modGroup = this.GetGroup( mod.group );
 			
 			Debug.Log( "Adding libraries..." );
+			#pragma warning disable 0219
 			PBXGroup librariesGroup = this.GetGroup( "Libraries" );
+			#pragma warning restore 0219
 			foreach( XCModFile libRef in mod.libs ) {
 				string completeLibPath = System.IO.Path.Combine( "usr/lib", libRef.filePath );
 				this.AddFile( completeLibPath, modGroup, "SDKROOT", true, libRef.isWeak );
