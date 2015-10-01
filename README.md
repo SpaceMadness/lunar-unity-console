@@ -13,12 +13,12 @@ Build a high-performance Unity iOS/Android logger using the native platform UI.
 - **Android**: requires API Level 9 or later
   
 ## Key Benefits
-- Heavily optimized native C/Objective-C code with a low memory footprint.
+- Native C/Objective-C/Java code with a low memory footprint.
 - Works well with a huge log amount (up to 100000 entries).
 - Built with a native platform UI (does NOT rely on Unity GUI).
 - Resolution independent (looks great on highres/retina displays).
 - Does NOT modify scenes or add assets.
-- Removes completely from the release build with a single mouse click (absolutely NO traces left).
+- Removes completely from the release build with a single mouse click or from the command line (absolutely NO traces left).
 
 ## Features
 - Instant error notification (never miss an unhandled exception again):  
