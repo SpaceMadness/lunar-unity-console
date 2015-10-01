@@ -22,3 +22,7 @@ sysinfo.txt
 
 /Assets/LunarConsole/Editor/Android
 /Assets/LunarConsole/Editor/Android.meta
+
+# Ignore generated plugin
+/Assets/Plugins
+/Assets/Plugins.meta

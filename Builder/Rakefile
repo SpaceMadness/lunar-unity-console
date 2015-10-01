@@ -4,6 +4,7 @@ require 'json'
 require_relative 'common'
 require_relative 'unity_helper'
 require_relative 'unity_project'
+require_relative 'android_aar_build_result'
 
 include Common
 
@@ -13,6 +14,7 @@ namespace :lunar do
 
     $dir_out = File.expand_path 'temp'
     $dir_out_packages = "#{$dir_out}/packages"
+    $dir_out_exploded_aar = "#{$dir_out}/exploded_aar"
 
     $dir_builder = File.expand_path '.'
 
@@ -30,6 +32,8 @@ namespace :lunar do
     $dir_native = resolve_path File.expand_path('../Native')
     $dir_native_ios = resolve_path "#{$dir_native}/iOS"
     $dir_native_ios_src = resolve_path "#{$dir_native_ios}/LunarConsole/LunarConsole"
+    $dir_native_android = resolve_path "#{$dir_native}/Android"
+    $dir_native_android_src = resolve_path "#{$dir_native_android}/LunarConsole"
 
     def extract_package_version(dir_project)
 
@@ -52,7 +56,7 @@ namespace :lunar do
   end
 
   desc 'Build native part of the plugin'
-  task :build_native => [:build_native_ios] do
+  task :build_native => [:build_native_ios, :build_native_android] do
   end
 
   desc 'Build native iOS part of the plugin'
@@ -87,6 +91,17 @@ namespace :lunar do
 
   end
 
+  desc 'Build native Android part of the plugin'
+  task :build_native_android => [:init] do
+
+    # cleanup old file
+    FileUtils.rm_rf $dir_project_plugin_android
+    FileUtils.mkpath $dir_project_plugin_android
+
+    # build android library
+    build_android_plugin $dir_native_android_src, 'lunarConsole', $dir_project_plugin_android
+
+  end
 
   task :list_package_files => [:init] do
     $package_files = UnityHelper.list_package_assets $dir_project_plugin
@@ -109,6 +124,26 @@ namespace :lunar do
 
   end
 
+  desc 'Build and run native Android part'
+  task :build_run_native_android => [:build_native_android] do
+
+    project = UnityProject.new $dir_project
+    project.exec_unity_method 'LunarConsoleInternal.AndroidPlugin.ForceUpdateFiles'
+    project.exec_unity_method 'LunarConsoleInternal.AppExporter.PerformAndroidBuild'
+
+    file_app = resolve_path Dir["#{$dir_project}/Build/Android/*.apk"].first
+
+    # print_header 'Stopping app...'
+    # exec_shell 'adb shell am force-stop com.spacemadness.LunarConsole', "Can't stop app"
+
+    print_header 'Installing app...'
+    exec_shell %(adb install -r "#{file_app}"), "Can't install app..."
+
+    print_header 'Starting app...'
+    exec_shell 'adb shell am start -n com.spacemadness.LunarConsole/com.unity3d.player.UnityPlayerActivity', "Can't start app"
+
+  end
+
   def list_ios_files(dir_project, options = {})
     extensions = %w(.h .m .mm .xib .nib .c .cpp .png .bundle)
 
@@ -123,6 +158,108 @@ namespace :lunar do
 
     return files
 
+  end
+
+
+  def build_android_plugin(dir_native_project, module_name, dir_android_plugin)
+
+    # build library
+    print_header 'Building Android library...'
+    aar_result = build_android dir_native_project, module_name
+
+    dir_aar = $dir_out_exploded_aar
+
+    print_header 'Extracting Android library...'
+    # explode library file
+    FileUtils.rm_rf dir_aar
+    FileUtils.mkpath dir_aar
+
+    exec_shell %(unzip "#{aar_result.file_aar}" -d "#{dir_aar}"), "Can't extract library"
+
+    # prepare plugin
+    print_header 'Preparing Android plugin'
+
+    # copy libs
+    file_jar = resolve_path "#{dir_aar}/classes.jar"
+
+    dir_libs = "#{dir_android_plugin}/libs"
+    FileUtils.mkpath dir_libs
+    FileUtils.cp file_jar, "#{dir_libs}/#{module_name}.jar"
+
+    # copy resources
+    dir_res = resolve_path "#{dir_aar}/res"
+    FileUtils.cp_r dir_res, dir_android_plugin
+
+    # copy manifest
+    file_manifest = resolve_path "#{dir_aar}/AndroidManifest.xml"
+    FileUtils.cp file_manifest, dir_android_plugin
+
+    # generate project.properties
+    project_properties = {
+        'android.library' => true
+    }
+
+    file_project_properties = "#{dir_android_plugin}/project.properties"
+    write_project_properties(file_project_properties, project_properties)
+
+    # add dependencies
+    copy_artifact dir_android_plugin, aar_result.artifacts['recyclerview-v7'],
+                  :skip_manifest => true,
+                  :skip_resources => true
+    copy_artifact dir_android_plugin, aar_result.artifacts['support-v4'],
+                  :skip_manifest => true,
+                  :skip_resources => true
+
+  end
+
+  def copy_artifact(dir_dest, artifact, options = {})
+
+    # manifest
+    unless options[:skip_manifest]
+      FileUtils.cp artifact.file_manifest, "#{dir_dest}/"
+    end
+
+    dir_libs = "#{dir_dest}/libs"
+
+    # libs
+    unless options[:skip_libs]
+      FileUtils.mkpath dir_libs unless File.directory? dir_libs
+      FileUtils.cp artifact.file_jar , "#{dir_libs}/#{artifact.name}-#{artifact.version}.jar"
+    end
+
+    # dependencies
+    unless options[:skip_dependencies]
+      FileUtils.mkpath dir_libs unless File.directory? dir_libs
+      artifact.dependencies.each { |jar|
+        FileUtils.cp jar, dir_libs
+      }
+    end
+
+    # resources
+    unless options[:skip_resources]
+      dir_res = "#{dir_dest}/res"
+      FileUtils.cp_r artifact.dir_res, dir_res
+    end
+
+  end
+
+  def build_android(dir_project, module_name, config = 'Release')
+
+    Dir.chdir dir_project do
+      exec_shell "./gradlew :#{module_name}:assemble#{config}", "Can't build Android aar"
+      file_aar = resolve_path_e "#{module_name}/build/outputs/aar/#{module_name}-#{config.downcase}.aar"
+      return AndroidAARBuildResult.new file_aar
+
+    end
+
+  end
+
+  def write_project_properties(file, properties)
+    File.open(file, 'w') { |f|
+      properties.each {|name, value|
+        f.puts "#{name}=#{value}"
+      }
+    }
   end
 
 end

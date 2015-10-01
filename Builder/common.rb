@@ -37,6 +37,10 @@ module Common
     return path
   end
 
+  def resolve_path_e(path)
+    return File.expand_path resolve_path(path)
+  end
+
   ############################################################
 
   def not_nil(value)

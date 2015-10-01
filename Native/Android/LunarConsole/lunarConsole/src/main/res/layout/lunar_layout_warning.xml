@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/lunar_console_exception_bar_background"
+              android:orientation="horizontal">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/lunar_layout_console_entry_margin"
+        android:layout_marginRight="@dimen/lunar_layout_console_entry_margin"
+        android:src="@drawable/lunar_console_icon_log_error"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:typeface="monospace"/>
+
+    <TextView
+        android:id="@+id/lunar_console_text_warning_message"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="1"
+        android:text="Small Text"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/lunar_console_exception_bar_text"
+        />
+
+    <ImageButton
+        android:id="@+id/lunar_console_button_details"
+        style="@style/lunar_console_base_button_style"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/lunar_console_icon_button_console"/>
+
+    <ImageButton
+        android:id="@+id/lunar_console_button_dismiss"
+        style="@style/lunar_console_base_button_style"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/lunar_console_icon_button_close"/>
+
+</LinearLayout>

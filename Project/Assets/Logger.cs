@@ -24,6 +24,8 @@
 using System;
 using System.Collections;
 
+using LunarConsole;
+
 public class Logger : MonoBehaviour
 {
     public void LogLines()
@@ -34,6 +36,11 @@ public class Logger : MonoBehaviour
     public void LogError()
     {
         throw new Exception("Error!");
+    }
+
+    public void ShowConsole()
+    {
+        LunarConsole.LunarConsole.Show();
     }
 
     IEnumerator LogLines(int count)

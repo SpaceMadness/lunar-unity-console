@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="lunar_console_base_button_style">
+        <item name="android:minHeight">48dip</item>
+        <item name="android:minWidth">48dip</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="lunar_console_log_button_style" parent="lunar_console_base_button_style">
+        <item name="android:text">999+</item>
+        <item name="android:textColor">#ffb1b1b1</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:typeface">monospace</item>
+        <item name="android:layout_width">66dp</item>
+        <item name="android:layout_height">30dp</item>
+    </style>
+</resources>

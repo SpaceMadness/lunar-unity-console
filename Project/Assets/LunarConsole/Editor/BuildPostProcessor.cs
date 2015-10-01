@@ -49,8 +49,7 @@ namespace LunarConsoleInternal
         {
             XCProject project = new XCProject(pathToBuiltProject);
 
-            string pluginDir = Path.Combine(Application.dataPath, "LunarConsole/Editor/iOS");
-            string[] files = Directory.GetFiles(pluginDir, "*.projmods", System.IO.SearchOption.AllDirectories);
+            string[] files = Directory.GetFiles(EditorConstants.EditorPathIOS, "*.projmods", System.IO.SearchOption.AllDirectories);
             foreach (string file in files)
             {
                 project.ApplyMod(file);

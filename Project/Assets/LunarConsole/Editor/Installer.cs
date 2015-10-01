@@ -31,14 +31,14 @@ namespace LunarConsoleInternal
 
     static class Installer
     {
-        static readonly string kMessageBoxTitle = "Lunar Mobile Console";
-        static readonly string kPrefabAssetPath = "Assets/LunarConsole/Scripts/LunarConsole.prefab";
-
         public static void Install(bool silent = true)
         {
-            string objectName = Path.GetFileNameWithoutExtension(kPrefabAssetPath);
+            string prefabPath = EditorConstants.PrefabPath;
+            string messageTitle = Constants.PluginDisplayName;
 
-            if (!silent && !Utils.ShowDialog(kMessageBoxTitle, "This will create " + objectName + " (" + kPrefabAssetPath + ") game object in your scene.\n\nYou only need to do it once for the very first scene of your game\n\nContinue?"))
+            string objectName = Path.GetFileNameWithoutExtension(prefabPath);
+
+            if (!silent && !Utils.ShowDialog(messageTitle, "This will create " + objectName + " (" + prefabPath + ") game object in your scene.\n\nYou only need to do it once for the very first scene of your game\n\nContinue?"))
             {
                 return;
             }
@@ -52,12 +52,12 @@ namespace LunarConsoleInternal
                 }
             }
 
-            GameObject lunarConsolePrefab = AssetDatabase.LoadAssetAtPath(kPrefabAssetPath, typeof(GameObject)) as GameObject;
+            GameObject lunarConsolePrefab = AssetDatabase.LoadAssetAtPath(prefabPath, typeof(GameObject)) as GameObject;
             if (lunarConsolePrefab == null)
             {
                 if (!silent)
                 {
-                    Utils.ShowDialog(kMessageBoxTitle, "Can't instantiate " + kPrefabAssetPath + ": asset not found");
+                    Utils.ShowDialog(messageTitle, "Can't instantiate " + prefabPath + ": asset not found");
                 }
                 return;
             }
@@ -67,7 +67,7 @@ namespace LunarConsoleInternal
 
             if (!silent)
             {
-                Utils.ShowDialog(kMessageBoxTitle, objectName + " game object created!\n\nDon't forget to save your scene changes!", "OK");
+                Utils.ShowDialog(messageTitle, objectName + " game object created!\n\nDon't forget to save your scene changes!", "OK");
             }
         }
     }

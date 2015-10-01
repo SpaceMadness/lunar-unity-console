@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="lunar_console_color_cell_text">#ffb1b1b1</color>
+    <color name="lunar_console_color_cell_background_light">#ff3c3c3c</color>
+    <color name="lunar_console_color_cell_background_dark">#ff373737</color>
+    <color name="lunar_console_color_table_title_background">#ff2d2e29</color>
+    <color name="lunar_console_color_table_background">#ff373737</color>
+    <color name="lunar_console_color_log_button_background">#ffb1b1b1</color>
+    <color name="lunar_console_color_log_button_selected_background">#ff595959</color>
+    <color name="lunar_console_exception_bar_background">#ff3C2C2C</color>
+    <color name="lunar_console_exception_bar_text">#ffA27374</color>
+</resources>

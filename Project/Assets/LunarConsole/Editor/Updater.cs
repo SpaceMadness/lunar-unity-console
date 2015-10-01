@@ -170,7 +170,7 @@ namespace LunarConsoleInternal
                         message.AppendFormat("A new version {0} is available!\n\n", info.version);
                         if (info.message != null && info.message.Length > 0)
                         {
-                            message.Append(message);
+                            message.Append(info.message);
                             message.AppendLine();
                         }
 

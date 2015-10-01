@@ -18,8 +18,8 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 //
-
-﻿using UnityEngine;
+﻿
+using UnityEngine;
 using System.Collections;
 
 namespace LunarConsoleInternal
@@ -28,5 +28,10 @@ namespace LunarConsoleInternal
     {
         public static readonly string Version = "0.0.2b";
         public static readonly string UpdateJsonURL = "https://raw.githubusercontent.com/SpaceMadness/lunar-unity-console/master/Builder/updater.json";
+
+        public static readonly string PluginName = "LunarConsole";
+        public static readonly string PluginDisplayName = "Lunar Mobile Console";
+
+        public static readonly string PluginScriptPath = "Assets/" + PluginName + "/Scripts/" + PluginName + ".cs";
     }
 }

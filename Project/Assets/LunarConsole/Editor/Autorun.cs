@@ -18,10 +18,13 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 //
-
-﻿using UnityEngine;
+﻿
+using UnityEngine;
 using UnityEditor;
 
+using LunarConsole;
+
+using System.IO;
 using System.Collections;
 
 namespace LunarConsoleInternal
@@ -32,6 +35,10 @@ namespace LunarConsoleInternal
         static Autorun()
         {
             Updater.TryCheckForUpdates();
+
+            #if UNITY_ANDROID
+            AndroidPlugin.UpdateFiles();
+            #endif
         }
     }
 }

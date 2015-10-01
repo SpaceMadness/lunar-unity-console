@@ -32,12 +32,22 @@ using System;
 using System.Collections;
 using System.Runtime.InteropServices;
 
+using LunarConsoleInternal;
+
 namespace LunarConsole
 {
+    public enum Gesture
+    {
+        None,
+        SwipeDown
+    }
+
     public class LunarConsole : MonoBehaviour
     {
         [Range(1, 65536)]
         public int capacity = 4096;
+
+        public Gesture gesture = Gesture.SwipeDown;
 
         #if LUNAR_CONSOLE_ENABLED
 
@@ -58,10 +68,15 @@ namespace LunarConsole
         {
             if (instance == null)
             {
-                instance = this;
-                DontDestroyOnLoad(gameObject);
-
-                InitPlatform(capacity);
+                if (InitPlatform(capacity))
+                {
+                    instance = this;
+                    DontDestroyOnLoad(gameObject);
+                }
+                else
+                {
+                    Destroy(gameObject);
+                }
             }
             else if (instance != this)
             {
@@ -69,18 +84,45 @@ namespace LunarConsole
             }
         }
 
-        void InitPlatform(int capacity)
+        void ShowConsole()
         {
-            if (platform == null)
+            if (platform != null)
             {
-                platform = CreatePlatform(capacity);
-                if (platform != null)
+                platform.ShowConsole();
+            }
+        }
+
+        void HideConsole()
+        {
+            if (platform != null)
+            {
+                platform.HideConsole();
+            }
+        }
+
+        bool InitPlatform(int capacity)
+        {
+            try
+            {
+                if (platform == null)
                 {
-                    Application.logMessageReceivedThreaded += delegate(string message, string stackTrace, LogType type) {
-                        platform.OnLogMessageReceived(message, stackTrace, type);
-                    };
+                    platform = CreatePlatform(capacity);
+                    if (platform != null)
+                    {
+                        Application.logMessageReceivedThreaded += delegate(string message, string stackTrace, LogType type) {
+                            platform.OnLogMessageReceived(message, stackTrace, type);
+                        };
+
+                        return true;
+                    }
                 }
             }
+            catch (Exception e)
+            {
+                Debug.LogError("Can't init " + Constants.PluginName + ": " + e.Message);
+            }
+
+            return false;
         }
 
         IPlatform CreatePlatform(int capacity)
@@ -90,6 +132,11 @@ namespace LunarConsole
             {
                 return new PlatformIOS(capacity);
             }
+            #elif UNITY_ANDROID
+            if (Application.platform == RuntimePlatform.Android)
+            {
+                return new PlatformAndroid(capacity);
+            }
             #endif
 
             return null;
@@ -98,6 +145,8 @@ namespace LunarConsole
         interface IPlatform
         {
             void OnLogMessageReceived(string message, string stackTrace, LogType type);
+            bool ShowConsole();
+            bool HideConsole();
         }
 
         #if UNITY_IOS || UNITY_IPHONE
@@ -119,11 +168,167 @@ namespace LunarConsole
             {
                 __lunar_console_log_message(message, stackTrace, (int)type);
             }
+
+            public bool ShowConsole()
+            {
+                throw new NotImplementedException();
+            }
+
+            public bool HideConsole()
+            {
+                throw new NotImplementedException();
+            }
         }
 
-        #endif // UNITY_IOS || UNITY_IPHONE
+        #elif UNITY_ANDROID
+
+        class PlatformAndroid : IPlatform
+        {
+            private readonly object logLock = new object();
+
+            private readonly jvalue[] args0 = new jvalue[0];
+            private readonly jvalue[] args3 = new jvalue[3];
+
+            private static readonly string PluginClassName = "spacemadness.com.lunarconsole.console.ConsolePlugin";
+
+            private readonly AndroidJavaClass pluginClass;
+
+            private readonly IntPtr pluginClassRaw;
+            private readonly IntPtr methodLogMessage;
+            private readonly IntPtr methodShowConsole;
+            private readonly IntPtr methodHideConsole;
+
+            public PlatformAndroid(int capacity)
+            {
+                pluginClass = new AndroidJavaClass(PluginClassName);
+                pluginClassRaw = pluginClass.GetRawClass();
+
+                IntPtr methodInit = GetStaticMethod(pluginClassRaw, "init", "(I)V");
+                CallStaticVoidMethod(methodInit, new jvalue[] { jval(capacity) });
+
+                methodLogMessage = GetStaticMethod(pluginClassRaw, "logMessage", "(Ljava.lang.String;Ljava.lang.String;I)V");
+                methodShowConsole = GetStaticMethod(pluginClassRaw, "show", "()V");
+                methodHideConsole = GetStaticMethod(pluginClassRaw, "hide", "()V");
+            }
+
+            ~PlatformAndroid()
+            {
+                pluginClass.Dispose();
+            }
+
+            #region IPlatform implementation
+            
+            public void OnLogMessageReceived(string message, string stackTrace, LogType type)
+            {
+                lock (logLock)
+                {
+                    args3[0] = jval(message);
+                    args3[1] = jval(stackTrace);
+                    args3[2] = jval((int)type);
+
+                    CallStaticVoidMethod(methodLogMessage, args3);
+                }
+            }
+
+            public bool ShowConsole()
+            {
+                try
+                {
+                    CallStaticVoidMethod(methodShowConsole, args0);
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+
+            public bool HideConsole()
+            {
+                try
+                {
+                    CallStaticVoidMethod(methodHideConsole, args0);
+                    return true;
+                }
+                catch (Exception)
+                {
+                    return false;
+                }
+            }
+
+            #endregion
+
+            #region Helpers
+
+            private static IntPtr GetStaticMethod(IntPtr classRaw, string name, string signature)
+            {
+                return AndroidJNIHelper.GetMethodID(classRaw, name, signature, true);
+            }
+
+            private void CallStaticVoidMethod(IntPtr method, jvalue[] args)
+            {
+                AndroidJNI.CallStaticVoidMethod(pluginClassRaw, method, args);
+            }
+
+            private bool CallStaticBoolMethod(IntPtr method, jvalue[] args)
+            {
+                return AndroidJNI.CallStaticBooleanMethod(pluginClassRaw, method, args);
+            }
+
+            private jvalue jval(string value)
+            {
+                jvalue val = new jvalue();
+                val.l = AndroidJNI.NewStringUTF(value);
+                return val;
+            }
+
+            private jvalue jval(int value)
+            {
+                jvalue val = new jvalue();
+                val.i = value;
+                return val;
+            }
+
+            #endregion
+        }
+
+        #endif // UNITY_ANDROID
         
         #endif // LUNAR_CONSOLE_ENABLED
+
+        /// <summary>
+        /// Shows Lunar console on top of everything. Does nothing if platform is not supported or if plugin is not initizlied.
+        /// </summary>
+        public static void Show()
+        {
+            #if LUNAR_CONSOLE_ENABLED
+            if (instance != null)
+            {
+                instance.ShowConsole();
+            }
+            else
+            {
+                Debug.LogError("Can't show " + Constants.PluginName + ": instance is not initialized. Make sure you've installed it correctly");
+            }
+            #endif
+        }
+
+        /// <summary>
+        /// Hides Lunar console. Does nothing if platform is not supported or if plugin is not initizlied.
+        /// </summary>
+        public static void Hide()
+        {
+            #if LUNAR_CONSOLE_ENABLED
+            if (instance != null)
+            {
+                instance.HideConsole();
+            }
+            else
+            {
+                Debug.LogError("Can't hide " + Constants.PluginName + ": instance is not initialized. Make sure you've installed it correctly");
+            }
+            #endif
+        }
     }
 
     public static class LunarConsoleSettings
@@ -136,6 +341,7 @@ namespace LunarConsole
     }
 
     #if UNITY_EDITOR
+
     static class LunarEditorMenu
     {
         #if LUNAR_CONSOLE_ENABLED
@@ -195,8 +401,7 @@ namespace LunarConsole
             {
             }
 
-            string pluginFile = Path.Combine(Application.dataPath, "LunarConsole/Scripts/LunarConsole.cs");
-            return File.Exists(pluginFile) ? pluginFile : null;
+            return File.Exists(Constants.PluginScriptPath) ? Constants.PluginScriptPath : null;
         }
 
         static void PrintError(bool flag, string message)
@@ -204,5 +409,6 @@ namespace LunarConsole
             Debug.LogError("Can't " + (flag ? "enable" : "disable") + " Lunar Console: " + message);
         }
     }
+
     #endif // UNITY_EDITOR
 }
