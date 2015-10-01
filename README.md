@@ -10,7 +10,7 @@ Build a high-performance Unity iOS/Android logger using the native platform UI.
 
 ## Platform Support
 - **iOS**: requires iOS 7 or later
-- **Android**: TBA
+- **Android**: requires API Level 9 or later
   
 ## Key Benefits
 - Heavily optimized native C/Objective-C code with a low memory footprint.
@@ -47,6 +47,9 @@ Build a high-performance Unity iOS/Android logger using the native platform UI.
   Window ▶ Lunar Mobile Console ▶ Enable
   
   When disabled, the plugin source files and resources would NOT appear in the generated native platform project.
+
+## Build Automation support
+// TBD
  
 ## Check for Updates
 Window ▶ Lunar Mobile Console ▶ Check for updates...
