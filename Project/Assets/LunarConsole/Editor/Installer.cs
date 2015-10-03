@@ -27,6 +27,7 @@ using System.IO;
 
 namespace LunarConsoleInternal
 {
+    using Editor = LunarConsole.Editor;
     using LunarConsole = LunarConsole.LunarConsole;
 
     static class Installer
@@ -69,6 +70,22 @@ namespace LunarConsoleInternal
             {
                 Utils.ShowDialog(messageTitle, objectName + " game object created!\n\nDon't forget to save your scene changes!", "OK");
             }
+        }
+
+        static void EnablePlugin()
+        {
+            SetLunarConsoleEnabled(true);
+        }
+
+        static void DisablePlugin()
+        {
+            SetLunarConsoleEnabled(false);
+        }
+
+        static void SetLunarConsoleEnabled(bool enabled)
+        {
+            AndroidPlugin.UpdateFiles(enabled); // we need to update plugin files first
+            Editor.SetLunarConsoleEnabled(enabled); // then modify preprocessor's define
         }
     }
 }

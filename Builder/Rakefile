@@ -6,7 +6,13 @@ require_relative 'unity_helper'
 require_relative 'unity_project'
 require_relative 'android_aar_build_result'
 
+require 'cucumber/rake/task'
+
 include Common
+
+Cucumber::Rake::Task.new do |t|
+  t.cucumber_opts = '--format pretty'
+end
 
 namespace :lunar do
 
@@ -34,6 +40,9 @@ namespace :lunar do
     $dir_native_ios_src = resolve_path "#{$dir_native_ios}/LunarConsole/LunarConsole"
     $dir_native_android = resolve_path "#{$dir_native}/Android"
     $dir_native_android_src = resolve_path "#{$dir_native_android}/LunarConsole"
+
+    # test project
+    $dir_test_project = resolve_path_e 'TestProject'
 
     def extract_package_version(dir_project)
 

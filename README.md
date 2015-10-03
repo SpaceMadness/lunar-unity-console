@@ -49,7 +49,13 @@ Build a high-performance Unity iOS/Android logger using the native platform UI.
   When disabled, the plugin source files and resources would NOT appear in the generated native platform project.
 
 ## Build Automation support
-// TBD
+You can enable/disable the plugin from the command line (and make it a part of your build process)
+
+- To disable:  
+  ```<UNITY_BIN_PATH>  -quit -batchmode  -executeMethod LunarConsoleInternal.Installer.DisablePlugin```
+- To enable:  
+  ```<UNITY_BIN_PATH>  -quit -batchmode  -executeMethod LunarConsoleInternal.Installer.EnablePlugin```
+
  
 ## Check for Updates
 Window ▶ Lunar Mobile Console ▶ Check for updates...

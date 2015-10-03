@@ -19,10 +19,15 @@ namespace LunarConsoleInternal
 
         internal static void UpdateFiles()
         {
+            UpdateFiles(LunarConsoleSettings.consoleEnabled);
+        }
+
+        internal static void UpdateFiles(bool pluginEnabled)
+        {
             string androidDir = EditorConstants.EditorPathAndroid;
             bool androidDirExists = Directory.Exists(androidDir);
             
-            if (LunarConsoleSettings.consoleEnabled)
+            if (pluginEnabled)
             {
                 if (!androidDirExists)
                 {
