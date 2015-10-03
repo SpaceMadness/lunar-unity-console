@@ -56,6 +56,10 @@ You can enable/disable the plugin from the command line (and make it a part of y
 - To enable:  
   ```<UNITY_BIN_PATH>  -quit -batchmode  -executeMethod LunarConsoleInternal.Installer.EnablePlugin```
 
+```<UNITY_BIN_PATH>``` locations:
+- Mac OS X: ```/Applications/Unity/Unity.app/Contents/MacOS/Unity```
+- Windows: ```c:\Program Files\Unity\Editor\Unity.exe```
+- Linux: _TBD_
  
 ## Check for Updates
 Window ▶ Lunar Mobile Console ▶ Check for updates...
