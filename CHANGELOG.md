@@ -4,7 +4,7 @@
 
 **New:**
 
-* Android platform support (Hell, YES!).
+* Android platform support (FUCK YES!!!).
 * Enable/Disable plugin from your build system.
 
 **Improvements:**
