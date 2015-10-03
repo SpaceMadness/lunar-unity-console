@@ -21,7 +21,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_weight="1"
-        android:text="Small Text"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="All your base are belong to us! All your base are belong to us! All your base are belong to us!"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textColor="@color/lunar_console_exception_bar_text"
         />
