@@ -9,6 +9,7 @@
 
 **Improvements:**
 
+* **Android**: stop scrolling on touch-and-drag.
 * Destroy LunarConsole game object when running on unsupported platforms (everything except iOS and Android).
 * Added 'ShowConsole' and 'HideConsole' methods.
 
