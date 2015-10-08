@@ -27,7 +27,7 @@
                     <rect key="frame" x="0.0" y="0.0" width="600" height="20"/>
                     <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                 </view>
-                <label contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lunar Console v.0.0.0b" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ouu-Ne-nFv">
+                <label contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lunar Console" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ouu-Ne-nFv">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="20"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="20" id="pgQ-Me-QmY"/>

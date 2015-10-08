@@ -118,7 +118,7 @@ static LUConsoleControllerState * _sharedControllerState;
     
     // "status bar" view
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onStatusBarTap:)];
-    [_statusBarView addGestureRecognizer:tapRecognizer];;
+    [_statusBarView addGestureRecognizer:tapRecognizer];
     
     // log type buttons
     _logButton.on = ![_console.entries isFilterLogTypeEnabled:LUConsoleLogTypeLog];
