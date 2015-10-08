@@ -204,7 +204,7 @@ namespace LunarConsole
                 pluginClassRaw = pluginClass.GetRawClass();
 
                 IntPtr methodInit = GetStaticMethod(pluginClassRaw, "init", "(Ljava.lang.String;I)V");
-                CallStaticVoidMethod(methodInit, new jvalue[] { jval(capacity) });
+                CallStaticVoidMethod(methodInit, new jvalue[] { jval(version), jval(capacity) });
 
                 methodLogMessage = GetStaticMethod(pluginClassRaw, "logMessage", "(Ljava.lang.String;Ljava.lang.String;I)V");
                 methodShowConsole = GetStaticMethod(pluginClassRaw, "show", "()V");
