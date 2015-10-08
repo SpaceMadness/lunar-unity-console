@@ -130,6 +130,9 @@ public class ConsoleView extends LinearLayout implements
 
         setupOperationsButtons();
 
+        // setup fake status bar
+        setupFakeStatusBar();
+
         reloadData();
     }
 
@@ -303,6 +306,15 @@ public class ConsoleView extends LinearLayout implements
         }
     }
 
+    private void scrollToTop(Console console)
+    {
+        int entryCount = console.getEntryCount();
+        if (entryCount > 0)
+        {
+            recyclerView.smoothScrollToPosition(0);
+        }
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // UI elements
 
@@ -425,6 +437,20 @@ public class ConsoleView extends LinearLayout implements
             public void onClick(View v)
             {
                 notifyClose();
+            }
+        });
+    }
+
+    private void setupFakeStatusBar()
+    {
+        View statusBar = findExistingViewById(R.id.lunar_console_fake_status_bar);
+        statusBar.setOnClickListener(new OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                scrollLockButton.setOn(false);
+                scrollToTop(console);
             }
         });
     }

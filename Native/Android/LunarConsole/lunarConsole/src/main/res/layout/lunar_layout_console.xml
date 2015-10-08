@@ -5,10 +5,20 @@
               android:background="@color/lunar_console_color_table_background"
               android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/lunar_console_fake_status_bar"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="@color/lunar_console_color_fake_status_bar"
+        android:gravity="center"
+        android:text="@string/lunar_console_title_fake_status_bar"
+        android:textColor="@color/lunar_console_color_fake_status_bar_text"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/lunar_console_color_table_title_background">
+        android:background="@color/lunar_console_color_table_title_background"
+        android:orientation="horizontal">
 
         <!-- TODO: use style -->
         <EditText
