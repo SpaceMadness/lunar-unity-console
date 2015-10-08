@@ -28,12 +28,14 @@
 
 static LUConsolePlugin * _lunarConsolePlugin;
 
-void __lunar_console_initialize(int capacity)
+void __lunar_console_initialize(const char * cversion, int capacity)
 {
     lunar_dispatch_main(^{
         if (_lunarConsolePlugin == nil) {
-            _lunarConsolePlugin = [[LUConsolePlugin alloc] initWithCapacity:capacity];
+            NSString *version = [[NSString alloc] initWithUTF8String:cversion];
+            _lunarConsolePlugin = [[LUConsolePlugin alloc] initWithVersion:version capacity:capacity];
             [_lunarConsolePlugin enableGestureRecognition];
+            LU_RELEASE(version);
         }
     });
 }

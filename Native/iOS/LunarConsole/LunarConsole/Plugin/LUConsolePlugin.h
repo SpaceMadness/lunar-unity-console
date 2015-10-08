@@ -26,7 +26,7 @@
 
 @interface LUConsolePlugin : LUObject
 
-- (instancetype)initWithCapacity:(NSUInteger)capacity;
+- (instancetype)initWithVersion:(NSString *)version capacity:(NSUInteger)capacity;
 
 - (void)show;
 - (void)hide;

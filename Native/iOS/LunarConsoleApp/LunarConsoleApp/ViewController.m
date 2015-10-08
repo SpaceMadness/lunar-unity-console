@@ -36,10 +36,11 @@ static const NSUInteger kConsoleCapacity = 1024;
 
 @implementation ViewController
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     
-    _plugin = [[LUConsolePlugin alloc] initWithCapacity:kConsoleCapacity];
+    _plugin = [[LUConsolePlugin alloc] initWithVersion:@"0.0.0b" capacity:kConsoleCapacity];
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [self showConsoleController];

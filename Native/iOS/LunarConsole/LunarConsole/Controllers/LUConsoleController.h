@@ -33,6 +33,7 @@
 
 @interface LUConsoleController : UIViewController
 
+@property (nonatomic, retain) NSString *version;
 @property (nonatomic, assign) id<LUConsoleControllerDelegate> delegate;
 
 + (instancetype)controllerWithConsole:(LUConsole *)console;

@@ -130,7 +130,7 @@ namespace LunarConsole
             #if UNITY_IOS || UNITY_IPHONE
             if (Application.platform == RuntimePlatform.IPhonePlayer)
             {
-                return new PlatformIOS(capacity);
+                return new PlatformIOS(Constants.Version, capacity);
             }
             #elif UNITY_ANDROID
             if (Application.platform == RuntimePlatform.Android)
@@ -154,14 +154,14 @@ namespace LunarConsole
         class PlatformIOS : IPlatform
         {
             [DllImport("__Internal")]
-            private static extern void __lunar_console_initialize(int capacity);
+            private static extern void __lunar_console_initialize(string version, int capacity);
             
             [DllImport("__Internal")]
             private static extern void __lunar_console_log_message(string message, string stackTrace, int type);
             
-            public PlatformIOS(int capacity)
+            public PlatformIOS(string version, int capacity)
             {
-                __lunar_console_initialize(capacity);
+                __lunar_console_initialize(version, capacity);
             }
             
             public void OnLogMessageReceived(string message, string stackTrace, LogType type)

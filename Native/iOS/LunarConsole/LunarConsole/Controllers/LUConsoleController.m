@@ -35,7 +35,7 @@ static LUConsoleControllerState * _sharedControllerState;
     NSUInteger  _lastUpdateOverflowAmount;
 }
 
-@property (nonatomic, assign) IBOutlet UIView * statusBarView;
+@property (nonatomic, assign) IBOutlet UILabel * statusBarView;
 
 @property (nonatomic, assign) IBOutlet UITableView * tableView;
 @property (nonatomic, assign) IBOutlet UISearchBar * filterBar;
@@ -91,6 +91,7 @@ static LUConsoleControllerState * _sharedControllerState;
     _warningButton.delegate = nil;
     _errorButton.delegate   = nil;
 
+    LU_RELEASE(_version);
     LU_RELEASE(_console);
     LU_SUPER_DEALLOC
 }
@@ -119,6 +120,8 @@ static LUConsoleControllerState * _sharedControllerState;
     // "status bar" view
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onStatusBarTap:)];
     [_statusBarView addGestureRecognizer:tapRecognizer];
+    LU_RELEASE(tapRecognizer);
+    _statusBarView.text = [NSString stringWithFormat:@"Lunar Console v%@", _version ? _version : @"?.?.?"];
     
     // log type buttons
     _logButton.on = ![_console.entries isFilterLogTypeEnabled:LUConsoleLogTypeLog];

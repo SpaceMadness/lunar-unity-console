@@ -28,6 +28,7 @@ static const CGFloat kWarningHeight = 45.0f;
 
 @interface LUConsolePlugin () <LUConsoleControllerDelegate, LUExceptionWarningControllerDelegate>
 {
+    NSString            * _version;
     LUConsole           * _console;
     LUWindow            * _consoleWindow;
     LUWindow            * _warningWindow;
@@ -38,7 +39,7 @@ static const CGFloat kWarningHeight = 45.0f;
 
 @implementation LUConsolePlugin
 
-- (instancetype)initWithCapacity:(NSUInteger)capacity
+- (instancetype)initWithVersion:(NSString *)version capacity:(NSUInteger)capacity
 {
     self = [super init];
     if (self)
@@ -52,6 +53,7 @@ static const CGFloat kWarningHeight = 45.0f;
             return nil;
         }
         
+        _version = LU_RETAIN(version);
         _console = [[LUConsole alloc] initWithCapacity:capacity];
     }
     return self;
@@ -61,6 +63,7 @@ static const CGFloat kWarningHeight = 45.0f;
 {
     [self disableGestureRecognition];
     
+    LU_RELEASE(_version);
     LU_RELEASE(_console);
     LU_RELEASE(_consoleWindow);
     LU_RELEASE(_warningWindow);
@@ -78,6 +81,7 @@ static const CGFloat kWarningHeight = 45.0f;
     if (_consoleWindow == nil)
     {
         LUConsoleController *controller = [LUConsoleController controllerWithConsole:_console];
+        controller.version = _version;
         controller.delegate = self;
         
         CGRect windowFrame = [UIScreen mainScreen].bounds;
