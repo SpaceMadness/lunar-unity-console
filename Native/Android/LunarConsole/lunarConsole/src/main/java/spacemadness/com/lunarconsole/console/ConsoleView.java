@@ -443,7 +443,11 @@ public class ConsoleView extends LinearLayout implements
 
     private void setupFakeStatusBar()
     {
-        View statusBar = findExistingViewById(R.id.lunar_console_fake_status_bar);
+        String title = String.format(getResources().
+                getString(R.string.lunar_console_title_fake_status_bar), ConsolePlugin.getVersion());
+
+        TextView statusBar = findExistingViewById(R.id.lunar_console_fake_status_bar);
+        statusBar.setText(title);
         statusBar.setOnClickListener(new OnClickListener()
         {
             @Override

@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">LunarConsole</string>
     <string name="action_settings">Settings</string>
-    <string name="lunar_console_title_fake_status_bar">Lunar Console</string>
+    <string name="lunar_console_title_fake_status_bar">Lunar Console v%1$s</string>
 </resources>

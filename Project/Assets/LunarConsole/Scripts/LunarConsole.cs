@@ -135,7 +135,7 @@ namespace LunarConsole
             #elif UNITY_ANDROID
             if (Application.platform == RuntimePlatform.Android)
             {
-                return new PlatformAndroid(capacity);
+                return new PlatformAndroid(Constants.Version, capacity);
             }
             #endif
 
@@ -198,12 +198,12 @@ namespace LunarConsole
             private readonly IntPtr methodShowConsole;
             private readonly IntPtr methodHideConsole;
 
-            public PlatformAndroid(int capacity)
+            public PlatformAndroid(string version, int capacity)
             {
                 pluginClass = new AndroidJavaClass(PluginClassName);
                 pluginClassRaw = pluginClass.GetRawClass();
 
-                IntPtr methodInit = GetStaticMethod(pluginClassRaw, "init", "(I)V");
+                IntPtr methodInit = GetStaticMethod(pluginClassRaw, "init", "(Ljava.lang.String;I)V");
                 CallStaticVoidMethod(methodInit, new jvalue[] { jval(capacity) });
 
                 methodLogMessage = GetStaticMethod(pluginClassRaw, "logMessage", "(Ljava.lang.String;Ljava.lang.String;I)V");

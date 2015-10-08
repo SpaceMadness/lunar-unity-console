@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void run()
             {
-                ConsolePlugin.init(MainActivity.this, capacity);
+                ConsolePlugin.init(MainActivity.this, "0.0.0b", capacity);
             }
         });
 

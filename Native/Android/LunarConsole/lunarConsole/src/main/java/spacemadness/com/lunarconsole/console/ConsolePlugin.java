@@ -59,6 +59,7 @@ public class ConsolePlugin implements
 
     private final Console console;
     private final ConsolePluginImp pluginImp;
+    private final String version;
 
     private ConsoleView consoleView;
     private WarningView warningView;
@@ -92,22 +93,22 @@ public class ConsolePlugin implements
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Static interface
 
-    public static void init(int capacity)
+    public static void init(String version, int capacity)
     {
         Activity activity = UnityPlayer.currentActivity;
-        init(activity, capacity, new UnityPluginImp(activity));
+        init(activity, version, capacity, new UnityPluginImp(activity));
     }
 
-    public static void init(Activity activity, int capacity)
+    public static void init(Activity activity, String version, int capacity)
     {
-        init(activity, capacity, new DefaultPluginImp(activity));
+        init(activity, version, capacity, new DefaultPluginImp(activity));
     }
 
-    private static void init(final Activity activity, final int capacity, final ConsolePluginImp pluginImp)
+    private static void init(final Activity activity, final String version, final int capacity, final ConsolePluginImp pluginImp)
     {
         if (isRunningOnMainThread())
         {
-            init0(activity, capacity, pluginImp);
+            init0(activity, version, capacity, pluginImp);
         }
         else
         {
@@ -118,21 +119,21 @@ public class ConsolePlugin implements
                 @Override
                 public void run()
                 {
-                    init0(activity, capacity, pluginImp);
+                    init0(activity, version, capacity, pluginImp);
                 }
             });
         }
     }
 
-    private static void init0(Activity activity, int capacity, ConsolePluginImp pluginImp)
+    private static void init0(Activity activity, String version, int capacity, ConsolePluginImp pluginImp)
     {
         try
         {
             if (instance == null)
             {
-                Log.d(PLUGIN, "Initializing plugin instance: %d", capacity);
+                Log.d(PLUGIN, "Initializing plugin instance (%s): %d", version, capacity);
 
-                instance = new ConsolePlugin(activity, capacity, pluginImp);
+                instance = new ConsolePlugin(activity, version, capacity, pluginImp);
                 instance.enableGestureRecognition();
             }
             else
@@ -280,13 +281,19 @@ public class ConsolePlugin implements
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Constructor
 
-    private ConsolePlugin(Activity activity, int capacity, ConsolePluginImp pluginImp)
+    private ConsolePlugin(Activity activity, String version, int capacity, ConsolePluginImp pluginImp)
     {
         if (activity == null)
         {
             throw new NullPointerException("Context is null");
         }
 
+        if (version == null)
+        {
+            throw new NullPointerException("Version is null");
+        }
+
+        this.version = version;
         this.pluginImp = pluginImp;
 
         Options options = new Options(capacity);
@@ -597,5 +604,10 @@ public class ConsolePlugin implements
     public boolean isConsoleShown()
     {
         return consoleView != null;
+    }
+
+    public static String getVersion()
+    {
+        return instance != null ? instance.version : "?.?.?";
     }
 }
