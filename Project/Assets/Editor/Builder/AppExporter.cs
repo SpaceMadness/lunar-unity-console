@@ -31,6 +31,13 @@ namespace LunarConsoleInternal
     {
         private static readonly string BuildsDir = "Build";
 
+        [MenuItem("Window/Lunar Mobile Console/Build/All")]
+        internal static void PerformAllBuilds()
+        {
+            PerformiOSBuild();
+            PerformAndroidBuild();
+        }
+
         [MenuItem("Window/Lunar Mobile Console/Build/iOS")]
         internal static void PerformiOSBuild()
         {
