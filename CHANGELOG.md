@@ -1,6 +1,16 @@
 # Lunar Console Changelog
 
-## v.0.0.3b - TBA
+## v.0.0.4b - TBA
+
+**New:**
+
+* Added scroll-to-top gesture (tap status bar to see first log entry).
+
+**Fixes:**
+
+* iOS: fixed "scroll lock" button state.
+
+## v.0.0.3b - 6/10/15
 
 **New:**
 
