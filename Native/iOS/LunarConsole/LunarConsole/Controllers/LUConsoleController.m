@@ -35,12 +35,16 @@ static LUConsoleControllerState * _sharedControllerState;
     NSUInteger  _lastUpdateOverflowAmount;
 }
 
+@property (nonatomic, assign) IBOutlet UIView * statusBarView;
+
 @property (nonatomic, assign) IBOutlet UITableView * tableView;
 @property (nonatomic, assign) IBOutlet UISearchBar * filterBar;
 
 @property (nonatomic, assign) IBOutlet LULogTypeButton * logButton;
 @property (nonatomic, assign) IBOutlet LULogTypeButton * warningButton;
 @property (nonatomic, assign) IBOutlet LULogTypeButton * errorButton;
+
+@property (nonatomic, assign) IBOutlet LUToggleButton  * scrollLockButton;
 
 @property (nonatomic, assign) IBOutlet NSLayoutConstraint * logTypeButtonTrailingConstraint;
 
@@ -96,7 +100,11 @@ static LUConsoleControllerState * _sharedControllerState;
     [super viewDidLoad];
     
     _console.delegate = self;
+    
+    // scroll lock
     _scrollLocked = [self controllerState].scrollLocked;
+    _scrollLockButton.on = _scrollLocked;
+    _scrollLockButton.delegate = self;
     
     LUTheme *theme = [self theme];
     
@@ -107,6 +115,10 @@ static LUConsoleControllerState * _sharedControllerState;
     self.view.opaque = YES;
     self.view.backgroundColor = theme.tableColor;
     _tableView.backgroundColor = theme.tableColor;
+    
+    // "status bar" view
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onStatusBarTap:)];
+    [_statusBarView addGestureRecognizer:tapRecognizer];;
     
     // log type buttons
     _logButton.on = ![_console.entries isFilterLogTypeEnabled:LUConsoleLogTypeLog];
@@ -189,12 +201,6 @@ static LUConsoleControllerState * _sharedControllerState;
     [_console clear];
 }
 
-- (IBAction)onScrollLock:(id)sender
-{
-    _scrollLocked = !_scrollLocked;
-    [self controllerState].scrollLocked = _scrollLocked;
-}
-
 - (IBAction)onCopy:(id)sender
 {
     NSString *text = [_console getText];
@@ -204,6 +210,12 @@ static LUConsoleControllerState * _sharedControllerState;
 - (IBAction)onEmail:(id)sender
 {
     
+}
+
+- (IBAction)onStatusBarTap:(id)sender
+{
+    _scrollLockButton.on = NO;
+    [self scrollToTopAnimated:YES];
 }
 
 #pragma mark -
@@ -235,32 +247,49 @@ static LUConsoleControllerState * _sharedControllerState;
 
 - (void)toggleButtonStateChanged:(LUToggleButton *)button
 {
-    LUConsoleLogTypeMask mask = 0;
-    if (button == _logButton)
+    if (button == _scrollLockButton)
     {
-        mask |= LU_CONSOLE_LOG_TYPE_MASK(LUConsoleLogTypeLog);
+        _scrollLocked = button.isOn;
+        [self controllerState].scrollLocked = _scrollLocked;
     }
-    else if (button == _warningButton)
+    else
     {
-        mask |= LU_CONSOLE_LOG_TYPE_MASK(LUConsoleLogTypeWarning);
+        LUConsoleLogTypeMask mask = 0;
+        if (button == _logButton)
+        {
+            mask |= LU_CONSOLE_LOG_TYPE_MASK(LUConsoleLogTypeLog);
+        }
+        else if (button == _warningButton)
+        {
+            mask |= LU_CONSOLE_LOG_TYPE_MASK(LUConsoleLogTypeWarning);
+        }
+        else if (button == _errorButton)
+        {
+            mask |= LU_CONSOLE_LOG_TYPE_MASK(LUConsoleLogTypeException) |
+                    LU_CONSOLE_LOG_TYPE_MASK(LUConsoleLogTypeError) |
+                    LU_CONSOLE_LOG_TYPE_MASK(LUConsoleLogTypeAssert);
+        }
+        
+        [self setFilterByLogTypeMask:mask disabled:button.isOn];
     }
-    else if (button == _errorButton)
-    {
-        mask |= LU_CONSOLE_LOG_TYPE_MASK(LUConsoleLogTypeException) |
-                LU_CONSOLE_LOG_TYPE_MASK(LUConsoleLogTypeError) |
-                LU_CONSOLE_LOG_TYPE_MASK(LUConsoleLogTypeAssert);
-    }
-    
-    [self setFilterByLogTypeMask:mask disabled:button.isOn];
 }
 
 #pragma mark -
 #pragma mark Scrolling
 
-- (void)scrollToBottom
+- (void)scrollToBottomAnimated:(BOOL)animated
 {
     NSIndexPath *path = [NSIndexPath indexPathForRow:_console.entriesCount-1 inSection:0];
-    [_tableView scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionBottom animated:NO];
+    [_tableView scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionBottom animated:animated];
+}
+
+- (void)scrollToTopAnimated:(BOOL)animated
+{
+    if (_console.entriesCount > 0)
+    {
+        NSIndexPath *path = [NSIndexPath indexPathForRow:0 inSection:0];
+        [_tableView scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionBottom animated:animated];
+    }
 }
 
 #pragma mark -
@@ -402,7 +431,7 @@ static LUConsoleControllerState * _sharedControllerState;
     // scroll to end
     if (_scrollLocked)
     {
-        [self scrollToBottom];
+        [self scrollToBottomAnimated:NO];
     }
 }
 
