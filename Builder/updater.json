@@ -1,6 +1,6 @@
 {
   "status": "OK",
-  "version": "0.0.3b",
-  "message": "What's New:\n* Android platform support.\n* Enable/Disable plugin from your build system\n\nImprovements:\n* Android: stop scrolling on touch-and-drag\n* Destroy LunarConsole game object when running on unsupported platforms (everything except iOS and Android)\n*Added 'ShowConsole' and 'HideConsole' methods.\n\nFixes:\n* Fixed change log messages for auto updater.",
+  "version": "0.0.4b",
+  "message": "What's New:\n* Added scroll-to-top gesture (tap status bar to see first log entry).\n\nFixes:\n* iOS: fixed 'scroll lock' button state.",
   "url": "http://bit.ly/1Pm4Gsy"
 }
