@@ -43,7 +43,7 @@ public class CycleArray<E> implements Iterable<E>
 
     public E add(E e)
     {
-        int arrayIndex = ToArrayIndex(length);
+        int arrayIndex = toArrayIndex(length);
         E oldItem = internalArray[arrayIndex];
         internalArray[arrayIndex] = e;
         ++length;
@@ -67,12 +67,12 @@ public class CycleArray<E> implements Iterable<E>
         headIndex = 0;
     }
 
-    public void TrimLength(int trimSize)
+    public void trimLength(int trimSize)
     {
-        TrimToLength(length - trimSize);
+        trimToLength(length - trimSize);
     }
 
-    public void TrimToLength(int trimmedLength)
+    public void trimToLength(int trimmedLength)
     {
         if (trimmedLength < headIndex || trimmedLength > length)
         {
@@ -84,12 +84,12 @@ public class CycleArray<E> implements Iterable<E>
         length = trimmedLength;
     }
 
-    public void TrimHeadIndex(int trimSize)
+    public void trimHeadIndex(int trimSize)
     {
-        TrimToHeadIndex(headIndex + trimSize);
+        trimToHeadIndex(headIndex + trimSize);
     }
 
-    public void TrimToHeadIndex(int trimmedHeadIndex)
+    public void trimToHeadIndex(int trimmedHeadIndex)
     {
         if (trimmedHeadIndex < headIndex || trimmedHeadIndex > length)
         {
@@ -103,27 +103,27 @@ public class CycleArray<E> implements Iterable<E>
 
     public E get(int index)
     {
-        int arrayIndex = ToArrayIndex(index);
+        int arrayIndex = toArrayIndex(index);
         return internalArray[arrayIndex];
     }
 
     public void set(int index, E value)
     {
-        int arrayIndex = ToArrayIndex(index);
+        int arrayIndex = toArrayIndex(index);
         internalArray[arrayIndex] = value;
     }
 
-    public int ToArrayIndex(int i)
+    public int toArrayIndex(int i)
     {
         return i % internalArray.length;
     }
 
-    public boolean IsValidIndex(int index)
+    public boolean isValidIndex(int index)
     {
         return index >= headIndex && index < length;
     }
 
-    private int ToArrayIndex(E[] array, int i)
+    private int toArrayIndex(E[] array, int i)
     {
         return i % array.length;
     }
@@ -131,21 +131,21 @@ public class CycleArray<E> implements Iterable<E>
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Properties
 
-    public int Capacity()
+    public int getCapacity()
     {
         return internalArray.length;
     }
 
-    public void Capacity(int value)
+    public void setCapacity(int value)
     {
-        if (value > Capacity())
+        if (value > getCapacity())
         {
             E[] data = (E[]) Array.newInstance(componentType, value);
 
-            int totalCopyLength = RealLength();
+            int totalCopyLength = realLength();
 
-            int fromIndex = ToArrayIndex(internalArray, headIndex);
-            int toIndex = ToArrayIndex(data, headIndex);
+            int fromIndex = toArrayIndex(internalArray, headIndex);
+            int toIndex = toArrayIndex(data, headIndex);
 
             while (totalCopyLength > 0)
             {
@@ -153,13 +153,13 @@ public class CycleArray<E> implements Iterable<E>
 
                 System.arraycopy(internalArray, fromIndex, data, toIndex, copyLength);
                 totalCopyLength -= copyLength;
-                fromIndex = ToArrayIndex(internalArray, fromIndex + copyLength);
-                toIndex = ToArrayIndex(data, toIndex + copyLength);
+                fromIndex = toArrayIndex(internalArray, fromIndex + copyLength);
+                toIndex = toArrayIndex(data, toIndex + copyLength);
             }
 
             internalArray = data;
         }
-        else if (value < Capacity())
+        else if (value < getCapacity())
         {
             throw new NotImplementedException();
         }
@@ -169,7 +169,7 @@ public class CycleArray<E> implements Iterable<E>
     {
         for (int i = headIndex; i < length; ++i)
         {
-            int arrayIndex = ToArrayIndex(i);
+            int arrayIndex = toArrayIndex(i);
             if (ObjectUtils.areEqual(internalArray[arrayIndex], element))
             {
                 return true;
@@ -179,22 +179,22 @@ public class CycleArray<E> implements Iterable<E>
         return false;
     }
 
-    public int HeadIndex()
+    public int getHeadIndex()
     {
         return headIndex;
     }
 
-    public int Length()
+    public int length()
     {
         return length;
     }
 
-    public int RealLength()
+    public int realLength()
     {
         return length - headIndex;
     }
 
-    public E[] InternalArray()
+    public E[] internalArray()
     {
         return internalArray;
     }
@@ -214,13 +214,13 @@ public class CycleArray<E> implements Iterable<E>
 
         public CycleIterator()
         {
-            index = HeadIndex();
+            index = getHeadIndex();
         }
 
         @Override
         public boolean hasNext()
         {
-            return index < Length();
+            return index < length();
         }
 
         @Override

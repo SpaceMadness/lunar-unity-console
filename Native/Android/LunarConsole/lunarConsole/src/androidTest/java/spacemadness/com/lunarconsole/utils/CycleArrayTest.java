@@ -30,9 +30,9 @@ public class CycleArrayTest extends TestCase
         CycleArray<String> array = new CycleArray<>(String.class, 3);
         array.add("1");
 
-        assertEquals(3, array.Capacity());
-        assertEquals(1, array.Length());
-        assertEquals(1, array.RealLength());
+        assertEquals(3, array.getCapacity());
+        assertEquals(1, array.length());
+        assertEquals(1, array.realLength());
         AssertArray(array, "1");
     }
 
@@ -42,9 +42,9 @@ public class CycleArrayTest extends TestCase
         array.add("1");
         array.add("2");
 
-        assertEquals(3, array.Capacity());
-        assertEquals(2, array.Length());
-        assertEquals(2, array.RealLength());
+        assertEquals(3, array.getCapacity());
+        assertEquals(2, array.length());
+        assertEquals(2, array.realLength());
         AssertArray(array, "1", "2");
     }
 
@@ -55,9 +55,9 @@ public class CycleArrayTest extends TestCase
         array.add("2");
         array.add("3");
 
-        assertEquals(3, array.Capacity());
-        assertEquals(3, array.Length());
-        assertEquals(3, array.RealLength());
+        assertEquals(3, array.getCapacity());
+        assertEquals(3, array.length());
+        assertEquals(3, array.realLength());
         AssertArray(array, "1", "2", "3");
     }
 
@@ -69,9 +69,9 @@ public class CycleArrayTest extends TestCase
         array.add("3");
         array.add("4");
 
-        assertEquals(3, array.Capacity());
-        assertEquals(4, array.Length());
-        assertEquals(3, array.RealLength());
+        assertEquals(3, array.getCapacity());
+        assertEquals(4, array.length());
+        assertEquals(3, array.realLength());
         AssertArray(array, "2", "3", "4");
     }
 
@@ -84,9 +84,9 @@ public class CycleArrayTest extends TestCase
         array.add("4");
         array.add("5");
 
-        assertEquals(3, array.Capacity());
-        assertEquals(5, array.Length());
-        assertEquals(3, array.RealLength());
+        assertEquals(3, array.getCapacity());
+        assertEquals(5, array.length());
+        assertEquals(3, array.realLength());
         AssertArray(array, "3", "4", "5");
     }
 
@@ -100,9 +100,9 @@ public class CycleArrayTest extends TestCase
         array.add("5");
         array.add("6");
 
-        assertEquals(3, array.Capacity());
-        assertEquals(6, array.Length());
-        assertEquals(3, array.RealLength());
+        assertEquals(3, array.getCapacity());
+        assertEquals(6, array.length());
+        assertEquals(3, array.realLength());
         AssertArray(array, "4", "5", "6");
     }
 
@@ -117,9 +117,9 @@ public class CycleArrayTest extends TestCase
         array.add("6");
         array.add("7");
 
-        assertEquals(3, array.Capacity());
-        assertEquals(7, array.Length());
-        assertEquals(3, array.RealLength());
+        assertEquals(3, array.getCapacity());
+        assertEquals(7, array.length());
+        assertEquals(3, array.realLength());
         AssertArray(array, "5", "6", "7");
     }
 
@@ -135,9 +135,9 @@ public class CycleArrayTest extends TestCase
         array.add("7");
         array.add("8");
 
-        assertEquals(3, array.Capacity());
-        assertEquals(8, array.Length());
-        assertEquals(3, array.RealLength());
+        assertEquals(3, array.getCapacity());
+        assertEquals(8, array.length());
+        assertEquals(3, array.realLength());
         AssertArray(array, "6", "7", "8");
     }
 
@@ -154,9 +154,9 @@ public class CycleArrayTest extends TestCase
         array.add("8");
         array.add("9");
 
-        assertEquals(3, array.Capacity());
-        assertEquals(9, array.Length());
-        assertEquals(3, array.RealLength());
+        assertEquals(3, array.getCapacity());
+        assertEquals(9, array.length());
+        assertEquals(3, array.realLength());
         AssertArray(array, "7", "8", "9");
     }
 
@@ -167,11 +167,11 @@ public class CycleArrayTest extends TestCase
         array.add("2");
         array.add("3");
 
-        array.Capacity(10);
+        array.setCapacity(10);
 
-        assertEquals(10, array.Capacity());
-        assertEquals(3, array.Length());
-        assertEquals(3, array.RealLength());
+        assertEquals(10, array.getCapacity());
+        assertEquals(3, array.length());
+        assertEquals(3, array.realLength());
         AssertArray(array, "1", "2", "3");
     }
 
@@ -184,11 +184,11 @@ public class CycleArrayTest extends TestCase
         array.add("4");
         array.add("5");
 
-        array.Capacity(10);
+        array.setCapacity(10);
 
-        assertEquals(10, array.Capacity());
-        assertEquals(5, array.Length());
-        assertEquals(5, array.RealLength());
+        assertEquals(10, array.getCapacity());
+        assertEquals(5, array.length());
+        assertEquals(5, array.realLength());
         AssertArray(array, "1", "2", "3", "4", "5");
     }
 
@@ -200,11 +200,11 @@ public class CycleArrayTest extends TestCase
         array.add("3");
         array.add("4");
 
-        array.Capacity(10);
+        array.setCapacity(10);
 
-        assertEquals(10, array.Capacity());
-        assertEquals(4, array.Length());
-        assertEquals(3, array.RealLength());
+        assertEquals(10, array.getCapacity());
+        assertEquals(4, array.length());
+        assertEquals(3, array.realLength());
         AssertArray(array, "2", "3", "4");
     }
 
@@ -217,11 +217,11 @@ public class CycleArrayTest extends TestCase
         array.add("4");
         array.add("5");
 
-        array.Capacity(10);
+        array.setCapacity(10);
 
-        assertEquals(10, array.Capacity());
-        assertEquals(5, array.Length());
-        assertEquals(3, array.RealLength());
+        assertEquals(10, array.getCapacity());
+        assertEquals(5, array.length());
+        assertEquals(3, array.realLength());
         AssertArray(array, "3", "4", "5");
     }
 
@@ -235,11 +235,11 @@ public class CycleArrayTest extends TestCase
         array.add("5");
         array.add("6");
 
-        array.Capacity(10);
+        array.setCapacity(10);
 
-        assertEquals(10, array.Capacity());
-        assertEquals(6, array.Length());
-        assertEquals(3, array.RealLength());
+        assertEquals(10, array.getCapacity());
+        assertEquals(6, array.length());
+        assertEquals(3, array.realLength());
         AssertArray(array, "4", "5", "6");
     }
 
@@ -254,11 +254,11 @@ public class CycleArrayTest extends TestCase
         array.add("6");
         array.add("7");
 
-        array.Capacity(10);
+        array.setCapacity(10);
 
-        assertEquals(10, array.Capacity());
-        assertEquals(7, array.Length());
-        assertEquals(3, array.RealLength());
+        assertEquals(10, array.getCapacity());
+        assertEquals(7, array.length());
+        assertEquals(3, array.realLength());
         AssertArray(array, "5", "6", "7");
     }
 
@@ -273,18 +273,18 @@ public class CycleArrayTest extends TestCase
         array.add("6");
         array.add("7");
 
-        array.Capacity(5);
-        assertEquals(5, array.Capacity());
-        assertEquals(7, array.Length());
-        assertEquals(3, array.RealLength());
+        array.setCapacity(5);
+        assertEquals(5, array.getCapacity());
+        assertEquals(7, array.length());
+        assertEquals(3, array.realLength());
         AssertArray(array, "5", "6", "7");
 
         array.add("8");
         array.add("9");
 
-        assertEquals(5, array.Capacity());
-        assertEquals(9, array.Length());
-        assertEquals(5, array.RealLength());
+        assertEquals(5, array.getCapacity());
+        assertEquals(9, array.length());
+        assertEquals(5, array.realLength());
         AssertArray(array, "5", "6", "7", "8", "9");
     }
 
@@ -296,15 +296,15 @@ public class CycleArrayTest extends TestCase
             array.add(Integer.toString(i));
         }
 
-        array.Capacity(9);
+        array.setCapacity(9);
         AssertArray(array, "1", "2","3", "4", "5", "6", "7");
 
         array.add("8");
         array.add("9");
 
-        assertEquals(9, array.Capacity());
-        assertEquals(9, array.Length());
-        assertEquals(9, array.RealLength());
+        assertEquals(9, array.getCapacity());
+        assertEquals(9, array.length());
+        assertEquals(9, array.realLength());
         AssertArray(array, "1", "2","3", "4", "5", "6", "7", "8", "9");
     }
 
@@ -316,15 +316,15 @@ public class CycleArrayTest extends TestCase
             array.add(Integer.toString(i + 1));
         }
 
-        array.Capacity(5);
+        array.setCapacity(5);
         AssertArray(array, "8", "9", "10");
 
         array.add("11");
         array.add("12");
 
-        assertEquals(5, array.Capacity());
-        assertEquals(12, array.Length());
-        assertEquals(5, array.RealLength());
+        assertEquals(5, array.getCapacity());
+        assertEquals(12, array.length());
+        assertEquals(5, array.realLength());
         AssertArray(array, "8", "9", "10", "11", "12");
     }
 
@@ -337,50 +337,50 @@ public class CycleArrayTest extends TestCase
         array.add("4");
         array.add("5");
 
-        array.TrimToLength(3);
+        array.trimToLength(3);
 
         AssertArray(array, "1", "2", "3");
-        assertEquals(0, array.HeadIndex());
-        assertEquals(3, array.Length());
-        assertEquals(3, array.RealLength());
+        assertEquals(0, array.getHeadIndex());
+        assertEquals(3, array.length());
+        assertEquals(3, array.realLength());
 
         array.add("6");
         array.add("7");
 
         AssertArray(array, "1", "2", "3", "6", "7");
-        assertEquals(0, array.HeadIndex());
-        assertEquals(5, array.Length());
-        assertEquals(5, array.RealLength());
+        assertEquals(0, array.getHeadIndex());
+        assertEquals(5, array.length());
+        assertEquals(5, array.realLength());
 
         array.add("8");
         array.add("9");
 
         AssertArray(array, "3", "6", "7", "8", "9");
-        assertEquals(2, array.HeadIndex());
-        assertEquals(7, array.Length());
-        assertEquals(5, array.RealLength());
+        assertEquals(2, array.getHeadIndex());
+        assertEquals(7, array.length());
+        assertEquals(5, array.realLength());
 
-        array.TrimToLength(4);
+        array.trimToLength(4);
 
         AssertArray(array, "3", "6");
-        assertEquals(2, array.HeadIndex());
-        assertEquals(4, array.Length());
-        assertEquals(2, array.RealLength());
+        assertEquals(2, array.getHeadIndex());
+        assertEquals(4, array.length());
+        assertEquals(2, array.realLength());
 
         array.add("10");
         array.add("11");
 
         AssertArray(array, "3", "6", "10", "11");
-        assertEquals(2, array.HeadIndex());
-        assertEquals(6, array.Length());
-        assertEquals(4, array.RealLength());
+        assertEquals(2, array.getHeadIndex());
+        assertEquals(6, array.length());
+        assertEquals(4, array.realLength());
 
-        array.TrimToLength(2);
+        array.trimToLength(2);
 
         AssertArray(array);
-        assertEquals(2, array.HeadIndex());
-        assertEquals(2, array.Length());
-        assertEquals(0, array.RealLength());
+        assertEquals(2, array.getHeadIndex());
+        assertEquals(2, array.length());
+        assertEquals(0, array.realLength());
 
         array.add("12");
         array.add("13");
@@ -391,9 +391,9 @@ public class CycleArrayTest extends TestCase
         array.add("18");
 
         AssertArray(array, "14", "15", "16", "17", "18");
-        assertEquals(4, array.HeadIndex());
-        assertEquals(9, array.Length());
-        assertEquals(5, array.RealLength());
+        assertEquals(4, array.getHeadIndex());
+        assertEquals(9, array.length());
+        assertEquals(5, array.realLength());
     }
 
     public void testTrimHeadIndex()
@@ -405,50 +405,50 @@ public class CycleArrayTest extends TestCase
         array.add("4");
         array.add("5");
 
-        array.TrimToHeadIndex(2);
+        array.trimToHeadIndex(2);
 
         AssertArray(array, "3", "4", "5");
-        assertEquals(2, array.HeadIndex());
-        assertEquals(5, array.Length());
-        assertEquals(3, array.RealLength());
+        assertEquals(2, array.getHeadIndex());
+        assertEquals(5, array.length());
+        assertEquals(3, array.realLength());
 
         array.add("6");
         array.add("7");
 
         AssertArray(array, "3", "4", "5", "6", "7");
-        assertEquals(2, array.HeadIndex());
-        assertEquals(7, array.Length());
-        assertEquals(5, array.RealLength());
+        assertEquals(2, array.getHeadIndex());
+        assertEquals(7, array.length());
+        assertEquals(5, array.realLength());
 
         array.add("8");
         array.add("9");
 
         AssertArray(array, "5", "6", "7", "8", "9");
-        assertEquals(4, array.HeadIndex());
-        assertEquals(9, array.Length());
-        assertEquals(5, array.RealLength());
+        assertEquals(4, array.getHeadIndex());
+        assertEquals(9, array.length());
+        assertEquals(5, array.realLength());
 
-        array.TrimToHeadIndex(7);
+        array.trimToHeadIndex(7);
 
         AssertArray(array, "8", "9");
-        assertEquals(7, array.HeadIndex());
-        assertEquals(9, array.Length());
-        assertEquals(2, array.RealLength());
+        assertEquals(7, array.getHeadIndex());
+        assertEquals(9, array.length());
+        assertEquals(2, array.realLength());
 
         array.add("10");
         array.add("11");
 
         AssertArray(array, "8", "9", "10", "11");
-        assertEquals(7, array.HeadIndex());
-        assertEquals(11, array.Length());
-        assertEquals(4, array.RealLength());
+        assertEquals(7, array.getHeadIndex());
+        assertEquals(11, array.length());
+        assertEquals(4, array.realLength());
 
-        array.TrimToHeadIndex(11);
+        array.trimToHeadIndex(11);
 
         AssertArray(array);
-        assertEquals(11, array.HeadIndex());
-        assertEquals(11, array.Length());
-        assertEquals(0, array.RealLength());
+        assertEquals(11, array.getHeadIndex());
+        assertEquals(11, array.length());
+        assertEquals(0, array.realLength());
 
         array.add("12");
         array.add("13");
@@ -459,9 +459,9 @@ public class CycleArrayTest extends TestCase
         array.add("18");
 
         AssertArray(array, "14", "15", "16", "17", "18");
-        assertEquals(13, array.HeadIndex());
-        assertEquals(18, array.Length());
-        assertEquals(5, array.RealLength());
+        assertEquals(13, array.getHeadIndex());
+        assertEquals(18, array.length());
+        assertEquals(5, array.realLength());
     }
 
     public void testContains() throws Exception
@@ -547,8 +547,8 @@ public class CycleArrayTest extends TestCase
 
     private <T> void AssertArray(CycleArray<T> actual, T... expected)
     {
-        assertEquals(expected.length, actual.RealLength());
-        for (int i = 0, j = actual.HeadIndex(); i < expected.length; ++i, ++j)
+        assertEquals(expected.length, actual.realLength());
+        for (int i = 0, j = actual.getHeadIndex(); i < expected.length; ++i, ++j)
         {
             assertEquals(expected[i], actual.get(j));
         }

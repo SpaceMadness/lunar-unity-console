@@ -41,7 +41,7 @@ public class LimitSizeList<T> implements Iterable<T>
 
     public T objectAtIndex(int index)
     {
-        return internalArray.get(internalArray.HeadIndex() + index);
+        return internalArray.get(internalArray.getHeadIndex() + index);
     }
 
     public void addObject(T object)
@@ -51,7 +51,7 @@ public class LimitSizeList<T> implements Iterable<T>
 
     public void trimHead(int count)
     {
-        internalArray.TrimHeadIndex(count);
+        internalArray.trimHeadIndex(count);
     }
 
     public void clear()
@@ -67,31 +67,31 @@ public class LimitSizeList<T> implements Iterable<T>
 
     public int capacity()
     {
-        return internalArray.Capacity();
+        return internalArray.getCapacity();
     }
 
     public int totalCount()
     {
-        return internalArray.Length();
+        return internalArray.length();
     }
 
     public int count()
     {
-        return internalArray.RealLength();
+        return internalArray.realLength();
     }
 
     public int overflowCount()
     {
-        return internalArray.HeadIndex();
+        return internalArray.getHeadIndex();
     }
 
     public boolean isOverfloating()
     {
-        return internalArray.HeadIndex() > 0 && willOverflow();
+        return internalArray.getHeadIndex() > 0 && willOverflow();
     }
 
     public boolean willOverflow()
     {
-        return internalArray.RealLength() == internalArray.Capacity();
+        return internalArray.realLength() == internalArray.getCapacity();
     }
 }
