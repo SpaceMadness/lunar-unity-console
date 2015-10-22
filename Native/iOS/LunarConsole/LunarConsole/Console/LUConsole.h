@@ -41,10 +41,8 @@
 
 @property (nonatomic, readonly) LUConsoleEntryList * entries;
 @property (nonatomic, readonly) NSUInteger entriesCount;
-@property (nonatomic, readonly) NSUInteger overflowAmount;
-@property (nonatomic, readonly) BOOL isOverfloating;
 
-- (instancetype)initWithCapacity:(NSUInteger)capacity;
+- (instancetype)initWithCapacity:(NSUInteger)capacity trimCount:(NSUInteger)trimCount;
 
 - (LUConsoleEntry *)entryAtIndex:(NSUInteger)index;
 

@@ -32,12 +32,12 @@
 
 @implementation LUConsole
 
-- (instancetype)initWithCapacity:(NSUInteger)capacity
+- (instancetype)initWithCapacity:(NSUInteger)capacity trimCount:(NSUInteger)trimCount
 {
     self = [super init];
     if (self)
     {
-        _entries = [[LUConsoleEntryList alloc] initWithCapacity:capacity];
+        _entries = [[LUConsoleEntryList alloc] initWithCapacity:capacity trimCount:trimCount];
     }
     return self;
 }
@@ -84,16 +84,6 @@
 - (NSUInteger)entriesCount
 {
     return _entries.count;
-}
-
-- (NSUInteger)overflowAmount
-{
-    return _entries.overflowAmount;
-}
-
-- (BOOL)isOverfloating
-{
-    return _entries.isOverfloating;
 }
 
 @end

@@ -30,15 +30,13 @@
 
 @property (nonatomic, readonly) NSString *filterText;
 @property (nonatomic, readonly) BOOL isFiltering;
-@property (nonatomic, readonly) NSUInteger overflowAmount;
-@property (nonatomic, readonly) BOOL isOverfloating;
 
 @property (nonatomic, readonly) NSUInteger logCount;
 @property (nonatomic, readonly) NSUInteger warningCount;
 @property (nonatomic, readonly) NSUInteger errorCount;
 
-+ (instancetype)listWithCapacity:(NSUInteger)capacity;
-- (instancetype)initWithCapacity:(NSUInteger)capacity;
++ (instancetype)listWithCapacity:(NSUInteger)capacity trimCount:(NSUInteger)trimCount;
+- (instancetype)initWithCapacity:(NSUInteger)capacity trimCount:(NSUInteger)trimCount;
 
 - (BOOL)addEntry:(LUConsoleEntry *)entry;
 - (LUConsoleEntry *)entryAtIndex:(NSUInteger)index;

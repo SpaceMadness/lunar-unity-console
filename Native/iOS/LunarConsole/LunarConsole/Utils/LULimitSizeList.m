@@ -32,18 +32,19 @@
 
 @implementation LULimitSizeList
 
-+ (instancetype)listWithCapacity:(NSUInteger)capacity
++ (instancetype)listWithCapacity:(NSUInteger)capacity trimCount:(NSUInteger)trimCount
 {
-    return LU_AUTORELEASE([[self alloc] initWithCapacity:capacity]);
+    return LU_AUTORELEASE([[self alloc] initWithCapacity:capacity trimCount:trimCount]);
 }
 
-- (instancetype)initWithCapacity:(NSUInteger)capacity
+- (instancetype)initWithCapacity:(NSUInteger)capacity trimCount:(NSUInteger)trimCount
 {
     self = [super init];
     if (self)
     {
-        _capacity = capacity;
-        _objects = [NSMutableArray new];
+        _capacity   = capacity;
+        _trimCount  = trimCount;
+        _objects    = [NSMutableArray new];
     }
     return self;
 }
@@ -62,15 +63,13 @@
     LUAssert(object);
     if (object)
     {
-        // don't let it to overflow
-        if (_objects.count == _capacity)
+        if (_objects.count == _capacity) // overflows?
         {
-            [_objects removeObjectAtIndex:0];
+            [_objects removeObjectsInRange:NSMakeRange(0, _trimCount)]; // trim objects to get extra space
         }
         [_objects addObject:object];
         
-        // keep track of the total amount of objects added
-        ++_totalCount;
+        ++_totalCount; // keep track of the total amount of objects added
     }
 }
 
@@ -108,14 +107,14 @@
     return _objects.count;
 }
 
-- (NSUInteger)overflowCount
+- (NSUInteger)trimmedCount
 {
-    return _totalCount > _objects.count ? _totalCount - _objects.count : 0;
+    return _totalCount - _objects.count;
 }
 
-- (BOOL)isOverfloating
+- (BOOL)isTrimmed
 {
-    return _totalCount > _objects.count;
+    return [self trimmedCount] > 0;
 }
 
 @end

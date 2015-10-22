@@ -54,7 +54,7 @@ static const CGFloat kWarningHeight = 45.0f;
         }
         
         _version = LU_RETAIN(version);
-        _console = [[LUConsole alloc] initWithCapacity:capacity];
+        _console = [[LUConsole alloc] initWithCapacity:capacity trimCount:1]; // FIXME: use real value from the script
     }
     return self;
 }

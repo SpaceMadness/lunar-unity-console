@@ -32,7 +32,7 @@
 
 - (void)testAddElements
 {
-    LULimitSizeList *list = [LULimitSizeList listWithCapacity:10];
+    LULimitSizeList *list = [LULimitSizeList listWithCapacity:10 trimCount:1];
     [list addObject:@"1"];
     [list addObject:@"2"];
     [list addObject:@"3"];
@@ -42,62 +42,62 @@
 
 - (void)testAddElementsOverCapacity
 {
-    LULimitSizeList *list = [LULimitSizeList listWithCapacity:3];
+    LULimitSizeList *list = [LULimitSizeList listWithCapacity:3 trimCount:1];
     XCTAssertEqual(0, list.totalCount);
-    XCTAssert(!list.isOverfloating);
+    XCTAssert(!list.isTrimmed);
     
     [list addObject:@"1"];
     XCTAssertEqual(1, list.totalCount);
-    XCTAssert(!list.isOverfloating);
+    XCTAssert(!list.isTrimmed);
     
     [list addObject:@"2"];
     XCTAssertEqual(2, list.totalCount);
-    XCTAssert(!list.isOverfloating);
+    XCTAssert(!list.isTrimmed);
     
     [list addObject:@"3"];
     XCTAssertEqual(3, list.totalCount);
-    XCTAssert(!list.isOverfloating);
+    XCTAssert(!list.isTrimmed);
     
     [list addObject:@"4"];
     XCTAssertEqual(4, list.totalCount);
-    XCTAssert(list.isOverfloating);
+    XCTAssert(list.isTrimmed);
     
     [self listAssertObjects:list, @"2", @"3", @"4", nil];
 }
 
 - (void)testAddElementsWayOverCapacity
 {
-    LULimitSizeList *list = [LULimitSizeList listWithCapacity:3];
+    LULimitSizeList *list = [LULimitSizeList listWithCapacity:3 trimCount:1];
     XCTAssertEqual(0, list.totalCount);
-    XCTAssert(!list.isOverfloating);
+    XCTAssert(!list.isTrimmed);
     
     [list addObject:@"1"];
     XCTAssertEqual(1, list.totalCount);
-    XCTAssert(!list.isOverfloating);
+    XCTAssert(!list.isTrimmed);
     
     [list addObject:@"2"];
     XCTAssertEqual(2, list.totalCount);
-    XCTAssert(!list.isOverfloating);
+    XCTAssert(!list.isTrimmed);
     
     [list addObject:@"3"];
     XCTAssertEqual(3, list.totalCount);
-    XCTAssert(!list.isOverfloating);
+    XCTAssert(!list.isTrimmed);
     
     [list addObject:@"4"];
     XCTAssertEqual(4, list.totalCount);
-    XCTAssert(list.isOverfloating);
+    XCTAssert(list.isTrimmed);
     
     [list addObject:@"5"];
     XCTAssertEqual(5, list.totalCount);
-    XCTAssert(list.isOverfloating);
+    XCTAssert(list.isTrimmed);
     
     [list addObject:@"6"];
     XCTAssertEqual(6, list.totalCount);
-    XCTAssert(list.isOverfloating);
+    XCTAssert(list.isTrimmed);
     
     [list addObject:@"7"];
     XCTAssertEqual(7, list.totalCount);
-    XCTAssert(list.isOverfloating);
+    XCTAssert(list.isTrimmed);
     
     [self listAssertObjects:list, @"5", @"6", @"7", nil];
 }

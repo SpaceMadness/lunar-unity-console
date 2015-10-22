@@ -35,17 +35,17 @@
 
 @implementation LUConsoleEntryList
 
-+ (instancetype)listWithCapacity:(NSUInteger)capacity
++ (instancetype)listWithCapacity:(NSUInteger)capacity trimCount:(NSUInteger)trimCount
 {
-    return LU_AUTORELEASE([[[self class] alloc] initWithCapacity:capacity]);
+    return LU_AUTORELEASE([[[self class] alloc] initWithCapacity:capacity trimCount:trimCount]);
 }
 
-- (instancetype)initWithCapacity:(NSUInteger)capacity
+- (instancetype)initWithCapacity:(NSUInteger)capacity trimCount:(NSUInteger)trimCount
 {
     self = [super init];
     if (self)
     {
-        _entries = [[LULimitSizeList alloc] initWithCapacity:capacity];
+        _entries = [[LULimitSizeList alloc] initWithCapacity:capacity trimCount:trimCount];
         _currentEntries = _entries;
         _logDisabledTypesMask = 0;
     }
@@ -225,7 +225,8 @@
 
 - (LULimitSizeList *)filterEntries:(LULimitSizeList *)entries
 {
-    LULimitSizeList *list = [LULimitSizeList listWithCapacity:entries.capacity]; // same capacity as original list
+    LULimitSizeList *list = [LULimitSizeList listWithCapacity:entries.capacity      // same capacity
+                                                    trimCount:entries.trimCount];   // and trim policy as original
     for (id entry in entries)
     {
         if ([self filterEntry:entry])
@@ -294,16 +295,6 @@
 - (BOOL)isFiltering
 {
     return _filteredEntries != nil;
-}
-
-- (NSUInteger)overflowAmount
-{
-    return _currentEntries.overflowCount;
-}
-
-- (BOOL)isOverfloating
-{
-    return _currentEntries.isOverfloating;
 }
 
 @end

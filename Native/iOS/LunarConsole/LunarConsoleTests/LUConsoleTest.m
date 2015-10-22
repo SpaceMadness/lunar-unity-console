@@ -16,7 +16,7 @@
 
 - (void)testAddEntry
 {
-    LUConsole *console = [[LUConsole alloc] initWithCapacity:100];
+    LUConsole *console = [[LUConsole alloc] initWithCapacity:100 trimCount:10];
     console.delegate = self;
     
     [console logMessage:@"1" stackTrace:@"s1" type:LUConsoleLogTypeLog];

@@ -23,14 +23,15 @@
 
 @interface LULimitSizeList : NSObject<NSFastEnumeration>
 
-@property (nonatomic, readonly) NSUInteger count;
-@property (nonatomic, readonly) NSUInteger totalCount;
-@property (nonatomic, readonly) NSUInteger capacity;
-@property (nonatomic, readonly) NSUInteger overflowCount;
-@property (nonatomic, readonly) BOOL isOverfloating;
+@property (nonatomic, readonly) NSUInteger count;           // number of items added (exluding trimmed)
+@property (nonatomic, readonly) NSUInteger totalCount;      // total items added (might be more that count if trimmed)
+@property (nonatomic, readonly) NSUInteger capacity;        // can't be larger than that
+@property (nonatomic, readonly) NSUInteger trimCount;       // trimmed by this amount when overflows
+@property (nonatomic, readonly) NSUInteger trimmedCount;    // number of items trimmed (0 if not overfloat)
+@property (nonatomic, readonly) BOOL isTrimmed;             // some elements has been removed to avoid an overfloat
 
-+ (instancetype)listWithCapacity:(NSUInteger)capacity;
-- (instancetype)initWithCapacity:(NSUInteger)capacity;
++ (instancetype)listWithCapacity:(NSUInteger)capacity trimCount:(NSUInteger)trimCount;
+- (instancetype)initWithCapacity:(NSUInteger)capacity trimCount:(NSUInteger)trimCount;
 
 - (void)addObject:(id)object;
 - (id)objectAtIndex:(NSUInteger)index;

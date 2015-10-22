@@ -319,7 +319,7 @@ static LUConsoleEntryList *createEntryListWithEntries(LUConsoleEntry *first, ...
 
 LUConsoleEntryList *createEntryListWithMessages(NSString *first, ...)
 {
-    LUConsoleEntryList *list = [LUConsoleEntryList listWithCapacity:100];
+    LUConsoleEntryList *list = [LUConsoleEntryList listWithCapacity:100 trimCount:1];
     
     va_list ap;
     va_start(ap, first);
@@ -334,7 +334,7 @@ LUConsoleEntryList *createEntryListWithMessages(NSString *first, ...)
 
 LUConsoleEntryList *createEntryListWithEntries(LUConsoleEntry *first, ...)
 {
-    LUConsoleEntryList *list = [LUConsoleEntryList listWithCapacity:100];
+    LUConsoleEntryList *list = [LUConsoleEntryList listWithCapacity:100 trimCount:1];
     
     va_list ap;
     va_start(ap, first);
