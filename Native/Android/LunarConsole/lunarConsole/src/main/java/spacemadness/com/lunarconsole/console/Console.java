@@ -59,7 +59,7 @@ public class Console implements
         }
 
         this.options = options.clone();
-        this.entries = new ConsoleEntryList(options.getCapacity());
+        this.entries = new ConsoleEntryList(options.getCapacity(), options.getTrimCount());
         this.consoleListener = NULL_LISTENER;
     }
 
@@ -75,27 +75,24 @@ public class Console implements
 
     void logMessage(ConsoleEntry entry)
     {
+        final int oldTrimmedCount = entries.trimmedCount();
+
+        // set index for correct rendering
         entry.index = entries.totalCount();
 
+        // filter entry
         boolean filtered = entries.filterEntry(entry);
-
-        // free some space is entries overflow
-        if (filtered && entries.willOverflow())
-        {
-            int clearCount = Math.min(options.getOverflowFreeAmount(), entries.count());
-            if (clearCount > 0)
-            {
-                entries.trimHead(clearCount);
-
-                // notify region removed
-                notifyRemoveEntriesRange(0, clearCount);
-            }
-        }
 
         // add new entry
         entries.addEntry(entry);
 
-        // notify entry added
+        // notify listener
+        final int trimmedCount = entries.trimmedCount() - oldTrimmedCount;
+        if (trimmedCount > 0)
+        {
+            notifyRemoveEntries(0, trimmedCount);
+        }
+
         notifyEntryAdded(entry, filtered);
     }
 
@@ -129,7 +126,7 @@ public class Console implements
         }
     }
 
-    private void notifyRemoveEntriesRange(int start, int length)
+    private void notifyRemoveEntries(int start, int length)
     {
         try
         {
@@ -178,14 +175,14 @@ public class Console implements
         return entries.count();
     }
 
-    public int overflowAmount()
+    public int trimmedCount()
     {
-        return entries.overflowAmount();
+        return entries.trimmedCount();
     }
 
-    public boolean isOverfloating()
+    public boolean isTrimmed()
     {
-        return entries.isOverfloating();
+        return entries.isTrimmed();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -209,8 +206,7 @@ public class Console implements
     public static class Options
     {
         private final int capacity;
-
-        private int overflowFreeAmount;
+        private int trimCount;
 
         public Options(int capacity)
         {
@@ -219,13 +215,13 @@ public class Console implements
                 throw new IllegalArgumentException("Invalid capacity: " + capacity);
             }
             this.capacity = capacity;
-            this.overflowFreeAmount = 1;
+            this.trimCount = 1;
         }
 
         public Options clone()
         {
             Options options = new Options(capacity);
-            options.overflowFreeAmount = overflowFreeAmount;
+            options.trimCount = trimCount;
             return options;
         }
 
@@ -234,18 +230,19 @@ public class Console implements
             return capacity;
         }
 
-        public int getOverflowFreeAmount()
+        public int getTrimCount()
         {
-            return overflowFreeAmount;
+            return trimCount;
         }
 
-        public void setOverflowFreeAmount(int overflowFreeAmount)
+        public void setTrimCount(int count)
         {
-            if (overflowFreeAmount <= 0 || overflowFreeAmount > capacity)
+            if (count <= 0 || count > capacity)
             {
-                throw new IllegalArgumentException("Illegal free overflow: " + overflowFreeAmount);
+                throw new IllegalArgumentException("Illegal trim count: " + count);
             }
-            this.overflowFreeAmount = overflowFreeAmount;
+
+            this.trimCount = count;
         }
     }
 }

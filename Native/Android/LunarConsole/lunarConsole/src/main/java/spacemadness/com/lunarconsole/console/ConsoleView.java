@@ -68,6 +68,8 @@ public class ConsoleView extends LinearLayout implements
     private final LogTypeButton warningButton;
     private final LogTypeButton errorButton;
 
+    private final TextView overflowText;
+
     private ToggleImageButton scrollLockButton;
 
     private Listener listener;
@@ -132,6 +134,10 @@ public class ConsoleView extends LinearLayout implements
 
         // setup fake status bar
         setupFakeStatusBar();
+
+        // setup overflow warning
+        overflowText = findExistingViewById(R.id.lunar_console_text_overflow);
+        updateOverflowText();
 
         reloadData();
     }
@@ -488,6 +494,7 @@ public class ConsoleView extends LinearLayout implements
         recyclerViewAdapter.notifyItemRangeRemoved(start, length);
         scrollToBottom(console);
         updateLogButtons();
+        updateOverflowText();
     }
 
     @Override
@@ -495,6 +502,25 @@ public class ConsoleView extends LinearLayout implements
     {
         reloadData();
         updateLogButtons();
+        updateOverflowText();;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Overflow
+
+    private void updateOverflowText()
+    {
+        int trimmedCount = console.trimmedCount();
+        if (trimmedCount > 0)
+        {
+            overflowText.setVisibility(View.VISIBLE);
+            String text = getResources().getString(R.string.lunar_console_overflow_warning_text, trimmedCount);
+            overflowText.setText(text);
+        }
+        else
+        {
+            overflowText.setVisibility(View.GONE);
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

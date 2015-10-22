@@ -63,6 +63,16 @@
         android:layout_weight="1"
         android:orientation="vertical"/>
 
+    <TextView
+        android:id="@+id/lunar_console_text_overflow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/lunar_console_color_warning_background"
+        android:gravity="center"
+        android:text="@string/lunar_console_overflow_warning_text"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/lunar_console_color_warning_text"/>
+
     <!-- TODO: better solution. Can't just use Space since it requires API Level 14 -->
     <RelativeLayout
         android:layout_width="match_parent"

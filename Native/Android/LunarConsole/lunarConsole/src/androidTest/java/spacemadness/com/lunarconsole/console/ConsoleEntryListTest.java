@@ -288,7 +288,7 @@ public class ConsoleEntryListTest extends TestCase
 
     private ConsoleEntryList createEntryListWithMessages(String... messages)
     {
-        ConsoleEntryList list = new ConsoleEntryList(100);
+        ConsoleEntryList list = new ConsoleEntryList(100, 1);
         for (String message : messages)
         {
             list.addEntry(new ConsoleEntry(LOG, message));
@@ -298,7 +298,7 @@ public class ConsoleEntryListTest extends TestCase
 
     private ConsoleEntryList createEntryListWithEntries(ConsoleEntry... entries)
     {
-        ConsoleEntryList list = new ConsoleEntryList(100);
+        ConsoleEntryList list = new ConsoleEntryList(100, 1);
         for (ConsoleEntry entry : entries)
         {
             list.addEntry(entry);

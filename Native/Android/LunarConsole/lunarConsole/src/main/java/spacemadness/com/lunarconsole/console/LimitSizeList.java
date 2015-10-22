@@ -28,15 +28,17 @@ import spacemadness.com.lunarconsole.utils.CycleArray;
 public class LimitSizeList<T> implements Iterable<T>
 {
     private final CycleArray<T> internalArray;
+    private final int trimSize;
 
-    public LimitSizeList(Class<? extends T> cls, int capacity)
+    public LimitSizeList(Class<? extends T> cls, int capacity, int trimSize)
     {
         if (capacity < 0)
         {
             throw new IllegalArgumentException("Illegal capacity: " + capacity);
         }
 
-        internalArray = new CycleArray<>(cls, capacity);
+        this.internalArray = new CycleArray<>(cls, capacity);
+        this.trimSize = trimSize;
     }
 
     public T objectAtIndex(int index)
@@ -46,6 +48,10 @@ public class LimitSizeList<T> implements Iterable<T>
 
     public void addObject(T object)
     {
+        if (willOverflow())
+        {
+            trimHead(trimSize);
+        }
         internalArray.add(object);
     }
 
@@ -80,6 +86,11 @@ public class LimitSizeList<T> implements Iterable<T>
         return internalArray.realLength();
     }
 
+    public int getTrimSize()
+    {
+        return trimSize;
+    }
+
     public int overflowCount()
     {
         return internalArray.getHeadIndex();
@@ -93,5 +104,15 @@ public class LimitSizeList<T> implements Iterable<T>
     public boolean willOverflow()
     {
         return internalArray.realLength() == internalArray.getCapacity();
+    }
+
+    public boolean isTrimmed()
+    {
+        return trimmedCount() > 0;
+    }
+
+    public int trimmedCount()
+    {
+        return totalCount() - count();
     }
 }

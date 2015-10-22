@@ -35,107 +35,110 @@ public class LimitSizeListTest extends TestCase
         listAssertObjects(list, "1", "2", "3");
     }
 
-    public void testAddElementsOverCapacity()
+    public void testTrimElements()
     {
-        TestList list = new TestList(3);
-        
+        TestList list = new TestList(3, 2);
+        assertEquals(0, list.count());
         assertEquals(0, list.totalCount());
-        assertFalse(list.willOverflow());
-        assertFalse(list.isOverfloating());
+        assertEquals(0, list.trimmedCount());
+        assertFalse(list.isTrimmed());
 
         list.addObject("1");
+        assertEquals(1, list.count());
         assertEquals(1, list.totalCount());
-        assertFalse(list.willOverflow());
-        assertFalse(list.isOverfloating());
+        assertEquals(0, list.trimmedCount());
+        assertFalse(list.isTrimmed());
 
         list.addObject("2");
+        assertEquals(2, list.count());
         assertEquals(2, list.totalCount());
-        assertFalse(list.willOverflow());
-        assertFalse(list.isOverfloating());
+        assertEquals(0, list.trimmedCount());
+        assertFalse(list.isTrimmed());
 
         list.addObject("3");
+        assertEquals(3, list.count());
         assertEquals(3, list.totalCount());
-        assertTrue(list.willOverflow());
-        assertFalse(list.isOverfloating());
+        assertEquals(0, list.trimmedCount());
+        assertFalse(list.isTrimmed());
 
         list.addObject("4");
+        assertEquals(2, list.count());
         assertEquals(4, list.totalCount());
-        assertTrue(list.willOverflow());
-        assertTrue(list.isOverfloating());
+        assertEquals(2, list.trimmedCount());
+        assertTrue(list.isTrimmed());
 
-        listAssertObjects(list, "2", "3", "4");
-    }
-
-    public void testAddElementsWayOverCapacity()
-    {
-        TestList list = new TestList(3);
-        assertEquals(0, list.totalCount());
-        assertFalse(list.willOverflow());
-        assertFalse(list.isOverfloating());
-
-        list.addObject("1");
-        assertEquals(1, list.totalCount());
-        assertFalse(list.willOverflow());
-        assertFalse(list.isOverfloating());
-
-        list.addObject("2");
-        assertEquals(2, list.totalCount());
-        assertFalse(list.willOverflow());
-        assertFalse(list.isOverfloating());
-
-        list.addObject("3");
-        assertEquals(3, list.totalCount());
-        assertTrue(list.willOverflow());
-        assertFalse(list.isOverfloating());
-
-        list.addObject("4");
-        assertEquals(4, list.totalCount());
-        assertTrue(list.willOverflow());
-        assertTrue(list.isOverfloating());
+        listAssertObjects(list, "3", "4");
 
         list.addObject("5");
+        assertEquals(3, list.count());
         assertEquals(5, list.totalCount());
-        assertTrue(list.willOverflow());
-        assertTrue(list.isOverfloating());
+        assertEquals(2, list.trimmedCount());
+        assertTrue(list.isTrimmed());
+
+        listAssertObjects(list, "3", "4", "5");
 
         list.addObject("6");
+        assertEquals(2, list.count());
         assertEquals(6, list.totalCount());
-        assertTrue(list.willOverflow());
-        assertTrue(list.isOverfloating());
+        assertEquals(4, list.trimmedCount());
+        assertTrue(list.isTrimmed());
+
+        listAssertObjects(list, "5", "6");
 
         list.addObject("7");
+        assertEquals(3, list.count());
         assertEquals(7, list.totalCount());
-        assertTrue(list.willOverflow());
-        assertTrue(list.isOverfloating());
+        assertEquals(4, list.trimmedCount());
+        assertTrue(list.isTrimmed());
 
         listAssertObjects(list, "5", "6", "7");
     }
 
-    public void testTrimHead()
+    public void testTrimElementsAndClear()
     {
-        TestList list = new TestList(3);
+        TestList list = new TestList(3, 2);
         list.addObject("1");
         list.addObject("2");
         list.addObject("3");
         list.addObject("4");
 
-        assertTrue(list.willOverflow());
-        assertTrue(list.isOverfloating());
+        list.clear();
+        assertEquals(0, list.count());
+        assertEquals(0, list.totalCount());
+        assertEquals(0, list.trimmedCount());
+        assertFalse(list.isTrimmed());
 
-        list.trimHead(1);
-        listAssertObjects(list, "3", "4");
-        assertFalse(list.willOverflow());
-        assertFalse(list.isOverfloating());
+        list.addObject("5");
+        assertEquals(1, list.count());
+        assertEquals(1, list.totalCount());
+        assertEquals(0, list.trimmedCount());
+        assertFalse(list.isTrimmed());
 
-        list.trimHead(1);
-        listAssertObjects(list, "4");
-        assertFalse(list.willOverflow());
-        assertFalse(list.isOverfloating());
+        listAssertObjects(list, "5");
 
-        list.trimHead(1);
-        listAssertObjects(list);
-        assertFalse(list.willOverflow());
-        assertFalse(list.isOverfloating());
+        list.addObject("6");
+        assertEquals(2, list.count());
+        assertEquals(2, list.totalCount());
+        assertEquals(0, list.trimmedCount());
+        assertFalse(list.isTrimmed());
+
+        listAssertObjects(list, "5", "6");
+
+        list.addObject("7");
+        assertEquals(3, list.count());
+        assertEquals(3, list.totalCount());
+        assertEquals(0, list.trimmedCount());
+        assertFalse(list.isTrimmed());
+
+        listAssertObjects(list, "5", "6", "7");
+
+        list.addObject("8");
+        assertEquals(2, list.count());
+        assertEquals(4, list.totalCount());
+        assertEquals(2, list.trimmedCount());
+        assertTrue(list.isTrimmed());
+
+        listAssertObjects(list, "7", "8");
     }
 
     private void listAssertObjects(TestList list, String... expected)
@@ -151,7 +154,12 @@ public class LimitSizeListTest extends TestCase
     {
         public TestList(int capacity)
         {
-            super(String.class, capacity);
+            this(capacity, 1);
+        }
+
+        public TestList(int capacity, int trimSize)
+        {
+            super(String.class, capacity, trimSize);
         }
     }
 }

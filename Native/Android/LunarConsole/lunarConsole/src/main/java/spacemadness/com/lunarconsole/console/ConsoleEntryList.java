@@ -58,9 +58,9 @@ public class ConsoleEntryList
     /** Total count of 'error' log messages */
     private int errorCount;
 
-    public ConsoleEntryList(int capacity)
+    public ConsoleEntryList(int capacity, int trimSize)
     {
-        entries = new LimitSizeEntryList(capacity);
+        entries = new LimitSizeEntryList(capacity, trimSize);
         currentEntries = entries;
         logDisabledTypesMask = 0;
     }
@@ -229,7 +229,7 @@ public class ConsoleEntryList
 
     private LimitSizeEntryList filterEntries(LimitSizeEntryList entries)
     {
-        LimitSizeEntryList list = new LimitSizeEntryList(entries.capacity()); // same capacity as original list
+        LimitSizeEntryList list = new LimitSizeEntryList(entries.capacity(), entries.getTrimSize()); // same as original list
         for (ConsoleEntry entry : entries)
         {
             if (isFiltered(entry))
@@ -307,6 +307,7 @@ public class ConsoleEntryList
         return errorCount;
     }
 
+    @Nullable
     public String getFilterText()
     {
         return filterText;
@@ -322,14 +323,19 @@ public class ConsoleEntryList
         return currentEntries.overflowCount();
     }
 
-    public boolean willOverflow()
-    {
-        return currentEntries.willOverflow();
-    }
-
     public boolean isOverfloating()
     {
         return currentEntries.isOverfloating();
+    }
+
+    public int trimmedCount()
+    {
+        return currentEntries.trimmedCount();
+    }
+
+    public boolean isTrimmed()
+    {
+        return currentEntries.isTrimmed();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -337,9 +343,9 @@ public class ConsoleEntryList
 
     private static class LimitSizeEntryList extends LimitSizeList<ConsoleEntry>
     {
-        public LimitSizeEntryList(int capacity)
+        public LimitSizeEntryList(int capacity, int trimSize)
         {
-            super(ConsoleEntry.class, capacity);
+            super(ConsoleEntry.class, capacity, trimSize);
         }
     }
 }

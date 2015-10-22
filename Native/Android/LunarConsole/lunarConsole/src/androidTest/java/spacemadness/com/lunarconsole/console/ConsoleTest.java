@@ -184,10 +184,10 @@ public class ConsoleTest extends TestCaseEx implements LunarConsoleListener
         return createConsole(capacity, 1);
     }
 
-    private Console createConsole(int capacity, int overflow)
+    private Console createConsole(int capacity, int trimCount)
     {
         Options options = new Options(capacity);
-        options.setOverflowFreeAmount(overflow);
+        options.setTrimCount(trimCount);
         Console console = new Console(options);
         console.setConsoleListener(this);
         return console;
