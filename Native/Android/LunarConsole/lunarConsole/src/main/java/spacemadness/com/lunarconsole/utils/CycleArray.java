@@ -57,7 +57,7 @@ public class CycleArray<E> implements Iterable<E>
         return null; // no items were destroyed
     }
 
-    public void Clear()
+    public void clear()
     {
         for (int i = 0; i < internalArray.length; ++i)
         {

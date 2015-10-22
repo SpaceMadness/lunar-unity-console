@@ -56,7 +56,7 @@ public class LimitSizeList<T> implements Iterable<T>
 
     public void clear()
     {
-        internalArray.Clear();
+        internalArray.clear();
     }
 
     @Override
