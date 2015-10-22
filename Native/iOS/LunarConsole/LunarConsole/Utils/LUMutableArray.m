@@ -19,18 +19,18 @@
 //  limitations under the License.
 //
 
-#import "LULimitSizeList.h"
+#import "LUMutableArray.h"
 
 #import "Lunar.h"
 
-@interface LULimitSizeList ()
+@interface LUMutableArray ()
 {
     NSMutableArray * _objects;
 }
 
 @end
 
-@implementation LULimitSizeList
+@implementation LUMutableArray
 
 + (instancetype)listWithCapacity:(NSUInteger)capacity trimCount:(NSUInteger)trimCount
 {
@@ -85,8 +85,8 @@
 
 - (void)removeAllObjects
 {
-    /* NSMutableArray array never shinks after growing */
-    LU_RELEASE(_objects);
+    LU_RELEASE(_objects); // NSMutableArray array never shinks after growing
+    
     _objects = [NSMutableArray new];
     _totalCount = 0;
 }

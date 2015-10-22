@@ -25,11 +25,11 @@
 		EF0836A91B7ABCCE00DFB877 /* LUWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = EF0836901B7ABCCE00DFB877 /* LUWindow.m */; };
 		EF0836AA1B7ABCCE00DFB877 /* LUAssert.m in Sources */ = {isa = PBXBuildFile; fileRef = EF0836931B7ABCCE00DFB877 /* LUAssert.m */; };
 		EF0836AB1B7ABCCE00DFB877 /* LUAvailability.m in Sources */ = {isa = PBXBuildFile; fileRef = EF0836951B7ABCCE00DFB877 /* LUAvailability.m */; };
-		EF0836AC1B7ABCCE00DFB877 /* LULimitSizeList.m in Sources */ = {isa = PBXBuildFile; fileRef = EF0836981B7ABCCE00DFB877 /* LULimitSizeList.m */; };
+		EF0836AC1B7ABCCE00DFB877 /* LUMutableArray.m in Sources */ = {isa = PBXBuildFile; fileRef = EF0836981B7ABCCE00DFB877 /* LUMutableArray.m */; };
 		EF0836AD1B7ABCCE00DFB877 /* LUObject.m in Sources */ = {isa = PBXBuildFile; fileRef = EF08369A1B7ABCCE00DFB877 /* LUObject.m */; };
 		EF0836AE1B7ABCCE00DFB877 /* LUThreading.m in Sources */ = {isa = PBXBuildFile; fileRef = EF08369C1B7ABCCE00DFB877 /* LUThreading.m */; };
 		EF8703191B7BDE70004D6491 /* LUConsoleDetailsController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8703171B7BDE70004D6491 /* LUConsoleDetailsController.m */; };
-		EFFF63231B7553EC001E6E1E /* LULimitSizeListTest.m in Sources */ = {isa = PBXBuildFile; fileRef = EFFF63221B7553EC001E6E1E /* LULimitSizeListTest.m */; };
+		EFFF63231B7553EC001E6E1E /* LUMutableArrayTest.m in Sources */ = {isa = PBXBuildFile; fileRef = EFFF63221B7553EC001E6E1E /* LUMutableArrayTest.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -126,8 +126,8 @@
 		EF0836941B7ABCCE00DFB877 /* LUAvailability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUAvailability.h; sourceTree = "<group>"; };
 		EF0836951B7ABCCE00DFB877 /* LUAvailability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUAvailability.m; sourceTree = "<group>"; };
 		EF0836961B7ABCCE00DFB877 /* LUDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUDefines.h; sourceTree = "<group>"; };
-		EF0836971B7ABCCE00DFB877 /* LULimitSizeList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LULimitSizeList.h; sourceTree = "<group>"; };
-		EF0836981B7ABCCE00DFB877 /* LULimitSizeList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LULimitSizeList.m; sourceTree = "<group>"; };
+		EF0836971B7ABCCE00DFB877 /* LUMutableArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUMutableArray.h; sourceTree = "<group>"; };
+		EF0836981B7ABCCE00DFB877 /* LUMutableArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUMutableArray.m; sourceTree = "<group>"; };
 		EF0836991B7ABCCE00DFB877 /* LUObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUObject.h; sourceTree = "<group>"; };
 		EF08369A1B7ABCCE00DFB877 /* LUObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUObject.m; sourceTree = "<group>"; };
 		EF08369B1B7ABCCE00DFB877 /* LUThreading.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUThreading.h; sourceTree = "<group>"; };
@@ -136,7 +136,7 @@
 		EF8703161B7BDE70004D6491 /* LUConsoleDetailsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUConsoleDetailsController.h; sourceTree = "<group>"; };
 		EF8703171B7BDE70004D6491 /* LUConsoleDetailsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUConsoleDetailsController.m; sourceTree = "<group>"; };
 		EF8703181B7BDE70004D6491 /* LUConsoleDetailsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LUConsoleDetailsController.xib; sourceTree = "<group>"; };
-		EFFF63221B7553EC001E6E1E /* LULimitSizeListTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LULimitSizeListTest.m; sourceTree = "<group>"; };
+		EFFF63221B7553EC001E6E1E /* LUMutableArrayTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUMutableArrayTest.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -191,7 +191,7 @@
 				840CCCC41BD95AE6000A3879 /* Helpers */,
 				84E5B7BC1B744FA600315599 /* LUConsoleEntryListTest.m */,
 				840CCCC21BD958B5000A3879 /* LUConsoleTest.m */,
-				EFFF63221B7553EC001E6E1E /* LULimitSizeListTest.m */,
+				EFFF63221B7553EC001E6E1E /* LUMutableArrayTest.m */,
 				844741B91B719C3100F5ABD3 /* Supporting Files */,
 			);
 			path = LunarConsoleTests;
@@ -324,8 +324,8 @@
 				EF0836941B7ABCCE00DFB877 /* LUAvailability.h */,
 				EF0836951B7ABCCE00DFB877 /* LUAvailability.m */,
 				EF0836961B7ABCCE00DFB877 /* LUDefines.h */,
-				EF0836971B7ABCCE00DFB877 /* LULimitSizeList.h */,
-				EF0836981B7ABCCE00DFB877 /* LULimitSizeList.m */,
+				EF0836971B7ABCCE00DFB877 /* LUMutableArray.h */,
+				EF0836981B7ABCCE00DFB877 /* LUMutableArray.m */,
 				EF0836991B7ABCCE00DFB877 /* LUObject.h */,
 				EF08369A1B7ABCCE00DFB877 /* LUObject.m */,
 				EF08369B1B7ABCCE00DFB877 /* LUThreading.h */,
@@ -430,7 +430,7 @@
 				EF08369F1B7ABCCE00DFB877 /* LUConsoleEntry.m in Sources */,
 				EF0836A51B7ABCCE00DFB877 /* LUConsoleTableCell.m in Sources */,
 				EF0836AA1B7ABCCE00DFB877 /* LUAssert.m in Sources */,
-				EF0836AC1B7ABCCE00DFB877 /* LULimitSizeList.m in Sources */,
+				EF0836AC1B7ABCCE00DFB877 /* LUMutableArray.m in Sources */,
 				EF8703191B7BDE70004D6491 /* LUConsoleDetailsController.m in Sources */,
 				EF0836A81B7ABCCE00DFB877 /* LUToggleButton.m in Sources */,
 				EF0836A91B7ABCCE00DFB877 /* LUWindow.m in Sources */,
@@ -450,7 +450,7 @@
 				840CCCC31BD958B5000A3879 /* LUConsoleTest.m in Sources */,
 				840CCCC71BD95B01000A3879 /* TestCase.m in Sources */,
 				84E5B7BD1B744FA600315599 /* LUConsoleEntryListTest.m in Sources */,
-				EFFF63231B7553EC001E6E1E /* LULimitSizeListTest.m in Sources */,
+				EFFF63231B7553EC001E6E1E /* LUMutableArrayTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

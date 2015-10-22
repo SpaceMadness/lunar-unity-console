@@ -25,9 +25,9 @@
 
 @interface LUConsoleEntryList ()
 {
-    LULimitSizeList * _entries;
-    LULimitSizeList * _filteredEntries;
-    LULimitSizeList * _currentEntries;
+    LUMutableArray * _entries;
+    LUMutableArray * _filteredEntries;
+    LUMutableArray * _currentEntries;
     LUConsoleLogType  _logDisabledTypesMask;
 }
 
@@ -45,7 +45,7 @@
     self = [super init];
     if (self)
     {
-        _entries = [[LULimitSizeList alloc] initWithCapacity:capacity trimCount:trimCount];
+        _entries = [[LUMutableArray alloc] initWithCapacity:capacity trimCount:trimCount];
         _currentEntries = _entries;
         _logDisabledTypesMask = 0;
     }
@@ -211,9 +211,9 @@
     return NO;
 }
 
-- (void)useFilteredFromEntries:(LULimitSizeList *)entries
+- (void)useFilteredFromEntries:(LUMutableArray *)entries
 {
-    LULimitSizeList *filteredEntries = [self filterEntries:entries];
+    LUMutableArray *filteredEntries = [self filterEntries:entries];
     
     // use filtered items
     _currentEntries = filteredEntries;
@@ -223,10 +223,10 @@
     _filteredEntries = LU_RETAIN(filteredEntries);
 }
 
-- (LULimitSizeList *)filterEntries:(LULimitSizeList *)entries
+- (LUMutableArray *)filterEntries:(LUMutableArray *)entries
 {
-    LULimitSizeList *list = [LULimitSizeList listWithCapacity:entries.capacity      // same capacity
-                                                    trimCount:entries.trimCount];   // and trim policy as original
+    LUMutableArray *list = [LUMutableArray listWithCapacity:entries.capacity      // same capacity
+                                                  trimCount:entries.trimCount];   // and trim policy as original
     for (id entry in entries)
     {
         if ([self filterEntry:entry])

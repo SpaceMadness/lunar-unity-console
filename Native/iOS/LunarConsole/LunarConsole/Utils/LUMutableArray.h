@@ -21,7 +21,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface LULimitSizeList : NSObject<NSFastEnumeration>
+@interface LUMutableArray : NSObject<NSFastEnumeration>
 
 @property (nonatomic, readonly) NSUInteger count;           // number of items added (exluding trimmed)
 @property (nonatomic, readonly) NSUInteger totalCount;      // total items added (might be more that count if trimmed)
