@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		840CCCC31BD958B5000A3879 /* LUConsoleTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 840CCCC21BD958B5000A3879 /* LUConsoleTest.m */; };
+		840CCCC71BD95B01000A3879 /* TestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 840CCCC61BD95B01000A3879 /* TestCase.m */; };
 		844741B51B719C3100F5ABD3 /* libLunarConsole.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 844741A91B719C3100F5ABD3 /* libLunarConsole.a */; };
 		84E5B7BD1B744FA600315599 /* LUConsoleEntryListTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E5B7BC1B744FA600315599 /* LUConsoleEntryListTest.m */; };
 		EF08369E1B7ABCCE00DFB877 /* LUConsole.m in Sources */ = {isa = PBXBuildFile; fileRef = EF0836531B7ABCCE00DFB877 /* LUConsole.m */; };
@@ -53,6 +55,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		840CCCC21BD958B5000A3879 /* LUConsoleTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUConsoleTest.m; sourceTree = "<group>"; };
+		840CCCC51BD95B01000A3879 /* TestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestCase.h; sourceTree = "<group>"; };
+		840CCCC61BD95B01000A3879 /* TestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestCase.m; sourceTree = "<group>"; };
 		844741A91B719C3100F5ABD3 /* libLunarConsole.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libLunarConsole.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		844741B41B719C3100F5ABD3 /* LunarConsoleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LunarConsoleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		844741BA1B719C3100F5ABD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -153,6 +158,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		840CCCC41BD95AE6000A3879 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				840CCCC51BD95B01000A3879 /* TestCase.h */,
+				840CCCC61BD95B01000A3879 /* TestCase.m */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		844741A01B719C3100F5ABD3 = {
 			isa = PBXGroup;
 			children = (
@@ -174,7 +188,9 @@
 		844741B81B719C3100F5ABD3 /* LunarConsoleTests */ = {
 			isa = PBXGroup;
 			children = (
+				840CCCC41BD95AE6000A3879 /* Helpers */,
 				84E5B7BC1B744FA600315599 /* LUConsoleEntryListTest.m */,
+				840CCCC21BD958B5000A3879 /* LUConsoleTest.m */,
 				EFFF63221B7553EC001E6E1E /* LULimitSizeListTest.m */,
 				844741B91B719C3100F5ABD3 /* Supporting Files */,
 			);
@@ -431,6 +447,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				840CCCC31BD958B5000A3879 /* LUConsoleTest.m in Sources */,
+				840CCCC71BD95B01000A3879 /* TestCase.m in Sources */,
 				84E5B7BD1B744FA600315599 /* LUConsoleEntryListTest.m in Sources */,
 				EFFF63231B7553EC001E6E1E /* LULimitSizeListTest.m in Sources */,
 			);
@@ -477,6 +495,7 @@
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -513,6 +532,7 @@
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;

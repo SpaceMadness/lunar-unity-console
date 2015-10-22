@@ -23,16 +23,12 @@
 
 #import "Lunar.h"
 
-static const NSTimeInterval kTableUpdateDelay = 0.1; // 100 ms
-
 static LUConsoleControllerState * _sharedControllerState;
 
 @interface LUConsoleController () <LunarConsoleDelegate, LUToggleButtonDelegate, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
 {
     LUConsole * _console;
     BOOL        _scrollLocked;
-    NSUInteger  _updateScheduled;
-    NSUInteger  _lastUpdateOverflowAmount;
 }
 
 @property (nonatomic, assign) IBOutlet UILabel * statusBarView;
@@ -136,9 +132,6 @@ static LUConsoleControllerState * _sharedControllerState;
     // filter text
     _filterBar.text = _console.entries.filterText;
     
-    // overflow control
-    _lastUpdateOverflowAmount = _console.overflowAmount;
-    
     // log entries count
     [self updateEntriesCount];
 }
@@ -226,18 +219,18 @@ static LUConsoleControllerState * _sharedControllerState;
 
 - (void)lunarConsole:(LUConsole *)console didAddEntry:(LUConsoleEntry *)entry filtered:(BOOL)filtered
 {
-    if (!_updateScheduled && filtered)
+    if (filtered)
     {
-        _updateScheduled = YES;
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(kTableUpdateDelay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            // it's ok to capture self here
-            [self updateTable];
-            _updateScheduled = NO;
-        });
+        [self insertCellsCount:1];
     }
     
     // update entries count
     [self updateEntriesCount];
+}
+
+- (void)lunarConsole:(LUConsole *)console didRemoveRange:(NSRange)range
+{
+    [self removeCellsCount:range.length];
 }
 
 - (void)lunarConsoleDidClearEntries:(LUConsole *)console
@@ -402,54 +395,20 @@ static LUConsoleControllerState * _sharedControllerState;
 }
          
 #pragma mark -
-#pragma mark Entries
+#pragma mark Cell manipulations
 
-- (void)updateTable
+- (void)removeCellsCount:(NSInteger)count
 {
-    NSInteger cellsToInsert = _console.entries.totalCount - [_tableView numberOfRowsInSection:0];
-    if (cellsToInsert == 0)
-    {
-        return;
-    }
-    
-    NSUInteger overflowAmount = _console.overflowAmount;
-    if (overflowAmount > 0) // console is overfloating: need to remove some top cells
-    {
-        [_tableView beginUpdates];
-        
-        cellsToInsert -= _lastUpdateOverflowAmount;
-        
-        [self removeCellsCount:MIN(overflowAmount, cellsToInsert)];
-        [self insertCellsCount:cellsToInsert];
-        
-        [_tableView endUpdates];
-        
-        _lastUpdateOverflowAmount = overflowAmount;
-    }
-    else
-    {
-        [self insertCellsCount:cellsToInsert];
-    }
-    
-    // scroll to end
-    if (_scrollLocked)
-    {
-        [self scrollToBottomAnimated:NO];
-    }
-}
-
-- (void)removeCellsCount:(NSInteger)cellsCount
-{
-    if (cellsCount == 1)
+    if (count == 1)
     {
         NSArray *deleteIndices = [[NSArray alloc] initWithObjects:[NSIndexPath indexPathForRow:0 inSection:0], nil];
         [_tableView deleteRowsAtIndexPaths:deleteIndices withRowAnimation:UITableViewRowAnimationNone];
         LU_RELEASE(deleteIndices);
     }
-    else if (cellsCount > 1)
+    else if (count > 1)
     {
-        NSMutableArray *deleteIndices = [[NSMutableArray alloc] initWithCapacity:cellsCount];
-        for (NSInteger rowIndex = 0; rowIndex < cellsCount; ++rowIndex)
+        NSMutableArray *deleteIndices = [[NSMutableArray alloc] initWithCapacity:count];
+        for (NSInteger rowIndex = 0; rowIndex < count; ++rowIndex)
         {
             [deleteIndices addObject:[NSIndexPath indexPathForRow:rowIndex inSection:0]];
         }
@@ -458,18 +417,18 @@ static LUConsoleControllerState * _sharedControllerState;
     }
 }
 
-- (void)insertCellsCount:(NSInteger)cellsCount
+- (void)insertCellsCount:(NSInteger)count
 {
-    if (cellsCount == 1)
+    if (count == 1)
     {
         NSArray *indices = [[NSArray alloc] initWithObjects:[NSIndexPath indexPathForRow:_console.entriesCount - 1 inSection:0], nil];
         [_tableView insertRowsAtIndexPaths:indices withRowAnimation:UITableViewRowAnimationNone];
         LU_RELEASE(indices);
     }
-    else if (cellsCount > 1)
+    else if (count > 1)
     {
-        NSMutableArray *indices = [[NSMutableArray alloc] initWithCapacity:cellsCount];
-        for (NSInteger i = cellsCount - 1; i >= 0; --i)
+        NSMutableArray *indices = [[NSMutableArray alloc] initWithCapacity:count];
+        for (NSInteger i = count - 1; i >= 0; --i)
         {
             NSInteger rowIndex = _console.entriesCount - i - 1;
             [indices addObject:[NSIndexPath indexPathForRow:rowIndex inSection:0]];
@@ -477,6 +436,12 @@ static LUConsoleControllerState * _sharedControllerState;
         
         [_tableView insertRowsAtIndexPaths:indices withRowAnimation:UITableViewRowAnimationNone];
         LU_RELEASE(indices);
+    }
+    
+    // scroll to end
+    if (_scrollLocked)
+    {
+        [self scrollToBottomAnimated:NO];
     }
 }
 
@@ -504,7 +469,6 @@ static LUConsoleControllerState * _sharedControllerState;
 - (void)reloadData
 {
     [_tableView reloadData];
-    _lastUpdateOverflowAmount = _console.overflowAmount;
 }
 
 - (void)copyTextToClipboard:(NSString *)text

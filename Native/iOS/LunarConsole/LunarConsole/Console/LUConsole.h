@@ -30,6 +30,7 @@
 
 @required
 - (void)lunarConsole:(LUConsole *)console didAddEntry:(LUConsoleEntry *)entry filtered:(BOOL)filtered;
+- (void)lunarConsole:(LUConsole *)console didRemoveRange:(NSRange )range;
 - (void)lunarConsoleDidClearEntries:(LUConsole *)console;
 
 @end
