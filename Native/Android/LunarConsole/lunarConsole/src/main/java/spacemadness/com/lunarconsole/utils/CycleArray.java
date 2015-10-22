@@ -41,7 +41,7 @@ public class CycleArray<E> implements Iterable<E>
         this.internalArray = (E[]) Array.newInstance(componentType, capacity);
     }
 
-    public E Add(E e)
+    public E add(E e)
     {
         int arrayIndex = ToArrayIndex(length);
         E oldItem = internalArray[arrayIndex];

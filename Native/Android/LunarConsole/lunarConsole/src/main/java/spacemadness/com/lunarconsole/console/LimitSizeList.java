@@ -46,7 +46,7 @@ public class LimitSizeList<T> implements Iterable<T>
 
     public void addObject(T object)
     {
-        internalArray.Add(object);
+        internalArray.add(object);
     }
 
     public void trimHead(int count)
