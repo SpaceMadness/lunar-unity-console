@@ -40,66 +40,110 @@
     [self listAssertObjects:list, @"1", @"2", @"3", nil];
 }
 
-- (void)testAddElementsOverCapacity
+- (void)testTrimElements
 {
-    LULimitSizeList *list = [LULimitSizeList listWithCapacity:3 trimCount:1];
+    LULimitSizeList *list = [LULimitSizeList listWithCapacity:3 trimCount:2];
+    XCTAssertEqual(0, list.count);
     XCTAssertEqual(0, list.totalCount);
+    XCTAssertEqual(0, list.trimmedCount);
     XCTAssert(!list.isTrimmed);
     
     [list addObject:@"1"];
+    XCTAssertEqual(1, list.count);
     XCTAssertEqual(1, list.totalCount);
+    XCTAssertEqual(0, list.trimmedCount);
     XCTAssert(!list.isTrimmed);
     
     [list addObject:@"2"];
+    XCTAssertEqual(2, list.count);
     XCTAssertEqual(2, list.totalCount);
+    XCTAssertEqual(0, list.trimmedCount);
     XCTAssert(!list.isTrimmed);
     
     [list addObject:@"3"];
+    XCTAssertEqual(3, list.count);
     XCTAssertEqual(3, list.totalCount);
+    XCTAssertEqual(0, list.trimmedCount);
     XCTAssert(!list.isTrimmed);
     
     [list addObject:@"4"];
+    XCTAssertEqual(2, list.count);
     XCTAssertEqual(4, list.totalCount);
+    XCTAssertEqual(2, list.trimmedCount);
     XCTAssert(list.isTrimmed);
     
-    [self listAssertObjects:list, @"2", @"3", @"4", nil];
-}
-
-- (void)testAddElementsWayOverCapacity
-{
-    LULimitSizeList *list = [LULimitSizeList listWithCapacity:3 trimCount:1];
-    XCTAssertEqual(0, list.totalCount);
-    XCTAssert(!list.isTrimmed);
-    
-    [list addObject:@"1"];
-    XCTAssertEqual(1, list.totalCount);
-    XCTAssert(!list.isTrimmed);
-    
-    [list addObject:@"2"];
-    XCTAssertEqual(2, list.totalCount);
-    XCTAssert(!list.isTrimmed);
-    
-    [list addObject:@"3"];
-    XCTAssertEqual(3, list.totalCount);
-    XCTAssert(!list.isTrimmed);
-    
-    [list addObject:@"4"];
-    XCTAssertEqual(4, list.totalCount);
-    XCTAssert(list.isTrimmed);
+    [self listAssertObjects:list, @"3", @"4", nil];
     
     [list addObject:@"5"];
+    XCTAssertEqual(3, list.count);
     XCTAssertEqual(5, list.totalCount);
+    XCTAssertEqual(2, list.trimmedCount);
     XCTAssert(list.isTrimmed);
+    
+    [self listAssertObjects:list, @"3", @"4", @"5", nil];
     
     [list addObject:@"6"];
+    XCTAssertEqual(2, list.count);
     XCTAssertEqual(6, list.totalCount);
+    XCTAssertEqual(4, list.trimmedCount);
     XCTAssert(list.isTrimmed);
     
+    [self listAssertObjects:list, @"5", @"6", nil];
+    
     [list addObject:@"7"];
+    XCTAssertEqual(3, list.count);
     XCTAssertEqual(7, list.totalCount);
+    XCTAssertEqual(4, list.trimmedCount);
     XCTAssert(list.isTrimmed);
     
     [self listAssertObjects:list, @"5", @"6", @"7", nil];
+}
+
+- (void)testTrimElementsAndClear
+{
+    LULimitSizeList *list = [LULimitSizeList listWithCapacity:3 trimCount:2];
+    [list addObject:@"1"];
+    [list addObject:@"2"];
+    [list addObject:@"3"];
+    [list addObject:@"4"];
+    
+    [list removeAllObjects];
+    XCTAssertEqual(0, list.count);
+    XCTAssertEqual(0, list.totalCount);
+    XCTAssertEqual(0, list.trimmedCount);
+    XCTAssert(!list.isTrimmed);
+
+    [list addObject:@"5"];
+    XCTAssertEqual(1, list.count);
+    XCTAssertEqual(1, list.totalCount);
+    XCTAssertEqual(0, list.trimmedCount);
+    XCTAssert(!list.isTrimmed);
+    
+    [self listAssertObjects:list, @"5", nil];
+    
+    [list addObject:@"6"];
+    XCTAssertEqual(2, list.count);
+    XCTAssertEqual(2, list.totalCount);
+    XCTAssertEqual(0, list.trimmedCount);
+    XCTAssert(!list.isTrimmed);
+    
+    [self listAssertObjects:list, @"5", @"6", nil];
+    
+    [list addObject:@"7"];
+    XCTAssertEqual(3, list.count);
+    XCTAssertEqual(3, list.totalCount);
+    XCTAssertEqual(0, list.trimmedCount);
+    XCTAssert(!list.isTrimmed);
+    
+    [self listAssertObjects:list, @"5", @"6", @"7", nil];
+    
+    [list addObject:@"8"];
+    XCTAssertEqual(2, list.count);
+    XCTAssertEqual(4, list.totalCount);
+    XCTAssertEqual(2, list.trimmedCount);
+    XCTAssert(list.isTrimmed);
+    
+    [self listAssertObjects:list, @"7", @"8", nil];
 }
 
 - (void)listAssertObjects:(LULimitSizeList *)list, ... NS_REQUIRES_NIL_TERMINATION
