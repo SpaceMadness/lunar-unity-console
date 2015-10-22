@@ -41,6 +41,8 @@
 
 @property (nonatomic, readonly) LUConsoleEntryList * entries;
 @property (nonatomic, readonly) NSUInteger entriesCount;
+@property (nonatomic, readonly) NSUInteger trimmedCount;
+@property (nonatomic, readonly) BOOL isTrimmed;
 
 - (instancetype)initWithCapacity:(NSUInteger)capacity trimCount:(NSUInteger)trimCount;
 

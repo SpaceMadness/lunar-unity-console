@@ -58,8 +58,17 @@
 
 - (void)logMessage:(NSString *)message stackTrace:(NSString *)stackTrace type:(LUConsoleLogType)type
 {
+    NSUInteger oldTrimmedCount = _entries.trimmedCount; // trimmed count before we added a new item
+    
     LUConsoleEntry *entry = [[LUConsoleEntry alloc] initWithType:type message:message stackTrace:stackTrace];
     BOOL filtered = [_entries addEntry:entry];
+
+    NSInteger trimmed = _entries.trimmedCount - oldTrimmedCount;
+    if (trimmed > 0) // more items are trimmed
+    {
+        [_delegate lunarConsole:self didRemoveRange:NSMakeRange(0, trimmed)];
+    }
+    
     [_delegate lunarConsole:self didAddEntry:entry filtered:filtered];
     LU_RELEASE(entry);
 }
@@ -67,10 +76,7 @@
 - (void)clear
 {
     [_entries clear];
-    if ([_delegate respondsToSelector:@selector(lunarConsoleDidClearEntries:)])
-    {
-        [_delegate lunarConsoleDidClearEntries:self];
-    }
+    [_delegate lunarConsoleDidClearEntries:self];
 }
 
 - (NSString *)getText
@@ -84,6 +90,16 @@
 - (NSUInteger)entriesCount
 {
     return _entries.count;
+}
+
+- (NSUInteger)trimmedCount
+{
+    return _entries.trimmedCount;
+}
+
+- (BOOL)isTrimmed
+{
+    return _entries.isTrimmed;
 }
 
 @end

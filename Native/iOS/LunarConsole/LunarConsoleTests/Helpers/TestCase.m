@@ -10,13 +10,6 @@
 
 #import "Lunar.h"
 
-@interface TestCase ()
-{
-    NSMutableArray * _result;
-}
-
-@end
-
 @implementation TestCase
 
 - (void)setUp
@@ -40,7 +33,7 @@
     va_list ap;
     va_start(ap, first);
     NSMutableArray *expected = [NSMutableArray array];
-    for (id obj = va_arg(ap, id); obj != nil; obj = va_arg(ap, id))
+    for (id obj = first; obj != nil; obj = va_arg(ap, id))
     {
         [expected addObject:obj];
     }

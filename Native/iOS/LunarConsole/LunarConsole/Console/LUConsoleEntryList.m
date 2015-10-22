@@ -25,9 +25,9 @@
 
 @interface LUConsoleEntryList ()
 {
-    LUMutableArray * _entries;
-    LUMutableArray * _filteredEntries;
-    LUMutableArray * _currentEntries;
+    LUMutableArray  * _entries;
+    LUMutableArray  * _filteredEntries;
+    LUMutableArray  * _currentEntries;
     LUConsoleLogType  _logDisabledTypesMask;
 }
 
@@ -290,6 +290,16 @@
 - (NSUInteger)totalCount
 {
     return _currentEntries.totalCount;
+}
+
+- (NSUInteger)trimmedCount
+{
+    return _currentEntries.trimmedCount;
+}
+
+- (BOOL)isTrimmed
+{
+    return _currentEntries.isTrimmed;
 }
 
 - (BOOL)isFiltering

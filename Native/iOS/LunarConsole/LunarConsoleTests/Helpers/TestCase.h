@@ -12,6 +12,8 @@
 
 @interface TestCase : XCTestCase
 
+@property (nonatomic, readonly) NSMutableArray * result;
+
 - (void)addResult:(id)obj;
 - (void)assertResult:(id)first, ...;
 

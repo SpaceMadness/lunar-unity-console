@@ -27,6 +27,8 @@
 
 @property (nonatomic, readonly) NSUInteger count;
 @property (nonatomic, readonly) NSUInteger totalCount;
+@property (nonatomic, readonly) NSUInteger trimmedCount;
+@property (nonatomic, readonly) BOOL isTrimmed;
 
 @property (nonatomic, readonly) NSString *filterText;
 @property (nonatomic, readonly) BOOL isFiltering;
