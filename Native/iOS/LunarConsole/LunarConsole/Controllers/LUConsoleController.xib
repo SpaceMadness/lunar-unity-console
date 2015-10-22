@@ -11,6 +11,8 @@
                 <outlet property="filterBar" destination="vKS-zo-ZIz" id="MiC-f4-m7a"/>
                 <outlet property="logButton" destination="c7V-25-T5q" id="DkP-wt-c7L"/>
                 <outlet property="logTypeButtonTrailingConstraint" destination="Ykd-vf-gc7" id="vQh-PU-lbJ"/>
+                <outlet property="overflowLabelHeightConstraint" destination="ZcA-il-f8H" id="HZj-qG-BFe"/>
+                <outlet property="overflowWarningLabel" destination="k0I-ks-m0p" id="pZZ-6T-XYm"/>
                 <outlet property="scrollLockButton" destination="Yxu-k1-Kpx" id="4nO-YG-jYi"/>
                 <outlet property="statusBarView" destination="Ouu-Ne-nFv" id="cKb-7P-Jog"/>
                 <outlet property="tableView" destination="fve-SL-Ifu" id="qAk-M1-lqy"/>
@@ -23,10 +25,6 @@
             <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="6UP-5B-w5B" customClass="UILabel">
-                    <rect key="frame" x="0.0" y="0.0" width="600" height="20"/>
-                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                </view>
                 <label contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lunar Console" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ouu-Ne-nFv">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="20"/>
                     <constraints>
@@ -37,7 +35,7 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="fve-SL-Ifu">
-                    <rect key="frame" x="0.0" y="64" width="600" height="490"/>
+                    <rect key="frame" x="0.0" y="64" width="600" height="470"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="pCv-24-uaF"/>
@@ -141,12 +139,23 @@
                         <action selector="onEmail:" destination="-1" eventType="touchUpInside" id="VDJ-rW-K21"/>
                     </connections>
                 </button>
+                <label userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Too much output: %d item(s) trimmed" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k0I-ks-m0p" userLabel="Overflow Warning">
+                    <rect key="frame" x="0.0" y="534" width="600" height="20"/>
+                    <color key="backgroundColor" red="0.43529411764705883" green="0.43137254901960786" blue="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="20" id="ZcA-il-f8H"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
+                    <color key="textColor" red="0.7803921568627451" green="0.7803921568627451" blue="0.7803921568627451" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="dmv-dc-ake" firstAttribute="width" secondItem="jA1-cI-4L9" secondAttribute="width" id="1o4-0S-o2O"/>
                 <constraint firstItem="cXe-z7-jmy" firstAttribute="leading" secondItem="MJy-N8-UoI" secondAttribute="leading" constant="8" id="2Tp-N5-OAo"/>
                 <constraint firstItem="Ouu-Ne-nFv" firstAttribute="top" secondItem="MJy-N8-UoI" secondAttribute="top" id="62Z-u8-Hhk"/>
+                <constraint firstItem="k0I-ks-m0p" firstAttribute="top" secondItem="fve-SL-Ifu" secondAttribute="bottom" id="7W2-ei-aTy"/>
                 <constraint firstItem="cXe-z7-jmy" firstAttribute="baseline" secondItem="Eru-b9-j3c" secondAttribute="baseline" id="9qa-CD-aZG"/>
                 <constraint firstItem="uTu-w2-mXe" firstAttribute="baseline" secondItem="WdV-vA-4jI" secondAttribute="baseline" id="AfV-op-1O3"/>
                 <constraint firstItem="c7V-25-T5q" firstAttribute="centerY" secondItem="vKS-zo-ZIz" secondAttribute="centerY" id="DWe-2c-aok"/>
@@ -159,12 +168,15 @@
                 <constraint firstItem="fve-SL-Ifu" firstAttribute="top" secondItem="vKS-zo-ZIz" secondAttribute="bottom" id="Rb9-0e-kLu"/>
                 <constraint firstAttribute="trailing" secondItem="Ouu-Ne-nFv" secondAttribute="trailing" id="UZN-94-PhZ"/>
                 <constraint firstItem="vKS-zo-ZIz" firstAttribute="leading" secondItem="MJy-N8-UoI" secondAttribute="leading" id="VCt-Nm-L6Q"/>
+                <constraint firstItem="fve-SL-Ifu" firstAttribute="width" secondItem="k0I-ks-m0p" secondAttribute="width" id="Wff-FC-NCP"/>
                 <constraint firstItem="dmv-dc-ake" firstAttribute="height" secondItem="jA1-cI-4L9" secondAttribute="height" id="X9L-Ad-mgV"/>
                 <constraint firstItem="WdV-vA-4jI" firstAttribute="width" secondItem="Yxu-k1-Kpx" secondAttribute="width" id="Xpn-6n-2at"/>
                 <constraint firstItem="uTu-w2-mXe" firstAttribute="height" secondItem="WdV-vA-4jI" secondAttribute="height" id="Xsv-MU-yFw"/>
                 <constraint firstAttribute="trailing" secondItem="dmv-dc-ake" secondAttribute="trailing" id="Ykd-vf-gc7"/>
                 <constraint firstItem="uTu-w2-mXe" firstAttribute="leading" secondItem="WdV-vA-4jI" secondAttribute="trailing" constant="8" id="Zco-CT-toH"/>
+                <constraint firstItem="fve-SL-Ifu" firstAttribute="centerX" secondItem="k0I-ks-m0p" secondAttribute="centerX" id="bxK-q1-tT5"/>
                 <constraint firstItem="WdV-vA-4jI" firstAttribute="baseline" secondItem="Yxu-k1-Kpx" secondAttribute="baseline" id="dcw-Ms-fEf"/>
+                <constraint firstItem="cXe-z7-jmy" firstAttribute="top" secondItem="k0I-ks-m0p" secondAttribute="bottom" constant="8" id="eB7-aV-k9s"/>
                 <constraint firstItem="c7V-25-T5q" firstAttribute="leading" secondItem="vKS-zo-ZIz" secondAttribute="trailing" id="eMS-wO-DGX"/>
                 <constraint firstItem="uTu-w2-mXe" firstAttribute="width" secondItem="WdV-vA-4jI" secondAttribute="width" id="f3M-jg-luu"/>
                 <constraint firstItem="Ouu-Ne-nFv" firstAttribute="leading" secondItem="MJy-N8-UoI" secondAttribute="leading" id="f8x-BZ-nwU"/>
@@ -180,16 +192,10 @@
                 <constraint firstAttribute="trailing" secondItem="Eru-b9-j3c" secondAttribute="trailing" constant="8" id="n56-OD-K1o"/>
                 <constraint firstItem="dmv-dc-ake" firstAttribute="baseline" secondItem="jA1-cI-4L9" secondAttribute="baseline" id="pCp-AZ-beB"/>
                 <constraint firstItem="fve-SL-Ifu" firstAttribute="leading" secondItem="MJy-N8-UoI" secondAttribute="leading" id="tUY-sq-S42"/>
-                <constraint firstItem="cXe-z7-jmy" firstAttribute="top" secondItem="fve-SL-Ifu" secondAttribute="bottom" constant="8" id="vdm-MO-Mp7"/>
                 <constraint firstItem="c7V-25-T5q" firstAttribute="width" secondItem="jA1-cI-4L9" secondAttribute="width" id="xgT-1T-4pl"/>
                 <constraint firstItem="cXe-z7-jmy" firstAttribute="height" secondItem="Yxu-k1-Kpx" secondAttribute="height" id="zHd-fc-078"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
-            <variation key="default">
-                <mask key="subviews">
-                    <exclude reference="6UP-5B-w5B"/>
-                </mask>
-            </variation>
         </view>
     </objects>
     <resources>

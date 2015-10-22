@@ -66,17 +66,23 @@
     NSInteger trimmed = _entries.trimmedCount - oldTrimmedCount;
     if (trimmed > 0) // more items are trimmed
     {
-        [_delegate lunarConsole:self didRemoveRange:NSMakeRange(0, trimmed)];
+        if ([_delegate respondsToSelector:@selector(lunarConsole:didRemoveRange:)])
+        {
+            [_delegate lunarConsole:self didRemoveRange:NSMakeRange(0, trimmed)];
+        }
     }
     
-    [_delegate lunarConsole:self didAddEntry:entry filtered:filtered];
+    [_delegate lunarConsole:self didAddEntry:entry filtered:filtered trimmedCount:trimmed];
     LU_RELEASE(entry);
 }
 
 - (void)clear
 {
     [_entries clear];
-    [_delegate lunarConsoleDidClearEntries:self];
+    if ([_delegate respondsToSelector:@selector(lunarConsoleDidClearEntries:)])
+    {
+        [_delegate lunarConsoleDidClearEntries:self];
+    }
 }
 
 - (NSString *)getText

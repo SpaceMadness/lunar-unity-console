@@ -32,6 +32,7 @@ static LUConsoleControllerState * _sharedControllerState;
 }
 
 @property (nonatomic, assign) IBOutlet UILabel * statusBarView;
+@property (nonatomic, assign) IBOutlet UILabel * overflowWarningLabel;
 
 @property (nonatomic, assign) IBOutlet UITableView * tableView;
 @property (nonatomic, assign) IBOutlet UISearchBar * filterBar;
@@ -43,6 +44,7 @@ static LUConsoleControllerState * _sharedControllerState;
 @property (nonatomic, assign) IBOutlet LUToggleButton  * scrollLockButton;
 
 @property (nonatomic, assign) IBOutlet NSLayoutConstraint * logTypeButtonTrailingConstraint;
+@property (nonatomic, assign) IBOutlet NSLayoutConstraint * overflowLabelHeightConstraint;
 
 @end
 
@@ -134,6 +136,9 @@ static LUConsoleControllerState * _sharedControllerState;
     
     // log entries count
     [self updateEntriesCount];
+    
+    // overflow warning
+    [self updateOverflowWarning];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -217,9 +222,28 @@ static LUConsoleControllerState * _sharedControllerState;
 #pragma mark -
 #pragma mark LunarConsoleDelegate
 
-- (void)lunarConsole:(LUConsole *)console didAddEntry:(LUConsoleEntry *)entry filtered:(BOOL)filtered
+- (void)lunarConsole:(LUConsole *)console didAddEntry:(LUConsoleEntry *)entry
+            filtered:(BOOL)filtered
+        trimmedCount:(NSUInteger)trimmedCount
 {
-    if (filtered)
+    if (trimmedCount > 0)
+    {
+        // show warning
+        [self showOverflowCount:console.trimmedCount];
+        
+        // update cells
+        [_tableView beginUpdates];
+        
+        [self removeCellsCount:trimmedCount];
+        
+        if (filtered)
+        {
+            [self insertCellsCount:1];
+        }
+        
+        [_tableView endUpdates];
+    }
+    else if (filtered)
     {
         [self insertCellsCount:1];
     }
@@ -228,14 +252,10 @@ static LUConsoleControllerState * _sharedControllerState;
     [self updateEntriesCount];
 }
 
-- (void)lunarConsole:(LUConsole *)console didRemoveRange:(NSRange)range
-{
-    [self removeCellsCount:range.length];
-}
-
 - (void)lunarConsoleDidClearEntries:(LUConsole *)console
 {
     [self reloadData];
+    [self updateOverflowWarning];
 }
 
 #pragma mark -
@@ -391,6 +411,45 @@ static LUConsoleControllerState * _sharedControllerState;
         dispatch_async(dispatch_get_main_queue(), ^{
             [searchBar resignFirstResponder];
         });
+    }
+}
+
+#pragma mark -
+#pragma mark Overflow
+
+- (void)updateOverflowWarning
+{
+    NSUInteger trimmedCount = _console.trimmedCount;
+    if (trimmedCount > 0)
+    {
+        [self showOverflowCount:trimmedCount];
+    }
+    else
+    {
+        [self hideOverflowCount];
+    }
+}
+
+- (void)showOverflowCount:(NSUInteger)count
+{
+    if (_overflowLabelHeightConstraint.constant == 0)
+    {
+        _overflowLabelHeightConstraint.constant = 20;
+        [self.view layoutIfNeeded];
+    }
+    
+    NSString *text = count > 999 ? @"Too much output: 999+ items trimmed" :
+        [NSString stringWithFormat:@"Too much output: %ld item(s) trimmed", count];
+    
+    _overflowWarningLabel.text = text;
+}
+
+- (void)hideOverflowCount
+{
+    if (_overflowLabelHeightConstraint.constant > 0)
+    {
+        _overflowLabelHeightConstraint.constant = 0;
+        [self.view layoutIfNeeded];
     }
 }
          
