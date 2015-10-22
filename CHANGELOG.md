@@ -1,6 +1,12 @@
 # Lunar Console Changelog
 
-## v.0.0.4b - TBA
+## v.0.0.5b - TBA
+
+**Improvements:**
+
+* Better overflow management.
+
+## v.0.0.4b - 10/13/2015
 
 **New:**
 
@@ -10,7 +16,7 @@
 
 * iOS: fixed "scroll lock" button state.
 
-## v.0.0.3b - 6/10/15
+## v.0.0.3b - 10/6/15
 
 **New:**
 
