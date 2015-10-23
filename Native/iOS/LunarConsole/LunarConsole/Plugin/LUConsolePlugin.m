@@ -39,7 +39,7 @@ static const CGFloat kWarningHeight = 45.0f;
 
 @implementation LUConsolePlugin
 
-- (instancetype)initWithVersion:(NSString *)version capacity:(NSUInteger)capacity
+- (instancetype)initWithVersion:(NSString *)version capacity:(NSUInteger)capacity trimCount:(NSUInteger)trimCount
 {
     self = [super init];
     if (self)
@@ -54,7 +54,7 @@ static const CGFloat kWarningHeight = 45.0f;
         }
         
         _version = LU_RETAIN(version);
-        _console = [[LUConsole alloc] initWithCapacity:capacity trimCount:1]; // FIXME: use real value from the script
+        _console = [[LUConsole alloc] initWithCapacity:capacity trimCount:trimCount];
     }
     return self;
 }

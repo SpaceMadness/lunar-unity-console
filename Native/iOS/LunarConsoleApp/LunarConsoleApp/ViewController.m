@@ -24,7 +24,8 @@
 #import "Lunar.h"
 #import "Data.h"
 
-static const NSUInteger kConsoleCapacity = 1024;
+static const NSUInteger kConsoleCapacity  = 1024;
+static const NSUInteger kConsoleTrimCount = 128;
 
 @interface ViewController ()
 {
@@ -40,7 +41,7 @@ static const NSUInteger kConsoleCapacity = 1024;
 {
     [super viewDidLoad];
     
-    _plugin = [[LUConsolePlugin alloc] initWithVersion:@"0.0.0b" capacity:kConsoleCapacity];
+    _plugin = [[LUConsolePlugin alloc] initWithVersion:@"0.0.0b" capacity:kConsoleCapacity trimCount:kConsoleTrimCount];
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [self showConsoleController];
