@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity
 {
     private static final String KEY_TEXT_DELAY = "delay";
     private static final String KEY_TEXT_CAPACITY = "capacity";
+    private static final String KEY_TEXT_TRIM = "trim";
     private static final String KEY_CHECKBOX_USE_MAIN_THREAD = "use_main_thread";
 
     private static final String[] MESSAGES = {
@@ -103,6 +104,7 @@ public class MainActivity extends AppCompatActivity
 
     private EditText delayEditText;
     private EditText capacityEditText;
+    private EditText trimEditText;
     private CheckBox useMainThreadCheckBox;
 
     private DispatchQueue mainQueue;
@@ -119,18 +121,20 @@ public class MainActivity extends AppCompatActivity
 
         delayEditText = (EditText) findViewById(R.id.edit_text_delay);
         capacityEditText = (EditText) findViewById(R.id.edit_text_capacity);
+        trimEditText = (EditText) findViewById(R.id.edit_text_trim);
         useMainThreadCheckBox = (CheckBox) findViewById(R.id.checkbox_use_main_thread);
 
         restoreUIState();
 
         final int capacity = Integer.parseInt(capacityEditText.getText().toString());
+        final int trim = Integer.parseInt(trimEditText.getText().toString());
 
         dispatchOnSelectedQueue(new Runnable()
         {
             @Override
             public void run()
             {
-                ConsolePlugin.init(MainActivity.this, "0.0.0b", capacity);
+                ConsolePlugin.init(MainActivity.this, "0.0.0b", capacity, trim);
             }
         });
 
@@ -281,6 +285,7 @@ public class MainActivity extends AppCompatActivity
         SharedPreferences prefs = getSharedPreferences();
         SharedPreferences.Editor editor = prefs.edit();
         saveState(editor, KEY_TEXT_CAPACITY, capacityEditText);
+        saveState(editor, KEY_TEXT_TRIM, trimEditText);
         saveState(editor, KEY_TEXT_DELAY, delayEditText);
         saveState(editor, KEY_CHECKBOX_USE_MAIN_THREAD, useMainThreadCheckBox);
         editor.apply();
@@ -291,6 +296,7 @@ public class MainActivity extends AppCompatActivity
         SharedPreferences prefs = getSharedPreferences();
 
         loadState(prefs, KEY_TEXT_CAPACITY, capacityEditText);
+        loadState(prefs, KEY_TEXT_TRIM, trimEditText);
         loadState(prefs, KEY_TEXT_DELAY, delayEditText);
         loadState(prefs, KEY_CHECKBOX_USE_MAIN_THREAD, useMainThreadCheckBox);
     }

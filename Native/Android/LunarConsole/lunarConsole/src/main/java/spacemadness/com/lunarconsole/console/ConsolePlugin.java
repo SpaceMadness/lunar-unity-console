@@ -93,39 +93,48 @@ public class ConsolePlugin implements
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Static interface
 
-    public static void init(String version, int capacity)
+    public static void init(String version, int capacity, int trim)
     {
         Activity activity = UnityPlayer.currentActivity;
-        init(activity, version, capacity, new UnityPluginImp(activity));
+        init(activity, version, capacity, trim, new UnityPluginImp(activity));
     }
 
-    public static void init(Activity activity, String version, int capacity)
+    public static void init(Activity activity, String version, int capacity, int trim)
     {
-        init(activity, version, capacity, new DefaultPluginImp(activity));
+        init(activity, version, capacity, trim, new DefaultPluginImp(activity));
     }
 
-    private static void init(final Activity activity, final String version, final int capacity, final ConsolePluginImp pluginImp)
+    private static void init(final Activity activity,
+                             final String version,
+                             final int capacity,
+                             final int trim,
+                             final ConsolePluginImp pluginImp)
     {
         if (isRunningOnMainThread())
         {
-            init0(activity, version, capacity, pluginImp);
+            init0(activity, version, capacity, trim, pluginImp);
         }
         else
         {
-            Log.d(PLUGIN, "Tried to initialize plugin on the secondary thread. Scheduling on UI-thread...");
+            Log.d(PLUGIN,
+                    "Tried to initialize plugin on the secondary thread. Scheduling on UI-thread...");
 
             runOnUIThread(new Runnable()
             {
                 @Override
                 public void run()
                 {
-                    init0(activity, version, capacity, pluginImp);
+                    init0(activity, version, capacity, trim, pluginImp);
                 }
             });
         }
     }
 
-    private static void init0(Activity activity, String version, int capacity, ConsolePluginImp pluginImp)
+    private static void init0(Activity activity,
+                              String version,
+                              int capacity,
+                              int trim,
+                              ConsolePluginImp pluginImp)
     {
         try
         {
@@ -133,7 +142,7 @@ public class ConsolePlugin implements
             {
                 Log.d(PLUGIN, "Initializing plugin instance (%s): %d", version, capacity);
 
-                instance = new ConsolePlugin(activity, version, capacity, pluginImp);
+                instance = new ConsolePlugin(activity, version, capacity, trim, pluginImp);
                 instance.enableGestureRecognition();
             }
             else
@@ -281,7 +290,7 @@ public class ConsolePlugin implements
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Constructor
 
-    private ConsolePlugin(Activity activity, String version, int capacity, ConsolePluginImp pluginImp)
+    private ConsolePlugin(Activity activity, String version, int capacity, int trim, ConsolePluginImp pluginImp)
     {
         if (activity == null)
         {
@@ -297,6 +306,7 @@ public class ConsolePlugin implements
         this.pluginImp = pluginImp;
 
         Options options = new Options(capacity);
+        options.setTrimCount(trim);
         console = new Console(options);
         activityRef = new WeakReference<>(activity);
 

@@ -137,7 +137,6 @@ public class ConsoleView extends LinearLayout implements
 
         // setup overflow warning
         overflowText = findExistingViewById(R.id.lunar_console_text_overflow);
-        updateOverflowText();
 
         reloadData();
     }
@@ -229,6 +228,7 @@ public class ConsoleView extends LinearLayout implements
     private void reloadData()
     {
         recyclerViewAdapter.notifyDataSetChanged();
+        updateOverflowText();
     }
 
     private void clearConsole()
@@ -502,7 +502,6 @@ public class ConsoleView extends LinearLayout implements
     {
         reloadData();
         updateLogButtons();
-        updateOverflowText();;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

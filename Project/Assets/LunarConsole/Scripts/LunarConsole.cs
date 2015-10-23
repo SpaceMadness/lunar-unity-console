@@ -44,9 +44,15 @@ namespace LunarConsole
 
     public class LunarConsole : MonoBehaviour
     {
-        [Range(1, 65536)]
+        [Range(128, 65536)]
+        [Tooltip("Logs will be trimmed to the capacity")]
         public int capacity = 4096;
 
+        [Range(128, 65536)]
+        [Tooltip("How many logs will be trimmed when console overflows")]
+        public int trim = 512;
+
+        [Tooltip("Set to 'None' if you want to show console manually")]
         public Gesture gesture = Gesture.SwipeDown;
 
         #if LUNAR_CONSOLE_ENABLED
@@ -68,7 +74,7 @@ namespace LunarConsole
         {
             if (instance == null)
             {
-                if (InitPlatform(capacity))
+                if (InitPlatform(capacity, trim))
                 {
                     instance = this;
                     DontDestroyOnLoad(gameObject);
@@ -100,13 +106,15 @@ namespace LunarConsole
             }
         }
 
-        bool InitPlatform(int capacity)
+        bool InitPlatform(int capacity, int trim)
         {
             try
             {
                 if (platform == null)
                 {
-                    platform = CreatePlatform(capacity);
+                    trim = Math.Min(trim, capacity); // can't trim more that we have
+
+                    platform = CreatePlatform(capacity, trim);
                     if (platform != null)
                     {
                         Application.logMessageReceivedThreaded += delegate(string message, string stackTrace, LogType type) {
@@ -125,17 +133,17 @@ namespace LunarConsole
             return false;
         }
 
-        IPlatform CreatePlatform(int capacity)
+        IPlatform CreatePlatform(int capacity, int trim)
         {
             #if UNITY_IOS || UNITY_IPHONE
             if (Application.platform == RuntimePlatform.IPhonePlayer)
             {
-                return new PlatformIOS(Constants.Version, capacity);
+                return new PlatformIOS(Constants.Version, capacity, trim);
             }
             #elif UNITY_ANDROID
             if (Application.platform == RuntimePlatform.Android)
             {
-                return new PlatformAndroid(Constants.Version, capacity);
+                return new PlatformAndroid(Constants.Version, capacity, trim);
             }
             #endif
 
@@ -154,14 +162,14 @@ namespace LunarConsole
         class PlatformIOS : IPlatform
         {
             [DllImport("__Internal")]
-            private static extern void __lunar_console_initialize(string version, int capacity);
+            private static extern void __lunar_console_initialize(string version, int capacity, int trim);
             
             [DllImport("__Internal")]
             private static extern void __lunar_console_log_message(string message, string stackTrace, int type);
             
-            public PlatformIOS(string version, int capacity)
+            public PlatformIOS(string version, int capacity, int trim)
             {
-                __lunar_console_initialize(version, capacity);
+                __lunar_console_initialize(version, capacity, trim);
             }
             
             public void OnLogMessageReceived(string message, string stackTrace, LogType type)
@@ -198,13 +206,13 @@ namespace LunarConsole
             private readonly IntPtr methodShowConsole;
             private readonly IntPtr methodHideConsole;
 
-            public PlatformAndroid(string version, int capacity)
+            public PlatformAndroid(string version, int capacity, int trim)
             {
                 pluginClass = new AndroidJavaClass(PluginClassName);
                 pluginClassRaw = pluginClass.GetRawClass();
 
-                IntPtr methodInit = GetStaticMethod(pluginClassRaw, "init", "(Ljava.lang.String;I)V");
-                CallStaticVoidMethod(methodInit, new jvalue[] { jval(version), jval(capacity) });
+                IntPtr methodInit = GetStaticMethod(pluginClassRaw, "init", "(Ljava.lang.String;I;I)V");
+                CallStaticVoidMethod(methodInit, new jvalue[] { jval(version), jval(capacity), jval(trim) });
 
                 methodLogMessage = GetStaticMethod(pluginClassRaw, "logMessage", "(Ljava.lang.String;Ljava.lang.String;I)V");
                 methodShowConsole = GetStaticMethod(pluginClassRaw, "show", "()V");

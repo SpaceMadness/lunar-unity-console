@@ -65,13 +65,25 @@
         android:layout_alignEnd="@+id/linearLayout"
         android:text="1024"/>
 
+    <EditText
+        style="@style/IntEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/edit_text_trim"
+        android:layout_below="@+id/edit_text_capacity"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/linearLayout"
+        android:layout_alignEnd="@+id/linearLayout"
+        android:text="128"/>
+
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Use main thread"
         android:checked="true"
         android:id="@+id/checkbox_use_main_thread"
-        android:layout_below="@+id/edit_text_capacity"
+        android:layout_below="@+id/edit_text_trim"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignRight="@+id/edit_text_capacity"
