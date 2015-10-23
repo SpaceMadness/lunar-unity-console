@@ -4,7 +4,7 @@
 
 **Fixes:**
 
-* iOS: fixed missing 'ShowConsole' and 'HideConsole' API calls
+* **iOS**: fixed missing 'ShowConsole' and 'HideConsole' API calls
 
 **Improvements:**
 
@@ -18,7 +18,7 @@
 
 **Fixes:**
 
-* iOS: fixed "scroll lock" button state.
+* **iOS**: fixed "scroll lock" button state.
 
 ## v.0.0.3b - 10/6/15
 
