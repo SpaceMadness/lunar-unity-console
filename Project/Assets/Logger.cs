@@ -18,19 +18,52 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 //
-
-﻿using UnityEngine;
+﻿
+using UnityEngine;
 
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 using LunarConsole;
 
+using Random = System.Random;
+
+public delegate void LogDelegate(string message);
+
 public class Logger : MonoBehaviour
 {
-    public void LogLines()
+    private static readonly string[] MESSAGES = {
+        "Engineer: Somebody has planted a bomb. (lit. It appears that an unknown party has planted an explosive.)",
+        "Radio Operator: We're getting a video on the main screen (lit. A visual is coming on the main screen.)",
+        "CATS: With the cooperation of Federation Forces, all your base are belong to us",
+        "CATS: Treasure what little time remains in your lives.",
+        "Captain: I ask of you, ZIG [units]...",
+        "Captain: ...let there be hope for our future (lit. ...to our future, [restore] hope.)"
+    };
+
+    readonly LogDelegate[] logDelegates = {
+        Logger1.LogDebug,
+        Logger1.LogWarning,
+        Logger1.LogError,
+        Logger2.LogDebug,
+        Logger2.LogWarning,
+        Logger2.LogError,
+        Logger3.LogDebug,
+        Logger3.LogWarning,
+        Logger3.LogError
+    };
+
+    public float delay = 0.5f;
+
+    void Start()
     {
-        StartCoroutine(LogLines(10));
+        Shuffle(logDelegates);
+    }
+
+    public void LogMessages()
+    {
+        StartCoroutine(LogMessages(delay));
     }
 
     public void LogError()
@@ -43,16 +76,31 @@ public class Logger : MonoBehaviour
         LunarConsole.LunarConsole.Show();
     }
 
-    IEnumerator LogLines(int count)
+    IEnumerator LogMessages(float delay)
     {
-        int index = 0;
+        int i = 0;
+        int j = 0;
         while (true)
         {
-            print(index + ": java.lang.RuntimeException: Can't create handler inside thread that has not called Looper.prepare()");
-            ++index;
+            logDelegates[i](MESSAGES[j]);
+            i = (i + 1) % logDelegates.Length;
+            j = (j + 1) % MESSAGES.Length;
 
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(delay);
         }
     }
 
+    void Shuffle<T>(IList<T> list)
+    {
+        Random random = new Random();
+        int n = list.Count;
+        while (n > 1)
+        {
+            --n;
+            int k = random.Next(n + 1);
+            T value = list[k];
+            list[k] = list[n];
+            list[n] = value;
+        }
+    }
 }
