@@ -117,7 +117,7 @@ namespace LunarConsole
                     platform = CreatePlatform(capacity, trim);
                     if (platform != null)
                     {
-                        Application.logMessageReceivedThreaded += delegate(string message, string stackTrace, LogType type) {
+                        Application.logMessageReceived += delegate(string message, string stackTrace, LogType type) {
                             platform.OnLogMessageReceived(message, stackTrace, type);
                         };
 
@@ -186,11 +186,13 @@ namespace LunarConsole
             public bool ShowConsole()
             {
                 __lunar_console_show();
+                return true;
             }
 
             public bool HideConsole()
             {
                 __lunar_console_hide();
+                return true;
             }
         }
 
