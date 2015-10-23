@@ -166,6 +166,12 @@ namespace LunarConsole
             
             [DllImport("__Internal")]
             private static extern void __lunar_console_log_message(string message, string stackTrace, int type);
+
+            [DllImport("__Internal")]
+            private static extern void __lunar_console_show();
+
+            [DllImport("__Internal")]
+            private static extern void __lunar_console_hide();
             
             public PlatformIOS(string version, int capacity, int trim)
             {
@@ -179,12 +185,12 @@ namespace LunarConsole
 
             public bool ShowConsole()
             {
-                throw new NotImplementedException();
+                __lunar_console_show();
             }
 
             public bool HideConsole()
             {
-                throw new NotImplementedException();
+                __lunar_console_hide();
             }
         }
 
