@@ -2,6 +2,10 @@
 
 ## v.0.0.5b - TBA
 
+**Fixes:**
+
+* iOS: fixed missing 'ShowConsole' and 'HideConsole' API calls
+
 **Improvements:**
 
 * Better overflow management.
