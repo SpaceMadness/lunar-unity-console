@@ -25,6 +25,13 @@
 
 static NSArray * _cellSkinLookup;
 
+@interface LUConsoleEntry ()
+{
+    CGFloat _cachedHeight;
+}
+
+@end
+
 @implementation LUConsoleEntry
 
 + (void)load
@@ -63,6 +70,7 @@ static NSArray * _cellSkinLookup;
         _type = type;
         _message = LU_RETAIN(message);
         _stackTrace = LU_RETAIN(stackTrace);
+        _cachedHeight = -1;
     }
     return self;
 }
@@ -119,9 +127,12 @@ static NSArray * _cellSkinLookup;
 - (CGSize)cellSizeForTableView:(UITableView *)tableView
 {
     CGFloat cellWidth = CGRectGetWidth(tableView.bounds);
-    CGFloat cellHeight = [LUConsoleTableCell heightForCellWithText:_message width:cellWidth];
+    if (_cachedHeight < 0.0f)
+    {
+        _cachedHeight = [LUConsoleTableCell heightForCellWithText:_message width:cellWidth];
+    }
     
-    return CGSizeMake(cellWidth, cellHeight);
+    return CGSizeMake(cellWidth, _cachedHeight);
 }
 
 #pragma mark -
