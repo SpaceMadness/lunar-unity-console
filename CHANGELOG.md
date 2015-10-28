@@ -4,7 +4,8 @@
 
 **Fixes:**
 
-* **iOS**: fixed missing 'ShowConsole' and 'HideConsole' API calls
+* **iOS**: fixed poor scrolling perfomance.
+* **iOS**: fixed missing 'ShowConsole' and 'HideConsole' API calls.
 
 **Improvements:**
 
