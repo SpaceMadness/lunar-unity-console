@@ -91,6 +91,8 @@ static UIEdgeInsets _messageInsets;
         _messageLabel.lineBreakMode = theme.lineBreakMode;
         _messageLabel.numberOfLines = 0;
         _messageLabel.opaque = YES;
+        _messageLabel.isAccessibilityElement = YES;
+        _messageLabel.accessibilityIdentifier = @"Log Message Label";
         
         [self.contentView addSubview:_messageLabel];
     }

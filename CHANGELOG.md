@@ -5,6 +5,7 @@
 **Fixes:**
 
 * **iOS**: fixed poor scrolling perfomance.
+* **iOS**: dismiss keyboard when pressing 'Search' button for log filtering.
 * **iOS**: fixed missing 'ShowConsole' and 'HideConsole' API calls.
 
 **Improvements:**

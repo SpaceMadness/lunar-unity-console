@@ -414,6 +414,11 @@ static LUConsoleControllerState * _sharedControllerState;
     }
 }
 
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    [searchBar resignFirstResponder];
+}
+
 #pragma mark -
 #pragma mark Overflow
 
@@ -439,7 +444,7 @@ static LUConsoleControllerState * _sharedControllerState;
     }
     
     NSString *text = count > 999 ? @"Too much output: 999+ items trimmed" :
-        [NSString stringWithFormat:@"Too much output: %ld item(s) trimmed", count];
+        [NSString stringWithFormat:@"Too much output: %d item(s) trimmed", (int)count];
     
     _overflowWarningLabel.text = text;
 }

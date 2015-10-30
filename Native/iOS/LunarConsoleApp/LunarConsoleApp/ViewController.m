@@ -27,11 +27,13 @@
 static const NSUInteger kConsoleCapacity  = 1024;
 static const NSUInteger kConsoleTrimCount = 128;
 
-@interface ViewController ()
+@interface ViewController () <UITextFieldDelegate>
 {
     LUConsolePlugin * _plugin;
     NSUInteger _index;
 }
+
+@property (nonatomic, weak) IBOutlet UITextField *messageText;
 
 @end
 
@@ -42,13 +44,6 @@ static const NSUInteger kConsoleTrimCount = 128;
     [super viewDidLoad];
     
     _plugin = [[LUConsolePlugin alloc] initWithVersion:@"0.0.0b" capacity:kConsoleCapacity trimCount:kConsoleTrimCount];
-    
-    dispatch_async(dispatch_get_main_queue(), ^{
-        [self showConsoleController];
-        
-        _index = 0;
-        [self logNextMessage];
-    });
 }
 
 - (void)didReceiveMemoryWarning {
@@ -59,6 +54,14 @@ static const NSUInteger kConsoleTrimCount = 128;
 #pragma mark -
 #pragma mark Actions
 
+- (IBAction)onToggleLogger:(id)sender
+{
+    [self showConsoleController];
+    
+    _index = 0;
+    [self logNextMessage];
+}
+
 - (IBAction)onShowController:(id)sender
 {
     [self showConsoleController];
@@ -67,6 +70,21 @@ static const NSUInteger kConsoleTrimCount = 128;
 - (IBAction)onShowAlert:(id)sender
 {
     [self showAlert];
+}
+
+- (IBAction)onLogDebug:(id)sender
+{
+    [self logMessageLevel:LUConsoleLogTypeLog];
+}
+
+- (IBAction)onLogWarning:(id)sender
+{
+    [self logMessageLevel:LUConsoleLogTypeWarning];
+}
+
+- (IBAction)onLogError:(id)sender
+{
+    [self logMessageLevel:LUConsoleLogTypeError];
 }
 
 #pragma mark -
@@ -117,6 +135,25 @@ static const NSUInteger kConsoleTrimCount = 128;
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self logNextMessage];
     });
+}
+
+- (void)logMessageLevel:(LUConsoleLogType)logType
+{
+    [self logMessage:_messageText.text stackTrace:nil type:logType];
+}
+
+- (void)logMessage:(NSString *)message stackTrace:(NSString *)stackTrace type:(LUConsoleLogType)type
+{
+    [_plugin logMessage:message stackTrace:stackTrace type:type];
+}
+
+#pragma mark -
+#pragma mark UITextFieldDelegate
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return NO;
 }
 
 @end

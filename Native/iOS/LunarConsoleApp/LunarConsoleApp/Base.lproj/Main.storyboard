@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="7706" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="GeT-2f-Yq5">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9049"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -18,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="evW-4U-GLQ">
-                                <rect key="frame" x="244" y="285" width="111" height="30"/>
+                                <rect key="frame" x="244.5" y="285" width="110" height="30"/>
                                 <state key="normal" title="Show Controller">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -35,18 +36,88 @@
                                     <action selector="onShowAlert:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gxP-9L-RHp"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iu3-T1-O2O">
+                                <rect key="frame" x="257" y="247" width="86" height="30"/>
+                                <state key="normal" title="Start Logger"/>
+                                <connections>
+                                    <action selector="onToggleLogger:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7al-Bg-fS1"/>
+                                </connections>
+                            </button>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LPa-0J-Gun">
+                                <rect key="frame" x="20" y="72" width="399" height="30"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                                <connections>
+                                    <outlet property="delegate" destination="BYZ-38-t0r" id="LU8-q7-g78"/>
+                                </connections>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P6c-4t-lvy">
+                                <rect key="frame" x="427" y="72" width="46" height="30"/>
+                                <state key="normal" title="Debug"/>
+                                <connections>
+                                    <action selector="onLogDebug:" destination="BYZ-38-t0r" eventType="touchUpInside" id="R1h-RV-K5M"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e5g-fh-dT4">
+                                <rect key="frame" x="481" y="72" width="57" height="30"/>
+                                <state key="normal" title="Warning"/>
+                                <connections>
+                                    <action selector="onLogWarning:" destination="BYZ-38-t0r" eventType="touchUpInside" id="f62-sh-byk"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qip-u4-7Vo">
+                                <rect key="frame" x="546" y="72" width="34" height="30"/>
+                                <state key="normal" title="Error"/>
+                                <connections>
+                                    <action selector="onLogError:" destination="BYZ-38-t0r" eventType="touchUpInside" id="lcE-DP-TAA"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="LPa-0J-Gun" firstAttribute="centerY" secondItem="P6c-4t-lvy" secondAttribute="centerY" id="5S9-wg-1pK"/>
                             <constraint firstItem="TwB-1j-1uD" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="AWv-yg-o09"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Qip-u4-7Vo" secondAttribute="trailing" id="T8x-C3-Ugg"/>
+                            <constraint firstItem="Qip-u4-7Vo" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="U0g-Bb-cQb"/>
+                            <constraint firstItem="P6c-4t-lvy" firstAttribute="leading" secondItem="LPa-0J-Gun" secondAttribute="trailing" constant="8" id="VD8-2f-EJS"/>
                             <constraint firstItem="TwB-1j-1uD" firstAttribute="top" secondItem="evW-4U-GLQ" secondAttribute="bottom" constant="8" symbolic="YES" id="W77-1F-rUD"/>
+                            <constraint firstItem="P6c-4t-lvy" firstAttribute="centerY" secondItem="e5g-fh-dT4" secondAttribute="centerY" id="aWw-N0-zEE"/>
+                            <constraint firstItem="Qip-u4-7Vo" firstAttribute="leading" secondItem="e5g-fh-dT4" secondAttribute="trailing" constant="8" id="dOR-Mx-0wD"/>
+                            <constraint firstItem="e5g-fh-dT4" firstAttribute="leading" secondItem="P6c-4t-lvy" secondAttribute="trailing" constant="8" id="idH-GI-SbY"/>
+                            <constraint firstItem="Iu3-T1-O2O" firstAttribute="centerX" secondItem="evW-4U-GLQ" secondAttribute="centerX" id="laq-1P-0EA"/>
+                            <constraint firstItem="e5g-fh-dT4" firstAttribute="centerY" secondItem="Qip-u4-7Vo" secondAttribute="centerY" id="pCU-am-cl8"/>
+                            <constraint firstItem="evW-4U-GLQ" firstAttribute="top" secondItem="Iu3-T1-O2O" secondAttribute="bottom" constant="8" id="pKv-tM-l2r"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="LPa-0J-Gun" secondAttribute="leading" id="po1-8V-U9h"/>
                             <constraint firstItem="evW-4U-GLQ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="taA-Zn-51T"/>
                             <constraint firstItem="evW-4U-GLQ" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="xud-K5-PL3"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="1EB-jZ-et0"/>
+                    <connections>
+                        <outlet property="messageText" destination="LPa-0J-Gun" id="5kG-Ji-3eE"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="1124" y="320"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="i5a-7c-gpB">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="GeT-2f-Yq5" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Ies-gx-3Nd">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="ntE-AN-eBY"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Yek-Nj-wdL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="312" y="320"/>
         </scene>
     </scenes>
 </document>
