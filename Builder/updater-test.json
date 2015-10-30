@@ -1,6 +1,0 @@
-{
-  "status": "OK",
-  "version": "0.0.4b",
-  "message": "What's New:\n* Added scroll-to-top gesture (tap status bar to see first log entry).\n\nFixes:\n* iOS: fixed 'scroll lock' button state.",
-  "url": "http://bit.ly/1Pm4Gsy"
-}
