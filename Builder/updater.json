@@ -1,6 +1,6 @@
 {
   "status": "OK",
-  "version": "0.0.4b",
-  "message": "What's New:\n* Added scroll-to-top gesture (tap status bar to see first log entry).\n\nFixes:\n* iOS: fixed 'scroll lock' button state.",
+  "version": "0.0.5b",
+  "message": "**Fixes:**\n\n* **iOS**: fixed poor scrolling perfomance.\n* **iOS**: dismiss keyboard when pressing 'Search' button for log filtering.\n* **iOS**: fixed missing 'ShowConsole' and 'HideConsole' API calls.\n\n**Improvements:**\n* Better overflow management.",
   "url": "http://bit.ly/1Pm4Gsy"
 }
