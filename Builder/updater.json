@@ -1,6 +1,6 @@
 {
   "status": "OK",
   "version": "0.0.5b",
-  "message": "**Fixes:**\n\n* **iOS**: fixed poor scrolling perfomance.\n* **iOS**: dismiss keyboard when pressing 'Search' button for log filtering.\n* **iOS**: fixed missing 'ShowConsole' and 'HideConsole' API calls.\n\n**Improvements:**\n* Better overflow management.",
+  "message": "Fixes:\n\n* iOS: fixed poor scrolling perfomance.\n* iOS: dismiss keyboard when pressing 'Search' button for log filtering.\n* iOS: fixed missing 'ShowConsole' and 'HideConsole' API calls.\n\nImprovements:\n* Better overflow management.",
   "url": "http://bit.ly/1Pm4Gsy"
 }
