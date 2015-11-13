@@ -1,5 +1,17 @@
 # Lunar Console Changelog
 
+## v.0.0.6b - TBA
+
+**Fixes:**
+
+* **Android**: resolved conflicts with 3rd party Android plugins (GPGS, Facebook, etc).
+* **iOS**: fixed tab bar buttons layout.
+
+**Improvements:**
+
+* Dramatically reduced plugin size (from 1.6M to 250k)
+* Optimized UI resources.
+
 ## v.0.0.5b - 11/11/2015
 
 **Fixes:**
