@@ -1,11 +1,11 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="android:Theme.Light.NoTitleBar">
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="IntEditText" parent="Widget.AppCompat.EditText">
+    <style name="IntEditText" parent="android:Widget.EditText">
         <item name="android:singleLine">true</item>>
         <item name="android:inputType">numberDecimal</item>
         <item name="android:ems">10</item>

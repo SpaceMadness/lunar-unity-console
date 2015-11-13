@@ -7,32 +7,20 @@
 
     <TextView
         android:id="@+id/lunar_console_fake_status_bar"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:background="@color/lunar_console_color_fake_status_bar"
-        android:gravity="center"
-        android:text="@string/lunar_console_title_fake_status_bar"
-        android:textColor="@color/lunar_console_color_fake_status_bar_text"/>
+        style="@style/lunar_console_fake_status_bar_style"
+        android:text="@string/lunar_console_title_fake_status_bar"/>
 
+    <!-- TODO: use styles -->
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="48dp"
         android:background="@color/lunar_console_color_table_title_background"
         android:orientation="horizontal">
 
-        <!-- TODO: use style -->
         <EditText
             android:id="@+id/lunar_console_text_edit_filter"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:hint="Filter"
-            android:imeOptions="actionSearch"
-            android:lines="1"
-            android:singleLine="true"
-            android:textColor="@color/lunar_console_color_cell_text"
-            android:textColorHighlight="@color/lunar_console_color_cell_text"
-            android:textColorHint="@color/lunar_console_color_cell_text"/>
+            style="@style/lunar_console_filter_edit_text_style"
+            android:hint="Filter"/>
 
         <spacemadness.com.lunarconsole.ui.LogTypeButton
             android:id="@+id/lunar_console_log_button"
@@ -52,9 +40,9 @@
     </LinearLayout>
 
     <!--
-     This is a little hack: if we create a RecyclerView in a layout file Unity will require
-     us to create a separate Android plugin with separate resources (otherwise RecyclerView would
-     not be loaded correctly). As a workaround we need to create RecycleView programmatically
+     This is a little hack: if we create a ListView in a layout file Unity will require
+     us to create a separate Android plugin with separate resources (otherwise ListView would
+     not be loaded correctly). As a workaround we need to create ListView programmatically
      -->
     <LinearLayout
         android:id="@+id/lunar_console_recycler_view_container"

@@ -25,8 +25,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.ClipboardManager;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -38,6 +36,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import spacemadness.com.lunarconsole.R;
@@ -61,7 +60,7 @@ public class ConsoleView extends LinearLayout implements
     private final View rootView;
 
     private final Console console;
-    private final RecyclerView recyclerView;
+    private final ListView listView;
     private final ConsoleAdapter recyclerViewAdapter;
 
     private final LogTypeButton logButton;
@@ -99,15 +98,16 @@ public class ConsoleView extends LinearLayout implements
         recyclerViewAdapter = new ConsoleAdapter(console);
 
         // this view would hold all the logs
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         LinearLayout recyclerViewContainer = findExistingViewById(
                 R.id.lunar_console_recycler_view_container);
 
-        recyclerView = new RecyclerView(context);
-        recyclerView.setItemAnimator(null);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(recyclerViewAdapter);
-        recyclerView.setOnTouchListener(new OnTouchListener()
+        listView = new ListView(context);
+        listView.setDivider(null);
+        listView.setDividerHeight(0);
+        listView.setAdapter(recyclerViewAdapter);
+        listView.setOverScrollMode(ListView.OVER_SCROLL_NEVER);
+        listView.setScrollingCacheEnabled(false);
+        listView.setOnTouchListener(new OnTouchListener()
         {
             @Override
             public boolean onTouch(View v, MotionEvent event)
@@ -121,7 +121,7 @@ public class ConsoleView extends LinearLayout implements
             }
         });
 
-        recyclerViewContainer.addView(recyclerView, new LayoutParams(MATCH_PARENT, MATCH_PARENT));
+        recyclerViewContainer.addView(listView, new LayoutParams(MATCH_PARENT, MATCH_PARENT));
 
         // setup filtering elements
         setupFilterTextEdit();
@@ -307,7 +307,7 @@ public class ConsoleView extends LinearLayout implements
             int entryCount = console.getEntryCount();
             if (entryCount > 0)
             {
-                recyclerView.scrollToPosition(entryCount - 1);
+                listView.setSelection(entryCount - 1);
             }
         }
     }
@@ -317,7 +317,7 @@ public class ConsoleView extends LinearLayout implements
         int entryCount = console.getEntryCount();
         if (entryCount > 0)
         {
-            recyclerView.smoothScrollToPosition(0);
+            listView.setSelection(0);
         }
     }
 
@@ -481,7 +481,7 @@ public class ConsoleView extends LinearLayout implements
     {
         if (filtered)
         {
-            recyclerViewAdapter.notifyItemInserted(console.getEntryCount() - 1);
+            recyclerViewAdapter.notifyDataSetChanged();
             scrollToBottom(console);
         }
 
@@ -491,7 +491,7 @@ public class ConsoleView extends LinearLayout implements
     @Override
     public void onRemoveEntries(Console console, int start, int length)
     {
-        recyclerViewAdapter.notifyItemRangeRemoved(start, length);
+        recyclerViewAdapter.notifyDataSetChanged();
         scrollToBottom(console);
         updateLogButtons();
         updateOverflowText();

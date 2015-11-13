@@ -21,10 +21,10 @@
 
 package spacemadness.com.lunarconsoleapp;
 
+import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Looper;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -34,7 +34,7 @@ import spacemadness.com.lunarconsole.console.ConsolePlugin;
 
 import static spacemadness.com.lunarconsole.console.ConsoleLogType.*;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends Activity
 {
     private static final String KEY_TEXT_DELAY = "delay";
     private static final String KEY_TEXT_CAPACITY = "capacity";

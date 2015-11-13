@@ -49,6 +49,7 @@
 		EF0836B21B7ABD1E00DFB877 /* LUExceptionWarningController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF0836B01B7ABD1E00DFB877 /* LUExceptionWarningController.xib */; };
 		EF0836B31B7ABD6D00DFB877 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 844741FA1B719DA500F5ABD3 /* LaunchScreen.xib */; };
 		EF0836B41B7ABD6D00DFB877 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 844741F51B719DA500F5ABD3 /* Main.storyboard */; };
+		EF21AE1B1BF536FE0053D50B /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF21AE1A1BF536FE0053D50B /* MessageUI.framework */; };
 		EF63A15A1B75292A00B18D0B /* Data.m in Sources */ = {isa = PBXBuildFile; fileRef = EF63A1591B75292A00B18D0B /* Data.m */; };
 		EF8189391BE16875008FFCB9 /* LUConsoleControllerUITest.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8189381BE16875008FFCB9 /* LUConsoleControllerUITest.m */; };
 		EF81893C1BE16E58008FFCB9 /* libLunarConsole.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 844742171B719DB600F5ABD3 /* libLunarConsole.a */; };
@@ -149,6 +150,7 @@
 		EF08362F1B7AB5E400DFB877 /* lunar_console_log_button_background@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lunar_console_log_button_background@3x.png"; path = "../../LunarConsole/LunarConsole/Images/lunar_console_log_button_background@3x.png"; sourceTree = "<group>"; };
 		EF0836AF1B7ABD1E00DFB877 /* LUConsoleController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LUConsoleController.xib; path = ../../LunarConsole/LunarConsole/Controllers/LUConsoleController.xib; sourceTree = "<group>"; };
 		EF0836B01B7ABD1E00DFB877 /* LUExceptionWarningController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LUExceptionWarningController.xib; path = ../../LunarConsole/LunarConsole/Controllers/LUExceptionWarningController.xib; sourceTree = "<group>"; };
+		EF21AE1A1BF536FE0053D50B /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		EF63A1581B75292A00B18D0B /* Data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Data.h; sourceTree = "<group>"; };
 		EF63A1591B75292A00B18D0B /* Data.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Data.m; sourceTree = "<group>"; };
 		EF81892E1BE16844008FFCB9 /* LunarConsoleAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LunarConsoleAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -162,6 +164,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF21AE1B1BF536FE0053D50B /* MessageUI.framework in Frameworks */,
 				8447421C1B719F3A00F5ABD3 /* libLunarConsole.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -191,6 +194,7 @@
 				844741EA1B719DA500F5ABD3 /* LunarConsoleApp */,
 				844742041B719DA500F5ABD3 /* LunarConsoleAppTests */,
 				EF81892F1BE16844008FFCB9 /* LunarConsoleAppUITests */,
+				EF21AE1D1BF537EB0053D50B /* Frameworks */,
 				844741E91B719DA500F5ABD3 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -298,6 +302,14 @@
 				EF08362F1B7AB5E400DFB877 /* lunar_console_log_button_background@3x.png */,
 			);
 			name = Assets;
+			sourceTree = "<group>";
+		};
+		EF21AE1D1BF537EB0053D50B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EF21AE1A1BF536FE0053D50B /* MessageUI.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		EF81892F1BE16844008FFCB9 /* LunarConsoleAppUITests */ = {

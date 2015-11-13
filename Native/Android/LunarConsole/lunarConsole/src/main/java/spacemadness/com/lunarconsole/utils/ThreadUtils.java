@@ -23,12 +23,6 @@ package spacemadness.com.lunarconsole.utils;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.NonNull;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import spacemadness.com.lunarconsole.debug.Log;
 
 public class ThreadUtils
 {

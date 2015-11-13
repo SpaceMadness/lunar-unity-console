@@ -37,19 +37,6 @@ class AndroidAARBuildResult
   def initialize(file_aar)
     @file_aar = resolve_path file_aar
     @artifacts = {}
-
-    dir_dependencies = resolve_path "#{File.dirname(file_aar)}/../../intermediates/exploded-aar"
-    Dir.chdir dir_dependencies do
-      Dir['*'].each do |dir_package|
-        Dir.chdir dir_package do
-          Dir['*'].each do |dir_artifact|
-            artifact = extract_artifact(dir_artifact)
-            @artifacts[artifact.name] = artifact
-          end
-        end
-      end
-    end
-
   end
 
   def extract_artifact(dir_artifact)

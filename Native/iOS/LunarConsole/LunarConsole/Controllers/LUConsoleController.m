@@ -19,22 +19,27 @@
 //  limitations under the License.
 //
 
+#import <MessageUI/MessageUI.h>
+
 #import "LUConsoleController.h"
 
 #import "Lunar.h"
 
 static LUConsoleControllerState * _sharedControllerState;
 
-@interface LUConsoleController () <LunarConsoleDelegate, LUToggleButtonDelegate, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate>
+@interface LUConsoleController () <LunarConsoleDelegate, LUToggleButtonDelegate,
+    UITableViewDataSource, UITableViewDelegate,
+    UISearchBarDelegate,
+    MFMessageComposeViewControllerDelegate,
+    LUTableViewTouchDelegate>
 {
     LUConsole * _console;
-    BOOL        _scrollLocked;
 }
 
 @property (nonatomic, assign) IBOutlet UILabel * statusBarView;
 @property (nonatomic, assign) IBOutlet UILabel * overflowWarningLabel;
 
-@property (nonatomic, assign) IBOutlet UITableView * tableView;
+@property (nonatomic, assign) IBOutlet LUTableView * tableView;
 @property (nonatomic, assign) IBOutlet UISearchBar * filterBar;
 
 @property (nonatomic, assign) IBOutlet LULogTypeButton * logButton;
@@ -45,6 +50,8 @@ static LUConsoleControllerState * _sharedControllerState;
 
 @property (nonatomic, assign) IBOutlet NSLayoutConstraint * logTypeButtonTrailingConstraint;
 @property (nonatomic, assign) IBOutlet NSLayoutConstraint * overflowLabelHeightConstraint;
+
+@property (nonatomic, assign) BOOL scrollLocked;
 
 @end
 
@@ -59,7 +66,9 @@ static LUConsoleControllerState * _sharedControllerState;
     
     if ([self class] == [LUConsoleController class])
     {
-        [LULogTypeButton class]; // force linker to add this class
+        // force linker to add these classes for Interface Builder
+        [LUTableView class];
+        [LULogTypeButton class];
     }
 }
 
@@ -113,12 +122,17 @@ static LUConsoleControllerState * _sharedControllerState;
     // background
     self.view.opaque = YES;
     self.view.backgroundColor = theme.tableColor;
+    
+    // table view
+    _tableView.touchDelegate = self;
     _tableView.backgroundColor = theme.tableColor;
     
     // "status bar" view
-    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onStatusBarTap:)];
-    [_statusBarView addGestureRecognizer:tapRecognizer];
-    LU_RELEASE(tapRecognizer);
+    UITapGestureRecognizer *statusBarTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                             action:@selector(onStatusBarTap:)];
+    [_statusBarView addGestureRecognizer:statusBarTapGestureRecognizer];
+    LU_RELEASE(statusBarTapGestureRecognizer);
+    
     _statusBarView.text = [NSString stringWithFormat:@"Lunar Console v%@", _version ? _version : @"?.?.?"];
     
     // log type buttons
@@ -210,10 +224,27 @@ static LUConsoleControllerState * _sharedControllerState;
 
 - (IBAction)onEmail:(id)sender
 {
+    if (![MFMessageComposeViewController canSendText])
+    {
+        LUDisplayAlertView(@"Lunar Mobile Console", @"Log email cannot be sent");
+        return;
+    }
     
+    NSString *bundleName = [[NSBundle mainBundle].infoDictionary objectForKey:@"CFBundleName"];
+    NSString *text = [_console getText];
+    
+    MFMessageComposeViewController* controller = [[MFMessageComposeViewController alloc] init];
+    [controller setMessageComposeDelegate: self];
+    [controller setSubject:[NSString stringWithFormat:@"%@ console log", bundleName]];
+    [controller setBody:text];
+    if (controller)
+    {
+        [self presentViewController:controller animated:YES completion:nil];
+    }
+    LU_RELEASE(controller);
 }
 
-- (IBAction)onStatusBarTap:(id)sender
+- (IBAction)onStatusBarTap:(UITapGestureRecognizer *)recognizer
 {
     _scrollLockButton.on = NO;
     [self scrollToTopAnimated:YES];
@@ -265,8 +296,7 @@ static LUConsoleControllerState * _sharedControllerState;
 {
     if (button == _scrollLockButton)
     {
-        _scrollLocked = button.isOn;
-        [self controllerState].scrollLocked = _scrollLocked;
+        self.scrollLocked = button.isOn;
     }
     else
     {
@@ -420,6 +450,36 @@ static LUConsoleControllerState * _sharedControllerState;
 }
 
 #pragma mark -
+#pragma mark MFMessageComposeViewControllerDelegate
+
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller
+                 didFinishWithResult:(MessageComposeResult)result
+{
+    if (result != MessageComposeResultSent)
+    {
+        LUDisplayAlertView(@"Lunar Mobile Console", @"Log was not sent");
+    }
+    
+    [controller dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark -
+#pragma mark LUTableViewTouchDelegate
+
+- (void)tableView:(LUTableView *)tableView touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    _scrollLockButton.on = NO;
+}
+
+#pragma mark -
+#pragma mark UIScrollViewDelegate
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    _scrollLockButton.on = NO;
+}
+
+#pragma mark -
 #pragma mark Overflow
 
 - (void)updateOverflowWarning
@@ -552,6 +612,12 @@ static LUConsoleControllerState * _sharedControllerState;
 - (LUConsoleControllerState *)controllerState
 {
     return [LUConsoleControllerState sharedControllerState];
+}
+
+- (void)setScrollLocked:(BOOL)scrollLocked
+{
+    _scrollLocked = scrollLocked;
+    [self controllerState].scrollLocked = _scrollLocked;
 }
 
 @end

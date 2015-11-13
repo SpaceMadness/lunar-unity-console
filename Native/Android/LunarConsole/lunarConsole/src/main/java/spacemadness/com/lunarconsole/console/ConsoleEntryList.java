@@ -21,9 +21,6 @@
 
 package spacemadness.com.lunarconsole.console;
 
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-
 import static spacemadness.com.lunarconsole.utils.ObjectUtils.*;
 import static spacemadness.com.lunarconsole.utils.StringUtils.*;
 import static spacemadness.com.lunarconsole.console.ConsoleLogType.*;
@@ -31,19 +28,15 @@ import static spacemadness.com.lunarconsole.console.ConsoleLogType.*;
 public class ConsoleEntryList
 {
     /** Stores all entries */
-    @NonNull
     private final LimitSizeEntryList entries;
 
     /** Stores only filtered entries */
-    @Nullable
     private LimitSizeEntryList filteredEntries;
 
     /** Holds a reference to current entries list */
-    @NonNull
     private LimitSizeEntryList currentEntries;
 
     /** Current filtering text (can be null) */
-    @Nullable
     private String filterText;
 
     /** Holds disabled log entries types bit mask */
@@ -147,7 +140,7 @@ public class ConsoleEntryList
             return applyFilter();
         }
 
-        return NO;
+        return false;
     }
 
     public boolean setFilterByLogType(int logType, boolean disabled)
@@ -172,7 +165,7 @@ public class ConsoleEntryList
             return disabled ? appendFilter() : applyFilter();
         }
 
-        return NO;
+        return false;
     }
 
     public boolean isFilterLogTypeEnabled(int type)
@@ -185,7 +178,7 @@ public class ConsoleEntryList
         if (isFiltering())
         {
             useFilteredFromEntries(filteredEntries);
-            return YES;
+            return true;
         }
 
         return applyFilter();
@@ -197,7 +190,7 @@ public class ConsoleEntryList
         if (filtering)
         {
             useFilteredFromEntries(entries);
-            return YES;
+            return true;
         }
 
         return removeFilter();
@@ -210,10 +203,10 @@ public class ConsoleEntryList
             currentEntries = entries;
             filteredEntries = null;
 
-            return YES;
+            return true;
         }
 
-        return NO;
+        return false;
     }
 
     private void useFilteredFromEntries(LimitSizeEntryList entries)
@@ -246,7 +239,7 @@ public class ConsoleEntryList
         // filter by log type
         if ((logDisabledTypesMask & getMask(entry.type)) != 0)
         {
-            return NO;
+            return false;
         }
 
         // filter by message
@@ -307,7 +300,6 @@ public class ConsoleEntryList
         return errorCount;
     }
 
-    @Nullable
     public String getFilterText()
     {
         return filterText;

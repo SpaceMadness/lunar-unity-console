@@ -38,7 +38,6 @@ namespace LunarConsole
 {
     public enum Gesture
     {
-        None,
         SwipeDown
     }
 
@@ -52,7 +51,7 @@ namespace LunarConsole
         [Tooltip("How many logs will be trimmed when console overflows")]
         public int trim = 512;
 
-        [Tooltip("Set to 'None' if you want to show console manually")]
+        [Tooltip("More gesture support coming soon")]
         public Gesture gesture = Gesture.SwipeDown;
 
         #if LUNAR_CONSOLE_ENABLED

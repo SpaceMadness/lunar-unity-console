@@ -26,9 +26,6 @@ package spacemadness.com.lunarconsole.utils;
  */
 public class ObjectUtils
 {
-    public static final boolean YES = true;
-    public static final boolean NO = false;
-
     public static boolean areEqual(Object o1, Object o2)
     {
         return o1 != null && o1.equals(o2) || o1 == null && o2 == null;

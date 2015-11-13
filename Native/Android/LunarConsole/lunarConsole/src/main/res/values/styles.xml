@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="lunar_console_base_button_style">
         <item name="android:minHeight">48dip</item>
         <item name="android:minWidth">48dip</item>
@@ -7,12 +8,40 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
+
     <style name="lunar_console_log_button_style" parent="lunar_console_base_button_style">
         <item name="android:text">999+</item>
         <item name="android:textColor">#ffb1b1b1</item>
         <item name="android:textSize">12sp</item>
+        <item name="android:layout_gravity">center</item>
         <item name="android:typeface">monospace</item>
         <item name="android:layout_width">66dp</item>
         <item name="android:layout_height">30dp</item>
     </style>
+
+    <style name="lunar_console_filter_edit_text_style">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">5dp</item>
+        <item name="android:layout_marginRight">5dp</item>
+        <item name="android:paddingLeft">5dp</item>
+        <item name="android:paddingRight">5dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:background">@drawable/lunar_console_shape_edit_text</item>
+        <item name="android:imeOptions">actionSearch</item>
+        <item name="android:lines">1</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textColor">@color/lunar_console_color_cell_text</item>
+        <item name="android:textColorHighlight">@color/lunar_console_color_cell_text</item>
+    </style>
+
+    <style name="lunar_console_fake_status_bar_style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">20dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@color/lunar_console_color_fake_status_bar</item>
+        <item name="android:textColor">@color/lunar_console_color_fake_status_bar_text</item>
+    </style>
+
 </resources>

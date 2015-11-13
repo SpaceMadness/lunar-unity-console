@@ -23,6 +23,7 @@ namespace :lunar do
     $dir_out_exploded_aar = "#{$dir_out}/exploded_aar"
 
     $dir_builder = File.expand_path '.'
+    $dir_utils = resolve_path "#{$dir_builder}/utils"
 
     $dir_repo = resolve_path File.expand_path('..')
 
@@ -40,6 +41,9 @@ namespace :lunar do
     $dir_native_ios_src = resolve_path "#{$dir_native_ios}/LunarConsole/LunarConsole"
     $dir_native_android = resolve_path "#{$dir_native}/Android"
     $dir_native_android_src = resolve_path "#{$dir_native_android}/LunarConsole"
+
+    $dir_native_ios_images_root = resolve_path $dir_native_ios_src
+    $dir_native_android_images_root = resolve_path "#{$dir_native_android_src}/lunarConsole/src/main/res"
 
     # test project
     $dir_test_project = resolve_path_e 'TestProject'
@@ -90,7 +94,7 @@ namespace :lunar do
     # generate .projmod
     projmods = {
         group: 'Lunar Console',
-        # frameworks: ['MessageUI.framework'],
+        frameworks: ['MessageUI.framework'],
         files: ios_files,
         excludes: %w(^.*.DS_Store$ ^.*.meta$ ^.*.mdown^ ^.*.pdf$ ^.*.svn$),
     }
@@ -153,6 +157,38 @@ namespace :lunar do
 
   end
 
+  desc 'Optimize png files'
+  task :optimize_png_files => [:init] do
+
+    files = []
+
+    files.push *list_png_file($dir_native_ios_images_root)
+    files.push *list_png_file($dir_native_android_images_root)
+
+    bin_pngout = resolve_path "#{$dir_utils}/pngout"
+
+    size_before = 0.0
+    size_after = 0.0
+
+    files.each { |file|
+      size_before += File.size file
+      exec_shell %("#{bin_pngout}" "#{file}" -c3 -y -force), "Can't optimize png: #{file}"
+      size_after += File.size file
+    }
+
+    print_header "Compression rate: #{100 * (size_after/size_before)}% (#{size_after}/#{size_before})"
+
+  end
+
+  def list_png_file(dir_project)
+    list_files dir_project, &->(file) {
+      return false if File.directory? file
+
+      extension = File.extname file
+      return extension == '.png'
+    }
+  end
+
   def list_ios_files(dir_project, options = {})
     extensions = %w(.h .m .mm .xib .nib .c .cpp .png .bundle)
 
@@ -210,15 +246,6 @@ namespace :lunar do
 
     file_project_properties = "#{dir_android_plugin}/project.properties"
     write_project_properties(file_project_properties, project_properties)
-
-    # add dependencies
-    copy_artifact dir_android_plugin, aar_result.artifacts['recyclerview-v7'],
-                  :skip_manifest => true,
-                  :skip_resources => true
-    copy_artifact dir_android_plugin, aar_result.artifacts['support-v4'],
-                  :skip_manifest => true,
-                  :skip_resources => true
-
   end
 
   def copy_artifact(dir_dest, artifact, options = {})
@@ -255,7 +282,7 @@ namespace :lunar do
   def build_android(dir_project, module_name, config = 'Release')
 
     Dir.chdir dir_project do
-      exec_shell "./gradlew :#{module_name}:assemble#{config}", "Can't build Android aar"
+      exec_shell "./gradlew :#{module_name}:clean :#{module_name}:assemble#{config}", "Can't build Android aar"
       file_aar = resolve_path_e "#{module_name}/build/outputs/aar/#{module_name}-#{config.downcase}.aar"
       return AndroidAARBuildResult.new file_aar
 
