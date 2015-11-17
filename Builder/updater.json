@@ -1,6 +1,6 @@
 {
   "status": "OK",
-  "version": "0.0.5b",
-  "message": "Fixes:\n\n* iOS: fixed poor scrolling perfomance.\n* iOS: dismiss keyboard when pressing 'Search' button for log filtering.\n* iOS: fixed missing 'ShowConsole' and 'HideConsole' API calls.\n\nImprovements:\n* Better overflow management.",
+  "version": "0.0.6b",
+  "message": "Fixes:\n\n* Android: resolved conflicts with 3rd party Android plugins (GPGS, Facebook, etc).\n* iOS: fixed tab bar buttons layout.\n\nImprovements:\n* Dramatically reduced plugin size (from 1.6M to 250k).\n* Optimized UI resources.",
   "url": "http://bit.ly/1Pm4Gsy"
 }
