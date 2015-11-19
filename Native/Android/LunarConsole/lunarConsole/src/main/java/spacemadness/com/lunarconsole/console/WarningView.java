@@ -26,6 +26,7 @@ import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -82,6 +83,15 @@ public class WarningView extends FrameLayout implements Destroyable
     private void setupUI(View view)
     {
         messageText = (TextView) view.findViewById(R.id.lunar_console_text_warning_message);
+        view.setOnTouchListener(new OnTouchListener()
+        {
+            @Override
+            public boolean onTouch(View v, MotionEvent event)
+            {
+                return true; // don't let touch events to pass through the view group
+            }
+        });
+
 
         setOnClickListener(view, R.id.lunar_console_button_dismiss, new OnClickListener()
         {

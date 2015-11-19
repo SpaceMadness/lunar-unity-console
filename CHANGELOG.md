@@ -1,5 +1,11 @@
 # Lunar Console Changelog
 
+## v.0.0.7b - TBA
+
+**Fixes:**
+
+* **Android**: fixed clicks through exception warning.
+
 ## v.0.0.6b - 11/17/2015
 
 **Fixes:**
@@ -50,7 +56,6 @@
 **Fixes:**
 
 * Fixed change log messages for auto updater.
-
 
 ## v.0.0.2b - 9/2/2015
 
