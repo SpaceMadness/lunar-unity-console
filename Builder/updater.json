@@ -1,6 +1,6 @@
 {
   "status": "OK",
-  "version": "0.0.6b",
-  "message": "Fixes:\n\n* Android: resolved conflicts with 3rd party Android plugins (GPGS, Facebook, etc).\n* iOS: fixed tab bar buttons layout.\n\nImprovements:\n* Dramatically reduced plugin size (from 1.6M to 250k).\n* Optimized UI resources.",
+  "version": "0.0.7b",
+  "message": "Fixes:\n\n* Android: fixed clicks through exception warning.",
   "url": "http://bit.ly/1Pm4Gsy"
 }
