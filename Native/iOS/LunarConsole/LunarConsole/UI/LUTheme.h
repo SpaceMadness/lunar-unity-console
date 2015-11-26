@@ -43,6 +43,7 @@
 @property (nonatomic, readonly) LUCellSkin *cellWarning;
 
 @property (nonatomic, readonly) UIFont *font;
+@property (nonatomic, readonly) UIFont *fontSmall;
 @property (nonatomic, readonly) NSLineBreakMode lineBreakMode;
 
 @property (nonatomic, readonly) CGFloat cellHeight;

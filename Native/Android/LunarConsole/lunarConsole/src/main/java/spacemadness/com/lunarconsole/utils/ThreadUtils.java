@@ -38,9 +38,19 @@ public class ThreadUtils
         handler.post(runnable);
     }
 
+    private void postRunnable(Runnable runnable, long delay)
+    {
+        handler.postDelayed(runnable, delay);
+    }
+
     public static void runOnUIThread(Runnable runnable)
     {
         Holder.INSTANCE.postRunnable(runnable);
+    }
+
+    public static void runOnUIThread(Runnable runnable, long delay)
+    {
+        Holder.INSTANCE.postRunnable(runnable, delay);
     }
 
     public static void cancel(Runnable runnable)

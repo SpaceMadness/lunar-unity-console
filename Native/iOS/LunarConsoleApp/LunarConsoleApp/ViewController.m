@@ -22,7 +22,7 @@
 #import "ViewController.h"
 
 #import "Lunar.h"
-#import "Data.h"
+#import "FakeLogEntry.h"
 
 static const NSUInteger kConsoleCapacity  = 1024;
 static const NSUInteger kConsoleTrimCount = 128;
@@ -34,6 +34,7 @@ static const NSUInteger kConsoleTrimCount = 128;
 }
 
 @property (nonatomic, weak) IBOutlet UITextField *messageText;
+@property (nonatomic, strong) NSArray * logEntries;
 
 @end
 
@@ -59,6 +60,8 @@ static const NSUInteger kConsoleTrimCount = 128;
     [self showConsoleController];
     
     _index = 0;
+    self.logEntries = [self loadLogEntries];
+    
     [self logNextMessage];
 }
 
@@ -114,23 +117,13 @@ static const NSUInteger kConsoleTrimCount = 128;
 
 - (void)logNextMessage
 {
-    NSString *message = [[Data messages] objectAtIndex:_index];
-    LUConsoleLogType type;
-    if ([message hasPrefix:@"E/"])
-    {
-        type = LUConsoleLogTypeException;
-    }
-    else if ([message hasPrefix:@"W/"])
-    {
-        type = LUConsoleLogTypeWarning;
-    }
-    else
-    {
-        type = LUConsoleLogTypeLog;
-    }
+    FakeLogEntry *entry = [_logEntries objectAtIndex:_index];
     
-    [_plugin logMessage:message stackTrace:nil type:type];
-    _index = (_index + 1) % [Data messages].count;
+    [_plugin logMessage:entry.message
+             stackTrace:entry.stacktrace
+                   type:entry.type];
+    
+    _index = (_index + 1) % _logEntries.count;
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         [self logNextMessage];
@@ -145,6 +138,33 @@ static const NSUInteger kConsoleTrimCount = 128;
 - (void)logMessage:(NSString *)message stackTrace:(NSString *)stackTrace type:(LUConsoleLogType)type
 {
     [_plugin logMessage:message stackTrace:stackTrace type:type];
+}
+
+#pragma mark -
+#pragma mark Log entries
+
+- (NSArray *)loadLogEntries
+{
+    NSString *path = [[NSBundle mainBundle] pathForResource:@"input" ofType:@"txt"];
+    NSData *data = [NSData dataWithContentsOfFile:path];
+    NSArray *objects = [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
+    
+    NSMutableArray *entries = [NSMutableArray array];
+    for (NSDictionary *object in objects)
+    {
+        NSString *level = [object objectForKey:@"level"];
+        NSString *message = [object objectForKey:@"message"];
+        NSString *stacktrace = [object objectForKey:@"stacktrace"];
+        
+        LUConsoleLogType type = LUConsoleLogTypeLog;
+        if ([level isEqualToString:@"ERROR"]) type = LUConsoleLogTypeError;
+        else if ([level isEqualToString:@"WARNING"]) type = LUConsoleLogTypeWarning;
+        
+        FakeLogEntry *entry = [[FakeLogEntry alloc] initWithType:type message:message stackTrace:stacktrace];
+        [entries addObject:entry];
+        LU_RELEASE(entry);
+    }
+    return entries;
 }
 
 #pragma mark -

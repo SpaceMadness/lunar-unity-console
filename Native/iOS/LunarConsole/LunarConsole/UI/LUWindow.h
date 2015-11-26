@@ -23,7 +23,4 @@
 
 @interface LUWindow : UIWindow
 
-+ (instancetype)window;
-- (instancetype)init;
-
 @end

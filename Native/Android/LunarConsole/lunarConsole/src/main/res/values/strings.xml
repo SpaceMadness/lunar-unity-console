@@ -3,4 +3,8 @@
     <string name="action_settings">Settings</string>
     <string name="lunar_console_title_fake_status_bar">Lunar Console v%1$s</string>
     <string name="lunar_console_overflow_warning_text">Too much output: %1$d item(s) trimmed</string>
+    <string name="lunar_console_log_details_dialog_no_stacktrace_warning">No stack trace
+        found.\n\nMake sure \"Development Build\" checkbox is checked under \"Build Settings\"
+        (File ▶ Build Settings...)</string>
+    <string name="lunar_console_log_details_dialog_button_copy_to_clipboard">Copy to Clipboard</string>
 </resources>

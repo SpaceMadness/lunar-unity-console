@@ -21,6 +21,7 @@
 
 package spacemadness.com.lunarconsole.console;
 
+import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.ImageView;
@@ -32,6 +33,17 @@ import static spacemadness.com.lunarconsole.console.ConsoleLogType.*;
 
 public class ConsoleEntry
 {
+    private static final int[] LOG_ENTRY_ICON_RES_LOOKUP = new int[COUNT];
+
+    static
+    {
+        LOG_ENTRY_ICON_RES_LOOKUP[ERROR] = R.drawable.lunar_console_icon_log_error;
+        LOG_ENTRY_ICON_RES_LOOKUP[ASSERT] = R.drawable.lunar_console_icon_log_error;
+        LOG_ENTRY_ICON_RES_LOOKUP[WARNING] = R.drawable.lunar_console_icon_log_warning;
+        LOG_ENTRY_ICON_RES_LOOKUP[LOG] = R.drawable.lunar_console_icon_log;
+        LOG_ENTRY_ICON_RES_LOOKUP[EXCEPTION] = R.drawable.lunar_console_icon_log_error;
+    }
+
     public int index;
     public final byte type;
     public final String message;
@@ -49,6 +61,33 @@ public class ConsoleEntry
         this.stackTrace = stackTrace;
     }
 
+    @SuppressWarnings("deprecation")
+    public Drawable getIconDrawable(Context context)
+    {
+        int id = getIconResId(type);
+        return context.getResources().getDrawable(id);
+    }
+
+    @SuppressWarnings("deprecation")
+    public int getBackgroundColor(Context context)
+    {
+        int colorId = index % 2 == 0 ?
+                R.color.lunar_console_color_cell_background_dark :
+                R.color.lunar_console_color_cell_background_light;
+        return context.getResources().getColor(colorId);
+    }
+
+    public boolean hasStackTrace()
+    {
+        return stackTrace != null && stackTrace.length() > 0;
+    }
+
+    private int getIconResId(int type)
+    {
+        return type >= 0 && type < LOG_ENTRY_ICON_RES_LOOKUP.length ?
+                LOG_ENTRY_ICON_RES_LOOKUP[type] : R.drawable.lunar_console_icon_log;
+    }
+
     //////////////////////////////////////////////////////////////////////////////
     // View holder
 
@@ -57,17 +96,6 @@ public class ConsoleEntry
         private final View layout;
         private final ImageView iconView;
         private final TextView messageView;
-
-        private static final int[] LOG_ENTRY_ICON_RES_LOOKUP = new int[COUNT];
-
-        static
-        {
-            LOG_ENTRY_ICON_RES_LOOKUP[ERROR] = R.drawable.lunar_console_icon_log_error;
-            LOG_ENTRY_ICON_RES_LOOKUP[ASSERT] = R.drawable.lunar_console_icon_log_error;
-            LOG_ENTRY_ICON_RES_LOOKUP[WARNING] = R.drawable.lunar_console_icon_log_warning;
-            LOG_ENTRY_ICON_RES_LOOKUP[LOG] = R.drawable.lunar_console_icon_log;
-            LOG_ENTRY_ICON_RES_LOOKUP[EXCEPTION] = R.drawable.lunar_console_icon_log_error;
-        }
 
         public ViewHolder(View itemView)
         {
@@ -81,26 +109,10 @@ public class ConsoleEntry
         @Override
         public void onBindViewHolder(ConsoleEntry entry)
         {
-            int backgroundColor = entry.index % 2 == 0 ?
-                    getColor(R.color.lunar_console_color_cell_background_dark) :
-                    getColor(R.color.lunar_console_color_cell_background_light);
-            layout.setBackgroundColor(backgroundColor);
-
-            iconView.setImageDrawable(getIconResDrawable(entry.type));
+            Context context = getContext();
+            layout.setBackgroundColor(entry.getBackgroundColor(context));
+            iconView.setImageDrawable(entry.getIconDrawable(context));
             messageView.setText(entry.message);
-        }
-
-        @SuppressWarnings("deprecation")
-        private Drawable getIconResDrawable(int type)
-        {
-            int id = getIconResId(type);
-            return getResources().getDrawable(id);
-        }
-
-        private int getIconResId(int type)
-        {
-            return type >= 0 && type < LOG_ENTRY_ICON_RES_LOOKUP.length ?
-                    LOG_ENTRY_ICON_RES_LOOKUP[type] : R.drawable.lunar_console_icon_log;
         }
     }
 }

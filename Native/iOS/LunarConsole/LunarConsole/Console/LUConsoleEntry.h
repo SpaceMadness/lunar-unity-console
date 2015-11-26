@@ -44,6 +44,8 @@ typedef uint8_t LUConsoleLogTypeMask;
 @property (nonatomic, readonly) LUConsoleLogType type;
 @property (nonatomic, readonly) NSString * message;
 @property (nonatomic, readonly) NSString * stackTrace;
+@property (nonatomic, readonly) UIImage  * icon;
+@property (nonatomic, readonly) BOOL hasStackTrace;
 
 + (instancetype)entryWithType:(LUConsoleLogType)type message:(NSString *)message stackTrace:(NSString *)stackTrace;
 - (instancetype)initWithType:(LUConsoleLogType)type message:(NSString *)message stackTrace:(NSString *)stackTrace;

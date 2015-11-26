@@ -44,4 +44,16 @@
         <item name="android:textColor">@color/lunar_console_color_fake_status_bar_text</item>
     </style>
 
+    <style name="lunar_console_base_text_style">
+        <item name="android:textColor">@color/lunar_console_color_cell_text</item>
+        <item name="android:typeface">monospace</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
+    </style>
+
+    <style name="lunar_console_log_entry_message_style" parent="lunar_console_base_text_style"/>
+    <style name="lunar_console_log_details_message_style" parent="lunar_console_base_text_style"/>
+    <style name="lunar_console_log_details_stacktrace_style" parent="lunar_console_base_text_style">
+        <item name="android:textSize">10sp</item>
+    </style>
+
 </resources>

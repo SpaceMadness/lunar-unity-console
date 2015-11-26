@@ -1,0 +1,387 @@
+[
+{
+"level": "ERROR",
+"message": "requested_sensors(70) from kernel",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "Disabled 9 axis sensor fusion",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "inv_mpu_suspend(,,,,7fff) -> 0000",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "calling inv_set_mpu_sensors(000000)",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "Starting DMP",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "WARNING",
+"message": "9 axis sensor fusion not available - No compass detected.",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "Enabled 9 axis sensor fusion",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "inv_mpu_resume(,,,,0000) -> 0000",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "Stopping DMP",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "Disabled 9 axis sensor fusion",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "inv_mpu_suspend(,,,,7fff) -> 0000",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "Send Msg [UART > ATD] 1 bytes <>",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "rmt_storage_client_thread: /boot/modem_fs1: clnt_h=0x1 About to block rmt_storage client thread (th_id: -1192566272) wakelock released: 1, error no: 0",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "Send Msg [UART > ATD] 1 bytes <>",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "rmt_storage_rw_iovec_cb: /boot/modem_fs1: clnt_h=0x1: req_h=0x814 msg_id=3: R/W request received",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "wakelock acquired: 1, error no: 2",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "rmt_storage_client_thread: /boot/modem_fs1: clnt_h=0x1 Unblock worker thread (th_id: -1192566272)",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "Disconnected process message: 10",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "Send Msg [UART > ATD] 1 bytes <>",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "info.rates.add, set DEFAULT_EVENTS_PERIOD",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "SensorDevice::setDelay, Return(true 1, false 0) =  1",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "registerListener :: create queue :: handler = 4, name = MPL accel, delay = 20000,",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "ERROR",
+"message": "activatePendingSensors : mEnabled = 10",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "Starting DMP",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "WARNING",
+"message": "9 axis sensor fusion not available - No compass detected.",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "Enabled 9 axis sensor fusion",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "ERROR",
+"message": "mEnabled = 0",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "SensorDevice::activating sensor handle=4 ns=20000000",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "setDelay - sensor Accelerometer (handle 4), rate 20 ms (50.00 Hz)",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "ERROR",
+"message": "activatePendingSensors : mEnabled = 0",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "ERROR",
+"message": "requested_sensors(70) from kernel",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "Enabled 9 axis sensor fusion",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "inv_mpu_resume(,,,,0000) -> 0000",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "Stopping DMP",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "Disabled 9 axis sensor fusion",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "inv_mpu_suspend(,,,,7fff) -> 0000",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "Send Msg [UART > ATD] 1 bytes <>",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "Send Msg [UART > ATD] 1 bytes <>",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "Disconnected process message: 10",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "GC_CONCURRENT freed 1949K, 28% free 14013K/19444K, paused 7ms+10ms, total 88ms",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "Disconnected process message: 10",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "ERROR",
+"message": "Failed to parse response for xconfig errors",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "ERROR",
+"message": "com.facebook.xconfig.sync.i: No 'value_hash' was specified for config errors: {\"065a89b382edc92d7ed2912a0f3af8cdfbe30e82\":\"Argument 1 passed to XConfigGKCheckTrace::gen() must be an instance of string, null given TAAL[BLAME_frame]\\n\"}",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "Send Msg [UART > ATD] 1 bytes <>",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "Disconnected process message: 10",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "Send Msg [UART > ATD] 1 bytes <>",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "Disconnected process message: 10",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "Disconnected process message: 10",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "Send Msg [UART > ATD] 1 bytes <>",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "rmt_storage_rw_iovec_cb: /boot/modem_fs2: clnt_h=0x2: req_h=0x817 msg_id=3: R/W request received",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "wakelock acquired: 1, error no: 2",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "rmt_storage_client_thread: /boot/modem_fs2: clnt_h=0x2 Unblock worker thread (th_id: -1192565424)",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "rmt_storage_client_thread: /boot/modem_fs2: clnt_h=0x2: req_h=0x817 msg_id=3: Bytes written = 512",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "rmt_storage_client_thread: /boot/modem_fs2: clnt_h=0x2: req_h=0x817 msg_id=3: Send response: res=0 err=0",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "rmt_storage_client_thread: /boot/modem_fs2: clnt_h=0x2 About to block rmt_storage client thread (th_id: -1192565424) wakelock released: 1, error no: 0",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "rmt_storage_client_thread: /boot/modem_fs2: clnt_h=0x2: req_h=0x817 msg_id=3: Bytes written = 3145216",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "Send Msg [UART > ATD] 1 bytes <>",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "Disconnected process message: 10",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "info.rates.add, set DEFAULT_EVENTS_PERIOD",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "ERROR",
+"message": "../../accel.c|inv_get_accel_offset|211 returning 19",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "enable accel bias check",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "enable - sensor Accelerometer (handle 4) dis -> en",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "ERROR",
+"message": "mEnabled = 10",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "SensorDevice::activating sensor handle=4 ns=200000000",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "setDelay - sensor Accelerometer (handle 4), rate 200 ms (5.00 Hz)",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "info.selectDelay() ns=20000000",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "setDelay - sensor Accelerometer (handle 4), rate 20 ms (50.00 Hz)",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "SensorDevice::setDelay, Return(true 1, false 0) =  1",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "registerListener :: create queue :: handler = 4, name = MPL accel, delay = 20000,",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "ERROR",
+"message": "activatePendingSensors : mEnabled = 10",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "ERROR",
+"message": "requested_sensors(0) from kernel",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "calling inv_set_mpu_sensors(000070)",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "Actual ODR: 50000 mHz",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "ERROR",
+"message": "set fifo rate - divider : 3, delay : 20 ms (50.00 Hz)",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "Actual ODR: 50000 mHz",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "LOG",
+"message": "Starting DMP",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+},
+{
+"level": "WARNING",
+"message": "9 axis sensor fusion not available - No compass detected.",
+"stacktrace": "UnityEngine.Debug:LogError(Object)\nTest:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\nUnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\nLogger:LogMessages() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:66)\nUnityEngine.EventSystems.EventSystem:Update()"
+}
+]

@@ -33,3 +33,31 @@ void LUDisplayAlertView(NSString *title, NSString *message)
     [alertView show];
     LU_RELEASE(alertView);
 }
+
+CGRect LUGetScreenBounds()
+{
+    if (LU_IOS_VERSION_AVAILABLE(__IPHONE_8_0))
+    {
+        return [UIScreen mainScreen].bounds;
+    }
+    
+    CGRect screenSize = [UIScreen mainScreen].bounds;
+    if (LUIsLandscapeInterfaceOrientation())
+    {
+        CGFloat width = CGRectGetWidth(screenSize);
+        CGFloat height = CGRectGetHeight(screenSize);
+        screenSize.size = CGSizeMake(height, width);
+    }
+    
+    return screenSize;
+}
+
+UIInterfaceOrientation LUGetInterfaceOrientation()
+{
+    return [UIApplication sharedApplication].statusBarOrientation;
+}
+
+BOOL LUIsLandscapeInterfaceOrientation()
+{
+    return UIInterfaceOrientationIsLandscape(LUGetInterfaceOrientation());
+}

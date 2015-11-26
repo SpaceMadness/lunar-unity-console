@@ -3,4 +3,5 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="lunar_layout_console_entry_margin">6dp</dimen>
+    <dimen name="lunar_layout_console_stacktrace_margin">6dp</dimen>
 </resources>

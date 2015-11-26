@@ -1,5 +1,16 @@
 # Lunar Console Changelog
 
+## v.0.0.8b - TBA
+
+**Improvements:**
+
+* **Android**: added stack trace info for every log entry.
+* **iOS**: improved stack trace info for every log entry.
+
+**Fixes:**
+
+* **Android**: fixed touches passing through some are of the console into the scene.
+
 ## v.0.0.7b - 11/23/2015
 
 **Fixes:**

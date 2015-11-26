@@ -26,6 +26,7 @@ using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 using System.IO;
+using System.Runtime.CompilerServices;
 #endif
 
 using System;
@@ -33,6 +34,10 @@ using System.Collections;
 using System.Runtime.InteropServices;
 
 using LunarConsoleInternal;
+
+#if UNITY_EDITOR
+[assembly: InternalsVisibleTo("Test")]
+#endif
 
 namespace LunarConsole
 {

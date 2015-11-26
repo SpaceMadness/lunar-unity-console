@@ -84,12 +84,12 @@ static const CGFloat kWarningHeight = 45.0f;
         controller.version = _version;
         controller.delegate = self;
         
-        CGRect windowFrame = [UIScreen mainScreen].bounds;
+        CGRect windowFrame = LUGetScreenBounds();
         CGRect windowInitialFrame = windowFrame;
         windowInitialFrame.origin.y -= CGRectGetHeight(windowFrame);
         
         _consoleWindow = [[LUWindow alloc] initWithFrame:windowInitialFrame];
-        _consoleWindow.rootViewController = LU_AUTORELEASE([[UINavigationController alloc] initWithRootViewController:controller]);
+        _consoleWindow.rootViewController = controller;
         _consoleWindow.opaque = YES;
         _consoleWindow.backgroundColor = [UIColor grayColor];
         _consoleWindow.hidden = NO;
@@ -150,7 +150,7 @@ static const CGFloat kWarningHeight = 45.0f;
 {
     if (_warningWindow == nil)
     {
-        CGSize screenSize = [UIScreen mainScreen].bounds.size;
+        CGSize screenSize = LUGetScreenBounds().size;
         
         CGRect windowFrame = CGRectMake(0, screenSize.height - kWarningHeight, screenSize.width, kWarningHeight);
         _warningWindow = [[LUWindow alloc] initWithFrame:windowFrame];

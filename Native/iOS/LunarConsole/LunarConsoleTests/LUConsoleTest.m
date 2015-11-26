@@ -80,7 +80,10 @@
 #pragma mark -
 #pragma mark LunarConsoleDelegate
 
-- (void)lunarConsole:(LUConsole *)console didAddEntry:(LUConsoleEntry *)entry filtered:(BOOL)filtered
+- (void)lunarConsole:(LUConsole *)console
+         didAddEntry:(LUConsoleEntry *)entry
+            filtered:(BOOL)filtered
+        trimmedCount:(NSUInteger)trimmedCount
 {
     [self addResult:entry.message];
 }

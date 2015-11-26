@@ -31,7 +31,8 @@ static LUConsoleControllerState * _sharedControllerState;
     UITableViewDataSource, UITableViewDelegate,
     UISearchBarDelegate,
     MFMessageComposeViewControllerDelegate,
-    LUTableViewTouchDelegate>
+    LUTableViewTouchDelegate,
+    LUConsoleDetailsControllerDelegate>
 {
     LUConsole * _console;
 }
@@ -360,7 +361,20 @@ static LUConsoleControllerState * _sharedControllerState;
     LUConsoleEntry *entry = [self entryForRowAtIndexPath:indexPath];
     
     LUConsoleDetailsController *controller = [[LUConsoleDetailsController alloc] initWithEntry:entry];
-    [self.navigationController pushViewController:controller animated:YES];
+    controller.delegate = self;
+    
+    // add as child view controller
+    [self addChildViewController:controller];
+    controller.view.frame = self.view.bounds;
+    [self.view addSubview:controller.view];
+    [controller didMoveToParentViewController:self];
+    
+    // animate
+    controller.view.alpha = 0;
+    [UIView animateWithDuration:0.4 animations:^{
+        controller.view.alpha = 1;
+    }];
+    
     LU_RELEASE(controller);
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -466,9 +480,23 @@ static LUConsoleControllerState * _sharedControllerState;
 #pragma mark -
 #pragma mark LUTableViewTouchDelegate
 
-- (void)tableView:(LUTableView *)tableView touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+- (void)tableView:(LUTableView *)tableView touchesBegan:(NSSet*)touches withEvent:(UIEvent *)event
 {
     _scrollLockButton.on = NO;
+}
+
+#pragma mark -
+#pragma mark LUConsoleDetailsControllerDelegate
+
+- (void)detailsControllerDidClose:(LUConsoleDetailsController *)controller
+{
+    [UIView animateWithDuration:0.4 animations:^{
+        controller.view.alpha = 0;
+    } completion:^(BOOL finished) {
+        [controller willMoveToParentViewController:self];
+        [controller.view removeFromSuperview];
+        [controller removeFromParentViewController];
+    }];
 }
 
 #pragma mark -

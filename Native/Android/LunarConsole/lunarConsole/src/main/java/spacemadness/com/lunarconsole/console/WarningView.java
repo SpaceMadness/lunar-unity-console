@@ -92,7 +92,6 @@ public class WarningView extends FrameLayout implements Destroyable
             }
         });
 
-
         setOnClickListener(view, R.id.lunar_console_button_dismiss, new OnClickListener()
         {
             @Override

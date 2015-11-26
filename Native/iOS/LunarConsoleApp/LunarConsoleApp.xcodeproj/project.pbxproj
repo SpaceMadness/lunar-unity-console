@@ -50,7 +50,8 @@
 		EF0836B31B7ABD6D00DFB877 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 844741FA1B719DA500F5ABD3 /* LaunchScreen.xib */; };
 		EF0836B41B7ABD6D00DFB877 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 844741F51B719DA500F5ABD3 /* Main.storyboard */; };
 		EF21AE1B1BF536FE0053D50B /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF21AE1A1BF536FE0053D50B /* MessageUI.framework */; };
-		EF63A15A1B75292A00B18D0B /* Data.m in Sources */ = {isa = PBXBuildFile; fileRef = EF63A1591B75292A00B18D0B /* Data.m */; };
+		EF64F8F21C03D86E008DCB8E /* input.txt in Resources */ = {isa = PBXBuildFile; fileRef = EF64F8F11C03D86E008DCB8E /* input.txt */; };
+		EF64F8F61C03D8B3008DCB8E /* FakeLogEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = EF64F8F51C03D8B3008DCB8E /* FakeLogEntry.m */; };
 		EF8189391BE16875008FFCB9 /* LUConsoleControllerUITest.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8189381BE16875008FFCB9 /* LUConsoleControllerUITest.m */; };
 		EF81893C1BE16E58008FFCB9 /* libLunarConsole.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 844742171B719DB600F5ABD3 /* libLunarConsole.a */; };
 		EF87031B1B7BDF83004D6491 /* LUConsoleDetailsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF87031A1B7BDF83004D6491 /* LUConsoleDetailsController.xib */; };
@@ -151,8 +152,9 @@
 		EF0836AF1B7ABD1E00DFB877 /* LUConsoleController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LUConsoleController.xib; path = ../../LunarConsole/LunarConsole/Controllers/LUConsoleController.xib; sourceTree = "<group>"; };
 		EF0836B01B7ABD1E00DFB877 /* LUExceptionWarningController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LUExceptionWarningController.xib; path = ../../LunarConsole/LunarConsole/Controllers/LUExceptionWarningController.xib; sourceTree = "<group>"; };
 		EF21AE1A1BF536FE0053D50B /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		EF63A1581B75292A00B18D0B /* Data.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Data.h; sourceTree = "<group>"; };
-		EF63A1591B75292A00B18D0B /* Data.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Data.m; sourceTree = "<group>"; };
+		EF64F8F11C03D86E008DCB8E /* input.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = input.txt; sourceTree = "<group>"; };
+		EF64F8F41C03D8B3008DCB8E /* FakeLogEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeLogEntry.h; sourceTree = "<group>"; };
+		EF64F8F51C03D8B3008DCB8E /* FakeLogEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FakeLogEntry.m; sourceTree = "<group>"; };
 		EF81892E1BE16844008FFCB9 /* LunarConsoleAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LunarConsoleAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF8189321BE16844008FFCB9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EF8189381BE16875008FFCB9 /* LUConsoleControllerUITest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUConsoleControllerUITest.m; sourceTree = "<group>"; };
@@ -215,9 +217,10 @@
 				844741EF1B719DA500F5ABD3 /* AppDelegate.h */,
 				844741F01B719DA500F5ABD3 /* AppDelegate.m */,
 				84E5B80D1B77011900315599 /* Assets */,
-				EF63A1581B75292A00B18D0B /* Data.h */,
-				EF63A1591B75292A00B18D0B /* Data.m */,
+				EF64F8F41C03D8B3008DCB8E /* FakeLogEntry.h */,
+				EF64F8F51C03D8B3008DCB8E /* FakeLogEntry.m */,
 				844741F81B719DA500F5ABD3 /* Images.xcassets */,
+				EF64F8F11C03D86E008DCB8E /* input.txt */,
 				844741FA1B719DA500F5ABD3 /* LaunchScreen.xib */,
 				844741F51B719DA500F5ABD3 /* Main.storyboard */,
 				844741EB1B719DA500F5ABD3 /* Supporting Files */,
@@ -480,6 +483,7 @@
 				EF08363C1B7AB5E400DFB877 /* lunar_console_icon_button_email.png in Resources */,
 				EF08364A1B7AB5E400DFB877 /* lunar_console_icon_log_warning@3x.png in Resources */,
 				EF0836421B7AB5E400DFB877 /* lunar_console_icon_button_unlock.png in Resources */,
+				EF64F8F21C03D86E008DCB8E /* input.txt in Resources */,
 				EF0836361B7AB5E400DFB877 /* lunar_console_icon_button_close.png in Resources */,
 				EF0836381B7AB5E400DFB877 /* lunar_console_icon_button_close@3x.png in Resources */,
 				EF0836431B7AB5E400DFB877 /* lunar_console_icon_button_unlock@2x.png in Resources */,
@@ -515,7 +519,7 @@
 				8447421F1B719F8800F5ABD3 /* ViewController.m in Sources */,
 				844741F11B719DA500F5ABD3 /* AppDelegate.m in Sources */,
 				844741EE1B719DA500F5ABD3 /* main.m in Sources */,
-				EF63A15A1B75292A00B18D0B /* Data.m in Sources */,
+				EF64F8F61C03D8B3008DCB8E /* FakeLogEntry.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -23,12 +23,20 @@
 
 #import "Lunar.h"
 
+#define NO_STACK_TRACE_WARNING @"No stack trace found.\n\nMake sure \"Development Build\" checkbox is checked under \"Build Settings\" (File ▶ Build Settings...)"
+
 @interface LUConsoleDetailsController ()
 {
     LUConsoleEntry * _entry;
 }
 
-@property (nonatomic, assign) IBOutlet UITextView *textView;
+@property (nonatomic, assign) IBOutlet NSLayoutConstraint * contentWidthConstraint;
+@property (nonatomic, assign) IBOutlet NSLayoutConstraint * contentHeightConstraint;
+@property (nonatomic, assign) IBOutlet UIView             * contentView;
+@property (nonatomic, assign) IBOutlet UIView             * bottomBarView;
+@property (nonatomic, assign) IBOutlet UIImageView        * iconView;
+@property (nonatomic, assign) IBOutlet UILabel            * messageView;
+@property (nonatomic, assign) IBOutlet UITextView         * stackTraceView;
 
 @end
 
@@ -54,15 +62,60 @@
 {
     [super viewDidLoad];
     
-    self.title = @"Details";
+    // size
+    CGSize screenSize = LUGetScreenBounds().size;
+    _contentWidthConstraint.constant = screenSize.width - 20;
+    _contentHeightConstraint.constant = 2 * screenSize.height / 3;
+    
+    // colors
+    self.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
     
     LUTheme *theme = [LUTheme mainTheme];
-    self.textView.text = [NSString stringWithFormat:@"%@\n\n%@", _entry.message, _entry.stackTrace];
-    self.textView.font = theme.font;
-    self.textView.textColor = theme.cellLog.textColor;
-    self.textView.backgroundColor = theme.cellLog.backgroundColorLight;
     
-    self.navigationController.navigationBar.tintColor = theme.tableColor;
+    _iconView.image = _entry.icon;
+    
+    _contentView.backgroundColor = theme.cellLog.backgroundColorLight;
+    _contentView.layer.borderColor = [[UIColor colorWithRed:0.37 green:0.37 blue:0.37 alpha:1.0] CGColor];
+    _contentView.layer.borderWidth = 2;
+    
+    _messageView.text = _entry.message;
+    _messageView.font = theme.font;
+    _messageView.textColor = theme.cellLog.textColor;
+    
+    NSString *stackTrace = [_entry hasStackTrace] ?
+        [LUStacktrace optimizeStacktrace:_entry.stackTrace] : NO_STACK_TRACE_WARNING;
+    
+    _stackTraceView.text = stackTrace;
+    _stackTraceView.font = theme.fontSmall;
+    _stackTraceView.textColor = theme.cellLog.textColor;
+    
+    _bottomBarView.backgroundColor = theme.tableColor;
+    
+    // update layout
+    [self.view layoutIfNeeded];
+}
+
+#pragma mark -
+#pragma mark Actions
+
+- (IBAction)onCopy:(id)sender
+{
+    UIPasteboard *pastboard = [UIPasteboard generalPasteboard];
+    
+    NSString *text = _entry.message;
+    if ([_entry hasStackTrace])
+    {
+        text = [text stringByAppendingFormat:@"\n\n%@", _entry.stackTrace];
+    }
+    [pastboard setString:text];
+}
+
+- (IBAction)onClose:(id)sender
+{
+    if ([_delegate respondsToSelector:@selector(detailsControllerDidClose:)])
+    {
+        [_delegate detailsControllerDidClose:self];
+    }
 }
 
 @end

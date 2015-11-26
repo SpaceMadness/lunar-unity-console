@@ -22,8 +22,18 @@
 #import <UIKit/UIKit.h>
 
 @class LUConsoleEntry;
+@class LUConsoleDetailsController;
+
+@protocol LUConsoleDetailsControllerDelegate <NSObject>
+
+- (void)detailsControllerDidClose:(LUConsoleDetailsController *)controller;
+
+@end
+
 
 @interface LUConsoleDetailsController : UIViewController
+
+@property (nonatomic, assign) id<LUConsoleDetailsControllerDelegate> delegate;
 
 - (instancetype)initWithEntry:(LUConsoleEntry *)entry;
 

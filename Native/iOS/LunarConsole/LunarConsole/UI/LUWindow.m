@@ -25,18 +25,4 @@
 
 @implementation LUWindow
 
-+ (instancetype)window
-{
-    return LU_AUTORELEASE([[self alloc] init]);
-}
-
-- (instancetype)init
-{
-    self = [super initWithFrame:[UIScreen mainScreen].bounds];
-    if (self)
-    {   
-    }
-    return self;
-}
-
 @end

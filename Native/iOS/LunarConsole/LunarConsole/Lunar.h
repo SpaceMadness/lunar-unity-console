@@ -34,6 +34,7 @@
 #import "LULogTypeButton.h"
 #import "LUMutableArray.h"
 #import "LUObject.h"
+#import "LUStacktrace.h"
 #import "LUTableView.h"
 #import "LUTheme.h"
 #import "LUThreading.h"

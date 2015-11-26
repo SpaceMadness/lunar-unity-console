@@ -26,10 +26,10 @@
 @protocol LUTableViewTouchDelegate <NSObject>
 
 @optional
-- (void)tableView:(LUTableView *)tableView touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
-- (void)tableView:(LUTableView *)tableView touchesMoved:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
-- (void)tableView:(LUTableView *)tableView touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
-- (void)tableView:(LUTableView *)tableView touchesCancelled:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event;
+- (void)tableView:(LUTableView *)tableView touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event;
+- (void)tableView:(LUTableView *)tableView touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event;
+- (void)tableView:(LUTableView *)tableView touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event;
+- (void)tableView:(LUTableView *)tableView touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event;
 
 @end
 

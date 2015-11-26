@@ -22,4 +22,8 @@
 #import <UIKit/UIKit.h>
 
 // UI-related functions
-void LUDisplayAlertView(NSString *title, NSString *message);
+void   LUDisplayAlertView(NSString *title, NSString *message);
+CGRect LUGetScreenBounds(void);
+
+UIInterfaceOrientation LUGetInterfaceOrientation(void);
+BOOL LUIsLandscapeInterfaceOrientation(void);

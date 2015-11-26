@@ -149,4 +149,17 @@ static NSArray * _cellSkinLookup;
     return nil;
 }
 
+#pragma mark -
+#pragma mark Properties
+
+- (UIImage *)icon
+{
+    return [self cellSkinForLogType:_type].icon;
+}
+
+- (BOOL)hasStackTrace
+{
+    return _stackTrace.length > 0;
+}
+
 @end

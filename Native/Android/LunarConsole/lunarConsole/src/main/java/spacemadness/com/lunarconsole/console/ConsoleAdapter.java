@@ -21,6 +21,7 @@
 
 package spacemadness.com.lunarconsole.console;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -112,9 +113,14 @@ public class ConsoleAdapter extends BaseAdapter
 
         public abstract void onBindViewHolder(T entry);
 
+        protected Context getContext()
+        {
+            return itemView.getContext();
+        }
+
         protected Resources getResources()
         {
-            return itemView.getContext().getResources();
+            return getContext().getResources();
         }
 
         protected String getString(int id)

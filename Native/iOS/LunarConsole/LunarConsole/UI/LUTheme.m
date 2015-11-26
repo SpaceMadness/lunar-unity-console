@@ -36,6 +36,7 @@ static LUTheme * _mainTheme;
 @property (nonatomic, strong) LUCellSkin *cellWarning;
 
 @property (nonatomic, strong) UIFont *font;
+@property (nonatomic, strong) UIFont *fontSmall;
 @property (nonatomic, assign) NSLineBreakMode lineBreakMode;
 @property (nonatomic, assign) CGFloat cellHeight;
 @property (nonatomic, assign) CGFloat indentHor;
@@ -94,6 +95,7 @@ static UIColor * UIColorMake(int rgb)
         _mainTheme.cellError = cellError;
         _mainTheme.cellWarning = cellWarning;
         _mainTheme.font = [self createDefaultFont];
+        _mainTheme.fontSmall = [self createSmallFont];
         _mainTheme.lineBreakMode = NSLineBreakByWordWrapping;
         _mainTheme.cellHeight = 32;
         _mainTheme.indentHor = 10;
@@ -112,6 +114,7 @@ static UIColor * UIColorMake(int rgb)
     LU_RELEASE(_cellWarning);
     LU_RELEASE(_cellError);
     LU_RELEASE(_font);
+    LU_RELEASE(_fontSmall);
     
     LU_SUPER_DEALLOC
 }
@@ -125,6 +128,17 @@ static UIColor * UIColorMake(int rgb)
     }
     
     return [UIFont systemFontOfSize:10];
+}
+
++ (UIFont *)createSmallFont
+{
+    UIFont *font = [UIFont fontWithName:@"Menlo-regular" size:8];
+    if (font != nil)
+    {
+        return font;
+    }
+    
+    return [UIFont systemFontOfSize:8];
 }
 
 + (LUTheme *)mainTheme

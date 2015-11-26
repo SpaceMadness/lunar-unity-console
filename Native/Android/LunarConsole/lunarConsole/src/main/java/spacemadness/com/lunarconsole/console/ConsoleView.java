@@ -21,7 +21,9 @@
 
 package spacemadness.com.lunarconsole.console;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
@@ -32,9 +34,12 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -45,7 +50,9 @@ import spacemadness.com.lunarconsole.debug.Log;
 import spacemadness.com.lunarconsole.ui.LogTypeButton;
 import spacemadness.com.lunarconsole.ui.ToggleButton;
 import spacemadness.com.lunarconsole.ui.ToggleImageButton;
+import spacemadness.com.lunarconsole.utils.StackTrace;
 import spacemadness.com.lunarconsole.utils.StringUtils;
+import spacemadness.com.lunarconsole.utils.ThreadUtils;
 import spacemadness.com.lunarconsole.utils.UIUtils;
 
 import static android.widget.LinearLayout.LayoutParams.*;
@@ -76,7 +83,7 @@ public class ConsoleView extends LinearLayout implements
     private boolean scrollLocked;
     private boolean softKeyboardVisible;
 
-    public ConsoleView(Context context, Console console)
+    public ConsoleView(Context context, final Console console)
     {
         super(context);
 
@@ -89,6 +96,16 @@ public class ConsoleView extends LinearLayout implements
         this.console.setConsoleListener(this);
 
         scrollLocked = ConsoleViewState.scrollLocked;
+
+        // disable touches
+        setOnTouchListener(new OnTouchListener()
+        {
+            @Override
+            public boolean onTouch(View v, MotionEvent event)
+            {
+                return true; // don't let touch events to pass through the view group
+            }
+        });
 
         // might not be the most efficient way but we'll keep it for now
         rootView = LayoutInflater.from(context).inflate(R.layout.lunar_layout_console, this, false);
@@ -107,6 +124,71 @@ public class ConsoleView extends LinearLayout implements
         listView.setAdapter(recyclerViewAdapter);
         listView.setOverScrollMode(ListView.OVER_SCROLL_NEVER);
         listView.setScrollingCacheEnabled(false);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
+        {
+            @Override
+            public void onItemClick(AdapterView<?> parent, final View view, int position, long id)
+            {
+                final Context ctx = getContext();
+                final ConsoleEntry entry = console.getEntry(position);
+
+                // TODO: user color resource and animation
+                view.setBackgroundColor(0xff000000);
+                ThreadUtils.runOnUIThread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        try
+                        {
+                            view.setBackgroundColor(entry.getBackgroundColor(ctx));
+                        }
+                        catch (Exception e)
+                        {
+                            Log.e(e, "Error while settings entry background color");
+                        }
+                    }
+                }, 200);
+
+                // TODO: refactor this code
+                AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
+
+                LayoutInflater inflater = LayoutInflater.from(ctx);
+                View contentView = inflater.inflate(R.layout.lunar_layout_log_details_dialog, null);
+                ImageView imageView = (ImageView) contentView.findViewById(R.id.lunar_console_log_details_icon);
+                TextView messageView = (TextView) contentView.findViewById(R.id.lunar_console_log_details_message);
+                TextView stacktraceView = (TextView) contentView.findViewById(R.id.lunar_console_log_details_stacktrace);
+
+                final String message = entry.message;
+                final String stackTrace = entry.hasStackTrace() ?
+                        StackTrace.optimize(entry.stackTrace) :
+                        getResources().getString(R.string.lunar_console_log_details_dialog_no_stacktrace_warning);
+
+                messageView.setText(message);
+                stacktraceView.setText(stackTrace);
+                imageView.setImageDrawable(entry.getIconDrawable(ctx));
+
+                builder.setView(contentView);
+                builder.setPositiveButton(R.string.lunar_console_log_details_dialog_button_copy_to_clipboard,
+                        new DialogInterface.OnClickListener()
+                        {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which)
+                            {
+                                String text = message;
+                                if (entry.hasStackTrace())
+                                {
+                                    text += "\n\n" + stackTrace;
+                                }
+                                copyToClipboard(text);
+                            }
+                        });
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+
         listView.setOnTouchListener(new OnTouchListener()
         {
             @Override
@@ -236,26 +318,9 @@ public class ConsoleView extends LinearLayout implements
         console.clear();
     }
 
-    @SuppressWarnings("deprecation")
     private boolean copyConsoleOutputToClipboard()
     {
-        try
-        {
-            String outputText = console.getText();
-
-            ClipboardManager cm = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-            cm.setText(outputText);
-
-            UIUtils.showToast(getContext(), "Copied to clipboard");
-
-            return true;
-        }
-        catch (Exception e)
-        {
-            Log.e(e, "Error while trying to copy console output to clipboard");
-        }
-
-        return false;
+        return copyToClipboard(console.getText());
     }
 
     private boolean sendConsoleOutputByEmail()
@@ -545,6 +610,29 @@ public class ConsoleView extends LinearLayout implements
         }
 
         setFilterByLogTypeMask(mask, !button.isOn());
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Helpers
+
+    @SuppressWarnings("deprecation")
+    private boolean copyToClipboard(String outputText)
+    {
+        try
+        {
+            ClipboardManager cm = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+            cm.setText(outputText);
+
+            UIUtils.showToast(getContext(), "Copied to clipboard");
+
+            return true;
+        }
+        catch (Exception e)
+        {
+            Log.e(e, "Error to copy text to clipboard");
+        }
+
+        return false;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

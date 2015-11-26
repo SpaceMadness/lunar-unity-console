@@ -3,6 +3,7 @@
     <color name="lunar_console_color_fake_status_bar">#ff000000</color>
     <color name="lunar_console_color_fake_status_bar_text">#ffffffff</color>
     <color name="lunar_console_color_cell_text">#ffb1b1b1</color>
+    <color name="lunar_console_color_cell_text_location">#ff666666</color>
     <color name="lunar_console_color_cell_background_light">#ff3c3c3c</color>
     <color name="lunar_console_color_cell_background_dark">#ff373737</color>
     <color name="lunar_console_color_table_title_background">#ff2d2e29</color>
