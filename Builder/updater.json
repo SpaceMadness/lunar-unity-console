@@ -1,6 +1,6 @@
 {
   "status": "OK",
-  "version": "0.0.7b",
-  "message": "Fixes:\n\n* Android: fixed clicks through exception warning.",
-  "url": "http://bit.ly/LunarConsole_0_0_7b"
+  "version": "0.0.8b",
+  "message": "Improvements:\n\n*Android: added stack trace info for every log entry.\n*iOS: improved stack trace info for every log entry.\n\nFixes:\n\n* Android: fixed touches passing through some are of the console into the scene.",
+  "url": "https://goo.gl/S8QXav"
 }
