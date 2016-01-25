@@ -70,6 +70,14 @@ void __lunar_console_hide()
     });
 }
 
+void __lunar_console_clear()
+{
+    lunar_dispatch_main(^{
+        LUAssert(_lunarConsolePlugin);
+        [_lunarConsolePlugin clear];
+    });
+}
+
 void __lunar_console_log_message(const char * cmessage, const char * cstackTrace, int type)
 {
     NSString *message = [[NSString alloc] initWithUTF8String:cmessage];

@@ -76,6 +76,11 @@ public class Logger : MonoBehaviour
         LunarConsole.LunarConsole.Show();
     }
 
+    public void ClearConsole()
+    {
+        LunarConsole.LunarConsole.Clear();
+    }
+
     IEnumerator LogMessages(float delay)
     {
         int i = 0;

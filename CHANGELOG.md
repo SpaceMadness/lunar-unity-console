@@ -1,5 +1,11 @@
 # Lunar Console Changelog
 
+## v.0.0.10b - 1/24/2016
+
+**Improvements:**
+
+* Added LunarConsole.Clear() method to clear the console output.
+
 ## v.0.0.9b - 1/23/2016
 
 **Improvements:**

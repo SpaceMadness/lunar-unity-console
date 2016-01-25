@@ -26,6 +26,7 @@ OBJC_EXTERN void __lunar_console_initialize(const char *version, int capacity, i
 OBJC_EXTERN void __lunar_console_destroy(void);
 OBJC_EXTERN void __lunar_console_show(void);
 OBJC_EXTERN void __lunar_console_hide(void);
+OBJC_EXTERN void __lunar_console_clear(void);
 OBJC_EXTERN void __lunar_console_log_message(const char *message, const char *stacktrace, int type);
 
 #endif /* defined(__LunarConsole__unity_native_interface__) */

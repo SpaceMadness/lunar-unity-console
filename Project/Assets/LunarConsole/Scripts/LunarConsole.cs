@@ -111,6 +111,14 @@ namespace LunarConsole
             }
         }
 
+        void ClearConsole()
+        {
+            if (platform != null)
+            {
+                platform.ClearConsole();
+            }
+        }
+
         bool InitPlatform(int capacity, int trim)
         {
             try
@@ -165,6 +173,7 @@ namespace LunarConsole
             void OnLogMessageReceived(string message, string stackTrace, LogType type);
             bool ShowConsole();
             bool HideConsole();
+            void ClearConsole();
         }
 
         #if UNITY_IOS || UNITY_IPHONE
@@ -182,6 +191,9 @@ namespace LunarConsole
 
             [DllImport("__Internal")]
             private static extern void __lunar_console_hide();
+
+            [DllImport("__Internal")]
+            private static extern void __lunar_console_clear();
             
             public PlatformIOS(string version, int capacity, int trim, string gesture)
             {
@@ -204,6 +216,11 @@ namespace LunarConsole
                 __lunar_console_hide();
                 return true;
             }
+
+            public void ClearConsole()
+            {
+                __lunar_console_clear();
+            }
         }
 
         #elif UNITY_ANDROID
@@ -223,6 +240,7 @@ namespace LunarConsole
             private readonly IntPtr methodLogMessage;
             private readonly IntPtr methodShowConsole;
             private readonly IntPtr methodHideConsole;
+            private readonly IntPtr methodClearConsole;
 
             public PlatformAndroid(string version, int capacity, int trim, string gesture)
             {
@@ -235,6 +253,7 @@ namespace LunarConsole
                 methodLogMessage = GetStaticMethod(pluginClassRaw, "logMessage", "(Ljava.lang.String;Ljava.lang.String;I)V");
                 methodShowConsole = GetStaticMethod(pluginClassRaw, "show", "()V");
                 methodHideConsole = GetStaticMethod(pluginClassRaw, "hide", "()V");
+                methodClearConsole = GetStaticMethod(pluginClassRaw, "clear", "()V");
             }
 
             ~PlatformAndroid()
@@ -279,6 +298,17 @@ namespace LunarConsole
                 catch (Exception)
                 {
                     return false;
+                }
+            }
+
+            public void ClearConsole()
+            {
+                try
+                {
+                    CallStaticVoidMethod(methodClearConsole, args0);
+                }
+                catch (Exception)
+                {
                 }
             }
 
@@ -352,6 +382,23 @@ namespace LunarConsole
             else
             {
                 Debug.LogError("Can't hide " + Constants.PluginName + ": instance is not initialized. Make sure you've installed it correctly");
+            }
+            #endif
+        }
+
+        /// <summary>
+        /// Clears Lunar console. Does nothing if platform is not supported or if plugin is not initizlied.
+        /// </summary>
+        public static void Clear()
+        {
+            #if LUNAR_CONSOLE_ENABLED
+            if (instance != null)
+            {
+                instance.ClearConsole();
+            }
+            else
+            {
+                Debug.LogError("Can't clear " + Constants.PluginName + ": instance is not initialized. Make sure you've installed it correctly");
             }
             #endif
         }
