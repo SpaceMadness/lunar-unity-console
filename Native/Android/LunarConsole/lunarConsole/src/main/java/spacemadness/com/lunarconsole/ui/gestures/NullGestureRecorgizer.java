@@ -1,5 +1,5 @@
 //
-//  LUExceptionWarningController.h
+//  NullGestureRecorgizer.java
 //
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
@@ -19,21 +19,15 @@
 //  limitations under the License.
 //
 
-#import <UIKit/UIKit.h>
+package spacemadness.com.lunarconsole.ui.gestures;
 
-@class LUExceptionWarningController;
+import android.view.MotionEvent;
 
-@protocol LUExceptionWarningControllerDelegate <NSObject>
-
-- (void)exceptionWarningControllerDidShow:(LUExceptionWarningController *)controller;
-- (void)exceptionWarningControllerDidDismiss:(LUExceptionWarningController *)controller;
-
-@end
-
-@interface LUExceptionWarningController : UIViewController
-
-@property (nonatomic, assign) id<LUExceptionWarningControllerDelegate> delegate;
-
-- (instancetype)initWithMessage:(NSString *)message;
-
-@end
+public class NullGestureRecorgizer extends GestureRecognizer<NullGestureRecorgizer>
+{
+    @Override
+    public boolean onTouchEvent(MotionEvent event)
+    {
+        return false; // do nothing
+    }
+}

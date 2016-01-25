@@ -4,7 +4,7 @@
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
 //
-//  Copyright 2015 Alex Lementuev, SpaceMadness.
+//  Copyright 2016 Alex Lementuev, SpaceMadness.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -33,13 +33,14 @@ static const CGFloat kWarningHeight = 45.0f;
     LUWindow            * _consoleWindow;
     LUWindow            * _warningWindow;
     UIGestureRecognizer * _gestureRecognizer;
+    LUConsoleGesture      _gesture;
 }
 
 @end
 
 @implementation LUConsolePlugin
 
-- (instancetype)initWithVersion:(NSString *)version capacity:(NSUInteger)capacity trimCount:(NSUInteger)trimCount
+- (instancetype)initWithVersion:(NSString *)version capacity:(NSUInteger)capacity trimCount:(NSUInteger)trimCount gestureName:(NSString *)gestureName
 {
     self = [super init];
     if (self)
@@ -55,6 +56,7 @@ static const CGFloat kWarningHeight = 45.0f;
         
         _version = LU_RETAIN(version);
         _console = [[LUConsole alloc] initWithCapacity:capacity trimCount:trimCount];
+        _gesture = [self gestureFromString:gestureName];
     }
     return self;
 }
@@ -240,9 +242,8 @@ static const CGFloat kWarningHeight = 45.0f;
 - (void)enableGestureRecognition
 {
     LUAssert(_gestureRecognizer == nil);
-    if (!_gestureRecognizer)
+    if (!_gestureRecognizer && _gesture != LUConsoleGestureNone) // TODO: handle other gesture types
     {
-        // TODO: add multiple gesture recognizers types
         UISwipeGestureRecognizer *gr = [[UISwipeGestureRecognizer alloc] initWithTarget:self
                                                                                  action:@selector(handleGesture:)];
         gr.numberOfTouchesRequired = 2;
@@ -270,6 +271,16 @@ static const CGFloat kWarningHeight = 45.0f;
     {
         [self show];
     }
+}
+
+- (LUConsoleGesture)gestureFromString:(NSString *)gestureName
+{
+    if ([gestureName isEqualToString:@"SwipeDown"])
+    {
+        return LUConsoleGestureSwipe;
+    }
+    
+    return LUConsoleGestureNone;
 }
 
 #pragma mark -

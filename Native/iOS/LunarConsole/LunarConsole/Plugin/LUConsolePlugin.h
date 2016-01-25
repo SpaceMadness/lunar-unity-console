@@ -4,7 +4,7 @@
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
 //
-//  Copyright 2015 Alex Lementuev, SpaceMadness.
+//  Copyright 2016 Alex Lementuev, SpaceMadness.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -24,9 +24,14 @@
 #import "LUObject.h"
 #import "LUConsoleEntry.h"
 
+typedef enum : NSUInteger {
+    LUConsoleGestureNone,
+    LUConsoleGestureSwipe
+} LUConsoleGesture;
+
 @interface LUConsolePlugin : LUObject
 
-- (instancetype)initWithVersion:(NSString *)version capacity:(NSUInteger)capacity trimCount:(NSUInteger)trimCount;
+- (instancetype)initWithVersion:(NSString *)version capacity:(NSUInteger)capacity trimCount:(NSUInteger)trimCount gestureName:(NSString *)gestureName;
 
 - (void)show;
 - (void)hide;

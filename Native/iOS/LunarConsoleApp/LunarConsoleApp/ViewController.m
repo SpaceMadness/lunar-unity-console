@@ -4,7 +4,7 @@
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
 //
-//  Copyright 2015 Alex Lementuev, SpaceMadness.
+//  Copyright 2016 Alex Lementuev, SpaceMadness.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -44,7 +44,7 @@ static const NSUInteger kConsoleTrimCount = 128;
 {
     [super viewDidLoad];
     
-    _plugin = [[LUConsolePlugin alloc] initWithVersion:@"0.0.0b" capacity:kConsoleCapacity trimCount:kConsoleTrimCount];
+    _plugin = [[LUConsolePlugin alloc] initWithVersion:@"0.0.0b" capacity:kConsoleCapacity trimCount:kConsoleTrimCount gestureName:@"SwipeDown"];
 }
 
 - (void)didReceiveMemoryWarning {

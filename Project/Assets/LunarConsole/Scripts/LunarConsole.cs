@@ -4,7 +4,7 @@
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
 //
-//  Copyright 2015 Alex Lementuev, SpaceMadness.
+//  Copyright 2016 Alex Lementuev, SpaceMadness.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -43,6 +43,7 @@ namespace LunarConsole
 {
     public enum Gesture
     {
+        None,
         SwipeDown
     }
 
@@ -56,7 +57,7 @@ namespace LunarConsole
         [Tooltip("How many logs will be trimmed when console overflows")]
         public int trim = 512;
 
-        [Tooltip("More gesture support coming soon")]
+        [Tooltip("Gesture type to open the console")]
         public Gesture gesture = Gesture.SwipeDown;
 
         #if LUNAR_CONSOLE_ENABLED
@@ -142,16 +143,21 @@ namespace LunarConsole
             #if UNITY_IOS || UNITY_IPHONE
             if (Application.platform == RuntimePlatform.IPhonePlayer)
             {
-                return new PlatformIOS(Constants.Version, capacity, trim);
+                return new PlatformIOS(Constants.Version, capacity, trim, GetGestureName(gesture));
             }
             #elif UNITY_ANDROID
             if (Application.platform == RuntimePlatform.Android)
             {
-                return new PlatformAndroid(Constants.Version, capacity, trim);
+                return new PlatformAndroid(Constants.Version, capacity, trim, GetGestureName(gesture));
             }
             #endif
 
             return null;
+        }
+
+        static string GetGestureName(Gesture gesture)
+        {
+            return gesture.ToString();
         }
 
         interface IPlatform
@@ -166,7 +172,7 @@ namespace LunarConsole
         class PlatformIOS : IPlatform
         {
             [DllImport("__Internal")]
-            private static extern void __lunar_console_initialize(string version, int capacity, int trim);
+            private static extern void __lunar_console_initialize(string version, int capacity, int trim, string gesture);
             
             [DllImport("__Internal")]
             private static extern void __lunar_console_log_message(string message, string stackTrace, int type);
@@ -177,9 +183,9 @@ namespace LunarConsole
             [DllImport("__Internal")]
             private static extern void __lunar_console_hide();
             
-            public PlatformIOS(string version, int capacity, int trim)
+            public PlatformIOS(string version, int capacity, int trim, string gesture)
             {
-                __lunar_console_initialize(version, capacity, trim);
+                __lunar_console_initialize(version, capacity, trim, gesture);
             }
             
             public void OnLogMessageReceived(string message, string stackTrace, LogType type)
@@ -218,13 +224,13 @@ namespace LunarConsole
             private readonly IntPtr methodShowConsole;
             private readonly IntPtr methodHideConsole;
 
-            public PlatformAndroid(string version, int capacity, int trim)
+            public PlatformAndroid(string version, int capacity, int trim, string gesture)
             {
                 pluginClass = new AndroidJavaClass(PluginClassName);
                 pluginClassRaw = pluginClass.GetRawClass();
 
-                IntPtr methodInit = GetStaticMethod(pluginClassRaw, "init", "(Ljava.lang.String;II)V");
-                CallStaticVoidMethod(methodInit, new jvalue[] { jval(version), jval(capacity), jval(trim) });
+                IntPtr methodInit = GetStaticMethod(pluginClassRaw, "init", "(Ljava.lang.String;IILjava.lang.String;)V");
+                CallStaticVoidMethod(methodInit, new jvalue[] { jval(version), jval(capacity), jval(trim), jval(gesture) });
 
                 methodLogMessage = GetStaticMethod(pluginClassRaw, "logMessage", "(Ljava.lang.String;Ljava.lang.String;I)V");
                 methodShowConsole = GetStaticMethod(pluginClassRaw, "show", "()V");

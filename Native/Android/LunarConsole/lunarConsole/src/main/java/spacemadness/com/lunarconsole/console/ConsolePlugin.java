@@ -4,7 +4,7 @@
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
 //
-//  Copyright 2015 Alex Lementuev, SpaceMadness.
+//  Copyright 2016 Alex Lementuev, SpaceMadness.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -38,16 +38,15 @@ import java.util.List;
 import spacemadness.com.lunarconsole.R;
 import spacemadness.com.lunarconsole.core.Destroyable;
 import spacemadness.com.lunarconsole.debug.Log;
-import spacemadness.com.lunarconsole.ui.GestureRecognizer;
-import spacemadness.com.lunarconsole.ui.SwipeGestureRecognizer;
+import spacemadness.com.lunarconsole.ui.gestures.GestureRecognizer;
+import spacemadness.com.lunarconsole.ui.gestures.GestureRecognizerFactory;
 
 import static android.widget.FrameLayout.LayoutParams;
 import static spacemadness.com.lunarconsole.console.Console.Options;
 import static spacemadness.com.lunarconsole.console.ConsoleLogType.*;
 import static spacemadness.com.lunarconsole.utils.ThreadUtils.*;
 import static spacemadness.com.lunarconsole.utils.UIUtils.*;
-import static spacemadness.com.lunarconsole.ui.GestureRecognizer.OnGestureListener;
-import static spacemadness.com.lunarconsole.ui.SwipeGestureRecognizer.SwipeDirection;
+import static spacemadness.com.lunarconsole.ui.gestures.GestureRecognizer.OnGestureListener;
 import static spacemadness.com.lunarconsole.debug.Tags.*;
 
 public class ConsolePlugin implements
@@ -93,26 +92,27 @@ public class ConsolePlugin implements
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Static interface
 
-    public static void init(String version, int capacity, int trim)
+    public static void init(String version, int capacity, int trim, String gesture)
     {
         Activity activity = UnityPlayer.currentActivity;
-        init(activity, version, capacity, trim, new UnityPluginImp(activity));
+        init(activity, version, capacity, trim, new UnityPluginImp(activity), gesture);
     }
 
-    public static void init(Activity activity, String version, int capacity, int trim)
+    public static void init(Activity activity, String version, int capacity, int trim, String gesture)
     {
-        init(activity, version, capacity, trim, new DefaultPluginImp(activity));
+        init(activity, version, capacity, trim, new DefaultPluginImp(activity), gesture);
     }
 
     private static void init(final Activity activity,
                              final String version,
                              final int capacity,
                              final int trim,
-                             final ConsolePluginImp pluginImp)
+                             final ConsolePluginImp pluginImp,
+                             final String gesture)
     {
         if (isRunningOnMainThread())
         {
-            init0(activity, version, capacity, trim, pluginImp);
+            init0(activity, version, capacity, trim, pluginImp, gesture);
         }
         else
         {
@@ -124,7 +124,7 @@ public class ConsolePlugin implements
                 @Override
                 public void run()
                 {
-                    init0(activity, version, capacity, trim, pluginImp);
+                    init0(activity, version, capacity, trim, pluginImp, gesture);
                 }
             });
         }
@@ -134,7 +134,8 @@ public class ConsolePlugin implements
                               String version,
                               int capacity,
                               int trim,
-                              ConsolePluginImp pluginImp)
+                              ConsolePluginImp pluginImp,
+                              String gesture)
     {
         try
         {
@@ -142,7 +143,7 @@ public class ConsolePlugin implements
             {
                 Log.d(PLUGIN, "Initializing plugin instance (%s): %d", version, capacity);
 
-                instance = new ConsolePlugin(activity, version, capacity, trim, pluginImp);
+                instance = new ConsolePlugin(activity, version, capacity, trim, pluginImp, gesture);
                 instance.enableGestureRecognition();
             }
             else
@@ -290,7 +291,7 @@ public class ConsolePlugin implements
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Constructor
 
-    private ConsolePlugin(Activity activity, String version, int capacity, int trim, ConsolePluginImp pluginImp)
+    private ConsolePlugin(Activity activity, String version, int capacity, int trim, ConsolePluginImp pluginImp, String gesture)
     {
         if (activity == null)
         {
@@ -310,8 +311,7 @@ public class ConsolePlugin implements
         console = new Console(options);
         activityRef = new WeakReference<>(activity);
 
-        final float SWIPE_THRESHOLD = dpToPx(activity, 100);
-        gestureDetector = new SwipeGestureRecognizer(SwipeDirection.Down, SWIPE_THRESHOLD);
+        gestureDetector = GestureRecognizerFactory.create(activity, gesture);
         gestureDetector.setListener(new OnGestureListener()
         {
             @Override

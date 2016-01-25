@@ -4,7 +4,7 @@
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
 //
-//  Copyright 2015 Alex Lementuev, SpaceMadness.
+//  Copyright 2016 Alex Lementuev, SpaceMadness.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -48,7 +48,7 @@ namespace LunarConsoleInternal
         [MenuItem("Window/Lunar Mobile Console/Report bug...")]
         static void RequestFeature()
         {
-            Application.OpenURL("http://bit.ly/JbqhR5");
+            Application.OpenURL("https://github.com/SpaceMadness/lunar-unity-console/issues/new");
         }
 
         #if LUNAR_DEVELOPMENT

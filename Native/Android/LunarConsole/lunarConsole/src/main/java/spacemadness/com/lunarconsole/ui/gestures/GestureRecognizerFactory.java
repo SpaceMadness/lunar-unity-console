@@ -1,5 +1,5 @@
 //
-//  Autorun.cs
+//  GestureRecognizerFactory.java
 //
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
@@ -19,26 +19,26 @@
 //  limitations under the License.
 //
 
-using UnityEngine;
-using UnityEditor;
+package spacemadness.com.lunarconsole.ui.gestures;
 
-using LunarConsole;
+import android.content.Context;
 
-using System.IO;
-using System.Collections;
+import static spacemadness.com.lunarconsole.utils.UIUtils.dpToPx;
+import static spacemadness.com.lunarconsole.ui.gestures.SwipeGestureRecognizer.SwipeDirection;
 
-namespace LunarConsoleInternal
+public class GestureRecognizerFactory
 {
-    [InitializeOnLoad]
-    static class Autorun
+    public static GestureRecognizer create(Context context, String name)
     {
-        static Autorun()
+        switch (name)
         {
-            Updater.TryCheckForUpdates();
-
-            #if UNITY_ANDROID
-            AndroidPlugin.UpdateFiles();
-            #endif
+            case "SwipeDown": // TODO: add support for different swipe directions
+            {
+                final float SWIPE_THRESHOLD = dpToPx(context, 100);
+                return new SwipeGestureRecognizer(SwipeDirection.Down, SWIPE_THRESHOLD);
+            }
         }
+
+        return new NullGestureRecorgizer();
     }
 }

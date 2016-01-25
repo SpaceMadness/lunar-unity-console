@@ -40,7 +40,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   capacity: 4096
-  gesture: 0
+  trim: 512
+  gesture: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

@@ -1,5 +1,16 @@
 # Lunar Console Changelog
 
+## v.0.0.9b - 1/23/2016
+
+**Improvements:**
+
+* Added an option to disable multi touch gesture recognition.
+
+**Fixes:**
+
+* **Android**: fixed a conflicting between 2-finger swipe down and zoom (pinch) gesture recognition.
+* **Editor**: fixed 'Report bug...' url
+
 ## v.0.0.8b - 11/30/2015
 
 **Improvements:**

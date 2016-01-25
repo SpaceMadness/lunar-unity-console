@@ -4,7 +4,7 @@
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
 //
-//  Copyright 2015 Alex Lementuev, SpaceMadness.
+//  Copyright 2016 Alex Lementuev, SpaceMadness.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -28,14 +28,21 @@
 
 static LUConsolePlugin * _lunarConsolePlugin;
 
-void __lunar_console_initialize(const char * cversion, int capacity, int trimCount)
+void __lunar_console_initialize(const char * cversion, int capacity, int trimCount, const char *cgesture)
 {
     lunar_dispatch_main(^{
         if (_lunarConsolePlugin == nil) {
             NSString *version = [[NSString alloc] initWithUTF8String:cversion];
-            _lunarConsolePlugin = [[LUConsolePlugin alloc] initWithVersion:version capacity:capacity trimCount:trimCount];
+            NSString *gesture = [[NSString alloc] initWithUTF8String:cgesture];
+            
+            _lunarConsolePlugin = [[LUConsolePlugin alloc] initWithVersion:version
+                                                                  capacity:capacity
+                                                                 trimCount:trimCount
+                                                               gestureName:gesture];
             [_lunarConsolePlugin enableGestureRecognition];
+            
             LU_RELEASE(version);
+            LU_RELEASE(gesture);
         }
     });
 }

@@ -4,7 +4,7 @@
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
 //
-//  Copyright 2015 Alex Lementuev, SpaceMadness.
+//  Copyright 2016 Alex Lementuev, SpaceMadness.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -88,7 +88,7 @@ public class MainActivity extends Activity
             @Override
             public void run()
             {
-                ConsolePlugin.init(MainActivity.this, "0.0.0b", capacity, trim);
+                ConsolePlugin.init(MainActivity.this, "0.0.0b", capacity, trim, "SwipeDown");
             }
         });
 
