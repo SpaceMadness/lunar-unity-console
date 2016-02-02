@@ -25,10 +25,11 @@
 
 @interface LUConsoleEntryList ()
 {
-    LUMutableArray  * _entries;
-    LUMutableArray  * _filteredEntries;
-    LUMutableArray  * _currentEntries;
-    LUConsoleLogType  _logDisabledTypesMask;
+    LUMutableArray            * _entries;           // all entries
+    LUMutableArray            * _filteredEntries;   // filtered entries
+    LUMutableArray            * _currentEntries;    // current reference to entries (either all entries or filtered)
+    LUConsoleEntryLookupTable * _entryLookup;       // lookup table for collapsed entries
+    LUConsoleLogType            _logDisabledTypesMask;
 }
 
 @end
@@ -57,20 +58,18 @@
     LU_RELEASE(_entries);
     LU_RELEASE(_filteredEntries);
     LU_RELEASE(_filterText);
+    LU_RELEASE(_entryLookup);
     LU_SUPER_DEALLOC
 }
 
 #pragma mark -
 #pragma mark Entries
 
-- (BOOL)addEntry:(LUConsoleEntry *)entry
+- (NSInteger)addEntry:(LUConsoleEntry *)entry
 {
     LUAssert(entry);
     if (entry != nil)
     {
-        // add entry
-        [_entries addObject:entry];
-        
         // count types
         LUConsoleLogType entryType = entry.type;
         if (entryType == LUConsoleLogTypeLog)
@@ -86,22 +85,37 @@
             ++_errorCount;
         }
         
-        // filter
+        // add entry
+        [_entries addObject:entry];
+        
+        // filter entry
         if (self.isFiltering)
         {
             if ([self filterEntry:entry])
             {
+                if (_collapsed)
+                {
+                    LUConsoleCollapsedEntry *collapsedEntry = [_entryLookup addEntry:entry];
+                    if (collapsedEntry.index < _filteredEntries.trimmedCount) // first encounter or trimmed?
+                    {
+                        collapsedEntry.index = _filteredEntries.totalCount;   // we use total count in case if list overflows
+                        [_filteredEntries addObject:collapsedEntry];
+                    }
+                    
+                    return collapsedEntry.index - _filteredEntries.trimCount;
+                }
+                
                 [_filteredEntries addObject:entry];
-                return YES;
+                return _filteredEntries.count - 1;
             }
             
-            return NO; // if item was rejected - we don't need to update table cells
+            return -1; // if item was rejected - we don't need to update table cells
         }
         
-        return YES;
+        return _entries.count - 1; // entry was added at the end of the list
     }
     
-    return NO;
+    return -1;
 }
 
 - (LUConsoleEntry *)entryAtIndex:(NSUInteger)index
@@ -114,10 +128,31 @@
 {
     [_entries removeAllObjects];
     [_filteredEntries removeAllObjects];
+    [_entryLookup clear];
     
     _logCount = 0;
     _warningCount = 0;
     _errorCount = 0;
+}
+
+#pragma mark -
+#pragma mark Collapsing
+
+- (void)setCollapsed:(BOOL)collapsed
+{
+    _collapsed = collapsed;
+    if (collapsed)
+    {
+        LUAssert(_entryLookup == nil);
+        _entryLookup = [LUConsoleEntryLookupTable new];
+    }
+    else
+    {
+        LU_RELEASE(_entryLookup);
+        _entryLookup = nil;
+    }
+    
+    [self applyFilter]; // collapsed entries are just a special case of filtered items
 }
 
 #pragma mark -
@@ -173,6 +208,7 @@
     return (_logDisabledTypesMask & LU_CONSOLE_LOG_TYPE_MASK(type)) == 0;
 }
 
+/// applies filter to already filtered items
 - (BOOL)appendFilter
 {
     if (self.isFiltering)
@@ -184,11 +220,14 @@
     return [self applyFilter];
 }
 
+/// setup filtering for the list
 - (BOOL)applyFilter
 {
-    BOOL filtering = _filterText.length > 0 || [self hasLogTypeFilters]; // needs filtering?
-    if (filtering)
+    BOOL needsFiltering = _collapsed || _filterText.length > 0 || [self hasLogTypeFilters];
+    if (needsFiltering)
     {
+        [_entryLookup clear]; // if we have collapsed items - we need to rebuild the lookup
+        
         [self useFilteredFromEntries:_entries];
         return YES;
     }
@@ -227,11 +266,39 @@
 {
     LUMutableArray *list = [LUMutableArray listWithCapacity:entries.capacity      // same capacity
                                                   trimCount:entries.trimCount];   // and trim policy as original
-    for (id entry in entries)
+
+    if (_collapsed)
     {
-        if ([self filterEntry:entry])
+        for (id entry in entries)
         {
-            [list addObject:entry];
+            if ([self filterEntry:entry])
+            {
+                if ([entry isKindOfClass:[LUConsoleCollapsedEntry class]])
+                {
+                    LUConsoleCollapsedEntry *collapsedEntry = entry;
+                    collapsedEntry.index = list.totalCount; // update item's position
+                    [list addObject:collapsedEntry];
+                }
+                else
+                {
+                    LUConsoleCollapsedEntry *collapsedEntry = [_entryLookup addEntry:entry];
+                    if (collapsedEntry.count == 1) // first encounter
+                    {
+                        collapsedEntry.index = list.totalCount;
+                        [list addObject:collapsedEntry];
+                    }
+                }
+            }
+        }
+    }
+    else
+    {
+        for (LUConsoleEntry *entry in entries)
+        {
+            if ([self filterEntry:entry])
+            {
+                [list addObject:entry];
+            }
         }
     }
     

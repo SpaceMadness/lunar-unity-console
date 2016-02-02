@@ -37,10 +37,13 @@
 @property (nonatomic, readonly) NSUInteger warningCount;
 @property (nonatomic, readonly) NSUInteger errorCount;
 
+@property (nonatomic, assign, getter=isCollapsed) BOOL collapsed;
+
 + (instancetype)listWithCapacity:(NSUInteger)capacity trimCount:(NSUInteger)trimCount;
 - (instancetype)initWithCapacity:(NSUInteger)capacity trimCount:(NSUInteger)trimCount;
 
-- (BOOL)addEntry:(LUConsoleEntry *)entry;
+/// Adds entry to the list. Return the entry index or -1 if the entry was filtered out
+- (NSInteger)addEntry:(LUConsoleEntry *)entry;
 - (LUConsoleEntry *)entryAtIndex:(NSUInteger)index;
 - (void)clear;
 

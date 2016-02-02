@@ -52,6 +52,15 @@
 @property (nonatomic, readonly) CGFloat buttonWidth;
 @property (nonatomic, readonly) CGFloat buttonHeight;
 
+@property (nonatomic, readonly) UIImage *collapseBackgroundImage;
+@property (nonatomic, readonly) UIColor *collapseBackgroundColor;
+@property (nonatomic, readonly) UIColor *collapseTextColor;
+
+@property (nonatomic, readonly) UIFont  *contextMenuFont;
+@property (nonatomic, readonly) UIColor *contextMenuBackgroundColor;
+@property (nonatomic, readonly) UIColor *contextMenuTextColor;
+@property (nonatomic, readonly) UIColor *contextMenuTextHighlightColor;
+
 + (LUTheme *)mainTheme;
 
 @end

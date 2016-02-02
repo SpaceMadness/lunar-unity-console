@@ -24,10 +24,10 @@
 #import "Lunar.h"
 #import "ViewController.h"
 
-#define GET_CONSOLE_TABLE(app) [[[[[[[app childrenMatchingType:XCUIElementTypeWindow] elementBoundByIndex:0] childrenMatchingType:XCUIElementTypeOther].element childrenMatchingType:XCUIElementTypeOther].element childrenMatchingType:XCUIElementTypeOther].element childrenMatchingType:XCUIElementTypeOther].element childrenMatchingType:XCUIElementTypeTable].element
+#define GET_CONSOLE_TABLE(app) ([[app.otherElements containingType:XCUIElementTypeStaticText identifier:@"Lunar Console v0.0.0b"] childrenMatchingType:XCUIElementTypeTable].element)
 
-#define ERASE_TEXT(app) [app.keys[@"delete"] pressForDuration:1.3]
-#define ERASE_CHAR(app) [app.keys[@"delete"] tap]
+#define ERASE_TEXT(app) [app.keys[@"Delete"] pressForDuration:1.3]
+#define ERASE_CHAR(app) [app.keys[@"Delete"] tap]
 
 @interface LUConsoleControllerUITest : XCTestCase
 
@@ -124,18 +124,73 @@
     XCTAssertFalse(filterSearchField.selected);
 }
 
+- (void)testCollapse
+{
+    XCUIApplication *app = [[XCUIApplication alloc] init];
+    
+    // add elements to console
+    [self app:app logMessage:@"Debug" logType:LUConsoleLogTypeLog];
+    [self app:app logMessage:@"Warning" logType:LUConsoleLogTypeWarning];
+    [self app:app logMessage:@"Error" logType:LUConsoleLogTypeError];
+    [self app:app logMessage:@"Debug" logType:LUConsoleLogTypeLog];
+    [self app:app logMessage:@"Warning" logType:LUConsoleLogTypeWarning];
+    [self app:app logMessage:@"Error" logType:LUConsoleLogTypeError];
+    
+    // present controller
+    [app.buttons[@"Show Controller"] tap];
+    
+    XCUIElement *table = GET_CONSOLE_TABLE(app);
+    
+    // collapse elements
+    XCUIElement *lunarConsoleIconButtonMoreButton = app.buttons[@"Console Button More"];
+    
+    [lunarConsoleIconButtonMoreButton tap];
+    [app.buttons[@"Collapse"] tap];
+    [self assertTable:table, @"Debug@2", @"Warning@2", @"Error@2", nil];
+    
+    // close controller
+    [app.buttons[@"Console Close Button"] tap];
+    
+    // re-open controller
+    [app.buttons[@"Show Controller"] tap];
+    
+    table = GET_CONSOLE_TABLE(app);
+    [self assertTable:table, @"Debug@2", @"Warning@2", @"Error@2", nil];
+    
+    // expand elements
+    lunarConsoleIconButtonMoreButton = app.buttons[@"Console Button More"];
+    
+    [lunarConsoleIconButtonMoreButton tap];
+    
+    [app.buttons[@"Expand"] tap];
+    [self assertTable:table, @"Debug", @"Warning", @"Error", @"Debug", @"Warning", @"Error", nil];
+}
+
 #pragma mark -
 #pragma mark Helpers
 
 - (void)assertTable:(XCUIElement *)table, ... NS_REQUIRES_NIL_TERMINATION
 {
     NSMutableArray *expected = [[NSMutableArray alloc] init];
+    NSMutableArray *expectedCount = [[NSMutableArray alloc] init];
     va_list ap;
     va_start(ap, table);
     
     for (NSString *value = va_arg(ap, NSString *); value; value = va_arg(ap, NSString *))
     {
-        [expected addObject:value];
+        NSRange atRange = [value rangeOfString:@"@"];
+        if (atRange.location != NSNotFound)
+        {
+            [expected addObject:[value substringToIndex:atRange.location]];
+            
+            NSString *count = [value substringFromIndex:atRange.location + atRange.length];
+            [expectedCount addObject:count];
+        }
+        else
+        {
+            [expected addObject:value];
+            [expectedCount addObject:@"0"];
+        }
     }
     
     va_end(ap);
@@ -147,6 +202,19 @@
     {
         XCUIElement *cell = [cells elementBoundByIndex:i];
         XCTAssert([expected[i] isEqualToString:cell.staticTexts[@"Log Message Label"].label]);
+        if ([expectedCount[i] isEqualToString:@"0"])
+        {
+            XCTAssertFalse(cell.staticTexts[@"Log Collapse Label"].exists);
+        }
+        else if ([expectedCount[i] isEqualToString:@"1"])
+        {
+            XCTAssertFalse(cell.staticTexts[@"Log Collapse Label"].hittable);
+        }
+        else
+        {
+            XCTAssertTrue(cell.staticTexts[@"Log Collapse Label"].hittable);
+            XCTAssert([expectedCount[i] isEqualToString:cell.staticTexts[@"Log Collapse Label"].label]);
+        }
     }
 }
 
@@ -154,7 +222,7 @@
 {
     XCUIElement *textField = [[[[[app.otherElements containingType:XCUIElementTypeNavigationBar identifier:@"View"] childrenMatchingType:XCUIElementTypeOther].element childrenMatchingType:XCUIElementTypeOther].element childrenMatchingType:XCUIElementTypeOther].element childrenMatchingType:XCUIElementTypeTextField].element;
     [textField tap];
-    [app.keys[@"delete"] pressForDuration:1.3];
+    [app.keys[@"Delete"] pressForDuration:1.3];
     [textField typeText:message];
     [app.buttons[@"Return"] tap];
 

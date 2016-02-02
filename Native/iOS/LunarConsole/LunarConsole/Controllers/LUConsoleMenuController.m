@@ -1,0 +1,235 @@
+//
+//  LUConsoleMenuController.m
+//  LunarConsole
+//
+//  Created by Alex Lementuev on 1/31/16.
+//  Copyright © 2016 Space Madness. All rights reserved.
+//
+
+#import "Lunar.h"
+
+#import "LUConsoleMenuController.h"
+
+#define kButtonBackgroundImage @"lunar_console_log_button_background.png"
+
+@interface LUConsoleMenuControllerButton ()
+{
+    NSString * _title;
+    id         _target;
+    SEL        _action;
+}
+
+- (UIButton *)UIButton;
+
+@end
+
+@implementation LUConsoleMenuControllerButton
+
++ (instancetype)buttonWithTitle:(NSString *)title target:(id)target action:(SEL)action
+{
+    return LU_AUTORELEASE([[self alloc] initWithTitle:title target:target action:action]);
+}
+
+- (instancetype)initWithTitle:(NSString *)title target:(id)target action:(SEL)action
+{
+    self = [super init];
+    if (self)
+    {
+        _title  = LU_RETAIN(title);
+        _target = LU_RETAIN(target);
+        _action = action;
+    }
+    return self;
+}
+
+- (void)dealloc
+{
+    LU_RELEASE(_title);
+    LU_RELEASE(_target);
+    
+    LU_SUPER_DEALLOC
+}
+
+- (UIButton *)UIButton
+{
+    LUTheme *theme = [LUTheme mainTheme];
+    
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    [button setTitle:_title forState:UIControlStateNormal];
+    [button addTarget:_target action:_action forControlEvents:UIControlEventTouchUpInside];
+    [button setBackgroundColor:theme.contextMenuBackgroundColor];
+    [button setTitleColor:theme.contextMenuTextColor forState:UIControlStateNormal];
+    [button setTitleColor:theme.contextMenuTextHighlightColor forState:UIControlStateHighlighted];
+    [button setTranslatesAutoresizingMaskIntoConstraints:NO];
+    [button setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
+    [button setContentEdgeInsets:UIEdgeInsetsMake(0, 15, 0, 0)];
+    return button;
+}
+
+@end
+
+@interface LUConsoleMenuController ()
+{
+    NSMutableArray * _buttons;
+}
+
+@property (nonatomic, assign) IBOutlet UIView * contentView;
+
+@end
+
+@implementation LUConsoleMenuController
+
+- (instancetype)init
+{
+    self = [super initWithNibName:NSStringFromClass([self class]) bundle:nil];
+    if (self)
+    {
+        _buttons = [NSMutableArray new];
+    }
+    return self;
+}
+
+- (void)dealloc
+{
+    LU_RELEASE(_buttons);
+    LU_SUPER_DEALLOC
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    // background tap
+    UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
+                                                                                 action:@selector(handleBackgroundTap:)];
+    [self.view addGestureRecognizer:recognizer];
+    LU_RELEASE(recognizer);
+    
+    // colors
+    LUTheme *theme = [LUTheme mainTheme];
+    
+    // background
+    _contentView.backgroundColor = theme.contextMenuBackgroundColor;
+    
+    // border radius
+    _contentView.layer.borderColor = [[UIColor colorWithRed:0.37 green:0.37 blue:0.37 alpha:1.0] CGColor];
+    _contentView.layer.cornerRadius = 1.5f;
+    
+    // shadow
+    _contentView.layer.shadowColor = [UIColor blackColor].CGColor;
+    _contentView.layer.shadowOpacity = 0.5;
+    _contentView.layer.shadowRadius = 20.0;
+    
+    
+    // add buttons
+    [self addButtonsToView:_contentView];
+    
+    // update constraints
+    [self updateViewConstraints];
+}
+
+#pragma mark -
+#pragma mark Buttons
+
+- (void)addButtonTitle:(NSString *)title target:(id)target action:(SEL)action
+{
+    LUConsoleMenuControllerButton *button = [[LUConsoleMenuControllerButton alloc] initWithTitle:title target:target action:action];
+    [_buttons addObject:button];
+    LU_RELEASE(button);
+}
+
+- (void)addButtonsToView:(UIView *)view
+{
+    UIButton *prevButton = nil;
+    
+    for (LUConsoleMenuControllerButton *buttonData in _buttons)
+    {
+        UIButton *button = [buttonData UIButton];
+        
+        // close controller on button
+        [button addTarget:self action:@selector(onButton:) forControlEvents:UIControlEventTouchUpInside];
+        
+        // add to parent
+        [view addSubview:button];
+        
+        // content hugging priority so button won't expand
+        [button setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
+        
+        // set horizontal center
+        [NSLayoutConstraint constraintWithItem:button
+                                     attribute:NSLayoutAttributeCenterX
+                                     relatedBy:NSLayoutRelationEqual
+                                        toItem:view
+                                     attribute:NSLayoutAttributeCenterX
+                                    multiplier:1.0
+                                      constant:0].active = YES;
+        
+        // set equal width with a parent
+        [NSLayoutConstraint constraintWithItem:button
+                                     attribute:NSLayoutAttributeWidth
+                                     relatedBy:NSLayoutRelationEqual
+                                        toItem:view
+                                     attribute:NSLayoutAttributeWidth
+                                    multiplier:1.0
+                                      constant:0].active = YES;
+        
+        // set top margin
+        if (prevButton)
+        {
+            [NSLayoutConstraint constraintWithItem:button
+                                         attribute:NSLayoutAttributeTop
+                                         relatedBy:NSLayoutRelationEqual
+                                            toItem:prevButton
+                                         attribute:NSLayoutAttributeBottom
+                                        multiplier:1.0
+                                          constant:8].active = YES;
+        }
+        else
+        {
+            [NSLayoutConstraint constraintWithItem:button
+                                         attribute:NSLayoutAttributeTop
+                                         relatedBy:NSLayoutRelationEqual
+                                            toItem:view
+                                         attribute:NSLayoutAttributeTopMargin
+                                        multiplier:1.0
+                                          constant:0].active = YES;
+        }
+        
+        prevButton = button;
+    }
+    
+    // set top margin
+    [NSLayoutConstraint constraintWithItem:prevButton
+                                 attribute:NSLayoutAttributeBottom
+                                 relatedBy:NSLayoutRelationEqual
+                                    toItem:view
+                                 attribute:NSLayoutAttributeBottomMargin
+                                multiplier:1.0
+                                  constant:0].active = YES;
+}
+
+- (void)onButton:(id)sender
+{
+    [self requestClose];
+}
+
+#pragma mark -
+#pragma mark Background tap recognizer
+
+- (void)handleBackgroundTap:(UIGestureRecognizer *)recognizer
+{
+    [self requestClose];
+}
+
+#pragma mark -
+#pragma mark Delegate notifications
+
+- (void)requestClose
+{
+    if ([_delegate respondsToSelector:@selector(menuControllerDidRequestClose:)])
+    {
+        [_delegate menuControllerDidRequestClose:self];
+    }
+}
+
+@end

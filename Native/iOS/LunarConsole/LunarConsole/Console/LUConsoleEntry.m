@@ -163,3 +163,58 @@ static NSArray * _cellSkinLookup;
 }
 
 @end
+
+@implementation LUConsoleCollapsedEntry
+
++ (instancetype)entryWithEntry:(LUConsoleEntry *)entry
+{
+    return LU_AUTORELEASE([[self alloc] initWithEntry:entry]);
+}
+
+- (instancetype)initWithEntry:(LUConsoleEntry *)entry
+{
+    self = [super initWithType:entry.type message:entry.message stackTrace:entry.stackTrace];
+    if (self)
+    {
+        _count = 1;
+        _index = -1;
+    }
+    return self;
+}
+
+#pragma mark -
+#pragma mark Cells
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellAtIndex:(NSUInteger)index
+{
+    CGSize cellSize = [self cellSizeForTableView:tableView];
+    CGRect cellBounds = CGRectMake(0, 0, cellSize.width, cellSize.height);
+    
+    LUConsoleTableCollapsedCell *cell = [tableView dequeueReusableCellWithIdentifier:@"collapse"];
+    if (cell == nil)
+    {
+        cell = [LUConsoleTableCollapsedCell cellWithFrame:cellBounds reuseIdentifier:@"collapse"];
+    }
+    
+    LUCellSkin *cellSkin = [self cellSkinForLogType:self.type];
+    
+    cell.message = self.message;
+    cell.messageColor = cellSkin.textColor;
+    cell.cellColor = index % 2 == 0 ? cellSkin.backgroundColorDark : cellSkin.backgroundColorLight;
+    cell.icon = cellSkin.icon;
+    cell.collapsedCount = self.count;
+    
+    [cell setSize:cellBounds.size];
+    
+    return cell;
+}
+
+#pragma mark -
+#pragma mark Properties
+
+- (void)increaseCount
+{
+    ++_count;
+}
+
+@end

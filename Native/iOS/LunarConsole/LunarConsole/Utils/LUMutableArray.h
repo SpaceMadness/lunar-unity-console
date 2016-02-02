@@ -27,7 +27,7 @@
 @property (nonatomic, readonly) NSUInteger totalCount;      // total items added (might be more that count if trimmed)
 @property (nonatomic, readonly) NSUInteger capacity;        // can't be larger than that
 @property (nonatomic, readonly) NSUInteger trimCount;       // trimmed by this amount when overflows
-@property (nonatomic, readonly) NSUInteger trimmedCount;    // number of items trimmed (0 if not overfloat)
+@property (nonatomic, readonly) NSInteger  trimmedCount;    // number of items trimmed (0 if not overfloat)
 @property (nonatomic, readonly) BOOL isTrimmed;             // some elements has been removed to avoid an overfloat
 
 + (instancetype)listWithCapacity:(NSUInteger)capacity trimCount:(NSUInteger)trimCount;

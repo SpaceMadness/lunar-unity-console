@@ -32,7 +32,8 @@ static LUConsoleControllerState * _sharedControllerState;
     UISearchBarDelegate,
     MFMessageComposeViewControllerDelegate,
     LUTableViewTouchDelegate,
-    LUConsoleDetailsControllerDelegate>
+    LUConsoleDetailsControllerDelegate,
+    LUConsoleMenuControllerDelegate>
 {
     LUConsole * _console;
 }
@@ -47,9 +48,11 @@ static LUConsoleControllerState * _sharedControllerState;
 @property (nonatomic, assign) IBOutlet LULogTypeButton * warningButton;
 @property (nonatomic, assign) IBOutlet LULogTypeButton * errorButton;
 
+@property (nonatomic, assign) IBOutlet LUToggleButton  * toggleCollapseButton;
 @property (nonatomic, assign) IBOutlet LUToggleButton  * scrollLockButton;
 
-@property (nonatomic, assign) IBOutlet NSLayoutConstraint * logTypeButtonTrailingConstraint;
+@property (nonatomic, assign) IBOutlet NSLayoutConstraint * lastToolbarButtonTrailingConstraint;
+@property (nonatomic, assign) IBOutlet NSLayoutConstraint * lastToolbarButtonTrailingConstraintCompact;
 @property (nonatomic, assign) IBOutlet NSLayoutConstraint * overflowLabelHeightConstraint;
 
 @property (nonatomic, assign) BOOL scrollLocked;
@@ -110,6 +113,10 @@ static LUConsoleControllerState * _sharedControllerState;
     
     _console.delegate = self;
     
+    // collapse/expand button
+    _toggleCollapseButton.on = _console.isCollapsed;
+    _toggleCollapseButton.delegate = self;
+    
     // scroll lock
     _scrollLocked = [self controllerState].scrollLocked;
     _scrollLockButton.on = _scrollLocked;
@@ -153,7 +160,9 @@ static LUConsoleControllerState * _sharedControllerState;
     [self updateEntriesCount];
     
     // overflow warning
-    [self updateOverflowWarning];
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self updateOverflowWarning]; // give the table a chance to layout
+    });
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -202,6 +211,15 @@ static LUConsoleControllerState * _sharedControllerState;
 }
 
 #pragma mark -
+#pragma mark Collapsing
+
+- (void)setCollapsed:(BOOL)collapsed
+{
+    _console.collapsed = !_console.isCollapsed;
+    [self reloadData];
+}
+
+#pragma mark -
 #pragma mark Actions
 
 - (IBAction)onClose:(id)sender
@@ -214,7 +232,11 @@ static LUConsoleControllerState * _sharedControllerState;
 
 - (IBAction)onClear:(id)sender
 {
+    // clear entries
     [_console clear];
+    
+    // update entries count
+    [self updateEntriesCount];
 }
 
 - (IBAction)onCopy:(id)sender
@@ -251,11 +273,33 @@ static LUConsoleControllerState * _sharedControllerState;
     [self scrollToTopAnimated:YES];
 }
 
+- (IBAction)onMoreButton:(id)sender
+{
+    LUConsoleMenuController *controller = [LUConsoleMenuController new];
+    
+    // toggle collapse button
+    if (_console.isCollapsed)
+    {
+        [controller addButtonTitle:@"Expand" target:self action:@selector(onExpandButton:)];
+    }
+    else
+    {
+        [controller addButtonTitle:@"Collapse" target:self action:@selector(onCollapseButton:)];
+    }
+    
+    [controller setDelegate:self];
+    
+    // add as child view controller
+    [self addChildOverlayController:controller animated:NO];
+    
+    LU_RELEASE(controller);
+}
+
 #pragma mark -
 #pragma mark LunarConsoleDelegate
 
 - (void)lunarConsole:(LUConsole *)console didAddEntry:(LUConsoleEntry *)entry
-            filtered:(BOOL)filtered
+             atIndex:(NSInteger)index
         trimmedCount:(NSUInteger)trimmedCount
 {
     if (trimmedCount > 0)
@@ -268,16 +312,16 @@ static LUConsoleControllerState * _sharedControllerState;
         
         [self removeCellsCount:trimmedCount];
         
-        if (filtered)
+        if (index != -1)
         {
-            [self insertCellsCount:1];
+            [self insertCellAt:index];
         }
         
         [_tableView endUpdates];
     }
-    else if (filtered)
+    else if (index != -1)
     {
-        [self insertCellsCount:1];
+        [self insertCellAt:index];
     }
     
     // update entries count
@@ -298,6 +342,10 @@ static LUConsoleControllerState * _sharedControllerState;
     if (button == _scrollLockButton)
     {
         self.scrollLocked = button.isOn;
+    }
+    else if (button == _toggleCollapseButton)
+    {
+        [self setCollapsed:button.isOn];
     }
     else
     {
@@ -364,16 +412,7 @@ static LUConsoleControllerState * _sharedControllerState;
     controller.delegate = self;
     
     // add as child view controller
-    [self addChildViewController:controller];
-    controller.view.frame = self.view.bounds;
-    [self.view addSubview:controller.view];
-    [controller didMoveToParentViewController:self];
-    
-    // animate
-    controller.view.alpha = 0;
-    [UIView animateWithDuration:0.4 animations:^{
-        controller.view.alpha = 1;
-    }];
+    [self addChildOverlayController:controller animated:YES];
     
     LU_RELEASE(controller);
     
@@ -409,11 +448,11 @@ static LUConsoleControllerState * _sharedControllerState;
 {
     [searchBar setShowsCancelButton:YES animated:YES];
     
-    // FIXME: use size classes instead
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+    if (self.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassCompact)
     {
+        NSLayoutConstraint *constraint = [self lastToolbarButtonConstraint];
         CGFloat offset = CGRectGetWidth(self.view.bounds) - CGRectGetWidth(self.filterBar.bounds);
-        self.logTypeButtonTrailingConstraint.constant = -offset;
+        constraint.constant = -offset;
         
         [UIView animateWithDuration:0.4 animations:^{
             [self.view layoutIfNeeded];
@@ -427,10 +466,10 @@ static LUConsoleControllerState * _sharedControllerState;
 {
     [searchBar setShowsCancelButton:NO animated:YES];
     
-    // FIXME: use size classes instead
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPhone)
+    if (self.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassCompact)
     {
-        self.logTypeButtonTrailingConstraint.constant = 0;
+        NSLayoutConstraint *constraint = [self lastToolbarButtonConstraint];
+        constraint.constant = 0;
         
         [UIView animateWithDuration:0.4 animations:^{
             [self.view layoutIfNeeded];
@@ -463,6 +502,12 @@ static LUConsoleControllerState * _sharedControllerState;
     [searchBar resignFirstResponder];
 }
 
+- (NSLayoutConstraint *)lastToolbarButtonConstraint
+{
+    return self.lastToolbarButtonTrailingConstraintCompact != nil ?
+        self.lastToolbarButtonTrailingConstraintCompact : self.lastToolbarButtonTrailingConstraint;
+}
+
 #pragma mark -
 #pragma mark MFMessageComposeViewControllerDelegate
 
@@ -490,13 +535,15 @@ static LUConsoleControllerState * _sharedControllerState;
 
 - (void)detailsControllerDidClose:(LUConsoleDetailsController *)controller
 {
-    [UIView animateWithDuration:0.4 animations:^{
-        controller.view.alpha = 0;
-    } completion:^(BOOL finished) {
-        [controller willMoveToParentViewController:self];
-        [controller.view removeFromSuperview];
-        [controller removeFromParentViewController];
-    }];
+    [self removeChildOverlayController:controller animated:YES];
+}
+
+#pragma mark -
+#pragma mark LUConsoleMenuControllerDelegate
+
+- (void)menuControllerDidRequestClose:(LUConsoleMenuController *)controller
+{
+    [self removeChildOverlayController:controller animated:NO];
 }
 
 #pragma mark -
@@ -505,6 +552,19 @@ static LUConsoleControllerState * _sharedControllerState;
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
 {
     _scrollLockButton.on = NO;
+}
+
+#pragma mark -
+#pragma mark Actions
+
+- (void)onCollapseButton:(id)sender
+{
+    [self setCollapsed:YES];
+}
+
+- (void)onExpandButton:(id)sender
+{
+    [self setCollapsed:NO];
 }
 
 #pragma mark -
@@ -569,27 +629,14 @@ static LUConsoleControllerState * _sharedControllerState;
     }
 }
 
-- (void)insertCellsCount:(NSInteger)count
+- (void)insertCellAt:(NSInteger)index
 {
-    if (count == 1)
-    {
-        NSArray *indices = [[NSArray alloc] initWithObjects:[NSIndexPath indexPathForRow:_console.entriesCount - 1 inSection:0], nil];
-        [_tableView insertRowsAtIndexPaths:indices withRowAnimation:UITableViewRowAnimationNone];
-        LU_RELEASE(indices);
-    }
-    else if (count > 1)
-    {
-        NSMutableArray *indices = [[NSMutableArray alloc] initWithCapacity:count];
-        for (NSInteger i = count - 1; i >= 0; --i)
-        {
-            NSInteger rowIndex = _console.entriesCount - i - 1;
-            [indices addObject:[NSIndexPath indexPathForRow:rowIndex inSection:0]];
-        }
-        
-        [_tableView insertRowsAtIndexPaths:indices withRowAnimation:UITableViewRowAnimationNone];
-        LU_RELEASE(indices);
-    }
+    LUAssert(index >= 0 && index < _console.entriesCount);
     
+    NSArray *indices = [[NSArray alloc] initWithObjects:[NSIndexPath indexPathForRow:index inSection:0], nil];
+    [_tableView insertRowsAtIndexPaths:indices withRowAnimation:UITableViewRowAnimationNone];
+    LU_RELEASE(indices);
+
     // scroll to end
     if (_scrollLocked)
     {
@@ -627,6 +674,46 @@ static LUConsoleControllerState * _sharedControllerState;
 {
     UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
     [pasteboard setString:text];
+}
+
+#pragma mark -
+#pragma mark Controllers
+
+- (void)addChildOverlayController:(UIViewController *)controller animated:(BOOL)animated
+{
+    // add as child view controller
+    [self addChildViewController:controller];
+    controller.view.frame = self.view.bounds;
+    [self.view addSubview:controller.view];
+    [controller didMoveToParentViewController:self];
+    
+    // animate
+    if (animated) {
+        controller.view.alpha = 0;
+        [UIView animateWithDuration:0.4 animations:^{
+            controller.view.alpha = 1;
+        }];
+    }
+}
+
+- (void)removeChildOverlayController:(UIViewController *)controller animated:(BOOL)animated
+{
+    if (animated)
+    {
+        [UIView animateWithDuration:0.4 animations:^{
+            controller.view.alpha = 0;
+        } completion:^(BOOL finished) {
+            [controller willMoveToParentViewController:self];
+            [controller.view removeFromSuperview];
+            [controller removeFromParentViewController];
+        }];
+    }
+    else
+    {
+        [controller willMoveToParentViewController:self];
+        [controller.view removeFromSuperview];
+        [controller removeFromParentViewController];
+    }
 }
 
 #pragma mark -

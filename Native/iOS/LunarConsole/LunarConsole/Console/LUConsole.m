@@ -61,7 +61,7 @@
     NSUInteger oldTrimmedCount = _entries.trimmedCount; // trimmed count before we added a new item
     
     LUConsoleEntry *entry = [[LUConsoleEntry alloc] initWithType:type message:message stackTrace:stackTrace];
-    BOOL filtered = [_entries addEntry:entry];
+    NSInteger index = [_entries addEntry:entry];
 
     NSInteger trimmed = _entries.trimmedCount - oldTrimmedCount;
     if (trimmed > 0) // more items are trimmed
@@ -72,7 +72,7 @@
         }
     }
     
-    [_delegate lunarConsole:self didAddEntry:entry filtered:filtered trimmedCount:trimmed];
+    [_delegate lunarConsole:self didAddEntry:entry atIndex:index trimmedCount:trimmed];
     LU_RELEASE(entry);
 }
 
@@ -106,6 +106,16 @@
 - (BOOL)isTrimmed
 {
     return _entries.isTrimmed;
+}
+
+- (void)setCollapsed:(BOOL)collapsed
+{
+    _entries.collapsed = collapsed;
+}
+
+- (BOOL)isCollapsed
+{
+    return _entries.isCollapsed;
 }
 
 @end

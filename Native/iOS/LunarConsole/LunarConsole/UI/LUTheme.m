@@ -44,6 +44,15 @@ static LUTheme * _mainTheme;
 @property (nonatomic, assign) CGFloat buttonWidth;
 @property (nonatomic, assign) CGFloat buttonHeight;
 
+@property (nonatomic, strong) UIImage *collapseBackgroundImage;
+@property (nonatomic, strong) UIColor *collapseBackgroundColor;
+@property (nonatomic, strong) UIColor *collapseTextColor;
+
+@property (nonatomic, strong) UIFont  *contextMenuFont;
+@property (nonatomic, strong) UIColor *contextMenuBackgroundColor;
+@property (nonatomic, strong) UIColor *contextMenuTextColor;
+@property (nonatomic, strong) UIColor *contextMenuTextHighlightColor;
+
 @end
 
 @interface LUCellSkin ()
@@ -61,6 +70,26 @@ static UIColor * UIColorMake(int rgb)
     CGFloat green = ((rgb >> 8) & 0xff) / 255.0;
     CGFloat blue = (rgb & 0xff) / 255.0;
     return [UIColor colorWithRed:red green:green blue:blue alpha:1.0f];
+}
+
+static UIImage * CreateCollapseBackgroundImage()
+{
+    UIImage *collapseImage = [UIImage imageNamed:@"lunar_console_collapse_background.png"];
+
+    if ([UIScreen mainScreen].scale == 2.0)
+    {
+        CGFloat offset = 23 / 2.0;
+        return [collapseImage resizableImageWithCapInsets:UIEdgeInsetsMake(offset, offset, offset, offset)];
+    }
+    
+    if ([UIScreen mainScreen].scale == 1.0) // should not get there - just a sanity check
+    {
+        CGFloat offset = 11;
+        return [collapseImage resizableImageWithCapInsets:UIEdgeInsetsMake(offset, offset, offset, offset)];
+    }
+    
+    CGFloat offset = 35 / 3.0;
+    return [collapseImage resizableImageWithCapInsets:UIEdgeInsetsMake(offset, offset, offset, offset)];
 }
 
 @implementation LUTheme
@@ -102,6 +131,13 @@ static UIColor * UIColorMake(int rgb)
         _mainTheme.indentVer = 2;
         _mainTheme.buttonWidth = 46;
         _mainTheme.buttonHeight = 30;
+        _mainTheme.collapseBackgroundImage = CreateCollapseBackgroundImage();
+        _mainTheme.collapseBackgroundColor = UIColorMake(0x424242);
+        _mainTheme.collapseTextColor = cellLog.textColor;
+        _mainTheme.contextMenuFont = [self createContextMenuFont];
+        _mainTheme.contextMenuBackgroundColor = UIColorMake(0x3c3c3c);
+        _mainTheme.contextMenuTextColor = cellLog.textColor;
+        _mainTheme.contextMenuTextHighlightColor = [UIColor whiteColor];
     }
 }
 
@@ -115,6 +151,13 @@ static UIColor * UIColorMake(int rgb)
     LU_RELEASE(_cellError);
     LU_RELEASE(_font);
     LU_RELEASE(_fontSmall);
+    LU_RELEASE(_collapseBackgroundImage);
+    LU_RELEASE(_collapseBackgroundColor);
+    LU_RELEASE(_collapseTextColor);
+    LU_RELEASE(_contextMenuFont);
+    LU_RELEASE(_contextMenuBackgroundColor);
+    LU_RELEASE(_contextMenuTextColor);
+    LU_RELEASE(_contextMenuTextHighlightColor);
     
     LU_SUPER_DEALLOC
 }
@@ -139,6 +182,17 @@ static UIColor * UIColorMake(int rgb)
     }
     
     return [UIFont systemFontOfSize:8];
+}
+
++ (UIFont *)createContextMenuFont
+{
+    UIFont *font = [UIFont fontWithName:@"Menlo-regular" size:12];
+    if (font != nil)
+    {
+        return font;
+    }
+    
+    return [UIFont systemFontOfSize:12];
 }
 
 + (LUTheme *)mainTheme

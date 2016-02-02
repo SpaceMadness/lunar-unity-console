@@ -36,3 +36,9 @@
 + (CGFloat)heightForCellWithText:(nullable NSString *)text width:(CGFloat)width;
 
 @end
+
+@interface LUConsoleTableCollapsedCell : LUConsoleTableCell
+
+@property (nonatomic, assign) NSInteger collapsedCount;
+
+@end

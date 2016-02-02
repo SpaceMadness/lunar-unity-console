@@ -28,8 +28,14 @@ static UIEdgeInsets _messageInsets;
 @interface LUConsoleTableCell ()
 {
     UILabel     * _messageLabel;
-    UIImageView * _icon;
+    UIImageView * _iconView;
 }
+
+@end
+
+@interface LUConsoleTableCell (Inheritance)
+
+- (LUTheme *)theme;
 
 @end
 
@@ -71,14 +77,14 @@ static UIEdgeInsets _messageInsets;
         // icon
         UIImage *iconImage = theme.cellLog.icon;
         
-        _icon = [[UIImageView alloc] initWithImage:iconImage];
+        _iconView = [[UIImageView alloc] initWithImage:iconImage];
         CGFloat iconWidth = iconImage.size.width;
         CGFloat iconHeight = iconImage.size.height;
         CGFloat iconX = 0.5 * (theme.cellHeight - iconHeight);
         CGFloat iconY = 0.5 * (CGRectGetHeight(frame) - iconHeight);
-        _icon.frame = CGRectMake(iconX, iconY, iconWidth, iconHeight);
+        _iconView.frame = CGRectMake(iconX, iconY, iconWidth, iconHeight);
         
-        [self.contentView addSubview:_icon];
+        [self.contentView addSubview:_iconView];
         
         // message
         CGFloat messageX = _messageInsets.left;
@@ -102,7 +108,7 @@ static UIEdgeInsets _messageInsets;
 - (void)dealloc
 {
     LU_RELEASE(_messageLabel);
-    LU_RELEASE(_icon);
+    LU_RELEASE(_iconView);
     LU_SUPER_DEALLOC
 }
 
@@ -111,9 +117,9 @@ static UIEdgeInsets _messageInsets;
     self.contentView.bounds = CGRectMake(0, 0, size.width, size.height);
 
     // icon
-    CGRect iconFrame = _icon.frame;
+    CGRect iconFrame = _iconView.frame;
     iconFrame.origin.y = 0.5 * (size.height - CGRectGetHeight(iconFrame));
-    _icon.frame = iconFrame;
+    _iconView.frame = iconFrame;
     
     // message
     CGFloat messageX = _messageInsets.left;
@@ -129,8 +135,11 @@ static UIEdgeInsets _messageInsets;
     LUTheme *theme = [LUTheme mainTheme];
     
     CGSize constraintSize = CGSizeMake(width - (_messageInsets.left + _messageInsets.right), CGFLOAT_MAX);
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     CGFloat textHeight = [text sizeWithFont:theme.font constrainedToSize:constraintSize lineBreakMode:theme.lineBreakMode].height;
     CGFloat height = (int)(textHeight + (_messageInsets.top + _messageInsets.bottom) + .99); // size should not be a fracture number (or gray lines will appear)
+#pragma clang diagnostic pop
     return MAX(theme.cellHeight, height);
 }
 
@@ -155,12 +164,12 @@ static UIEdgeInsets _messageInsets;
 
 - (UIImage *)icon
 {
-    return _icon.image;
+    return _iconView.image;
 }
 
 - (void)setIcon:(UIImage * __nullable)icon
 {
-    _icon.image = icon;
+    _iconView.image = icon;
 }
 
 - (NSString *)message
@@ -181,6 +190,89 @@ static UIEdgeInsets _messageInsets;
 - (void)setMessageColor:(UIColor * __nullable)messageColor
 {
     _messageLabel.textColor = messageColor;
+}
+
+@end
+
+@interface LUConsoleTableCollapsedCell ()
+{
+    UIImageView * _backgroundImageView;
+    UILabel     * _countLabel;
+}
+
+@end
+
+@implementation LUConsoleTableCollapsedCell
+
+- (instancetype)initWithFrame:(CGRect)frame reuseIdentifier:(nullable NSString *)reuseIdentifier
+{
+    self = [super initWithFrame:frame reuseIdentifier:reuseIdentifier];
+    if (self)
+    {
+        LUTheme *theme = [self theme];
+        
+        // background
+        _backgroundImageView = [[UIImageView alloc] initWithImage:theme.collapseBackgroundImage];
+        _backgroundImageView.contentMode = UIViewContentModeScaleToFill;
+        [self.contentView addSubview:_backgroundImageView];
+        
+        // count
+        _countLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 0, 0)];
+        _countLabel.font = theme.font;
+        _countLabel.numberOfLines = 1;
+        _countLabel.lineBreakMode = NSLineBreakByClipping;
+        _countLabel.opaque = YES;
+        _countLabel.textColor = theme.collapseTextColor;
+        _countLabel.backgroundColor = theme.collapseBackgroundColor;
+        _countLabel.isAccessibilityElement = YES;
+        _countLabel.accessibilityIdentifier = @"Log Collapse Label";
+        
+        [self.contentView addSubview:_countLabel];
+    }
+    return self;
+}
+
+- (void)dealloc
+{
+    LU_RELEASE(_backgroundImageView);
+    LU_RELEASE(_countLabel);
+    LU_SUPER_DEALLOC
+}
+
+- (void)setSize:(CGSize)size
+{
+    [super setSize:size];
+    
+    if (_backgroundImageView.hidden || _countLabel.hidden)
+    {
+        return; // no need to resize invisible elements
+    }
+    
+    // resize count label to fit the content
+    [_countLabel sizeToFit];
+    
+    CGRect countFrame = _countLabel.frame;
+    CGFloat backgroundImageWidth = 9 + CGRectGetWidth(countFrame) + 9;
+    
+    CGRect backgroundImageFrame = _backgroundImageView.frame;
+    backgroundImageFrame.origin.y = 0.5 * (size.height - CGRectGetHeight(backgroundImageFrame));
+    backgroundImageFrame.origin.x = size.width - (backgroundImageFrame.origin.y + backgroundImageWidth);
+    backgroundImageFrame.size.width = backgroundImageWidth;
+    _backgroundImageView.frame = backgroundImageFrame;
+    
+    countFrame.origin.x = backgroundImageFrame.origin.x + 9;
+    countFrame.origin.y = 0.5 * (size.height - CGRectGetHeight(countFrame));
+    _countLabel.frame = countFrame;
+}
+
+- (void)setCollapsedCount:(NSInteger)collapsedCount
+{
+    BOOL shouldBeHidden = collapsedCount <= 1;
+    _countLabel.hidden = shouldBeHidden;
+    _backgroundImageView.hidden = shouldBeHidden;
+    
+    _collapsedCount = collapsedCount;
+    _countLabel.text = collapsedCount > 999 ? @"999+" : [NSString stringWithFormat:@"%ld", (long)collapsedCount];
 }
 
 @end

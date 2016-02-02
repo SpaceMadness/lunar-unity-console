@@ -54,3 +54,19 @@ typedef uint8_t LUConsoleLogTypeMask;
 - (CGSize)cellSizeForTableView:(UITableView *)tableView;
 
 @end
+
+/// Console entry for holding collapsed items
+@interface LUConsoleCollapsedEntry : LUConsoleEntry
+
+/// Index in the entry list
+@property (nonatomic, assign) NSInteger index;
+
+/// Total amount of encounters
+@property (nonatomic, assign) NSInteger count;
+
++ (instancetype)entryWithEntry:(LUConsoleEntry *)entry;
+- (instancetype)initWithEntry:(LUConsoleEntry *)entry;
+
+- (void)increaseCount;
+
+@end

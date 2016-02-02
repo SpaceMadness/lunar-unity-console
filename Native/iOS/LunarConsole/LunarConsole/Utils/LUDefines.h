@@ -24,9 +24,9 @@
 
 #if __has_feature(objc_arc)
     #define LU_WEAK __weak
-    #define LU_RETAIN(obj) obj
+    #define LU_RETAIN(obj) (obj)
     #define LU_RELEASE(obj)
-    #define LU_AUTORELEASE(obj) obj
+    #define LU_AUTORELEASE(obj) (obj)
     #define LU_SUPER_DEALLOC
 #else
     #define LU_WEAK

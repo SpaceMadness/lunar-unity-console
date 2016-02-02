@@ -107,7 +107,7 @@
     return _objects.count;
 }
 
-- (NSUInteger)trimmedCount
+- (NSInteger)trimmedCount
 {
     return _totalCount - _objects.count;
 }

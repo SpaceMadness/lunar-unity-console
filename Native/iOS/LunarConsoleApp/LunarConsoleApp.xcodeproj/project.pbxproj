@@ -12,6 +12,22 @@
 		844741F91B719DA500F5ABD3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 844741F81B719DA500F5ABD3 /* Images.xcassets */; };
 		8447421C1B719F3A00F5ABD3 /* libLunarConsole.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 844742171B719DB600F5ABD3 /* libLunarConsole.a */; };
 		8447421F1B719F8800F5ABD3 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8447421E1B719F8800F5ABD3 /* ViewController.m */; };
+		846EE88D1C5EEF3F00C688FF /* lunar_console_icon_button_expand.png in Resources */ = {isa = PBXBuildFile; fileRef = 846EE88A1C5EEF3F00C688FF /* lunar_console_icon_button_expand.png */; };
+		846EE88E1C5EEF3F00C688FF /* lunar_console_icon_button_expand@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 846EE88B1C5EEF3F00C688FF /* lunar_console_icon_button_expand@2x.png */; };
+		846EE88F1C5EEF3F00C688FF /* lunar_console_icon_button_expand@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 846EE88C1C5EEF3F00C688FF /* lunar_console_icon_button_expand@3x.png */; };
+		846EE8981C5EF8D500C688FF /* lunar_console_icon_settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 846EE8951C5EF8D500C688FF /* lunar_console_icon_settings.png */; };
+		846EE8991C5EF8D500C688FF /* lunar_console_icon_settings@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 846EE8961C5EF8D500C688FF /* lunar_console_icon_settings@2x.png */; };
+		846EE89A1C5EF8D500C688FF /* lunar_console_icon_settings@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 846EE8971C5EF8D500C688FF /* lunar_console_icon_settings@3x.png */; };
+		8484AAE61C5ECBDB00A6A722 /* lunar_console_icon_button_collapse@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8484AAE31C5ECBDB00A6A722 /* lunar_console_icon_button_collapse@3x.png */; };
+		8484AAE71C5ECBDB00A6A722 /* lunar_console_icon_button_collapse@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8484AAE41C5ECBDB00A6A722 /* lunar_console_icon_button_collapse@2x.png */; };
+		8484AAE81C5ECBDB00A6A722 /* lunar_console_icon_button_collapse.png in Resources */ = {isa = PBXBuildFile; fileRef = 8484AAE51C5ECBDB00A6A722 /* lunar_console_icon_button_collapse.png */; };
+		849FCD801C5EFF4800850862 /* LUConsoleMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 849FCD7F1C5EFF4800850862 /* LUConsoleMenuController.xib */; };
+		84EA4FD11C573C7A00A0635C /* lunar_console_collapse_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 84EA4FCE1C573C7A00A0635C /* lunar_console_collapse_background.png */; };
+		84EA4FD21C573C7A00A0635C /* lunar_console_collapse_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84EA4FCF1C573C7A00A0635C /* lunar_console_collapse_background@2x.png */; };
+		84EA4FD31C573C7A00A0635C /* lunar_console_collapse_background@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84EA4FD01C573C7A00A0635C /* lunar_console_collapse_background@3x.png */; };
+		84EA4FE81C58786700A0635C /* lunar_console_icon_button_more.png in Resources */ = {isa = PBXBuildFile; fileRef = 84EA4FE51C58786700A0635C /* lunar_console_icon_button_more.png */; };
+		84EA4FE91C58786700A0635C /* lunar_console_icon_button_more@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84EA4FE61C58786700A0635C /* lunar_console_icon_button_more@2x.png */; };
+		84EA4FEA1C58786700A0635C /* lunar_console_icon_button_more@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84EA4FE71C58786700A0635C /* lunar_console_icon_button_more@3x.png */; };
 		EF0836301B7AB5E400DFB877 /* lunar_console_icon_button_clear.png in Resources */ = {isa = PBXBuildFile; fileRef = EF08360F1B7AB5E400DFB877 /* lunar_console_icon_button_clear.png */; };
 		EF0836311B7AB5E400DFB877 /* lunar_console_icon_button_clear@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF0836101B7AB5E400DFB877 /* lunar_console_icon_button_clear@2x.png */; };
 		EF0836321B7AB5E400DFB877 /* lunar_console_icon_button_clear@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF0836111B7AB5E400DFB877 /* lunar_console_icon_button_clear@3x.png */; };
@@ -116,6 +132,22 @@
 		844742111B719DB600F5ABD3 /* LunarConsole.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LunarConsole.xcodeproj; path = ../LunarConsole/LunarConsole.xcodeproj; sourceTree = "<group>"; };
 		8447421D1B719F8800F5ABD3 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
 		8447421E1B719F8800F5ABD3 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		846EE88A1C5EEF3F00C688FF /* lunar_console_icon_button_expand.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lunar_console_icon_button_expand.png; path = ../../LunarConsole/LunarConsole/Images/lunar_console_icon_button_expand.png; sourceTree = "<group>"; };
+		846EE88B1C5EEF3F00C688FF /* lunar_console_icon_button_expand@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lunar_console_icon_button_expand@2x.png"; path = "../../LunarConsole/LunarConsole/Images/lunar_console_icon_button_expand@2x.png"; sourceTree = "<group>"; };
+		846EE88C1C5EEF3F00C688FF /* lunar_console_icon_button_expand@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lunar_console_icon_button_expand@3x.png"; path = "../../LunarConsole/LunarConsole/Images/lunar_console_icon_button_expand@3x.png"; sourceTree = "<group>"; };
+		846EE8951C5EF8D500C688FF /* lunar_console_icon_settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lunar_console_icon_settings.png; path = ../../LunarConsole/LunarConsole/Images/lunar_console_icon_settings.png; sourceTree = "<group>"; };
+		846EE8961C5EF8D500C688FF /* lunar_console_icon_settings@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lunar_console_icon_settings@2x.png"; path = "../../LunarConsole/LunarConsole/Images/lunar_console_icon_settings@2x.png"; sourceTree = "<group>"; };
+		846EE8971C5EF8D500C688FF /* lunar_console_icon_settings@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lunar_console_icon_settings@3x.png"; path = "../../LunarConsole/LunarConsole/Images/lunar_console_icon_settings@3x.png"; sourceTree = "<group>"; };
+		8484AAE31C5ECBDB00A6A722 /* lunar_console_icon_button_collapse@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lunar_console_icon_button_collapse@3x.png"; path = "../../LunarConsole/LunarConsole/Images/lunar_console_icon_button_collapse@3x.png"; sourceTree = "<group>"; };
+		8484AAE41C5ECBDB00A6A722 /* lunar_console_icon_button_collapse@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lunar_console_icon_button_collapse@2x.png"; path = "../../LunarConsole/LunarConsole/Images/lunar_console_icon_button_collapse@2x.png"; sourceTree = "<group>"; };
+		8484AAE51C5ECBDB00A6A722 /* lunar_console_icon_button_collapse.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lunar_console_icon_button_collapse.png; path = ../../LunarConsole/LunarConsole/Images/lunar_console_icon_button_collapse.png; sourceTree = "<group>"; };
+		849FCD7F1C5EFF4800850862 /* LUConsoleMenuController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LUConsoleMenuController.xib; path = ../../LunarConsole/LunarConsole/Controllers/LUConsoleMenuController.xib; sourceTree = "<group>"; };
+		84EA4FCE1C573C7A00A0635C /* lunar_console_collapse_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lunar_console_collapse_background.png; path = ../../LunarConsole/LunarConsole/Images/lunar_console_collapse_background.png; sourceTree = "<group>"; };
+		84EA4FCF1C573C7A00A0635C /* lunar_console_collapse_background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lunar_console_collapse_background@2x.png"; path = "../../LunarConsole/LunarConsole/Images/lunar_console_collapse_background@2x.png"; sourceTree = "<group>"; };
+		84EA4FD01C573C7A00A0635C /* lunar_console_collapse_background@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lunar_console_collapse_background@3x.png"; path = "../../LunarConsole/LunarConsole/Images/lunar_console_collapse_background@3x.png"; sourceTree = "<group>"; };
+		84EA4FE51C58786700A0635C /* lunar_console_icon_button_more.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lunar_console_icon_button_more.png; path = ../../LunarConsole/LunarConsole/Images/lunar_console_icon_button_more.png; sourceTree = "<group>"; };
+		84EA4FE61C58786700A0635C /* lunar_console_icon_button_more@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lunar_console_icon_button_more@2x.png"; path = "../../LunarConsole/LunarConsole/Images/lunar_console_icon_button_more@2x.png"; sourceTree = "<group>"; };
+		84EA4FE71C58786700A0635C /* lunar_console_icon_button_more@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lunar_console_icon_button_more@3x.png"; path = "../../LunarConsole/LunarConsole/Images/lunar_console_icon_button_more@3x.png"; sourceTree = "<group>"; };
 		EF08360F1B7AB5E400DFB877 /* lunar_console_icon_button_clear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lunar_console_icon_button_clear.png; path = ../../LunarConsole/LunarConsole/Images/lunar_console_icon_button_clear.png; sourceTree = "<group>"; };
 		EF0836101B7AB5E400DFB877 /* lunar_console_icon_button_clear@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lunar_console_icon_button_clear@2x.png"; path = "../../LunarConsole/LunarConsole/Images/lunar_console_icon_button_clear@2x.png"; sourceTree = "<group>"; };
 		EF0836111B7AB5E400DFB877 /* lunar_console_icon_button_clear@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lunar_console_icon_button_clear@3x.png"; path = "../../LunarConsole/LunarConsole/Images/lunar_console_icon_button_clear@3x.png"; sourceTree = "<group>"; };
@@ -267,9 +299,13 @@
 		84E5B80D1B77011900315599 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
+				849FCD7F1C5EFF4800850862 /* LUConsoleMenuController.xib */,
 				EF0836AF1B7ABD1E00DFB877 /* LUConsoleController.xib */,
 				EF87031A1B7BDF83004D6491 /* LUConsoleDetailsController.xib */,
 				EF0836B01B7ABD1E00DFB877 /* LUExceptionWarningController.xib */,
+				84EA4FCE1C573C7A00A0635C /* lunar_console_collapse_background.png */,
+				84EA4FCF1C573C7A00A0635C /* lunar_console_collapse_background@2x.png */,
+				84EA4FD01C573C7A00A0635C /* lunar_console_collapse_background@3x.png */,
 				EF08360F1B7AB5E400DFB877 /* lunar_console_icon_button_clear.png */,
 				EF0836101B7AB5E400DFB877 /* lunar_console_icon_button_clear@2x.png */,
 				EF0836111B7AB5E400DFB877 /* lunar_console_icon_button_clear@3x.png */,
@@ -279,15 +315,24 @@
 				EF0836151B7AB5E400DFB877 /* lunar_console_icon_button_close.png */,
 				EF0836161B7AB5E400DFB877 /* lunar_console_icon_button_close@2x.png */,
 				EF0836171B7AB5E400DFB877 /* lunar_console_icon_button_close@3x.png */,
+				8484AAE51C5ECBDB00A6A722 /* lunar_console_icon_button_collapse.png */,
+				8484AAE41C5ECBDB00A6A722 /* lunar_console_icon_button_collapse@2x.png */,
+				8484AAE31C5ECBDB00A6A722 /* lunar_console_icon_button_collapse@3x.png */,
 				EF0836181B7AB5E400DFB877 /* lunar_console_icon_button_console.png */,
 				EF0836191B7AB5E400DFB877 /* lunar_console_icon_button_console@2x.png */,
 				EF08361A1B7AB5E400DFB877 /* lunar_console_icon_button_console@3x.png */,
 				EF08361B1B7AB5E400DFB877 /* lunar_console_icon_button_email.png */,
 				EF08361C1B7AB5E400DFB877 /* lunar_console_icon_button_email@2x.png */,
 				EF08361D1B7AB5E400DFB877 /* lunar_console_icon_button_email@3x.png */,
+				846EE88A1C5EEF3F00C688FF /* lunar_console_icon_button_expand.png */,
+				846EE88B1C5EEF3F00C688FF /* lunar_console_icon_button_expand@2x.png */,
+				846EE88C1C5EEF3F00C688FF /* lunar_console_icon_button_expand@3x.png */,
 				EF08361E1B7AB5E400DFB877 /* lunar_console_icon_button_lock.png */,
 				EF08361F1B7AB5E400DFB877 /* lunar_console_icon_button_lock@2x.png */,
 				EF0836201B7AB5E400DFB877 /* lunar_console_icon_button_lock@3x.png */,
+				84EA4FE51C58786700A0635C /* lunar_console_icon_button_more.png */,
+				84EA4FE61C58786700A0635C /* lunar_console_icon_button_more@2x.png */,
+				84EA4FE71C58786700A0635C /* lunar_console_icon_button_more@3x.png */,
 				EF0836211B7AB5E400DFB877 /* lunar_console_icon_button_unlock.png */,
 				EF0836221B7AB5E400DFB877 /* lunar_console_icon_button_unlock@2x.png */,
 				EF0836231B7AB5E400DFB877 /* lunar_console_icon_button_unlock@3x.png */,
@@ -300,6 +345,9 @@
 				EF08362A1B7AB5E400DFB877 /* lunar_console_icon_log.png */,
 				EF08362B1B7AB5E400DFB877 /* lunar_console_icon_log@2x.png */,
 				EF08362C1B7AB5E400DFB877 /* lunar_console_icon_log@3x.png */,
+				846EE8951C5EF8D500C688FF /* lunar_console_icon_settings.png */,
+				846EE8961C5EF8D500C688FF /* lunar_console_icon_settings@2x.png */,
+				846EE8971C5EF8D500C688FF /* lunar_console_icon_settings@3x.png */,
 				EF08362D1B7AB5E400DFB877 /* lunar_console_log_button_background.png */,
 				EF08362E1B7AB5E400DFB877 /* lunar_console_log_button_background@2x.png */,
 				EF08362F1B7AB5E400DFB877 /* lunar_console_log_button_background@3x.png */,
@@ -453,6 +501,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF87031B1B7BDF83004D6491 /* LUConsoleDetailsController.xib in Resources */,
+				84EA4FD31C573C7A00A0635C /* lunar_console_collapse_background@3x.png in Resources */,
 				EF0836B31B7ABD6D00DFB877 /* LaunchScreen.xib in Resources */,
 				EF0836B41B7ABD6D00DFB877 /* Main.storyboard in Resources */,
 				EF0836B11B7ABD1E00DFB877 /* LUConsoleController.xib in Resources */,
@@ -460,23 +509,36 @@
 				EF08364C1B7AB5E400DFB877 /* lunar_console_icon_log@2x.png in Resources */,
 				EF0836331B7AB5E400DFB877 /* lunar_console_icon_button_clipboard.png in Resources */,
 				EF0836461B7AB5E400DFB877 /* lunar_console_icon_log_error@2x.png in Resources */,
+				849FCD801C5EFF4800850862 /* LUConsoleMenuController.xib in Resources */,
+				84EA4FD21C573C7A00A0635C /* lunar_console_collapse_background@2x.png in Resources */,
 				EF0836321B7AB5E400DFB877 /* lunar_console_icon_button_clear@3x.png in Resources */,
 				EF0836411B7AB5E400DFB877 /* lunar_console_icon_button_lock@3x.png in Resources */,
 				EF0836391B7AB5E400DFB877 /* lunar_console_icon_button_console.png in Resources */,
+				84EA4FD11C573C7A00A0635C /* lunar_console_collapse_background.png in Resources */,
 				EF0836341B7AB5E400DFB877 /* lunar_console_icon_button_clipboard@2x.png in Resources */,
+				8484AAE71C5ECBDB00A6A722 /* lunar_console_icon_button_collapse@2x.png in Resources */,
+				8484AAE81C5ECBDB00A6A722 /* lunar_console_icon_button_collapse.png in Resources */,
 				EF0836401B7AB5E400DFB877 /* lunar_console_icon_button_lock@2x.png in Resources */,
+				84EA4FEA1C58786700A0635C /* lunar_console_icon_button_more@3x.png in Resources */,
 				EF08363F1B7AB5E400DFB877 /* lunar_console_icon_button_lock.png in Resources */,
 				EF0836491B7AB5E400DFB877 /* lunar_console_icon_log_warning@2x.png in Resources */,
+				846EE8991C5EF8D500C688FF /* lunar_console_icon_settings@2x.png in Resources */,
 				EF0836351B7AB5E400DFB877 /* lunar_console_icon_button_clipboard@3x.png in Resources */,
 				EF0836451B7AB5E400DFB877 /* lunar_console_icon_log_error.png in Resources */,
 				EF08364B1B7AB5E400DFB877 /* lunar_console_icon_log.png in Resources */,
 				EF08363B1B7AB5E400DFB877 /* lunar_console_icon_button_console@3x.png in Resources */,
 				EF08363D1B7AB5E400DFB877 /* lunar_console_icon_button_email@2x.png in Resources */,
 				EF0836481B7AB5E400DFB877 /* lunar_console_icon_log_warning.png in Resources */,
+				846EE88E1C5EEF3F00C688FF /* lunar_console_icon_button_expand@2x.png in Resources */,
 				EF08364E1B7AB5E400DFB877 /* lunar_console_log_button_background.png in Resources */,
+				8484AAE61C5ECBDB00A6A722 /* lunar_console_icon_button_collapse@3x.png in Resources */,
+				846EE8981C5EF8D500C688FF /* lunar_console_icon_settings.png in Resources */,
 				EF0836311B7AB5E400DFB877 /* lunar_console_icon_button_clear@2x.png in Resources */,
+				84EA4FE81C58786700A0635C /* lunar_console_icon_button_more.png in Resources */,
 				EF0836371B7AB5E400DFB877 /* lunar_console_icon_button_close@2x.png in Resources */,
+				846EE89A1C5EF8D500C688FF /* lunar_console_icon_settings@3x.png in Resources */,
 				EF08363E1B7AB5E400DFB877 /* lunar_console_icon_button_email@3x.png in Resources */,
+				84EA4FE91C58786700A0635C /* lunar_console_icon_button_more@2x.png in Resources */,
 				EF0836501B7AB5E400DFB877 /* lunar_console_log_button_background@3x.png in Resources */,
 				EF0836301B7AB5E400DFB877 /* lunar_console_icon_button_clear.png in Resources */,
 				EF0836471B7AB5E400DFB877 /* lunar_console_icon_log_error@3x.png in Resources */,
@@ -485,11 +547,13 @@
 				EF0836421B7AB5E400DFB877 /* lunar_console_icon_button_unlock.png in Resources */,
 				EF64F8F21C03D86E008DCB8E /* input.txt in Resources */,
 				EF0836361B7AB5E400DFB877 /* lunar_console_icon_button_close.png in Resources */,
+				846EE88F1C5EEF3F00C688FF /* lunar_console_icon_button_expand@3x.png in Resources */,
 				EF0836381B7AB5E400DFB877 /* lunar_console_icon_button_close@3x.png in Resources */,
 				EF0836431B7AB5E400DFB877 /* lunar_console_icon_button_unlock@2x.png in Resources */,
 				EF08364D1B7AB5E400DFB877 /* lunar_console_icon_log@3x.png in Resources */,
 				EF0836441B7AB5E400DFB877 /* lunar_console_icon_button_unlock@3x.png in Resources */,
 				EF08363A1B7AB5E400DFB877 /* lunar_console_icon_button_console@2x.png in Resources */,
+				846EE88D1C5EEF3F00C688FF /* lunar_console_icon_button_expand.png in Resources */,
 				EF08364F1B7AB5E400DFB877 /* lunar_console_log_button_background@2x.png in Resources */,
 				844741F91B719DA500F5ABD3 /* Images.xcassets in Resources */,
 			);
@@ -619,7 +683,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -658,7 +722,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";

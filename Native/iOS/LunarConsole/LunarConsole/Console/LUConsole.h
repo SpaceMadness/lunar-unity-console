@@ -31,7 +31,7 @@
 @required
 - (void)lunarConsole:(LUConsole *)console
          didAddEntry:(LUConsoleEntry *)entry
-            filtered:(BOOL)filtered
+             atIndex:(NSInteger)index
         trimmedCount:(NSUInteger)trimmedCount;
 
 @optional
@@ -43,6 +43,7 @@
 @interface LUConsole : NSObject
 
 @property (nonatomic, assign) id<LunarConsoleDelegate> delegate;
+@property (nonatomic, assign, getter=isCollapsed) BOOL collapsed;
 
 @property (nonatomic, readonly) LUConsoleEntryList * entries;
 @property (nonatomic, readonly) NSUInteger entriesCount;

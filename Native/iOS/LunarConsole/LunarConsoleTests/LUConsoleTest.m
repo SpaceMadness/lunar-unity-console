@@ -82,7 +82,7 @@
 
 - (void)lunarConsole:(LUConsole *)console
          didAddEntry:(LUConsoleEntry *)entry
-            filtered:(BOOL)filtered
+             atIndex:(NSInteger)index
         trimmedCount:(NSUInteger)trimmedCount
 {
     [self addResult:entry.message];
