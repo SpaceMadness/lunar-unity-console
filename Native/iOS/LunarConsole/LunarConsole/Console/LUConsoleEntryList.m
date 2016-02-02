@@ -102,7 +102,7 @@
                         [_filteredEntries addObject:collapsedEntry];
                     }
                     
-                    return collapsedEntry.index - _filteredEntries.trimCount;
+                    return collapsedEntry.index - _filteredEntries.trimmedCount;
                 }
                 
                 [_filteredEntries addObject:entry];

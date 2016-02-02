@@ -24,8 +24,8 @@
 #import "Lunar.h"
 #import "FakeLogEntry.h"
 
-static const NSUInteger kConsoleCapacity  = 1024;
-static const NSUInteger kConsoleTrimCount = 128;
+static const NSUInteger kConsoleCapacity  = 4096;
+static const NSUInteger kConsoleTrimCount = 512;
 
 @interface ViewController () <UITextFieldDelegate>
 {

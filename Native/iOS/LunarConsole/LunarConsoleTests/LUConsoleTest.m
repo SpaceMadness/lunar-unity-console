@@ -80,12 +80,14 @@
 #pragma mark -
 #pragma mark LunarConsoleDelegate
 
-- (void)lunarConsole:(LUConsole *)console
-         didAddEntry:(LUConsoleEntry *)entry
-             atIndex:(NSInteger)index
-        trimmedCount:(NSUInteger)trimmedCount
+- (void)lunarConsole:(LUConsole *)console didAddEntryAtIndex:(NSInteger)index trimmedCount:(NSUInteger)trimmedCount
 {
-    [self addResult:entry.message];
+    [self addResult:[console entryAtIndex:index].message];
+}
+
+- (void)lunarConsole:(LUConsole *)console didUpdateEntryAtIndex:(NSInteger)index trimmedCount:(NSUInteger)trimmedCount
+{
+    // FIXME: handle this!
 }
 
 - (void)lunarConsole:(LUConsole *)console didRemoveRange:(NSRange )range

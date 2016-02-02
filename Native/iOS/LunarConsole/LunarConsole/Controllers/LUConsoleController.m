@@ -298,9 +298,7 @@ static LUConsoleControllerState * _sharedControllerState;
 #pragma mark -
 #pragma mark LunarConsoleDelegate
 
-- (void)lunarConsole:(LUConsole *)console didAddEntry:(LUConsoleEntry *)entry
-             atIndex:(NSInteger)index
-        trimmedCount:(NSUInteger)trimmedCount
+- (void)lunarConsole:(LUConsole *)console didAddEntryAtIndex:(NSInteger)index trimmedCount:(NSUInteger)trimmedCount
 {
     if (trimmedCount > 0)
     {
@@ -322,6 +320,34 @@ static LUConsoleControllerState * _sharedControllerState;
     else if (index != -1)
     {
         [self insertCellAt:index];
+    }
+    
+    // update entries count
+    [self updateEntriesCount];
+}
+
+- (void)lunarConsole:(LUConsole *)console didUpdateEntryAtIndex:(NSInteger)index trimmedCount:(NSUInteger)trimmedCount
+{
+    if (trimmedCount > 0)
+    {
+        // show warning
+        [self showOverflowCount:console.trimmedCount];
+        
+        // update cells
+        [_tableView beginUpdates];
+        
+        [self removeCellsCount:trimmedCount];
+        
+        if (index != -1)
+        {
+            [self reloadCellAt:index];
+        }
+        
+        [_tableView endUpdates];
+    }
+    else if (index != -1)
+    {
+        [self reloadCellAt:index];
     }
     
     // update entries count
@@ -642,6 +668,15 @@ static LUConsoleControllerState * _sharedControllerState;
     {
         [self scrollToBottomAnimated:NO];
     }
+}
+
+- (void)reloadCellAt:(NSInteger)index
+{
+    LUAssert(index >= 0 && index < _console.entriesCount);
+    
+    NSArray *indices = [[NSArray alloc] initWithObjects:[NSIndexPath indexPathForRow:index inSection:0], nil];
+    [_tableView reloadRowsAtIndexPaths:indices withRowAnimation:UITableViewRowAnimationNone];
+    LU_RELEASE(indices);
 }
 
 - (void)updateEntriesCount

@@ -29,10 +29,8 @@
 @protocol LunarConsoleDelegate <NSObject>
 
 @required
-- (void)lunarConsole:(LUConsole *)console
-         didAddEntry:(LUConsoleEntry *)entry
-             atIndex:(NSInteger)index
-        trimmedCount:(NSUInteger)trimmedCount;
+- (void)lunarConsole:(LUConsole *)console didAddEntryAtIndex:(NSInteger)index trimmedCount:(NSUInteger)trimmedCount;
+- (void)lunarConsole:(LUConsole *)console didUpdateEntryAtIndex:(NSInteger)index trimmedCount:(NSUInteger)trimmedCount;
 
 @optional
 - (void)lunarConsole:(LUConsole *)console didRemoveRange:(NSRange )range;

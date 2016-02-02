@@ -58,6 +58,7 @@
 
 - (void)logMessage:(NSString *)message stackTrace:(NSString *)stackTrace type:(LUConsoleLogType)type
 {
+    NSUInteger oldTotalCount   = _entries.totalCount;   // total count before we added a new item
     NSUInteger oldTrimmedCount = _entries.trimmedCount; // trimmed count before we added a new item
     
     LUConsoleEntry *entry = [[LUConsoleEntry alloc] initWithType:type message:message stackTrace:stackTrace];
@@ -72,7 +73,15 @@
         }
     }
     
-    [_delegate lunarConsole:self didAddEntry:entry atIndex:index trimmedCount:trimmed];
+    if (oldTotalCount != _entries.totalCount)
+    {
+        [_delegate lunarConsole:self didAddEntryAtIndex:index trimmedCount:trimmed];
+    }
+    else
+    {
+        [_delegate lunarConsole:self didUpdateEntryAtIndex:index trimmedCount:trimmed];
+    }
+    
     LU_RELEASE(entry);
 }
 
