@@ -111,7 +111,7 @@ static NSArray * _cellSkinLookup;
     }
     else
     {
-        [cell setSize:cellBounds.size];
+        [cell setSize:cellSize];
     }
     
     LUCellSkin *cellSkin = [self cellSkinForLogType:_type];
@@ -204,7 +204,7 @@ static NSArray * _cellSkinLookup;
     cell.icon = cellSkin.icon;
     cell.collapsedCount = self.count;
     
-    [cell setSize:cellBounds.size];
+    [cell setSize:cellSize];
     
     return cell;
 }
