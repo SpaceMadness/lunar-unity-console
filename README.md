@@ -9,7 +9,7 @@ Requires Unity 5.0 or later.
 Build a high-performance Unity iOS/Android logger using the native platform UI.  
 
 ## Platform Support
-- **iOS**: requires iOS 7 or later
+- **iOS**: requires iOS 8 or later
 - **Android**: requires API Level 9 or later
   
 ## Key Benefits
@@ -22,15 +22,19 @@ Build a high-performance Unity iOS/Android logger using the native platform UI.
 
 ## Features
 - Instant error notification (never miss an unhandled exception again):  
-<img src="https://cloud.githubusercontent.com/assets/786644/9218202/21948cb6-4085-11e5-9173-8bf8ecc0a3f2.PNG" width=320/>
+<img src="https://cloud.githubusercontent.com/assets/786644/12805825/799b00e8-cab4-11e5-97ac-c90c50f0a9d2.PNG" width=320/>
 - Quick logger output access with a multi touch gesture:  
 ![guid-bfa239b6-b55a-4f88-82ea-744f01cd9d77-web](https://cloud.githubusercontent.com/assets/786644/9218257/bc8e64c6-4085-11e5-96f7-f07080f310b0.png)
 - Crystal clear font and a nice mobile-friendly interface:  
-<img src="https://cloud.githubusercontent.com/assets/786644/9218239/8233282a-4085-11e5-9304-45698b89dde4.PNG" width=320/>
+<img src="https://cloud.githubusercontent.com/assets/786644/12805854/c5c15d50-cab4-11e5-8b8c-acae74dd8c3a.PNG" width=320/>
 - Filter by text and log type:  
-<img src="https://cloud.githubusercontent.com/assets/786644/9218396/01f6dee8-4087-11e5-8ac0-09c795c657b6.PNG" width=320/>
-<img src="https://cloud.githubusercontent.com/assets/786644/9218405/166283e6-4087-11e5-9f39-35d34bfdf6c1.PNG" width=320/>
-- Scroll lock and copy-to-clipboard options
+<img src="https://cloud.githubusercontent.com/assets/786644/12805875/fcfd3686-cab4-11e5-851f-ab82e309b8e7.PNG" width=320/>
+<img src="https://cloud.githubusercontent.com/assets/786644/12805880/16a506cc-cab5-11e5-8315-75af62cc164f.PNG" width=320/>
+- Collapse similar elements:  
+<img src="https://cloud.githubusercontent.com/assets/786644/12805895/4bd77956-cab5-11e5-8cf6-88ba9856e930.PNG" width=320/>
+- Tap log entry to view stack trace:  
+<img src="https://cloud.githubusercontent.com/assets/786644/12805978/9385167c-cab6-11e5-8bfc-ae9da0996358.PNG" width=320/>
+- Scroll lock, copy-to-clipboard and e-mail options
 - Automatic updates!
  
 ## Installation
@@ -39,6 +43,23 @@ Build a high-performance Unity iOS/Android logger using the native platform UI.
   
 - **Manual**:  
   Drag'n'Drop `LunarConsol.prefab` (Assets/LunarConsole/Scripts/LunarConsole.prefab) into your current scene's hierarchy and save your changes. You only need to do it once for your startup scene.
+
+## Using the console
+
+The console can be open with one of the configured multi touch gestures. By default two finger swipe is used. To set a desired gesture:  
+
+* Select 'LunarConsole' game object in the Hierarchy window.
+* Find 'Lunar Console' script settings in the Inspector window.
+* Chose a gesture from the 'Gesture' drop down list (to disable multi touch gestures - chose 'None')
+
+## Stack trace frames
+
+Touch the log entry to view its stack trace.
+
+*Important*: make sure to set the "Development Build" flag in your publishing settings otherwise you will only be able to see exceptions traces.
+
+For more info see:
+http://docs.unity3d.com/Manual/PublishingBuilds.html
 
 ## Enable/Disable plugin for debug/release
 - To disable:  
