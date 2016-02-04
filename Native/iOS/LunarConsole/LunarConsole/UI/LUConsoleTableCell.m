@@ -252,11 +252,13 @@ static UIEdgeInsets _messageInsets;
     [_countLabel sizeToFit];
     
     CGRect countFrame = _countLabel.frame;
-    CGFloat backgroundImageWidth = 9 + CGRectGetWidth(countFrame) + 9;
-    
     CGRect backgroundImageFrame = _backgroundImageView.frame;
+    
+    CGFloat backgroundImageWidth = 9 + CGRectGetWidth(countFrame) + 9;
+    CGFloat backgroundImageHeight = CGRectGetHeight(backgroundImageFrame);
+    
     backgroundImageFrame.origin.y = 0.5 * (size.height - CGRectGetHeight(backgroundImageFrame));
-    backgroundImageFrame.origin.x = size.width - (backgroundImageFrame.origin.y + backgroundImageWidth);
+    backgroundImageFrame.origin.x = size.width - (backgroundImageWidth + 0.5 * ([LUTheme mainTheme].cellHeight - backgroundImageHeight));
     backgroundImageFrame.size.width = backgroundImageWidth;
     _backgroundImageView.frame = backgroundImageFrame;
     

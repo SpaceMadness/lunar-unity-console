@@ -349,6 +349,11 @@
 #pragma mark -
 #pragma mark Properties
 
+- (NSUInteger)capacity
+{
+    return _currentEntries.capacity;
+}
+
 - (NSUInteger)count
 {
     return _currentEntries.count;
@@ -362,6 +367,11 @@
 - (NSUInteger)trimmedCount
 {
     return _currentEntries.trimmedCount;
+}
+
+- (NSUInteger)trimCount
+{
+    return _currentEntries.trimCount;
 }
 
 - (BOOL)isTrimmed

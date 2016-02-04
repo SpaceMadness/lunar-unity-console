@@ -31,6 +31,9 @@ typedef enum : NSUInteger {
 
 @interface LUConsolePlugin : LUObject
 
+@property (nonatomic, assign) NSInteger capacity;
+@property (nonatomic, assign) NSInteger trim;
+
 - (instancetype)initWithVersion:(NSString *)version capacity:(NSUInteger)capacity trimCount:(NSUInteger)trimCount gestureName:(NSString *)gestureName;
 
 - (void)show;

@@ -24,10 +24,8 @@
 #import "Lunar.h"
 #import "ViewController.h"
 
+// FIXME: use accessibility identifiers instead
 #define GET_CONSOLE_TABLE(app) ([[app.otherElements containingType:XCUIElementTypeStaticText identifier:@"Lunar Console v0.0.0b"] childrenMatchingType:XCUIElementTypeTable].element)
-
-#define ERASE_TEXT(app) [app.keys[@"Delete"] pressForDuration:1.3]
-#define ERASE_CHAR(app) [app.keys[@"Delete"] tap]
 
 @interface LUConsoleControllerUITest : XCTestCase
 
@@ -35,7 +33,11 @@
 
 @implementation LUConsoleControllerUITest
 
-- (void)setUp {
+#pragma mark -
+#pragma mark Setup
+
+- (void)setUp
+{
     [super setUp];
     
     // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -48,10 +50,14 @@
     // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
 }
 
-- (void)tearDown {
+- (void)tearDown
+{
     // Put teardown code here. This method is called after the invocation of each test method in the class.
     [super tearDown];
 }
+
+#pragma mark -
+#pragma mark Tests
 
 - (void)testFilter
 {
@@ -89,20 +95,21 @@
     [self assertTable:table, @"Debug-1", @"Debug-2", @"Warning-1", @"Warning-2", @"Error-1", @"Error-2", nil];
     
     XCUIElement *filterSearchField = app.searchFields[@"Filter"];
+    XCTAssertTrue(filterSearchField.exists);
     
     [filterSearchField tap];
     
-    ERASE_TEXT(app);
+    [self appDeleteText:app];
     [filterSearchField typeText:@"1"];
     [self assertTable:table, @"Debug-1", @"Warning-1", @"Error-1", nil];
     
     [filterSearchField typeText:@"1"];
     [self assertTable:table, nil];
     
-    ERASE_CHAR(app);
+    [self appDeleteChar:app];
     [self assertTable:table, @"Debug-1", @"Warning-1", @"Error-1", nil];
     
-    ERASE_CHAR(app);
+    [self appDeleteChar:app];
     [self assertTable:table, @"Debug-1", @"Debug-2", @"Warning-1", @"Warning-2", @"Error-1", @"Error-2", nil];
     
     XCTAssertFalse(filterSearchField.selected);
@@ -166,6 +173,54 @@
     [self assertTable:table, @"Debug", @"Warning", @"Error", @"Debug", @"Warning", @"Error", nil];
 }
 
+- (void)testOverflow
+{
+    XCUIApplication *app = [[XCUIApplication alloc] init];
+    
+    [self app:app textField:@"Test Capacity Text" enterText:@"5"];
+    [self app:app tapButton:@"Test Capacity Button"];
+    
+    [self app:app textField:@"Test Trim Text" enterText:@"3"];
+    [self app:app tapButton:@"Test Trim Button"];
+    
+    // add elements to console
+    [self app:app logMessage:@"Debug-1" logType:LUConsoleLogTypeLog];
+    [self app:app logMessage:@"Warning-1" logType:LUConsoleLogTypeWarning];
+    [self app:app logMessage:@"Error-1" logType:LUConsoleLogTypeError];
+    [self app:app logMessage:@"Debug-2" logType:LUConsoleLogTypeLog];
+    [self app:app logMessage:@"Warning-2" logType:LUConsoleLogTypeWarning];
+    
+    // show controller
+    [app.buttons[@"Show Controller"] tap];
+    
+    // check table
+    XCUIElement *table = GET_CONSOLE_TABLE(app);
+    [self assertTable:table, @"Debug-1", @"Warning-1", @"Error-1", @"Debug-2", @"Warning-2", nil];
+    
+    // close controller
+    [app.buttons[@"Console Close Button"] tap];
+    
+    // make console overflow
+    [self app:app logMessage:@"Error-2" logType:LUConsoleLogTypeError];
+    
+    // show controller
+    [app.buttons[@"Show Controller"] tap];
+    
+    // check table
+    table = GET_CONSOLE_TABLE(app);
+    [self assertTable:table, @"Debug-2", @"Warning-2", @"Error-2", nil];
+    
+    // check overflow message
+    XCUIElement *overflowWarningText = [app.staticTexts elementMatchingType:XCUIElementTypeStaticText
+                                                                 identifier:@"Console Overflow Warning"];
+    
+    XCTAssertTrue(overflowWarningText.hittable);
+    
+    
+    NSString *warningMessage = [NSString stringWithFormat:@"Too much output: %d item(s) trimmed", 3];
+    XCTAssertEqualObjects(overflowWarningText.label, warningMessage, @"Expected '%@' but was '%@'", warningMessage, overflowWarningText.label);
+}
+
 #pragma mark -
 #pragma mark Helpers
 
@@ -218,13 +273,17 @@
     }
 }
 
+#pragma mark -
+#pragma mark Messages
+
 - (void)app:(XCUIApplication *)app logMessage:(NSString *)message logType:(LUConsoleLogType)logType
 {
-    XCUIElement *textField = [[[[[app.otherElements containingType:XCUIElementTypeNavigationBar identifier:@"View"] childrenMatchingType:XCUIElementTypeOther].element childrenMatchingType:XCUIElementTypeOther].element childrenMatchingType:XCUIElementTypeOther].element childrenMatchingType:XCUIElementTypeTextField].element;
-    [textField tap];
-    [app.keys[@"Delete"] pressForDuration:1.3];
-    [textField typeText:message];
-    [app.buttons[@"Return"] tap];
+    [self app:app logMessage:message logType:logType count:1];
+}
+
+- (void)app:(XCUIApplication *)app logMessage:(NSString *)message logType:(LUConsoleLogType)logType count:(NSInteger)count
+{
+    [self app:app textField:@"Test Message Text" enterText:message];
 
     NSString *button = @"Debug";
     
@@ -244,7 +303,68 @@
             break;
     }
     
+    for (NSInteger i = 0; i < count; ++i)
+    {
+        [app.buttons[button] tap];
+    }
+}
+
+#pragma mark -
+#pragma mark Helpers
+
+- (void)app:(XCUIApplication *)app tapButton:(NSString *)button
+{
+    XCTAssertTrue(app.buttons[button].exists);
     [app.buttons[button] tap];
+}
+
+- (void)appDeleteText:(XCUIApplication *)app
+{
+    [[self appDeleteKey:app] pressForDuration:2.5];
+}
+
+- (void)appDeleteChar:(XCUIApplication *)app
+{
+    [[self appDeleteKey:app] tap];
+}
+
+- (void)app:(XCUIApplication *)app textField:(NSString *)textField enterText:(NSString *)text
+{
+    // find element
+    XCUIElement *element = app.textFields[textField];
+    
+    // check if element exists
+    XCTAssertTrue(element.exists);
+    
+    // select element
+    [element tap];
+    
+    // delete old text
+    [self appDeleteText:app];
+    
+    // type new text
+    [element typeText:text];
+    
+    // hit 'return'
+    [[self appReturnButton:app] tap];
+}
+
+- (XCUIElement *)appDeleteKey:(XCUIApplication *)app
+{
+    if (app.keys[@"Delete"].exists) return app.keys[@"Delete"];
+    if (app.keys[@"delete"].exists) return app.keys[@"delete"];
+    
+    XCTFail(@"Can't resolve 'delete' key");
+    return nil;
+}
+
+- (XCUIElement *)appReturnButton:(XCUIApplication *)app
+{
+    if (app.buttons[@"Return"].exists) return app.buttons[@"Return"];
+    if (app.buttons[@"return"].exists) return app.buttons[@"return"];
+    
+    XCTFail(@"Can't resolve 'return' button");
+    return nil;
 }
 
 @end

@@ -44,8 +44,10 @@
 @property (nonatomic, assign, getter=isCollapsed) BOOL collapsed;
 
 @property (nonatomic, readonly) LUConsoleEntryList * entries;
+@property (nonatomic, readonly) NSUInteger capacity;
 @property (nonatomic, readonly) NSUInteger entriesCount;
 @property (nonatomic, readonly) NSUInteger trimmedCount;
+@property (nonatomic, readonly) NSUInteger trimCount;
 @property (nonatomic, readonly) BOOL isTrimmed;
 
 - (instancetype)initWithCapacity:(NSUInteger)capacity trimCount:(NSUInteger)trimCount;

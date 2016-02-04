@@ -34,17 +34,32 @@ static const NSUInteger kConsoleTrimCount = 512;
 }
 
 @property (nonatomic, weak) IBOutlet UITextField *messageText;
+@property (nonatomic, weak) IBOutlet UITextField *capacityText;
+@property (nonatomic, weak) IBOutlet UITextField *trimText;
+
 @property (nonatomic, strong) NSArray * logEntries;
 
 @end
 
 @implementation ViewController
 
+- (void)dealloc
+{
+    LU_RELEASE(_plugin);
+    LU_SUPER_DEALLOC
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     
-    _plugin = [[LUConsolePlugin alloc] initWithVersion:@"0.0.0b" capacity:kConsoleCapacity trimCount:kConsoleTrimCount gestureName:@"SwipeDown"];
+    _plugin = [[LUConsolePlugin alloc] initWithVersion:@"0.0.0b"
+                                              capacity:kConsoleCapacity
+                                             trimCount:kConsoleTrimCount
+                                           gestureName:@"SwipeDown"];
+    
+    _capacityText.text = [NSString stringWithFormat:@"%d", kConsoleCapacity];
+    _trimText.text = [NSString stringWithFormat:@"%d", kConsoleTrimCount];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -88,6 +103,24 @@ static const NSUInteger kConsoleTrimCount = 512;
 - (IBAction)onLogError:(id)sender
 {
     [self logMessageLevel:LUConsoleLogTypeError];
+}
+
+- (IBAction)onSetCapacity:(id)sender
+{
+    NSInteger capacity = [_capacityText.text integerValue];
+    if (capacity > 0)
+    {
+        _plugin.capacity = capacity;
+    }
+}
+
+- (IBAction)onSetTrim:(id)sender
+{
+    NSInteger trim = [_trimText.text integerValue];
+    if (trim > 0)
+    {
+        _plugin.trim = trim;
+    }
 }
 
 #pragma mark -

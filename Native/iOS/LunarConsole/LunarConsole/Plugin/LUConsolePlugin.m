@@ -291,4 +291,29 @@ static const CGFloat kWarningHeight = 45.0f;
     return [UIApplication sharedApplication].keyWindow;
 }
 
+- (NSInteger)capacity
+{
+    return _console.capacity;
+}
+
+- (void)setCapacity:(NSInteger)capacity
+{
+    NSInteger trimCount = _console.trimmedCount;
+    
+    LU_RELEASE(_console);
+    _console = [[LUConsole alloc] initWithCapacity:capacity trimCount:trimCount];
+}
+
+- (NSInteger)trim
+{
+    return _console.trimCount;
+}
+
+- (void)setTrim:(NSInteger)trim
+{
+    NSInteger capacity = _console.capacity;
+    LU_RELEASE(_console);
+    _console = [[LUConsole alloc] initWithCapacity:capacity trimCount:trim];
+}
+
 @end

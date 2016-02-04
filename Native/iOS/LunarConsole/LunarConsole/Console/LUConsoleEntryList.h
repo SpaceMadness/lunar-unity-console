@@ -25,9 +25,11 @@
 
 @interface LUConsoleEntryList : NSObject
 
+@property (nonatomic, readonly) NSUInteger capacity;
 @property (nonatomic, readonly) NSUInteger count;
 @property (nonatomic, readonly) NSUInteger totalCount;
 @property (nonatomic, readonly) NSUInteger trimmedCount;
+@property (nonatomic, readonly) NSUInteger trimCount;
 @property (nonatomic, readonly) BOOL isTrimmed;
 
 @property (nonatomic, readonly) NSString *filterText;
