@@ -1,5 +1,11 @@
 # Lunar Console Changelog
 
+## v.0.1.0b - 2/3/2016
+
+**Improvements:**
+
+* **iOS**: collapse similar entries option 
+
 ## v.0.0.10b - 1/24/2016
 
 **Improvements:**
