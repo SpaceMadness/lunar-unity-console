@@ -1,6 +1,6 @@
 {
   "status": "OK",
-  "version": "0.0.9b",
-  "message": "Improvements:\n* Added an option to disable multi touch gesture recognition.\n\nFixes:\n* Android: fixed a conflicting between two-finger swipe down and zoom (pinch) gesture recognition.\n* Editor: fixed 'Report bug...' url.",
+  "version": "0.1.0b",
+  "message": "Improvements:\n* iOS: collapse similar entries option.\n* Added LunarConsole.Clear() method to clear the console output.",
   "url": "https://goo.gl/S8QXav"
 }
