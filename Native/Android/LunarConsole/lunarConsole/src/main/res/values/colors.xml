@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="lunar_console_color_base_button_highlighted">#ff595959</color>
     <color name="lunar_console_color_fake_status_bar">#ff000000</color>
     <color name="lunar_console_color_fake_status_bar_text">#ffffffff</color>
     <color name="lunar_console_color_cell_text">#ffb1b1b1</color>
@@ -14,4 +15,5 @@
     <color name="lunar_console_color_exception_bar_text">#ffA27374</color>
     <color name="lunar_console_color_warning_background">#ff6F6E55</color>
     <color name="lunar_console_color_warning_text">#ffC7C7C7</color>
+    <color name="lunar_console_color_collapsed_background">#ff424242</color>
 </resources>

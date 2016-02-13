@@ -56,7 +56,7 @@ public class ConsolePlugin implements
 {
     private static ConsolePlugin instance;
 
-    private final Console console;
+    private Console console;
     private final ConsolePluginImp pluginImp;
     private final String version;
 
@@ -619,5 +619,34 @@ public class ConsolePlugin implements
     public static String getVersion()
     {
         return instance != null ? instance.version : "?.?.?";
+    }
+
+    private static Console getConsole()
+    {
+        return instance.console;
+    }
+
+    public static int getCapacity()
+    {
+        return getConsole().getCapacity();
+    }
+
+    public static int getTrimSize()
+    {
+        return getConsole().getTrimSize();
+    }
+
+    public static void setCapacity(int capacity)
+    {
+        Options options = new Options(capacity);
+        options.setTrimCount(getConsole().getTrimSize());
+        instance.console = new Console(options);
+    }
+
+    public static void setTrimSize(int trimCount)
+    {
+        Options options = new Options(getConsole().getCapacity());
+        options.setTrimCount(trimCount);
+        instance.console = new Console(options);
     }
 }

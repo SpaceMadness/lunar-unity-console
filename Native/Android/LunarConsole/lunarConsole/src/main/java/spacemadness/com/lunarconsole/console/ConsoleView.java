@@ -32,9 +32,10 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.animation.Animation;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -42,6 +43,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import spacemadness.com.lunarconsole.R;
@@ -116,7 +118,7 @@ public class ConsoleView extends LinearLayout implements
 
         // this view would hold all the logs
         LinearLayout recyclerViewContainer = findExistingViewById(
-                R.id.lunar_console_recycler_view_container);
+                R.id.lunar_console_list_view_container);
 
         listView = new ListView(context);
         listView.setDivider(null);
@@ -213,6 +215,8 @@ public class ConsoleView extends LinearLayout implements
         setupLogTypeButtons();
 
         setupOperationsButtons();
+
+        setupMoreButton();
 
         // setup fake status bar
         setupFakeStatusBar();
@@ -512,6 +516,18 @@ public class ConsoleView extends LinearLayout implements
         });
     }
 
+    private void setupMoreButton()
+    {
+        setOnClickListener(R.id.lunar_console_button_more, new OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                showMoreOptionsMenu(v);
+            }
+        });
+    }
+
     private void setupFakeStatusBar()
     {
         String title = String.format(getResources().
@@ -539,6 +555,33 @@ public class ConsoleView extends LinearLayout implements
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
+    // More options context menu
+
+    private void showMoreOptionsMenu(View v)
+    {
+        PopupMenu popup = new PopupMenu(getContext(), v);
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.lunar_console_more_options_menu, popup.getMenu());
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
+        {
+            @Override
+            public boolean onMenuItemClick(MenuItem item)
+            {
+                if (item.getItemId() == R.id.lunar_console_menu_toggle_collapse)
+                {
+                    console.setCollapsed(!console.isCollapsed());
+                    return true;
+                }
+
+                return false;
+            }
+        });
+        MenuItem collapseItem = popup.getMenu().findItem(R.id.lunar_console_menu_toggle_collapse);
+        collapseItem.setChecked(console.isCollapsed());
+        popup.show();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     // LunarConsoleListener
 
     @Override
@@ -555,6 +598,15 @@ public class ConsoleView extends LinearLayout implements
 
     @Override
     public void onRemoveEntries(Console console, int start, int length)
+    {
+        recyclerViewAdapter.notifyDataSetChanged();
+        scrollToBottom(console);
+        updateLogButtons();
+        updateOverflowText();
+    }
+
+    @Override
+    public void onChangeEntries(Console console)
     {
         recyclerViewAdapter.notifyDataSetChanged();
         scrollToBottom(console);

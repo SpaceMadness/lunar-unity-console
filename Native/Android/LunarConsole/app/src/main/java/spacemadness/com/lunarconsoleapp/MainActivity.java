@@ -22,6 +22,7 @@
 package spacemadness.com.lunarconsoleapp;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Looper;
@@ -29,6 +30,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,12 +41,16 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import spacemadness.com.lunarconsole.console.ConsoleLogType;
 import spacemadness.com.lunarconsole.console.ConsolePlugin;
+import spacemadness.com.lunarconsole.utils.StringUtils;
 
 import static spacemadness.com.lunarconsole.console.ConsoleLogType.*;
 
 public class MainActivity extends Activity
 {
+    private static final String TEST_PREFS_NAME = "spacemadness.com.lunarconsole.Preferences";
+
     private static final String KEY_TEXT_DELAY = "delay";
     private static final String KEY_TEXT_CAPACITY = "capacity";
     private static final String KEY_TEXT_TRIM = "trim";
@@ -63,6 +69,10 @@ public class MainActivity extends Activity
     private DispatchQueue mainQueue;
     private DispatchQueue backgroundQueue;
 
+    // UI-testing
+    static boolean forceSyncCalls = false;             // don't use queues for any plugin calls
+    static boolean shutdownPluginWhenDestroyed = true; // keep plugin instance when activity is destroyed
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -72,11 +82,11 @@ public class MainActivity extends Activity
         mainQueue = new DispatchQueue(Looper.getMainLooper());
         backgroundQueue = BackgroundDispatchQueue.create("Background");
 
-        delayEditText = (EditText) findViewById(R.id.edit_text_delay);
-        capacityEditText = (EditText) findViewById(R.id.edit_text_capacity);
-        trimEditText = (EditText) findViewById(R.id.edit_text_trim);
-        useMainThreadCheckBox = (CheckBox) findViewById(R.id.checkbox_use_main_thread);
-        enableStackTraceCheckBox = (CheckBox) findViewById(R.id.checkbox_enable_stack_trace);
+        delayEditText = (EditText) findViewById(R.id.test_edit_text_delay);
+        capacityEditText = (EditText) findViewById(R.id.test_edit_text_capacity);
+        trimEditText = (EditText) findViewById(R.id.test_edit_text_trim);
+        useMainThreadCheckBox = (CheckBox) findViewById(R.id.test_checkbox_use_main_thread);
+        enableStackTraceCheckBox = (CheckBox) findViewById(R.id.test_checkbox_enable_stack_trace);
 
         restoreUIState();
 
@@ -88,11 +98,15 @@ public class MainActivity extends Activity
             @Override
             public void run()
             {
+                if (!shutdownPluginWhenDestroyed)
+                {
+                    ConsolePlugin.shutdown(); // kill any previous instance
+                }
                 ConsolePlugin.init(MainActivity.this, "0.0.0b", capacity, trim, "SwipeDown");
             }
         });
 
-        final Button loggerButton = (Button) findViewById(R.id.button_start_logger);
+        final Button loggerButton = (Button) findViewById(R.id.test_button_start_logger);
         loggerButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -198,7 +212,7 @@ public class MainActivity extends Activity
             }
         });
 
-        Button errorButton = (Button) findViewById(R.id.button_log_exception);
+        Button errorButton = (Button) findViewById(R.id.test_button_log_exception);
         errorButton.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -220,7 +234,7 @@ public class MainActivity extends Activity
             }
         });
 
-        Button showConsole = (Button) findViewById(R.id.button_show_console);
+        Button showConsole = (Button) findViewById(R.id.test_button_show_console);
         showConsole.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -234,6 +248,48 @@ public class MainActivity extends Activity
                         ConsolePlugin.show();
                     }
                 });
+            }
+        });
+
+        setLogOnClickListener(R.id.test_button_log_debug, ConsoleLogType.LOG);
+        setLogOnClickListener(R.id.test_button_log_warning, ConsoleLogType.WARNING);
+        setLogOnClickListener(R.id.test_button_log_error, ConsoleLogType.ERROR);
+
+        setOnClickListener(R.id.test_button_set_capacity, new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                EditText capacityEditText = (EditText) findViewById(R.id.test_edit_text_capacity);
+                String capacityText = capacityEditText.getText().toString();
+                int capacity = StringUtils.parseInt(capacityText, 0);
+                if (capacity > 0)
+                {
+                    ConsolePlugin.setCapacity(capacity);
+                }
+                else
+                {
+                    Toast.makeText(MainActivity.this, "Invalid capacity: " + capacityText, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        setOnClickListener(R.id.test_button_set_trim, new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                EditText trimEditText = (EditText) findViewById(R.id.test_edit_text_trim);
+                String trimText = trimEditText.getText().toString();
+                int trim = StringUtils.parseInt(trimText, 0);
+                if (trim > 0)
+                {
+                    ConsolePlugin.setTrimSize(trim);
+                }
+                else
+                {
+                    Toast.makeText(MainActivity.this, "Invalid trim: " + trimText, Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
@@ -256,14 +312,17 @@ public class MainActivity extends Activity
             loggerThread = null;
         }
 
-        dispatchOnSelectedQueue(new Runnable()
+        if (shutdownPluginWhenDestroyed)
         {
-            @Override
-            public void run()
+            dispatchOnSelectedQueue(new Runnable()
             {
-                ConsolePlugin.shutdown();
-            }
-        });
+                @Override
+                public void run()
+                {
+                    ConsolePlugin.shutdown();
+                }
+            });
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -271,8 +330,15 @@ public class MainActivity extends Activity
 
     private void dispatchOnSelectedQueue(Runnable r)
     {
-        DispatchQueue queue = shouldUseMainThread() ? mainQueue : backgroundQueue;
-        queue.dispatch(r);
+        if (forceSyncCalls)
+        {
+            r.run();
+        }
+        else
+        {
+            DispatchQueue queue = shouldUseMainThread() ? mainQueue : backgroundQueue;
+            queue.dispatch(r);
+        }
     }
 
     private boolean shouldUseMainThread()
@@ -337,8 +403,48 @@ public class MainActivity extends Activity
 
     private SharedPreferences getSharedPreferences()
     {
-        return getSharedPreferences("spacemadness.com.lunarconsole.Preferences", MODE_PRIVATE);
+        return getSharedPreferences(TEST_PREFS_NAME, MODE_PRIVATE);
     }
+
+    static void clearSharedPreferences(Context context)
+    {
+        SharedPreferences prefs = context.getSharedPreferences(TEST_PREFS_NAME, MODE_PRIVATE);
+        SharedPreferences.Editor edit = prefs.edit();
+        edit.clear();
+        edit.apply();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Helpers
+
+    private void setLogOnClickListener(int id, final byte logType)
+    {
+        setOnClickListener(id, new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                final EditText messageText = (EditText) findViewById(R.id.test_edit_message);
+                dispatchOnSelectedQueue(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        String message = messageText.getText().toString();
+                        ConsolePlugin.logMessage(message, "", logType);
+                    }
+                });
+            }
+        });
+    }
+
+    private void setOnClickListener(int id, View.OnClickListener listener)
+    {
+        findViewById(id).setOnClickListener(listener);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Helpers classes
 
     class FakeLogEntry
     {

@@ -4,7 +4,7 @@
     <style name="lunar_console_base_button_style">
         <item name="android:minHeight">48dip</item>
         <item name="android:minWidth">48dip</item>
-        <item name="android:background">@android:color/transparent</item>
+        <item name="android:background">@drawable/lunar_console_base_button_selector</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
@@ -54,6 +54,11 @@
     <style name="lunar_console_log_details_message_style" parent="lunar_console_base_text_style"/>
     <style name="lunar_console_log_details_stacktrace_style" parent="lunar_console_base_text_style">
         <item name="android:textSize">10sp</item>
+    </style>
+    <style name="lunar_console_log_details_collapsed_style" parent="lunar_console_base_text_style">
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+        <item name="android:background">@drawable/lunar_console_shape_collapse_text_background</item>
     </style>
 
 </resources>

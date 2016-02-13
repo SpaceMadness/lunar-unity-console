@@ -5,7 +5,7 @@ android {
     buildToolsVersion "23.0.1"
 
     defaultConfig {
-        minSdkVersion 9
+        minSdkVersion 11
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -23,7 +23,7 @@ dependencies {
     // Unity pre 5.2.x
     compile files('/Applications/Unity/Unity.app/Contents/PlaybackEngines/AndroidPlayer/release/bin/classes.jar')
     // Unity 5.2.x
-    compile files('/Applications/Unity/Unity.app/Contents/PlaybackEngines/AndroidPlayer/Variations/Variations/mono/Release/Classes/classes.jar')
+    compile files('/Applications/Unity/Unity.app/Contents/PlaybackEngines/AndroidPlayer/Variations/mono/Release/Classes/classes.jar')
     // Unity 5.3.x and later
     compile files('/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Release/Classes/classes.jar')
     testCompile 'junit:junit:4.12'

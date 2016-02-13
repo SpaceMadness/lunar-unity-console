@@ -13,91 +13,138 @@
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/edit_text_delay"
-            style="@style/IntEditText"
-            android:layout_width="0dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="1000"/>
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/button_start_logger"
+            <EditText
+                android:id="@+id/test_edit_message"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>
+
+            <Button
+                android:id="@+id/test_button_log_debug"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Debug"/>
+
+            <Button
+                android:id="@+id/test_button_log_warning"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Warning"/>
+
+            <Button
+                android:id="@+id/test_button_log_error"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Error"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/test_edit_text_delay"
+                style="@style/IntEditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="1000"/>
+
+            <Button
+                android:id="@+id/test_button_start_logger"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/button_logger_start"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/test_edit_text_capacity"
+                style="@style/IntEditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="1024"/>
+
+            <Button
+                android:id="@+id/test_button_set_capacity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Set"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/test_edit_text_trim"
+                style="@style/IntEditText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="128"/>
+
+            <Button
+                android:id="@+id/test_button_set_trim"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Set"/>
+
+        </LinearLayout>
+
+        <CheckBox
+            android:id="@+id/test_checkbox_use_main_thread"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/button_logger_start"/>
+            android:checked="true"
+            android:text="Use main thread"/>
+
+        <CheckBox
+            android:id="@+id/test_checkbox_enable_stack_trace"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="Enable stack trace"/>
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/button_log_exception"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/button_show_console"
-        android:layout_alignEnd="@+id/button_show_console"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/button_show_console"
-        android:text="@string/button_log_error"/>
-
-    <Button
-        android:id="@+id/button_show_console"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/linearLayout"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/linearLayout"
-        android:text="Show Console"/>
-
-    <EditText
-        android:id="@+id/edit_text_capacity"
-        style="@style/IntEditText"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/linearLayout"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/linearLayout"
-        android:layout_below="@+id/linearLayout"
-        android:text="1024"/>
+        android:layout_alignParentBottom="true" android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true" android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/edit_text_trim"
-        style="@style/IntEditText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/linearLayout"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/linearLayout"
-        android:layout_below="@+id/edit_text_capacity"
-        android:text="128"/>
+        <Button
+            android:id="@+id/test_button_show_console"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Show Console"/>
 
-    <CheckBox
-        android:id="@+id/checkbox_use_main_thread"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/edit_text_capacity"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/edit_text_capacity"
-        android:layout_below="@+id/edit_text_trim"
-        android:checked="true"
-        android:text="Use main thread"/>
+        <Button
+            android:id="@+id/test_button_log_exception"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/button_log_error"/>
 
-    <CheckBox
-        android:id="@+id/checkbox_enable_stack_trace"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/checkbox_use_main_thread"
-        android:checked="true"
-        android:text="Enable stack trace"/>
+    </LinearLayout>
 
 
 </RelativeLayout>

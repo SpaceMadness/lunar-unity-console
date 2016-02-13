@@ -27,6 +27,9 @@ import static spacemadness.com.lunarconsole.console.ConsoleLogType.*;
 
 public class ConsoleEntryListTest extends TestCase
 {
+    private static final int kDefaultCapacity = 100;
+    private static final int kDefaultTrim = 1;
+
     public void testFilteringByText()
     {
         ConsoleEntryList list = createEntryListWithMessages(
@@ -274,6 +277,479 @@ public class ConsoleEntryListTest extends TestCase
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Collapse items
+
+    public void testCollapseEntries()
+    {
+        ConsoleEntryList list = createEntryListWithEntries(kDefaultCapacity, kDefaultTrim,
+        new ConsoleEntry("message1"),
+        new ConsoleEntry("message1"),
+        new ConsoleEntry("message1"),
+        new ConsoleEntry("message12"),
+        new ConsoleEntry("message12"));
+
+        list.collapsed(true);
+        assertTrue(list.isFiltering());
+
+        listAssertMessages(list, "message1", "message12");
+
+        assertEntry(list, 0, "message1", 3);
+        assertEntry(list, 1, "message12", 2);
+
+        list.collapsed(false);
+        assertTrue(!list.isFiltering());
+
+        listAssertMessages(list, "message1", "message1", "message1", "message12", "message12");
+    }
+
+    public void testCollapseAddEntries()
+    {
+        ConsoleEntryList list = createEntryListWithEntries(kDefaultCapacity, kDefaultTrim,
+            new ConsoleEntry("message1"),
+            new ConsoleEntry("message1"),
+            new ConsoleEntry("message1"));
+
+        list.collapsed(true);
+        assertTrue(list.isFiltering());
+
+        listAssertMessages(list, "message1");
+        assertEntry(list, 0, "message1", 3);
+
+        list.addEntry(new ConsoleEntry("message1"));
+        listAssertMessages(list, "message1");
+        assertEntry(list, 0, "message1", 4);
+
+        list.addEntry(new ConsoleEntry("message12"));
+        listAssertMessages(list, "message1", "message12");
+        assertEntry(list, 0, "message1", 4);
+        assertEntry(list, 1, "message12", 1);
+
+        list.addEntry(new ConsoleEntry("message2"));
+        listAssertMessages(list, "message1", "message12", "message2");
+        assertEntry(list, 0, "message1", 4);
+        assertEntry(list, 1, "message12", 1);
+        assertEntry(list, 2, "message2", 1);
+
+        list.addEntry(new ConsoleEntry("message1"));
+        listAssertMessages(list, "message1", "message12", "message2");
+        assertEntry(list, 0, "message1", 5);
+        assertEntry(list, 1, "message12", 1);
+        assertEntry(list, 2, "message2", 1);
+
+        list.addEntry(new ConsoleEntry("message12"));
+        listAssertMessages(list, "message1", "message12", "message2");
+        assertEntry(list, 0, "message1", 5);
+        assertEntry(list, 1, "message12", 2);
+        assertEntry(list, 2, "message2", 1);
+
+        list.addEntry(new ConsoleEntry("message2"));
+        listAssertMessages(list, "message1", "message12", "message2");
+        assertEntry(list, 0, "message1", 5);
+        assertEntry(list, 1, "message12", 2);
+        assertEntry(list, 2, "message2", 2);
+
+        list.collapsed(false);
+        assertTrue(!list.isFiltering());
+
+        listAssertMessages(list,
+         "message1",
+         "message1",
+         "message1",
+         "message1",
+         "message12",
+         "message2",
+         "message1",
+         "message12",
+         "message2");
+    }
+
+    public void testCollapseAddEntriesOverflow()
+    {
+        ConsoleEntryList list = createEntryListWithEntries(3, 1,
+          new ConsoleEntry("message1"),
+          new ConsoleEntry("message1"),
+          new ConsoleEntry("message1"));
+
+        list.collapsed(true);
+        assertTrue(list.isFiltering());
+
+        list.addEntry(new ConsoleEntry("message1"));
+        list.addEntry(new ConsoleEntry("message1"));
+        list.addEntry(new ConsoleEntry("message1"));
+
+        listAssertMessages(list, "message1");
+
+        assertEntry(list, 0, "message1", 6);
+
+        list.collapsed(false);
+        assertTrue(!list.isFiltering());
+
+        listAssertMessages(list, "message1", "message1", "message1");
+    }
+
+    public void testCollapseAddEntriesOverflowDistinctive()
+    {
+        ConsoleEntryList list = createEntryListWithEntries(3, 1,
+          new ConsoleEntry("message1"),
+          new ConsoleEntry("message1"),
+          new ConsoleEntry("message1"));
+
+        list.collapsed(true);
+        assertTrue(list.isFiltering());
+
+        list.addEntry(new ConsoleEntry("message12"));
+        list.addEntry(new ConsoleEntry("message12"));
+
+        listAssertMessages(list, "message1", "message12");
+
+        assertEntry(list, 0, "message1", 3);
+        assertEntry(list, 1, "message12", 2);
+
+        list.collapsed(false);
+        assertTrue(!list.isFiltering());
+
+        listAssertMessages(list, "message1", "message12", "message12");
+    }
+
+    public void testCollapseFilteredEntries()
+    {
+        ConsoleEntryList list = createEntryListWithEntries(kDefaultCapacity, kDefaultTrim,
+          new ConsoleEntry("message1"),
+          new ConsoleEntry("message12"),
+          new ConsoleEntry("message2"),
+          new ConsoleEntry("message1"),
+          new ConsoleEntry("message12"),
+          new ConsoleEntry("message2"),
+          new ConsoleEntry("message1"),
+          new ConsoleEntry("message12"),
+          new ConsoleEntry("message2"));
+
+        list.setFilterByText("message1");
+        assertTrue(list.isFiltering());
+
+        list.collapsed(true);
+        assertTrue(list.isFiltering());
+
+        listAssertMessages(list, "message1", "message12");
+
+        assertEntry(list, 0, "message1", 3);
+        assertEntry(list, 1, "message12", 3);
+
+        list.collapsed(false);
+        assertTrue(list.isFiltering());
+
+        listAssertMessages(list, "message1", "message12", "message1", "message12", "message1", "message12");
+    }
+
+    public void testCollapseAddFilteredEntries()
+    {
+        ConsoleEntryList list = createEntryListWithEntries(kDefaultCapacity, kDefaultTrim,
+          new ConsoleEntry("message1"),
+          new ConsoleEntry("message1"),
+          new ConsoleEntry("message1"));
+
+        list.setFilterByText("message1");
+        assertTrue(list.isFiltering());
+
+        list.collapsed(true);
+        assertTrue(list.isFiltering());
+
+        listAssertMessages(list, "message1");
+        assertEntry(list, 0, "message1", 3);
+
+        list.addEntry(new ConsoleEntry("message1"));
+        listAssertMessages(list, "message1");
+        assertEntry(list, 0, "message1", 4);
+
+        list.addEntry(new ConsoleEntry("message12"));
+        listAssertMessages(list, "message1", "message12");
+        assertEntry(list, 0, "message1", 4);
+        assertEntry(list, 1, "message12", 1);
+
+        list.addEntry(new ConsoleEntry("message2"));
+        listAssertMessages(list, "message1", "message12");
+        assertEntry(list, 0, "message1", 4);
+        assertEntry(list, 1, "message12", 1);
+
+        list.addEntry(new ConsoleEntry("message1"));
+        listAssertMessages(list, "message1", "message12");
+        assertEntry(list, 0, "message1", 5);
+        assertEntry(list, 1, "message12", 1);
+
+        list.addEntry(new ConsoleEntry("message12"));
+        listAssertMessages(list, "message1", "message12");
+        assertEntry(list, 0, "message1", 5);
+        assertEntry(list, 1, "message12", 2);
+
+        list.addEntry(new ConsoleEntry("message2"));
+        listAssertMessages(list, "message1", "message12");
+        assertEntry(list, 0, "message1", 5);
+        assertEntry(list, 1, "message12", 2);
+
+        list.collapsed(false);
+        assertTrue(list.isFiltering());
+
+        listAssertMessages(list,
+         "message1",
+         "message1",
+         "message1",
+         "message1",
+         "message12",
+         "message1",
+         "message12");
+
+        list.setFilterByText("");
+        assertTrue(!list.isFiltering());
+
+        listAssertMessages(list,
+         "message1",
+         "message1",
+         "message1",
+         "message1",
+         "message12",
+         "message2",
+         "message1",
+         "message12",
+         "message2");
+    }
+
+    public void testCollapseAddFilteredEntriesOverflow()
+    {
+        ConsoleEntryList list = createEntryListWithEntries(3, 1,
+          new ConsoleEntry("message1"),
+          new ConsoleEntry("message1"),
+          new ConsoleEntry("message1"));
+
+        list.setFilterByText("message1");
+        assertTrue(list.isFiltering());
+
+        list.collapsed(true);
+        assertTrue(list.isFiltering());
+
+        listAssertMessages(list, "message1");
+        assertEntry(list, 0, "message1", 3);
+
+        list.addEntry(new ConsoleEntry("message1"));
+        listAssertMessages(list, "message1");
+        assertEntry(list, 0, "message1", 4);
+
+        list.addEntry(new ConsoleEntry("message12"));
+        listAssertMessages(list, "message1", "message12");
+        assertEntry(list, 0, "message1", 4);
+        assertEntry(list, 1, "message12", 1);
+
+        list.addEntry(new ConsoleEntry("message2"));
+        listAssertMessages(list, "message1", "message12");
+        assertEntry(list, 0, "message1", 4);
+        assertEntry(list, 1, "message12", 1);
+
+        list.addEntry(new ConsoleEntry("message1"));
+        listAssertMessages(list, "message1", "message12");
+        assertEntry(list, 0, "message1", 5);
+        assertEntry(list, 1, "message12", 1);
+
+        list.addEntry(new ConsoleEntry("message12"));
+        listAssertMessages(list, "message1", "message12");
+        assertEntry(list, 0, "message1", 5);
+        assertEntry(list, 1, "message12", 2);
+
+        list.addEntry(new ConsoleEntry("message2"));
+        listAssertMessages(list, "message1", "message12");
+        assertEntry(list, 0, "message1", 5);
+        assertEntry(list, 1, "message12", 2);
+
+        list.collapsed(false);
+        assertTrue(list.isFiltering());
+
+        listAssertMessages(list,
+         "message1",
+         "message12");
+
+        list.setFilterByText("");
+        assertTrue(!list.isFiltering());
+
+        listAssertMessages(list,
+         "message1",
+         "message12",
+         "message2");
+    }
+
+    public void testFilterCollapsedEntries()
+    {
+        ConsoleEntryList list = createEntryListWithEntries(kDefaultCapacity, kDefaultTrim,
+          new ConsoleEntry("message1"),
+          new ConsoleEntry("message12"),
+          new ConsoleEntry("message2"),
+          new ConsoleEntry("message1"),
+          new ConsoleEntry("message12"),
+          new ConsoleEntry("message2"),
+          new ConsoleEntry("message1"),
+          new ConsoleEntry("message12"),
+          new ConsoleEntry("message2"));
+
+        list.collapsed(true);
+        assertTrue(list.isFiltering());
+
+        list.setFilterByText("message1");
+        assertTrue(list.isFiltering());
+
+        listAssertMessages(list, "message1", "message12");
+
+        assertEntry(list, 0, "message1", 3);
+        assertEntry(list, 1, "message12", 3);
+
+        list.setFilterByText("");
+        assertTrue(list.isFiltering());
+
+        listAssertMessages(list, "message1", "message12", "message2");
+
+        assertEntry(list, 0, "message1", 3);
+        assertEntry(list, 1, "message12", 3);
+        assertEntry(list, 2, "message2", 3);
+
+        list.collapsed(false);
+        assertTrue(!list.isFiltering());
+
+        listAssertMessages(list,
+         "message1",
+         "message12",
+         "message2",
+         "message1",
+         "message12",
+         "message2",
+         "message1",
+         "message12",
+         "message2");
+    }
+
+    public void testFilterCollapsedEntriesAndAddEntries()
+    {
+        ConsoleEntryList list = createEntryListWithEntries(kDefaultCapacity, kDefaultTrim,
+          new ConsoleEntry("message1"),
+          new ConsoleEntry("message1"),
+          new ConsoleEntry("message1"));
+
+        list.collapsed(true);
+        assertTrue(list.isFiltering());
+
+        list.setFilterByText("message1");
+        assertTrue(list.isFiltering());
+
+        listAssertMessages(list, "message1");
+        assertEntry(list, 0, "message1", 3);
+
+        list.addEntry(new ConsoleEntry("message1"));
+        listAssertMessages(list, "message1");
+        assertEntry(list, 0, "message1", 4);
+
+        list.addEntry(new ConsoleEntry("message12"));
+        listAssertMessages(list, "message1", "message12");
+        assertEntry(list, 0, "message1", 4);
+        assertEntry(list, 1, "message12", 1);
+
+        list.addEntry(new ConsoleEntry("message2"));
+        listAssertMessages(list, "message1", "message12");
+        assertEntry(list, 0, "message1", 4);
+        assertEntry(list, 1, "message12", 1);
+
+        list.addEntry(new ConsoleEntry("message1"));
+        listAssertMessages(list, "message1", "message12");
+        assertEntry(list, 0, "message1", 5);
+        assertEntry(list, 1, "message12", 1);
+
+        list.addEntry(new ConsoleEntry("message12"));
+        listAssertMessages(list, "message1", "message12");
+        assertEntry(list, 0, "message1", 5);
+        assertEntry(list, 1, "message12", 2);
+
+        list.addEntry(new ConsoleEntry("message2"));
+        listAssertMessages(list, "message1", "message12");
+        assertEntry(list, 0, "message1", 5);
+        assertEntry(list, 1, "message12", 2);
+
+        list.setFilterByText("");
+        assertTrue(list.isFiltering());
+
+        listAssertMessages(list, "message1", "message12", "message2");
+        assertEntry(list, 0, "message1", 5);
+        assertEntry(list, 1, "message12", 2);
+        assertEntry(list, 2, "message2", 2);
+
+        list.collapsed(false);
+        assertTrue(!list.isFiltering());
+
+        listAssertMessages(list,
+         "message1",
+         "message1",
+         "message1",
+         "message1",
+         "message12",
+         "message2",
+         "message1",
+         "message12",
+         "message2");
+    }
+
+    public void testFilterCollapsedEntriesAndAddEntriesOverflow()
+    {
+        ConsoleEntryList list = createEntryListWithEntries(3, 1,
+          new ConsoleEntry("message1"),
+          new ConsoleEntry("message1"),
+          new ConsoleEntry("message1"));
+
+        list.collapsed(true);
+        assertTrue(list.isFiltering());
+
+        list.setFilterByText("message1");
+        assertTrue(list.isFiltering());
+
+        listAssertMessages(list, "message1");
+        assertEntry(list, 0, "message1", 3);
+
+        list.addEntry(new ConsoleEntry("message1"));
+        listAssertMessages(list, "message1");
+        assertEntry(list, 0, "message1", 4);
+
+        list.addEntry(new ConsoleEntry("message12"));
+        listAssertMessages(list, "message1", "message12");
+        assertEntry(list, 0, "message1", 4);
+        assertEntry(list, 1, "message12", 1);
+
+        list.addEntry(new ConsoleEntry("message2"));
+        listAssertMessages(list, "message1", "message12");
+        assertEntry(list, 0, "message1", 4);
+        assertEntry(list, 1, "message12", 1);
+
+        list.addEntry(new ConsoleEntry("message1"));
+        listAssertMessages(list, "message1", "message12");
+        assertEntry(list, 0, "message1", 5);
+        assertEntry(list, 1, "message12", 1);
+
+        list.addEntry(new ConsoleEntry("message12"));
+        listAssertMessages(list, "message1", "message12");
+        assertEntry(list, 0, "message1", 5);
+        assertEntry(list, 1, "message12", 2);
+
+        list.addEntry(new ConsoleEntry("message2"));
+        listAssertMessages(list, "message1", "message12");
+        assertEntry(list, 0, "message1", 5);
+        assertEntry(list, 1, "message12", 2);
+
+        list.setFilterByText("");
+        assertTrue(list.isFiltering());
+
+        listAssertMessages(list, "message1", "message12", "message2");
+        assertEntry(list, 0, "message1", 1);
+        assertEntry(list, 1, "message12", 1);
+        assertEntry(list, 1, "message12", 1);
+
+        list.collapsed(false);
+        assertTrue(!list.isFiltering());
+
+        listAssertMessages(list, "message1", "message12", "message2");
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     // Helpers
 
     private void listAssertMessages(ConsoleEntryList list, String... expected)
@@ -298,11 +774,29 @@ public class ConsoleEntryListTest extends TestCase
 
     private ConsoleEntryList createEntryListWithEntries(ConsoleEntry... entries)
     {
-        ConsoleEntryList list = new ConsoleEntryList(100, 1);
+        return createEntryListWithEntries(kDefaultCapacity, kDefaultTrim, entries);
+    }
+
+    private ConsoleEntryList createEntryListWithEntries(int capacity, int trimSize, ConsoleEntry... entries)
+    {
+        ConsoleEntryList list = new ConsoleEntryList(capacity, trimSize);
         for (ConsoleEntry entry : entries)
         {
             list.addEntry(entry);
         }
         return list;
+    }
+
+    private void assertEntry(ConsoleEntryList list, int index, String message, int count)
+    {
+        assertEntry(list, index, message, count, index);
+    }
+
+    private void assertEntry(ConsoleEntryList list, int index, String expectedMessage, int expectedCount, int expectedIndex)
+    {
+        ConsoleCollapsedEntry entry = list.getCollapsedEntry(index);
+        assertEquals(expectedMessage, entry.message);
+        assertEquals(expectedCount, entry.count);
+        assertEquals(expectedIndex, entry.index);
     }
 }

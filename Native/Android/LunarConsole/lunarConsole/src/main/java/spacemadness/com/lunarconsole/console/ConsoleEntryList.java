@@ -21,10 +21,16 @@
 
 package spacemadness.com.lunarconsole.console;
 
+import spacemadness.com.lunarconsole.debug.Assert;
+import spacemadness.com.lunarconsole.utils.ConsoleEntryLookupTable;
+
 import static spacemadness.com.lunarconsole.utils.ObjectUtils.*;
 import static spacemadness.com.lunarconsole.utils.StringUtils.*;
 import static spacemadness.com.lunarconsole.console.ConsoleLogType.*;
 
+/** A class which represents a console entry list.
+ * Supports collapsing similar items and filtering by text and log type.
+ */
 public class ConsoleEntryList
 {
     /** Stores all entries */
@@ -39,6 +45,9 @@ public class ConsoleEntryList
     /** Current filtering text (can be null) */
     private String filterText;
 
+    /** Lookup table for collapsed entries (or null is entries are not collapsed) */
+    private ConsoleEntryLookupTable entryLookup;
+
     /** Holds disabled log entries types bit mask */
     private int logDisabledTypesMask;
 
@@ -51,6 +60,15 @@ public class ConsoleEntryList
     /** Total count of 'error' log messages */
     private int errorCount;
 
+    /** True if similar entries are collapsed */
+    private boolean collapsed;
+
+    /**
+     * Creates a new list based on capacity and trim size
+     *
+     * @param capacity the maximum amount of entries this list can store
+     * @param trimSize the number of items trimmed when list overflows
+     */
     public ConsoleEntryList(int capacity, int trimSize)
     {
         entries = new LimitSizeEntryList(capacity, trimSize);
@@ -61,28 +79,9 @@ public class ConsoleEntryList
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Entries
 
-    public boolean filterEntry(ConsoleEntry entry)
+    /** Adds a new entry object */
+    public int addEntry(ConsoleEntry entry)
     {
-        // filter
-        if (isFiltering())
-        {
-            if (isFiltered(entry))
-            {
-                filteredEntries.addObject(entry);
-                return true;
-            }
-
-            return false; // if item was rejected - we don't need to update table cells
-        }
-
-        return true;
-    }
-
-    public void addEntry(ConsoleEntry entry)
-    {
-        // add entry
-        entries.addObject(entry);
-
         // count types
         int entryType = entry.type;
         if (entryType == LOG)
@@ -97,24 +96,62 @@ public class ConsoleEntryList
         {
             ++errorCount;
         }
+
+        // add entry
+        entries.addObject(entry);
+
+        // filter entry
+        if (isFiltering())
+        {
+            if (filterEntry(entry))
+            {
+                if (collapsed)
+                {
+                    ConsoleCollapsedEntry collapsedEntry = entryLookup.addEntry(entry);
+                    if (collapsedEntry.index < filteredEntries.trimmedCount()) // first encounter or trimmed?
+                    {
+                        collapsedEntry.index = filteredEntries.totalCount();   // we use total count in case if list overflows
+                        filteredEntries.addObject(collapsedEntry);
+                    }
+
+                    return collapsedEntry.index - filteredEntries.trimmedCount();
+                }
+
+                filteredEntries.addObject(entry);
+                return filteredEntries.totalCount() - 1;
+            }
+
+            return -1; // if item was rejected - we don't need to update table cells
+        }
+
+        return entries.totalCount() - 1; // entry was added at the end of the list
     }
 
+    /** Returns entry at index */
     public ConsoleEntry getEntry(int index)
     {
         return currentEntries.objectAtIndex(index);
     }
 
-    public void trimHead(int count)
+    /** Return collapsed entry at index or null if entry is not collapsed */
+    public ConsoleCollapsedEntry getCollapsedEntry(int index)
     {
-        entries.trimHead(count);
+        return as(getEntry(index), ConsoleCollapsedEntry.class);
     }
 
+    /** Removes all entries from the list */
     public void clear()
     {
         entries.clear();
+
         if (filteredEntries != null)
         {
             filteredEntries.clear();
+        }
+
+        if (entryLookup != null)
+        {
+            entryLookup.clear();
         }
 
         logCount = 0;
@@ -125,6 +162,11 @@ public class ConsoleEntryList
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Filtering
 
+    /** Sets a text-based filtering
+     *
+     * @param text a new text to filter or "" to remove the text filter
+     * @return true if list was changed
+     */
     public boolean setFilterByText(String text)
     {
         if (!areEqual(filterText, text)) // filter text has changed
@@ -143,11 +185,25 @@ public class ConsoleEntryList
         return false;
     }
 
+    /**
+     * Sets log type based filtering
+     *
+     * @param logType the target log type
+     * @param disabled true if log type should be disabled
+     * @return true if list was changed
+     */
     public boolean setFilterByLogType(int logType, boolean disabled)
     {
         return setFilterByLogTypeMask(getMask(logType), disabled);
     }
 
+    /**
+     * Sets log type based filtering
+     *
+     * @param logTypeMask the target log type mask
+     * @param disabled true if log type mask should be disabled
+     * @return true if list was changed
+     */
     public boolean setFilterByLogTypeMask(int logTypeMask, boolean disabled)
     {
         int oldDisabledTypesMask = logDisabledTypesMask;
@@ -168,11 +224,21 @@ public class ConsoleEntryList
         return false;
     }
 
+    /**
+     * Checks if log type is enabled
+     *
+     * @param type the target log type
+     * @return true if log type is enabled
+     */
     public boolean isFilterLogTypeEnabled(int type)
     {
         return (logDisabledTypesMask & getMask(type)) == 0;
     }
 
+    /**
+     * Appends new filter to already filtered items
+     * @return true if list was changed
+     */
     private boolean appendFilter()
     {
         if (isFiltering())
@@ -184,11 +250,20 @@ public class ConsoleEntryList
         return applyFilter();
     }
 
+    /**
+     * Replaces or removes the current filter
+     * @return true if list was changed
+     */
     private boolean applyFilter()
     {
-        boolean filtering = length(filterText) > 0 || hasLogTypeFilters(); // needs filtering?
-        if (filtering)
+        boolean needsFiltering = collapsed || length(filterText) > 0 || hasLogTypeFilters(); // needs filtering?
+        if (needsFiltering)
         {
+            if (entryLookup != null)
+            {
+                entryLookup.clear(); // if we have collapsed items - we need to rebuild the lookup
+            }
+
             useFilteredFromEntries(entries);
             return true;
         }
@@ -196,6 +271,10 @@ public class ConsoleEntryList
         return removeFilter();
     }
 
+    /**
+     * Returns current filter
+     * @return true if filter was removed
+     */
     private boolean removeFilter()
     {
         if (isFiltering())
@@ -209,6 +288,11 @@ public class ConsoleEntryList
         return false;
     }
 
+    /**
+     * Filter entries and set them as current entries
+     *
+     * @param entries entries to filter
+     */
     private void useFilteredFromEntries(LimitSizeEntryList entries)
     {
         LimitSizeEntryList filteredEntries = filterEntries(entries);
@@ -220,21 +304,59 @@ public class ConsoleEntryList
         this.filteredEntries = filteredEntries;
     }
 
+    /**
+     * Creates new list based by applying current filter to entries
+     * @param entries entries to filter
+     * @return new list
+     */
     private LimitSizeEntryList filterEntries(LimitSizeEntryList entries)
     {
         LimitSizeEntryList list = new LimitSizeEntryList(entries.capacity(), entries.getTrimSize()); // same as original list
-        for (ConsoleEntry entry : entries)
+
+        if (collapsed)
         {
-            if (isFiltered(entry))
+            for (ConsoleEntry entry : entries)
             {
-                list.addObject(entry);
+                if (filterEntry(entry))
+                {
+                    ConsoleCollapsedEntry collapsedEntry = as(entry, ConsoleCollapsedEntry.class);
+                    if (collapsedEntry != null)
+                    {
+                        collapsedEntry.index = list.totalCount(); // update item's position
+                        list.addObject(collapsedEntry);
+                    }
+                    else
+                    {
+                        collapsedEntry= entryLookup.addEntry(entry);
+                        if (collapsedEntry.count == 1) // first encounter
+                        {
+                            collapsedEntry.index = list.totalCount();
+                            list.addObject(collapsedEntry);
+                        }
+                    }
+                }
+            }
+        }
+        else
+        {
+            for (ConsoleEntry entry : entries)
+            {
+                if (filterEntry(entry))
+                {
+                    list.addObject(entry);
+                }
             }
         }
 
         return list;
     }
 
-    private boolean isFiltered(ConsoleEntry entry)
+    /**
+     * Checks if entry passes the current filter
+     * @param entry entry to check
+     * @return true if entry passes the filter
+     */
+    private boolean filterEntry(ConsoleEntry entry)
     {
         // filter by log type
         if ((logDisabledTypesMask & getMask(entry.type)) != 0)
@@ -246,6 +368,10 @@ public class ConsoleEntryList
         return length(filterText) == 0 || containsIgnoreCase(entry.message, filterText);
     }
 
+    /**
+     * Check if list is filtering by log type mask
+     * @return true if list is filtering by log type mask
+     */
     private boolean hasLogTypeFilters()
     {
         return logDisabledTypesMask != 0;
@@ -254,6 +380,9 @@ public class ConsoleEntryList
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Text representation
 
+    /**
+     * Concatenates every message from all the entries into a single string
+     */
     public String getText()
     {
         StringBuilder text = new StringBuilder();
@@ -275,9 +404,47 @@ public class ConsoleEntryList
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Getters/Setters
 
+    /**
+     * Sets the boolean flag controlling similar entries collapse
+     * @param collapsed <code>true</code> if similar entries should collapse
+     */
+    public void collapsed(boolean collapsed) // FIXME: java naming conventions
+    {
+        this.collapsed = collapsed;
+        if (collapsed)
+        {
+            Assert.IsNull(entryLookup);
+            entryLookup = new ConsoleEntryLookupTable();
+        }
+        else
+        {
+            entryLookup = null;
+        }
+
+        applyFilter();
+    }
+
+    /**
+     * Returns true if similar entries are collapsed
+     */
+    public boolean isCollapsed()
+    {
+        return collapsed;
+    }
+
+    public int capacity() // FIXME: java naming conventions
+    {
+        return currentEntries.capacity();
+    }
+
     public int count() // FIXME: java naming conventions
     {
         return currentEntries.count();
+    }
+
+    public int trimCount()
+    {
+        return currentEntries.getTrimSize();
     }
 
     public int totalCount() // FIXME: java naming conventions

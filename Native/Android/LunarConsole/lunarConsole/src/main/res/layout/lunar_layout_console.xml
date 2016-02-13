@@ -37,6 +37,11 @@
             style="@style/lunar_console_log_button_style"
             android:drawableLeft="@drawable/lunar_console_icon_log_error"/>
 
+        <ImageButton
+            android:id="@+id/lunar_console_button_more"
+            style="@style/lunar_console_base_button_style"
+            android:src="@drawable/lunar_console_icon_button_more"/>
+
     </LinearLayout>
 
     <!--
@@ -45,7 +50,7 @@
      not be loaded correctly). As a workaround we need to create ListView programmatically
      -->
     <LinearLayout
-        android:id="@+id/lunar_console_recycler_view_container"
+        android:id="@+id/lunar_console_list_view_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"

@@ -28,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import spacemadness.com.lunarconsole.R;
+import spacemadness.com.lunarconsole.utils.ObjectUtils;
 
 import static spacemadness.com.lunarconsole.console.ConsoleLogType.*;
 
@@ -48,6 +49,12 @@ public class ConsoleEntry
     public final byte type;
     public final String message;
     public final String stackTrace;
+
+    /** For testing purposes */
+    ConsoleEntry(String message)
+    {
+        this(ConsoleLogType.LOG, message, "");
+    }
 
     public ConsoleEntry(byte type, String message)
     {
@@ -96,6 +103,7 @@ public class ConsoleEntry
         private final View layout;
         private final ImageView iconView;
         private final TextView messageView;
+        private final TextView collapsedCountView;
 
         public ViewHolder(View itemView)
         {
@@ -104,6 +112,7 @@ public class ConsoleEntry
             layout = itemView.findViewById(R.id.lunar_console_log_entry_layout);
             iconView = (ImageView) itemView.findViewById(R.id.lunar_console_log_entry_icon);
             messageView = (TextView) itemView.findViewById(R.id.lunar_console_log_entry_message);
+            collapsedCountView = (TextView) itemView.findViewById(R.id.lunar_console_log_collapsed_count);
         }
 
         @Override
@@ -113,6 +122,17 @@ public class ConsoleEntry
             layout.setBackgroundColor(entry.getBackgroundColor(context));
             iconView.setImageDrawable(entry.getIconDrawable(context));
             messageView.setText(entry.message);
+
+            ConsoleCollapsedEntry collapsedEntry = ObjectUtils.as(entry, ConsoleCollapsedEntry.class);
+            if (collapsedEntry != null && collapsedEntry.count > 1)
+            {
+                collapsedCountView.setVisibility(View.VISIBLE);
+                collapsedCountView.setText(Integer.toString(collapsedEntry.count));
+            }
+            else
+            {
+                collapsedCountView.setVisibility(View.GONE);
+            }
         }
     }
 }

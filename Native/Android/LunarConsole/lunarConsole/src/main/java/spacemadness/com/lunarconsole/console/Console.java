@@ -41,6 +41,11 @@ public class Console implements
         }
 
         @Override
+        public void onChangeEntries(Console console)
+        {
+        }
+
+        @Override
         public void onClearEntries(Console console)
         {
         }
@@ -75,16 +80,16 @@ public class Console implements
 
     void logMessage(ConsoleEntry entry)
     {
-        final int oldTrimmedCount = entries.trimmedCount();
-
-        // set index for correct rendering
-        entry.index = entries.totalCount();
-
-        // filter entry
-        boolean filtered = entries.filterEntry(entry);
+        final int oldTrimmedCount = entries.trimmedCount(); // trimmed count before we added a new item
 
         // add new entry
-        entries.addEntry(entry);
+        int index = entries.addEntry(entry);
+
+        boolean filtered = index != -1;
+        if (filtered)
+        {
+            entry.index = index; // update index for correct rendering
+        }
 
         // notify listener
         final int trimmedCount = entries.trimmedCount() - oldTrimmedCount;
@@ -138,6 +143,18 @@ public class Console implements
         }
     }
 
+    private void notifyEntriesChanged()
+    {
+        try
+        {
+            consoleListener.onChangeEntries(this);
+        }
+        catch (Exception e)
+        {
+            Log.e(e, "Error while notifying delegate");
+        }
+    }
+
     private void notifyEntriesCleared()
     {
         try
@@ -165,9 +182,33 @@ public class Console implements
         this.consoleListener = listener != null ? listener : NULL_LISTENER;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Getters/Setters
+
+    public int getCapacity()
+    {
+        return entries.capacity();
+    }
+
+    public int getTrimSize()
+    {
+        return entries.trimCount();
+    }
+
     public ConsoleEntryList entries()
     {
         return entries;
+    }
+
+    public void setCollapsed(boolean collapsed)
+    {
+        entries.collapsed(collapsed);
+        notifyEntriesChanged();
+    }
+
+    public boolean isCollapsed()
+    {
+        return entries.isCollapsed();
     }
 
     public int entriesCount()
