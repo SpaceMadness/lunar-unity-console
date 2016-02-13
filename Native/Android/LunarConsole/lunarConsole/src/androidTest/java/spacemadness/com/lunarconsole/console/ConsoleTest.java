@@ -227,6 +227,12 @@ public class ConsoleTest extends TestCaseEx implements LunarConsoleListener
     }
 
     @Override
+    public void onChangeEntries(Console console)
+    {
+        // TODO: add testing
+    }
+
+    @Override
     public void onClearEntries(Console console)
     {
         addResult("clear");
