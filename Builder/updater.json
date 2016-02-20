@@ -1,6 +1,6 @@
 {
   "status": "OK",
-  "version": "0.1.0b",
-  "message": "Improvements:\n* iOS: collapse similar entries option.\n* Added LunarConsole.Clear() method to clear the console output.",
+  "version": "0.2.0b",
+  "message": "Improvements:\n* Android: collapse similar entries option.",
   "url": "https://goo.gl/S8QXav"
 }
