@@ -34,7 +34,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, assign) NSInteger capacity;
 @property (nonatomic, assign) NSInteger trim;
 
-- (instancetype)initWithVersion:(NSString *)version capacity:(NSUInteger)capacity trimCount:(NSUInteger)trimCount gestureName:(NSString *)gestureName;
+- (instancetype)initWithVersion:(NSString *)version target:(NSString *)target capacity:(NSUInteger)capacity trimCount:(NSUInteger)trimCount gestureName:(NSString *)gestureName;
 
 - (void)show;
 - (void)hide;

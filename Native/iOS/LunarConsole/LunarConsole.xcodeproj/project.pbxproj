@@ -35,6 +35,7 @@
 		EF322CDD1C59505600F185A9 /* LUConsoleEntryLookupTableTest.m in Sources */ = {isa = PBXBuildFile; fileRef = EF322CDC1C59505600F185A9 /* LUConsoleEntryLookupTableTest.m */; };
 		EF64F8F91C03DCE8008DCB8E /* LUStacktrace.m in Sources */ = {isa = PBXBuildFile; fileRef = EF64F8F81C03DCE8008DCB8E /* LUStacktrace.m */; };
 		EF8703191B7BDE70004D6491 /* LUConsoleDetailsController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8703171B7BDE70004D6491 /* LUConsoleDetailsController.m */; };
+		EF98F6511CC1A0B3004943CF /* LUUnityScriptMessenger.m in Sources */ = {isa = PBXBuildFile; fileRef = EF98F6501CC1A0B3004943CF /* LUUnityScriptMessenger.m */; };
 		EFE1B8B21C03DFD100CFA420 /* LUStacktraceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = EFE1B8B11C03DFD100CFA420 /* LUStacktraceTest.m */; };
 		EFFF63231B7553EC001E6E1E /* LUMutableArrayTest.m in Sources */ = {isa = PBXBuildFile; fileRef = EFFF63221B7553EC001E6E1E /* LUMutableArrayTest.m */; };
 /* End PBXBuildFile section */
@@ -170,6 +171,8 @@
 		EF8703161B7BDE70004D6491 /* LUConsoleDetailsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUConsoleDetailsController.h; sourceTree = "<group>"; };
 		EF8703171B7BDE70004D6491 /* LUConsoleDetailsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUConsoleDetailsController.m; sourceTree = "<group>"; };
 		EF8703181B7BDE70004D6491 /* LUConsoleDetailsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LUConsoleDetailsController.xib; sourceTree = "<group>"; };
+		EF98F64F1CC1A0B3004943CF /* LUUnityScriptMessenger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUUnityScriptMessenger.h; sourceTree = "<group>"; };
+		EF98F6501CC1A0B3004943CF /* LUUnityScriptMessenger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUUnityScriptMessenger.m; sourceTree = "<group>"; };
 		EFE1B8B11C03DFD100CFA420 /* LUStacktraceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUStacktraceTest.m; sourceTree = "<group>"; };
 		EFFF63221B7553EC001E6E1E /* LUMutableArrayTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUMutableArrayTest.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -352,6 +355,8 @@
 				EF0836831B7ABCCE00DFB877 /* LUConsolePlugin.m */,
 				EF0836841B7ABCCE00DFB877 /* lunar_unity_native_interface.h */,
 				EF0836851B7ABCCE00DFB877 /* lunar_unity_native_interface.m */,
+				EF98F64F1CC1A0B3004943CF /* LUUnityScriptMessenger.h */,
+				EF98F6501CC1A0B3004943CF /* LUUnityScriptMessenger.m */,
 			);
 			path = Plugin;
 			sourceTree = "<group>";
@@ -488,6 +493,7 @@
 				EF0836AE1B7ABCCE00DFB877 /* LUThreading.m in Sources */,
 				EF0836A11B7ABCCE00DFB877 /* LUConsoleController.m in Sources */,
 				EF0836AB1B7ABCCE00DFB877 /* LUAvailability.m in Sources */,
+				EF98F6511CC1A0B3004943CF /* LUUnityScriptMessenger.m in Sources */,
 				EF08369E1B7ABCCE00DFB877 /* LUConsole.m in Sources */,
 				EF0836A61B7ABCCE00DFB877 /* LULogTypeButton.m in Sources */,
 				EF08369F1B7ABCCE00DFB877 /* LUConsoleEntry.m in Sources */,

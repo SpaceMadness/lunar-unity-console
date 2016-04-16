@@ -24,6 +24,11 @@
 #import "Lunar.h"
 #import "FakeLogEntry.h"
 
+void UnitySendMessage(const char *target, const char *message, const char *param)
+{
+    NSLog(@"UnitySendMessage: %s.%s(%s)", target, message, param);
+}
+
 static const NSUInteger kConsoleCapacity  = 4096;
 static const NSUInteger kConsoleTrimCount = 512;
 
@@ -54,12 +59,13 @@ static const NSUInteger kConsoleTrimCount = 512;
     [super viewDidLoad];
     
     _plugin = [[LUConsolePlugin alloc] initWithVersion:@"0.0.0b"
+                                                target:@"LunarConsole"
                                               capacity:kConsoleCapacity
                                              trimCount:kConsoleTrimCount
                                            gestureName:@"SwipeDown"];
     
-    _capacityText.text = [NSString stringWithFormat:@"%d", kConsoleCapacity];
-    _trimText.text = [NSString stringWithFormat:@"%d", kConsoleTrimCount];
+    _capacityText.text = [NSString stringWithFormat:@"%d", (int) kConsoleCapacity];
+    _trimText.text = [NSString stringWithFormat:@"%d", (int) kConsoleTrimCount];
 }
 
 - (void)didReceiveMemoryWarning {
