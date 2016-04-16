@@ -301,6 +301,14 @@ public class ConsoleView extends LinearLayout implements
         manager.hideSoftInputFromWindow(getWindowToken(), 0);
     }
 
+    void notifyOpen()
+    {
+        if (listener != null)
+        {
+            listener.onOpen(this);
+        }
+    }
+
     private void notifyClose()
     {
         softKeyboardVisible = false;
@@ -728,6 +736,7 @@ public class ConsoleView extends LinearLayout implements
 
     public interface Listener
     {
+        void onOpen(ConsoleView view);
         void onClose(ConsoleView view);
     }
 }

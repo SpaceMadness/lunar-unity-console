@@ -27,4 +27,6 @@ interface ConsolePluginImp
 {
     /** View to attach gesture detector */
     View getTouchRecepientView();
+
+    void sendUnityScriptMessage(String message, String param);
 }

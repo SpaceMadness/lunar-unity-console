@@ -178,6 +178,16 @@ static LUConsoleControllerState * _sharedControllerState;
     [self.navigationController setNavigationBarHidden:YES animated:animated];
 }
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    if ([_delegate respondsToSelector:@selector(consoleControllerDidOpen:)])
+    {
+        [_delegate consoleControllerDidOpen:self];
+    }
+}
+
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];

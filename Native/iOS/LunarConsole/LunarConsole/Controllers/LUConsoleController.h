@@ -27,6 +27,7 @@
 @protocol LUConsoleControllerDelegate <NSObject>
 
 @optional
+- (void)consoleControllerDidOpen:(LUConsoleController *)controller;
 - (void)consoleControllerDidClose:(LUConsoleController *)controller;
 
 @end

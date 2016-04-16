@@ -102,7 +102,7 @@ public class MainActivity extends Activity
                 {
                     ConsolePlugin.shutdown(); // kill any previous instance
                 }
-                ConsolePlugin.init(MainActivity.this, "0.0.0b", capacity, trim, "SwipeDown");
+                ConsolePlugin.init(MainActivity.this, "0.0.0", capacity, trim, "SwipeDown");
             }
         });
 

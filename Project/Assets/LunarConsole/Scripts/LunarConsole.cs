@@ -151,12 +151,12 @@ namespace LunarConsole
             #if UNITY_IOS || UNITY_IPHONE
             if (Application.platform == RuntimePlatform.IPhonePlayer)
             {
-                return new PlatformIOS(Constants.Version, capacity, trim, GetGestureName(gesture));
+                return new PlatformIOS(Constants.Version, gameObject.name, capacity, trim, GetGestureName(gesture));
             }
             #elif UNITY_ANDROID
             if (Application.platform == RuntimePlatform.Android)
             {
-                return new PlatformAndroid(Constants.Version, capacity, trim, GetGestureName(gesture));
+                return new PlatformAndroid(Constants.Version, gameObject.name, capacity, trim, GetGestureName(gesture));
             }
             #endif
 
@@ -167,6 +167,26 @@ namespace LunarConsole
         {
             return gesture.ToString();
         }
+
+        #region Native callbacks
+
+        void ConsoleOpenCallback(string data)
+        {
+            if (onConsoleOpened != null)
+            {
+                onConsoleOpened();
+            }
+        }
+
+        void ConsoleCloseCallback(string data)
+        {
+            if (onConsoleClosed != null)
+            {
+                onConsoleClosed();
+            }
+        }
+
+        #endregion
 
         interface IPlatform
         {
@@ -181,7 +201,7 @@ namespace LunarConsole
         class PlatformIOS : IPlatform
         {
             [DllImport("__Internal")]
-            private static extern void __lunar_console_initialize(string version, int capacity, int trim, string gesture);
+            private static extern void __lunar_console_initialize(string version, string target, int capacity, int trim, string gesture);
             
             [DllImport("__Internal")]
             private static extern void __lunar_console_log_message(string message, string stackTrace, int type);
@@ -194,10 +214,15 @@ namespace LunarConsole
 
             [DllImport("__Internal")]
             private static extern void __lunar_console_clear();
-            
-            public PlatformIOS(string version, int capacity, int trim, string gesture)
+
+            /// <param name="version">The plugin version</param>
+            /// <param name="target">The name of the game object for native callbacks</param>
+            /// <param name="capacity">The maximum count of log lines for the output</param>
+            /// <param name="trim">How many log lines would be trimmed on the overflow</param>
+            /// <param name="gesture">Gesture name to activate the console</param>
+            public PlatformIOS(string version, string target, int capacity, int trim, string gesture)
             {
-                __lunar_console_initialize(version, capacity, trim, gesture);
+                __lunar_console_initialize(version, target, capacity, trim, gesture);
             }
             
             public void OnLogMessageReceived(string message, string stackTrace, LogType type)
@@ -242,13 +267,13 @@ namespace LunarConsole
             private readonly IntPtr methodHideConsole;
             private readonly IntPtr methodClearConsole;
 
-            public PlatformAndroid(string version, int capacity, int trim, string gesture)
+            public PlatformAndroid(string version, string target, int capacity, int trim, string gesture)
             {
                 pluginClass = new AndroidJavaClass(PluginClassName);
                 pluginClassRaw = pluginClass.GetRawClass();
 
-                IntPtr methodInit = GetStaticMethod(pluginClassRaw, "init", "(Ljava.lang.String;IILjava.lang.String;)V");
-                CallStaticVoidMethod(methodInit, new jvalue[] { jval(version), jval(capacity), jval(trim), jval(gesture) });
+                IntPtr methodInit = GetStaticMethod(pluginClassRaw, "init", "(Ljava.lang.String;Ljava.lang.String;IILjava.lang.String;)V");
+                CallStaticVoidMethod(methodInit, new jvalue[] { jval(version), jval(target), jval(capacity), jval(trim), jval(gesture) });
 
                 methodLogMessage = GetStaticMethod(pluginClassRaw, "logMessage", "(Ljava.lang.String;Ljava.lang.String;I)V");
                 methodShowConsole = GetStaticMethod(pluginClassRaw, "show", "()V");
@@ -402,6 +427,9 @@ namespace LunarConsole
             }
             #endif
         }
+
+        public static Action onConsoleOpened { get; set; }
+        public static Action onConsoleClosed { get; set; }
     }
 
     public static class LunarConsoleSettings

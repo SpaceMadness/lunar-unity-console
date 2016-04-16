@@ -1,16 +1,22 @@
 # Lunar Console Changelog
 
+## v.0.3.0b - 4/15/2016
+
+**Fixes:**
+
+* Fixed scroll lock bug.
+
 ## v.0.2.0b - 2/14/2016
 
 **Improvements:**
 
-* **Android**: collapse similar entries option 
+* **Android**: collapse similar entries option. 
 
 ## v.0.1.0b - 2/3/2016
 
 **Improvements:**
 
-* **iOS**: collapse similar entries option 
+* **iOS**: collapse similar entries option. 
 
 ## v.0.0.10b - 1/24/2016
 

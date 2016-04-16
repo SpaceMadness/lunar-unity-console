@@ -26,21 +26,29 @@
 static const NSTimeInterval kWindowAnimationDuration = 0.4f;
 static const CGFloat kWarningHeight = 45.0f;
 
+static NSString * const kScriptMessageConsoleOpen  = @"ConsoleOpenCallback";
+static NSString * const kScriptMessageConsoleClose = @"ConsoleCloseCallback";
+
 @interface LUConsolePlugin () <LUConsoleControllerDelegate, LUExceptionWarningControllerDelegate>
 {
-    NSString            * _version;
-    LUConsole           * _console;
-    LUWindow            * _consoleWindow;
-    LUWindow            * _warningWindow;
-    UIGestureRecognizer * _gestureRecognizer;
-    LUConsoleGesture      _gesture;
+    NSString                * _version;
+    LUConsole               * _console;
+    LUWindow                * _consoleWindow;
+    LUWindow                * _warningWindow;
+    UIGestureRecognizer     * _gestureRecognizer;
+    LUUnityScriptMessenger  * _scriptMessenger;
+    LUConsoleGesture          _gesture;
 }
 
 @end
 
 @implementation LUConsolePlugin
 
-- (instancetype)initWithVersion:(NSString *)version capacity:(NSUInteger)capacity trimCount:(NSUInteger)trimCount gestureName:(NSString *)gestureName
+- (instancetype)initWithVersion:(NSString *)version
+                         target:(NSString *)target
+                       capacity:(NSUInteger)capacity
+                      trimCount:(NSUInteger)trimCount
+                    gestureName:(NSString *)gestureName
 {
     self = [super init];
     if (self)
@@ -57,6 +65,7 @@ static const CGFloat kWarningHeight = 45.0f;
         _version = LU_RETAIN(version);
         _console = [[LUConsole alloc] initWithCapacity:capacity trimCount:trimCount];
         _gesture = [self gestureFromString:gestureName];
+        _scriptMessenger = [[LUUnityScriptMessenger alloc] initWithTargetName:target];
     }
     return self;
 }
@@ -70,6 +79,7 @@ static const CGFloat kWarningHeight = 45.0f;
     LU_RELEASE(_consoleWindow);
     LU_RELEASE(_warningWindow);
     LU_RELEASE(_gestureRecognizer);
+    LU_RELEASE(_scriptMessenger);
     
     LU_SUPER_DEALLOC
 }
@@ -212,9 +222,16 @@ static const CGFloat kWarningHeight = 45.0f;
 #pragma mark -
 #pragma mark LUConsoleControllerDelegate
 
+- (void)consoleControllerDidOpen:(LUConsoleController *)controller
+{
+    [_scriptMessenger sendMessageWithName:kScriptMessageConsoleOpen];
+}
+
 - (void)consoleControllerDidClose:(LUConsoleController *)controller
 {
     [self hide];
+    
+    [_scriptMessenger sendMessageWithName:kScriptMessageConsoleClose];
 }
 
 - (void)consoleControllerDidClear:(LUConsoleController *)controller
