@@ -24,7 +24,7 @@
 using System;
 using System.Collections;
 
-namespace LunarConsoleInternal
+namespace LunarConsolePluginInternal
 {
     static class Log
     {

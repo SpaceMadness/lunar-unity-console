@@ -27,7 +27,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 
-namespace LunarConsoleInternal
+namespace LunarConsolePluginInternal
 {
     static class PackageExporter
     {

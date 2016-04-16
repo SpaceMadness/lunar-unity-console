@@ -33,13 +33,13 @@ using System;
 using System.Collections;
 using System.Runtime.InteropServices;
 
-using LunarConsoleInternal;
+using LunarConsolePluginInternal;
 
 #if UNITY_EDITOR
 [assembly: InternalsVisibleTo("Test")]
 #endif
 
-namespace LunarConsole
+namespace LunarConsolePlugin
 {
     public enum Gesture
     {

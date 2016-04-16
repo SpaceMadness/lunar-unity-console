@@ -23,7 +23,7 @@ using UnityEngine;
 using UnityEditor;
 using UnityEditorInternal;
 
-namespace LunarConsoleInternal
+namespace LunarConsolePluginInternal
 {
     static class MenuItems
     {

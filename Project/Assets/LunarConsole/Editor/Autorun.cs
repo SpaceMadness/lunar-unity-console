@@ -22,12 +22,12 @@
 using UnityEngine;
 using UnityEditor;
 
-using LunarConsole;
+using LunarConsolePlugin;
 
 using System.IO;
 using System.Collections;
 
-namespace LunarConsoleInternal
+namespace LunarConsolePluginInternal
 {
     [InitializeOnLoad]
     static class Autorun

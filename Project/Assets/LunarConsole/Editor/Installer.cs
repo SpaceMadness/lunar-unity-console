@@ -25,10 +25,11 @@ using UnityEditor;
 using System.Collections;
 using System.IO;
 
-namespace LunarConsoleInternal
+using LunarConsolePlugin;
+
+namespace LunarConsolePluginInternal
 {
-    using Editor = LunarConsole.Editor;
-    using LunarConsole = LunarConsole.LunarConsole;
+    using Editor = LunarConsolePlugin.Editor;
 
     static class Installer
     {

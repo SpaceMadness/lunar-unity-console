@@ -27,9 +27,9 @@ using UnityEditor.XCodeEditor.LunarConsole;
 using System.Collections;
 using System.IO;
 
-using LunarConsole;
+using LunarConsolePlugin;
 
-namespace LunarConsoleInternal
+namespace LunarConsolePluginInternal
 {
     static class BuildPostProcessor
     {
