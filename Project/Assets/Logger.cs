@@ -25,7 +25,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-using LunarConsole;
+using LunarConsolePlugin;
 
 using Random = System.Random;
 
@@ -73,12 +73,12 @@ public class Logger : MonoBehaviour
 
     public void ShowConsole()
     {
-        LunarConsole.LunarConsole.Show();
+        LunarConsole.Show();
     }
 
     public void ClearConsole()
     {
-        LunarConsole.LunarConsole.Clear();
+        LunarConsole.Clear();
     }
 
     IEnumerator LogMessages(float delay)

@@ -141,8 +141,8 @@ namespace :lunar do
   task :build_run_native_android => [:build_native_android] do
 
     project = UnityProject.new $dir_project
-    project.exec_unity_method 'LunarConsoleInternal.AndroidPlugin.ForceUpdateFiles'
-    project.exec_unity_method 'LunarConsoleInternal.AppExporter.PerformAndroidBuild'
+    project.exec_unity_method 'LunarConsolePluginInternal.AndroidPlugin.ForceUpdateFiles'
+    project.exec_unity_method 'LunarConsolePluginInternal.AppExporter.PerformAndroidBuild'
 
     file_app = resolve_path Dir["#{$dir_project}/Build/Android/*.apk"].first
 

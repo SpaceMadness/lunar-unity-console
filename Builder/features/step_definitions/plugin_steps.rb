@@ -12,7 +12,7 @@ Given(/^Plugin is (NOT )?enabled$/) do |not_flag|
   unity_bin = resolve_path '/Applications/Unity/Unity.app/Contents/MacOS/Unity'
 
   cmd = %("#{unity_bin}" -quit -batchmode)
-  cmd << " -executeMethod LunarConsoleInternal.Installer.#{method_name}"
+  cmd << " -executeMethod LunarConsolePluginInternal.Installer.#{method_name}"
   cmd << %( -projectPath "#{@project.dir_project}")
 
   exec_shell cmd, "Can't #{enabled ? 'enable' : 'disable'} plugin"

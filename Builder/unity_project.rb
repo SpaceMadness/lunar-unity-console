@@ -65,7 +65,7 @@ class UnityProject
         'assets' => package_assets.join(',')
     }
 
-    exec_unity_method 'LunarConsoleInternal.PackageExporter.ExportUnityPackage', args, "Can't export Unity package: #{file_output}"
+    exec_unity_method 'LunarConsolePluginInternal.PackageExporter.ExportUnityPackage', args, "Can't export Unity package: #{file_output}"
   end
 
   def import_package(file_package)

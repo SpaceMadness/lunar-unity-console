@@ -25,7 +25,7 @@ using UnityEditor;
 using System.IO;
 using System.Collections;
 
-namespace LunarConsoleInternal
+namespace LunarConsolePluginInternal
 {
     public class AppExporter
     {
