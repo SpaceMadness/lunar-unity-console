@@ -73,9 +73,9 @@ http://docs.unity3d.com/Manual/PublishingBuilds.html
 You can enable/disable the plugin from the command line (and make it a part of your build process)
 
 - To disable:  
-  ```<UNITY_BIN_PATH>  -quit -batchmode  -executeMethod LunarConsoleInternal.Installer.DisablePlugin```
+  ```<UNITY_BIN_PATH>  -quit -batchmode  -executeMethod LunarConsolePluginInternal.Installer.DisablePlugin```
 - To enable:  
-  ```<UNITY_BIN_PATH>  -quit -batchmode  -executeMethod LunarConsoleInternal.Installer.EnablePlugin```
+  ```<UNITY_BIN_PATH>  -quit -batchmode  -executeMethod LunarConsolePluginInternal.Installer.EnablePlugin```
 
 ```<UNITY_BIN_PATH>``` locations:
 - Mac OS X: ```/Applications/Unity/Unity.app/Contents/MacOS/Unity```
