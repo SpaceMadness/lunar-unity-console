@@ -156,7 +156,7 @@ namespace LunarConsole
             #elif UNITY_ANDROID
             if (Application.platform == RuntimePlatform.Android)
             {
-                return new PlatformAndroid(Constants.Version, capacity, trim, GetGestureName(gesture));
+                return new PlatformAndroid(Constants.Version, gameObject.name, capacity, trim, GetGestureName(gesture));
             }
             #endif
 
@@ -267,13 +267,13 @@ namespace LunarConsole
             private readonly IntPtr methodHideConsole;
             private readonly IntPtr methodClearConsole;
 
-            public PlatformAndroid(string version, int capacity, int trim, string gesture)
+            public PlatformAndroid(string version, string target, int capacity, int trim, string gesture)
             {
                 pluginClass = new AndroidJavaClass(PluginClassName);
                 pluginClassRaw = pluginClass.GetRawClass();
 
-                IntPtr methodInit = GetStaticMethod(pluginClassRaw, "init", "(Ljava.lang.String;IILjava.lang.String;)V");
-                CallStaticVoidMethod(methodInit, new jvalue[] { jval(version), jval(capacity), jval(trim), jval(gesture) });
+                IntPtr methodInit = GetStaticMethod(pluginClassRaw, "init", "(Ljava.lang.String;Ljava.lang.String;IILjava.lang.String;)V");
+                CallStaticVoidMethod(methodInit, new jvalue[] { jval(version), jval(target), jval(capacity), jval(trim), jval(gesture) });
 
                 methodLogMessage = GetStaticMethod(pluginClassRaw, "logMessage", "(Ljava.lang.String;Ljava.lang.String;I)V");
                 methodShowConsole = GetStaticMethod(pluginClassRaw, "show", "()V");

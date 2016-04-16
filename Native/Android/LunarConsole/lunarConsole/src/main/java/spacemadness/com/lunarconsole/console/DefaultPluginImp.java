@@ -27,7 +27,9 @@ import android.view.View;
 import java.lang.ref.WeakReference;
 
 import spacemadness.com.lunarconsole.core.LunarConsoleException;
+import spacemadness.com.lunarconsole.debug.Log;
 import spacemadness.com.lunarconsole.utils.UIUtils;
+import static spacemadness.com.lunarconsole.debug.Tags.*;
 
 class DefaultPluginImp implements ConsolePluginImp
 {
@@ -48,5 +50,11 @@ class DefaultPluginImp implements ConsolePluginImp
     public View getTouchRecepientView()
     {
         return rootViewRef.get();
+    }
+
+    @Override
+    public void sendUnityScriptMessage(String message, String param)
+    {
+        Log.d(PLUGIN, "Send script message: %s(%s)", message, param);
     }
 }

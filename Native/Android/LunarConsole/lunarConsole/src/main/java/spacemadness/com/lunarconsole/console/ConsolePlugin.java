@@ -54,6 +54,9 @@ public class ConsolePlugin implements
         ConsoleView.Listener,
         WarningView.Listener
 {
+    private static final String SCRIPT_MESSAGE_CONSOLE_OPEN  = "ConsoleOpenCallback";
+    private static final String SCRIPT_MESSAGE_CONSOLE_CLOSE = "ConsoleCloseCallback";
+
     private static ConsolePlugin instance;
 
     private Console console;
@@ -92,10 +95,10 @@ public class ConsolePlugin implements
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Static interface
 
-    public static void init(String version, int capacity, int trim, String gesture)
+    public static void init(String version, String target, int capacity, int trim, String gesture)
     {
         Activity activity = UnityPlayer.currentActivity;
-        init(activity, version, capacity, trim, new UnityPluginImp(activity), gesture);
+        init(activity, version, capacity, trim, new UnityPluginImp(activity, target), gesture);
     }
 
     public static void init(Activity activity, String version, int capacity, int trim, String gesture)
@@ -384,6 +387,8 @@ public class ConsolePlugin implements
                 Animation animation = AnimationUtils.loadAnimation(activity, R.anim.lunar_console_slide_in_top);
                 consoleView.startAnimation(animation);
 
+                consoleView.notifyOpen();
+
                 // don't handle gestures if console is shown
                 disableGestureRecognition();
 
@@ -541,10 +546,18 @@ public class ConsolePlugin implements
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // ConsoleView.Listener
 
+
+    @Override
+    public void onOpen(ConsoleView view)
+    {
+        sendNativeCallback(SCRIPT_MESSAGE_CONSOLE_OPEN);
+    }
+
     @Override
     public void onClose(ConsoleView view)
     {
         hideConsole();
+        sendNativeCallback(SCRIPT_MESSAGE_CONSOLE_CLOSE);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -606,6 +619,14 @@ public class ConsolePlugin implements
     private Activity getActivity()
     {
         return activityRef.get();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Native callbacks
+
+    private void sendNativeCallback(String name)
+    {
+        pluginImp.sendUnityScriptMessage(name, "");
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
