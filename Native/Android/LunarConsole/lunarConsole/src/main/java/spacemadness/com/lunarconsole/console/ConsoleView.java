@@ -97,7 +97,7 @@ public class ConsoleView extends LinearLayout implements
         this.console = console;
         this.console.setConsoleListener(this);
 
-        scrollLocked = ConsoleViewState.scrollLocked;
+        scrollLocked = true; // scroll is locked by default
 
         // disable touches
         setOnTouchListener(new OnTouchListener()
@@ -225,6 +225,9 @@ public class ConsoleView extends LinearLayout implements
         overflowText = findExistingViewById(R.id.lunar_console_text_overflow);
 
         reloadData();
+
+        // if scroll lock is on - we should scroll to bottom
+        scrollToBottom(console);
     }
 
     @Override
@@ -364,8 +367,6 @@ public class ConsoleView extends LinearLayout implements
     private void toggleScrollLock()
     {
         scrollLocked = !scrollLocked;
-        ConsoleViewState.scrollLocked = scrollLocked;
-
         scrollToBottom(console);
     }
 
