@@ -12,6 +12,7 @@
 
 **Changes:**
 
+* Auto scrolling is turned ON every time console is opened (would be configurable in a future release).
 * Renamed 'LunarConsole' to 'LunarConsolePlugin'.
 * Renamed 'LunarConsoleInternal' to 'LunarConsolePluginInternal'.
 
