@@ -6,6 +6,15 @@
 
 * Fixed scroll lock bug.
 
+**Improvements:**
+
+* Added LunarConsole.onConsoleOpened and LunarConsole.onConsoleClosed callbacks.
+
+**Changes:**
+
+* Renamed 'LunarConsole' to 'LunarConsolePlugin'.
+* Renamed 'LunarConsoleInternal' to 'LunarConsolePluginInternal'.
+
 ## v.0.2.0b - 2/14/2016
 
 **Improvements:**
