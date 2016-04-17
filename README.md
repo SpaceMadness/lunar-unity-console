@@ -80,6 +80,9 @@ Touch the log entry to view its stack trace.
 
 *Important*: make sure to set the "Development Build" flag in your publishing settings otherwise you will only be able to see exceptions traces.
 
+<img src="https://cloud.githubusercontent.com/assets/786644/14590134/707110ce-04a8-11e6-98cd-ac0acc9cd135.png"/>  
+<img src="https://cloud.githubusercontent.com/assets/786644/14590133/7070bd04-04a8-11e6-8187-4b6f10389206.png"/>  
+
 For more info see:
 http://docs.unity3d.com/Manual/PublishingBuilds.html
 
