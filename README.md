@@ -5,19 +5,20 @@ Asset store link: [http://u3d.as/content/space-madness/lunar-mobile-console](htt
 Requires Unity 5.0 or later.
 
 ## Table of Contents
-* [About](#about)
-  * [Platform Support](#platform-support)
-  * [Key Benefits](#key-benefits)
-  * [Features](#features)
-* [Installation](#installation)
-* [Console Usage](#console-usage)
-  * [Stack Trace Frames](#stack-trace-frames)
-  * [Enable/Disable Plugin for Debug/Release](#enabledisable-plugin-for-debugrelease)
-  * [Build System Support](#build-system-support)
-* [Miscellaneous](#miscellaneous)
-  * [Check for Updates](#check-for-updates)
-  * [Bug Reports](#bug-reports)
-  * [Contacts](#contacts)
+- [About](#about)
+  - [Platform Support](#platform-support)
+  - [Key Benefits](#key-benefits)
+  - [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+  - [Configuration](#configuration)
+  - [Stack Trace Frames](#stack-trace-frames)
+  - [Enable/Disable Plugin for Debug/Release](#enabledisable-plugin-for-debugrelease)
+  - [Build System Support](#build-system-support)
+- [Miscellaneous](#miscellaneous)
+  - [Check for Updates](#check-for-updates)
+  - [Bug Reports](#bug-reports)
+  - [Contacts](#contacts)
 
 ## About
 The project's goal is to build a high-performance and lightweight Unity native iOS/Android logger.  
@@ -62,12 +63,17 @@ Visit [Unity Forums Thread](http://forum.unity3d.com/threads/lunar-mobile-consol
 - **Manual**:  
   Drag'n'Drop `LunarConsol.prefab` (Assets/LunarConsole/Scripts/LunarConsole.prefab) into your current scene's hierarchy and save your changes. You only need to do it once for your startup scene.
 
-## Console Usage
-The console can be open with one of the configured multi touch gestures. By default two finger swipe is used. To set a desired gesture:  
+## Usage
+You can open the console with a multi touch gesture or using the API call from a script (see [API Calls](#api-calls) for details).
 
-* Select 'LunarConsole' game object in the Hierarchy window.
-* Find 'Lunar Console' script settings in the Inspector window.
-* Chose a gesture from the 'Gesture' drop down list (to disable multi touch gestures - chose 'None')
+### Configuration
+- Select `LunarConsole` game object in the `Hierarchy` window.  
+  <img src="https://cloud.githubusercontent.com/assets/786644/14589980/f4e4a06e-04a3-11e6-8c36-51dfb1637a1e.png"/>
+- Find `Lunar Console` script settings in the `Inspector` window.  
+  <img src="https://cloud.githubusercontent.com/assets/786644/14590014/f9c0d692-04a4-11e6-82b7-ae176dcedab3.png"/>  
+  - Set the capacity (the maximum number of lines the console can hold). It's advised to keep this amount low (the more you have - the more memory it will take).
+  - Set the trim amount (how many lines will be removed from the beginning of the log when console overflows).
+  - Choose a gesture from the drop down list or select `None` to disable multi touch gestures (you would still be able to open the console from your scripts).
 
 ### Stack Trace Frames
 Touch the log entry to view its stack trace.
@@ -109,6 +115,6 @@ Window ▶ Lunar Mobile Console ▶ Report bug...
 For anything else: lunar.plugin@gmail.com
 
 ### Social Media
-* Twitter: [@LunarPlugin](https://twitter.com/LunarPlugin)
-* Facebook: [www.facebook.com/LunarPlugin](https://www.facebook.com/LunarPlugin)
-* Unity Forums Thread: [[Lunar Mobile Console] High-performance Unity iOS/Android logger built with native platform UI](http://forum.unity3d.com/threads/lunar-mobile-console-high-performance-unity-ios-android-logger-built-with-native-platform-ui.347650/)
+- Twitter: [@LunarPlugin](https://twitter.com/LunarPlugin)
+- Facebook: [www.facebook.com/LunarPlugin](https://www.facebook.com/LunarPlugin)
+- Unity Forums Thread: [[Lunar Mobile Console] High-performance Unity iOS/Android logger built with native platform UI](http://forum.unity3d.com/threads/lunar-mobile-console-high-performance-unity-ios-android-logger-built-with-native-platform-ui.347650/)
