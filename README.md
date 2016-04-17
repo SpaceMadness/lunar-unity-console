@@ -103,3 +103,8 @@ Window ▶ Lunar Mobile Console ▶ Report bug...
  
 ### Contacts
 For anything else: lunar.plugin@gmail.com
+
+### Social Media
+* Twitter: [@LunarPlugin](https://twitter.com/LunarPlugin)
+* Facebook: [www.facebook.com/LunarPlugin](https://www.facebook.com/LunarPlugin)
+* Unity Forums Thread: [[Lunar Mobile Console] High-performance Unity iOS/Android logger built with native platform UI](http://forum.unity3d.com/threads/lunar-mobile-console-high-performance-unity-ios-android-logger-built-with-native-platform-ui.347650/)
