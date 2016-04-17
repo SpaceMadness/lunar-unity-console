@@ -20,7 +20,11 @@ Requires Unity 5.0 or later.
   * [Contacts](#contacts)
 
 ## About
-The project's goal is to build a high-performance and lightweight Unity iOS/Android logger using native platform's UI.  
+The project's goal is to build a high-performance and lightweight Unity native iOS/Android logger.  
+
+Visit [Unity Forums Thread](http://forum.unity3d.com/threads/lunar-mobile-console-high-performance-unity-ios-android-logger-built-with-native-platform-ui.347650/) for discussions and general questions.  
+
+**If you enjoy using the plugin - please, rate and review it on the Asset Store!**
 
 ### Platform Support
 - **iOS**: requires iOS 8 or later
