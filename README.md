@@ -20,6 +20,7 @@ Requires Unity 5.0 or later.
   - [Check for Updates](#check-for-updates)
   - [Bug Reports](#bug-reports)
   - [Contacts](#contacts)
+  - [Social Media](#social-media)
 
 ## About
 The project goal is to build a high-performance and lightweight Unity native iOS/Android logger.  
