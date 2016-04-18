@@ -5,6 +5,8 @@ Requires Unity 5.0 or later.
 
 **If you enjoy using the plugin - please, rate it on the Asset Store!**
 
+<img width="465" src="https://cloud.githubusercontent.com/assets/786644/14592627/a7757736-04d5-11e6-9eef-62257823a83a.png">
+
 ## Table of Contents
 - [About](#about)
   - [Platform Support](#platform-support)
