@@ -16,7 +16,7 @@ Requires Unity 5.0 or later.
 - [Usage](#usage)
   - [Configuration](#configuration)
   - [Stack Trace Frames](#stack-trace-frames)
-  - [Enable/Disable Plugin for Debug/Release](#enabledisable-plugin-for-debugrelease)
+  - [Enabling/Disabling Plugin](#enablingdisabling-plugin)
   - [Build System Support](#build-system-support)
 - [Miscellaneous](#miscellaneous)
   - [Check for Updates](#check-for-updates)
@@ -88,13 +88,16 @@ Touch the log entry to view its stack trace.
 For more info see:
 http://docs.unity3d.com/Manual/PublishingBuilds.html
 
-### Enable/Disable Plugin for Debug/Release
+### Enabling/Disabling Plugin
+
+If Lunar Mobile Console is...
+- _enabled_ - the plugin files would appear in your iOS/Android build: you can access the console with a multi touch gesture or from a script.
+- _disabled_ - the plugin files would **NOT** appear in your iOS/Android build: you can't access the console (multi touch gestures or API calls would be ignored).
+
 - To disable:  
   Window ▶ Lunar Mobile Console ▶ Disable
 - To re-enable:  
   Window ▶ Lunar Mobile Console ▶ Enable
-  
-When disabled, the plugin files and resources would NOT appear in the generated native application.
 
 ### Build System Support
 You can enable/disable the plugin from the command line (and make it a part of your build process)
