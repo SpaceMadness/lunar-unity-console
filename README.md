@@ -90,14 +90,17 @@ http://docs.unity3d.com/Manual/PublishingBuilds.html
 
 ### Enabling/Disabling Plugin
 
-If Lunar Mobile Console is...
+If Lunar Mobile Console is
 - _enabled_ - the plugin files would appear in your iOS/Android build: you can access the console with a multi touch gesture or from a script.
 - _disabled_ - the plugin files would **NOT** appear in your iOS/Android build: you can't access the console (multi touch gestures or API calls would be ignored).
 
-- To disable:  
+To
+- disable:  
   Window ▶ Lunar Mobile Console ▶ Disable
-- To re-enable:  
+- enable:  
   Window ▶ Lunar Mobile Console ▶ Enable
+
+For more detailed information check Wiki page: [Enabling and Disabling Lunar Mobile Console](https://github.com/SpaceMadness/lunar-unity-console/wiki/Enabling-and-Disabling-Lunar-Mobile-Console).
 
 ### Build System Support
 You can enable/disable the plugin from the command line (and make it a part of your build process)
