@@ -18,6 +18,7 @@ Requires Unity 5.0 or later.
   - [Stack Trace Frames](#stack-trace-frames)
   - [Enabling/Disabling Plugin](#enablingdisabling-plugin)
   - [Build System Support](#build-system-support)
+- [Troubleshooting](#troubleshooting)
 - [Miscellaneous](#miscellaneous)
   - [Check for Updates](#check-for-updates)
   - [Bug Reports](#bug-reports)
@@ -115,6 +116,9 @@ You can enable/disable the plugin from the command line (and make it a part of y
 - Windows: ```c:\Program Files\Unity\Editor\Unity.exe```
 - Linux: _TBD_
  
+## Troubleshooting
+Please, visit the [Troubleshooting](https://github.com/SpaceMadness/lunar-unity-console/wiki/Troubleshooting) Wiki page or post your question on the official forum [thread](http://forum.unity3d.com/threads/lunar-mobile-console-high-performance-unity-ios-android-logger-built-with-native-platform-ui.347650/).
+
 ## Miscellaneous
 ### Check for Updates
 Window ▶ Lunar Mobile Console ▶ Check for updates...
