@@ -28,7 +28,8 @@ Requires Unity 5.0 or later.
 ## About
 The project goal is to build a high-performance and lightweight Unity native iOS/Android logger.  
 
-Visit [Unity Forums Thread](http://forum.unity3d.com/threads/lunar-mobile-console-high-performance-unity-ios-android-logger-built-with-native-platform-ui.347650/) for discussions and general questions.  
+- Check [Official Wiki](https://github.com/SpaceMadness/lunar-unity-console/wiki) for additional information, troubleshooting and guides.
+- Visit [Unity Forums Thread](http://forum.unity3d.com/threads/lunar-mobile-console-high-performance-unity-ios-android-logger-built-with-native-platform-ui.347650/) for discussions and general questions.
 
 ### Platform Support
 - **iOS**: requires iOS 8 or later
