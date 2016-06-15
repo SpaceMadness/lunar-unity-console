@@ -30,7 +30,7 @@ static LUConsoleControllerState * _sharedControllerState;
 @interface LUConsoleController () <LunarConsoleDelegate, LUToggleButtonDelegate,
     UITableViewDataSource, UITableViewDelegate,
     UISearchBarDelegate,
-    MFMessageComposeViewControllerDelegate,
+    MFMailComposeViewControllerDelegate,
     LUTableViewTouchDelegate,
     LUConsoleDetailsControllerDelegate,
     LUConsoleMenuControllerDelegate>
@@ -264,19 +264,19 @@ static LUConsoleControllerState * _sharedControllerState;
 
 - (IBAction)onEmail:(id)sender
 {
-    if (![MFMessageComposeViewController canSendText])
+    if (![MFMailComposeViewController canSendMail])
     {
-        LUDisplayAlertView(@"Lunar Mobile Console", @"Log email cannot be sent");
+        LUDisplayAlertView(@"Lunar Mobile Console", @"Log email cannot be sent.\nMake sure your device is set up for sending email.");
         return;
     }
     
     NSString *bundleName = [[NSBundle mainBundle].infoDictionary objectForKey:@"CFBundleName"];
     NSString *text = [_console getText];
     
-    MFMessageComposeViewController* controller = [[MFMessageComposeViewController alloc] init];
-    [controller setMessageComposeDelegate: self];
+    MFMailComposeViewController* controller = [[MFMailComposeViewController alloc] init];
+    [controller setMailComposeDelegate:self];
     [controller setSubject:[NSString stringWithFormat:@"%@ console log", bundleName]];
-    [controller setBody:text];
+    [controller setMessageBody:text isHTML:NO];
     if (controller)
     {
         [self presentViewController:controller animated:YES completion:nil];
@@ -555,12 +555,15 @@ static LUConsoleControllerState * _sharedControllerState;
 }
 
 #pragma mark -
-#pragma mark MFMessageComposeViewControllerDelegate
+#pragma mark MFMailComposeViewControllerDelegate
 
-- (void)messageComposeViewController:(MFMessageComposeViewController *)controller
-                 didFinishWithResult:(MessageComposeResult)result
+- (void)mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(nullable NSError *)error
 {
-    if (result != MessageComposeResultSent)
+    if (error != nil)
+    {
+        LUDisplayAlertView(@"Lunar Mobile Console", [NSString stringWithFormat:@"Log was not sent: %@", error]);
+    }
+    else if (result != MFMailComposeResultSent)
     {
         LUDisplayAlertView(@"Lunar Mobile Console", @"Log was not sent");
     }
