@@ -1,5 +1,11 @@
 # Lunar Console Changelog
 
+## v.0.4.0b - 6/15/2016
+
+**Fixes:**
+
+* **iOS**: fixed sending log emails.
+
 ## v.0.3.0b - 4/16/2016
 
 **Fixes:**
