@@ -1,5 +1,11 @@
 # Lunar Console Changelog
 
+## v.0.4.1b - 6/15/2016
+
+**Fixes:**
+
+* **iOS**: fixed warning text for missing stack trace frames.
+
 ## v.0.4.0b - 6/15/2016
 
 **Fixes:**
