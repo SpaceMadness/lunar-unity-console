@@ -23,7 +23,7 @@
 
 #import "Lunar.h"
 
-#define NO_STACK_TRACE_WARNING @"No stack trace found.\n\nMake sure \"Development Build\" is checked and \"Run in Xcode as\" is set to \"Debug\" under \"Build Settings\" (File ▶ Build Settings...)"
+#define NO_STACK_TRACE_WARNING @"No stack trace found.\n\nMake sure \"Run in Xcode as\" is set to \"Debug\" under \"Build Settings\" (File ▶ Build Settings...)"
 
 @interface LUConsoleDetailsController ()
 {
