@@ -82,9 +82,12 @@ You can open the console with a multi touch gesture or using the API call from a
 ### Stack Trace Frames
 Touch the log entry to view its stack trace.
 
-*Important*: make sure to set the "Development Build" flag in your publishing settings otherwise you will only be able to see exceptions traces.
+*Important*: make sure to properly configure your build settings (File ▶ Build Settings...) otherwise you will only be able to see exceptions traces.
 
-<img src="https://cloud.githubusercontent.com/assets/786644/14590134/707110ce-04a8-11e6-98cd-ac0acc9cd135.png"/>  
+- iOS: set "Run in Xcode as" to "Debug"  
+<img src="https://cloud.githubusercontent.com/assets/786644/16107757/56901a4a-3353-11e6-8466-3d80796c6469.png"/>  
+
+- Android: check the "Development Build" checkbox  
 <img src="https://cloud.githubusercontent.com/assets/786644/14590133/7070bd04-04a8-11e6-8187-4b6f10389206.png"/>  
 
 For more info see:
