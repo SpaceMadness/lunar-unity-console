@@ -1,6 +1,6 @@
 {
   "status": "OK",
-  "version": "0.3.0b",
-  "message": "**Fixes:**\n\n* Fixed scroll lock bug.\n\n**Improvements:**\n\n* Added LunarConsole.onConsoleOpened and LunarConsole.onConsoleClosed callbacks.\n\n**Changes:**\n\n* Auto scrolling is turned ON every time console is opened (would be configurable in a future release).\n* Renamed 'LunarConsole' to 'LunarConsolePlugin'.\n* Renamed 'LunarConsoleInternal' to 'LunarConsolePluginInternal'.\n\nEnjoying using the plugin? Don't forget to rate it on the Asset Store!",
+  "version": "0.4.1b",
+  "message": "**Fixes:**\n\n* iOS: fixed warning text for missing stack trace frames.\n* iOS: fixed sending log emails.\n\nEnjoying using the plugin? Don't forget to rate it on the Asset Store!",
   "url": "https://goo.gl/S8QXav"
 }
