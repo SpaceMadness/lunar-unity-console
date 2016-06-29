@@ -59,6 +59,13 @@ public class Logger : MonoBehaviour
     void Start()
     {
         Shuffle(logDelegates);
+
+        LunarConsole.onConsoleClosed += delegate {
+            print("Console closed");
+        };
+        LunarConsole.onConsoleOpened += delegate {
+            print("Console opened");
+        };
     }
 
     public void LogMessages()

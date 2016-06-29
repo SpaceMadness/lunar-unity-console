@@ -25,6 +25,7 @@ import android.app.Activity;
 import android.view.View;
 
 import java.lang.ref.WeakReference;
+import java.util.Map;
 
 import spacemadness.com.lunarconsole.core.LunarConsoleException;
 import spacemadness.com.lunarconsole.debug.Log;
@@ -53,8 +54,8 @@ class DefaultPluginImp implements ConsolePluginImp
     }
 
     @Override
-    public void sendUnityScriptMessage(String message, String param)
+    public void sendUnityScriptMessage(String name, Map<String, Object> data)
     {
-        Log.d(PLUGIN, "Send script message: %s(%s)", message, param);
+        Log.d(PLUGIN, "Send script message: %s(%s)", name, data);
     }
 }

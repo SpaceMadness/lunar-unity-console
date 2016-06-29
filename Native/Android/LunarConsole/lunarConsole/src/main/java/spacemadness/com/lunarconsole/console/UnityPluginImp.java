@@ -28,6 +28,7 @@ import android.view.ViewGroup;
 import com.unity3d.player.UnityPlayer;
 
 import java.lang.ref.WeakReference;
+import java.util.Map;
 
 import spacemadness.com.lunarconsole.core.LunarConsoleException;
 import spacemadness.com.lunarconsole.debug.Log;
@@ -39,7 +40,7 @@ public class UnityPluginImp implements ConsolePluginImp
     private final WeakReference<UnityPlayer> playerRef;
     private final UnityScriptMessenger scriptMessenger;
 
-    public UnityPluginImp(Activity activity, String target)
+    public UnityPluginImp(Activity activity, String target, String method)
     {
         UnityPlayer player = resolveUnityPlayerInstance(activity);
         if (player == null)
@@ -48,7 +49,7 @@ public class UnityPluginImp implements ConsolePluginImp
         }
 
         playerRef = new WeakReference<>(player);
-        scriptMessenger = new UnityScriptMessenger(target);
+        scriptMessenger = new UnityScriptMessenger(target, method);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -97,15 +98,15 @@ public class UnityPluginImp implements ConsolePluginImp
     }
 
     @Override
-    public void sendUnityScriptMessage(String name, String param)
+    public void sendUnityScriptMessage(String name, Map<String, Object> data)
     {
         try
         {
-            scriptMessenger.sendMessage(name, param);
+            scriptMessenger.sendMessage(name, data);
         }
         catch (Exception e)
         {
-            Log.e(PLUGIN, "Error while sending Unity script message: name=%s param=%s", name, param);
+            Log.e(PLUGIN, "Error while sending Unity script message: name=%s param=%s", name, data);
         }
     }
 

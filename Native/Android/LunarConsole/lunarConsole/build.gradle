@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 23
-    buildToolsVersion "23.0.1"
+    buildToolsVersion "23.0.3"
 
     defaultConfig {
         minSdkVersion 9
@@ -20,11 +20,9 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    // Unity pre 5.2.x
-    compile files('/Applications/Unity/Unity.app/Contents/PlaybackEngines/AndroidPlayer/release/bin/classes.jar')
-    // Unity 5.2.x
-    compile files('/Applications/Unity/Unity.app/Contents/PlaybackEngines/AndroidPlayer/Variations/mono/Release/Classes/classes.jar')
+
     // Unity 5.3.x and later
     compile files('/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Release/Classes/classes.jar')
+
     testCompile 'junit:junit:4.12'
 }

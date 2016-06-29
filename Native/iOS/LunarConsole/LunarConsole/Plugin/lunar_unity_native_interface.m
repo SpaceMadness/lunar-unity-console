@@ -28,24 +28,27 @@
 
 static LUConsolePlugin * _lunarConsolePlugin;
 
-void __lunar_console_initialize(const char * cversion, const char *ctarget, int capacity, int trimCount, const char *cgesture)
+void __lunar_console_initialize(const char *targetNameStr, const char *methodNameStr, const char * versionStr, int capacity, int trimCount, const char *gestureStr)
 {
     lunar_dispatch_main(^{
         if (_lunarConsolePlugin == nil) {
-            NSString *version = [[NSString alloc] initWithUTF8String:cversion];
-            NSString *gesture = [[NSString alloc] initWithUTF8String:cgesture];
-            NSString *target = [[NSString alloc] initWithUTF8String:ctarget];
+            NSString *targetName = [[NSString alloc] initWithUTF8String:targetNameStr];
+            NSString *methodName = [[NSString alloc] initWithUTF8String:methodNameStr];
+            NSString *version = [[NSString alloc] initWithUTF8String:versionStr];
+            NSString *gesture = [[NSString alloc] initWithUTF8String:gestureStr];
             
-            _lunarConsolePlugin = [[LUConsolePlugin alloc] initWithVersion:version
-                                                                    target:target
+            _lunarConsolePlugin = [[LUConsolePlugin alloc] initWithTargetName:targetName
+                                                                   methodName:methodName
+                                                                      version:version
                                                                   capacity:capacity
                                                                  trimCount:trimCount
                                                                gestureName:gesture];
             [_lunarConsolePlugin enableGestureRecognition];
             
+            LU_RELEASE(targetName);
+            LU_RELEASE(methodName);
             LU_RELEASE(version);
             LU_RELEASE(gesture);
-            LU_RELEASE(target);
         }
     });
 }
@@ -81,10 +84,10 @@ void __lunar_console_clear()
     });
 }
 
-void __lunar_console_log_message(const char * cmessage, const char * cstackTrace, int type)
+void __lunar_console_log_message(const char * messageStr, const char * stackTraceStr, int type)
 {
-    NSString *message = [[NSString alloc] initWithUTF8String:cmessage];
-    NSString *stackTrace = [[NSString alloc] initWithUTF8String:cstackTrace];
+    NSString *message = [[NSString alloc] initWithUTF8String:messageStr];
+    NSString *stackTrace = [[NSString alloc] initWithUTF8String:stackTraceStr];
 
     [_lunarConsolePlugin logMessage:message stackTrace:stackTrace type:type];
     

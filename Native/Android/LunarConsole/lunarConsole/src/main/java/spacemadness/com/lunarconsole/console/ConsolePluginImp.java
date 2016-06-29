@@ -23,10 +23,13 @@ package spacemadness.com.lunarconsole.console;
 
 import android.view.View;
 
+import java.util.Map;
+
 interface ConsolePluginImp
 {
     /** View to attach gesture detector */
     View getTouchRecepientView();
 
-    void sendUnityScriptMessage(String message, String param);
+    /** Send message to Unity runtime */
+    void sendUnityScriptMessage(String name, Map<String, Object> data);
 }

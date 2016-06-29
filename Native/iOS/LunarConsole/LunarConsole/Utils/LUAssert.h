@@ -21,6 +21,8 @@
 
 #import <Foundation/Foundation.h>
 
+typedef void (^LUAssertHandler)(NSString *message);
+
 #define LUAssert(expression) if (!(expression)) __lunar_assert(#expression, __FILE__, __LINE__, __FUNCTION__)
 #define LUAssertMsg(expression, msg) if (!(expression)) __lunar_assert_msg(#expression, __FILE__, __LINE__, __FUNCTION__, (msg))
 #define LUAssertMsgv(expression, msg, ...) if (!(expression)) __lunar_assert_msgv(#expression, __FILE__, __LINE__, __FUNCTION__, (msg), __VA_ARGS__)
@@ -28,3 +30,4 @@
 void __lunar_assert(const char* expression, const char* file, int line, const char* function);
 void __lunar_assert_msg(const char* expression, const char* file, int line, const char* function, NSString *message);
 void __lunar_assert_msgv(const char* expression, const char* file, int line, const char* function, NSString *format, ...);
+void LUAssertSetHandler(LUAssertHandler handler);
