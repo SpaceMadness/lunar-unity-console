@@ -22,11 +22,18 @@
 #ifndef __LunarConsole__unity_native_interface__
 #define __LunarConsole__unity_native_interface__
 
-OBJC_EXTERN void __lunar_console_initialize(const char *version, const char *target, int capacity, int trimCount, const char *gesture);
+// life cycle
+OBJC_EXTERN void __lunar_console_initialize(const char *targetName, const char *methodName, const char *version, int capacity, int trimCount, const char *gesture);
 OBJC_EXTERN void __lunar_console_destroy(void);
+
+// show/hide
 OBJC_EXTERN void __lunar_console_show(void);
 OBJC_EXTERN void __lunar_console_hide(void);
+
+// clear
 OBJC_EXTERN void __lunar_console_clear(void);
+
+// messages
 OBJC_EXTERN void __lunar_console_log_message(const char *message, const char *stacktrace, int type);
 
 #endif /* defined(__LunarConsole__unity_native_interface__) */

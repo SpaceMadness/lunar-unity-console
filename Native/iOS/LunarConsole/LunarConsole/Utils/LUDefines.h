@@ -35,3 +35,9 @@
     #define LU_AUTORELEASE(obj) [(obj) autorelease]
     #define LU_SUPER_DEALLOC [super dealloc];
 #endif
+
+#if LUNAR_CONSOLE_DEVELOPMENT
+    #define LU_SET_ACCESSIBILITY_IDENTIFIER(VIEW, IDENTIFIER) { (VIEW).isAccessibilityElement = YES; (VIEW).accessibilityIdentifier = (IDENTIFIER); }
+#else
+    #define LU_SET_ACCESSIBILITY_IDENTIFIER(VIEW, IDENTIFIER)
+#endif

@@ -24,23 +24,24 @@
 #import "Lunar.h"
 #import "FakeLogEntry.h"
 
-void UnitySendMessage(const char *target, const char *message, const char *param)
-{
-    NSLog(@"UnitySendMessage: %s.%s(%s)", target, message, param);
-}
-
 static const NSUInteger kConsoleCapacity  = 4096;
 static const NSUInteger kConsoleTrimCount = 512;
 
+static __weak LUConsolePlugin * _pluginInstance;
+
+void UnitySendMessage(const char *objectName, const char *methodName, const char *message)
+{
+    NSLog(@"Send native message: %s.%s(%s)", objectName, methodName, message);
+}
+
 @interface ViewController () <UITextFieldDelegate>
 {
-    LUConsolePlugin * _plugin;
     NSUInteger _index;
 }
 
-@property (nonatomic, weak) IBOutlet UITextField *messageText;
-@property (nonatomic, weak) IBOutlet UITextField *capacityText;
-@property (nonatomic, weak) IBOutlet UITextField *trimText;
+@property (nonatomic, weak) IBOutlet UITextField * messageText;
+@property (nonatomic, weak) IBOutlet UITextField * capacityText;
+@property (nonatomic, weak) IBOutlet UITextField * trimText;
 
 @property (nonatomic, strong) NSArray * logEntries;
 
@@ -50,6 +51,7 @@ static const NSUInteger kConsoleTrimCount = 512;
 
 - (void)dealloc
 {
+    _pluginInstance = nil;
     LU_RELEASE(_plugin);
     LU_SUPER_DEALLOC
 }
@@ -58,19 +60,27 @@ static const NSUInteger kConsoleTrimCount = 512;
 {
     [super viewDidLoad];
     
-    _plugin = [[LUConsolePlugin alloc] initWithVersion:@"0.0.0b"
-                                                target:@"LunarConsole"
-                                              capacity:kConsoleCapacity
-                                             trimCount:kConsoleTrimCount
-                                           gestureName:@"SwipeDown"];
+    _plugin = [[LUConsolePlugin alloc] initWithTargetName:@"LunarConsole"
+                                               methodName:@"OnNativeMessage"
+                                                  version:@"0.0.0b"
+                                                 capacity:kConsoleCapacity
+                                                trimCount:kConsoleTrimCount
+                                              gestureName:@"SwipeDown"];
     
-    _capacityText.text = [NSString stringWithFormat:@"%d", (int) kConsoleCapacity];
-    _trimText.text = [NSString stringWithFormat:@"%d", (int) kConsoleTrimCount];
+    _capacityText.text = [NSString stringWithFormat:@"%ld", (long) kConsoleCapacity];
+    _trimText.text = [NSString stringWithFormat:@"%ld", (long) kConsoleTrimCount];
+    
+    _pluginInstance = _plugin;
+    
+//    [_plugin registerVariableWithId:0 name:@"c_bool" type:LUCVarTypeNameBoolean value:@"1"];
+//    [_plugin registerVariableWithId:1 name:@"c_int" type:LUCVarTypeNameInteger value:@"10"];
+//    [_plugin registerVariableWithId:2 name:@"c_float" type:LUCVarTypeNameFloat value:@"3.14"];
+//    [_plugin registerVariableWithId:3 name:@"c_string" type:LUCVarTypeNameString value:@"value"];
 }
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
 }
 
 #pragma mark -
@@ -213,6 +223,14 @@ static const NSUInteger kConsoleTrimCount = 512;
 {
     [textField resignFirstResponder];
     return NO;
+}
+
+#pragma mark -
+#pragma mark Properties
+
++ (LUConsolePlugin *)pluginInstance
+{
+    return _pluginInstance;
 }
 
 @end

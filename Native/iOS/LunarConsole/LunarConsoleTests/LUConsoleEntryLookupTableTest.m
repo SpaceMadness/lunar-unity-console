@@ -25,7 +25,7 @@
 
 @interface LUConsoleEntryLookupTableTest : XCTestCase
 {
-    LUConsoleEntryLookupTable * _table;
+    LUConsoleLogEntryLookupTable * _table;
 }
 
 @end
@@ -35,7 +35,7 @@
 - (void)setUp
 {
     [super setUp];
-    _table = [LUConsoleEntryLookupTable new];
+    _table = [LUConsoleLogEntryLookupTable new];
 }
 
 - (void)tearDown
@@ -46,7 +46,7 @@
 
 - (void)testAddEntry
 {
-    LUConsoleCollapsedEntry *entry = [self addEntryMessage:@"message1"];
+    LUConsoleCollapsedLogEntry *entry = [self addEntryMessage:@"message1"];
     XCTAssertEqual(1, entry.count);
     
     entry = [self addEntryMessage:@"message1"];
@@ -59,16 +59,16 @@
 #pragma mark -
 #pragma mark Helpers
 
-- (LUConsoleCollapsedEntry *)addEntryMessage:(NSString *)message
+- (LUConsoleCollapsedLogEntry *)addEntryMessage:(NSString *)message
 {
     return [self addEntryType:LUConsoleLogTypeLog message:message stackTrace:@""];
 }
 
-- (LUConsoleCollapsedEntry *)addEntryType:(LUConsoleLogType)type
+- (LUConsoleCollapsedLogEntry *)addEntryType:(LUConsoleLogType)type
                                   message:(NSString *)message
                                stackTrace:(NSString *)stackTrace
 {
-    LUConsoleEntry *entry = [LUConsoleEntry entryWithType:type
+    LUConsoleLogEntry *entry = [LUConsoleLogEntry entryWithType:type
                                                   message:message
                                                stackTrace:stackTrace];
     return [_table addEntry:entry];
