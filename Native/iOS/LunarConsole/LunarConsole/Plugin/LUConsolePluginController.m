@@ -60,6 +60,38 @@
     [self addChildController:_pageController];
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    if ([_delegate respondsToSelector:@selector(pluginControllerDidOpen:)])
+    {
+        [_delegate pluginControllerDidOpen:self];
+    }
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
+    
+    if ([_delegate respondsToSelector:@selector(pluginControllerDidClose:)])
+    {
+        [_delegate pluginControllerDidClose:self];
+    }
+}
+
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+
 - (void)dealloc
 {
     LU_RELEASE(_pageController);

@@ -172,35 +172,6 @@ static LUConsoleLogControllerState * _sharedControllerState;
     });
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    [self.navigationController setNavigationBarHidden:YES animated:animated];
-}
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    
-    if ([_delegate respondsToSelector:@selector(consoleControllerDidOpen:)])
-    {
-        [_delegate consoleControllerDidOpen:self];
-    }
-}
-
-- (void)viewWillDisappear:(BOOL)animated
-{
-    [super viewWillDisappear:animated];
-    [self.navigationController setNavigationBarHidden:NO animated:animated];
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    
-    // TODO: clean up cells
-}
-
 - (BOOL)prefersStatusBarHidden
 {
     return YES;
@@ -238,14 +209,6 @@ static LUConsoleLogControllerState * _sharedControllerState;
 
 #pragma mark -
 #pragma mark Actions
-
-- (IBAction)onClose:(id)sender
-{
-    if ([_delegate respondsToSelector:@selector(consoleControllerDidClose:)])
-    {
-        [_delegate consoleControllerDidClose:self];
-    }
-}
 
 - (IBAction)onClear:(id)sender
 {

@@ -51,6 +51,8 @@ BOOL LUStringTryParseFloat(NSString *str, float *outResult)
 
 NSString *LUSerializeDictionaryToString(NSDictionary *data)
 {
+    if (data.count == 0) return @"";
+    
     NSMutableString *result = [NSMutableString string];
     NSInteger index = 0;
     for (id key in data)

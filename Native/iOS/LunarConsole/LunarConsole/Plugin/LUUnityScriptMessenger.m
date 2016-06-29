@@ -58,13 +58,19 @@ extern void UnitySendMessage(const char *objectName, const char *methodName, con
 
 - (void)sendMessageName:(NSString *)name
 {
-    UnitySendMessage(_targetName.UTF8String, _methodName.UTF8String, "");
+    [self sendMessageName:name params:nil];
 }
 
 - (void)sendMessageName:(NSString *)name params:(NSDictionary *)params
 {
-    NSString *data = LUSerializeDictionaryToString(params);
-    UnitySendMessage(_targetName.UTF8String, _methodName.UTF8String, data.UTF8String);
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:name, @"name", nil];
+    if (params.count > 0)
+    {
+        [dict addEntriesFromDictionary:params];
+    }
+    
+    NSString *paramString = LUSerializeDictionaryToString(dict);
+    UnitySendMessage(_targetName.UTF8String, _methodName.UTF8String, paramString.UTF8String);
 }
 
 @end
