@@ -66,8 +66,10 @@
 		EF21AE1B1BF536FE0053D50B /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF21AE1A1BF536FE0053D50B /* MessageUI.framework */; };
 		EF64F8F21C03D86E008DCB8E /* input.txt in Resources */ = {isa = PBXBuildFile; fileRef = EF64F8F11C03D86E008DCB8E /* input.txt */; };
 		EF64F8F61C03D8B3008DCB8E /* FakeLogEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = EF64F8F51C03D8B3008DCB8E /* FakeLogEntry.m */; };
-		EF8189391BE16875008FFCB9 /* LUConsoleControllerUITest.m in Sources */ = {isa = PBXBuildFile; fileRef = EF8189381BE16875008FFCB9 /* LUConsoleControllerUITest.m */; };
 		EF81893C1BE16E58008FFCB9 /* libLunarConsole.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 844742171B719DB600F5ABD3 /* libLunarConsole.a */; };
+		EFAE76481D2486D70072CCBF /* LUConsoleLogControllerUITest.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAE76471D2486D70072CCBF /* LUConsoleLogControllerUITest.m */; };
+		EFAE764D1D24878B0072CCBF /* UITestCaseBase.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAE764A1D24878B0072CCBF /* UITestCaseBase.m */; };
+		EFAE764E1D24878B0072CCBF /* XCTestCase+Operations.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAE764C1D24878B0072CCBF /* XCTestCase+Operations.m */; };
 		EFB99CCD1D21E25E00C95E80 /* LUConsoleLogController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFB99CCC1D21E25E00C95E80 /* LUConsoleLogController.xib */; };
 		EFB99CD31D21E3AA00C95E80 /* LUConsoleLogDetailsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFB99CD21D21E3AA00C95E80 /* LUConsoleLogDetailsController.xib */; };
 		EFB99CD91D21E4DD00C95E80 /* LUConsoleLogMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EFB99CD81D21E4DD00C95E80 /* LUConsoleLogMenuController.xib */; };
@@ -188,7 +190,11 @@
 		EF64F8F51C03D8B3008DCB8E /* FakeLogEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FakeLogEntry.m; sourceTree = "<group>"; };
 		EF81892E1BE16844008FFCB9 /* LunarConsoleAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LunarConsoleAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF8189321BE16844008FFCB9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		EF8189381BE16875008FFCB9 /* LUConsoleControllerUITest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = LUConsoleControllerUITest.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		EFAE76471D2486D70072CCBF /* LUConsoleLogControllerUITest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUConsoleLogControllerUITest.m; sourceTree = "<group>"; };
+		EFAE76491D24878B0072CCBF /* UITestCaseBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UITestCaseBase.h; sourceTree = "<group>"; };
+		EFAE764A1D24878B0072CCBF /* UITestCaseBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UITestCaseBase.m; sourceTree = "<group>"; };
+		EFAE764B1D24878B0072CCBF /* XCTestCase+Operations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "XCTestCase+Operations.h"; sourceTree = "<group>"; };
+		EFAE764C1D24878B0072CCBF /* XCTestCase+Operations.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "XCTestCase+Operations.m"; sourceTree = "<group>"; };
 		EFB99CCC1D21E25E00C95E80 /* LUConsoleLogController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LUConsoleLogController.xib; path = ../../LunarConsole/LunarConsole/Console/LUConsoleLogController.xib; sourceTree = "<group>"; };
 		EFB99CD21D21E3AA00C95E80 /* LUConsoleLogDetailsController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LUConsoleLogDetailsController.xib; path = ../../LunarConsole/LunarConsole/Console/LUConsoleLogDetailsController.xib; sourceTree = "<group>"; };
 		EFB99CD81D21E4DD00C95E80 /* LUConsoleLogMenuController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LUConsoleLogMenuController.xib; path = ../../LunarConsole/LunarConsole/Console/LUConsoleLogMenuController.xib; sourceTree = "<group>"; };
@@ -369,8 +375,12 @@
 		EF81892F1BE16844008FFCB9 /* LunarConsoleAppUITests */ = {
 			isa = PBXGroup;
 			children = (
+				EFAE76491D24878B0072CCBF /* UITestCaseBase.h */,
+				EFAE764A1D24878B0072CCBF /* UITestCaseBase.m */,
+				EFAE764B1D24878B0072CCBF /* XCTestCase+Operations.h */,
+				EFAE764C1D24878B0072CCBF /* XCTestCase+Operations.m */,
+				EFAE76471D2486D70072CCBF /* LUConsoleLogControllerUITest.m */,
 				EF8189321BE16844008FFCB9 /* Info.plist */,
-				EF8189381BE16875008FFCB9 /* LUConsoleControllerUITest.m */,
 			);
 			path = LunarConsoleAppUITests;
 			sourceTree = "<group>";
@@ -603,7 +613,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EF8189391BE16875008FFCB9 /* LUConsoleControllerUITest.m in Sources */,
+				EFAE764E1D24878B0072CCBF /* XCTestCase+Operations.m in Sources */,
+				EFAE764D1D24878B0072CCBF /* UITestCaseBase.m in Sources */,
+				EFAE76481D2486D70072CCBF /* LUConsoleLogControllerUITest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
