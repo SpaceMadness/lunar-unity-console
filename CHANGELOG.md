@@ -1,5 +1,11 @@
 # Lunar Console Changelog
 
+## v.0.4.2b - 7/20/2016
+
+**Fixes:**
+
+* **iOS**: fixed potential linking issue while building for IL2CPP script backend.
+
 ## v.0.4.1b - 6/15/2016
 
 **Fixes:**
