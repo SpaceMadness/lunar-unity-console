@@ -86,12 +86,12 @@ namespace LunarConsolePlugin
                 }
                 else
                 {
-                    Destroy(gameObject);
+                    Destroy(this);
                 }
             }
             else if (instance != this)
             {
-                Destroy(gameObject);
+                Destroy(this);
             }
         }
 
