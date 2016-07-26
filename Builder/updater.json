@@ -1,6 +1,6 @@
 {
   "status": "OK",
-  "version": "0.4.1b",
-  "message": "**Fixes:**\n\n* iOS: fixed warning text for missing stack trace frames.\n* iOS: fixed sending log emails.\n\nEnjoying using the plugin? Don't forget to rate it on the Asset Store!",
+  "version": "0.4.2b",
+  "message": "**Fixes:**\n\n* iOS: fixed potential linking issue while building for IL2CPP script backend.\n\nEnjoying using the plugin? Don't forget to rate it on the Asset Store!",
   "url": "https://goo.gl/S8QXav"
 }
