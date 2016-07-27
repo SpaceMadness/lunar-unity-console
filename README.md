@@ -7,6 +7,9 @@ Requires Unity 5.0 or later.
 
 <img width="465" src="https://cloud.githubusercontent.com/assets/786644/14592627/a7757736-04d5-11e6-9eef-62257823a83a.png">
 
+## Buy me a beer
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=6W7C8QALKPMME&lc=US&item_name=Support%20Lunar%20Mobile%20Console%20Development&currency_code=USD&bn=PP%2dDonationsBF%3abtn_donate_SM%2egif%3aNonHosted)
+
 ## Table of Contents
 - [About](#about)
   - [Platform Support](#platform-support)
