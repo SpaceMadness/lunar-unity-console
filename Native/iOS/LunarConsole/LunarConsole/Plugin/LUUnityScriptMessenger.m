@@ -1,45 +1,50 @@
 //
 //  LUUnityScriptMessenger.m
+//  LunarConsole
 //
-//  Lunar Unity Mobile Console
-//  https://github.com/SpaceMadness/lunar-unity-console
-//
-//  Copyright 2016 Alex Lementuev, SpaceMadness.
-//
-//  Licensed under the Apache License, Version 2.0 (the "License");
-//  you may not use this file except in compliance with the License.
-//  You may obtain a copy of the License at
-//
-//      http://www.apache.org/licenses/LICENSE-2.0
-//
-//  Unless required by applicable law or agreed to in writing, software
-//  distributed under the License is distributed on an "AS IS" BASIS,
-//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-//  See the License for the specific language governing permissions and
-//  limitations under the License.
+//  Created by Alex Lementuev on 2/23/16.
+//  Copyright © 2016 Space Madness. All rights reserved.
 //
 
 #import "LUUnityScriptMessenger.h"
 
-#import "Lunar.h"
+#include "Lunar.h"
 
-extern void UnitySendMessage(const char *, const char *, const char *);
+extern void UnitySendMessage(const char *objectName, const char *methodName, const char *message);
 
 @interface LUUnityScriptMessenger ()
 {
     NSString * _targetName;
+    NSString * _methodName;
 }
 
 @end
 
 @implementation LUUnityScriptMessenger
 
-- (instancetype)initWithTargetName:(NSString *)targetName
+- (instancetype)initWithTargetName:(NSString *)targetName methodName:(NSString *)methodName
 {
     self = [super init];
     if (self)
     {
-        _targetName = LU_RETAIN(targetName);
+        if (targetName.length == 0)
+        {
+            NSLog(@"Can't create script messenger: target name is nil or empty");
+            LU_RELEASE(self);
+            self = nil;
+            return nil;
+        }
+        
+        if (methodName.length == 0)
+        {
+            NSLog(@"Can't create script messenger: method name is nil or empty");
+            LU_RELEASE(self);
+            self = nil;
+            return nil;
+        }
+        
+        _targetName = [targetName copy];
+        _methodName = [methodName copy];
     }
     return self;
 }
@@ -47,20 +52,25 @@ extern void UnitySendMessage(const char *, const char *, const char *);
 - (void)dealloc
 {
     LU_RELEASE(_targetName);
+    LU_RELEASE(_methodName);
     LU_SUPER_DEALLOC
 }
 
-#pragma mark -
-#pragma mark Messages
-
-- (void)sendMessageWithName:(NSString *)name
+- (void)sendMessageName:(NSString *)name
 {
-    [self sendMessageWithName:name param:@""];
+    [self sendMessageName:name params:nil];
 }
 
-- (void)sendMessageWithName:(NSString *)name param:(NSString *)param
+- (void)sendMessageName:(NSString *)name params:(NSDictionary *)params
 {
-    UnitySendMessage([_targetName UTF8String], [name UTF8String], [param UTF8String]);
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithObjectsAndKeys:name, @"name", nil];
+    if (params.count > 0)
+    {
+        [dict addEntriesFromDictionary:params];
+    }
+    
+    NSString *paramString = LUSerializeDictionaryToString(dict);
+    UnitySendMessage(_targetName.UTF8String, _methodName.UTF8String, paramString.UTF8String);
 }
 
 @end

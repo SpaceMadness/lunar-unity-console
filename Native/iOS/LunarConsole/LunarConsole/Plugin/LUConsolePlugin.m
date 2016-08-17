@@ -26,17 +26,14 @@
 static const NSTimeInterval kWindowAnimationDuration = 0.4f;
 static const CGFloat kWarningHeight = 45.0f;
 
-static NSString * const kScriptMessageConsoleOpen  = @"ConsoleOpenCallback";
-static NSString * const kScriptMessageConsoleClose = @"ConsoleCloseCallback";
+static NSString * const kScriptMessageConsoleOpen  = @"console_open";
+static NSString * const kScriptMessageConsoleClose = @"console_close";
 
-@interface LUConsolePlugin () <LUConsoleControllerDelegate, LUExceptionWarningControllerDelegate>
+@interface LUConsolePlugin () <LUConsolePluginControllerDelegate, LUExceptionWarningControllerDelegate>
 {
-    NSString                * _version;
-    LUConsole               * _console;
-    LUWindow                * _consoleWindow;
-    LUWindow                * _warningWindow;
-    UIGestureRecognizer     * _gestureRecognizer;
     LUUnityScriptMessenger  * _scriptMessenger;
+    NSString                * _version;
+    UIGestureRecognizer     * _gestureRecognizer;
     LUConsoleGesture          _gesture;
 }
 
@@ -44,8 +41,9 @@ static NSString * const kScriptMessageConsoleClose = @"ConsoleCloseCallback";
 
 @implementation LUConsolePlugin
 
-- (instancetype)initWithVersion:(NSString *)version
-                         target:(NSString *)target
+- (instancetype)initWithTargetName:(NSString *)targetName
+                        methodName:(NSString *)methodName
+                           version:(NSString *)version
                        capacity:(NSUInteger)capacity
                       trimCount:(NSUInteger)trimCount
                     gestureName:(NSString *)gestureName
@@ -62,10 +60,10 @@ static NSString * const kScriptMessageConsoleClose = @"ConsoleCloseCallback";
             return nil;
         }
         
+        _scriptMessenger = [[LUUnityScriptMessenger alloc] initWithTargetName:targetName methodName:methodName];
         _version = LU_RETAIN(version);
         _console = [[LUConsole alloc] initWithCapacity:capacity trimCount:trimCount];
         _gesture = [self gestureFromString:gestureName];
-        _scriptMessenger = [[LUUnityScriptMessenger alloc] initWithTargetName:target];
     }
     return self;
 }
@@ -74,12 +72,12 @@ static NSString * const kScriptMessageConsoleClose = @"ConsoleCloseCallback";
 {
     [self disableGestureRecognition];
     
+    LU_RELEASE(_scriptMessenger);
     LU_RELEASE(_version);
     LU_RELEASE(_console);
     LU_RELEASE(_consoleWindow);
     LU_RELEASE(_warningWindow);
     LU_RELEASE(_gestureRecognizer);
-    LU_RELEASE(_scriptMessenger);
     
     LU_SUPER_DEALLOC
 }
@@ -92,8 +90,7 @@ static NSString * const kScriptMessageConsoleClose = @"ConsoleCloseCallback";
     LUAssert(_consoleWindow == nil);
     if (_consoleWindow == nil)
     {
-        LUConsoleController *controller = [LUConsoleController controllerWithConsole:_console];
-        controller.version = _version;
+        LUConsolePluginController *controller = [LUConsolePluginController controllerWithPlugin:self];
         controller.delegate = self;
         
         CGRect windowFrame = LUGetScreenBounds();
@@ -207,36 +204,31 @@ static NSString * const kScriptMessageConsoleClose = @"ConsoleCloseCallback";
 }
 
 #pragma mark -
-#pragma mark LUConsoleControllerEntrySource
+#pragma mark LUConsoleLogControllerEntrySource
 
-- (NSInteger)consoleControllerNumberOfEntries:(LUConsoleController *)controller
+- (NSInteger)consoleControllerNumberOfEntries:(LUConsoleLogController *)controller
 {
     return _console.entriesCount;
 }
 
-- (LUConsoleEntry *)consoleController:(LUConsoleController *)controller entryAtIndex:(NSUInteger)index
+- (LUConsoleLogEntry *)consoleController:(LUConsoleLogController *)controller entryAtIndex:(NSUInteger)index
 {
     return [_console entryAtIndex:index];
 }
 
 #pragma mark -
-#pragma mark LUConsoleControllerDelegate
+#pragma mark LUConsolePluginControllerDelegate
 
-- (void)consoleControllerDidOpen:(LUConsoleController *)controller
+- (void)pluginControllerDidOpen:(LUConsolePluginController *)controller
 {
-    [_scriptMessenger sendMessageWithName:kScriptMessageConsoleOpen];
+    [_scriptMessenger sendMessageName:kScriptMessageConsoleOpen];
 }
 
-- (void)consoleControllerDidClose:(LUConsoleController *)controller
+- (void)pluginControllerDidClose:(LUConsolePluginController *)controller
 {
     [self hide];
     
-    [_scriptMessenger sendMessageWithName:kScriptMessageConsoleClose];
-}
-
-- (void)consoleControllerDidClear:(LUConsoleController *)controller
-{
-    [_console clear];
+    [_scriptMessenger sendMessageName:kScriptMessageConsoleClose];
 }
 
 #pragma mark -

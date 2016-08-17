@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="14F27" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="GeT-2f-Yq5">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="GeT-2f-Yq5">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="evW-4U-GLQ">
-                                <rect key="frame" x="244.5" y="285" width="110" height="30"/>
+                                <rect key="frame" x="245" y="285" width="110" height="30"/>
                                 <state key="normal" title="Show Controller">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
@@ -44,55 +44,55 @@
                                 </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LPa-0J-Gun">
-                                <rect key="frame" x="20" y="72" width="399" height="30"/>
+                                <rect key="frame" x="20" y="8" width="399" height="30"/>
                                 <accessibility key="accessibilityConfiguration" label="Test Message Text"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
                                 <connections>
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="LU8-q7-g78"/>
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P6c-4t-lvy">
-                                <rect key="frame" x="427" y="72" width="46" height="30"/>
+                                <rect key="frame" x="427" y="8" width="46" height="30"/>
                                 <state key="normal" title="Debug"/>
                                 <connections>
                                     <action selector="onLogDebug:" destination="BYZ-38-t0r" eventType="touchUpInside" id="R1h-RV-K5M"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e5g-fh-dT4">
-                                <rect key="frame" x="481" y="72" width="57" height="30"/>
+                                <rect key="frame" x="481" y="8" width="57" height="30"/>
                                 <state key="normal" title="Warning"/>
                                 <connections>
                                     <action selector="onLogWarning:" destination="BYZ-38-t0r" eventType="touchUpInside" id="f62-sh-byk"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qip-u4-7Vo">
-                                <rect key="frame" x="546" y="72" width="34" height="30"/>
+                                <rect key="frame" x="546" y="8" width="34" height="30"/>
                                 <state key="normal" title="Error"/>
                                 <connections>
                                     <action selector="onLogError:" destination="BYZ-38-t0r" eventType="touchUpInside" id="lcE-DP-TAA"/>
                                 </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zNG-Pl-iur">
-                                <rect key="frame" x="20" y="147" width="464" height="30"/>
+                                <rect key="frame" x="20" y="83" width="464" height="30"/>
                                 <accessibility key="accessibilityConfiguration" label="Test Trim Text"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
                                 <connections>
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="CHB-c6-IQ1"/>
                                 </connections>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4Y1-hE-rHl">
-                                <rect key="frame" x="20" y="109" width="464" height="30"/>
+                                <rect key="frame" x="20" y="45" width="464" height="30"/>
                                 <accessibility key="accessibilityConfiguration" label="Test Capacity Text"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits"/>
+                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
                                 <connections>
                                     <outlet property="delegate" destination="BYZ-38-t0r" id="8cs-SM-XQ1"/>
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6wn-Mw-3aO">
-                                <rect key="frame" x="492" y="109" width="88" height="30"/>
+                                <rect key="frame" x="492" y="45" width="88" height="30"/>
                                 <accessibility key="accessibilityConfiguration" label="Test Capacity Button"/>
                                 <state key="normal" title="Set Capacity"/>
                                 <connections>
@@ -100,7 +100,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vyR-xr-omb">
-                                <rect key="frame" x="492" y="147" width="58" height="30"/>
+                                <rect key="frame" x="492" y="83" width="58" height="30"/>
                                 <accessibility key="accessibilityConfiguration" label="Test Trim Button"/>
                                 <state key="normal" title="Set Trim"/>
                                 <connections>
@@ -138,6 +138,9 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="1EB-jZ-et0"/>
+                    <nil key="simulatedStatusBarMetrics"/>
+                    <nil key="simulatedTopBarMetrics"/>
+                    <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="capacityText" destination="4Y1-hE-rHl" id="rrs-rT-nly"/>
                         <outlet property="messageText" destination="LPa-0J-Gun" id="5kG-Ji-3eE"/>

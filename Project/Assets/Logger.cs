@@ -37,7 +37,7 @@ public class Logger : MonoBehaviour
         "Engineer: Somebody has planted a bomb. (lit. It appears that an unknown party has planted an explosive.)",
         "Radio Operator: We're getting a video on the main screen (lit. A visual is coming on the main screen.)",
         "CATS: With the cooperation of Federation Forces, all your base are belong to us",
-        "CATS: Treasure what little time remains in your lives.",
+        "<color=red>CATS:</color> <color=green>Treasure what <color=yellow>little</color> time remains</color> in your lives.",
         "Captain: I ask of you, ZIG [units]...",
         "Captain: ...let there be hope for our future (lit. ...to our future, [restore] hope.)"
     };
@@ -59,6 +59,13 @@ public class Logger : MonoBehaviour
     void Start()
     {
         Shuffle(logDelegates);
+
+        LunarConsole.onConsoleClosed += delegate {
+            print("Console closed");
+        };
+        LunarConsole.onConsoleOpened += delegate {
+            print("Console opened");
+        };
     }
 
     public void LogMessages()

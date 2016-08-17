@@ -21,8 +21,13 @@
 
 #import <UIKit/UIKit.h>
 
+#import "LUViewController.h"
 #import "Lunar.h"
 
-@interface ViewController : UIViewController
+@interface ViewController : LUViewController
+
+@property (nonatomic, readonly) LUConsolePlugin * plugin;
+
++ (LUConsolePlugin *)pluginInstance;
 
 @end

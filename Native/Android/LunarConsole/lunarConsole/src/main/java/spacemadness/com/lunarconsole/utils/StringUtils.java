@@ -22,6 +22,7 @@
 package spacemadness.com.lunarconsole.utils;
 
 import java.util.List;
+import java.util.Map;
 
 public class StringUtils
 {
@@ -87,6 +88,11 @@ public class StringUtils
     public static String NonNullOrEmpty(String str)
     {
         return str != null ? str : "";
+    }
+
+    public static String toString(Object value)
+    {
+        return value != null ? value.toString() : "null";
     }
 
     public static <T> String Join(List<T> list)
@@ -266,5 +272,27 @@ public class StringUtils
         }
 
         return format;
+    }
+
+    public static String serializeToString(Map<String, ?> data)
+    {
+        StringBuilder result = new StringBuilder();
+        int index = 0;
+        for (Map.Entry<String, ?> e : data.entrySet())
+        {
+            String key = e.getKey();
+            String value = toString(e.getValue());
+            value = value.replace("\n", "\\n"); // we use new lines as separators
+            result.append(key);
+            result.append(':');
+            result.append(value);
+
+            if (++index < data.size())
+            {
+                result.append("\n");
+            }
+        }
+
+        return result.toString();
     }
 }

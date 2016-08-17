@@ -34,6 +34,7 @@ import com.unity3d.player.UnityPlayer;
 
 import java.lang.ref.WeakReference;
 import java.util.List;
+import java.util.Map;
 
 import spacemadness.com.lunarconsole.R;
 import spacemadness.com.lunarconsole.core.Destroyable;
@@ -54,8 +55,8 @@ public class ConsolePlugin implements
         ConsoleView.Listener,
         WarningView.Listener
 {
-    private static final String SCRIPT_MESSAGE_CONSOLE_OPEN  = "ConsoleOpenCallback";
-    private static final String SCRIPT_MESSAGE_CONSOLE_CLOSE = "ConsoleCloseCallback";
+    private static final String SCRIPT_MESSAGE_CONSOLE_OPEN  = "console_open";
+    private static final String SCRIPT_MESSAGE_CONSOLE_CLOSE = "console_close";
 
     private static ConsolePlugin instance;
 
@@ -94,28 +95,85 @@ public class ConsolePlugin implements
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Static interface
+    
+    /**
+     * Data holder for plugin initialization
+     */
+    static class PluginSettings
+    {
+        public final ConsolePluginImp pluginImp;
+        public final String version;
+        public final int capacity;
+        public final int trim;
+        public final String gesture;
 
-    public static void init(String version, String target, int capacity, int trim, String gesture)
+        public PluginSettings(ConsolePluginImp pluginImp, String version, int capacity, int trim, String gesture)
+        {
+            this.pluginImp = notNull(pluginImp, "Plugin implementation");
+            this.gesture = notNullAndNotEmpty(gesture, "Gesture");
+            this.version = notNullAndNotEmpty(version, "Version");
+            this.capacity = positive(capacity, "Capacity");
+            this.trim = positive(trim, "Trim");
+        }
+
+        private static <T> T notNull(T reference, String name)
+        {
+            if (reference == null)
+            {
+                throw new NullPointerException(name + " is null");
+            }
+            return reference;
+        }
+
+        private static String notNullAndNotEmpty(String reference, String name)
+        {
+            if (reference == null)
+            {
+                throw new NullPointerException(name + " is null");
+            }
+            if (reference.length() == 0)
+            {
+                throw new IllegalArgumentException(name + " is empty");
+            }
+
+            return reference;
+        }
+
+        private static int positive(int value, String name)
+        {
+            if (value <= 0)
+            {
+                throw new IllegalArgumentException(name + " should be positive but was " + value);
+            }
+            return value;
+        }
+    }    
+
+    /**
+     * This method is called by a Unity managed code. Do not rename or change params types of order
+     * @param targetName - the name of game object which would receive native callbacks
+     * @param methodName - the name of the method of the game object to be called
+     * @param version - the plugin version
+     * @param capacity - the console`s capacity (everything beyond that would be trimmed)
+     * @param trim - the trim amount upon console overflow (how many items would be trimmed when console overflows)
+     * @param gesture - the name of a touch gesture to open the console or "none" if disabled
+     */
+    public static void init(String targetName, String methodName, String version, int capacity, int trim, String gesture)
     {
         Activity activity = UnityPlayer.currentActivity;
-        init(activity, version, capacity, trim, new UnityPluginImp(activity, target), gesture);
+        init(activity, new PluginSettings(new UnityPluginImp(activity, targetName, methodName), version, capacity, trim, gesture));
     }
 
     public static void init(Activity activity, String version, int capacity, int trim, String gesture)
     {
-        init(activity, version, capacity, trim, new DefaultPluginImp(activity), gesture);
+        init(activity, new PluginSettings(new DefaultPluginImp(activity), version, capacity, trim, gesture));
     }
 
-    private static void init(final Activity activity,
-                             final String version,
-                             final int capacity,
-                             final int trim,
-                             final ConsolePluginImp pluginImp,
-                             final String gesture)
+    private static void init(final Activity activity, final PluginSettings settings)
     {
         if (isRunningOnMainThread())
         {
-            init0(activity, version, capacity, trim, pluginImp, gesture);
+            init0(activity, settings);
         }
         else
         {
@@ -127,26 +185,20 @@ public class ConsolePlugin implements
                 @Override
                 public void run()
                 {
-                    init0(activity, version, capacity, trim, pluginImp, gesture);
+                    init0(activity, settings);
                 }
             });
         }
     }
 
-    private static void init0(Activity activity,
-                              String version,
-                              int capacity,
-                              int trim,
-                              ConsolePluginImp pluginImp,
-                              String gesture)
+    private static void init0(Activity activity, PluginSettings settings)
     {
         try
         {
             if (instance == null)
             {
-                Log.d(PLUGIN, "Initializing plugin instance (%s): %d", version, capacity);
-
-                instance = new ConsolePlugin(activity, version, capacity, trim, pluginImp, gesture);
+                Log.d(PLUGIN, "Initializing plugin instance (%s): %d", settings.version, settings.capacity);
+                instance = new ConsolePlugin(activity, settings);
                 instance.enableGestureRecognition();
             }
             else
@@ -294,27 +346,22 @@ public class ConsolePlugin implements
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Constructor
 
-    private ConsolePlugin(Activity activity, String version, int capacity, int trim, ConsolePluginImp pluginImp, String gesture)
+    private ConsolePlugin(Activity activity, PluginSettings settings)
     {
         if (activity == null)
         {
             throw new NullPointerException("Context is null");
         }
 
-        if (version == null)
-        {
-            throw new NullPointerException("Version is null");
-        }
+        this.version = settings.version;
+        this.pluginImp = settings.pluginImp;
 
-        this.version = version;
-        this.pluginImp = pluginImp;
-
-        Options options = new Options(capacity);
-        options.setTrimCount(trim);
+        Options options = new Options(settings.capacity);
+        options.setTrimCount(settings.trim);
         console = new Console(options);
         activityRef = new WeakReference<>(activity);
 
-        gestureDetector = GestureRecognizerFactory.create(activity, gesture);
+        gestureDetector = GestureRecognizerFactory.create(activity, settings.gesture);
         gestureDetector.setListener(new OnGestureListener()
         {
             @Override
@@ -626,7 +673,12 @@ public class ConsolePlugin implements
 
     private void sendNativeCallback(String name)
     {
-        pluginImp.sendUnityScriptMessage(name, "");
+        sendNativeCallback(name, null);
+    }
+
+    private void sendNativeCallback(String name, Map<String, Object> data)
+    {
+        pluginImp.sendUnityScriptMessage(name, data);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

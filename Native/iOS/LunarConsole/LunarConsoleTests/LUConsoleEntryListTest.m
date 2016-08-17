@@ -27,19 +27,19 @@
 const static NSUInteger kDefaultCapacity = 100;
 const static NSUInteger kDefaultTrim = 1;
 
-static LUConsoleEntryList *createEntryListWithMessages(NSUInteger capacity, NSUInteger trimCount, NSString *first, ...) NS_REQUIRES_NIL_TERMINATION;
-static LUConsoleEntryList *createEntryListWithEntries(NSUInteger capacity, NSUInteger trimCount, LUConsoleEntry *first, ...) NS_REQUIRES_NIL_TERMINATION;
+static LUConsoleLogEntryList *createEntryListWithMessages(NSUInteger capacity, NSUInteger trimCount, NSString *first, ...) NS_REQUIRES_NIL_TERMINATION;
+static LUConsoleLogEntryList *createEntryListWithEntries(NSUInteger capacity, NSUInteger trimCount, LUConsoleLogEntry *first, ...) NS_REQUIRES_NIL_TERMINATION;
 
-@interface LUConsoleEntry (Testing)
+@interface LUConsoleLogEntry (Testing)
 
 + (instancetype)entryWithType:(LUConsoleLogType)type message:(NSString *)message;
 + (instancetype)entryWithMessage:(NSString *)message;
 
 @end
 
-@interface LUConsoleEntryList (Testing)
+@interface LUConsoleLogEntryList (Testing)
 
-- (LUConsoleCollapsedEntry *)collapsedEntryAtIndex:(NSInteger)index;
+- (LUConsoleCollapsedLogEntry *)collapsedEntryAtIndex:(NSInteger)index;
 
 @end
 
@@ -54,7 +54,7 @@ static LUConsoleEntryList *createEntryListWithEntries(NSUInteger capacity, NSUIn
 
 - (void)testFilteringByText
 {
-    LUConsoleEntryList *list = createEntryListWithMessages(kDefaultCapacity, kDefaultTrim,
+    LUConsoleLogEntryList *list = createEntryListWithMessages(kDefaultCapacity, kDefaultTrim,
         @"line1",
         @"line11",
         @"line111",
@@ -145,17 +145,17 @@ static LUConsoleEntryList *createEntryListWithEntries(NSUInteger capacity, NSUIn
 
 - (void)testFilteringByLogType
 {
-    LUConsoleEntryList *list = createEntryListWithEntries(kDefaultCapacity, kDefaultTrim,
-       [LUConsoleEntry entryWithType:LUConsoleLogTypeError message:@"error1"],
-       [LUConsoleEntry entryWithType:LUConsoleLogTypeError message:@"error2"],
-       [LUConsoleEntry entryWithType:LUConsoleLogTypeAssert message:@"assert1"],
-       [LUConsoleEntry entryWithType:LUConsoleLogTypeAssert message:@"assert2"],
-       [LUConsoleEntry entryWithType:LUConsoleLogTypeWarning message:@"warning1"],
-       [LUConsoleEntry entryWithType:LUConsoleLogTypeWarning message:@"warning2"],
-       [LUConsoleEntry entryWithType:LUConsoleLogTypeLog message:@"log1"],
-       [LUConsoleEntry entryWithType:LUConsoleLogTypeLog message:@"log2"],
-       [LUConsoleEntry entryWithType:LUConsoleLogTypeException message:@"exception1"],
-       [LUConsoleEntry entryWithType:LUConsoleLogTypeException message:@"exception2"], nil);
+    LUConsoleLogEntryList *list = createEntryListWithEntries(kDefaultCapacity, kDefaultTrim,
+       [LUConsoleLogEntry entryWithType:LUConsoleLogTypeError message:@"error1"],
+       [LUConsoleLogEntry entryWithType:LUConsoleLogTypeError message:@"error2"],
+       [LUConsoleLogEntry entryWithType:LUConsoleLogTypeAssert message:@"assert1"],
+       [LUConsoleLogEntry entryWithType:LUConsoleLogTypeAssert message:@"assert2"],
+       [LUConsoleLogEntry entryWithType:LUConsoleLogTypeWarning message:@"warning1"],
+       [LUConsoleLogEntry entryWithType:LUConsoleLogTypeWarning message:@"warning2"],
+       [LUConsoleLogEntry entryWithType:LUConsoleLogTypeLog message:@"log1"],
+       [LUConsoleLogEntry entryWithType:LUConsoleLogTypeLog message:@"log2"],
+       [LUConsoleLogEntry entryWithType:LUConsoleLogTypeException message:@"exception1"],
+       [LUConsoleLogEntry entryWithType:LUConsoleLogTypeException message:@"exception2"], nil);
     
     XCTAssert(!list.isFiltering);
     
@@ -246,17 +246,17 @@ static LUConsoleEntryList *createEntryListWithEntries(NSUInteger capacity, NSUIn
 
 - (void)testFilteringByLogTypeMask
 {
-    LUConsoleEntryList *list = createEntryListWithEntries(kDefaultCapacity, kDefaultTrim,
-      [LUConsoleEntry entryWithType:LUConsoleLogTypeError message:@"error1"],
-      [LUConsoleEntry entryWithType:LUConsoleLogTypeError message:@"error2"],
-      [LUConsoleEntry entryWithType:LUConsoleLogTypeAssert message:@"assert1"],
-      [LUConsoleEntry entryWithType:LUConsoleLogTypeAssert message:@"assert2"],
-      [LUConsoleEntry entryWithType:LUConsoleLogTypeWarning message:@"warning1"],
-      [LUConsoleEntry entryWithType:LUConsoleLogTypeWarning message:@"warning2"],
-      [LUConsoleEntry entryWithType:LUConsoleLogTypeLog message:@"log1"],
-      [LUConsoleEntry entryWithType:LUConsoleLogTypeLog message:@"log2"],
-      [LUConsoleEntry entryWithType:LUConsoleLogTypeException message:@"exception1"],
-      [LUConsoleEntry entryWithType:LUConsoleLogTypeException message:@"exception2"], nil);
+    LUConsoleLogEntryList *list = createEntryListWithEntries(kDefaultCapacity, kDefaultTrim,
+      [LUConsoleLogEntry entryWithType:LUConsoleLogTypeError message:@"error1"],
+      [LUConsoleLogEntry entryWithType:LUConsoleLogTypeError message:@"error2"],
+      [LUConsoleLogEntry entryWithType:LUConsoleLogTypeAssert message:@"assert1"],
+      [LUConsoleLogEntry entryWithType:LUConsoleLogTypeAssert message:@"assert2"],
+      [LUConsoleLogEntry entryWithType:LUConsoleLogTypeWarning message:@"warning1"],
+      [LUConsoleLogEntry entryWithType:LUConsoleLogTypeWarning message:@"warning2"],
+      [LUConsoleLogEntry entryWithType:LUConsoleLogTypeLog message:@"log1"],
+      [LUConsoleLogEntry entryWithType:LUConsoleLogTypeLog message:@"log2"],
+      [LUConsoleLogEntry entryWithType:LUConsoleLogTypeException message:@"exception1"],
+      [LUConsoleLogEntry entryWithType:LUConsoleLogTypeException message:@"exception2"], nil);
     
     XCTAssert(!list.isFiltering);
     
@@ -308,12 +308,12 @@ static LUConsoleEntryList *createEntryListWithEntries(NSUInteger capacity, NSUIn
 
 - (void)testCollapseEntries
 {
-    LUConsoleEntryList *list = createEntryListWithEntries(kDefaultCapacity, kDefaultTrim,
-        [LUConsoleEntry entryWithMessage:@"message1"],
-        [LUConsoleEntry entryWithMessage:@"message1"],
-        [LUConsoleEntry entryWithMessage:@"message1"],
-        [LUConsoleEntry entryWithMessage:@"message12"],
-        [LUConsoleEntry entryWithMessage:@"message12"], nil);
+    LUConsoleLogEntryList *list = createEntryListWithEntries(kDefaultCapacity, kDefaultTrim,
+        [LUConsoleLogEntry entryWithMessage:@"message1"],
+        [LUConsoleLogEntry entryWithMessage:@"message1"],
+        [LUConsoleLogEntry entryWithMessage:@"message1"],
+        [LUConsoleLogEntry entryWithMessage:@"message12"],
+        [LUConsoleLogEntry entryWithMessage:@"message12"], nil);
     
     list.collapsed = YES;
     XCTAssert(list.isFiltering);
@@ -331,10 +331,10 @@ static LUConsoleEntryList *createEntryListWithEntries(NSUInteger capacity, NSUIn
 
 - (void)testCollapseAddEntries
 {
-    LUConsoleEntryList *list = createEntryListWithEntries(kDefaultCapacity, kDefaultTrim,
-        [LUConsoleEntry entryWithMessage:@"message1"],
-        [LUConsoleEntry entryWithMessage:@"message1"],
-        [LUConsoleEntry entryWithMessage:@"message1"], nil);
+    LUConsoleLogEntryList *list = createEntryListWithEntries(kDefaultCapacity, kDefaultTrim,
+        [LUConsoleLogEntry entryWithMessage:@"message1"],
+        [LUConsoleLogEntry entryWithMessage:@"message1"],
+        [LUConsoleLogEntry entryWithMessage:@"message1"], nil);
     
     list.collapsed = YES;
     XCTAssert(list.isFiltering);
@@ -342,34 +342,34 @@ static LUConsoleEntryList *createEntryListWithEntries(NSUInteger capacity, NSUIn
     [self listAssertMessages:list, @"message1", nil];
     [self list:list assertEntryAt:0 expectedMessage:@"message1" expectedCount:3];
     
-    [list addEntry:[LUConsoleEntry entryWithMessage:@"message1"]];
+    [list addEntry:[LUConsoleLogEntry entryWithMessage:@"message1"]];
     [self listAssertMessages:list, @"message1", nil];
     [self list:list assertEntryAt:0 expectedMessage:@"message1" expectedCount:4];
     
-    [list addEntry:[LUConsoleEntry entryWithMessage:@"message12"]];
+    [list addEntry:[LUConsoleLogEntry entryWithMessage:@"message12"]];
     [self listAssertMessages:list, @"message1", @"message12", nil];
     [self list:list assertEntryAt:0 expectedMessage:@"message1" expectedCount:4];
     [self list:list assertEntryAt:1 expectedMessage:@"message12" expectedCount:1];
     
-    [list addEntry:[LUConsoleEntry entryWithMessage:@"message2"]];
+    [list addEntry:[LUConsoleLogEntry entryWithMessage:@"message2"]];
     [self listAssertMessages:list, @"message1", @"message12", @"message2", nil];
     [self list:list assertEntryAt:0 expectedMessage:@"message1" expectedCount:4];
     [self list:list assertEntryAt:1 expectedMessage:@"message12" expectedCount:1];
     [self list:list assertEntryAt:2 expectedMessage:@"message2" expectedCount:1];
     
-    [list addEntry:[LUConsoleEntry entryWithMessage:@"message1"]];
+    [list addEntry:[LUConsoleLogEntry entryWithMessage:@"message1"]];
     [self listAssertMessages:list, @"message1", @"message12", @"message2", nil];
     [self list:list assertEntryAt:0 expectedMessage:@"message1" expectedCount:5];
     [self list:list assertEntryAt:1 expectedMessage:@"message12" expectedCount:1];
     [self list:list assertEntryAt:2 expectedMessage:@"message2" expectedCount:1];
     
-    [list addEntry:[LUConsoleEntry entryWithMessage:@"message12"]];
+    [list addEntry:[LUConsoleLogEntry entryWithMessage:@"message12"]];
     [self listAssertMessages:list, @"message1", @"message12", @"message2", nil];
     [self list:list assertEntryAt:0 expectedMessage:@"message1" expectedCount:5];
     [self list:list assertEntryAt:1 expectedMessage:@"message12" expectedCount:2];
     [self list:list assertEntryAt:2 expectedMessage:@"message2" expectedCount:1];
     
-    [list addEntry:[LUConsoleEntry entryWithMessage:@"message2"]];
+    [list addEntry:[LUConsoleLogEntry entryWithMessage:@"message2"]];
     [self listAssertMessages:list, @"message1", @"message12", @"message2", nil];
     [self list:list assertEntryAt:0 expectedMessage:@"message1" expectedCount:5];
     [self list:list assertEntryAt:1 expectedMessage:@"message12" expectedCount:2];
@@ -392,17 +392,17 @@ static LUConsoleEntryList *createEntryListWithEntries(NSUInteger capacity, NSUIn
 
 - (void)testCollapseAddEntriesOverflow
 {
-    LUConsoleEntryList *list = createEntryListWithEntries(3, 1,
-      [LUConsoleEntry entryWithMessage:@"message1"],
-      [LUConsoleEntry entryWithMessage:@"message1"],
-      [LUConsoleEntry entryWithMessage:@"message1"], nil);
+    LUConsoleLogEntryList *list = createEntryListWithEntries(3, 1,
+      [LUConsoleLogEntry entryWithMessage:@"message1"],
+      [LUConsoleLogEntry entryWithMessage:@"message1"],
+      [LUConsoleLogEntry entryWithMessage:@"message1"], nil);
     
     list.collapsed = YES;
     XCTAssert(list.isFiltering);
     
-    [list addEntry:[LUConsoleEntry entryWithMessage:@"message1"]];
-    [list addEntry:[LUConsoleEntry entryWithMessage:@"message1"]];
-    [list addEntry:[LUConsoleEntry entryWithMessage:@"message1"]];
+    [list addEntry:[LUConsoleLogEntry entryWithMessage:@"message1"]];
+    [list addEntry:[LUConsoleLogEntry entryWithMessage:@"message1"]];
+    [list addEntry:[LUConsoleLogEntry entryWithMessage:@"message1"]];
     
     [self listAssertMessages:list, @"message1", nil];
     
@@ -416,16 +416,16 @@ static LUConsoleEntryList *createEntryListWithEntries(NSUInteger capacity, NSUIn
 
 - (void)testCollapseAddEntriesOverflowDistinctive
 {
-    LUConsoleEntryList *list = createEntryListWithEntries(3, 1,
-      [LUConsoleEntry entryWithMessage:@"message1"],
-      [LUConsoleEntry entryWithMessage:@"message1"],
-      [LUConsoleEntry entryWithMessage:@"message1"], nil);
+    LUConsoleLogEntryList *list = createEntryListWithEntries(3, 1,
+      [LUConsoleLogEntry entryWithMessage:@"message1"],
+      [LUConsoleLogEntry entryWithMessage:@"message1"],
+      [LUConsoleLogEntry entryWithMessage:@"message1"], nil);
     
     list.collapsed = YES;
     XCTAssert(list.isFiltering);
     
-    [list addEntry:[LUConsoleEntry entryWithMessage:@"message12"]];
-    [list addEntry:[LUConsoleEntry entryWithMessage:@"message12"]];
+    [list addEntry:[LUConsoleLogEntry entryWithMessage:@"message12"]];
+    [list addEntry:[LUConsoleLogEntry entryWithMessage:@"message12"]];
     
     [self listAssertMessages:list, @"message1", @"message12", nil];
     
@@ -440,16 +440,16 @@ static LUConsoleEntryList *createEntryListWithEntries(NSUInteger capacity, NSUIn
 
 - (void)testCollapseFilteredEntries
 {
-    LUConsoleEntryList *list = createEntryListWithEntries(kDefaultCapacity, kDefaultTrim,
-      [LUConsoleEntry entryWithMessage:@"message1"],
-      [LUConsoleEntry entryWithMessage:@"message12"],
-      [LUConsoleEntry entryWithMessage:@"message2"],
-      [LUConsoleEntry entryWithMessage:@"message1"],
-      [LUConsoleEntry entryWithMessage:@"message12"],
-      [LUConsoleEntry entryWithMessage:@"message2"],
-      [LUConsoleEntry entryWithMessage:@"message1"],
-      [LUConsoleEntry entryWithMessage:@"message12"],
-      [LUConsoleEntry entryWithMessage:@"message2"], nil);
+    LUConsoleLogEntryList *list = createEntryListWithEntries(kDefaultCapacity, kDefaultTrim,
+      [LUConsoleLogEntry entryWithMessage:@"message1"],
+      [LUConsoleLogEntry entryWithMessage:@"message12"],
+      [LUConsoleLogEntry entryWithMessage:@"message2"],
+      [LUConsoleLogEntry entryWithMessage:@"message1"],
+      [LUConsoleLogEntry entryWithMessage:@"message12"],
+      [LUConsoleLogEntry entryWithMessage:@"message2"],
+      [LUConsoleLogEntry entryWithMessage:@"message1"],
+      [LUConsoleLogEntry entryWithMessage:@"message12"],
+      [LUConsoleLogEntry entryWithMessage:@"message2"], nil);
     
     [list setFilterByText:@"message1"];
     XCTAssert(list.isFiltering);
@@ -470,10 +470,10 @@ static LUConsoleEntryList *createEntryListWithEntries(NSUInteger capacity, NSUIn
 
 - (void)testCollapseAddFilteredEntries
 {
-    LUConsoleEntryList *list = createEntryListWithEntries(kDefaultCapacity, kDefaultTrim,
-      [LUConsoleEntry entryWithMessage:@"message1"],
-      [LUConsoleEntry entryWithMessage:@"message1"],
-      [LUConsoleEntry entryWithMessage:@"message1"], nil);
+    LUConsoleLogEntryList *list = createEntryListWithEntries(kDefaultCapacity, kDefaultTrim,
+      [LUConsoleLogEntry entryWithMessage:@"message1"],
+      [LUConsoleLogEntry entryWithMessage:@"message1"],
+      [LUConsoleLogEntry entryWithMessage:@"message1"], nil);
     
     [list setFilterByText:@"message1"];
     XCTAssert(list.isFiltering);
@@ -484,31 +484,31 @@ static LUConsoleEntryList *createEntryListWithEntries(NSUInteger capacity, NSUIn
     [self listAssertMessages:list, @"message1", nil];
     [self list:list assertEntryAt:0 expectedMessage:@"message1" expectedCount:3];
     
-    [list addEntry:[LUConsoleEntry entryWithMessage:@"message1"]];
+    [list addEntry:[LUConsoleLogEntry entryWithMessage:@"message1"]];
     [self listAssertMessages:list, @"message1", nil];
     [self list:list assertEntryAt:0 expectedMessage:@"message1" expectedCount:4];
     
-    [list addEntry:[LUConsoleEntry entryWithMessage:@"message12"]];
+    [list addEntry:[LUConsoleLogEntry entryWithMessage:@"message12"]];
     [self listAssertMessages:list, @"message1", @"message12", nil];
     [self list:list assertEntryAt:0 expectedMessage:@"message1" expectedCount:4];
     [self list:list assertEntryAt:1 expectedMessage:@"message12" expectedCount:1];
     
-    [list addEntry:[LUConsoleEntry entryWithMessage:@"message2"]];
+    [list addEntry:[LUConsoleLogEntry entryWithMessage:@"message2"]];
     [self listAssertMessages:list, @"message1", @"message12", nil];
     [self list:list assertEntryAt:0 expectedMessage:@"message1" expectedCount:4];
     [self list:list assertEntryAt:1 expectedMessage:@"message12" expectedCount:1];
     
-    [list addEntry:[LUConsoleEntry entryWithMessage:@"message1"]];
+    [list addEntry:[LUConsoleLogEntry entryWithMessage:@"message1"]];
     [self listAssertMessages:list, @"message1", @"message12", nil];
     [self list:list assertEntryAt:0 expectedMessage:@"message1" expectedCount:5];
     [self list:list assertEntryAt:1 expectedMessage:@"message12" expectedCount:1];
     
-    [list addEntry:[LUConsoleEntry entryWithMessage:@"message12"]];
+    [list addEntry:[LUConsoleLogEntry entryWithMessage:@"message12"]];
     [self listAssertMessages:list, @"message1", @"message12", nil];
     [self list:list assertEntryAt:0 expectedMessage:@"message1" expectedCount:5];
     [self list:list assertEntryAt:1 expectedMessage:@"message12" expectedCount:2];
     
-    [list addEntry:[LUConsoleEntry entryWithMessage:@"message2"]];
+    [list addEntry:[LUConsoleLogEntry entryWithMessage:@"message2"]];
     [self listAssertMessages:list, @"message1", @"message12", nil];
     [self list:list assertEntryAt:0 expectedMessage:@"message1" expectedCount:5];
     [self list:list assertEntryAt:1 expectedMessage:@"message12" expectedCount:2];
@@ -542,10 +542,10 @@ static LUConsoleEntryList *createEntryListWithEntries(NSUInteger capacity, NSUIn
 
 - (void)testCollapseAddFilteredEntriesOverflow
 {
-    LUConsoleEntryList *list = createEntryListWithEntries(3, 1,
-      [LUConsoleEntry entryWithMessage:@"message1"],
-      [LUConsoleEntry entryWithMessage:@"message1"],
-      [LUConsoleEntry entryWithMessage:@"message1"], nil);
+    LUConsoleLogEntryList *list = createEntryListWithEntries(3, 1,
+      [LUConsoleLogEntry entryWithMessage:@"message1"],
+      [LUConsoleLogEntry entryWithMessage:@"message1"],
+      [LUConsoleLogEntry entryWithMessage:@"message1"], nil);
     
     [list setFilterByText:@"message1"];
     XCTAssert(list.isFiltering);
@@ -556,31 +556,31 @@ static LUConsoleEntryList *createEntryListWithEntries(NSUInteger capacity, NSUIn
     [self listAssertMessages:list, @"message1", nil];
     [self list:list assertEntryAt:0 expectedMessage:@"message1" expectedCount:3];
     
-    [list addEntry:[LUConsoleEntry entryWithMessage:@"message1"]];
+    [list addEntry:[LUConsoleLogEntry entryWithMessage:@"message1"]];
     [self listAssertMessages:list, @"message1", nil];
     [self list:list assertEntryAt:0 expectedMessage:@"message1" expectedCount:4];
     
-    [list addEntry:[LUConsoleEntry entryWithMessage:@"message12"]];
+    [list addEntry:[LUConsoleLogEntry entryWithMessage:@"message12"]];
     [self listAssertMessages:list, @"message1", @"message12", nil];
     [self list:list assertEntryAt:0 expectedMessage:@"message1" expectedCount:4];
     [self list:list assertEntryAt:1 expectedMessage:@"message12" expectedCount:1];
     
-    [list addEntry:[LUConsoleEntry entryWithMessage:@"message2"]];
+    [list addEntry:[LUConsoleLogEntry entryWithMessage:@"message2"]];
     [self listAssertMessages:list, @"message1", @"message12", nil];
     [self list:list assertEntryAt:0 expectedMessage:@"message1" expectedCount:4];
     [self list:list assertEntryAt:1 expectedMessage:@"message12" expectedCount:1];
     
-    [list addEntry:[LUConsoleEntry entryWithMessage:@"message1"]];
+    [list addEntry:[LUConsoleLogEntry entryWithMessage:@"message1"]];
     [self listAssertMessages:list, @"message1", @"message12", nil];
     [self list:list assertEntryAt:0 expectedMessage:@"message1" expectedCount:5];
     [self list:list assertEntryAt:1 expectedMessage:@"message12" expectedCount:1];
     
-    [list addEntry:[LUConsoleEntry entryWithMessage:@"message12"]];
+    [list addEntry:[LUConsoleLogEntry entryWithMessage:@"message12"]];
     [self listAssertMessages:list, @"message1", @"message12", nil];
     [self list:list assertEntryAt:0 expectedMessage:@"message1" expectedCount:5];
     [self list:list assertEntryAt:1 expectedMessage:@"message12" expectedCount:2];
     
-    [list addEntry:[LUConsoleEntry entryWithMessage:@"message2"]];
+    [list addEntry:[LUConsoleLogEntry entryWithMessage:@"message2"]];
     [self listAssertMessages:list, @"message1", @"message12", nil];
     [self list:list assertEntryAt:0 expectedMessage:@"message1" expectedCount:5];
     [self list:list assertEntryAt:1 expectedMessage:@"message12" expectedCount:2];
@@ -603,16 +603,16 @@ static LUConsoleEntryList *createEntryListWithEntries(NSUInteger capacity, NSUIn
 
 - (void)testFilterCollapsedEntries
 {
-    LUConsoleEntryList *list = createEntryListWithEntries(kDefaultCapacity, kDefaultTrim,
-      [LUConsoleEntry entryWithMessage:@"message1"],
-      [LUConsoleEntry entryWithMessage:@"message12"],
-      [LUConsoleEntry entryWithMessage:@"message2"],
-      [LUConsoleEntry entryWithMessage:@"message1"],
-      [LUConsoleEntry entryWithMessage:@"message12"],
-      [LUConsoleEntry entryWithMessage:@"message2"],
-      [LUConsoleEntry entryWithMessage:@"message1"],
-      [LUConsoleEntry entryWithMessage:@"message12"],
-      [LUConsoleEntry entryWithMessage:@"message2"], nil);
+    LUConsoleLogEntryList *list = createEntryListWithEntries(kDefaultCapacity, kDefaultTrim,
+      [LUConsoleLogEntry entryWithMessage:@"message1"],
+      [LUConsoleLogEntry entryWithMessage:@"message12"],
+      [LUConsoleLogEntry entryWithMessage:@"message2"],
+      [LUConsoleLogEntry entryWithMessage:@"message1"],
+      [LUConsoleLogEntry entryWithMessage:@"message12"],
+      [LUConsoleLogEntry entryWithMessage:@"message2"],
+      [LUConsoleLogEntry entryWithMessage:@"message1"],
+      [LUConsoleLogEntry entryWithMessage:@"message12"],
+      [LUConsoleLogEntry entryWithMessage:@"message2"], nil);
     
     list.collapsed = YES;
     XCTAssert(list.isFiltering);
@@ -651,10 +651,10 @@ static LUConsoleEntryList *createEntryListWithEntries(NSUInteger capacity, NSUIn
 
 - (void)testFilterCollapsedEntriesAndAddEntries
 {
-    LUConsoleEntryList *list = createEntryListWithEntries(kDefaultCapacity, kDefaultTrim,
-      [LUConsoleEntry entryWithMessage:@"message1"],
-      [LUConsoleEntry entryWithMessage:@"message1"],
-      [LUConsoleEntry entryWithMessage:@"message1"], nil);
+    LUConsoleLogEntryList *list = createEntryListWithEntries(kDefaultCapacity, kDefaultTrim,
+      [LUConsoleLogEntry entryWithMessage:@"message1"],
+      [LUConsoleLogEntry entryWithMessage:@"message1"],
+      [LUConsoleLogEntry entryWithMessage:@"message1"], nil);
     
     list.collapsed = YES;
     XCTAssert(list.isFiltering);
@@ -665,31 +665,31 @@ static LUConsoleEntryList *createEntryListWithEntries(NSUInteger capacity, NSUIn
     [self listAssertMessages:list, @"message1", nil];
     [self list:list assertEntryAt:0 expectedMessage:@"message1" expectedCount:3];
     
-    [list addEntry:[LUConsoleEntry entryWithMessage:@"message1"]];
+    [list addEntry:[LUConsoleLogEntry entryWithMessage:@"message1"]];
     [self listAssertMessages:list, @"message1", nil];
     [self list:list assertEntryAt:0 expectedMessage:@"message1" expectedCount:4];
     
-    [list addEntry:[LUConsoleEntry entryWithMessage:@"message12"]];
+    [list addEntry:[LUConsoleLogEntry entryWithMessage:@"message12"]];
     [self listAssertMessages:list, @"message1", @"message12", nil];
     [self list:list assertEntryAt:0 expectedMessage:@"message1" expectedCount:4];
     [self list:list assertEntryAt:1 expectedMessage:@"message12" expectedCount:1];
     
-    [list addEntry:[LUConsoleEntry entryWithMessage:@"message2"]];
+    [list addEntry:[LUConsoleLogEntry entryWithMessage:@"message2"]];
     [self listAssertMessages:list, @"message1", @"message12", nil];
     [self list:list assertEntryAt:0 expectedMessage:@"message1" expectedCount:4];
     [self list:list assertEntryAt:1 expectedMessage:@"message12" expectedCount:1];
     
-    [list addEntry:[LUConsoleEntry entryWithMessage:@"message1"]];
+    [list addEntry:[LUConsoleLogEntry entryWithMessage:@"message1"]];
     [self listAssertMessages:list, @"message1", @"message12", nil];
     [self list:list assertEntryAt:0 expectedMessage:@"message1" expectedCount:5];
     [self list:list assertEntryAt:1 expectedMessage:@"message12" expectedCount:1];
     
-    [list addEntry:[LUConsoleEntry entryWithMessage:@"message12"]];
+    [list addEntry:[LUConsoleLogEntry entryWithMessage:@"message12"]];
     [self listAssertMessages:list, @"message1", @"message12", nil];
     [self list:list assertEntryAt:0 expectedMessage:@"message1" expectedCount:5];
     [self list:list assertEntryAt:1 expectedMessage:@"message12" expectedCount:2];
     
-    [list addEntry:[LUConsoleEntry entryWithMessage:@"message2"]];
+    [list addEntry:[LUConsoleLogEntry entryWithMessage:@"message2"]];
     [self listAssertMessages:list, @"message1", @"message12", nil];
     [self list:list assertEntryAt:0 expectedMessage:@"message1" expectedCount:5];
     [self list:list assertEntryAt:1 expectedMessage:@"message12" expectedCount:2];
@@ -719,10 +719,10 @@ static LUConsoleEntryList *createEntryListWithEntries(NSUInteger capacity, NSUIn
 
 - (void)testFilterCollapsedEntriesAndAddEntriesOverflow
 {
-    LUConsoleEntryList *list = createEntryListWithEntries(3, 1,
-      [LUConsoleEntry entryWithMessage:@"message1"],
-      [LUConsoleEntry entryWithMessage:@"message1"],
-      [LUConsoleEntry entryWithMessage:@"message1"], nil);
+    LUConsoleLogEntryList *list = createEntryListWithEntries(3, 1,
+      [LUConsoleLogEntry entryWithMessage:@"message1"],
+      [LUConsoleLogEntry entryWithMessage:@"message1"],
+      [LUConsoleLogEntry entryWithMessage:@"message1"], nil);
     
     list.collapsed = YES;
     XCTAssert(list.isFiltering);
@@ -733,31 +733,31 @@ static LUConsoleEntryList *createEntryListWithEntries(NSUInteger capacity, NSUIn
     [self listAssertMessages:list, @"message1", nil];
     [self list:list assertEntryAt:0 expectedMessage:@"message1" expectedCount:3];
     
-    [list addEntry:[LUConsoleEntry entryWithMessage:@"message1"]];
+    [list addEntry:[LUConsoleLogEntry entryWithMessage:@"message1"]];
     [self listAssertMessages:list, @"message1", nil];
     [self list:list assertEntryAt:0 expectedMessage:@"message1" expectedCount:4];
     
-    [list addEntry:[LUConsoleEntry entryWithMessage:@"message12"]];
+    [list addEntry:[LUConsoleLogEntry entryWithMessage:@"message12"]];
     [self listAssertMessages:list, @"message1", @"message12", nil];
     [self list:list assertEntryAt:0 expectedMessage:@"message1" expectedCount:4];
     [self list:list assertEntryAt:1 expectedMessage:@"message12" expectedCount:1];
     
-    [list addEntry:[LUConsoleEntry entryWithMessage:@"message2"]];
+    [list addEntry:[LUConsoleLogEntry entryWithMessage:@"message2"]];
     [self listAssertMessages:list, @"message1", @"message12", nil];
     [self list:list assertEntryAt:0 expectedMessage:@"message1" expectedCount:4];
     [self list:list assertEntryAt:1 expectedMessage:@"message12" expectedCount:1];
     
-    [list addEntry:[LUConsoleEntry entryWithMessage:@"message1"]];
+    [list addEntry:[LUConsoleLogEntry entryWithMessage:@"message1"]];
     [self listAssertMessages:list, @"message1", @"message12", nil];
     [self list:list assertEntryAt:0 expectedMessage:@"message1" expectedCount:5];
     [self list:list assertEntryAt:1 expectedMessage:@"message12" expectedCount:1];
     
-    [list addEntry:[LUConsoleEntry entryWithMessage:@"message12"]];
+    [list addEntry:[LUConsoleLogEntry entryWithMessage:@"message12"]];
     [self listAssertMessages:list, @"message1", @"message12", nil];
     [self list:list assertEntryAt:0 expectedMessage:@"message1" expectedCount:5];
     [self list:list assertEntryAt:1 expectedMessage:@"message12" expectedCount:2];
     
-    [list addEntry:[LUConsoleEntry entryWithMessage:@"message2"]];
+    [list addEntry:[LUConsoleLogEntry entryWithMessage:@"message2"]];
     [self listAssertMessages:list, @"message1", @"message12", nil];
     [self list:list assertEntryAt:0 expectedMessage:@"message1" expectedCount:5];
     [self list:list assertEntryAt:1 expectedMessage:@"message12" expectedCount:2];
@@ -779,7 +779,7 @@ static LUConsoleEntryList *createEntryListWithEntries(NSUInteger capacity, NSUIn
 #pragma mark -
 #pragma mark Helpers
 
-- (void)listAssertMessages:(LUConsoleEntryList *)list, ...
+- (void)listAssertMessages:(LUConsoleLogEntryList *)list, ...
 {
     va_list ap;
     va_start(ap, list);
@@ -806,7 +806,7 @@ static LUConsoleEntryList *createEntryListWithEntries(NSUInteger capacity, NSUIn
     }
 }
 
-- (void)list:(LUConsoleEntryList *)list assertEntryAt:(NSInteger)index
+- (void)list:(LUConsoleLogEntryList *)list assertEntryAt:(NSInteger)index
                                       expectedMessage:(NSString *)expectedMessage
                                         expectedCount:(NSInteger)expectedCount
 {
@@ -814,12 +814,12 @@ static LUConsoleEntryList *createEntryListWithEntries(NSUInteger capacity, NSUIn
 }
 
 
-- (void)list:(LUConsoleEntryList *)list assertEntryAt:(NSInteger)index
+- (void)list:(LUConsoleLogEntryList *)list assertEntryAt:(NSInteger)index
                                       expectedMessage:(NSString *)expectedMessage
                                         expectedCount:(NSInteger)expectedCount
                                         expectedIndex:(NSInteger)expectedIndex
 {
-    LUConsoleCollapsedEntry *entry = [list collapsedEntryAtIndex:index];
+    LUConsoleCollapsedLogEntry *entry = [list collapsedEntryAtIndex:index];
     XCTAssertEqualObjects(expectedMessage, entry.message, @"Expected '%@' but was '%@", expectedMessage, entry.message);
     XCTAssertEqual(expectedCount, entry.count);
     XCTAssertEqual(expectedIndex, entry.index);
@@ -827,7 +827,7 @@ static LUConsoleEntryList *createEntryListWithEntries(NSUInteger capacity, NSUIn
 
 @end
 
-@implementation LUConsoleEntry (Testing)
+@implementation LUConsoleLogEntry (Testing)
 
 + (instancetype)entryWithType:(LUConsoleLogType)type message:(NSString *)message
 {
@@ -841,38 +841,38 @@ static LUConsoleEntryList *createEntryListWithEntries(NSUInteger capacity, NSUIn
 
 @end
 
-@implementation LUConsoleEntryList (Testing)
+@implementation LUConsoleLogEntryList (Testing)
 
-- (LUConsoleCollapsedEntry *)collapsedEntryAtIndex:(NSInteger)index
+- (LUConsoleCollapsedLogEntry *)collapsedEntryAtIndex:(NSInteger)index
 {
     id entry = [self entryAtIndex:index];
-    return [entry isKindOfClass:[LUConsoleCollapsedEntry class]] ? entry : nil;
+    return [entry isKindOfClass:[LUConsoleCollapsedLogEntry class]] ? entry : nil;
 }
 
 @end
 
-LUConsoleEntryList *createEntryListWithMessages(NSUInteger capacity, NSUInteger trimCount, NSString *first, ...)
+LUConsoleLogEntryList *createEntryListWithMessages(NSUInteger capacity, NSUInteger trimCount, NSString *first, ...)
 {
-    LUConsoleEntryList *list = [LUConsoleEntryList listWithCapacity:capacity trimCount:trimCount];
+    LUConsoleLogEntryList *list = [LUConsoleLogEntryList listWithCapacity:capacity trimCount:trimCount];
     
     va_list ap;
     va_start(ap, first);
     for (NSString *message = first; message != nil; message = va_arg(ap, NSString *))
     {
-        [list addEntry:[LUConsoleEntry entryWithType:LUConsoleLogTypeLog message:message]];
+        [list addEntry:[LUConsoleLogEntry entryWithType:LUConsoleLogTypeLog message:message]];
     }
     va_end(ap);
     
     return list;
 }
 
-LUConsoleEntryList *createEntryListWithEntries(NSUInteger capacity, NSUInteger trimCount, LUConsoleEntry *first, ...)
+LUConsoleLogEntryList *createEntryListWithEntries(NSUInteger capacity, NSUInteger trimCount, LUConsoleLogEntry *first, ...)
 {
-    LUConsoleEntryList *list = [LUConsoleEntryList listWithCapacity:capacity trimCount:trimCount];
+    LUConsoleLogEntryList *list = [LUConsoleLogEntryList listWithCapacity:capacity trimCount:trimCount];
     
     va_list ap;
     va_start(ap, first);
-    for (LUConsoleEntry *entry = first; entry != nil; entry = va_arg(ap, LUConsoleEntry *))
+    for (LUConsoleLogEntry *entry = first; entry != nil; entry = va_arg(ap, LUConsoleLogEntry *))
     {
         [list addEntry:entry];
     }

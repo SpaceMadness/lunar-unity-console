@@ -21,10 +21,10 @@
 
 #import <UIKit/UIKit.h>
 
-#import "LUConsoleEntry.h"
+#import "LUConsoleLogEntry.h"
 
 @class LUConsole;
-@class LUConsoleEntryList;
+@class LUConsoleLogEntryList;
 
 @protocol LunarConsoleDelegate <NSObject>
 
@@ -43,7 +43,7 @@
 @property (nonatomic, assign) id<LunarConsoleDelegate> delegate;
 @property (nonatomic, assign, getter=isCollapsed) BOOL collapsed;
 
-@property (nonatomic, readonly) LUConsoleEntryList * entries;
+@property (nonatomic, readonly) LUConsoleLogEntryList * entries;
 @property (nonatomic, readonly) NSUInteger capacity;
 @property (nonatomic, readonly) NSUInteger entriesCount;
 @property (nonatomic, readonly) NSUInteger trimmedCount;
@@ -52,7 +52,7 @@
 
 - (instancetype)initWithCapacity:(NSUInteger)capacity trimCount:(NSUInteger)trimCount;
 
-- (LUConsoleEntry *)entryAtIndex:(NSUInteger)index;
+- (LUConsoleLogEntry *)entryAtIndex:(NSUInteger)index;
 
 - (void)logMessage:(NSString *)message stackTrace:(NSString *)stackTrace type:(LUConsoleLogType)type;
 - (void)clear;

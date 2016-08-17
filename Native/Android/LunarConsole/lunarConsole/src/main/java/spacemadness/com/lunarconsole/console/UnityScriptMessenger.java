@@ -23,27 +23,47 @@ package spacemadness.com.lunarconsole.console;
 
 import com.unity3d.player.UnityPlayer;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import spacemadness.com.lunarconsole.utils.StringUtils;
+
 public class UnityScriptMessenger
 {
     private final String target;
+    private final String methodName;
 
-    public UnityScriptMessenger(String target)
+    public UnityScriptMessenger(String target, String methodName)
     {
         if (target == null)
         {
             throw new NullPointerException("Target is null");
         }
 
+        if (methodName == null)
+        {
+            throw new NullPointerException("Method name is null");
+        }
+
         this.target = target;
+        this.methodName = methodName;
     }
 
-    public void sendMessage(String message)
+    public void sendMessage(String name)
     {
-        sendMessage(message, "");
+        sendMessage(name, null);
     }
 
-    public void sendMessage(String message, String param)
+    public void sendMessage(String name, Map<String, Object> data)
     {
-        UnityPlayer.UnitySendMessage(target, message, param);
+        Map<String, Object> params = new HashMap<>();
+        params.put("name", name);
+        if (data != null && data.size() > 0)
+        {
+            params.putAll(data);
+        }
+
+        String param = StringUtils.serializeToString(params);
+        UnityPlayer.UnitySendMessage(target, methodName, param);
     }
 }

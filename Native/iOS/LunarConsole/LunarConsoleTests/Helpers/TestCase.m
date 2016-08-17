@@ -31,6 +31,16 @@
     
     LU_RELEASE(_result);
     _result = [NSMutableArray new];
+    
+    LUAssertSetHandler(^(NSString *message) {
+        XCTFail(@"%@", message);
+    });
+}
+
+- (void)tearDown
+{
+    LUAssertSetHandler(nil);
+    [super tearDown];
 }
 
 #pragma mark -
@@ -52,10 +62,12 @@
     }
     va_end(ap);
     
-    XCTAssertEqual(expected.count, _result.count);
+    NSString *message = [NSString stringWithFormat:@"Expected: '%@' but was '%@'", [expected componentsJoinedByString:@","], [_result componentsJoinedByString:@","]];
+    
+    XCTAssertEqual(expected.count, _result.count, @"%@", message);
     for (int i = 0; i < expected.count; ++i)
     {
-        XCTAssertEqual([expected objectAtIndex:i], [_result objectAtIndex:i]);
+        XCTAssertEqualObjects([expected objectAtIndex:i], [_result objectAtIndex:i], @"%@", message);
     }
     
     [_result removeAllObjects];
