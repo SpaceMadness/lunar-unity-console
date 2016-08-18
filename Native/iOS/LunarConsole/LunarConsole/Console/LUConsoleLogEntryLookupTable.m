@@ -1,5 +1,5 @@
 //
-//  LUConsoleEntryLookupTable.m
+//  LUConsoleLogEntryLookupTable.m
 //
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
