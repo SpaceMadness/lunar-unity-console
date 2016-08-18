@@ -91,6 +91,7 @@ static NSString * const kScriptMessageConsoleClose = @"console_close";
     if (_consoleWindow == nil)
     {
         LUConsolePluginController *controller = [LUConsolePluginController controllerWithPlugin:self];
+        controller.version = _version;
         controller.delegate = self;
         
         CGRect windowFrame = LUGetScreenBounds();
@@ -100,7 +101,7 @@ static NSString * const kScriptMessageConsoleClose = @"console_close";
         _consoleWindow = [[LUWindow alloc] initWithFrame:windowInitialFrame];
         _consoleWindow.rootViewController = controller;
         _consoleWindow.opaque = YES;
-        _consoleWindow.backgroundColor = [UIColor grayColor];
+        _consoleWindow.backgroundColor = [UIColor clearColor];
         _consoleWindow.hidden = NO;
         
         [UIView animateWithDuration:kWindowAnimationDuration animations:^{

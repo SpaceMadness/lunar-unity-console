@@ -35,6 +35,7 @@
 
 @interface LUConsolePluginController : LUViewController
 
+@property (nonatomic, retain) NSString *version;
 @property (nonatomic, assign) id<LUConsolePluginControllerDelegate> delegate;
 
 + (instancetype)controllerWithPlugin:(LUConsolePlugin *)consolePlugin;

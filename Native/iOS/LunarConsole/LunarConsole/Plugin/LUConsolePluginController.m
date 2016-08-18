@@ -53,12 +53,18 @@
 {
     [super viewDidLoad];
     
-    LUConsoleLogController *consoleLogController = [LUConsoleLogController controllerWithConsole:_consolePlugin.console];
+    self.view.opaque = YES;
+    self.view.backgroundColor = [UIColor clearColor];
+    
+    LUConsoleLogController *consoleLogController = [LUConsoleLogController controllerWithConsole:
+                                                    _consolePlugin.console];
     if (consoleLogController == nil)
     {
         NSLog(@"Can't create plugin root controller: console log controller was not initialized");
         return;
     }
+    
+    consoleLogController.version = _version;
     
     _pageControllers = [[NSArray alloc] initWithObjects:consoleLogController, nil];
     _pageController = [[UIPageViewController alloc] initWithTransitionStyle:UIPageViewControllerTransitionStyleScroll
@@ -109,6 +115,7 @@
 {
     LU_RELEASE(_pageController);
     LU_RELEASE(_pageControllers);
+    LU_RELEASE(_version);
     LU_SUPER_DEALLOC
 }
 
