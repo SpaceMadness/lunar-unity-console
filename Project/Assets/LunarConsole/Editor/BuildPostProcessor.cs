@@ -57,11 +57,5 @@ namespace LunarConsolePluginInternal
 
             project.Save();
         }
-
-        [MenuItem("File/Run Post Process")]
-        static void PostProcessBuild()
-        {
-            OnPostprocessIOS("/Users/weee/dev/projects/unity/lunar-console/Project/Build/iOS/Unity-iPhone.xcodeproj");
-        }
     }
 }

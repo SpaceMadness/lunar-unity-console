@@ -76,6 +76,9 @@ namespace LunarConsolePlugin
         [SerializeField]
         Gesture m_gesture = Gesture.SwipeDown;
 
+        [Tooltip("If checked - removes <color>, <b> and <i> rich text tags from the output (may cause performance overhead)")]
+        bool m_removeRichTextTags;
+
         static LunarConsole s_instance;
 
         #pragma warning restore 0649
@@ -134,7 +137,7 @@ namespace LunarConsolePlugin
                     if (m_platform != null)
                     {
                         Application.logMessageReceived += delegate(string message, string stackTrace, LogType type) {
-                            m_platform.OnLogMessageReceived(StringUtils.RemoveRichTextTags(message), stackTrace, type);
+                            m_platform.OnLogMessageReceived(m_removeRichTextTags ? StringUtils.RemoveRichTextTags(message) : message, stackTrace, type);
                         };
 
                         return true;
@@ -199,15 +202,6 @@ namespace LunarConsolePlugin
 
             [DllImport("__Internal")]
             private static extern void __lunar_console_clear();
-
-            [DllImport("__Internal")]
-            private static extern void __lunar_console_action_add(int id, string name);
-
-            [DllImport("__Internal")]
-            private static extern void __lunar_console_action_remove(int id);
-
-            [DllImport("__Internal")]
-            private static extern void __lunar_console_cvar_add(string name, string type, string value);
 
             /// <summary>
             /// Initializes a new instance of the iOS platform class.

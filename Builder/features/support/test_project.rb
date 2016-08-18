@@ -68,12 +68,6 @@ class TestProject
       return name.start_with?('res/')
     }
 
-    # remove '-v??' postfixes
-    apk_resources = apk_resources.map do |res|
-      res =~ /(-v\d+)/
-      result = $1.nil? ? res : (res.gsub $1, '')
-    end
-
     # list classes from jars included in plugin
     dir_plugin = resolve_path "#{@unity_project.dir_project}/Assets/LunarConsole/Editor/Android"
     plugin_classes = list_android_plugin_classes resolve_path("#{dir_plugin}/libs")

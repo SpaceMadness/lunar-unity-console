@@ -1,5 +1,12 @@
 # Lunar Console Changelog
 
+## v.0.5.0b - 8/16/2016
+
+**Fixes:**
+
+* Unity 5.4 compatibility bugs.
+* Rich text tags.
+
 ## v.0.4.2b - 7/20/2016
 
 **Fixes:**
