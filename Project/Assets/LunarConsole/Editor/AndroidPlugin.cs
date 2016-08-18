@@ -110,6 +110,9 @@ namespace LunarConsolePluginInternal
                 AssetDatabase.CopyAsset(srcPath, dstPath);
             }
 
+            PluginImporter pluginImporter = PluginImporter.GetAtPath(pluginDir) as PluginImporter;
+            pluginImporter.SetCompatibleWithAnyPlatform(false);
+            pluginImporter.SetCompatibleWithPlatform(BuildTarget.Android, true);
             AssetDatabase.ImportAsset(pluginDir, ImportAssetOptions.ImportRecursive);
         }
 
