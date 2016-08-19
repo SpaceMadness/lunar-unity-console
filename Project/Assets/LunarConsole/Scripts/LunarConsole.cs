@@ -77,6 +77,7 @@ namespace LunarConsolePlugin
         Gesture m_gesture = Gesture.SwipeDown;
 
         [Tooltip("If checked - removes <color>, <b> and <i> rich text tags from the output (may cause performance overhead)")]
+        [SerializeField]
         bool m_removeRichTextTags;
 
         static LunarConsole s_instance;

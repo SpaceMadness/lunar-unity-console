@@ -101,7 +101,7 @@ static LUConsoleLogControllerState * _sharedControllerState;
     _logButton.delegate     = nil;
     _warningButton.delegate = nil;
     _errorButton.delegate   = nil;
-
+    
     LU_RELEASE(_version);
     LU_RELEASE(_console);
     LU_SUPER_DEALLOC
@@ -137,7 +137,7 @@ static LUConsoleLogControllerState * _sharedControllerState;
     
     // "status bar" view
     UITapGestureRecognizer *statusBarTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                             action:@selector(onStatusBarTap:)];
+                                                                                                    action:@selector(onStatusBarTap:)];
     [_statusBarView addGestureRecognizer:statusBarTapGestureRecognizer];
     LU_RELEASE(statusBarTapGestureRecognizer);
     
@@ -169,12 +169,32 @@ static LUConsoleLogControllerState * _sharedControllerState;
         {
             [self scrollToBottomAnimated:NO];
         }
+        
+        // notify delegate
+        if ([_delegate respondsToSelector:@selector(consoleControllerDidOpen:)])
+        {
+            [_delegate consoleControllerDidOpen:self];
+        }
     });
 }
 
-- (BOOL)prefersStatusBarHidden
+- (void)viewWillAppear:(BOOL)animated
 {
-    return YES;
+    [super viewWillAppear:animated];
+    [self.navigationController setNavigationBarHidden:YES animated:animated];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    [self.navigationController setNavigationBarHidden:NO animated:animated];
+}
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    
+    // TODO: clean up cells
 }
 
 #pragma mark -
@@ -209,6 +229,14 @@ static LUConsoleLogControllerState * _sharedControllerState;
 
 #pragma mark -
 #pragma mark Actions
+
+- (IBAction)onClose:(id)sender
+{
+    if ([_delegate respondsToSelector:@selector(consoleControllerDidClose:)])
+    {
+        [_delegate consoleControllerDidClose:self];
+    }
+}
 
 - (IBAction)onClear:(id)sender
 {
@@ -367,8 +395,8 @@ static LUConsoleLogControllerState * _sharedControllerState;
         else if (button == _errorButton)
         {
             mask |= LU_CONSOLE_LOG_TYPE_MASK(LUConsoleLogTypeException) |
-                    LU_CONSOLE_LOG_TYPE_MASK(LUConsoleLogTypeError) |
-                    LU_CONSOLE_LOG_TYPE_MASK(LUConsoleLogTypeAssert);
+            LU_CONSOLE_LOG_TYPE_MASK(LUConsoleLogTypeError) |
+            LU_CONSOLE_LOG_TYPE_MASK(LUConsoleLogTypeAssert);
         }
         
         [self setFilterByLogTypeMask:mask disabled:button.isOn];
@@ -497,7 +525,7 @@ static LUConsoleLogControllerState * _sharedControllerState;
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
 {
     [self filterByText:searchText];
-
+    
     if (searchText.length == 0)
     {
         dispatch_async(dispatch_get_main_queue(), ^{
@@ -514,7 +542,7 @@ static LUConsoleLogControllerState * _sharedControllerState;
 - (NSLayoutConstraint *)lastToolbarButtonConstraint
 {
     return self.lastToolbarButtonTrailingConstraintCompact != nil ?
-        self.lastToolbarButtonTrailingConstraintCompact : self.lastToolbarButtonTrailingConstraint;
+    self.lastToolbarButtonTrailingConstraintCompact : self.lastToolbarButtonTrailingConstraint;
 }
 
 #pragma mark -
@@ -604,7 +632,7 @@ static LUConsoleLogControllerState * _sharedControllerState;
     }
     
     NSString *text = count > 999 ? @"Too much output: 999+ items trimmed" :
-        [NSString stringWithFormat:@"Too much output: %d item(s) trimmed", (int)count];
+    [NSString stringWithFormat:@"Too much output: %d item(s) trimmed", (int)count];
     
     _overflowWarningLabel.text = text;
 }
@@ -617,7 +645,7 @@ static LUConsoleLogControllerState * _sharedControllerState;
         [self.view layoutIfNeeded];
     }
 }
-         
+
 #pragma mark -
 #pragma mark Cell manipulations
 
@@ -648,7 +676,7 @@ static LUConsoleLogControllerState * _sharedControllerState;
     NSArray *indices = [[NSArray alloc] initWithObjects:[NSIndexPath indexPathForRow:index inSection:0], nil];
     [_tableView insertRowsAtIndexPaths:indices withRowAnimation:UITableViewRowAnimationNone];
     LU_RELEASE(indices);
-
+    
     // scroll to the end
     if (_scrollLocked)
     {

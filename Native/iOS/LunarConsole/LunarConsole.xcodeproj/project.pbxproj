@@ -13,7 +13,6 @@
 		84B7BD8E1D2229810048472B /* LUEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B7BD8B1D2229810048472B /* LUEntry.m */; };
 		84B7BD8F1D2229810048472B /* LUEntryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B7BD8D1D2229810048472B /* LUEntryTableViewCell.m */; };
 		84B7BD921D222A160048472B /* LUViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B7BD911D222A160048472B /* LUViewController.m */; };
-		84B7BD961D222C6C0048472B /* LUConsolePluginController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B7BD941D222C6C0048472B /* LUConsolePluginController.m */; };
 		84E5B7BD1B744FA600315599 /* LUConsoleEntryListTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E5B7BC1B744FA600315599 /* LUConsoleEntryListTest.m */; };
 		84EA4FCA1C57163000A0635C /* LUConsoleLogEntryLookupTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EA4FC91C57163000A0635C /* LUConsoleLogEntryLookupTable.m */; };
 		EF08369E1B7ABCCE00DFB877 /* LUConsole.m in Sources */ = {isa = PBXBuildFile; fileRef = EF0836531B7ABCCE00DFB877 /* LUConsole.m */; };
@@ -89,9 +88,6 @@
 		84B7BD8D1D2229810048472B /* LUEntryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUEntryTableViewCell.m; sourceTree = "<group>"; };
 		84B7BD901D222A160048472B /* LUViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUViewController.h; sourceTree = "<group>"; };
 		84B7BD911D222A160048472B /* LUViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUViewController.m; sourceTree = "<group>"; };
-		84B7BD931D222C6C0048472B /* LUConsolePluginController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUConsolePluginController.h; sourceTree = "<group>"; };
-		84B7BD941D222C6C0048472B /* LUConsolePluginController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUConsolePluginController.m; sourceTree = "<group>"; };
-		84B7BD951D222C6C0048472B /* LUConsolePluginController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LUConsolePluginController.xib; sourceTree = "<group>"; };
 		84E5B7BC1B744FA600315599 /* LUConsoleEntryListTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUConsoleEntryListTest.m; sourceTree = "<group>"; };
 		84EA4FC81C57163000A0635C /* LUConsoleLogEntryLookupTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUConsoleLogEntryLookupTable.h; sourceTree = "<group>"; };
 		84EA4FC91C57163000A0635C /* LUConsoleLogEntryLookupTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUConsoleLogEntryLookupTable.m; sourceTree = "<group>"; };
@@ -373,9 +369,6 @@
 		EF0836811B7ABCCE00DFB877 /* Plugin */ = {
 			isa = PBXGroup;
 			children = (
-				84B7BD931D222C6C0048472B /* LUConsolePluginController.h */,
-				84B7BD941D222C6C0048472B /* LUConsolePluginController.m */,
-				84B7BD951D222C6C0048472B /* LUConsolePluginController.xib */,
 				EF0836821B7ABCCE00DFB877 /* LUConsolePlugin.h */,
 				EF0836831B7ABCCE00DFB877 /* LUConsolePlugin.m */,
 				EF0836841B7ABCCE00DFB877 /* lunar_unity_native_interface.h */,
@@ -535,7 +528,6 @@
 				EF21AE231BF548810053D50B /* LUTableView.m in Sources */,
 				EF0836AC1B7ABCCE00DFB877 /* LUMutableArray.m in Sources */,
 				EF0836A81B7ABCCE00DFB877 /* LUToggleButton.m in Sources */,
-				84B7BD961D222C6C0048472B /* LUConsolePluginController.m in Sources */,
 				84EA4FCA1C57163000A0635C /* LUConsoleLogEntryLookupTable.m in Sources */,
 				EFB99CE41D21E6EA00C95E80 /* LUExceptionWarningController.m in Sources */,
 				84B7BD8F1D2229810048472B /* LUEntryTableViewCell.m in Sources */,

@@ -329,6 +329,11 @@
     for (LUConsoleLogEntry *entry in _currentEntries)
     {
         [text appendString:entry.message];
+        if (entry.type == LUConsoleLogTypeException && entry.hasStackTrace)
+        {
+            [text appendString:@"\n"];
+            [text appendString:entry.stackTrace];
+        }
         if (++index < count)
         {
             [text appendString:@"\n"];

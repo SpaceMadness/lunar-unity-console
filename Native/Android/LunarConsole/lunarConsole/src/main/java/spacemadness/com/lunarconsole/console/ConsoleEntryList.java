@@ -392,6 +392,12 @@ public class ConsoleEntryList
         for (ConsoleEntry entry : currentEntries)
         {
             text.append(entry.message);
+            if (entry.type == ConsoleLogType.EXCEPTION && entry.hasStackTrace())
+            {
+                text.append('\n');
+                text.append(entry.stackTrace);
+            }
+
             if (++index < count)
             {
                 text.append('\n');

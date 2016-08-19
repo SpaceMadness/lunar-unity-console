@@ -5,7 +5,13 @@
 **Fixes:**
 
 * Unity 5.4 compatibility bugs.
-* Rich text tags.
+* **iOS**: fixed multiple invocation of console callbacks.
+
+**Improvements:**
+
+* Added an option to remove rich text tags from the output.
+* Added stack trace for email/clipboard log text.
+
 
 ## v.0.4.2b - 7/20/2016
 

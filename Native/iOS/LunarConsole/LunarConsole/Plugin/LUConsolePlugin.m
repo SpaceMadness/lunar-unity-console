@@ -29,7 +29,7 @@ static const CGFloat kWarningHeight = 45.0f;
 static NSString * const kScriptMessageConsoleOpen  = @"console_open";
 static NSString * const kScriptMessageConsoleClose = @"console_close";
 
-@interface LUConsolePlugin () <LUConsolePluginControllerDelegate, LUExceptionWarningControllerDelegate>
+@interface LUConsolePlugin () <LUConsoleLogControllerDelegate, LUExceptionWarningControllerDelegate>
 {
     LUUnityScriptMessenger  * _scriptMessenger;
     NSString                * _version;
@@ -90,7 +90,7 @@ static NSString * const kScriptMessageConsoleClose = @"console_close";
     LUAssert(_consoleWindow == nil);
     if (_consoleWindow == nil)
     {
-        LUConsolePluginController *controller = [LUConsolePluginController controllerWithPlugin:self];
+        LUConsoleLogController *controller = [LUConsoleLogController controllerWithConsole:_console];
         controller.version = _version;
         controller.delegate = self;
         
@@ -218,14 +218,14 @@ static NSString * const kScriptMessageConsoleClose = @"console_close";
 }
 
 #pragma mark -
-#pragma mark LUConsolePluginControllerDelegate
+#pragma mark LUConsoleLogControllerDelegate
 
-- (void)pluginControllerDidOpen:(LUConsolePluginController *)controller
+- (void)consoleControllerDidOpen:(LUConsoleLogController *)controller
 {
     [_scriptMessenger sendMessageName:kScriptMessageConsoleOpen];
 }
 
-- (void)pluginControllerDidClose:(LUConsolePluginController *)controller
+- (void)consoleControllerDidClose:(LUConsoleLogController *)controller
 {
     [self hide];
     

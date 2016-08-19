@@ -31,7 +31,6 @@
 #import "LUConsoleLogMenuController.h"
 #import "LUConsoleLogTypeButton.h"
 #import "LUConsolePlugin.h"
-#import "LUConsolePluginController.h"
 #import "LUDefines.h"
 #import "LUEntry.h"
 #import "LUEntryTableViewCell.h"

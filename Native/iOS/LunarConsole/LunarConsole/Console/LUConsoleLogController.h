@@ -24,10 +24,20 @@
 #import "LUViewController.h"
 
 @class LUConsole;
+@class LUConsoleLogController;
+
+@protocol LUConsoleLogControllerDelegate <NSObject>
+
+@optional
+- (void)consoleControllerDidOpen:(LUConsoleLogController *)controller;
+- (void)consoleControllerDidClose:(LUConsoleLogController *)controller;
+
+@end
 
 @interface LUConsoleLogController : LUViewController
 
 @property (nonatomic, retain) NSString *version;
+@property (nonatomic, assign) id<LUConsoleLogControllerDelegate> delegate;
 
 + (instancetype)controllerWithConsole:(LUConsole *)console;
 - (instancetype)initWithConsole:(LUConsole *)console;
