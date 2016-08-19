@@ -105,6 +105,10 @@ To
 - enable:  
   Window ▶ Lunar Mobile Console ▶ Enable
 
+**Important:** make sure to "replace" your generated Xcode project whenever you switch the plugin from enabled to disabled (or back). Failing to do so may lead to an unexpected result!  
+
+<img width="405" src="https://cloud.githubusercontent.com/assets/786644/14593655/049da558-04e2-11e6-8e03-d1fb3009a800.png">
+
 For more detailed information check Wiki page: [Enabling and Disabling Lunar Mobile Console](https://github.com/SpaceMadness/lunar-unity-console/wiki/Enabling-and-Disabling-Lunar-Mobile-Console).
 
 ### Build System Support
