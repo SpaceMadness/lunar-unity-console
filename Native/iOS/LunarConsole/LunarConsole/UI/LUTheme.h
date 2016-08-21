@@ -29,6 +29,7 @@
 @property (nonatomic, readonly) UIColor *textColor;
 @property (nonatomic, readonly) UIColor *backgroundColorLight;
 @property (nonatomic, readonly) UIColor *backgroundColorDark;
+@property (nonatomic, readonly) UIColor *overlayTextColor;
 
 @end
 
@@ -43,6 +44,7 @@
 @property (nonatomic, readonly) LUCellSkin *cellWarning;
 
 @property (nonatomic, readonly) UIFont *font;
+@property (nonatomic, readonly) UIFont *fontOverlay;
 @property (nonatomic, readonly) UIFont *fontSmall;
 @property (nonatomic, readonly) NSLineBreakMode lineBreakMode;
 

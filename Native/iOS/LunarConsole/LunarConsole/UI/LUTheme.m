@@ -36,6 +36,7 @@ static LUTheme * _mainTheme;
 @property (nonatomic, strong) LUCellSkin *cellWarning;
 
 @property (nonatomic, strong) UIFont *font;
+@property (nonatomic, strong) UIFont *fontOverlay;
 @property (nonatomic, strong) UIFont *fontSmall;
 @property (nonatomic, assign) NSLineBreakMode lineBreakMode;
 @property (nonatomic, assign) CGFloat cellHeight;
@@ -64,6 +65,7 @@ static LUTheme * _mainTheme;
 @property (nonatomic, strong) UIColor *textColor;
 @property (nonatomic, strong) UIColor *backgroundColorLight;
 @property (nonatomic, strong) UIColor *backgroundColorDark;
+@property (nonatomic, strong) UIColor *overlayTextColor;
 
 @end
 
@@ -106,18 +108,21 @@ static UIImage * CreateCollapseBackgroundImage()
         cellLog.textColor = UIColorMake(0xb1b1b1);
         cellLog.backgroundColorLight = UIColorMake(0x3c3c3c);
         cellLog.backgroundColorDark = UIColorMake(0x373737);
+        cellLog.overlayTextColor = UIColorMake(0x454545);
         
         LUCellSkin *cellError = [LUCellSkin cellSkin];
         cellError.icon = [UIImage imageNamed:@"lunar_console_icon_log_error.png"];
         cellError.textColor = cellLog.textColor;
         cellError.backgroundColorLight = cellLog.backgroundColorLight;
         cellError.backgroundColorDark = cellLog.backgroundColorDark;
+        cellError.overlayTextColor = UIColorMake(0x8f0808);
         
         LUCellSkin *cellWarning = [LUCellSkin cellSkin];
         cellWarning.icon = [UIImage imageNamed:@"lunar_console_icon_log_warning.png"];
         cellWarning.textColor = cellLog.textColor;
         cellWarning.backgroundColorLight = cellLog.backgroundColorLight;
         cellWarning.backgroundColorDark = cellLog.backgroundColorDark;
+        cellWarning.overlayTextColor = UIColorMake(0xa46513);
         
         _mainTheme = [LUTheme new];
         _mainTheme.tableColor = UIColorMake(0x2c2c27);
@@ -127,6 +132,7 @@ static UIImage * CreateCollapseBackgroundImage()
         _mainTheme.cellError = cellError;
         _mainTheme.cellWarning = cellWarning;
         _mainTheme.font = [self createDefaultFont];
+        _mainTheme.fontOverlay = [self createOverlayFont];
         _mainTheme.fontSmall = [self createSmallFont];
         _mainTheme.lineBreakMode = NSLineBreakByWordWrapping;
         _mainTheme.cellHeight = 32;
@@ -179,6 +185,17 @@ static UIImage * CreateCollapseBackgroundImage()
     return [UIFont systemFontOfSize:10];
 }
 
++ (UIFont *)createOverlayFont
+{
+    UIFont *font = [UIFont fontWithName:@"Menlo-bold" size:10];
+    if (font != nil)
+    {
+        return font;
+    }
+    
+    return [UIFont systemFontOfSize:10];
+}
+
 + (UIFont *)createSmallFont
 {
     UIFont *font = [UIFont fontWithName:@"Menlo-regular" size:8];
@@ -221,6 +238,7 @@ static UIImage * CreateCollapseBackgroundImage()
     LU_RELEASE(_textColor);
     LU_RELEASE(_backgroundColorLight);
     LU_RELEASE(_backgroundColorDark);
+    LU_RELEASE(_overlayTextColor);
     LU_SUPER_DEALLOC
 }
 

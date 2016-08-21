@@ -296,12 +296,12 @@ static UIEdgeInsets _messageInsets;
         CGFloat messageHeight = CGRectGetHeight(frame) - 2 * (theme.indentVerTiny);
         
         UILabel * messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(messageX, messageY, messageWidth, messageHeight)];
-        messageLabel.font = theme.font;
+        messageLabel.font = theme.fontOverlay;
         messageLabel.lineBreakMode = theme.lineBreakMode;
         messageLabel.numberOfLines = 0;
         messageLabel.opaque = YES;
-        messageLabel.shadowOffset = CGSizeMake(0.5, 0.5);
-        messageLabel.shadowColor = [UIColor blackColor];
+        messageLabel.shadowColor = [UIColor whiteColor];
+        messageLabel.shadowOffset = CGSizeMake(0.75, 0.75);
         LU_SET_ACCESSIBILITY_IDENTIFIER(messageLabel, @"Log Message Label");
         
         [self.contentView addSubview:messageLabel];

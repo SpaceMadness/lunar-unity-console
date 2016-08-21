@@ -88,6 +88,8 @@ static NSString * const kScriptMessageConsoleClose = @"console_close";
 
 - (void)show
 {
+    [self hideOverlay];
+    
     LUAssert(_consoleWindow == nil);
     if (_consoleWindow == nil)
     {
@@ -136,9 +138,9 @@ static NSString * const kScriptMessageConsoleClose = @"console_close";
 {
     if (_overlayWindow != nil)
     {
-        _consoleWindow.hidden = YES;
-        LU_RELEASE(_consoleWindow);
-        _consoleWindow = nil;
+        _overlayWindow.hidden = YES;
+        LU_RELEASE(_overlayWindow);
+        _overlayWindow = nil;
     }
 }
 

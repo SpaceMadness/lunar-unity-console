@@ -122,6 +122,7 @@
 
 - (void)lunarConsole:(LUConsole *)console didUpdateEntryAtIndex:(NSInteger)index trimmedCount:(NSUInteger)trimmedCount
 {
+    [self lunarConsole:console didAddEntryAtIndex:index trimmedCount:trimmedCount];
 }
 
 #pragma mark -

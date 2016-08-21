@@ -251,7 +251,7 @@ static NSArray * _cellSkinLookup;
     LUCellSkin *cellSkin = [self cellSkinForLogType:self.type];
     
     cell.message = self.message;
-    cell.messageColor = cellSkin.textColor;
+    cell.messageColor = cellSkin.overlayTextColor;
     
     [cell setSize:cellSize];
     
