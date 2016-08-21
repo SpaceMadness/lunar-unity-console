@@ -26,10 +26,9 @@
 static UIEdgeInsets _messageInsets;
 
 @interface LUConsoleLogEntryTableViewCell ()
-{
-    UILabel     * _messageLabel;
-    UIImageView * _iconView;
-}
+
+@property (nonatomic, retain) UILabel     * messageLabel;
+@property (nonatomic, retain) UIImageView * iconView;
 
 @end
 
@@ -61,14 +60,14 @@ static UIEdgeInsets _messageInsets;
     }
 }
 
-+ (instancetype)cellWithFrame:(CGRect)frame reuseIdentifier:(nullable NSString *)reuseIdentifier
++ (instancetype)cellWithFrame:(CGRect)frame cellIdentifier:(nullable NSString *)cellIdentifier
 {
-    return LU_AUTORELEASE([[[self class] alloc] initWithFrame:frame reuseIdentifier:reuseIdentifier]);
+    return LU_AUTORELEASE([[[self class] alloc] initWithFrame:frame cellIdentifier:cellIdentifier]);
 }
 
-- (instancetype)initWithFrame:(CGRect)frame reuseIdentifier:(nullable NSString *)reuseIdentifier
+- (instancetype)initWithFrame:(CGRect)frame cellIdentifier:(nullable NSString *)cellIdentifier
 {
-    self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
+    self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     if (self)
     {
         self.contentView.bounds = frame;
@@ -203,9 +202,9 @@ static UIEdgeInsets _messageInsets;
 
 @implementation LUConsoleCollapsedLogEntryTableViewCell
 
-- (instancetype)initWithFrame:(CGRect)frame reuseIdentifier:(nullable NSString *)reuseIdentifier
+- (instancetype)initWithFrame:(CGRect)frame cellIdentifier:(nullable NSString *)cellIdentifier
 {
-    self = [super initWithFrame:frame reuseIdentifier:reuseIdentifier];
+    self = [super initWithFrame:frame cellIdentifier:cellIdentifier];
     if (self)
     {
         LUTheme *theme = [self theme];
@@ -273,6 +272,58 @@ static UIEdgeInsets _messageInsets;
     
     _collapsedCount = collapsedCount;
     _countLabel.text = collapsedCount > 999 ? @"999+" : [NSString stringWithFormat:@"%ld", (long)collapsedCount];
+}
+
+@end
+
+@implementation LUConsoleOverlayLogEntryTableViewCell
+
+- (instancetype)initWithFrame:(CGRect)frame cellIdentifier:(nullable NSString *)cellIdentifier
+{
+    self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+    if (self)
+    {
+        self.contentView.bounds = frame;
+        self.backgroundColor = self.contentView.backgroundColor = [UIColor clearColor];
+        self.opaque = self.contentView.opaque = YES;
+        
+        LUTheme *theme = [self theme];
+        
+        // message
+        CGFloat messageX = theme.indentHor;
+        CGFloat messageY = theme.indentHor;
+        CGFloat messageWidth = CGRectGetWidth(frame) - 2 * (theme.indentHor);
+        CGFloat messageHeight = CGRectGetHeight(frame) - 2 * (theme.indentVer);
+        
+        UILabel * messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(messageX, messageY, messageWidth, messageHeight)];
+        messageLabel.font = theme.font;
+        messageLabel.lineBreakMode = theme.lineBreakMode;
+        messageLabel.numberOfLines = 0;
+        messageLabel.opaque = YES;
+        messageLabel.shadowOffset = CGSizeMake(0.5, 0.5);
+        messageLabel.shadowColor = [UIColor blackColor];
+        LU_SET_ACCESSIBILITY_IDENTIFIER(messageLabel, @"Log Message Label");
+        
+        [self.contentView addSubview:messageLabel];
+        
+        self.messageLabel = messageLabel;
+        LU_RELEASE(messageLabel);
+    }
+    return self;
+}
+
+- (void)setSize:(CGSize)size
+{
+    self.contentView.bounds = CGRectMake(0, 0, size.width, size.height);
+    
+    // message
+    LUTheme *theme = self.theme;
+    CGFloat messageX = theme.indentHor;
+    CGFloat messageY = theme.indentHor;
+    CGFloat messageWidth = size.width - 2 * (theme.indentHor);
+    CGFloat messageHeight = size.height - 2 * (theme.indentVer);
+    
+    self.messageLabel.frame = CGRectMake(messageX, messageY, messageWidth, messageHeight);
 }
 
 @end

@@ -28,8 +28,8 @@
 @property (nonatomic, strong, nullable) UIColor  * messageColor;
 @property (nonatomic, strong, nullable) UIColor  * cellColor;
 
-+ (nonnull instancetype)cellWithFrame:(CGRect)frame reuseIdentifier:(nullable NSString *)reuseIdentifier;
-- (nonnull instancetype)initWithFrame:(CGRect)frame reuseIdentifier:(nullable NSString *)reuseIdentifier;
++ (nonnull instancetype)cellWithFrame:(CGRect)frame cellIdentifier:(nullable NSString *)cellIdentifier;
+- (nonnull instancetype)initWithFrame:(CGRect)frame cellIdentifier:(nullable NSString *)cellIdentifier;
 
 - (void)setSize:(CGSize)size;
 
@@ -40,5 +40,9 @@
 @interface LUConsoleCollapsedLogEntryTableViewCell : LUConsoleLogEntryTableViewCell
 
 @property (nonatomic, assign) NSInteger collapsedCount;
+
+@end
+
+@interface LUConsoleOverlayLogEntryTableViewCell : LUConsoleLogEntryTableViewCell
 
 @end

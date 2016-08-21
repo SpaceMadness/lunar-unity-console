@@ -70,3 +70,11 @@ typedef uint8_t LUConsoleLogTypeMask;
 - (void)increaseCount;
 
 @end
+
+/// Console entry for displaying in overlay view
+@interface LUConsoleOverlayLogEntry : LUConsoleLogEntry
+
++ (instancetype)entryWithEntry:(LUConsoleLogEntry *)entry;
+- (instancetype)initWithEntry:(LUConsoleLogEntry *)entry;
+
+@end
