@@ -87,31 +87,51 @@
 
 - (void)lunarConsole:(LUConsole *)console didAddEntryAtIndex:(NSInteger)index trimmedCount:(NSUInteger)trimmedCount
 {
-    LUConsoleLogEntry *entry = [console entryAtIndex:index];
-    if (_entries.count < _settings.maxVisibleRows)
-    {
-        [_entries addObject:[LUConsoleOverlayLogEntry entryWithEntry:entry]];
-        [_tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:_entries.count - 1 inSection:0]]
-                          withRowAnimation:UITableViewRowAnimationNone];
-    }
-    else
-    {
-        [_tableView beginUpdates];
-        
-        [_entries removeObjectAtIndex:0];
-        [_tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]]
-                          withRowAnimation:UITableViewRowAnimationNone];
-        
-        [_entries addObject:[LUConsoleOverlayLogEntry entryWithEntry:entry]];
-        [_tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:_entries.count - 1 inSection:0]]
-                          withRowAnimation:UITableViewRowAnimationNone];
-        
-        [_tableView endUpdates];
-    }
+    LUConsoleOverlayLogEntry *entry = [LUConsoleOverlayLogEntry entryWithEntry:[console entryAtIndex:index]];
+    
+    // remove row after the delay
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(_settings.rowDisplayTime * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if (_entries.count > 0 && [_entries objectAtIndex:0] == entry) {
+            [UIView performWithoutAnimation:^{
+                [self removeFirstRow];
+            }];
+        }
+    });
+    
+    [UIView performWithoutAnimation:^{
+        if (_entries.count < _settings.maxVisibleRows)
+        {
+            [_entries addObject:entry];
+            [_tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:_entries.count - 1 inSection:0]]
+                              withRowAnimation:UITableViewRowAnimationNone];
+        }
+        else
+        {
+                [_tableView beginUpdates];
+                
+                [self removeFirstRow];
+                
+                [_entries addObject:entry];
+                [_tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:_entries.count - 1 inSection:0]]
+                                  withRowAnimation:UITableViewRowAnimationNone];
+                
+                [_tableView endUpdates];
+        }
+    }];
 }
 
 - (void)lunarConsole:(LUConsole *)console didUpdateEntryAtIndex:(NSInteger)index trimmedCount:(NSUInteger)trimmedCount
 {
+}
+
+#pragma mark -
+#pragma mark Rows
+
+- (void)removeFirstRow
+{
+    [_entries removeObjectAtIndex:0];
+    [_tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]]
+                      withRowAnimation:UITableViewRowAnimationNone];
 }
 
 #pragma mark -
