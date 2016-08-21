@@ -101,6 +101,11 @@ void UnitySendMessage(const char *objectName, const char *methodName, const char
     [self showConsoleController];
 }
 
+- (IBAction)onShowOverlay:(id)sender
+{
+    [self showOverlay];
+}
+
 - (IBAction)onShowAlert:(id)sender
 {
     [self showAlert];
@@ -145,6 +150,11 @@ void UnitySendMessage(const char *objectName, const char *methodName, const char
 - (void)showConsoleController
 {
     [_plugin show];
+}
+
+- (void)showOverlay
+{
+    [_plugin showOverlay];
 }
 
 - (void)showAlert

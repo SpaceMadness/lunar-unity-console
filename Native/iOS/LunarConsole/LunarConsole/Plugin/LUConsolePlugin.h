@@ -35,6 +35,7 @@ typedef enum : NSUInteger {
 @interface LUConsolePlugin : LUObject
 
 @property (nonatomic, readonly) LUWindow         * consoleWindow;
+@property (nonatomic, readonly) LUWindow         * overlayWindow;
 @property (nonatomic, readonly) LUWindow         * warningWindow;
 @property (nonatomic, readonly) LUConsole        * console;
 
@@ -50,6 +51,9 @@ typedef enum : NSUInteger {
 
 - (void)show;
 - (void)hide;
+
+- (void)showOverlay;
+- (void)hideOverlay;
 
 - (void)logMessage:(NSString *)message stackTrace:(NSString *)stackTrace type:(LUConsoleLogType)type;
 - (void)clear;

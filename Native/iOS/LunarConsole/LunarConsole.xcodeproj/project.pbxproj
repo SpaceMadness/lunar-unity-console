@@ -15,6 +15,7 @@
 		84B7BD921D222A160048472B /* LUViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B7BD911D222A160048472B /* LUViewController.m */; };
 		84E5B7BD1B744FA600315599 /* LUConsoleEntryListTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E5B7BC1B744FA600315599 /* LUConsoleEntryListTest.m */; };
 		84EA4FCA1C57163000A0635C /* LUConsoleLogEntryLookupTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EA4FC91C57163000A0635C /* LUConsoleLogEntryLookupTable.m */; };
+		84FF9A1A1D69257F0034E40E /* LUConsoleOverlayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FF9A181D69257F0034E40E /* LUConsoleOverlayController.m */; };
 		EF08369E1B7ABCCE00DFB877 /* LUConsole.m in Sources */ = {isa = PBXBuildFile; fileRef = EF0836531B7ABCCE00DFB877 /* LUConsole.m */; };
 		EF08369F1B7ABCCE00DFB877 /* LUConsoleLogEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = EF0836551B7ABCCE00DFB877 /* LUConsoleLogEntry.m */; };
 		EF0836A01B7ABCCE00DFB877 /* LUConsoleLogEntryList.m in Sources */ = {isa = PBXBuildFile; fileRef = EF0836571B7ABCCE00DFB877 /* LUConsoleLogEntryList.m */; };
@@ -97,6 +98,9 @@
 		84EA4FE21C58785200A0635C /* lunar_console_icon_button_more.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lunar_console_icon_button_more.png; sourceTree = "<group>"; };
 		84EA4FE31C58785200A0635C /* lunar_console_icon_button_more@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lunar_console_icon_button_more@2x.png"; sourceTree = "<group>"; };
 		84EA4FE41C58785200A0635C /* lunar_console_icon_button_more@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lunar_console_icon_button_more@3x.png"; sourceTree = "<group>"; };
+		84FF9A171D69257F0034E40E /* LUConsoleOverlayController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUConsoleOverlayController.h; sourceTree = "<group>"; };
+		84FF9A181D69257F0034E40E /* LUConsoleOverlayController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUConsoleOverlayController.m; sourceTree = "<group>"; };
+		84FF9A191D69257F0034E40E /* LUConsoleOverlayController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LUConsoleOverlayController.xib; sourceTree = "<group>"; };
 		EF0836521B7ABCCE00DFB877 /* LUConsole.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUConsole.h; sourceTree = "<group>"; };
 		EF0836531B7ABCCE00DFB877 /* LUConsole.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUConsole.m; sourceTree = "<group>"; };
 		EF0836541B7ABCCE00DFB877 /* LUConsoleLogEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUConsoleLogEntry.h; sourceTree = "<group>"; };
@@ -307,6 +311,9 @@
 				EFB99CD61D21E4A500C95E80 /* LUConsoleLogMenuController.xib */,
 				EFB99CDA1D21E60000C95E80 /* LUConsoleLogTypeButton.h */,
 				EFB99CDB1D21E60000C95E80 /* LUConsoleLogTypeButton.m */,
+				84FF9A171D69257F0034E40E /* LUConsoleOverlayController.h */,
+				84FF9A181D69257F0034E40E /* LUConsoleOverlayController.m */,
+				84FF9A191D69257F0034E40E /* LUConsoleOverlayController.xib */,
 			);
 			path = Console;
 			sourceTree = "<group>";
@@ -546,6 +553,7 @@
 				84B7BD921D222A160048472B /* LUViewController.m in Sources */,
 				EF0836A01B7ABCCE00DFB877 /* LUConsoleLogEntryList.m in Sources */,
 				84B7BD8E1D2229810048472B /* LUEntry.m in Sources */,
+				84FF9A1A1D69257F0034E40E /* LUConsoleOverlayController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -76,6 +76,7 @@ static NSString * const kScriptMessageConsoleClose = @"console_close";
     LU_RELEASE(_version);
     LU_RELEASE(_console);
     LU_RELEASE(_consoleWindow);
+    LU_RELEASE(_overlayWindow);
     LU_RELEASE(_warningWindow);
     LU_RELEASE(_gestureRecognizer);
     
@@ -110,6 +111,32 @@ static NSString * const kScriptMessageConsoleClose = @"console_close";
         
         [self registerNotifications];
         [self disableGestureRecognition];
+    }
+}
+
+- (void)showOverlay
+{
+    LUAssert(_overlayWindow == nil);
+    if (_overlayWindow == nil)
+    {
+        LUConsoleOverlayController *controller = [LUConsoleOverlayController controllerWithConsole:_console];
+        
+        CGRect windowFrame = LUGetScreenBounds();
+        _overlayWindow = [[LUWindow alloc] initWithFrame:windowFrame];
+        _overlayWindow.userInteractionEnabled = NO;
+        _overlayWindow.rootViewController = controller;
+        _overlayWindow.opaque = YES;
+        _overlayWindow.hidden = NO;
+    }
+}
+
+- (void)hideOverlay
+{
+    if (_overlayWindow != nil)
+    {
+        _consoleWindow.hidden = YES;
+        LU_RELEASE(_consoleWindow);
+        _consoleWindow = nil;
     }
 }
 
