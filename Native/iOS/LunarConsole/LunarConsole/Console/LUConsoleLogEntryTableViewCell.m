@@ -290,10 +290,10 @@ static UIEdgeInsets _messageInsets;
         LUTheme *theme = [self theme];
         
         // message
-        CGFloat messageX = theme.indentHor;
-        CGFloat messageY = theme.indentHor;
-        CGFloat messageWidth = CGRectGetWidth(frame) - 2 * (theme.indentHor);
-        CGFloat messageHeight = CGRectGetHeight(frame) - 2 * (theme.indentVer);
+        CGFloat messageX = theme.indentHorTiny;
+        CGFloat messageY = theme.indentVerTiny;
+        CGFloat messageWidth = CGRectGetWidth(frame) - 2 * (theme.indentHorTiny);
+        CGFloat messageHeight = CGRectGetHeight(frame) - 2 * (theme.indentVerTiny);
         
         UILabel * messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(messageX, messageY, messageWidth, messageHeight)];
         messageLabel.font = theme.font;
@@ -312,16 +312,30 @@ static UIEdgeInsets _messageInsets;
     return self;
 }
 
+// TODO: fix code duplication
++ (CGFloat)heightForCellWithText:(nullable NSString *)text width:(CGFloat)width
+{
+    LUTheme *theme = [LUTheme mainTheme];
+    
+    CGSize constraintSize = CGSizeMake(width - 2 * theme.indentHorTiny, CGFLOAT_MAX);
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    CGFloat textHeight = [text sizeWithFont:theme.font constrainedToSize:constraintSize lineBreakMode:theme.lineBreakMode].height;
+    CGFloat height = (int)(textHeight + 2 * theme.indentVerTiny + .99); // size should not be a fracture number (or gray lines will appear)
+#pragma clang diagnostic pop
+    return MAX(theme.cellHeightTiny, height);
+}
+
 - (void)setSize:(CGSize)size
 {
     self.contentView.bounds = CGRectMake(0, 0, size.width, size.height);
     
     // message
     LUTheme *theme = self.theme;
-    CGFloat messageX = theme.indentHor;
-    CGFloat messageY = theme.indentHor;
-    CGFloat messageWidth = size.width - 2 * (theme.indentHor);
-    CGFloat messageHeight = size.height - 2 * (theme.indentVer);
+    CGFloat messageX = theme.indentHorTiny;
+    CGFloat messageY = theme.indentVerTiny;
+    CGFloat messageWidth = size.width - 2 * (theme.indentHorTiny);
+    CGFloat messageHeight = size.height - 2 * (theme.indentVerTiny);
     
     self.messageLabel.frame = CGRectMake(messageX, messageY, messageWidth, messageHeight);
 }

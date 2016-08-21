@@ -41,6 +41,9 @@ static LUTheme * _mainTheme;
 @property (nonatomic, assign) CGFloat cellHeight;
 @property (nonatomic, assign) CGFloat indentHor;
 @property (nonatomic, assign) CGFloat indentVer;
+@property (nonatomic, assign) CGFloat cellHeightTiny;
+@property (nonatomic, assign) CGFloat indentHorTiny;
+@property (nonatomic, assign) CGFloat indentVerTiny;
 @property (nonatomic, assign) CGFloat buttonWidth;
 @property (nonatomic, assign) CGFloat buttonHeight;
 
@@ -129,6 +132,9 @@ static UIImage * CreateCollapseBackgroundImage()
         _mainTheme.cellHeight = 32;
         _mainTheme.indentHor = 10;
         _mainTheme.indentVer = 2;
+        _mainTheme.cellHeightTiny = 12;
+        _mainTheme.indentHorTiny = 2;
+        _mainTheme.indentVerTiny = 0;
         _mainTheme.buttonWidth = 46;
         _mainTheme.buttonHeight = 30;
         _mainTheme.collapseBackgroundImage = CreateCollapseBackgroundImage();

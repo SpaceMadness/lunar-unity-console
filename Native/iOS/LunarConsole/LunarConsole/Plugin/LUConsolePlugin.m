@@ -119,7 +119,9 @@ static NSString * const kScriptMessageConsoleClose = @"console_close";
     LUAssert(_overlayWindow == nil);
     if (_overlayWindow == nil)
     {
-        LUConsoleOverlayController *controller = [LUConsoleOverlayController controllerWithConsole:_console];
+        LUConsoleOverlayControllerSettings *settings = [LUConsoleOverlayControllerSettings settings];
+        LUConsoleOverlayController *controller = [LUConsoleOverlayController controllerWithConsole:_console
+                                                                                          settings:settings];
         
         CGRect windowFrame = LUGetScreenBounds();
         _overlayWindow = [[LUWindow alloc] initWithFrame:windowFrame];

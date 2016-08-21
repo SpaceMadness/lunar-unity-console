@@ -45,4 +45,6 @@
 
 @interface LUConsoleOverlayLogEntryTableViewCell : LUConsoleLogEntryTableViewCell
 
++ (CGFloat)heightForCellWithText:(nullable NSString *)text width:(CGFloat)width;
+
 @end

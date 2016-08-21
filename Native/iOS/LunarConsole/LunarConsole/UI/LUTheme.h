@@ -49,6 +49,9 @@
 @property (nonatomic, readonly) CGFloat cellHeight;
 @property (nonatomic, readonly) CGFloat indentHor;
 @property (nonatomic, readonly) CGFloat indentVer;
+@property (nonatomic, readonly) CGFloat cellHeightTiny;
+@property (nonatomic, readonly) CGFloat indentHorTiny;
+@property (nonatomic, readonly) CGFloat indentVerTiny;
 @property (nonatomic, readonly) CGFloat buttonWidth;
 @property (nonatomic, readonly) CGFloat buttonHeight;
 
