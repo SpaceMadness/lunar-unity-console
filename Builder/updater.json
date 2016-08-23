@@ -1,6 +1,6 @@
 {
   "status": "OK",
-  "version": "0.4.2b",
-  "message": "**Fixes:**\n\n* iOS: fixed potential linking issue while building for IL2CPP script backend.\n\nEnjoying using the plugin? Don't forget to rate it on the Asset Store!",
+  "version": "0.5.0",
+  "message": "Fixes:\n\n* Unity 5.4 compatibility bugs.\n* iOS: fixed multiple invocation of console callbacks.\n\nImprovements:\n\n* Added an option to remove rich text tags from the output.\n* Added stack trace for email/clipboard log text.",
   "url": "https://goo.gl/S8QXav"
 }
