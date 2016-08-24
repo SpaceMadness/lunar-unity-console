@@ -28,6 +28,7 @@ static const CGFloat kWarningHeight = 45.0f;
 
 static NSString * const kScriptMessageConsoleOpen  = @"console_open";
 static NSString * const kScriptMessageConsoleClose = @"console_close";
+static NSString * const kSettingsFilename          = @"com.spacemadness.LunarMobileConsoleSettings.bin";
 
 @interface LUConsolePlugin () <LUConsoleLogControllerDelegate, LUExceptionWarningControllerDelegate>
 {
@@ -64,6 +65,11 @@ static NSString * const kScriptMessageConsoleClose = @"console_close";
         _version = LU_RETAIN(version);
         _console = [[LUConsole alloc] initWithCapacity:capacity trimCount:trimCount];
         _gesture = [self gestureFromString:gestureName];
+        
+        NSArray *searchPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *documentPath = [searchPaths objectAtIndex:0];
+        NSString *settingsFile = [documentPath stringByAppendingPathComponent:kSettingsFilename];
+        _settings = LU_RETAIN([LUConsolePluginSettings settingsWithContentsOfFile:settingsFile]);
     }
     return self;
 }
@@ -79,6 +85,7 @@ static NSString * const kScriptMessageConsoleClose = @"console_close";
     LU_RELEASE(_overlayWindow);
     LU_RELEASE(_warningWindow);
     LU_RELEASE(_gestureRecognizer);
+    LU_RELEASE(_settings);
     
     LU_SUPER_DEALLOC
 }
@@ -86,14 +93,25 @@ static NSString * const kScriptMessageConsoleClose = @"console_close";
 #pragma mark -
 #pragma mark Public interface
 
+- (void)start
+{
+    [self enableGestureRecognition];
+    
+    if (_settings.enableTransparentLogOverlay)
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self showOverlay];
+        });
+    }
+}
+
 - (void)show
 {
     [self hideOverlay];
     
-    LUAssert(_consoleWindow == nil);
     if (_consoleWindow == nil)
     {
-        LUConsoleLogController *controller = [LUConsoleLogController controllerWithConsole:_console];
+        LUConsoleLogController *controller = [LUConsoleLogController controllerWithPlugin:self];
         controller.version = _version;
         controller.delegate = self;
         
@@ -116,9 +134,18 @@ static NSString * const kScriptMessageConsoleClose = @"console_close";
     }
 }
 
+- (void)hideOverlay
+{
+    if (_overlayWindow != nil)
+    {
+        _overlayWindow.hidden = YES;
+        LU_RELEASE(_overlayWindow);
+        _overlayWindow = nil;
+    }
+}
+
 - (void)showOverlay
 {
-    LUAssert(_overlayWindow == nil);
     if (_overlayWindow == nil)
     {
         LUConsoleOverlayControllerSettings *settings = [LUConsoleOverlayControllerSettings settings];
@@ -131,16 +158,6 @@ static NSString * const kScriptMessageConsoleClose = @"console_close";
         _overlayWindow.rootViewController = controller;
         _overlayWindow.opaque = YES;
         _overlayWindow.hidden = NO;
-    }
-}
-
-- (void)hideOverlay
-{
-    if (_overlayWindow != nil)
-    {
-        _overlayWindow.hidden = YES;
-        LU_RELEASE(_overlayWindow);
-        _overlayWindow = nil;
     }
 }
 
@@ -163,6 +180,11 @@ static NSString * const kScriptMessageConsoleClose = @"console_close";
         
         LU_RELEASE(_consoleWindow);
         _consoleWindow = nil;
+    }
+    
+    if (_settings.enableTransparentLogOverlay)
+    {
+        [self showOverlay];
     }
 }
 
@@ -189,7 +211,7 @@ static NSString * const kScriptMessageConsoleClose = @"console_close";
 
 - (BOOL)showWarningWithMessage:(NSString *)message
 {
-    if (_warningWindow == nil)
+    if (_warningWindow == nil && _settings.enableExceptionWarning)
     {
         CGSize screenSize = LUGetScreenBounds().size;
         

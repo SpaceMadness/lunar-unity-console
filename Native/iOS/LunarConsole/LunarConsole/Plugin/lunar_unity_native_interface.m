@@ -44,7 +44,7 @@ void __lunar_console_initialize(const char *targetNameStr, const char *methodNam
                                                                   capacity:capacity
                                                                  trimCount:trimCount
                                                                gestureName:gesture];
-            [_lunarConsolePlugin enableGestureRecognition];
+            [_lunarConsolePlugin start];
             
             LU_RELEASE(targetName);
             LU_RELEASE(methodName);
