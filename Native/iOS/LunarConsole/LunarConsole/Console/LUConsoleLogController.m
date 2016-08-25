@@ -283,7 +283,8 @@ static LUConsoleLogControllerState * _sharedControllerState;
 {
     LUConsoleSettingsController *controller = [[LUConsoleSettingsController alloc] initWithSettings:_plugin.settings];
     controller.delegate = self;
-    [self presentViewController:controller animated:YES completion:nil];
+    // add as child view controller
+    [self addChildOverlayController:controller animated:YES];
     LU_RELEASE(controller);
 }
 
@@ -613,7 +614,7 @@ static LUConsoleLogControllerState * _sharedControllerState;
         [_plugin.settings save];
     }
     
-    [self dismissViewControllerAnimated:YES completion:nil];
+    [self removeChildOverlayController:controller animated:YES];
 }
 
 #pragma mark -

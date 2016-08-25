@@ -25,7 +25,9 @@ static NSDictionary * _propertyTypeLookup;
     LUConsolePluginSettings * _settings;
 }
 
+@property (nonatomic, assign) IBOutlet UIView * contentView;
 @property (nonatomic, assign) IBOutlet UIView * bottomBarView;
+@property (nonatomic, assign) IBOutlet UILabel * titleLabel;
 @property (nonatomic, assign) IBOutlet UITableView * tableView;
 
 @end
@@ -72,9 +74,19 @@ static NSDictionary * _propertyTypeLookup;
 {
     [super viewDidLoad];
     
-    self.view.backgroundColor =
+    // colors
+    self.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
+    
+    LUTheme *theme = [LUTheme mainTheme];
+    
+    _contentView.backgroundColor =
     _bottomBarView.backgroundColor =
-    _tableView.backgroundColor = [LUTheme mainTheme].tableColor;
+    _tableView.backgroundColor = theme.tableColor;
+    
+    _contentView.layer.borderColor = [[UIColor colorWithRed:0.37 green:0.37 blue:0.37 alpha:1.0] CGColor];
+    _contentView.layer.borderWidth = 2;
+    
+    _titleLabel.textColor = theme.cellLog.textColor;
 }
 
 #pragma mark -
@@ -169,6 +181,15 @@ static NSDictionary * _propertyTypeLookup;
     self = [super init];
     if (self)
     {
+        if (name == nil ||
+            value == nil ||
+            type == nil)
+        {
+            LU_RELEASE(self);
+            self = nil;
+            return nil;
+        }
+        
         _name = LU_RETAIN(name);
         _title = LU_RETAIN(title);
         _value = LU_RETAIN(value);
@@ -206,6 +227,7 @@ static NSDictionary * _propertyTypeLookup;
                 {
                     _propertyTypeLookup = [[NSDictionary alloc] initWithObjectsAndKeys:
                                            kSettingsEntryTypeBool, @"c",
+                                           kSettingsEntryTypeBool, @"B",
                                            nil];
                 }
                 
@@ -233,9 +255,21 @@ static NSDictionary * _propertyTypeLookup;
             NSString *name = [NSString stringWithUTF8String:cname];
             NSString *title = [self titleFromName:name];
             NSString *type = [self propertyTypeName:property];
+            if (type == nil)
+            {
+                NSLog(@"LunarMobileConsole: unable to resolve the type of property '%@'", name);
+                continue;
+            }
+            
             id value = [settings valueForKey:name];
             
             LUConsoleSettingsEntry *entry = [[LUConsoleSettingsEntry alloc] initWithName:name value:value type:type title:title];
+            if (entry == nil)
+            {
+                NSLog(@"LunarMobileConsole: unable to create setting entry '%@'", name);
+                continue;
+            }
+            
             [entries addObject:entry];
             LU_RELEASE(entry);
         }
