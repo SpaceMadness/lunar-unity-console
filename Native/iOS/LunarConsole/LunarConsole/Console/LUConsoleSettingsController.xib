@@ -8,6 +8,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LUConsoleSettingsController">
             <connections>
                 <outlet property="bottomBarView" destination="LDy-dK-c6w" id="d3M-lb-JRt"/>
+                <outlet property="tableView" destination="ROw-6r-Jej" id="oFO-os-ajp"/>
                 <outlet property="view" destination="iN0-l3-epB" id="ohA-1m-6dC"/>
             </connections>
         </placeholder>
@@ -20,7 +21,7 @@
                     <rect key="frame" x="8" y="8" width="24" height="24"/>
                 </imageView>
                 <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" style="plain" separatorStyle="none" allowsSelection="NO" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="ROw-6r-Jej">
-                    <rect key="frame" x="8" y="40" width="584" height="515"/>
+                    <rect key="frame" x="0.0" y="40" width="600" height="515"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
                         <outlet property="dataSource" destination="-1" id="TLF-tg-dNb"/>
@@ -62,7 +63,7 @@
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <constraints>
                 <constraint firstItem="LDy-dK-c6w" firstAttribute="top" secondItem="ROw-6r-Jej" secondAttribute="bottom" id="4zm-2f-vr5"/>
-                <constraint firstItem="ROw-6r-Jej" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="DhY-ZS-hbN"/>
+                <constraint firstItem="ROw-6r-Jej" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="DhY-ZS-hbN"/>
                 <constraint firstItem="LDy-dK-c6w" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="GCK-dH-fIA"/>
                 <constraint firstItem="fQ5-91-EpJ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="8" id="RVV-F8-jTW"/>
                 <constraint firstAttribute="trailing" secondItem="LDy-dK-c6w" secondAttribute="trailing" id="Wcu-bO-RHz"/>
@@ -70,7 +71,7 @@
                 <constraint firstItem="2TR-Bn-6hd" firstAttribute="leading" secondItem="fQ5-91-EpJ" secondAttribute="trailing" constant="8" id="j9d-l9-Qap"/>
                 <constraint firstItem="ROw-6r-Jej" firstAttribute="top" secondItem="fQ5-91-EpJ" secondAttribute="bottom" constant="8" id="lBX-uk-yQX"/>
                 <constraint firstItem="2TR-Bn-6hd" firstAttribute="centerY" secondItem="fQ5-91-EpJ" secondAttribute="centerY" id="mSd-XO-9tt"/>
-                <constraint firstAttribute="trailing" secondItem="ROw-6r-Jej" secondAttribute="trailing" constant="8" id="n9c-df-cOy"/>
+                <constraint firstAttribute="trailing" secondItem="ROw-6r-Jej" secondAttribute="trailing" id="n9c-df-cOy"/>
                 <constraint firstItem="fQ5-91-EpJ" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="vE7-N8-zGt"/>
                 <constraint firstAttribute="bottom" secondItem="LDy-dK-c6w" secondAttribute="bottom" id="wk0-Go-MYb"/>
             </constraints>

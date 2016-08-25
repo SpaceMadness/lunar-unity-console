@@ -71,6 +71,10 @@ static NSDictionary * _propertyTypeLookup;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.view.backgroundColor =
+    _bottomBarView.backgroundColor =
+    _tableView.backgroundColor = [LUTheme mainTheme].tableColor;
 }
 
 #pragma mark -
