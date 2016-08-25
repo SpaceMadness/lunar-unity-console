@@ -43,6 +43,7 @@
 #import "LUObject.h"
 #import "LUStacktrace.h"
 #import "LUStringUtils.h"
+#import "LUSwitch.h"
 #import "LUTableView.h"
 #import "LUTheme.h"
 #import "LUThreading.h"

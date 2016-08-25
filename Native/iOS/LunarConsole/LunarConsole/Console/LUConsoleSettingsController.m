@@ -31,6 +31,20 @@ static NSDictionary * _propertyTypeLookup;
 
 @implementation LUConsoleSettingsController
 
++ (void)load
+{
+    if (!LU_IOS_MIN_VERSION_AVAILABLE)
+    {
+        return;
+    }
+    
+    if ([self class] == [LUConsoleSettingsController class])
+    {
+        // force linker to add these classes for Interface Builder
+        [LUSwitch class];
+    }
+}
+
 - (instancetype)initWithSettings:(LUConsolePluginSettings *)settings
 {
     self = [super initWithNibName:NSStringFromClass([self class]) bundle:nil];
@@ -74,10 +88,12 @@ static NSDictionary * _propertyTypeLookup;
     
     if (entry.type == kSettingsEntryTypeBool)
     {
-        UISwitch *swtch = [cell.contentView viewWithTag:kTagControl];
+        LUSwitch *swtch = [cell.contentView viewWithTag:kTagControl];
         LUAssert(swtch);
         
         swtch.on = [entry.value boolValue];
+        swtch.userData = entry;
+        [swtch addTarget:self action:@selector(onToggleBoolean:) forControlEvents:UIControlEventValueChanged];
     }
     
     return cell;
@@ -95,12 +111,34 @@ static NSDictionary * _propertyTypeLookup;
 }
 
 #pragma mark -
+#pragma mark
+
+- (void)onToggleBoolean:(LUSwitch *)swtch
+{
+    LUConsoleSettingsEntry *entry = swtch.userData;
+    entry.value = swtch.isOn ? @YES : @NO;
+}
+
+#pragma mark -
 #pragma mark Helpers
 
 - (UITableViewCell *)loadCellForType:(NSString *)type
 {
     NSString *nibName = [NSString stringWithFormat:@"LUSettingsTableCell%@", type];
     return (UITableViewCell *) [[NSBundle mainBundle] loadNibNamed:nibName owner:self options:nil].firstObject;
+}
+
+#pragma mark -
+#pragma mark Properties
+
+- (NSArray *)changedEntries
+{
+    NSMutableArray *result = [NSMutableArray array];
+    for (LUConsoleSettingsEntry *entry in _entries)
+    {
+        if (entry.isChanged) [result addObject:entry];
+    }
+    return result;
 }
 
 @end

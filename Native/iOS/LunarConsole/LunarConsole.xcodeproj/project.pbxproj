@@ -33,6 +33,7 @@
 		EF21AE231BF548810053D50B /* LUTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = EF21AE221BF548810053D50B /* LUTableView.m */; };
 		EF322CDD1C59505600F185A9 /* LUConsoleEntryLookupTableTest.m in Sources */ = {isa = PBXBuildFile; fileRef = EF322CDC1C59505600F185A9 /* LUConsoleEntryLookupTableTest.m */; };
 		EF4C36441D6CF9020036585B /* LUConsoleSettingsEntryTest.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4C36431D6CF9020036585B /* LUConsoleSettingsEntryTest.m */; };
+		EF4C364D1D6E6B1D0036585B /* LUSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4C364C1D6E6B1D0036585B /* LUSwitch.m */; };
 		EF5AD0F41D6B766100B27500 /* LUConsolePluginSettingsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = EF5AD0F31D6B766100B27500 /* LUConsolePluginSettingsTest.m */; };
 		EF5AD10B1D6B9CF100B27500 /* LUConsolePluginSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = EF5AD10A1D6B9CF100B27500 /* LUConsolePluginSettings.m */; };
 		EF5AD10E1D6BB24400B27500 /* LUConsoleSettingsController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF5AD10D1D6BB24400B27500 /* LUConsoleSettingsController.m */; };
@@ -172,6 +173,8 @@
 		EF21AE221BF548810053D50B /* LUTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUTableView.m; sourceTree = "<group>"; };
 		EF322CDC1C59505600F185A9 /* LUConsoleEntryLookupTableTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUConsoleEntryLookupTableTest.m; sourceTree = "<group>"; };
 		EF4C36431D6CF9020036585B /* LUConsoleSettingsEntryTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUConsoleSettingsEntryTest.m; sourceTree = "<group>"; };
+		EF4C364B1D6E6B1D0036585B /* LUSwitch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUSwitch.h; sourceTree = "<group>"; };
+		EF4C364C1D6E6B1D0036585B /* LUSwitch.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUSwitch.m; sourceTree = "<group>"; };
 		EF5AD0F31D6B766100B27500 /* LUConsolePluginSettingsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUConsolePluginSettingsTest.m; sourceTree = "<group>"; };
 		EF5AD0F71D6B977100B27500 /* lunar_console_icon_button_settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lunar_console_icon_button_settings.png; sourceTree = "<group>"; };
 		EF5AD0F81D6B977100B27500 /* lunar_console_icon_button_settings@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lunar_console_icon_button_settings@2x.png"; sourceTree = "<group>"; };
@@ -415,6 +418,8 @@
 		EF0836861B7ABCCE00DFB877 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				EF4C364B1D6E6B1D0036585B /* LUSwitch.h */,
+				EF4C364C1D6E6B1D0036585B /* LUSwitch.m */,
 				EF21AE211BF548810053D50B /* LUTableView.h */,
 				EF21AE221BF548810053D50B /* LUTableView.m */,
 				EF08368B1B7ABCCE00DFB877 /* LUTheme.h */,
@@ -575,6 +580,7 @@
 				EF5AD10B1D6B9CF100B27500 /* LUConsolePluginSettings.m in Sources */,
 				EF21AE201BF5383E0053D50B /* LULittleHelper.m in Sources */,
 				EFB99CDF1D21E67200C95E80 /* LUConsoleLogEntryTableViewCell.m in Sources */,
+				EF4C364D1D6E6B1D0036585B /* LUSwitch.m in Sources */,
 				EFB99CEA1D21EF6300C95E80 /* LUStringUtils.m in Sources */,
 				EF0836A41B7ABCCE00DFB877 /* lunar_unity_native_interface.m in Sources */,
 				EFB99CD71D21E4A500C95E80 /* LUConsoleLogMenuController.m in Sources */,

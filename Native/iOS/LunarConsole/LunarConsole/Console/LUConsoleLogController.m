@@ -603,6 +603,16 @@ static LUConsoleLogControllerState * _sharedControllerState;
 
 - (void)consoleSettingsControllerDidClose:(LUConsoleSettingsController *)controller
 {
+    NSArray *entries = controller.changedEntries;
+    if (entries.count > 0)
+    {
+        for (LUConsoleSettingsEntry *entry in entries)
+        {
+            [_plugin.settings setValue:entry.value forKey:entry.name];
+        }
+        [_plugin.settings save];
+    }
+    
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
