@@ -35,6 +35,9 @@ static LUTheme * _mainTheme;
 @property (nonatomic, strong) LUCellSkin *cellError;
 @property (nonatomic, strong) LUCellSkin *cellWarning;
 
+@property (nonatomic, strong) UIColor *backgroundColorLight;
+@property (nonatomic, strong) UIColor *backgroundColorDark;
+
 @property (nonatomic, strong) UIFont *font;
 @property (nonatomic, strong) UIFont *fontOverlay;
 @property (nonatomic, strong) UIFont *fontSmall;
@@ -57,6 +60,7 @@ static LUTheme * _mainTheme;
 @property (nonatomic, strong) UIColor *contextMenuTextColor;
 @property (nonatomic, strong) UIColor *contextMenuTextHighlightColor;
 
+@property (nonatomic, strong) UIColor *switchTintColor;
 @end
 
 @interface LUCellSkin ()
@@ -131,6 +135,8 @@ static UIImage * CreateCollapseBackgroundImage()
         _mainTheme.cellLog = cellLog;
         _mainTheme.cellError = cellError;
         _mainTheme.cellWarning = cellWarning;
+        _mainTheme.backgroundColorLight = cellLog.backgroundColorLight;
+        _mainTheme.backgroundColorDark = cellLog.backgroundColorDark;
         _mainTheme.font = [self createDefaultFont];
         _mainTheme.fontOverlay = [self createOverlayFont];
         _mainTheme.fontSmall = [self createSmallFont];
@@ -150,6 +156,7 @@ static UIImage * CreateCollapseBackgroundImage()
         _mainTheme.contextMenuBackgroundColor = UIColorMake(0x3c3c3c);
         _mainTheme.contextMenuTextColor = cellLog.textColor;
         _mainTheme.contextMenuTextHighlightColor = [UIColor whiteColor];
+        _mainTheme.switchTintColor = UIColorMake(0xfed900);
     }
 }
 
@@ -158,9 +165,12 @@ static UIImage * CreateCollapseBackgroundImage()
     LU_RELEASE(_tableColor);
     LU_RELEASE(_logButtonTitleColor);
     LU_RELEASE(_logButtonTitleSelectedColor);
+    LU_RELEASE(_switchTintColor);
     LU_RELEASE(_cellLog);
     LU_RELEASE(_cellWarning);
     LU_RELEASE(_cellError);
+    LU_RELEASE(_backgroundColorDark);
+    LU_RELEASE(_backgroundColorLight);
     LU_RELEASE(_font);
     LU_RELEASE(_fontSmall);
     LU_RELEASE(_collapseBackgroundImage);

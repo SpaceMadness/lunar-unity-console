@@ -12,6 +12,16 @@
 
 @implementation LUSwitch
 
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    if (self)
+    {
+        self.onTintColor = [LUTheme mainTheme].switchTintColor;
+    }
+    return self;
+}
+
 - (void)dealloc
 {
     LU_RELEASE(_userData);

@@ -26,6 +26,7 @@ static NSDictionary * _propertyTypeLookup;
 }
 
 @property (nonatomic, assign) IBOutlet UIView * bottomBarView;
+@property (nonatomic, assign) IBOutlet UITableView * tableView;
 
 @end
 
@@ -65,6 +66,14 @@ static NSDictionary * _propertyTypeLookup;
 }
 
 #pragma mark -
+#pragma mark View
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+}
+
+#pragma mark -
 #pragma mark UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -81,10 +90,16 @@ static NSDictionary * _propertyTypeLookup;
         cell = [self loadCellForType:entry.type];
     }
     
-    UILabel *name = [cell.contentView viewWithTag:kTagName];
-    LUAssert(name);
+    LUTheme *theme = [LUTheme mainTheme];
     
-    name.text = entry.title;
+    cell.contentView.backgroundColor = indexPath.row % 2 == 0 ? theme.backgroundColorLight : theme.backgroundColorDark;
+    
+    UILabel *nameLabel = [cell.contentView viewWithTag:kTagName];
+    LUAssert(nameLabel);
+    
+    nameLabel.font = theme.font;
+    nameLabel.textColor = theme.cellLog.textColor;
+    nameLabel.text = entry.title;
     
     if (entry.type == kSettingsEntryTypeBool)
     {

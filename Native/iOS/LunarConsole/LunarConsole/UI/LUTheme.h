@@ -43,6 +43,9 @@
 @property (nonatomic, readonly) LUCellSkin *cellError;
 @property (nonatomic, readonly) LUCellSkin *cellWarning;
 
+@property (nonatomic, readonly) UIColor *backgroundColorLight;
+@property (nonatomic, readonly) UIColor *backgroundColorDark;
+
 @property (nonatomic, readonly) UIFont *font;
 @property (nonatomic, readonly) UIFont *fontOverlay;
 @property (nonatomic, readonly) UIFont *fontSmall;
@@ -65,6 +68,8 @@
 @property (nonatomic, readonly) UIColor *contextMenuBackgroundColor;
 @property (nonatomic, readonly) UIColor *contextMenuTextColor;
 @property (nonatomic, readonly) UIColor *contextMenuTextHighlightColor;
+
+@property (nonatomic, readonly) UIColor *switchTintColor;
 
 + (LUTheme *)mainTheme;
 
