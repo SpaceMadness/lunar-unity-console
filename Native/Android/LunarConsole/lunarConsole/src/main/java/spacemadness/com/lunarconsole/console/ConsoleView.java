@@ -70,7 +70,7 @@ public class ConsoleView extends LinearLayout implements
 
     private final Console console;
     private final ListView listView;
-    private final ConsoleAdapter recyclerViewAdapter;
+    private final ConsoleAdapter consoleAdapter;
 
     private final LogTypeButton logButton;
     private final LogTypeButton warningButton;
@@ -114,16 +114,16 @@ public class ConsoleView extends LinearLayout implements
         addView(rootView, new LayoutParams(MATCH_PARENT, MATCH_PARENT));
 
         // initialize adapter
-        recyclerViewAdapter = new ConsoleAdapter(console);
+        consoleAdapter = new ConsoleAdapter(console);
 
         // this view would hold all the logs
-        LinearLayout recyclerViewContainer = findExistingViewById(
+        LinearLayout consoleContainer = findExistingViewById(
                 R.id.lunar_console_list_view_container);
 
         listView = new ListView(context);
         listView.setDivider(null);
         listView.setDividerHeight(0);
-        listView.setAdapter(recyclerViewAdapter);
+        listView.setAdapter(consoleAdapter);
         listView.setOverScrollMode(ListView.OVER_SCROLL_NEVER);
         listView.setScrollingCacheEnabled(false);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
@@ -205,7 +205,7 @@ public class ConsoleView extends LinearLayout implements
             }
         });
 
-        recyclerViewContainer.addView(listView, new LayoutParams(MATCH_PARENT, MATCH_PARENT));
+        consoleContainer.addView(listView, new LayoutParams(MATCH_PARENT, MATCH_PARENT));
 
         // setup filtering elements
         setupFilterTextEdit();
@@ -235,7 +235,10 @@ public class ConsoleView extends LinearLayout implements
     {
         Log.d(CONSOLE, "Destroy console");
 
-        console.setConsoleListener(null);
+        if (console.getConsoleListener() == this)
+        {
+            console.setConsoleListener(null);
+        }
         setListener(null);
     }
 
@@ -324,7 +327,7 @@ public class ConsoleView extends LinearLayout implements
 
     private void reloadData()
     {
-        recyclerViewAdapter.notifyDataSetChanged();
+        consoleAdapter.notifyDataSetChanged();
         updateOverflowText();
     }
 
@@ -598,7 +601,7 @@ public class ConsoleView extends LinearLayout implements
     {
         if (filtered)
         {
-            recyclerViewAdapter.notifyDataSetChanged();
+            consoleAdapter.notifyDataSetChanged();
             scrollToBottom(console);
         }
 
@@ -608,7 +611,7 @@ public class ConsoleView extends LinearLayout implements
     @Override
     public void onRemoveEntries(Console console, int start, int length)
     {
-        recyclerViewAdapter.notifyDataSetChanged();
+        consoleAdapter.notifyDataSetChanged();
         scrollToBottom(console);
         updateLogButtons();
         updateOverflowText();
@@ -617,7 +620,7 @@ public class ConsoleView extends LinearLayout implements
     @Override
     public void onChangeEntries(Console console)
     {
-        recyclerViewAdapter.notifyDataSetChanged();
+        consoleAdapter.notifyDataSetChanged();
         scrollToBottom(console);
         updateLogButtons();
         updateOverflowText();

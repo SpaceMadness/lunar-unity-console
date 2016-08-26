@@ -66,6 +66,7 @@ public class ConsolePlugin implements
 
     private ConsoleView consoleView;
     private WarningView warningView;
+    private OverlayView overlayView;
 
     private final WeakReference<Activity> activityRef;
     private final GestureRecognizer gestureDetector;
@@ -408,6 +409,8 @@ public class ConsolePlugin implements
 
     private boolean showConsole()
     {
+        hideOverlay();
+
         try
         {
             if (consoleView == null)
@@ -591,8 +594,82 @@ public class ConsolePlugin implements
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    // ConsoleView.Listener
+    // Overlay view
 
+    public boolean showOverlay()
+    {
+        try
+        {
+            if (overlayView == null)
+            {
+                Log.d(OVERLAY_VIEW, "Show console");
+
+                final Activity activity = getActivity();
+                if (activity == null)
+                {
+                    Log.e("Can't show overlay: activity reference is lost");
+                    return false;
+                }
+
+                final FrameLayout rootLayout = getRootLayout(activity);
+                overlayView = new OverlayView(activity, console);
+
+                LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+                rootLayout.addView(overlayView, params);
+
+                return true;
+            }
+        }
+        catch (Exception e)
+        {
+            Log.e(e, "Can't show overlay view");
+        }
+
+        return false;
+    }
+
+    public boolean hideOverlay()
+    {
+        try
+        {
+            if (overlayView != null)
+            {
+                Log.d(CONSOLE, "Hide console");
+
+                Activity activity = getActivity();
+                if (activity == null)
+                {
+                    Log.e("Can't hide overlay: activity reference is lost");
+                    return false;
+                }
+
+                ViewParent parent = consoleView.getParent();
+                if (parent instanceof ViewGroup)
+                {
+                    ((ViewGroup) parent).removeView(consoleView);
+                }
+                else
+                {
+                    Log.e("Can't remove overlay view: unexpected parent " + parent);
+                    return false;
+                }
+
+                overlayView.destroy();
+                overlayView = null;
+
+                return true;
+            }
+        }
+        catch (Exception e)
+        {
+            Log.e(e, "Can't hide overlay view");
+        }
+
+        return false;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // ConsoleView.Listener
 
     @Override
     public void onOpen(ConsoleView view)
