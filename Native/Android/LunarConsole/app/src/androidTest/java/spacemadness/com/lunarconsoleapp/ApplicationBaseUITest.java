@@ -24,13 +24,16 @@ package spacemadness.com.lunarconsoleapp;
 import android.app.Instrumentation;
 import android.content.Context;
 import android.support.test.espresso.DataInteraction;
+import android.support.test.espresso.Espresso;
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.view.View;
+import android.widget.Checkable;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import org.hamcrest.Description;
@@ -97,6 +100,11 @@ public class ApplicationBaseUITest
         pressButton(getString(id));
     }
 
+    protected void pressBackButton()
+    {
+        Espresso.pressBack();
+    }
+
     protected void typeText(int id, String text)
     {
         assertVisible(id);
@@ -141,6 +149,11 @@ public class ApplicationBaseUITest
         findView(id).check(matches(withText(text)));
     }
 
+    protected void assertPreferenceChecked(String title, boolean checked)
+    {
+        findView(title).check(matches(withCheckBoxPreference(checked)));
+    }
+
     protected void assertVisible(int id)
     {
         findView(id).check(matches(withEffectiveVisibility(Visibility.VISIBLE)));
@@ -183,6 +196,43 @@ public class ApplicationBaseUITest
             protected boolean matchesSafely(View item)
             {
                 return ((ListView) item).getChildCount () == size;
+            }
+        };
+    }
+
+    protected Matcher<View> withCheckBoxPreference(final boolean checked)
+    {
+        return new TypeSafeMatcher<View>()
+        {
+            @Override
+            public void describeTo(Description description)
+            {
+                description.appendText ("check box preference should be" + (checked ? "" : " not") + " checked");
+            }
+
+            @Override
+            protected boolean matchesSafely(View item)
+            {
+                // FIXME: this is bad
+                final LinearLayout layout = (LinearLayout) ((LinearLayout) item.getParent().getParent()).getChildAt(2);
+
+                final Checkable checkable = findCheckable(layout);
+                return checkable != null && checkable.isChecked() == checked;
+            }
+
+            private Checkable findCheckable(LinearLayout layout)
+            {
+                int childCount = layout.getChildCount();
+                for (int i = 0; i < childCount; ++i)
+                {
+                    final View child = layout.getChildAt(i);
+                    if (child instanceof Checkable)
+                    {
+                        return (Checkable) child;
+                    }
+                }
+
+                return null;
             }
         };
     }
