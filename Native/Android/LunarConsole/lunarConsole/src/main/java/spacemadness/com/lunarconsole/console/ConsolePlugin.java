@@ -636,6 +636,11 @@ public class ConsolePlugin implements
     {
         try
         {
+            if (!settings.isEnableExceptionWarning())
+            {
+                return;
+            }
+
             if (warningView == null)
             {
                 Log.d(WARNING_VIEW, "Show warning");

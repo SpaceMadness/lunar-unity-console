@@ -13,6 +13,7 @@ import java.util.List;
 import spacemadness.com.lunarconsole.console.ConsolePlugin;
 import spacemadness.com.lunarconsole.console.PluginSettings;
 import spacemadness.com.lunarconsole.debug.Log;
+import spacemadness.com.lunarconsole.utils.StringUtils;
 
 public class SettingsActivity extends PreferenceActivity
 {
@@ -56,18 +57,34 @@ public class SettingsActivity extends PreferenceActivity
         }
     }
 
-    private Preference createPreference(PluginSettings settings, Field field) throws IllegalAccessException
+    private Preference createPreference(final PluginSettings settings, final Field field) throws IllegalAccessException
     {
         final Class<?> type = field.getType();
         field.setAccessible(true);
-        Object value = field.get(settings);
+        final Object value = field.get(settings);
 
         Preference preference = createPreference(type, value);
         if (preference != null)
         {
             preference.setKey(field.getName());
-            preference.setTitle("title");
-            preference.setSummary("summary");
+            preference.setTitle(StringUtils.camelCaseToWords(field.getName()));
+            preference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener()
+            {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object newValue)
+                {
+                    try
+                    {
+                        field.set(settings, newValue);
+                        return true;
+                    }
+                    catch (Exception e)
+                    {
+                        Log.e(e, "Unable to change preference");
+                        return false;
+                    }
+                }
+            });
         }
 
         return preference;
