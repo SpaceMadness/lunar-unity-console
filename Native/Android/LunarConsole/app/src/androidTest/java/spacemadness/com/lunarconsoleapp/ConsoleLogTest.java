@@ -42,7 +42,7 @@ public class ConsoleLogTest extends ApplicationBaseUITest
         logMessage("Error-1", ConsoleLogType.ERROR);
         logMessage("Error-2", ConsoleLogType.ERROR);
 
-        pressButton(R.id.test_button_show_console);
+        openConsole();
 
         assertTable("Debug-1", "Debug-2", "Warning-1", "Warning-2", "Error-1", "Error-2");
 
@@ -100,11 +100,11 @@ public class ConsoleLogTest extends ApplicationBaseUITest
         logMessage("Error", ConsoleLogType.ERROR);
 
         // present controller
-        pressButton(R.id.test_button_show_console);
+        openConsole();
 
         // collapse elements
-        pressButton(R.id.lunar_console_button_more);
-        pressButton(getString(R.string.lunar_console_more_menu_collapse));
+        openConsoleMenu();
+        pressMenuButton(R.string.lunar_console_more_menu_collapse);
 
         assertTable("Debug@2", "Warning@2", "Error@2");
 
@@ -112,12 +112,12 @@ public class ConsoleLogTest extends ApplicationBaseUITest
         pressButton(R.id.lunar_console_button_close);
 
         // re-open controller
-        pressButton(R.id.test_button_show_console);
+        openConsole();
 
         assertTable("Debug@2", "Warning@2", "Error@2");
 
         // expand elements
-        pressButton(R.id.lunar_console_button_more);
+        openConsoleMenu();
         pressButton(getString(R.string.lunar_console_more_menu_collapse));
 
         assertTable("Debug", "Warning", "Error", "Debug", "Warning", "Error");
@@ -142,13 +142,13 @@ public class ConsoleLogTest extends ApplicationBaseUITest
         logMessage("Warning-2", ConsoleLogType.WARNING);
 
         // show controller
-        pressButton(R.id.test_button_show_console);
+        openConsole();
 
         // check table
         assertTable("Debug-1", "Warning-1", "Error-1", "Debug-2", "Warning-2");
 
         // overflow message should be invisible
-        checkInvisible(R.id.lunar_console_text_overflow);
+        assertInvisible(R.id.lunar_console_text_overflow);
 
         // close controller
         pressButton(R.id.lunar_console_button_close);
@@ -157,15 +157,15 @@ public class ConsoleLogTest extends ApplicationBaseUITest
         logMessage("Error-2", ConsoleLogType.ERROR);
 
         // show controller
-        pressButton(R.id.test_button_show_console);
+        openConsole();
 
         // check table
         assertTable("Debug-2", "Warning-2", "Error-2");
 
         // overflow message should be visible
-        checkVisible(R.id.lunar_console_text_overflow);
+        assertVisible(R.id.lunar_console_text_overflow);
 
         // check overflow message
-        checkText(R.id.lunar_console_text_overflow, String.format(getString(R.string.lunar_console_overflow_warning_text), 3));
+        assertText(R.id.lunar_console_text_overflow, String.format(getString(R.string.lunar_console_overflow_warning_text), 3));
     }
 }

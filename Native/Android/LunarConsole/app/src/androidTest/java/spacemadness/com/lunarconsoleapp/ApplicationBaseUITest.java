@@ -88,31 +88,36 @@ public class ApplicationBaseUITest
 
     protected void pressButton(int id)
     {
-        checkVisible(id);
+        assertVisible(id);
         findView(id).perform(click());
+    }
+
+    protected void pressMenuButton(int id)
+    {
+        pressButton(getString(id));
     }
 
     protected void typeText(int id, String text)
     {
-        checkVisible(id);
+        assertVisible(id);
         findView(id).perform(ViewActions.replaceText(text), ViewActions.closeSoftKeyboard());
     }
 
     protected void appendText(int id, String text)
     {
-        checkVisible(id);
+        assertVisible(id);
         findView(id).perform(ViewActions.typeText(text), ViewActions.closeSoftKeyboard());
     }
 
     protected void deleteLastChar(int id)
     {
-        checkVisible(id);
+        assertVisible(id);
         findView(id).perform(removeLastChar(), ViewActions.closeSoftKeyboard());
     }
 
     protected void clearText(int id)
     {
-        checkVisible(id);
+        assertVisible(id);
         findView(id).perform(ViewActions.clearText(), ViewActions.closeSoftKeyboard());
     }
 
@@ -131,19 +136,37 @@ public class ApplicationBaseUITest
         return onView(withTagValue(Matchers.<Object>equalTo(tag)));
     }
 
-    protected void checkText(int id, String text)
+    protected void assertText(int id, String text)
     {
         findView(id).check(matches(withText(text)));
     }
 
-    protected void checkVisible(int id)
+    protected void assertVisible(int id)
     {
         findView(id).check(matches(withEffectiveVisibility(Visibility.VISIBLE)));
     }
 
-    protected void checkInvisible(int id)
+    protected boolean isVisible(int id)
+    {
+        try
+        {
+            assertInvisible(id);
+            return true;
+        }
+        catch (Throwable e)
+        {
+            return false;
+        }
+    }
+
+    protected void assertInvisible(int id)
     {
         findView(id).check(matches(withEffectiveVisibility(Visibility.GONE)));
+    }
+
+    protected boolean isInvisible(int id)
+    {
+        return !isVisible(id);
     }
 
     protected Matcher<View> withListSize(final int size)
@@ -193,6 +216,26 @@ public class ApplicationBaseUITest
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Helpers
 
+    protected void openConsole()
+    {
+        if (isInvisible(R.id.lunar_console_layout))
+        {
+            pressButton(R.id.test_button_show_console);
+        }
+    }
+
+    protected void openConsoleMenu()
+    {
+        openConsole();
+        pressButton(R.id.lunar_console_button_more);
+    }
+
+    protected void openSettings()
+    {
+        openConsoleMenu();
+        pressMenuButton(R.string.lunar_console_more_menu_settings);
+    }
+
     protected void logMessage(String message, byte logType)
     {
         typeText(R.id.test_edit_message, message);
@@ -201,7 +244,7 @@ public class ApplicationBaseUITest
 
     protected void assertExceptionWarningVisible()
     {
-        checkVisible(R.id.lunar_console_warning_text_message);
+        assertVisible(R.id.lunar_console_warning_text_message);
     }
 
     protected void assertExceptionWarningInvisible()
@@ -212,7 +255,7 @@ public class ApplicationBaseUITest
     protected void assertExceptionWarning(String expected)
     {
         assertExceptionWarningVisible();
-        checkText(R.id.lunar_console_warning_text_message, expected);
+        assertText(R.id.lunar_console_warning_text_message, expected);
     }
 
     protected void assertTable(String... expected)
