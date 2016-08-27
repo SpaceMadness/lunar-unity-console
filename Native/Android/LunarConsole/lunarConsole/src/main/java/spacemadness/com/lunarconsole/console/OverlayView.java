@@ -6,13 +6,19 @@ import android.widget.ListView;
 
 import spacemadness.com.lunarconsole.core.Destroyable;
 import spacemadness.com.lunarconsole.debug.Log;
+import spacemadness.com.lunarconsole.utils.CycleArray;
+import spacemadness.com.lunarconsole.utils.ThreadUtils;
 
+import static spacemadness.com.lunarconsole.console.BaseConsoleAdapter.DataSource;
 import static spacemadness.com.lunarconsole.debug.Tags.OVERLAY_VIEW;
 
-public class OverlayView extends ListView implements Destroyable, LunarConsoleListener
+public class OverlayView extends ListView implements Destroyable, DataSource, LunarConsoleListener
 {
     private final Console console;
     private final ConsoleOverlayAdapter consoleAdapter;
+    private final CycleArray<ConsoleEntry> entries;
+    private final Callback[] callbacks;
+    private int callbackIndex;
 
     public OverlayView(Context context, Console console)
     {
@@ -26,7 +32,14 @@ public class OverlayView extends ListView implements Destroyable, LunarConsoleLi
         this.console = console;
         this.console.setConsoleListener(this);
 
-        consoleAdapter = new ConsoleOverlayAdapter(console);
+        entries = new CycleArray<>(ConsoleEntry.class, 3); // TODO: make a setting
+        callbacks = new Callback[entries.getCapacity()];
+        for (int i = 0; i < callbacks.length; ++i)
+        {
+            callbacks[i] = new Callback();
+        }
+
+        consoleAdapter = new ConsoleOverlayAdapter(this);
 
         setDivider(null);
         setDividerHeight(0);
@@ -55,6 +68,18 @@ public class OverlayView extends ListView implements Destroyable, LunarConsoleLi
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Callbacks
+
+    private void cancelCallbacks()
+    {
+        for (int i = 0; i < callbacks.length; ++i)
+        {
+            callbacks[i].cancel();
+        }
+        callbackIndex = 0;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     // Destroyable
 
     @Override
@@ -65,6 +90,22 @@ public class OverlayView extends ListView implements Destroyable, LunarConsoleLi
         {
             console.setConsoleListener(null);
         }
+        cancelCallbacks();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // DataSource
+
+    @Override
+    public ConsoleEntry getEntry(int position)
+    {
+        return entries.get(entries.getHeadIndex() + position);
+    }
+
+    @Override
+    public int getEntryCount()
+    {
+        return entries.realLength();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -73,7 +114,12 @@ public class OverlayView extends ListView implements Destroyable, LunarConsoleLi
     @Override
     public void onAddEntry(Console console, ConsoleEntry entry, boolean filtered)
     {
+        entries.add(entry);
         reloadData();
+
+        Callback callback = callbacks[callbackIndex];
+        callbackIndex = (callbackIndex + 1) % callbacks.length;
+        callback.schedule(entry, 1000); // TODO: make it configurable
     }
 
     @Override
@@ -91,6 +137,46 @@ public class OverlayView extends ListView implements Destroyable, LunarConsoleLi
     @Override
     public void onClearEntries(Console console)
     {
+        cancelCallbacks();
+        entries.clear();
         reloadData();
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Callback
+
+    private class Callback implements Runnable
+    {
+        public ConsoleEntry entry;
+
+        public synchronized void schedule(ConsoleEntry entry, long delay)
+        {
+            cancel();
+
+            this.entry = entry;
+            ThreadUtils.runOnUIThread(this, delay);
+        }
+
+        public synchronized void cancel()
+        {
+            if (this.entry != null)
+            {
+                this.entry = null;
+                ThreadUtils.cancel(this);
+            }
+        }
+
+        @Override
+        public synchronized void run()
+        {
+            final int index = entries.getHeadIndex();
+            if (entries.length() > 0 && entries.get(index) == entry)
+            {
+                entries.trimHeadIndex(1);
+                reloadData();
+            }
+            entry = null;
+        }
+    }
+
 }
