@@ -112,21 +112,21 @@ static UIImage * CreateCollapseBackgroundImage()
         cellLog.textColor = UIColorMake(0xb1b1b1);
         cellLog.backgroundColorLight = UIColorMake(0x3c3c3c);
         cellLog.backgroundColorDark = UIColorMake(0x373737);
-        cellLog.overlayTextColor = UIColorMake(0x454545);
+        cellLog.overlayTextColor = UIColorMake(0xadadad);
         
         LUCellSkin *cellError = [LUCellSkin cellSkin];
         cellError.icon = [UIImage imageNamed:@"lunar_console_icon_log_error.png"];
         cellError.textColor = cellLog.textColor;
         cellError.backgroundColorLight = cellLog.backgroundColorLight;
         cellError.backgroundColorDark = cellLog.backgroundColorDark;
-        cellError.overlayTextColor = UIColorMake(0x8f0808);
+        cellError.overlayTextColor = UIColorMake(0xfc0000);
         
         LUCellSkin *cellWarning = [LUCellSkin cellSkin];
         cellWarning.icon = [UIImage imageNamed:@"lunar_console_icon_log_warning.png"];
         cellWarning.textColor = cellLog.textColor;
         cellWarning.backgroundColorLight = cellLog.backgroundColorLight;
         cellWarning.backgroundColorDark = cellLog.backgroundColorDark;
-        cellWarning.overlayTextColor = UIColorMake(0xa46513);
+        cellWarning.overlayTextColor = UIColorMake(0xf4f600);
         
         _mainTheme = [LUTheme new];
         _mainTheme.tableColor = UIColorMake(0x2c2c27);

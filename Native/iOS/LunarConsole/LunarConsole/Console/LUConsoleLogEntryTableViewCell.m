@@ -300,7 +300,7 @@ static UIEdgeInsets _messageInsets;
         messageLabel.lineBreakMode = theme.lineBreakMode;
         messageLabel.numberOfLines = 0;
         messageLabel.opaque = YES;
-        messageLabel.shadowColor = [UIColor whiteColor];
+        messageLabel.shadowColor = [UIColor blackColor];
         messageLabel.shadowOffset = CGSizeMake(0.75, 0.75);
         LU_SET_ACCESSIBILITY_IDENTIFIER(messageLabel, @"Log Message Label");
         
