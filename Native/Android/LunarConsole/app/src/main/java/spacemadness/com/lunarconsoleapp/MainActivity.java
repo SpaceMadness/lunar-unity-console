@@ -43,6 +43,7 @@ import java.util.List;
 
 import spacemadness.com.lunarconsole.console.ConsoleLogType;
 import spacemadness.com.lunarconsole.console.ConsolePlugin;
+import spacemadness.com.lunarconsole.settings.PluginSettings;
 import spacemadness.com.lunarconsole.utils.StringUtils;
 
 import static spacemadness.com.lunarconsole.console.ConsoleLogType.*;
@@ -436,6 +437,8 @@ public class MainActivity extends Activity
         SharedPreferences.Editor edit = prefs.edit();
         edit.clear();
         edit.apply();
+
+        PluginSettings.clear(context);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

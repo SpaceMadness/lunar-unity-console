@@ -199,6 +199,22 @@ public class ApplicationBaseUITest
         pressButton(getButtonId(logType));
     }
 
+    protected void assertExceptionWarningVisible()
+    {
+        checkVisible(R.id.lunar_console_text_warning_message);
+    }
+
+    protected void assertExceptionWarningInvisible()
+    {
+        findView(R.id.lunar_console_text_warning_message).check(doesNotExist());
+    }
+
+    protected void assertExceptionWarning(String expected)
+    {
+        assertExceptionWarningVisible();
+        checkText(R.id.lunar_console_text_warning_message, expected);
+    }
+
     protected void assertTable(String... expected)
     {
         ViewInteraction listView = onView(withParent(withId(R.id.lunar_console_list_view_container)));

@@ -32,9 +32,6 @@ import spacemadness.com.lunarconsole.console.ConsoleLogType;
 @LargeTest
 public class ConsoleLogTest extends ApplicationBaseUITest
 {
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Tests
-
     @Test
     public void testFilter()
     {
@@ -171,4 +168,23 @@ public class ConsoleLogTest extends ApplicationBaseUITest
         // check overflow message
         checkText(R.id.lunar_console_text_overflow, String.format(getString(R.string.lunar_console_overflow_warning_text), 3));
     }
+
+    @Test
+    public void testExceptionWarning()
+    {
+        assertExceptionWarningInvisible();
+
+        logMessage("Error 1", ConsoleLogType.ERROR);
+        assertExceptionWarning("Error 1");
+
+        logMessage("Error 2", ConsoleLogType.ERROR);
+        assertExceptionWarning("Error 2");
+
+        logMessage("Error 3", ConsoleLogType.ERROR);
+        assertExceptionWarning("Error 3");
+
+        pressButton(R.id.lunar_console_warning_button_dismiss);
+        assertExceptionWarningInvisible();
+    }
+
 }

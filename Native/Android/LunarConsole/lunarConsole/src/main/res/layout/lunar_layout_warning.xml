@@ -35,7 +35,7 @@
         android:src="@drawable/lunar_console_icon_button_console"/>
 
     <ImageButton
-        android:id="@+id/lunar_console_button_dismiss"
+        android:id="@+id/lunar_console_warning_button_dismiss"
         style="@style/lunar_console_base_button_style"
         android:layout_gravity="center_vertical"
         android:src="@drawable/lunar_console_icon_button_close"/>

@@ -158,9 +158,17 @@ public class PluginSettings
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Helpers
 
-    SharedPreferences getSharedPreferences(Context context)
+    static SharedPreferences getSharedPreferences(Context context)
     {
         return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+    }
+
+    public static void clear(Context context)
+    {
+        final SharedPreferences sharedPreferences = getSharedPreferences(context);
+        final SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear();
+        editor.apply();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
