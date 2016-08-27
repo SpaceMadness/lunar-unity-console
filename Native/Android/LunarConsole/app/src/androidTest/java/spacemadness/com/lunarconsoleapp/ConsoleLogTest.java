@@ -148,7 +148,7 @@ public class ConsoleLogTest extends ApplicationBaseUITest
         assertTable("Debug-1", "Warning-1", "Error-1", "Debug-2", "Warning-2");
 
         // overflow message should be invisible
-        assertInvisible(R.id.lunar_console_text_overflow);
+        assertHidden(R.id.lunar_console_text_overflow);
 
         // close controller
         pressButton(R.id.lunar_console_button_close);

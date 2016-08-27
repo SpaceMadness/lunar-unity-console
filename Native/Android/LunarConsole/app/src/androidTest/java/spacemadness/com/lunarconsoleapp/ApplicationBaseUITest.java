@@ -64,9 +64,7 @@ public class ApplicationBaseUITest
         {
             Instrumentation instrumentation = getInstrumentation();
             Context targetContext = instrumentation.getTargetContext();
-            MainActivity.clearSharedPreferences(targetContext);
-            MainActivity.forceSyncCalls = true;
-            MainActivity.shutdownPluginWhenDestroyed = false;
+            ApplicationBaseUITest.this.beforeActivityLaunched(targetContext);
         }
 
         private Instrumentation getInstrumentation()
@@ -83,6 +81,13 @@ public class ApplicationBaseUITest
             }
         }
     };
+
+    protected void beforeActivityLaunched(Context targetContext)
+    {
+        MainActivity.clearSharedPreferences(targetContext);
+        MainActivity.forceSyncCalls = true;
+        MainActivity.shutdownPluginWhenDestroyed = false;
+    }
 
     protected void pressButton(String title)
     {
@@ -129,6 +134,11 @@ public class ApplicationBaseUITest
         findView(id).perform(ViewActions.clearText(), ViewActions.closeSoftKeyboard());
     }
 
+    protected ViewInteraction findView(Class<? extends View> cls)
+    {
+        return onView(withClassName(is(cls.getName())));
+    }
+
     protected ViewInteraction findView(int id)
     {
         return onView(withId(id));
@@ -154,16 +164,59 @@ public class ApplicationBaseUITest
         findView(title).check(matches(withCheckBoxPreference(checked)));
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Visibility
+
+    protected void assertVisible(ViewInteraction view)
+    {
+        view.check(matches(withEffectiveVisibility(Visibility.VISIBLE)));
+    }
+
+    protected void assertHidden(ViewInteraction view)
+    {
+        view.check(matches(withEffectiveVisibility(Visibility.GONE)));
+    }
+
+    protected void assertDoesNotExist(ViewInteraction view)
+    {
+        view.check(doesNotExist());
+    }
+
     protected void assertVisible(int id)
     {
-        findView(id).check(matches(withEffectiveVisibility(Visibility.VISIBLE)));
+        assertVisible(findView(id));
+    }
+
+    protected void assertHidden(int id)
+    {
+        assertHidden(findView(id));
+    }
+
+    protected void assertDoesNotExist(int id)
+    {
+        assertDoesNotExist(findView(id));
+    }
+
+    protected void assertVisible(Class<? extends View> cls)
+    {
+        assertVisible(findView(cls));
+    }
+
+    protected void assertHidden(Class<? extends View> cls)
+    {
+        assertHidden(findView(cls));
+    }
+
+    protected void assertDoesNotExist(Class<? extends View> cls)
+    {
+        assertDoesNotExist(findView(cls));
     }
 
     protected boolean isVisible(int id)
     {
         try
         {
-            assertInvisible(id);
+            assertHidden(id);
             return true;
         }
         catch (Throwable e)
@@ -172,17 +225,15 @@ public class ApplicationBaseUITest
         }
     }
 
-    protected void assertInvisible(int id)
-    {
-        findView(id).check(matches(withEffectiveVisibility(Visibility.GONE)));
-    }
-
     protected boolean isInvisible(int id)
     {
         return !isVisible(id);
     }
 
-    protected Matcher<View> withListSize(final int size)
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // ListView
+
+    protected Matcher<View> withListViewSize(final int size)
     {
         return new TypeSafeMatcher<View>()
         {
@@ -274,6 +325,11 @@ public class ApplicationBaseUITest
         }
     }
 
+    protected void closeConsole()
+    {
+        pressButton(R.id.lunar_console_button_close);
+    }
+
     protected void openConsoleMenu()
     {
         openConsole();
@@ -284,6 +340,11 @@ public class ApplicationBaseUITest
     {
         openConsoleMenu();
         pressMenuButton(R.string.lunar_console_more_menu_settings);
+    }
+
+    protected void closeSettings()
+    {
+        pressBackButton();
     }
 
     protected void logMessage(String message, byte logType)
@@ -316,7 +377,7 @@ public class ApplicationBaseUITest
         listView.check(matches(isDisplayed()));
 
         // should contains expected number of children
-        listView.check(matches(withListSize(expected.length)));
+        listView.check(matches(withListViewSize(expected.length)));
 
         String[] messages = new String[expected.length];
         int[] messageCount = new int[expected.length];
