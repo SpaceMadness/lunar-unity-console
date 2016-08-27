@@ -1,6 +1,7 @@
 package spacemadness.com.lunarconsole.console;
 
 import android.content.Context;
+import android.view.MotionEvent;
 import android.widget.ListView;
 
 import spacemadness.com.lunarconsole.core.Destroyable;
@@ -34,6 +35,15 @@ public class OverlayView extends ListView implements Destroyable, LunarConsoleLi
         setScrollingCacheEnabled(false);
 
         reloadData();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Events
+
+    @Override
+    public boolean onTouchEvent(MotionEvent ev)
+    {
+        return false; // no touch events
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

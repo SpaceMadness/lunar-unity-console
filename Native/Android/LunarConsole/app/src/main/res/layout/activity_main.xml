@@ -139,6 +139,12 @@
             android:text="Show Console"/>
 
         <Button
+            android:id="@+id/test_button_show_overlay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Show Overlay"/>
+
+        <Button
             android:id="@+id/test_button_log_exception"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

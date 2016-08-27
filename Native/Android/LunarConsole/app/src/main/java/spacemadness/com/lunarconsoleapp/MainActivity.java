@@ -234,7 +234,7 @@ public class MainActivity extends Activity
             }
         });
 
-        Button showConsole = (Button) findViewById(R.id.test_button_show_console);
+        final Button showConsole = (Button) findViewById(R.id.test_button_show_console);
         showConsole.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -246,6 +246,30 @@ public class MainActivity extends Activity
                     public void run()
                     {
                         ConsolePlugin.show();
+                    }
+                });
+            }
+        });
+
+        final Button showOverlay = (Button) findViewById(R.id.test_button_show_overlay);
+        showOverlay.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                dispatchOnSelectedQueue(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        if (ConsolePlugin.isOverlayShown())
+                        {
+                            ConsolePlugin.hideOverlay();
+                        }
+                        else
+                        {
+                            ConsolePlugin.showOverlay();
+                        }
                     }
                 });
             }

@@ -135,4 +135,21 @@ public class ConsoleEntry
             }
         }
     }
+
+    public static class OverlayViewHolder extends ConsoleAdapter.ViewHolder<ConsoleEntry>
+    {
+        private final TextView messageView;
+
+        public OverlayViewHolder(View itemView)
+        {
+            super(itemView);
+            messageView = (TextView) itemView.findViewById(R.id.lunar_console_overlay_log_entry_message);
+        }
+
+        @Override
+        public void onBindViewHolder(ConsoleEntry entry)
+        {
+            messageView.setText(entry.message);
+        }
+    }
 }

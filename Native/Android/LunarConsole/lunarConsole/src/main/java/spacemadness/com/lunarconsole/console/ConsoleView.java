@@ -21,6 +21,7 @@
 
 package spacemadness.com.lunarconsole.console;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -46,9 +47,12 @@ import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import java.lang.ref.WeakReference;
+
 import spacemadness.com.lunarconsole.R;
 import spacemadness.com.lunarconsole.core.Destroyable;
 import spacemadness.com.lunarconsole.debug.Log;
+import spacemadness.com.lunarconsole.settings.SettingsActivity;
 import spacemadness.com.lunarconsole.ui.LogTypeButton;
 import spacemadness.com.lunarconsole.ui.ToggleButton;
 import spacemadness.com.lunarconsole.ui.ToggleImageButton;
@@ -66,6 +70,8 @@ public class ConsoleView extends LinearLayout implements
         LunarConsoleListener,
         LogTypeButton.OnStateChangeListener
 {
+    private final WeakReference<Activity> activityRef;
+
     private final View rootView;
 
     private final Console console;
@@ -85,15 +91,16 @@ public class ConsoleView extends LinearLayout implements
     private boolean scrollLocked;
     private boolean softKeyboardVisible;
 
-    public ConsoleView(Context context, final Console console)
+    public ConsoleView(Activity activity, final Console console)
     {
-        super(context);
+        super(activity);
 
         if (console == null)
         {
             throw new NullPointerException("Console is null");
         }
 
+        this.activityRef = new WeakReference<>(activity);
         this.console = console;
         this.console.setConsoleListener(this);
 
@@ -110,7 +117,7 @@ public class ConsoleView extends LinearLayout implements
         });
 
         // might not be the most efficient way but we'll keep it for now
-        rootView = LayoutInflater.from(context).inflate(R.layout.lunar_layout_console, this, false);
+        rootView = LayoutInflater.from(activity).inflate(R.layout.lunar_layout_console, this, false);
         addView(rootView, new LayoutParams(MATCH_PARENT, MATCH_PARENT));
 
         // initialize adapter
@@ -120,7 +127,7 @@ public class ConsoleView extends LinearLayout implements
         LinearLayout consoleContainer = findExistingViewById(
                 R.id.lunar_console_list_view_container);
 
-        listView = new ListView(context);
+        listView = new ListView(activity);
         listView.setDivider(null);
         listView.setDividerHeight(0);
         listView.setAdapter(consoleAdapter);
@@ -579,9 +586,32 @@ public class ConsoleView extends LinearLayout implements
             @Override
             public boolean onMenuItemClick(MenuItem item)
             {
-                if (item.getItemId() == R.id.lunar_console_menu_toggle_collapse)
+                final int itemId = item.getItemId();
+                if (itemId == R.id.lunar_console_menu_toggle_collapse)
                 {
                     console.setCollapsed(!console.isCollapsed());
+                    return true;
+                }
+
+                if (itemId == R.id.lunar_console_menu_settings)
+                {
+                    final Activity activity = getActivity();
+                    if (activity == null)
+                    {
+                        Log.e(CONSOLE, "Unable to show settings activity: root activity context is lost");
+                        return true;
+                    }
+
+                    try
+                    {
+                        Intent intent = new Intent(activity, SettingsActivity.class);
+                        activity.startActivity(intent);
+                    }
+                    catch (Exception e)
+                    {
+                        Log.e(e, "Unable to show settings activity");
+                    }
+
                     return true;
                 }
 
@@ -710,6 +740,11 @@ public class ConsoleView extends LinearLayout implements
     public Listener getListener()
     {
         return listener;
+    }
+
+    public Activity getActivity()
+    {
+        return activityRef.get();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
