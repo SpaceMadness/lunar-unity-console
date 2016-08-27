@@ -201,18 +201,18 @@ public class ApplicationBaseUITest
 
     protected void assertExceptionWarningVisible()
     {
-        checkVisible(R.id.lunar_console_text_warning_message);
+        checkVisible(R.id.lunar_console_warning_text_message);
     }
 
     protected void assertExceptionWarningInvisible()
     {
-        findView(R.id.lunar_console_text_warning_message).check(doesNotExist());
+        findView(R.id.lunar_console_warning_text_message).check(doesNotExist());
     }
 
     protected void assertExceptionWarning(String expected)
     {
         assertExceptionWarningVisible();
-        checkText(R.id.lunar_console_text_warning_message, expected);
+        checkText(R.id.lunar_console_warning_text_message, expected);
     }
 
     protected void assertTable(String... expected)

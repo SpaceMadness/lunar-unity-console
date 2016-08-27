@@ -29,4 +29,18 @@ public class ExceptionWarningTest extends ApplicationBaseUITest
         pressButton(R.id.lunar_console_warning_button_dismiss);
         assertExceptionWarningInvisible();
     }
+
+    @Test
+    public void testExceptionWarningButton()
+    {
+        assertExceptionWarningInvisible();
+
+        logMessage("Error 1", ConsoleLogType.ERROR);
+        assertExceptionWarning("Error 1");
+
+        pressButton(R.id.lunar_console_warning_button_details);
+        assertExceptionWarningInvisible();
+
+        assertTable("Error 1");
+    }
 }
