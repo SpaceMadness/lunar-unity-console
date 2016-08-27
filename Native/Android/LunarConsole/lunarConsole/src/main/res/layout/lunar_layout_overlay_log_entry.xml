@@ -2,7 +2,7 @@
 
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/lunar_console_overlay_log_entry_message"
-    style="@style/lunar_console_log_details_message_style"
+    style="@style/lunar_console_log_entry_overlay_style"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:text="Message" />

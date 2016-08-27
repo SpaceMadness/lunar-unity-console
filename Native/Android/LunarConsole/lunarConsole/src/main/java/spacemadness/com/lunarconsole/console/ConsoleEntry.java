@@ -34,15 +34,19 @@ import static spacemadness.com.lunarconsole.console.ConsoleLogType.*;
 
 public class ConsoleEntry
 {
-    private static final int[] LOG_ENTRY_ICON_RES_LOOKUP = new int[COUNT];
+    private static final Appearance APPEARANCE_LOG          = new Appearance(R.drawable.lunar_console_icon_log, R.color.lunar_console_color_overlay_entry_log);
+    private static final Appearance APPEARANCE_LOG_ERROR    = new Appearance(R.drawable.lunar_console_icon_log_error, R.color.lunar_console_color_overlay_entry_log_error);
+    private static final Appearance APPEARANCE_LOG_WARNING  = new Appearance(R.drawable.lunar_console_icon_log_warning, R.color.lunar_console_color_overlay_entry_log_warning);
+
+    private static final Appearance[] LOG_ENTRY_ICON_RES_LOOKUP = new Appearance[COUNT];
 
     static
     {
-        LOG_ENTRY_ICON_RES_LOOKUP[ERROR] = R.drawable.lunar_console_icon_log_error;
-        LOG_ENTRY_ICON_RES_LOOKUP[ASSERT] = R.drawable.lunar_console_icon_log_error;
-        LOG_ENTRY_ICON_RES_LOOKUP[WARNING] = R.drawable.lunar_console_icon_log_warning;
-        LOG_ENTRY_ICON_RES_LOOKUP[LOG] = R.drawable.lunar_console_icon_log;
-        LOG_ENTRY_ICON_RES_LOOKUP[EXCEPTION] = R.drawable.lunar_console_icon_log_error;
+        LOG_ENTRY_ICON_RES_LOOKUP[ERROR]        = APPEARANCE_LOG_ERROR;
+        LOG_ENTRY_ICON_RES_LOOKUP[ASSERT]       = APPEARANCE_LOG_ERROR;
+        LOG_ENTRY_ICON_RES_LOOKUP[WARNING]      = APPEARANCE_LOG_WARNING;
+        LOG_ENTRY_ICON_RES_LOOKUP[LOG]          = APPEARANCE_LOG;
+        LOG_ENTRY_ICON_RES_LOOKUP[EXCEPTION]    = APPEARANCE_LOG_ERROR;
     }
 
     public int index;
@@ -71,7 +75,7 @@ public class ConsoleEntry
     @SuppressWarnings("deprecation")
     public Drawable getIconDrawable(Context context)
     {
-        int id = getIconResId(type);
+        int id = getAppearance(type).iconId;
         return context.getResources().getDrawable(id);
     }
 
@@ -89,10 +93,25 @@ public class ConsoleEntry
         return stackTrace != null && stackTrace.length() > 0;
     }
 
-    private int getIconResId(int type)
+    private static Appearance getAppearance(int type)
     {
         return type >= 0 && type < LOG_ENTRY_ICON_RES_LOOKUP.length ?
-                LOG_ENTRY_ICON_RES_LOOKUP[type] : R.drawable.lunar_console_icon_log;
+                LOG_ENTRY_ICON_RES_LOOKUP[type] : APPEARANCE_LOG;
+    }
+
+    //////////////////////////////////////////////////////////////////////////////
+    // Entry appearance
+
+    private static class Appearance
+    {
+        public final int iconId;
+        public final int overlayColorId;
+
+        Appearance(int iconId, int overlayColorId)
+        {
+            this.iconId = iconId;
+            this.overlayColorId = overlayColorId;
+        }
     }
 
     //////////////////////////////////////////////////////////////////////////////
@@ -149,7 +168,10 @@ public class ConsoleEntry
         @Override
         public void onBindViewHolder(ConsoleEntry entry)
         {
+            final int colorId = getAppearance(entry.type).overlayColorId;
+
             messageView.setText(entry.message);
+            messageView.setTextColor(getColor(colorId));
         }
     }
 }

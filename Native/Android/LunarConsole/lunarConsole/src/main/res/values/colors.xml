@@ -16,4 +16,8 @@
     <color name="lunar_console_color_warning_background">#ff6F6E55</color>
     <color name="lunar_console_color_warning_text">#ffC7C7C7</color>
     <color name="lunar_console_color_collapsed_background">#ff424242</color>
+    <color name="lunar_console_color_overlay_entry_log">#ff000000</color>
+    <color name="lunar_console_color_overlay_entry_log_warning">#ffffff00</color>
+    <color name="lunar_console_color_overlay_entry_log_error">#ffff0000</color>
+    <color name="lunar_console_color_overlay_entry_shadow">#ff000000</color>
 </resources>
