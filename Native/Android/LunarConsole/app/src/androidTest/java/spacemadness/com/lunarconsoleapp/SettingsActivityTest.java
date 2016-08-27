@@ -15,7 +15,7 @@ import spacemadness.com.lunarconsole.settings.PluginSettings;
 public class SettingsActivityTest extends ApplicationBaseUITest
 {
     @Test
-    public void testOverlayView()
+    public void testSettings()
     {
         final PluginSettings settings = ConsolePlugin.pluginSettings();
         settings.setEnableExceptionWarning(true);
