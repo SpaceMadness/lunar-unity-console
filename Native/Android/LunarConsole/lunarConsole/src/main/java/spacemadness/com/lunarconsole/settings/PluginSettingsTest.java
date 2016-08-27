@@ -1,4 +1,4 @@
-package spacemadness.com.lunarconsole.console;
+package spacemadness.com.lunarconsole.settings;
 
 import android.content.Context;
 import android.content.SharedPreferences;

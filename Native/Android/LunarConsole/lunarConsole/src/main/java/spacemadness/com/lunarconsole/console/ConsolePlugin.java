@@ -39,6 +39,7 @@ import java.util.Map;
 import spacemadness.com.lunarconsole.R;
 import spacemadness.com.lunarconsole.core.Destroyable;
 import spacemadness.com.lunarconsole.debug.Log;
+import spacemadness.com.lunarconsole.settings.PluginSettings;
 import spacemadness.com.lunarconsole.ui.gestures.GestureRecognizer;
 import spacemadness.com.lunarconsole.ui.gestures.GestureRecognizerFactory;
 

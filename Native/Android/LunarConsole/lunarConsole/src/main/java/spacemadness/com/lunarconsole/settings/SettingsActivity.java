@@ -11,7 +11,6 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 import spacemadness.com.lunarconsole.console.ConsolePlugin;
-import spacemadness.com.lunarconsole.console.PluginSettings;
 import spacemadness.com.lunarconsole.debug.Log;
 import spacemadness.com.lunarconsole.utils.StringUtils;
 
@@ -22,6 +21,8 @@ public class SettingsActivity extends PreferenceActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
+        getPreferenceManager().setSharedPreferencesName(PluginSettings.PREFS_NAME);
 
         PreferenceScreen screen = getPreferenceManager().createPreferenceScreen(this);
 

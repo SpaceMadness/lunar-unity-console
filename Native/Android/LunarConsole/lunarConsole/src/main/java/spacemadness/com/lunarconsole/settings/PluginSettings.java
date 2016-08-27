@@ -1,4 +1,4 @@
-package spacemadness.com.lunarconsole.console;
+package spacemadness.com.lunarconsole.settings;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -23,7 +23,7 @@ import static spacemadness.com.lunarconsole.utils.ClassUtils.FieldFilter;
 
 public class PluginSettings
 {
-    private static final String PREFS_NAME = "spacemadness.com.lunarconsole.console.PluginSettings";
+    static final String PREFS_NAME = "spacemadness.com.lunarconsole.console.PluginSettings";
 
     private final WeakReference<Context> contextRef;
 
