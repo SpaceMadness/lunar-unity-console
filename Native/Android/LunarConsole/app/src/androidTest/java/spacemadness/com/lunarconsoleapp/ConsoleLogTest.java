@@ -1,5 +1,5 @@
 //
-//  ApplicationUITest.java
+//  ConsoleLogTest.java
 //
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
@@ -30,7 +30,7 @@ import spacemadness.com.lunarconsole.console.ConsoleLogType;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class ApplicationUITest extends ApplicationBaseUITest
+public class ConsoleLogTest extends ApplicationBaseUITest
 {
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Tests
