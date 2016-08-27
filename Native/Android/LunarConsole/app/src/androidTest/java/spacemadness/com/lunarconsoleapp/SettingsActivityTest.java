@@ -17,7 +17,7 @@ public class SettingsActivityTest extends ApplicationBaseUITest
     @Test
     public void testSettings()
     {
-        final PluginSettings settings = ConsolePlugin.pluginSettings();
+        PluginSettings settings = ConsolePlugin.pluginSettings();
         settings.setEnableExceptionWarning(true);
         settings.setEnableTransparentLogOverlay(false);
         settings.save();
@@ -41,6 +41,10 @@ public class SettingsActivityTest extends ApplicationBaseUITest
         pressButton("Enable Exception Warning");
         pressButton("Enable Transparent Log Overlay");
 
+        Assert.assertEquals(expectedEnableExceptionWarning, settings.isEnableExceptionWarning());
+        Assert.assertEquals(expectedEnableTransparentLogOverlay, settings.isEnableTransparentLogOverlay());
+
+        settings = ConsolePlugin.pluginSettings();
         Assert.assertEquals(expectedEnableExceptionWarning, settings.isEnableExceptionWarning());
         Assert.assertEquals(expectedEnableTransparentLogOverlay, settings.isEnableTransparentLogOverlay());
     }
