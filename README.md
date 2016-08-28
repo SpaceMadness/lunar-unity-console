@@ -72,12 +72,13 @@ You can open the console with a multi touch gesture or using the API call from a
 
 ### Configuration
 - Select `LunarConsole` game object in the `Hierarchy` window.  
-  <img src="https://cloud.githubusercontent.com/assets/786644/14589980/f4e4a06e-04a3-11e6-8c36-51dfb1637a1e.png"/>
+  <img src="https://cloud.githubusercontent.com/assets/786644/18031101/ada34058-6c85-11e6-947b-2f85d657a8ea.png" width=244/>
 - Find `Lunar Console` script settings in the `Inspector` window.  
-  <img src="https://cloud.githubusercontent.com/assets/786644/14590014/f9c0d692-04a4-11e6-82b7-ae176dcedab3.png"/>  
+  <img src="https://cloud.githubusercontent.com/assets/786644/18031112/2eb5120c-6c86-11e6-9e32-7b947897797d.png" width=276/>  
   - Set the capacity (the maximum number of lines the console can hold). It's advised to keep this amount low (the more you have - the more memory it will take).
   - Set the trim amount (how many lines will be removed from the beginning of the log when console overflows).
   - Choose a gesture from the drop down list or select `None` to completely disable multi touch gestures (you would still be able to open the console from your scripts).
+  - Check "Remove Rich Text Tags" to remove rich text tags from the output (may cause performance overhead).
 
 ### Stack Trace Frames
 Touch the log entry to view its stack trace.
