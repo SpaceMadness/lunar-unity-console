@@ -33,7 +33,7 @@ The project goal is to build a high-performance and lightweight Unity native iOS
 
 ### Platform Support
 - **iOS**: requires iOS 8 or later
-- **Android**: requires API Level 9 or later
+- **Android**: requires API Level 11 or later
   
 ### Key Benefits
 - Native C/Objective-C/Java code with a low memory footprint.
