@@ -15,7 +15,8 @@
     NSMutableArray                      * _entries;
     LUConsole                           * _console;
     LUConsoleOverlayControllerSettings  * _settings;
-    CGFloat                               _totalHeight;
+    BOOL                                  _dispatchScheduled;
+    BOOL                                  _dispatchCancelled;
 }
 
 @property (nonatomic, assign) IBOutlet UITableView * tableView;
@@ -60,6 +61,21 @@
 }
 
 #pragma mark -
+#pragma mark Life cycle
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    _dispatchCancelled = NO;
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    _dispatchCancelled = YES;
+}
+
+#pragma mark -
 #pragma mark UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -90,13 +106,7 @@
     LUConsoleOverlayLogEntry *entry = [LUConsoleOverlayLogEntry entryWithEntry:[console entryAtIndex:index]];
     
     // remove row after the delay
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(_settings.rowDisplayTime * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        if (_entries.count > 0 && [_entries objectAtIndex:0] == entry) {
-            [UIView performWithoutAnimation:^{
-                [self removeFirstRow];
-            }];
-        }
-    });
+    [self scheduleDispatchAfterDelay:_settings.rowDisplayTime];
     
     [UIView performWithoutAnimation:^{
         if (_entries.count < _settings.maxVisibleRows)
@@ -130,9 +140,42 @@
 
 - (void)removeFirstRow
 {
-    [_entries removeObjectAtIndex:0];
-    [_tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]]
-                      withRowAnimation:UITableViewRowAnimationNone];
+    if (_entries.count > 0)
+    {
+        [_entries removeObjectAtIndex:0];
+        [_tableView deleteRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:0]]
+                          withRowAnimation:UITableViewRowAnimationNone];
+    }
+}
+
+#pragma mark -
+#pragma mark Dispatch
+
+- (void)scheduleDispatchAfterDelay:(NSTimeInterval)delay
+{
+    if (!_dispatchScheduled)
+    {
+        _dispatchScheduled = YES;
+        
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            if (!_dispatchCancelled)
+            {
+                if (_entries.count > 0)
+                {
+                    [UIView performWithoutAnimation:^{
+                        [self removeFirstRow];
+                    }];
+                }
+                
+                _dispatchScheduled = NO;
+                
+                if (_entries.count > 0)
+                {
+                    [self scheduleDispatchAfterDelay:delay];
+                }
+            }
+        });
+    }
 }
 
 #pragma mark -

@@ -138,6 +138,7 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.LunarMob
 {
     if (_overlayWindow != nil)
     {
+        _overlayWindow.rootViewController = nil;
         _overlayWindow.hidden = YES;
         LU_RELEASE(_overlayWindow);
         _overlayWindow = nil;
