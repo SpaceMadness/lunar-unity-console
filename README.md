@@ -108,7 +108,7 @@ To
 
 **Important:** make sure to "replace" your generated Xcode project whenever you switch the plugin from enabled to disabled (or back). Failing to do so may lead to an unexpected result!  
 
-<img width="405" src="https://cloud.githubusercontent.com/assets/786644/14593655/049da558-04e2-11e6-8e03-d1fb3009a800.png">
+<img width="404" src="https://cloud.githubusercontent.com/assets/786644/18031143/985708a4-6c87-11e6-995a-69073b6eff6b.png">
 
 For more detailed information check Wiki page: [Enabling and Disabling Lunar Mobile Console](https://github.com/SpaceMadness/lunar-unity-console/wiki/Enabling-and-Disabling-Lunar-Mobile-Console).
 
