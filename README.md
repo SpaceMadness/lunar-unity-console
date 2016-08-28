@@ -84,11 +84,11 @@ Touch the log entry to view its stack trace.
 
 *Important*: make sure to properly configure your build settings (File ▶ Build Settings...) otherwise you will only be able to see exceptions traces.
 
-- iOS: set "Run in Xcode as" to "Debug"  
-<img src="https://cloud.githubusercontent.com/assets/786644/16107757/56901a4a-3353-11e6-8466-3d80796c6469.png"/>  
+- iOS: check the "Development Build" checkbox  
+<img src="https://cloud.githubusercontent.com/assets/786644/18031076/81a757e2-6c84-11e6-870b-49fbf67473dd.png" width=630/>  
 
 - Android: check the "Development Build" checkbox  
-<img src="https://cloud.githubusercontent.com/assets/786644/14590133/7070bd04-04a8-11e6-8187-4b6f10389206.png"/>  
+<img src="https://cloud.githubusercontent.com/assets/786644/18031075/81a3e36e-6c84-11e6-8484-627441e7fb91.png" width=630/>  
 
 For more info see:
 http://docs.unity3d.com/Manual/PublishingBuilds.html
