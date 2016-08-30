@@ -6,6 +6,7 @@ import android.test.suitebuilder.annotation.LargeTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import spacemadness.com.lunarconsole.console.ConsoleLogType;
 import spacemadness.com.lunarconsole.console.OverlayView;
 
 @RunWith(AndroidJUnit4.class)
@@ -30,5 +31,19 @@ public class OverlayViewTest extends ApplicationBaseUITest
         closeConsole();
 
         assertDoesNotExist(OverlayView.class);
+    }
+
+    @Test
+    public void testOverlayEntries()
+    {
+        openSettings();
+        pressButton("Enable Transparent Log Overlay");
+        closeSettings();
+        closeConsole();
+
+        // add elements to console
+        logMessage("Debug", ConsoleLogType.LOG);
+        logMessage("Warning", ConsoleLogType.WARNING);
+        logMessage("Error", ConsoleLogType.ERROR);
     }
 }

@@ -714,8 +714,10 @@ public class ConsolePlugin implements
                     return false;
                 }
 
+                OverlayView.Settings overlaySettings = new OverlayView.Settings();
+
                 final FrameLayout rootLayout = getRootLayout(activity);
-                overlayView = new OverlayView(activity, console);
+                overlayView = new OverlayView(activity, console, overlaySettings);
 
                 LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
                 rootLayout.addView(overlayView, params);

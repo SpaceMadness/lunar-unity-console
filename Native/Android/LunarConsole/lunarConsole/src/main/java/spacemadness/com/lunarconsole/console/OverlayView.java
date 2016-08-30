@@ -12,15 +12,47 @@ import spacemadness.com.lunarconsole.utils.ThreadUtils;
 import static spacemadness.com.lunarconsole.console.BaseConsoleAdapter.DataSource;
 import static spacemadness.com.lunarconsole.debug.Tags.OVERLAY_VIEW;
 
+import static spacemadness.com.lunarconsole.debug.TestHelper.*;
+
 public class OverlayView extends ListView implements Destroyable, DataSource, LunarConsoleListener
 {
     private final Console console;
-    private final ConsoleOverlayAdapter consoleAdapter;
-    private final CycleArray<ConsoleEntry> entries;
-    private final Callback[] callbacks;
-    private int callbackIndex;
 
-    public OverlayView(Context context, Console console)
+    private final Settings settings;
+
+    private final ConsoleOverlayAdapter consoleAdapter;
+
+    private final CycleArray<ConsoleEntry> entries;
+
+    private final Runnable entryRemovalCallback = new Runnable()
+    {
+        @Override
+        public void run()
+        {
+            if (entryRemovalScheduled)
+            {
+                entryRemovalScheduled = false;
+
+                // remove first visible row
+                if (entries.realLength() > 0)
+                {
+                    testEvent(TEST_EVENT_OVERLAY_REMOVE_ITEM, entries);
+
+                    entries.trimHeadIndex(1);
+                    reloadData();
+                }
+
+                // if more entries are visible - schedule another removal
+                if (entries.realLength() > 0)
+                {
+                    scheduleEntryRemoval();
+                }
+            }
+        }
+    };
+    private boolean entryRemovalScheduled;
+
+    public OverlayView(Context context, Console console, Settings settings)
     {
         super(context);
 
@@ -29,16 +61,17 @@ public class OverlayView extends ListView implements Destroyable, DataSource, Lu
             throw new NullPointerException("Console is null");
         }
 
+        if (settings == null)
+        {
+            throw new NullPointerException("Settings is null");
+        }
+
         this.console = console;
         this.console.setConsoleListener(this);
 
-        entries = new CycleArray<>(ConsoleEntry.class, 3); // TODO: make a setting
-        callbacks = new Callback[entries.getCapacity()];
-        for (int i = 0; i < callbacks.length; ++i)
-        {
-            callbacks[i] = new Callback();
-        }
+        this.settings = settings;
 
+        entries = new CycleArray<>(ConsoleEntry.class, settings.maxVisibleEntries);
         consoleAdapter = new ConsoleOverlayAdapter(this);
 
         setDivider(null);
@@ -68,15 +101,23 @@ public class OverlayView extends ListView implements Destroyable, DataSource, Lu
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Callbacks
+    // Entry removal
 
-    private void cancelCallbacks()
+    private void scheduleEntryRemoval()
     {
-        for (int i = 0; i < callbacks.length; ++i)
+        if (!entryRemovalScheduled)
         {
-            callbacks[i].cancel();
+            entryRemovalScheduled = true;
+            ThreadUtils.runOnUIThread(entryRemovalCallback, settings.entryDisplayTimeMillis);
+
+            testEvent(TEST_EVENT_OVERLAY_SCHEDULE_ITEM_REMOVAL);
         }
-        callbackIndex = 0;
+    }
+
+    private void cancelEntryRemoval()
+    {
+        entryRemovalScheduled = false;
+        ThreadUtils.cancel(entryRemovalCallback);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -90,7 +131,7 @@ public class OverlayView extends ListView implements Destroyable, DataSource, Lu
         {
             console.setConsoleListener(null);
         }
-        cancelCallbacks();
+        cancelEntryRemoval();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -114,12 +155,12 @@ public class OverlayView extends ListView implements Destroyable, DataSource, Lu
     @Override
     public void onAddEntry(Console console, ConsoleEntry entry, boolean filtered)
     {
-        entries.add(entry);
+        entries.add(entry); // cycle array will handle entries trim
         reloadData();
 
-        Callback callback = callbacks[callbackIndex];
-        callbackIndex = (callbackIndex + 1) % callbacks.length;
-        callback.schedule(entry, 1000); // TODO: make it configurable
+        testEvent(TEST_EVENT_OVERLAY_ADD_ITEM, entries);
+
+        scheduleEntryRemoval();
     }
 
     @Override
@@ -137,46 +178,27 @@ public class OverlayView extends ListView implements Destroyable, DataSource, Lu
     @Override
     public void onClearEntries(Console console)
     {
-        cancelCallbacks();
+        cancelEntryRemoval();
         entries.clear();
         reloadData();
     }
 
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Callback
+    // Settings
 
-    private class Callback implements Runnable
+    public static class Settings
     {
-        public ConsoleEntry entry;
+        /** How many entries can be visible at the same time */
+        public int maxVisibleEntries;
 
-        public synchronized void schedule(ConsoleEntry entry, long delay)
+        /** How much time each row would be displayed on the screen */
+        public long entryDisplayTimeMillis;
+
+        public Settings()
         {
-            cancel();
-
-            this.entry = entry;
-            ThreadUtils.runOnUIThread(this, delay);
-        }
-
-        public synchronized void cancel()
-        {
-            if (this.entry != null)
-            {
-                this.entry = null;
-                ThreadUtils.cancel(this);
-            }
-        }
-
-        @Override
-        public synchronized void run()
-        {
-            final int index = entries.getHeadIndex();
-            if (entries.length() > 0 && entries.get(index) == entry)
-            {
-                entries.trimHeadIndex(1);
-                reloadData();
-            }
-            entry = null;
+            maxVisibleEntries = 3;
+            entryDisplayTimeMillis = 1000;
         }
     }
-
 }
