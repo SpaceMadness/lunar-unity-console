@@ -49,15 +49,17 @@ The project goal is to build a high-performance and lightweight Unity native iOS
 - Quick logger output access with a multi touch gesture:  
 ![guid-bfa239b6-b55a-4f88-82ea-744f01cd9d77-web](https://cloud.githubusercontent.com/assets/786644/9218257/bc8e64c6-4085-11e5-96f7-f07080f310b0.png)
 - Crystal clear font and a nice mobile-friendly interface:  
-<img src="https://cloud.githubusercontent.com/assets/786644/12805854/c5c15d50-cab4-11e5-8b8c-acae74dd8c3a.PNG" width=320/>
+<img src="https://cloud.githubusercontent.com/assets/786644/18074942/86cc426c-6e25-11e6-8544-0bbe21379af3.PNG" width=320/>
+- Transparent log overlay view:  
+<img src="https://cloud.githubusercontent.com/assets/786644/18074881/07d43190-6e25-11e6-9c48-407adc9be102.png" width=320/>
 - Filter by text and log type:  
-<img src="https://cloud.githubusercontent.com/assets/786644/12805875/fcfd3686-cab4-11e5-851f-ab82e309b8e7.PNG" width=320/>
-<img src="https://cloud.githubusercontent.com/assets/786644/12805880/16a506cc-cab5-11e5-8315-75af62cc164f.PNG" width=320/>
+<img src="https://cloud.githubusercontent.com/assets/786644/18074948/8a02785c-6e25-11e6-9d49-af934213a905.PNG" width=320/>
+<img src="https://cloud.githubusercontent.com/assets/786644/18074950/8bed0862-6e25-11e6-8cb0-81ccfa6e606c.PNG" width=320/>
 - Collapse similar elements:  
-<img src="https://cloud.githubusercontent.com/assets/786644/12805895/4bd77956-cab5-11e5-8cf6-88ba9856e930.PNG" width=320/>
+<img src="https://cloud.githubusercontent.com/assets/786644/18074952/93025d50-6e25-11e6-9a3f-dee01c014740.PNG" width=320/>
 - Tap log entry to view the stack trace:  
-<img src="https://cloud.githubusercontent.com/assets/786644/12805978/9385167c-cab6-11e5-8bfc-ae9da0996358.PNG" width=320/>
-- Scroll lock, copy-to-clipboard and e-mail options.
+<img src="https://cloud.githubusercontent.com/assets/786644/18074951/8f920f94-6e25-11e6-88a3-a85bfd39068b.PNG" width=320/>
+- Copy-to-clipboard and e-mail options.
 - Automatic updates!
  
 ## Installation
