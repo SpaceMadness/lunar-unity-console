@@ -11,10 +11,10 @@
 @interface LUConsoleOverlayControllerSettings : NSObject
 
 /// How many rows can be visible at the same time
-@property (nonatomic, assign) NSUInteger maxVisibleRows;
+@property (nonatomic, assign) NSUInteger maxVisibleEntries;
 
 /// How much time each row would be displayed on the screen
-@property (nonatomic, assign) NSTimeInterval rowDisplayTime;
+@property (nonatomic, assign) NSTimeInterval entryDisplayTime;
 
 + (instancetype)settings;
 

@@ -15,8 +15,8 @@
     NSMutableArray                      * _entries;
     LUConsole                           * _console;
     LUConsoleOverlayControllerSettings  * _settings;
-    BOOL                                  _dispatchScheduled;
-    BOOL                                  _dispatchCancelled;
+    BOOL                                  _entryRemovalScheduled;
+    BOOL                                  _entryRemovalCancelled;
 }
 
 @property (nonatomic, assign) IBOutlet UITableView * tableView;
@@ -40,7 +40,7 @@
         
         _settings = LU_RETAIN(settings);
         
-        _entries = [[NSMutableArray alloc] initWithCapacity:_settings.maxVisibleRows];
+        _entries = [[NSMutableArray alloc] initWithCapacity:_settings.maxVisibleEntries];
     }
     return self;
 }
@@ -66,13 +66,13 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    _dispatchCancelled = NO;
+    _entryRemovalCancelled = NO;
 }
 
 - (void)viewWillDisappear:(BOOL)animated
 {
     [super viewWillDisappear:animated];
-    _dispatchCancelled = YES;
+    _entryRemovalCancelled = YES;
 }
 
 #pragma mark -
@@ -106,10 +106,10 @@
     LUConsoleOverlayLogEntry *entry = [LUConsoleOverlayLogEntry entryWithEntry:[console entryAtIndex:index]];
     
     // remove row after the delay
-    [self scheduleDispatchAfterDelay:_settings.rowDisplayTime];
+    [self scheduleEntryRemoval];
     
     [UIView performWithoutAnimation:^{
-        if (_entries.count < _settings.maxVisibleRows)
+        if (_entries.count < _settings.maxVisibleEntries)
         {
             [_entries addObject:entry];
             [_tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:_entries.count - 1 inSection:0]]
@@ -149,16 +149,16 @@
 }
 
 #pragma mark -
-#pragma mark Dispatch
+#pragma mark Entry removal
 
-- (void)scheduleDispatchAfterDelay:(NSTimeInterval)delay
+- (void)scheduleEntryRemoval
 {
-    if (!_dispatchScheduled)
+    if (!_entryRemovalScheduled)
     {
-        _dispatchScheduled = YES;
+        _entryRemovalScheduled = YES;
         
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(delay * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            if (!_dispatchCancelled)
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(_settings.entryDisplayTime * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            if (!_entryRemovalCancelled)
             {
                 if (_entries.count > 0)
                 {
@@ -167,11 +167,11 @@
                     }];
                 }
                 
-                _dispatchScheduled = NO;
+                _entryRemovalScheduled = NO;
                 
                 if (_entries.count > 0)
                 {
-                    [self scheduleDispatchAfterDelay:delay];
+                    [self scheduleEntryRemoval];
                 }
             }
         });
@@ -210,8 +210,8 @@
     self = [super init];
     if (self)
     {
-        _maxVisibleRows = 3;
-        _rowDisplayTime = 1.0;
+        _maxVisibleEntries = 3;
+        _entryDisplayTime = 1.0;
     }
     return self;
 }
