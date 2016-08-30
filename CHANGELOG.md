@@ -1,5 +1,12 @@
 # Lunar Console Changelog
 
+## v.0.6.0 - 8/29/2016
+
+**Improvements:**
+
+* Added a transparent log overlay view.
+* Added plugin settings.
+
 ## v.0.5.0 - 8/16/2016
 
 **Fixes:**
