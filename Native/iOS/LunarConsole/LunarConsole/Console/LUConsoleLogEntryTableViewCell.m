@@ -26,10 +26,9 @@
 static UIEdgeInsets _messageInsets;
 
 @interface LUConsoleLogEntryTableViewCell ()
-{
-    UILabel     * _messageLabel;
-    UIImageView * _iconView;
-}
+
+@property (nonatomic, retain) UILabel     * messageLabel;
+@property (nonatomic, retain) UIImageView * iconView;
 
 @end
 
@@ -61,14 +60,14 @@ static UIEdgeInsets _messageInsets;
     }
 }
 
-+ (instancetype)cellWithFrame:(CGRect)frame reuseIdentifier:(nullable NSString *)reuseIdentifier
++ (instancetype)cellWithFrame:(CGRect)frame cellIdentifier:(nullable NSString *)cellIdentifier
 {
-    return LU_AUTORELEASE([[[self class] alloc] initWithFrame:frame reuseIdentifier:reuseIdentifier]);
+    return LU_AUTORELEASE([[[self class] alloc] initWithFrame:frame cellIdentifier:cellIdentifier]);
 }
 
-- (instancetype)initWithFrame:(CGRect)frame reuseIdentifier:(nullable NSString *)reuseIdentifier
+- (instancetype)initWithFrame:(CGRect)frame cellIdentifier:(nullable NSString *)cellIdentifier
 {
-    self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:reuseIdentifier];
+    self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     if (self)
     {
         self.contentView.bounds = frame;
@@ -203,9 +202,9 @@ static UIEdgeInsets _messageInsets;
 
 @implementation LUConsoleCollapsedLogEntryTableViewCell
 
-- (instancetype)initWithFrame:(CGRect)frame reuseIdentifier:(nullable NSString *)reuseIdentifier
+- (instancetype)initWithFrame:(CGRect)frame cellIdentifier:(nullable NSString *)cellIdentifier
 {
-    self = [super initWithFrame:frame reuseIdentifier:reuseIdentifier];
+    self = [super initWithFrame:frame cellIdentifier:cellIdentifier];
     if (self)
     {
         LUTheme *theme = [self theme];
@@ -273,6 +272,72 @@ static UIEdgeInsets _messageInsets;
     
     _collapsedCount = collapsedCount;
     _countLabel.text = collapsedCount > 999 ? @"999+" : [NSString stringWithFormat:@"%ld", (long)collapsedCount];
+}
+
+@end
+
+@implementation LUConsoleOverlayLogEntryTableViewCell
+
+- (instancetype)initWithFrame:(CGRect)frame cellIdentifier:(nullable NSString *)cellIdentifier
+{
+    self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+    if (self)
+    {
+        self.contentView.bounds = frame;
+        self.backgroundColor = self.contentView.backgroundColor = [UIColor clearColor];
+        self.opaque = self.contentView.opaque = YES;
+        
+        LUTheme *theme = [self theme];
+        
+        // message
+        CGFloat messageX = theme.indentHorTiny;
+        CGFloat messageY = theme.indentVerTiny;
+        CGFloat messageWidth = CGRectGetWidth(frame) - 2 * (theme.indentHorTiny);
+        CGFloat messageHeight = CGRectGetHeight(frame) - 2 * (theme.indentVerTiny);
+        
+        UILabel * messageLabel = [[UILabel alloc] initWithFrame:CGRectMake(messageX, messageY, messageWidth, messageHeight)];
+        messageLabel.font = theme.fontOverlay;
+        messageLabel.lineBreakMode = theme.lineBreakMode;
+        messageLabel.numberOfLines = 0;
+        messageLabel.opaque = YES;
+        messageLabel.shadowColor = [UIColor blackColor];
+        messageLabel.shadowOffset = CGSizeMake(0.75, 0.75);
+        LU_SET_ACCESSIBILITY_IDENTIFIER(messageLabel, @"Log Message Label");
+        
+        [self.contentView addSubview:messageLabel];
+        
+        self.messageLabel = messageLabel;
+        LU_RELEASE(messageLabel);
+    }
+    return self;
+}
+
+// TODO: fix code duplication
++ (CGFloat)heightForCellWithText:(nullable NSString *)text width:(CGFloat)width
+{
+    LUTheme *theme = [LUTheme mainTheme];
+    
+    CGSize constraintSize = CGSizeMake(width - 2 * theme.indentHorTiny, CGFLOAT_MAX);
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    CGFloat textHeight = [text sizeWithFont:theme.font constrainedToSize:constraintSize lineBreakMode:theme.lineBreakMode].height;
+    CGFloat height = (int)(textHeight + 2 * theme.indentVerTiny + .99); // size should not be a fracture number (or gray lines will appear)
+#pragma clang diagnostic pop
+    return MAX(theme.cellHeightTiny, height);
+}
+
+- (void)setSize:(CGSize)size
+{
+    self.contentView.bounds = CGRectMake(0, 0, size.width, size.height);
+    
+    // message
+    LUTheme *theme = self.theme;
+    CGFloat messageX = theme.indentHorTiny;
+    CGFloat messageY = theme.indentVerTiny;
+    CGFloat messageWidth = size.width - 2 * (theme.indentHorTiny);
+    CGFloat messageHeight = size.height - 2 * (theme.indentVerTiny);
+    
+    self.messageLabel.frame = CGRectMake(messageX, messageY, messageWidth, messageHeight);
 }
 
 @end

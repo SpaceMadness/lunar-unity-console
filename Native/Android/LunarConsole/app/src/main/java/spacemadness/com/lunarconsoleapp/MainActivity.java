@@ -43,6 +43,7 @@ import java.util.List;
 
 import spacemadness.com.lunarconsole.console.ConsoleLogType;
 import spacemadness.com.lunarconsole.console.ConsolePlugin;
+import spacemadness.com.lunarconsole.settings.PluginSettings;
 import spacemadness.com.lunarconsole.utils.StringUtils;
 
 import static spacemadness.com.lunarconsole.console.ConsoleLogType.*;
@@ -234,7 +235,7 @@ public class MainActivity extends Activity
             }
         });
 
-        Button showConsole = (Button) findViewById(R.id.test_button_show_console);
+        final Button showConsole = (Button) findViewById(R.id.test_button_show_console);
         showConsole.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -246,6 +247,30 @@ public class MainActivity extends Activity
                     public void run()
                     {
                         ConsolePlugin.show();
+                    }
+                });
+            }
+        });
+
+        final Button showOverlay = (Button) findViewById(R.id.test_button_show_overlay);
+        showOverlay.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                dispatchOnSelectedQueue(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        if (ConsolePlugin.isOverlayShown())
+                        {
+                            ConsolePlugin.hideOverlay();
+                        }
+                        else
+                        {
+                            ConsolePlugin.showOverlay();
+                        }
                     }
                 });
             }
@@ -412,6 +437,8 @@ public class MainActivity extends Activity
         SharedPreferences.Editor edit = prefs.edit();
         edit.clear();
         edit.apply();
+
+        PluginSettings.clear(context);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

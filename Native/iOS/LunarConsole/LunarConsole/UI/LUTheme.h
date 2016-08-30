@@ -29,6 +29,7 @@
 @property (nonatomic, readonly) UIColor *textColor;
 @property (nonatomic, readonly) UIColor *backgroundColorLight;
 @property (nonatomic, readonly) UIColor *backgroundColorDark;
+@property (nonatomic, readonly) UIColor *overlayTextColor;
 
 @end
 
@@ -42,13 +43,20 @@
 @property (nonatomic, readonly) LUCellSkin *cellError;
 @property (nonatomic, readonly) LUCellSkin *cellWarning;
 
+@property (nonatomic, readonly) UIColor *backgroundColorLight;
+@property (nonatomic, readonly) UIColor *backgroundColorDark;
+
 @property (nonatomic, readonly) UIFont *font;
+@property (nonatomic, readonly) UIFont *fontOverlay;
 @property (nonatomic, readonly) UIFont *fontSmall;
 @property (nonatomic, readonly) NSLineBreakMode lineBreakMode;
 
 @property (nonatomic, readonly) CGFloat cellHeight;
 @property (nonatomic, readonly) CGFloat indentHor;
 @property (nonatomic, readonly) CGFloat indentVer;
+@property (nonatomic, readonly) CGFloat cellHeightTiny;
+@property (nonatomic, readonly) CGFloat indentHorTiny;
+@property (nonatomic, readonly) CGFloat indentVerTiny;
 @property (nonatomic, readonly) CGFloat buttonWidth;
 @property (nonatomic, readonly) CGFloat buttonHeight;
 
@@ -60,6 +68,8 @@
 @property (nonatomic, readonly) UIColor *contextMenuBackgroundColor;
 @property (nonatomic, readonly) UIColor *contextMenuTextColor;
 @property (nonatomic, readonly) UIColor *contextMenuTextHighlightColor;
+
+@property (nonatomic, readonly) UIColor *switchTintColor;
 
 + (LUTheme *)mainTheme;
 

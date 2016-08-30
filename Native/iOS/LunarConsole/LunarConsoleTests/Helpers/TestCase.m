@@ -23,6 +23,11 @@
 
 #import "Lunar.h"
 
+void UnitySendMessage(const char *objectName, const char *methodName, const char *message)
+{
+    NSLog(@"Send native message: %s.%s(%s)", objectName, methodName, message);
+}
+
 @implementation TestCase
 
 - (void)setUp

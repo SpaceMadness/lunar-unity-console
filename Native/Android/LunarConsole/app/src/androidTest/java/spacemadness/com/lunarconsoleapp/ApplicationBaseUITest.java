@@ -24,14 +24,19 @@ package spacemadness.com.lunarconsoleapp;
 import android.app.Instrumentation;
 import android.content.Context;
 import android.support.test.espresso.DataInteraction;
+import android.support.test.espresso.Espresso;
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.view.View;
+import android.widget.Checkable;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+
+import static junit.framework.Assert.*;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -40,10 +45,15 @@ import org.hamcrest.TypeSafeMatcher;
 import org.junit.Rule;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 import spacemadness.com.lunarconsole.console.ConsoleCollapsedEntry;
 import spacemadness.com.lunarconsole.console.ConsoleEntry;
 import spacemadness.com.lunarconsole.console.ConsoleLogType;
+import spacemadness.com.lunarconsole.console.ConsolePlugin;
+import spacemadness.com.lunarconsole.debug.TestHelper;
+import spacemadness.com.lunarconsole.utils.StringUtils;
 
 import static android.support.test.espresso.Espresso.*;
 import static android.support.test.espresso.action.ViewActions.*;
@@ -51,8 +61,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.*;
 import static android.support.test.espresso.assertion.ViewAssertions.*;
 import static org.hamcrest.Matchers.*;
 
-public class ApplicationBaseUITest
-{
+public class ApplicationBaseUITest implements TestHelper.EventListener {
     @Rule
     public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<MainActivity>(MainActivity.class)
     {
@@ -61,9 +70,7 @@ public class ApplicationBaseUITest
         {
             Instrumentation instrumentation = getInstrumentation();
             Context targetContext = instrumentation.getTargetContext();
-            MainActivity.clearSharedPreferences(targetContext);
-            MainActivity.forceSyncCalls = true;
-            MainActivity.shutdownPluginWhenDestroyed = false;
+            ApplicationBaseUITest.this.beforeActivityLaunched(targetContext);
         }
 
         private Instrumentation getInstrumentation()
@@ -81,6 +88,16 @@ public class ApplicationBaseUITest
         }
     };
 
+    private final List<String> results = new ArrayList<>();
+
+    protected void beforeActivityLaunched(Context targetContext)
+    {
+        MainActivity.clearSharedPreferences(targetContext);
+        MainActivity.forceSyncCalls = true;
+        MainActivity.shutdownPluginWhenDestroyed = false;
+        TestHelper.init(this);
+    }
+
     protected void pressButton(String title)
     {
         findView(title).perform(click());
@@ -88,32 +105,47 @@ public class ApplicationBaseUITest
 
     protected void pressButton(int id)
     {
-        checkVisible(id);
+        assertVisible(id);
         findView(id).perform(click());
+    }
+
+    protected void pressMenuButton(int id)
+    {
+        pressButton(getString(id));
+    }
+
+    protected void pressBackButton()
+    {
+        Espresso.pressBack();
     }
 
     protected void typeText(int id, String text)
     {
-        checkVisible(id);
+        assertVisible(id);
         findView(id).perform(ViewActions.replaceText(text), ViewActions.closeSoftKeyboard());
     }
 
     protected void appendText(int id, String text)
     {
-        checkVisible(id);
+        assertVisible(id);
         findView(id).perform(ViewActions.typeText(text), ViewActions.closeSoftKeyboard());
     }
 
     protected void deleteLastChar(int id)
     {
-        checkVisible(id);
+        assertVisible(id);
         findView(id).perform(removeLastChar(), ViewActions.closeSoftKeyboard());
     }
 
     protected void clearText(int id)
     {
-        checkVisible(id);
+        assertVisible(id);
         findView(id).perform(ViewActions.clearText(), ViewActions.closeSoftKeyboard());
+    }
+
+    protected ViewInteraction findView(Class<? extends View> cls)
+    {
+        return onView(withClassName(is(cls.getName())));
     }
 
     protected ViewInteraction findView(int id)
@@ -131,22 +163,107 @@ public class ApplicationBaseUITest
         return onView(withTagValue(Matchers.<Object>equalTo(tag)));
     }
 
-    protected void checkText(int id, String text)
+    protected void assertText(int id, String text)
     {
         findView(id).check(matches(withText(text)));
     }
 
-    protected void checkVisible(int id)
+    protected void assertPreferenceChecked(String title, boolean checked)
     {
-        findView(id).check(matches(withEffectiveVisibility(Visibility.VISIBLE)));
+        findView(title).check(matches(withCheckBoxPreference(checked)));
     }
 
-    protected void checkInvisible(int id)
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Visibility
+
+    protected void assertVisible(ViewInteraction view)
     {
-        findView(id).check(matches(withEffectiveVisibility(Visibility.GONE)));
+        view.check(matches(withEffectiveVisibility(Visibility.VISIBLE)));
     }
 
-    protected Matcher<View> withListSize(final int size)
+    protected void assertHidden(ViewInteraction view)
+    {
+        view.check(matches(withEffectiveVisibility(Visibility.GONE)));
+    }
+
+    protected void assertDoesNotExist(ViewInteraction view)
+    {
+        view.check(doesNotExist());
+    }
+
+    protected void assertVisible(int id)
+    {
+        assertVisible(findView(id));
+    }
+
+    protected void assertHidden(int id)
+    {
+        assertHidden(findView(id));
+    }
+
+    protected void assertDoesNotExist(int id)
+    {
+        assertDoesNotExist(findView(id));
+    }
+
+    protected void assertVisible(Class<? extends View> cls)
+    {
+        assertVisible(findView(cls));
+    }
+
+    protected void assertHidden(Class<? extends View> cls)
+    {
+        assertHidden(findView(cls));
+    }
+
+    protected void assertDoesNotExist(Class<? extends View> cls)
+    {
+        assertDoesNotExist(findView(cls));
+    }
+
+    protected boolean isVisible(int id)
+    {
+        try
+        {
+            assertVisible(id);
+            return true;
+        }
+        catch (Throwable e)
+        {
+            return false;
+        }
+    }
+
+    protected boolean isInvisible(int id)
+    {
+        try
+        {
+            assertHidden(id);
+            return true;
+        }
+        catch (Throwable e)
+        {
+            return false;
+        }
+    }
+
+    protected boolean isNotExist(int id)
+    {
+        try
+        {
+            assertDoesNotExist(id);
+            return true;
+        }
+        catch (Throwable e)
+        {
+            return false;
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // ListView
+
+    protected Matcher<View> withListViewSize(final int size)
     {
         return new TypeSafeMatcher<View>()
         {
@@ -160,6 +277,43 @@ public class ApplicationBaseUITest
             protected boolean matchesSafely(View item)
             {
                 return ((ListView) item).getChildCount () == size;
+            }
+        };
+    }
+
+    protected Matcher<View> withCheckBoxPreference(final boolean checked)
+    {
+        return new TypeSafeMatcher<View>()
+        {
+            @Override
+            public void describeTo(Description description)
+            {
+                description.appendText ("check box preference should be" + (checked ? "" : " not") + " checked");
+            }
+
+            @Override
+            protected boolean matchesSafely(View item)
+            {
+                // FIXME: this is bad
+                final LinearLayout layout = (LinearLayout) ((LinearLayout) item.getParent().getParent()).getChildAt(2);
+
+                final Checkable checkable = findCheckable(layout);
+                return checkable != null && checkable.isChecked() == checked;
+            }
+
+            private Checkable findCheckable(LinearLayout layout)
+            {
+                int childCount = layout.getChildCount();
+                for (int i = 0; i < childCount; ++i)
+                {
+                    final View child = layout.getChildAt(i);
+                    if (child instanceof Checkable)
+                    {
+                        return (Checkable) child;
+                    }
+                }
+
+                return null;
             }
         };
     }
@@ -191,12 +345,190 @@ public class ApplicationBaseUITest
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Results
+
+    private final Object resultMutex = new Object();
+
+    protected void addResult(String result)
+    {
+        results.add(result);
+
+        synchronized (resultMutex)
+        {
+            resultMutex.notifyAll();
+        }
+    }
+    protected void clearResults()
+    {
+        results.clear();
+    }
+
+    private void waitForResults(int length)
+    {
+        synchronized (resultMutex)
+        {
+            long startTime = System.currentTimeMillis();
+            while (results.size() < length && System.currentTimeMillis() - startTime < 5000)
+            {
+                try
+                {
+                    resultMutex.wait(1000);
+                }
+                catch (InterruptedException e)
+                {
+                    break;
+                }
+            }
+        }
+    }
+
+    protected void assertResult(String... expected)
+    {
+        waitForResults(expected.length);
+        assertResult(results, expected);
+    }
+
+    protected void assertResult(List<String> actual, String... expected)
+    {
+        assertEquals("\nExpected: " + StringUtils.Join(expected) +
+                "\nActual: " + StringUtils.Join(actual), expected.length, actual.size());
+
+        for (int i = 0; i < expected.length; ++i)
+        {
+            assertEquals("\nExpected: " + StringUtils.Join(expected) +
+                            "\nActual: " + StringUtils.Join(actual),
+                    expected[i], actual.get(i));
+        }
+        clearResults();
+    }
+
+    protected void assertResult(String[] actual, String... expected)
+    {
+        assertEquals("\nExpected: " + StringUtils.Join(expected) +
+                        "\nActual: " + StringUtils.Join(actual),
+                expected.length, actual.length);
+
+        for (int i = 0; i < expected.length; ++i)
+        {
+            assertEquals("\nExpected: " + StringUtils.Join(expected) +
+                            "\nActual: " + StringUtils.Join(actual),
+                    expected[i], actual[i]);
+        }
+        clearResults();
+    }
+
+    protected void assertResult(int[] actual, int... expected)
+    {
+        assertEquals("\nExpected: " + StringUtils.Join(expected) +
+                        "\nActual: " + StringUtils.Join(actual),
+                expected.length, actual.length);
+
+        for (int i = 0; i < expected.length; ++i)
+        {
+            assertEquals("\nExpected: " + StringUtils.Join(expected) +
+                            "\nActual: " + StringUtils.Join(actual),
+                    expected[i], actual[i]);
+        }
+        clearResults();
+    }
+
+    protected void assertResult(float[] actual, float... expected)
+    {
+        assertEquals("\nExpected: " + StringUtils.Join(expected) +
+                "\nActual: " + StringUtils.Join(actual), expected.length, actual.length);
+
+        for (int i = 0; i < expected.length; ++i)
+        {
+            assertEquals("\nExpected: " + StringUtils.Join(expected) +
+                            "\nActual: " + StringUtils.Join(actual),
+                    expected[i], actual[i]);
+        }
+        clearResults();
+    }
+
+    protected void assertResult(boolean[] actual, boolean... expected)
+    {
+        assertEquals("\nExpected: " + StringUtils.Join(expected) +
+                "\nActual: " + StringUtils.Join(actual), expected.length, actual.length);
+
+        for (int i = 0; i < expected.length; ++i)
+        {
+            assertEquals("\nExpected: " + StringUtils.Join(expected) +
+                            "\nActual: " + StringUtils.Join(actual),
+                    expected[i], actual[i]);
+        }
+        clearResults();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Log helpers
+
+    protected void logMessage(String message, int logType)
+    {
+        logMessage(message, null, logType);
+    }
+
+    protected void logMessage(String message, String stackTrace, int logType)
+    {
+        ConsolePlugin.logMessage(message, stackTrace, logType);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Test events
+
+    @Override
+    public void onTestEvent(String name, Object data)
+    {
+
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     // Helpers
 
-    protected void logMessage(String message, byte logType)
+    protected void openConsole()
     {
-        typeText(R.id.test_edit_message, message);
-        pressButton(getButtonId(logType));
+        if (isNotExist(R.id.lunar_console_layout))
+        {
+            pressButton(R.id.test_button_show_console);
+        }
+    }
+
+    protected void closeConsole()
+    {
+        pressButton(R.id.lunar_console_button_close);
+    }
+
+    protected void openConsoleMenu()
+    {
+        openConsole();
+        pressButton(R.id.lunar_console_button_more);
+    }
+
+    protected void openSettings()
+    {
+        openConsoleMenu();
+        pressMenuButton(R.string.lunar_console_more_menu_settings);
+    }
+
+    protected void closeSettings()
+    {
+        pressBackButton();
+    }
+
+    protected void assertExceptionWarningVisible()
+    {
+        assertVisible(R.id.lunar_console_warning_text_message);
+    }
+
+    protected void assertExceptionWarningInvisible()
+    {
+        findView(R.id.lunar_console_warning_text_message).check(doesNotExist());
+    }
+
+    protected void assertExceptionWarning(String expected)
+    {
+        assertExceptionWarningVisible();
+        assertText(R.id.lunar_console_warning_text_message, expected);
     }
 
     protected void assertTable(String... expected)
@@ -207,7 +539,7 @@ public class ApplicationBaseUITest
         listView.check(matches(isDisplayed()));
 
         // should contains expected number of children
-        listView.check(matches(withListSize(expected.length)));
+        listView.check(matches(withListViewSize(expected.length)));
 
         String[] messages = new String[expected.length];
         int[] messageCount = new int[expected.length];

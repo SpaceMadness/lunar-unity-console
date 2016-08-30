@@ -73,6 +73,29 @@ public class StringUtils
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Transformations
+
+    public static String camelCaseToWords(String string)
+    {
+        if (IsNullOrEmpty(string)) return string;
+
+        StringBuilder result = new StringBuilder(string.length());
+        result.append(Character.toUpperCase(string.charAt(0)));
+
+        for (int i = 1; i < string.length(); ++i)
+        {
+            char chr = string.charAt(i);
+            if (Character.isUpperCase(chr))
+            {
+                result.append(' ');
+            }
+            result.append(chr);
+        }
+
+        return result.toString();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     // Nullability
 
     public static boolean IsNullOrEmpty(String str)

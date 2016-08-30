@@ -35,12 +35,19 @@ static LUTheme * _mainTheme;
 @property (nonatomic, strong) LUCellSkin *cellError;
 @property (nonatomic, strong) LUCellSkin *cellWarning;
 
+@property (nonatomic, strong) UIColor *backgroundColorLight;
+@property (nonatomic, strong) UIColor *backgroundColorDark;
+
 @property (nonatomic, strong) UIFont *font;
+@property (nonatomic, strong) UIFont *fontOverlay;
 @property (nonatomic, strong) UIFont *fontSmall;
 @property (nonatomic, assign) NSLineBreakMode lineBreakMode;
 @property (nonatomic, assign) CGFloat cellHeight;
 @property (nonatomic, assign) CGFloat indentHor;
 @property (nonatomic, assign) CGFloat indentVer;
+@property (nonatomic, assign) CGFloat cellHeightTiny;
+@property (nonatomic, assign) CGFloat indentHorTiny;
+@property (nonatomic, assign) CGFloat indentVerTiny;
 @property (nonatomic, assign) CGFloat buttonWidth;
 @property (nonatomic, assign) CGFloat buttonHeight;
 
@@ -53,6 +60,7 @@ static LUTheme * _mainTheme;
 @property (nonatomic, strong) UIColor *contextMenuTextColor;
 @property (nonatomic, strong) UIColor *contextMenuTextHighlightColor;
 
+@property (nonatomic, strong) UIColor *switchTintColor;
 @end
 
 @interface LUCellSkin ()
@@ -61,6 +69,7 @@ static LUTheme * _mainTheme;
 @property (nonatomic, strong) UIColor *textColor;
 @property (nonatomic, strong) UIColor *backgroundColorLight;
 @property (nonatomic, strong) UIColor *backgroundColorDark;
+@property (nonatomic, strong) UIColor *overlayTextColor;
 
 @end
 
@@ -103,18 +112,21 @@ static UIImage * CreateCollapseBackgroundImage()
         cellLog.textColor = UIColorMake(0xb1b1b1);
         cellLog.backgroundColorLight = UIColorMake(0x3c3c3c);
         cellLog.backgroundColorDark = UIColorMake(0x373737);
+        cellLog.overlayTextColor = UIColorMake(0xadadad);
         
         LUCellSkin *cellError = [LUCellSkin cellSkin];
         cellError.icon = [UIImage imageNamed:@"lunar_console_icon_log_error.png"];
         cellError.textColor = cellLog.textColor;
         cellError.backgroundColorLight = cellLog.backgroundColorLight;
         cellError.backgroundColorDark = cellLog.backgroundColorDark;
+        cellError.overlayTextColor = UIColorMake(0xfc0000);
         
         LUCellSkin *cellWarning = [LUCellSkin cellSkin];
         cellWarning.icon = [UIImage imageNamed:@"lunar_console_icon_log_warning.png"];
         cellWarning.textColor = cellLog.textColor;
         cellWarning.backgroundColorLight = cellLog.backgroundColorLight;
         cellWarning.backgroundColorDark = cellLog.backgroundColorDark;
+        cellWarning.overlayTextColor = UIColorMake(0xf4f600);
         
         _mainTheme = [LUTheme new];
         _mainTheme.tableColor = UIColorMake(0x2c2c27);
@@ -123,12 +135,18 @@ static UIImage * CreateCollapseBackgroundImage()
         _mainTheme.cellLog = cellLog;
         _mainTheme.cellError = cellError;
         _mainTheme.cellWarning = cellWarning;
+        _mainTheme.backgroundColorLight = cellLog.backgroundColorLight;
+        _mainTheme.backgroundColorDark = cellLog.backgroundColorDark;
         _mainTheme.font = [self createDefaultFont];
+        _mainTheme.fontOverlay = [self createOverlayFont];
         _mainTheme.fontSmall = [self createSmallFont];
         _mainTheme.lineBreakMode = NSLineBreakByWordWrapping;
         _mainTheme.cellHeight = 32;
         _mainTheme.indentHor = 10;
         _mainTheme.indentVer = 2;
+        _mainTheme.cellHeightTiny = 12;
+        _mainTheme.indentHorTiny = 2;
+        _mainTheme.indentVerTiny = 0;
         _mainTheme.buttonWidth = 46;
         _mainTheme.buttonHeight = 30;
         _mainTheme.collapseBackgroundImage = CreateCollapseBackgroundImage();
@@ -138,6 +156,7 @@ static UIImage * CreateCollapseBackgroundImage()
         _mainTheme.contextMenuBackgroundColor = UIColorMake(0x3c3c3c);
         _mainTheme.contextMenuTextColor = cellLog.textColor;
         _mainTheme.contextMenuTextHighlightColor = [UIColor whiteColor];
+        _mainTheme.switchTintColor = UIColorMake(0xfed900);
     }
 }
 
@@ -146,9 +165,12 @@ static UIImage * CreateCollapseBackgroundImage()
     LU_RELEASE(_tableColor);
     LU_RELEASE(_logButtonTitleColor);
     LU_RELEASE(_logButtonTitleSelectedColor);
+    LU_RELEASE(_switchTintColor);
     LU_RELEASE(_cellLog);
     LU_RELEASE(_cellWarning);
     LU_RELEASE(_cellError);
+    LU_RELEASE(_backgroundColorDark);
+    LU_RELEASE(_backgroundColorLight);
     LU_RELEASE(_font);
     LU_RELEASE(_fontSmall);
     LU_RELEASE(_collapseBackgroundImage);
@@ -165,6 +187,17 @@ static UIImage * CreateCollapseBackgroundImage()
 + (UIFont *)createDefaultFont
 {
     UIFont *font = [UIFont fontWithName:@"Menlo-regular" size:10];
+    if (font != nil)
+    {
+        return font;
+    }
+    
+    return [UIFont systemFontOfSize:10];
+}
+
++ (UIFont *)createOverlayFont
+{
+    UIFont *font = [UIFont fontWithName:@"Menlo-bold" size:10];
     if (font != nil)
     {
         return font;
@@ -215,6 +248,7 @@ static UIImage * CreateCollapseBackgroundImage()
     LU_RELEASE(_textColor);
     LU_RELEASE(_backgroundColorLight);
     LU_RELEASE(_backgroundColorDark);
+    LU_RELEASE(_overlayTextColor);
     LU_SUPER_DEALLOC
 }
 

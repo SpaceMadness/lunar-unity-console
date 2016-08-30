@@ -16,7 +16,7 @@
         android:typeface="monospace"/>
 
     <TextView
-        android:id="@+id/lunar_console_text_warning_message"
+        android:id="@+id/lunar_console_warning_text_message"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
@@ -29,13 +29,13 @@
         />
 
     <ImageButton
-        android:id="@+id/lunar_console_button_details"
+        android:id="@+id/lunar_console_warning_button_details"
         style="@style/lunar_console_base_button_style"
         android:layout_gravity="center_vertical"
         android:src="@drawable/lunar_console_icon_button_console"/>
 
     <ImageButton
-        android:id="@+id/lunar_console_button_dismiss"
+        android:id="@+id/lunar_console_warning_button_dismiss"
         style="@style/lunar_console_base_button_style"
         android:layout_gravity="center_vertical"
         android:src="@drawable/lunar_console_icon_button_close"/>

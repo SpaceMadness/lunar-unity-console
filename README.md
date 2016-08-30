@@ -33,7 +33,7 @@ The project goal is to build a high-performance and lightweight Unity native iOS
 
 ### Platform Support
 - **iOS**: requires iOS 8 or later
-- **Android**: requires API Level 9 or later
+- **Android**: requires API Level 11 or later
   
 ### Key Benefits
 - Native C/Objective-C/Java code with a low memory footprint.
@@ -72,23 +72,24 @@ You can open the console with a multi touch gesture or using the API call from a
 
 ### Configuration
 - Select `LunarConsole` game object in the `Hierarchy` window.  
-  <img src="https://cloud.githubusercontent.com/assets/786644/14589980/f4e4a06e-04a3-11e6-8c36-51dfb1637a1e.png"/>
+  <img src="https://cloud.githubusercontent.com/assets/786644/18031101/ada34058-6c85-11e6-947b-2f85d657a8ea.png" width=244/>
 - Find `Lunar Console` script settings in the `Inspector` window.  
-  <img src="https://cloud.githubusercontent.com/assets/786644/14590014/f9c0d692-04a4-11e6-82b7-ae176dcedab3.png"/>  
+  <img src="https://cloud.githubusercontent.com/assets/786644/18031112/2eb5120c-6c86-11e6-9e32-7b947897797d.png" width=276/>  
   - Set the capacity (the maximum number of lines the console can hold). It's advised to keep this amount low (the more you have - the more memory it will take).
   - Set the trim amount (how many lines will be removed from the beginning of the log when console overflows).
   - Choose a gesture from the drop down list or select `None` to completely disable multi touch gestures (you would still be able to open the console from your scripts).
+  - Check "Remove Rich Text Tags" to remove rich text tags from the output (may cause performance overhead).
 
 ### Stack Trace Frames
 Touch the log entry to view its stack trace.
 
 *Important*: make sure to properly configure your build settings (File ▶ Build Settings...) otherwise you will only be able to see exceptions traces.
 
-- iOS: set "Run in Xcode as" to "Debug"  
-<img src="https://cloud.githubusercontent.com/assets/786644/16107757/56901a4a-3353-11e6-8466-3d80796c6469.png"/>  
+- iOS: check the "Development Build" checkbox  
+<img src="https://cloud.githubusercontent.com/assets/786644/18031076/81a757e2-6c84-11e6-870b-49fbf67473dd.png" width=630/>  
 
 - Android: check the "Development Build" checkbox  
-<img src="https://cloud.githubusercontent.com/assets/786644/14590133/7070bd04-04a8-11e6-8187-4b6f10389206.png"/>  
+<img src="https://cloud.githubusercontent.com/assets/786644/18031075/81a3e36e-6c84-11e6-8484-627441e7fb91.png" width=630/>  
 
 For more info see:
 http://docs.unity3d.com/Manual/PublishingBuilds.html
@@ -107,7 +108,7 @@ To
 
 **Important:** make sure to "replace" your generated Xcode project whenever you switch the plugin from enabled to disabled (or back). Failing to do so may lead to an unexpected result!  
 
-<img width="405" src="https://cloud.githubusercontent.com/assets/786644/14593655/049da558-04e2-11e6-8e03-d1fb3009a800.png">
+<img width="404" src="https://cloud.githubusercontent.com/assets/786644/18031143/985708a4-6c87-11e6-995a-69073b6eff6b.png">
 
 For more detailed information check Wiki page: [Enabling and Disabling Lunar Mobile Console](https://github.com/SpaceMadness/lunar-unity-console/wiki/Enabling-and-Disabling-Lunar-Mobile-Console).
 

@@ -27,6 +27,7 @@
 		84EA4FE81C58786700A0635C /* lunar_console_icon_button_more.png in Resources */ = {isa = PBXBuildFile; fileRef = 84EA4FE51C58786700A0635C /* lunar_console_icon_button_more.png */; };
 		84EA4FE91C58786700A0635C /* lunar_console_icon_button_more@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84EA4FE61C58786700A0635C /* lunar_console_icon_button_more@2x.png */; };
 		84EA4FEA1C58786700A0635C /* lunar_console_icon_button_more@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 84EA4FE71C58786700A0635C /* lunar_console_icon_button_more@3x.png */; };
+		84FF9A1C1D69279B0034E40E /* LUConsoleOverlayController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 84FF9A1B1D69279B0034E40E /* LUConsoleOverlayController.xib */; };
 		EF0836301B7AB5E400DFB877 /* lunar_console_icon_button_clear.png in Resources */ = {isa = PBXBuildFile; fileRef = EF08360F1B7AB5E400DFB877 /* lunar_console_icon_button_clear.png */; };
 		EF0836311B7AB5E400DFB877 /* lunar_console_icon_button_clear@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF0836101B7AB5E400DFB877 /* lunar_console_icon_button_clear@2x.png */; };
 		EF0836321B7AB5E400DFB877 /* lunar_console_icon_button_clear@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF0836111B7AB5E400DFB877 /* lunar_console_icon_button_clear@3x.png */; };
@@ -63,6 +64,11 @@
 		EF0836B31B7ABD6D00DFB877 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 844741FA1B719DA500F5ABD3 /* LaunchScreen.xib */; };
 		EF0836B41B7ABD6D00DFB877 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 844741F51B719DA500F5ABD3 /* Main.storyboard */; };
 		EF21AE1B1BF536FE0053D50B /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF21AE1A1BF536FE0053D50B /* MessageUI.framework */; };
+		EF5AD1051D6B980D00B27500 /* lunar_console_icon_button_settings.png in Resources */ = {isa = PBXBuildFile; fileRef = EF5AD1021D6B980D00B27500 /* lunar_console_icon_button_settings.png */; };
+		EF5AD1061D6B980D00B27500 /* lunar_console_icon_button_settings@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF5AD1031D6B980D00B27500 /* lunar_console_icon_button_settings@2x.png */; };
+		EF5AD1071D6B980D00B27500 /* lunar_console_icon_button_settings@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = EF5AD1041D6B980D00B27500 /* lunar_console_icon_button_settings@3x.png */; };
+		EF5AD1131D6BBFC300B27500 /* LUConsoleSettingsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF5AD1111D6BBFC300B27500 /* LUConsoleSettingsController.xib */; };
+		EF5AD1141D6BBFC300B27500 /* LUSettingsTableCellBool.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF5AD1121D6BBFC300B27500 /* LUSettingsTableCellBool.xib */; };
 		EF64F8F21C03D86E008DCB8E /* input.txt in Resources */ = {isa = PBXBuildFile; fileRef = EF64F8F11C03D86E008DCB8E /* input.txt */; };
 		EF64F8F61C03D8B3008DCB8E /* FakeLogEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = EF64F8F51C03D8B3008DCB8E /* FakeLogEntry.m */; };
 		EF81893C1BE16E58008FFCB9 /* libLunarConsole.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 844742171B719DB600F5ABD3 /* libLunarConsole.a */; };
@@ -149,6 +155,7 @@
 		84EA4FE51C58786700A0635C /* lunar_console_icon_button_more.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lunar_console_icon_button_more.png; path = ../../LunarConsole/LunarConsole/Images/lunar_console_icon_button_more.png; sourceTree = "<group>"; };
 		84EA4FE61C58786700A0635C /* lunar_console_icon_button_more@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lunar_console_icon_button_more@2x.png"; path = "../../LunarConsole/LunarConsole/Images/lunar_console_icon_button_more@2x.png"; sourceTree = "<group>"; };
 		84EA4FE71C58786700A0635C /* lunar_console_icon_button_more@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lunar_console_icon_button_more@3x.png"; path = "../../LunarConsole/LunarConsole/Images/lunar_console_icon_button_more@3x.png"; sourceTree = "<group>"; };
+		84FF9A1B1D69279B0034E40E /* LUConsoleOverlayController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LUConsoleOverlayController.xib; path = ../../LunarConsole/LunarConsole/Console/LUConsoleOverlayController.xib; sourceTree = "<group>"; };
 		EF08360F1B7AB5E400DFB877 /* lunar_console_icon_button_clear.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lunar_console_icon_button_clear.png; path = ../../LunarConsole/LunarConsole/Images/lunar_console_icon_button_clear.png; sourceTree = "<group>"; };
 		EF0836101B7AB5E400DFB877 /* lunar_console_icon_button_clear@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lunar_console_icon_button_clear@2x.png"; path = "../../LunarConsole/LunarConsole/Images/lunar_console_icon_button_clear@2x.png"; sourceTree = "<group>"; };
 		EF0836111B7AB5E400DFB877 /* lunar_console_icon_button_clear@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lunar_console_icon_button_clear@3x.png"; path = "../../LunarConsole/LunarConsole/Images/lunar_console_icon_button_clear@3x.png"; sourceTree = "<group>"; };
@@ -183,6 +190,11 @@
 		EF08362E1B7AB5E400DFB877 /* lunar_console_log_button_background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lunar_console_log_button_background@2x.png"; path = "../../LunarConsole/LunarConsole/Images/lunar_console_log_button_background@2x.png"; sourceTree = "<group>"; };
 		EF08362F1B7AB5E400DFB877 /* lunar_console_log_button_background@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lunar_console_log_button_background@3x.png"; path = "../../LunarConsole/LunarConsole/Images/lunar_console_log_button_background@3x.png"; sourceTree = "<group>"; };
 		EF21AE1A1BF536FE0053D50B /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		EF5AD1021D6B980D00B27500 /* lunar_console_icon_button_settings.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lunar_console_icon_button_settings.png; path = ../../LunarConsole/LunarConsole/Images/lunar_console_icon_button_settings.png; sourceTree = "<group>"; };
+		EF5AD1031D6B980D00B27500 /* lunar_console_icon_button_settings@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lunar_console_icon_button_settings@2x.png"; path = "../../LunarConsole/LunarConsole/Images/lunar_console_icon_button_settings@2x.png"; sourceTree = "<group>"; };
+		EF5AD1041D6B980D00B27500 /* lunar_console_icon_button_settings@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lunar_console_icon_button_settings@3x.png"; path = "../../LunarConsole/LunarConsole/Images/lunar_console_icon_button_settings@3x.png"; sourceTree = "<group>"; };
+		EF5AD1111D6BBFC300B27500 /* LUConsoleSettingsController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LUConsoleSettingsController.xib; path = ../../LunarConsole/LunarConsole/Console/LUConsoleSettingsController.xib; sourceTree = "<group>"; };
+		EF5AD1121D6BBFC300B27500 /* LUSettingsTableCellBool.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LUSettingsTableCellBool.xib; path = ../../LunarConsole/LunarConsole/Console/LUSettingsTableCellBool.xib; sourceTree = "<group>"; };
 		EF64F8F11C03D86E008DCB8E /* input.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = input.txt; sourceTree = "<group>"; };
 		EF64F8F41C03D8B3008DCB8E /* FakeLogEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeLogEntry.h; sourceTree = "<group>"; };
 		EF64F8F51C03D8B3008DCB8E /* FakeLogEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FakeLogEntry.m; sourceTree = "<group>"; };
@@ -308,6 +320,8 @@
 				EFB99CCC1D21E25E00C95E80 /* LUConsoleLogController.xib */,
 				EFB99CD21D21E3AA00C95E80 /* LUConsoleLogDetailsController.xib */,
 				EFB99CD81D21E4DD00C95E80 /* LUConsoleLogMenuController.xib */,
+				84FF9A1B1D69279B0034E40E /* LUConsoleOverlayController.xib */,
+				EF5AD1111D6BBFC300B27500 /* LUConsoleSettingsController.xib */,
 				EFB99CE51D21E70F00C95E80 /* LUExceptionWarningController.xib */,
 				84EA4FCE1C573C7A00A0635C /* lunar_console_collapse_background.png */,
 				84EA4FCF1C573C7A00A0635C /* lunar_console_collapse_background@2x.png */,
@@ -339,6 +353,9 @@
 				84EA4FE51C58786700A0635C /* lunar_console_icon_button_more.png */,
 				84EA4FE61C58786700A0635C /* lunar_console_icon_button_more@2x.png */,
 				84EA4FE71C58786700A0635C /* lunar_console_icon_button_more@3x.png */,
+				EF5AD1021D6B980D00B27500 /* lunar_console_icon_button_settings.png */,
+				EF5AD1031D6B980D00B27500 /* lunar_console_icon_button_settings@2x.png */,
+				EF5AD1041D6B980D00B27500 /* lunar_console_icon_button_settings@3x.png */,
 				EF0836211B7AB5E400DFB877 /* lunar_console_icon_button_unlock.png */,
 				EF0836221B7AB5E400DFB877 /* lunar_console_icon_button_unlock@2x.png */,
 				EF0836231B7AB5E400DFB877 /* lunar_console_icon_button_unlock@3x.png */,
@@ -357,6 +374,7 @@
 				EF08362D1B7AB5E400DFB877 /* lunar_console_log_button_background.png */,
 				EF08362E1B7AB5E400DFB877 /* lunar_console_log_button_background@2x.png */,
 				EF08362F1B7AB5E400DFB877 /* lunar_console_log_button_background@3x.png */,
+				EF5AD1121D6BBFC300B27500 /* LUSettingsTableCellBool.xib */,
 			);
 			name = Assets;
 			sourceTree = "<group>";
@@ -510,6 +528,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF5AD1131D6BBFC300B27500 /* LUConsoleSettingsController.xib in Resources */,
+				EF5AD1141D6BBFC300B27500 /* LUSettingsTableCellBool.xib in Resources */,
+				EF5AD1051D6B980D00B27500 /* lunar_console_icon_button_settings.png in Resources */,
+				EF5AD1061D6B980D00B27500 /* lunar_console_icon_button_settings@2x.png in Resources */,
+				EF5AD1071D6B980D00B27500 /* lunar_console_icon_button_settings@3x.png in Resources */,
 				EFB99CE61D21E70F00C95E80 /* LUExceptionWarningController.xib in Resources */,
 				EFB99CD91D21E4DD00C95E80 /* LUConsoleLogMenuController.xib in Resources */,
 				EFB99CD31D21E3AA00C95E80 /* LUConsoleLogDetailsController.xib in Resources */,
@@ -521,6 +544,7 @@
 				EF0836331B7AB5E400DFB877 /* lunar_console_icon_button_clipboard.png in Resources */,
 				EF0836461B7AB5E400DFB877 /* lunar_console_icon_log_error@2x.png in Resources */,
 				84EA4FD21C573C7A00A0635C /* lunar_console_collapse_background@2x.png in Resources */,
+				84FF9A1C1D69279B0034E40E /* LUConsoleOverlayController.xib in Resources */,
 				EF0836321B7AB5E400DFB877 /* lunar_console_icon_button_clear@3x.png in Resources */,
 				EF0836411B7AB5E400DFB877 /* lunar_console_icon_button_lock@3x.png in Resources */,
 				EF0836391B7AB5E400DFB877 /* lunar_console_icon_button_console.png in Resources */,

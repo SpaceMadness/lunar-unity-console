@@ -26,6 +26,7 @@
 
 @class LUConsole;
 @class LUWindow;
+@class LUConsolePluginSettings;
 
 typedef enum : NSUInteger {
     LUConsoleGestureNone,
@@ -35,11 +36,14 @@ typedef enum : NSUInteger {
 @interface LUConsolePlugin : LUObject
 
 @property (nonatomic, readonly) LUWindow         * consoleWindow;
+@property (nonatomic, readonly) LUWindow         * overlayWindow;
 @property (nonatomic, readonly) LUWindow         * warningWindow;
 @property (nonatomic, readonly) LUConsole        * console;
 
 @property (nonatomic, assign) NSInteger capacity;
 @property (nonatomic, assign) NSInteger trim;
+
+@property (nonatomic, readonly) LUConsolePluginSettings *settings;
 
 - (instancetype)initWithTargetName:(NSString *)targetName
                         methodName:(NSString *)methodName
@@ -48,8 +52,13 @@ typedef enum : NSUInteger {
                          trimCount:(NSUInteger)trimCount
                        gestureName:(NSString *)gestureName;
 
+- (void)start;
+
 - (void)show;
 - (void)hide;
+
+- (void)showOverlay;
+- (void)hideOverlay;
 
 - (void)logMessage:(NSString *)message stackTrace:(NSString *)stackTrace type:(LUConsoleLogType)type;
 - (void)clear;

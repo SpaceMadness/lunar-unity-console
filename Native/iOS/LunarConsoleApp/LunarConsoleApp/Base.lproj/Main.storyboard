@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="GeT-2f-Yq5">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="GeT-2f-Yq5">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
@@ -27,13 +27,13 @@
                                     <action selector="onShowController:" destination="BYZ-38-t0r" eventType="touchUpInside" id="9iE-I5-wZL"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TwB-1j-1uD">
-                                <rect key="frame" x="263" y="323" width="75" height="30"/>
-                                <state key="normal" title="Show Alert">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fgb-vV-fT6">
+                                <rect key="frame" x="253" y="323" width="94" height="30"/>
+                                <state key="normal" title="Show Overlay">
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
                                 <connections>
-                                    <action selector="onShowAlert:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gxP-9L-RHp"/>
+                                    <action selector="onShowOverlay:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Mwt-Nm-rMC"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iu3-T1-O2O">
@@ -107,15 +107,28 @@
                                     <action selector="onSetTrim:" destination="BYZ-38-t0r" eventType="touchUpInside" id="q40-8a-QTB"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TwB-1j-1uD">
+                                <rect key="frame" x="263" y="361" width="75" height="30"/>
+                                <state key="normal" title="Show Alert">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="onShowAlert:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gxP-9L-RHp"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="TwB-1j-1uD" firstAttribute="top" secondItem="fgb-vV-fT6" secondAttribute="bottom" constant="8" id="3Z6-n9-yX6"/>
                             <constraint firstItem="LPa-0J-Gun" firstAttribute="centerY" secondItem="P6c-4t-lvy" secondAttribute="centerY" id="5S9-wg-1pK"/>
                             <constraint firstAttribute="leadingMargin" secondItem="zNG-Pl-iur" secondAttribute="leading" id="8Gl-Pt-4Y5"/>
                             <constraint firstItem="TwB-1j-1uD" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="AWv-yg-o09"/>
                             <constraint firstItem="zNG-Pl-iur" firstAttribute="top" secondItem="4Y1-hE-rHl" secondAttribute="bottom" constant="8" id="Cs5-Zi-nhn"/>
                             <constraint firstAttribute="trailingMargin" secondItem="6wn-Mw-3aO" secondAttribute="trailing" id="D3I-8o-91C"/>
+                            <constraint firstItem="fgb-vV-fT6" firstAttribute="centerX" secondItem="evW-4U-GLQ" secondAttribute="centerX" id="Kbb-av-69L"/>
                             <constraint firstAttribute="leadingMargin" secondItem="4Y1-hE-rHl" secondAttribute="leading" id="PtN-M8-feG"/>
+                            <constraint firstItem="fgb-vV-fT6" firstAttribute="top" secondItem="evW-4U-GLQ" secondAttribute="bottom" constant="8" id="QBP-Gd-QnM"/>
+                            <constraint firstItem="TwB-1j-1uD" firstAttribute="centerX" secondItem="fgb-vV-fT6" secondAttribute="centerX" id="Qxr-wO-HbL"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Qip-u4-7Vo" secondAttribute="trailing" id="T8x-C3-Ugg"/>
                             <constraint firstItem="Qip-u4-7Vo" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="U0g-Bb-cQb"/>
                             <constraint firstItem="4Y1-hE-rHl" firstAttribute="top" secondItem="LPa-0J-Gun" secondAttribute="bottom" constant="7" id="Uqk-Kw-48k"/>
@@ -132,10 +145,19 @@
                             <constraint firstItem="e5g-fh-dT4" firstAttribute="centerY" secondItem="Qip-u4-7Vo" secondAttribute="centerY" id="pCU-am-cl8"/>
                             <constraint firstItem="evW-4U-GLQ" firstAttribute="top" secondItem="Iu3-T1-O2O" secondAttribute="bottom" constant="8" id="pKv-tM-l2r"/>
                             <constraint firstAttribute="leadingMargin" secondItem="LPa-0J-Gun" secondAttribute="leading" id="po1-8V-U9h"/>
+                            <constraint firstItem="fgb-vV-fT6" firstAttribute="trailing" secondItem="TwB-1j-1uD" secondAttribute="trailing" id="sBI-sk-cmx"/>
                             <constraint firstItem="evW-4U-GLQ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="taA-Zn-51T"/>
                             <constraint firstAttribute="trailingMargin" secondItem="vyR-xr-omb" secondAttribute="trailing" constant="30" id="viS-br-dPW"/>
                             <constraint firstItem="evW-4U-GLQ" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="xud-K5-PL3"/>
+                            <constraint firstItem="fgb-vV-fT6" firstAttribute="leading" secondItem="evW-4U-GLQ" secondAttribute="leading" id="y6l-sb-eyU"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="constraints">
+                                <exclude reference="sBI-sk-cmx"/>
+                                <exclude reference="y6l-sb-eyU"/>
+                                <exclude reference="W77-1F-rUD"/>
+                            </mask>
+                        </variation>
                     </view>
                     <navigationItem key="navigationItem" id="1EB-jZ-et0"/>
                     <nil key="simulatedStatusBarMetrics"/>

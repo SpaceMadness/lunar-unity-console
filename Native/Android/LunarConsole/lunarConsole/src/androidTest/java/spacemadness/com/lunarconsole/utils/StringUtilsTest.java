@@ -61,4 +61,13 @@ public class StringUtilsTest extends TestCase
         assertFalse(hasPrefix(null, "12345!"));
         assertFalse(hasPrefix(null, null));
     }
+
+    public void testCamelCaseToWords() throws Exception
+    {
+        String string = "enableExceptionWarning";
+        assertEquals("Enable Exception Warning", StringUtils.camelCaseToWords(string));
+
+        string = "word";
+        assertEquals("Word", StringUtils.camelCaseToWords(string));
+    }
 }

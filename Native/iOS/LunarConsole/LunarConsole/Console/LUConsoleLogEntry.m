@@ -26,9 +26,8 @@
 static NSArray * _cellSkinLookup;
 
 @interface LUConsoleLogEntry ()
-{
-    CGFloat _cachedHeight;
-}
+
+@property (nonatomic, assign) CGFloat cachedHeight;
 
 @end
 
@@ -107,7 +106,7 @@ static NSArray * _cellSkinLookup;
     LUConsoleLogEntryTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"log"];
     if (cell == nil)
     {
-        cell = [LUConsoleLogEntryTableViewCell cellWithFrame:cellBounds reuseIdentifier:@"log"];
+        cell = [LUConsoleLogEntryTableViewCell cellWithFrame:cellBounds cellIdentifier:@"log"];
     }
     else
     {
@@ -193,7 +192,7 @@ static NSArray * _cellSkinLookup;
     LUConsoleCollapsedLogEntryTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"collapse"];
     if (cell == nil)
     {
-        cell = [LUConsoleCollapsedLogEntryTableViewCell cellWithFrame:cellBounds reuseIdentifier:@"collapse"];
+        cell = [LUConsoleCollapsedLogEntryTableViewCell cellWithFrame:cellBounds cellIdentifier:@"collapse"];
     }
     
     LUCellSkin *cellSkin = [self cellSkinForLogType:self.type];
@@ -215,6 +214,59 @@ static NSArray * _cellSkinLookup;
 - (void)increaseCount
 {
     ++_count;
+}
+
+@end
+
+@implementation LUConsoleOverlayLogEntry
+
++ (instancetype)entryWithEntry:(LUConsoleLogEntry *)entry
+{
+    return LU_AUTORELEASE([[self alloc] initWithEntry:entry]);
+}
+
+- (instancetype)initWithEntry:(LUConsoleLogEntry *)entry
+{
+    self = [super initWithType:entry.type message:entry.message stackTrace:nil]; // we don't need stack trace
+    if (self)
+    {
+    }
+    return self;
+}
+
+#pragma mark -
+#pragma mark Cells
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellAtIndex:(NSUInteger)index
+{
+    CGSize cellSize = [self cellSizeForTableView:tableView];
+    CGRect cellBounds = CGRectMake(0, 0, cellSize.width, cellSize.height);
+    
+    LUConsoleOverlayLogEntryTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"overlay"];
+    if (cell == nil)
+    {
+        cell = [LUConsoleOverlayLogEntryTableViewCell cellWithFrame:cellBounds cellIdentifier:@"overlay"];
+    }
+    
+    LUCellSkin *cellSkin = [self cellSkinForLogType:self.type];
+    
+    cell.message = self.message;
+    cell.messageColor = cellSkin.overlayTextColor;
+    
+    [cell setSize:cellSize];
+    
+    return cell;
+}
+
+- (CGSize)cellSizeForTableView:(UITableView *)tableView
+{
+    CGFloat cellWidth = CGRectGetWidth(tableView.bounds);
+    if (self.cachedHeight < 0.0f)
+    {
+        self.cachedHeight = [LUConsoleOverlayLogEntryTableViewCell heightForCellWithText:self.message width:cellWidth];
+    }
+    
+    return CGSizeMake(cellWidth, self.cachedHeight);
 }
 
 @end

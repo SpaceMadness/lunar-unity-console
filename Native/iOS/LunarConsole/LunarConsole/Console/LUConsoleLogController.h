@@ -23,7 +23,7 @@
 
 #import "LUViewController.h"
 
-@class LUConsole;
+@class LUConsolePlugin;
 @class LUConsoleLogController;
 
 @protocol LUConsoleLogControllerDelegate <NSObject>
@@ -39,8 +39,8 @@
 @property (nonatomic, retain) NSString *version;
 @property (nonatomic, assign) id<LUConsoleLogControllerDelegate> delegate;
 
-+ (instancetype)controllerWithConsole:(LUConsole *)console;
-- (instancetype)initWithConsole:(LUConsole *)console;
++ (instancetype)controllerWithPlugin:(LUConsolePlugin *)console;
+- (instancetype)initWithPlugin:(LUConsolePlugin *)console;
 
 @end
 

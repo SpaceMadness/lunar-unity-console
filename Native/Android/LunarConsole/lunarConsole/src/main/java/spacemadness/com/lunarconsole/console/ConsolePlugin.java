@@ -39,6 +39,7 @@ import java.util.Map;
 import spacemadness.com.lunarconsole.R;
 import spacemadness.com.lunarconsole.core.Destroyable;
 import spacemadness.com.lunarconsole.debug.Log;
+import spacemadness.com.lunarconsole.settings.PluginSettings;
 import spacemadness.com.lunarconsole.ui.gestures.GestureRecognizer;
 import spacemadness.com.lunarconsole.ui.gestures.GestureRecognizerFactory;
 
@@ -63,9 +64,11 @@ public class ConsolePlugin implements
     private Console console;
     private final ConsolePluginImp pluginImp;
     private final String version;
+    private final PluginSettings settings;
 
     private ConsoleView consoleView;
     private WarningView warningView;
+    private OverlayView overlayView;
 
     private final WeakReference<Activity> activityRef;
     private final GestureRecognizer gestureDetector;
@@ -99,7 +102,7 @@ public class ConsolePlugin implements
     /**
      * Data holder for plugin initialization
      */
-    static class PluginSettings
+    static class UnitySettings
     {
         public final ConsolePluginImp pluginImp;
         public final String version;
@@ -107,7 +110,7 @@ public class ConsolePlugin implements
         public final int trim;
         public final String gesture;
 
-        public PluginSettings(ConsolePluginImp pluginImp, String version, int capacity, int trim, String gesture)
+        public UnitySettings(ConsolePluginImp pluginImp, String version, int capacity, int trim, String gesture)
         {
             this.pluginImp = notNull(pluginImp, "Plugin implementation");
             this.gesture = notNullAndNotEmpty(gesture, "Gesture");
@@ -161,19 +164,19 @@ public class ConsolePlugin implements
     public static void init(String targetName, String methodName, String version, int capacity, int trim, String gesture)
     {
         Activity activity = UnityPlayer.currentActivity;
-        init(activity, new PluginSettings(new UnityPluginImp(activity, targetName, methodName), version, capacity, trim, gesture));
+        init(activity, new UnitySettings(new UnityPluginImp(activity, targetName, methodName), version, capacity, trim, gesture));
     }
 
     public static void init(Activity activity, String version, int capacity, int trim, String gesture)
     {
-        init(activity, new PluginSettings(new DefaultPluginImp(activity), version, capacity, trim, gesture));
+        init(activity, new UnitySettings(new DefaultPluginImp(activity), version, capacity, trim, gesture));
     }
 
-    private static void init(final Activity activity, final PluginSettings settings)
+    private static void init(final Activity activity, final UnitySettings unitySettings)
     {
         if (isRunningOnMainThread())
         {
-            init0(activity, settings);
+            init0(activity, unitySettings);
         }
         else
         {
@@ -185,21 +188,21 @@ public class ConsolePlugin implements
                 @Override
                 public void run()
                 {
-                    init0(activity, settings);
+                    init0(activity, unitySettings);
                 }
             });
         }
     }
 
-    private static void init0(Activity activity, PluginSettings settings)
+    private static void init0(Activity activity, UnitySettings unitySettings)
     {
         try
         {
             if (instance == null)
             {
-                Log.d(PLUGIN, "Initializing plugin instance (%s): %d", settings.version, settings.capacity);
-                instance = new ConsolePlugin(activity, settings);
-                instance.enableGestureRecognition();
+                Log.d(PLUGIN, "Initializing plugin instance (%s): %d", unitySettings.version, unitySettings.capacity);
+                instance = new ConsolePlugin(activity, unitySettings);
+                instance.start();
             }
             else
             {
@@ -209,6 +212,23 @@ public class ConsolePlugin implements
         catch (Exception e)
         {
             Log.e(e, "Can't initialize plugin instance");
+        }
+    }
+
+    private void start()
+    {
+        enableGestureRecognition();
+
+        if (settings.isEnableTransparentLogOverlay())
+        {
+            runOnUIThread(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    showOverlayView();
+                }
+            });
         }
     }
 
@@ -316,6 +336,73 @@ public class ConsolePlugin implements
         }
     }
 
+    public static boolean isOverlayShown()
+    {
+        return instance != null && instance.isOverlayViewShown();
+    }
+
+    public static void showOverlay()
+    {
+        if (isRunningOnMainThread())
+        {
+            showOverlay0();
+        }
+        else
+        {
+            runOnUIThread(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    showOverlay0();
+                }
+            });
+        }
+    }
+
+    private static void showOverlay0()
+    {
+        if (instance != null)
+        {
+            instance.showOverlayView();
+        }
+        else
+        {
+            Log.w("Can't show overlay: instance is not initialized");
+        }
+    }
+
+    public static void hideOverlay()
+    {
+        if (isRunningOnMainThread())
+        {
+            hideOverlay0();
+        }
+        else
+        {
+            runOnUIThread(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    hideOverlay0();
+                }
+            });
+        }
+    }
+
+    private static void hideOverlay0()
+    {
+        if (instance != null)
+        {
+            instance.hideOverlayView();
+        }
+        else
+        {
+            Log.w("Can't hide overlay: instance is not initialized");
+        }
+    }
+
     public static void clear()
     {
         if (isRunningOnMainThread())
@@ -346,22 +433,24 @@ public class ConsolePlugin implements
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Constructor
 
-    private ConsolePlugin(Activity activity, PluginSettings settings)
+    private ConsolePlugin(Activity activity, UnitySettings unitySettings)
     {
         if (activity == null)
         {
             throw new NullPointerException("Context is null");
         }
 
-        this.version = settings.version;
-        this.pluginImp = settings.pluginImp;
+        settings = new PluginSettings(activity.getApplicationContext());
 
-        Options options = new Options(settings.capacity);
-        options.setTrimCount(settings.trim);
+        this.version = unitySettings.version;
+        this.pluginImp = unitySettings.pluginImp;
+
+        Options options = new Options(unitySettings.capacity);
+        options.setTrimCount(unitySettings.trim);
         console = new Console(options);
         activityRef = new WeakReference<>(activity);
 
-        gestureDetector = GestureRecognizerFactory.create(activity, settings.gesture);
+        gestureDetector = GestureRecognizerFactory.create(activity, unitySettings.gesture);
         gestureDetector.setListener(new OnGestureListener()
         {
             @Override
@@ -408,6 +497,8 @@ public class ConsolePlugin implements
 
     private boolean showConsole()
     {
+        hideOverlayView();
+
         try
         {
             if (consoleView == null)
@@ -475,6 +566,11 @@ public class ConsolePlugin implements
                         public void onAnimationEnd(Animation animation)
                         {
                             removeConsoleView();
+
+                            if (settings.isEnableTransparentLogOverlay())
+                            {
+                                showOverlayView();
+                            }
                         }
 
                         @Override
@@ -541,6 +637,11 @@ public class ConsolePlugin implements
     {
         try
         {
+            if (!settings.isEnableExceptionWarning())
+            {
+                return;
+            }
+
             if (warningView == null)
             {
                 Log.d(WARNING_VIEW, "Show warning");
@@ -591,8 +692,89 @@ public class ConsolePlugin implements
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    // ConsoleView.Listener
+    // Overlay view
 
+    public boolean isOverlayViewShown()
+    {
+        return overlayView != null;
+    }
+
+    public boolean showOverlayView()
+    {
+        try
+        {
+            if (overlayView == null)
+            {
+                Log.d(OVERLAY_VIEW, "Show console");
+
+                final Activity activity = getActivity();
+                if (activity == null)
+                {
+                    Log.e("Can't show overlay: activity reference is lost");
+                    return false;
+                }
+
+                OverlayView.Settings overlaySettings = new OverlayView.Settings();
+
+                final FrameLayout rootLayout = getRootLayout(activity);
+                overlayView = new OverlayView(activity, console, overlaySettings);
+
+                LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+                rootLayout.addView(overlayView, params);
+
+                return true;
+            }
+        }
+        catch (Exception e)
+        {
+            Log.e(e, "Can't show overlay view");
+        }
+
+        return false;
+    }
+
+    public boolean hideOverlayView()
+    {
+        try
+        {
+            if (overlayView != null)
+            {
+                Log.d(CONSOLE, "Hide console");
+
+                Activity activity = getActivity();
+                if (activity == null)
+                {
+                    Log.e("Can't hide overlay: activity reference is lost");
+                    return false;
+                }
+
+                ViewParent parent = overlayView.getParent();
+                if (parent instanceof ViewGroup)
+                {
+                    ((ViewGroup) parent).removeView(overlayView);
+                }
+                else
+                {
+                    Log.e("Can't remove overlay view: unexpected parent " + parent);
+                    return false;
+                }
+
+                overlayView.destroy();
+                overlayView = null;
+
+                return true;
+            }
+        }
+        catch (Exception e)
+        {
+            Log.e(e, "Can't hide overlay view");
+        }
+
+        return false;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // ConsoleView.Listener
 
     @Override
     public void onOpen(ConsoleView view)
@@ -683,6 +865,11 @@ public class ConsolePlugin implements
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Getters/Setters
+
+    public static PluginSettings pluginSettings()
+    {
+        return instance != null ? instance.settings : null;
+    }
 
     public boolean isConsoleShown()
     {

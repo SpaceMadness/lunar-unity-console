@@ -33,10 +33,13 @@ static LUConsoleLogControllerState * _sharedControllerState;
     MFMailComposeViewControllerDelegate,
     LUTableViewTouchDelegate,
     LUConsoleLogDetailsControllerDelegate,
-    LUConsoleLogMenuControllerDelegate>
+    LUConsoleLogMenuControllerDelegate,
+    LUConsoleSettingsControllerDelegate>
 {
-    LUConsole * _console;
+    LU_WEAK LUConsolePlugin * _plugin;
 }
+
+@property (nonatomic, readonly) LUConsole * console;
 
 @property (nonatomic, assign) IBOutlet UILabel * statusBarView;
 @property (nonatomic, assign) IBOutlet UILabel * overflowWarningLabel;
@@ -48,8 +51,8 @@ static LUConsoleLogControllerState * _sharedControllerState;
 @property (nonatomic, assign) IBOutlet LUConsoleLogTypeButton * warningButton;
 @property (nonatomic, assign) IBOutlet LUConsoleLogTypeButton * errorButton;
 
-@property (nonatomic, assign) IBOutlet LUToggleButton  * toggleCollapseButton;
-@property (nonatomic, assign) IBOutlet LUToggleButton  * scrollLockButton;
+@property (nonatomic, assign) IBOutlet LUToggleButton * toggleCollapseButton;
+@property (nonatomic, assign) IBOutlet LUToggleButton * scrollLockButton;
 
 @property (nonatomic, assign) IBOutlet NSLayoutConstraint * lastToolbarButtonTrailingConstraint;
 @property (nonatomic, assign) IBOutlet NSLayoutConstraint * lastToolbarButtonTrailingConstraintCompact;
@@ -76,25 +79,27 @@ static LUConsoleLogControllerState * _sharedControllerState;
     }
 }
 
-+ (instancetype)controllerWithConsole:(LUConsole *)console
++ (instancetype)controllerWithPlugin:(LUConsolePlugin *)plugin
 {
-    return LU_AUTORELEASE([[[self class] alloc] initWithConsole:console]);
+    return LU_AUTORELEASE([[[self class] alloc] initWithPlugin:plugin]);
 }
 
-- (instancetype)initWithConsole:(LUConsole *)console
+- (instancetype)initWithPlugin:(LUConsolePlugin *)plugin
 {
     self = [super initWithNibName:NSStringFromClass([self class]) bundle:nil];
     if (self)
     {
-        _console = LU_RETAIN(console);
+        _plugin = plugin; // no retain here
     }
     return self;
 }
 
 - (void)dealloc
 {
-    LUAssert(_console.delegate == self);
-    _console.delegate       = nil;
+    if (self.console.delegate == self)
+    {
+        self.console.delegate = nil;
+    }
     _tableView.delegate     = nil;
     _tableView.dataSource   = nil;
     _filterBar.delegate     = nil;
@@ -102,8 +107,7 @@ static LUConsoleLogControllerState * _sharedControllerState;
     _warningButton.delegate = nil;
     _errorButton.delegate   = nil;
     
-    LU_RELEASE(_version);
-    LU_RELEASE(_console);
+    LU_RELEASE(_version)
     LU_SUPER_DEALLOC
 }
 
@@ -111,10 +115,10 @@ static LUConsoleLogControllerState * _sharedControllerState;
 {
     [super viewDidLoad];
     
-    _console.delegate = self;
+    self.console.delegate = self;
     
     // collapse/expand button
-    _toggleCollapseButton.on = _console.isCollapsed;
+    _toggleCollapseButton.on = self.console.isCollapsed;
     _toggleCollapseButton.delegate = self;
     
     // scroll lock
@@ -144,17 +148,17 @@ static LUConsoleLogControllerState * _sharedControllerState;
     _statusBarView.text = [NSString stringWithFormat:@"Lunar Console v%@", _version ? _version : @"?.?.?"];
     
     // log type buttons
-    _logButton.on = ![_console.entries isFilterLogTypeEnabled:LUConsoleLogTypeLog];
+    _logButton.on = ![self.console.entries isFilterLogTypeEnabled:LUConsoleLogTypeLog];
     _logButton.delegate = self;
     
-    _warningButton.on = ![_console.entries isFilterLogTypeEnabled:LUConsoleLogTypeWarning];
+    _warningButton.on = ![self.console.entries isFilterLogTypeEnabled:LUConsoleLogTypeWarning];
     _warningButton.delegate = self;
     
-    _errorButton.on = ![_console.entries isFilterLogTypeEnabled:LUConsoleLogTypeError];
+    _errorButton.on = ![self.console.entries isFilterLogTypeEnabled:LUConsoleLogTypeError];
     _errorButton.delegate = self;
     
     // filter text
-    _filterBar.text = _console.entries.filterText;
+    _filterBar.text = self.console.entries.filterText;
     
     // log entries count
     [self updateEntriesCount];
@@ -202,7 +206,7 @@ static LUConsoleLogControllerState * _sharedControllerState;
 
 - (void)filterByText:(NSString *)text
 {
-    BOOL shouldReload = [_console.entries setFilterByText:text];
+    BOOL shouldReload = [self.console.entries setFilterByText:text];
     if (shouldReload)
     {
         [self reloadData];
@@ -211,7 +215,7 @@ static LUConsoleLogControllerState * _sharedControllerState;
 
 - (void)setFilterByLogTypeMask:(LUConsoleLogTypeMask)logTypeMask disabled:(BOOL)disabled
 {
-    BOOL shouldReload = [_console.entries setFilterByLogTypeMask:logTypeMask disabled:disabled];
+    BOOL shouldReload = [self.console.entries setFilterByLogTypeMask:logTypeMask disabled:disabled];
     if (shouldReload)
     {
         [self reloadData];
@@ -223,7 +227,7 @@ static LUConsoleLogControllerState * _sharedControllerState;
 
 - (void)setCollapsed:(BOOL)collapsed
 {
-    _console.collapsed = !_console.isCollapsed;
+    self.console.collapsed = !self.console.isCollapsed;
     [self reloadData];
 }
 
@@ -241,7 +245,7 @@ static LUConsoleLogControllerState * _sharedControllerState;
 - (IBAction)onClear:(id)sender
 {
     // clear entries
-    [_console clear];
+    [self.console clear];
     
     // update entries count
     [self updateEntriesCount];
@@ -249,7 +253,7 @@ static LUConsoleLogControllerState * _sharedControllerState;
 
 - (IBAction)onCopy:(id)sender
 {
-    NSString *text = [_console getText];
+    NSString *text = [self.console getText];
     [self copyTextToClipboard:text];
 }
 
@@ -262,7 +266,7 @@ static LUConsoleLogControllerState * _sharedControllerState;
     }
     
     NSString *bundleName = [[NSBundle mainBundle].infoDictionary objectForKey:@"CFBundleName"];
-    NSString *text = [_console getText];
+    NSString *text = [self.console getText];
     
     MFMailComposeViewController* controller = [[MFMailComposeViewController alloc] init];
     [controller setMailComposeDelegate:self];
@@ -272,6 +276,15 @@ static LUConsoleLogControllerState * _sharedControllerState;
     {
         [self presentViewController:controller animated:YES completion:nil];
     }
+    LU_RELEASE(controller);
+}
+
+- (IBAction)onSettings:(id)sender
+{
+    LUConsoleSettingsController *controller = [[LUConsoleSettingsController alloc] initWithSettings:_plugin.settings];
+    controller.delegate = self;
+    // add as child view controller
+    [self addChildOverlayController:controller animated:YES];
     LU_RELEASE(controller);
 }
 
@@ -286,7 +299,7 @@ static LUConsoleLogControllerState * _sharedControllerState;
     LUConsoleLogMenuController *controller = [LUConsoleLogMenuController new];
     
     // toggle collapse button
-    if (_console.isCollapsed)
+    if (self.console.isCollapsed)
     {
         [controller addButtonTitle:@"Expand" target:self action:@selector(onExpandButton:)];
     }
@@ -408,16 +421,16 @@ static LUConsoleLogControllerState * _sharedControllerState;
 
 - (void)scrollToBottomAnimated:(BOOL)animated
 {
-    if (_console.entriesCount > 0)
+    if (self.console.entriesCount > 0)
     {
-        NSIndexPath *path = [NSIndexPath indexPathForRow:_console.entriesCount-1 inSection:0];
+        NSIndexPath *path = [NSIndexPath indexPathForRow:self.console.entriesCount-1 inSection:0];
         [_tableView scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionBottom animated:animated];
     }
 }
 
 - (void)scrollToTopAnimated:(BOOL)animated
 {
-    if (_console.entriesCount > 0)
+    if (self.console.entriesCount > 0)
     {
         NSIndexPath *path = [NSIndexPath indexPathForRow:0 inSection:0];
         [_tableView scrollToRowAtIndexPath:path atScrollPosition:UITableViewScrollPositionBottom animated:animated];
@@ -429,7 +442,7 @@ static LUConsoleLogControllerState * _sharedControllerState;
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _console.entriesCount;
+    return self.console.entriesCount;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -587,6 +600,24 @@ static LUConsoleLogControllerState * _sharedControllerState;
 }
 
 #pragma mark -
+#pragma mark LUConsoleSettingsControllerDelegate
+
+- (void)consoleSettingsControllerDidClose:(LUConsoleSettingsController *)controller
+{
+    NSArray *entries = controller.changedEntries;
+    if (entries.count > 0)
+    {
+        for (LUConsoleSettingsEntry *entry in entries)
+        {
+            [_plugin.settings setValue:entry.value forKey:entry.name];
+        }
+        [_plugin.settings save];
+    }
+    
+    [self removeChildOverlayController:controller animated:YES];
+}
+
+#pragma mark -
 #pragma mark UIScrollViewDelegate
 
 - (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
@@ -612,7 +643,7 @@ static LUConsoleLogControllerState * _sharedControllerState;
 
 - (void)updateOverflowWarning
 {
-    NSUInteger trimmedCount = _console.trimmedCount;
+    NSUInteger trimmedCount = self.console.trimmedCount;
     if (trimmedCount > 0)
     {
         [self showOverflowCount:trimmedCount];
@@ -671,7 +702,7 @@ static LUConsoleLogControllerState * _sharedControllerState;
 
 - (void)insertCellAt:(NSInteger)index
 {
-    LUAssert(index >= 0 && index < _console.entriesCount);
+    LUAssert(index >= 0 && index < self.console.entriesCount);
     
     NSArray *indices = [[NSArray alloc] initWithObjects:[NSIndexPath indexPathForRow:index inSection:0], nil];
     [_tableView insertRowsAtIndexPaths:indices withRowAnimation:UITableViewRowAnimationNone];
@@ -686,7 +717,7 @@ static LUConsoleLogControllerState * _sharedControllerState;
 
 - (void)reloadCellAt:(NSInteger)index
 {
-    LUAssert(index >= 0 && index < _console.entriesCount);
+    LUAssert(index >= 0 && index < self.console.entriesCount);
     
     NSArray *indices = [[NSArray alloc] initWithObjects:[NSIndexPath indexPathForRow:index inSection:0], nil];
     [_tableView reloadRowsAtIndexPaths:indices withRowAnimation:UITableViewRowAnimationNone];
@@ -695,7 +726,7 @@ static LUConsoleLogControllerState * _sharedControllerState;
 
 - (void)updateEntriesCount
 {
-    LUConsoleLogEntryList *entries = _console.entries;
+    LUConsoleLogEntryList *entries = self.console.entries;
     _logButton.count = entries.logCount;
     _warningButton.count = entries.warningCount;
     _errorButton.count = entries.errorCount;
@@ -706,12 +737,12 @@ static LUConsoleLogControllerState * _sharedControllerState;
 
 - (LUConsoleLogEntry *)entryForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return [_console entryAtIndex:indexPath.row];
+    return [self.console entryAtIndex:indexPath.row];
 }
 
 - (LUConsoleLogEntry *)entryForRowAtIndex:(NSUInteger)index
 {
-    return [_console entryAtIndex:index];
+    return [self.console entryAtIndex:index];
 }
 
 - (void)reloadData
@@ -767,6 +798,11 @@ static LUConsoleLogControllerState * _sharedControllerState;
 
 #pragma mark -
 #pragma mark Properties
+
+- (LUConsole *)console
+{
+    return _plugin.console;
+}
 
 - (LUTheme *)theme
 {

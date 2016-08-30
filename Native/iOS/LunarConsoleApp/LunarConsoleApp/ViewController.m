@@ -72,10 +72,6 @@ void UnitySendMessage(const char *objectName, const char *methodName, const char
     
     _pluginInstance = _plugin;
     
-//    [_plugin registerVariableWithId:0 name:@"c_bool" type:LUCVarTypeNameBoolean value:@"1"];
-//    [_plugin registerVariableWithId:1 name:@"c_int" type:LUCVarTypeNameInteger value:@"10"];
-//    [_plugin registerVariableWithId:2 name:@"c_float" type:LUCVarTypeNameFloat value:@"3.14"];
-//    [_plugin registerVariableWithId:3 name:@"c_string" type:LUCVarTypeNameString value:@"value"];
 }
 
 - (BOOL)prefersStatusBarHidden
@@ -99,6 +95,11 @@ void UnitySendMessage(const char *objectName, const char *methodName, const char
 - (IBAction)onShowController:(id)sender
 {
     [self showConsoleController];
+}
+
+- (IBAction)onShowOverlay:(id)sender
+{
+    [self showOverlay];
 }
 
 - (IBAction)onShowAlert:(id)sender
@@ -145,6 +146,11 @@ void UnitySendMessage(const char *objectName, const char *methodName, const char
 - (void)showConsoleController
 {
     [_plugin show];
+}
+
+- (void)showOverlay
+{
+    [_plugin showOverlay];
 }
 
 - (void)showAlert

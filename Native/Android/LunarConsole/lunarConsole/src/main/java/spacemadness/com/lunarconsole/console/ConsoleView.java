@@ -21,6 +21,7 @@
 
 package spacemadness.com.lunarconsole.console;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -46,9 +47,12 @@ import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 
+import java.lang.ref.WeakReference;
+
 import spacemadness.com.lunarconsole.R;
 import spacemadness.com.lunarconsole.core.Destroyable;
 import spacemadness.com.lunarconsole.debug.Log;
+import spacemadness.com.lunarconsole.settings.SettingsActivity;
 import spacemadness.com.lunarconsole.ui.LogTypeButton;
 import spacemadness.com.lunarconsole.ui.ToggleButton;
 import spacemadness.com.lunarconsole.ui.ToggleImageButton;
@@ -66,11 +70,13 @@ public class ConsoleView extends LinearLayout implements
         LunarConsoleListener,
         LogTypeButton.OnStateChangeListener
 {
+    private final WeakReference<Activity> activityRef;
+
     private final View rootView;
 
     private final Console console;
     private final ListView listView;
-    private final ConsoleAdapter recyclerViewAdapter;
+    private final ConsoleAdapter consoleAdapter;
 
     private final LogTypeButton logButton;
     private final LogTypeButton warningButton;
@@ -85,15 +91,16 @@ public class ConsoleView extends LinearLayout implements
     private boolean scrollLocked;
     private boolean softKeyboardVisible;
 
-    public ConsoleView(Context context, final Console console)
+    public ConsoleView(Activity activity, final Console console)
     {
-        super(context);
+        super(activity);
 
         if (console == null)
         {
             throw new NullPointerException("Console is null");
         }
 
+        this.activityRef = new WeakReference<>(activity);
         this.console = console;
         this.console.setConsoleListener(this);
 
@@ -110,20 +117,20 @@ public class ConsoleView extends LinearLayout implements
         });
 
         // might not be the most efficient way but we'll keep it for now
-        rootView = LayoutInflater.from(context).inflate(R.layout.lunar_layout_console, this, false);
+        rootView = LayoutInflater.from(activity).inflate(R.layout.lunar_layout_console, this, false);
         addView(rootView, new LayoutParams(MATCH_PARENT, MATCH_PARENT));
 
         // initialize adapter
-        recyclerViewAdapter = new ConsoleAdapter(console);
+        consoleAdapter = new ConsoleAdapter(console);
 
         // this view would hold all the logs
-        LinearLayout recyclerViewContainer = findExistingViewById(
+        LinearLayout consoleContainer = findExistingViewById(
                 R.id.lunar_console_list_view_container);
 
-        listView = new ListView(context);
+        listView = new ListView(activity);
         listView.setDivider(null);
         listView.setDividerHeight(0);
-        listView.setAdapter(recyclerViewAdapter);
+        listView.setAdapter(consoleAdapter);
         listView.setOverScrollMode(ListView.OVER_SCROLL_NEVER);
         listView.setScrollingCacheEnabled(false);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
@@ -205,7 +212,7 @@ public class ConsoleView extends LinearLayout implements
             }
         });
 
-        recyclerViewContainer.addView(listView, new LayoutParams(MATCH_PARENT, MATCH_PARENT));
+        consoleContainer.addView(listView, new LayoutParams(MATCH_PARENT, MATCH_PARENT));
 
         // setup filtering elements
         setupFilterTextEdit();
@@ -235,7 +242,10 @@ public class ConsoleView extends LinearLayout implements
     {
         Log.d(CONSOLE, "Destroy console");
 
-        console.setConsoleListener(null);
+        if (console.getConsoleListener() == this)
+        {
+            console.setConsoleListener(null);
+        }
         setListener(null);
     }
 
@@ -324,7 +334,7 @@ public class ConsoleView extends LinearLayout implements
 
     private void reloadData()
     {
-        recyclerViewAdapter.notifyDataSetChanged();
+        consoleAdapter.notifyDataSetChanged();
         updateOverflowText();
     }
 
@@ -576,9 +586,32 @@ public class ConsoleView extends LinearLayout implements
             @Override
             public boolean onMenuItemClick(MenuItem item)
             {
-                if (item.getItemId() == R.id.lunar_console_menu_toggle_collapse)
+                final int itemId = item.getItemId();
+                if (itemId == R.id.lunar_console_menu_toggle_collapse)
                 {
                     console.setCollapsed(!console.isCollapsed());
+                    return true;
+                }
+
+                if (itemId == R.id.lunar_console_menu_settings)
+                {
+                    final Activity activity = getActivity();
+                    if (activity == null)
+                    {
+                        Log.e(CONSOLE, "Unable to show settings activity: root activity context is lost");
+                        return true;
+                    }
+
+                    try
+                    {
+                        Intent intent = new Intent(activity, SettingsActivity.class);
+                        activity.startActivity(intent);
+                    }
+                    catch (Exception e)
+                    {
+                        Log.e(e, "Unable to show settings activity");
+                    }
+
                     return true;
                 }
 
@@ -598,7 +631,7 @@ public class ConsoleView extends LinearLayout implements
     {
         if (filtered)
         {
-            recyclerViewAdapter.notifyDataSetChanged();
+            consoleAdapter.notifyDataSetChanged();
             scrollToBottom(console);
         }
 
@@ -608,7 +641,7 @@ public class ConsoleView extends LinearLayout implements
     @Override
     public void onRemoveEntries(Console console, int start, int length)
     {
-        recyclerViewAdapter.notifyDataSetChanged();
+        consoleAdapter.notifyDataSetChanged();
         scrollToBottom(console);
         updateLogButtons();
         updateOverflowText();
@@ -617,7 +650,7 @@ public class ConsoleView extends LinearLayout implements
     @Override
     public void onChangeEntries(Console console)
     {
-        recyclerViewAdapter.notifyDataSetChanged();
+        consoleAdapter.notifyDataSetChanged();
         scrollToBottom(console);
         updateLogButtons();
         updateOverflowText();
@@ -707,6 +740,11 @@ public class ConsoleView extends LinearLayout implements
     public Listener getListener()
     {
         return listener;
+    }
+
+    public Activity getActivity()
+    {
+        return activityRef.get();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

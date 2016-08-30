@@ -82,7 +82,7 @@ public class WarningView extends FrameLayout implements Destroyable
 
     private void setupUI(View view)
     {
-        messageText = (TextView) view.findViewById(R.id.lunar_console_text_warning_message);
+        messageText = (TextView) view.findViewById(R.id.lunar_console_warning_text_message);
         view.setOnTouchListener(new OnTouchListener()
         {
             @Override
@@ -92,7 +92,7 @@ public class WarningView extends FrameLayout implements Destroyable
             }
         });
 
-        setOnClickListener(view, R.id.lunar_console_button_dismiss, new OnClickListener()
+        setOnClickListener(view, R.id.lunar_console_warning_button_dismiss, new OnClickListener()
         {
             @Override
             public void onClick(View v)
@@ -101,7 +101,7 @@ public class WarningView extends FrameLayout implements Destroyable
             }
         });
 
-        setOnClickListener(view, R.id.lunar_console_button_details, new OnClickListener()
+        setOnClickListener(view, R.id.lunar_console_warning_button_details, new OnClickListener()
         {
             @Override
             public void onClick(View v)
