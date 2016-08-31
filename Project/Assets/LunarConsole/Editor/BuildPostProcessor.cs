@@ -33,7 +33,9 @@ namespace LunarConsolePluginInternal
 {
     static class BuildPostProcessor
     {
-        [PostProcessBuild]
+        // Vuforia plugin might cause issues if it runs first.
+        // See: http://forum.unity3d.com/threads/lunar-mobile-console-high-performance-unity-ios-android-logger-built-with-native-platform-ui.347650/page-4#post-2771845
+        [PostProcessBuild(1000)]
         static void OnPostprocessBuild(BuildTarget target, string pathToBuiltProject)
         {
             if (LunarConsoleSettings.consoleEnabled)
