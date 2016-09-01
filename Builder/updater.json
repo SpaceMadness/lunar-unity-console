@@ -1,6 +1,6 @@
 {
   "status": "OK",
-  "version": "0.5.0",
-  "message": "Fixes:\n\n* Unity 5.4 compatibility bugs.\n* iOS: fixed multiple invocation of console callbacks.\n\nImprovements:\n\n* Added an option to remove rich text tags from the output.\n* Added stack trace for email/clipboard log text.",
+  "version": "0.6.0",
+  "message": "Improvements:\n\n* Added a transparent log overlay view.\n* Added plugin settings.",
   "url": "https://goo.gl/S8QXav"
 }
