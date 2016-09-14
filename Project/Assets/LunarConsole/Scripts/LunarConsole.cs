@@ -38,6 +38,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Threading;
 
 using LunarConsolePlugin;
 using LunarConsolePluginInternal;
@@ -57,7 +58,7 @@ namespace LunarConsolePlugin
     delegate void LunarConsoleNativeMessageCallback(string message);
     delegate void LunarConsoleNativeMessageHandler(IDictionary<string, string> data);
 
-    public class LunarConsole : MonoBehaviour
+    public sealed class LunarConsole : MonoBehaviour
     {
         #pragma warning disable 0649
         #pragma warning disable 0414
@@ -90,6 +91,8 @@ namespace LunarConsolePlugin
         IPlatform m_platform;
         IDictionary<string, LunarConsoleNativeMessageHandler> m_nativeHandlerLookup;
 
+        Queue<MessageInfo> m_queuedMessages;
+
         #region Life cycle
 
         void Awake()
@@ -100,6 +103,11 @@ namespace LunarConsolePlugin
         void OnEnable()
         {
             InitInstance();
+        }
+
+        void Update()
+        {
+            DispatchMessages();
         }
 
         void InitInstance()
@@ -137,8 +145,20 @@ namespace LunarConsolePlugin
                     m_platform = CreatePlatform(capacity, trim);
                     if (m_platform != null)
                     {
-                        Application.logMessageReceived += delegate(string message, string stackTrace, LogType type) {
-                            m_platform.OnLogMessageReceived(m_removeRichTextTags ? StringUtils.RemoveRichTextTags(message) : message, stackTrace, type);
+                        m_queuedMessages = new Queue<MessageInfo>();
+                        int mainThreadId = Thread.CurrentThread.ManagedThreadId;
+
+                        Application.logMessageReceivedThreaded += delegate(string message, string stackTrace, LogType type)
+                        {
+                            message = m_removeRichTextTags ? StringUtils.RemoveRichTextTags(message) : message;
+                            if (Thread.CurrentThread.ManagedThreadId == mainThreadId)
+                            {
+                                m_platform.OnLogMessageReceived(message, stackTrace, type);
+                            }
+                            else
+                            {
+                                QueueMessage(message, stackTrace, type);
+                            }
                         };
 
                         return true;
@@ -184,6 +204,33 @@ namespace LunarConsolePlugin
             bool HideConsole();
             void ClearConsole();
         }
+
+        #region Threading
+
+        void QueueMessage(string message, string stackTrace, LogType type)
+        {
+            lock (m_queuedMessages)
+            {
+                m_queuedMessages.Enqueue(new MessageInfo(message, stackTrace, type));
+            }
+        }
+
+        void DispatchMessages()
+        {
+            if (m_queuedMessages != null)
+            {
+                lock (m_queuedMessages)
+                {
+                    while (m_queuedMessages.Count > 0)
+                    {
+                        var info = m_queuedMessages.Dequeue();
+                        m_platform.OnLogMessageReceived(info.message, info.stackTrace, info.type);
+                    }
+                }
+            }
+        }
+
+        #endregion
 
         #if UNITY_IOS || UNITY_IPHONE
 
@@ -635,4 +682,22 @@ namespace LunarConsolePlugin
     }
 
     #endif // UNITY_EDITOR
+
+    #if LUNAR_CONSOLE_ENABLED
+
+    struct MessageInfo
+    {
+        public readonly string message;
+        public readonly string stackTrace;
+        public readonly LogType type;
+
+        public MessageInfo(string message, string stackTrace, LogType type)
+        {
+            this.message = message;
+            this.stackTrace = stackTrace;
+            this.type = type;
+        }
+    }
+
+    #endif // LUNAR_CONSOLE_ENABLED
 }
