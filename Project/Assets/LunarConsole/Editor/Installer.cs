@@ -31,7 +31,7 @@ namespace LunarConsolePluginInternal
 {
     using Editor = LunarConsolePlugin.Editor;
 
-    static class Installer
+    public static class Installer
     {
         public static void Install(bool silent = true)
         {
@@ -73,12 +73,12 @@ namespace LunarConsolePluginInternal
             }
         }
 
-        static void EnablePlugin()
+        public static void EnablePlugin()
         {
             SetLunarConsoleEnabled(true);
         }
 
-        static void DisablePlugin()
+        public static void DisablePlugin()
         {
             SetLunarConsoleEnabled(false);
         }
