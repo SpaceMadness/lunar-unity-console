@@ -117,13 +117,13 @@ For more detailed information check Wiki page: [Enabling and Disabling Lunar Mob
 
 ### Unity Cloud Build Support
 You can enable/disable the plugin while using Unity Cloud Build service.
-- Open the project's configuration page:
+- Open the project's configuration page:  
 <img width="617" src="https://cloud.githubusercontent.com/assets/786644/18625225/f7ba1f80-7e01-11e6-80df-71b96938ca23.png">
-- Expand ```[+] Show Advanced Options``` and click ```Edit Advanced Options```:
+- Expand ```[+] Show Advanced Options``` and click ```Edit Advanced Options```:  
 <img width="492" src="https://cloud.githubusercontent.com/assets/786644/18625227/f7c20ca4-7e01-11e6-8b90-f256f70f87a6.png">
-- To disable the plugin set ```Pre-Export Method Name:``` to ```LunarConsolePluginInternal.Installer.DisablePlugin```
+- To disable the plugin set ```Pre-Export Method Name:``` to ```LunarConsolePluginInternal.Installer.DisablePlugin```:  
 <img width="576" src="https://cloud.githubusercontent.com/assets/786644/18625226/f7bc8298-7e01-11e6-8f5e-2bca066b35df.png">
-- To enable the plugin set ```Pre-Export Method Name:``` to ```LunarConsolePluginInternal.Installer.EnablePlugin``` check the ```Development Builds``` box:
+- To enable the plugin set ```Pre-Export Method Name:``` to ```LunarConsolePluginInternal.Installer.EnablePlugin``` check the ```Development Builds``` checkbox:  
 <img width="576" src="https://cloud.githubusercontent.com/assets/786644/18625491/d5af3aae-7e03-11e6-98bc-28b26f57d2d0.png">
 
 ### Build System Support
