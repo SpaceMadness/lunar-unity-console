@@ -1,5 +1,12 @@
 # Lunar Console Changelog
 
+## v.0.6.1 - 9/19/2016
+
+**Fixes:**
+
+* Multithreaded logging.
+* Vuforia plugin compatibility issues.
+
 ## v.0.6.0 - 8/29/2016
 
 **Improvements:**

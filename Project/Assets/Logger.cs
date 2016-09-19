@@ -24,6 +24,7 @@ using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 
 using LunarConsolePlugin;
 
@@ -75,7 +76,19 @@ public class Logger : MonoBehaviour
 
     public void LogError()
     {
-        throw new Exception("Error!");
+        Method1();
+    }
+
+    public void LogOnThread()
+    {
+        Thread t = new Thread(delegate() {
+            Debug.Log("Background thread");
+            Debug.LogWarning("Background thread");
+            Debug.LogError("Background thread");
+
+            throw new Exception("Background thread");
+        });
+        t.Start();
     }
 
     public void ShowConsole()
@@ -115,4 +128,18 @@ public class Logger : MonoBehaviour
             list[n] = value;
         }
     }
+
+    #region Helpers
+
+    private void Method1()
+    {
+        Method2();
+    }
+
+    private void Method2()
+    {
+        throw new Exception("Error!");
+    }
+
+    #endregion
 }
