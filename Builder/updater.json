@@ -1,6 +1,6 @@
 {
   "status": "OK",
-  "version": "0.6.0",
-  "message": "Improvements:\n\n* Added a transparent log overlay view.\n* Added plugin settings.",
+  "version": "0.6.1",
+  "message": "Fixes:\n\n* Multithreaded logging.\n* Vuforia plugin compatibility issues.",
   "url": "https://goo.gl/S8QXav"
 }
