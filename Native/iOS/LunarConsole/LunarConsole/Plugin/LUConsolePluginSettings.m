@@ -60,7 +60,7 @@ static const NSUInteger kPluginSettingsVersion = 1;
 - (void)dealloc
 {
     [_filepath release];
-    LU_SUPER_DEALLOC
+    [super dealloc];
 }
 
 #pragma mark -

@@ -59,7 +59,7 @@
     [_filteredEntries release];
     [_filterText release];
     [_entryLookup release];
-    LU_SUPER_DEALLOC
+    [super dealloc];
 }
 
 #pragma mark -

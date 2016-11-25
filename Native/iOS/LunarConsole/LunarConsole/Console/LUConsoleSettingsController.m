@@ -77,7 +77,7 @@ static NSDictionary * _propertyTypeLookup;
 {
     [_entries release];
     [_settings release];
-    LU_SUPER_DEALLOC
+    [super dealloc];
 }
 
 #pragma mark -
@@ -219,7 +219,7 @@ static NSDictionary * _propertyTypeLookup;
     [_value release];
     [_initialValue release];
     [_type release];
-    LU_SUPER_DEALLOC
+    [super dealloc];
 }
 
 #pragma mark -

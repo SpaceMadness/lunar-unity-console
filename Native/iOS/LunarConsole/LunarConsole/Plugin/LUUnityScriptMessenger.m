@@ -66,7 +66,7 @@ extern void UnitySendMessage(const char *objectName, const char *methodName, con
 {
     [_targetName release];
     [_methodName release];
-    LU_SUPER_DEALLOC
+    [super dealloc];
 }
 
 - (void)sendMessageName:(NSString *)name

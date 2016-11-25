@@ -52,7 +52,7 @@
 - (void)dealloc
 {
     [_objects release];
-    LU_SUPER_DEALLOC
+    [super dealloc];
 }
 
 #pragma mark -

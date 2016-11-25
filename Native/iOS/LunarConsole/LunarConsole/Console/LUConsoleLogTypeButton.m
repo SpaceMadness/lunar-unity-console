@@ -37,7 +37,7 @@ static const NSUInteger kCountMax = 999;
 - (void)dealloc
 {
     [_initialText release];
-    LU_SUPER_DEALLOC
+    [super dealloc];
 }
 
 - (void)awakeFromNib

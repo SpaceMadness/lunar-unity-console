@@ -39,7 +39,7 @@
 {
     [_message release];
     [_stacktrace release];
-    LU_SUPER_DEALLOC
+    [super dealloc];
 }
 
 @end

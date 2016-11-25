@@ -53,7 +53,7 @@ void UnitySendMessage(const char *objectName, const char *methodName, const char
 {
     _pluginInstance = nil;
     [_plugin release];
-    LU_SUPER_DEALLOC
+    [super dealloc];
 }
 
 - (void)viewDidLoad

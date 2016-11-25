@@ -108,7 +108,7 @@ static LUConsoleLogControllerState * _sharedControllerState;
     _errorButton.delegate   = nil;
     
     [_version release];
-    LU_SUPER_DEALLOC
+    [super dealloc];
 }
 
 - (void)viewDidLoad

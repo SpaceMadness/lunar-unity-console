@@ -107,7 +107,7 @@ static UIEdgeInsets _messageInsets;
 {
     [_messageLabel release];
     [_iconView release];
-    LU_SUPER_DEALLOC
+    [super dealloc];
 }
 
 - (void)setSize:(CGSize)size
@@ -233,7 +233,7 @@ static UIEdgeInsets _messageInsets;
 {
     [_backgroundImageView release];
     [_countLabel release];
-    LU_SUPER_DEALLOC
+    [super dealloc];
 }
 
 - (void)setSize:(CGSize)size

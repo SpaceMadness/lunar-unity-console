@@ -181,7 +181,7 @@ static UIImage * CreateCollapseBackgroundImage()
     [_contextMenuTextColor release];
     [_contextMenuTextHighlightColor release];
     
-    LU_SUPER_DEALLOC
+    [super dealloc];
 }
 
 + (UIFont *)createDefaultFont
@@ -249,7 +249,7 @@ static UIImage * CreateCollapseBackgroundImage()
     [_backgroundColorLight release];
     [_backgroundColorDark release];
     [_overlayTextColor release];
-    LU_SUPER_DEALLOC
+    [super dealloc];
 }
 
 @end

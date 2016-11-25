@@ -60,7 +60,7 @@
     [_title release];
     [_target release];
     
-    LU_SUPER_DEALLOC
+    [super dealloc];
 }
 
 - (UIButton *)UIButton
@@ -105,7 +105,7 @@
 - (void)dealloc
 {
     [_buttons release];
-    LU_SUPER_DEALLOC
+    [super dealloc];
 }
 
 - (void)viewDidLoad

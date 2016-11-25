@@ -45,7 +45,7 @@
 - (void)dealloc
 {
     [_entries release];
-    LU_SUPER_DEALLOC
+    [super dealloc];
 }
 
 #pragma mark -

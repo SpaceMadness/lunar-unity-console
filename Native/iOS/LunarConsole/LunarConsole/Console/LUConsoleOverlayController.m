@@ -70,7 +70,7 @@
     
     [_console release];
     [_settings release];
-    LU_SUPER_DEALLOC;
+    [super dealloc];;
 }
 
 #pragma mark -

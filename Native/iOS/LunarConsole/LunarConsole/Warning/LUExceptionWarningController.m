@@ -47,7 +47,7 @@
 - (void)dealloc
 {
     [_message release];
-    LU_SUPER_DEALLOC
+    [super dealloc];
 }
 
 - (void)viewDidLoad

@@ -55,7 +55,7 @@
 - (void)dealloc
 {
     [_entry release];
-    LU_SUPER_DEALLOC
+    [super dealloc];
 }
 
 - (void)viewDidLoad

@@ -78,7 +78,7 @@ static NSArray * _cellSkinLookup;
 {
     [_message release];
     [_stackTrace release];
-    LU_SUPER_DEALLOC
+    [super dealloc];
 }
 
 #pragma mark -

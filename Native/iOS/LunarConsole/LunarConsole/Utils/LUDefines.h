@@ -24,10 +24,8 @@
 
 #if __has_feature(objc_arc)
     #define LU_WEAK __weak
-    #define LU_SUPER_DEALLOC
 #else
     #define LU_WEAK
-    #define LU_SUPER_DEALLOC [super dealloc];
 #endif
 
 #if LUNAR_CONSOLE_DEVELOPMENT

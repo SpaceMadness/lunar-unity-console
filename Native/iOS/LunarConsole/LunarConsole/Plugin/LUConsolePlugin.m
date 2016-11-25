@@ -87,7 +87,7 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.LunarMob
     [_gestureRecognizer release];
     [_settings release];
     
-    LU_SUPER_DEALLOC
+    [super dealloc];
 }
 
 #pragma mark -
