@@ -35,7 +35,7 @@
 
 @interface LUConsoleLogDetailsController : LUViewController
 
-@property (nonatomic, assign) id<LUConsoleLogDetailsControllerDelegate> delegate;
+@property (nonatomic, weak) id<LUConsoleLogDetailsControllerDelegate> delegate;
 
 - (instancetype)initWithEntry:(LUConsoleLogEntry *)entry;
 

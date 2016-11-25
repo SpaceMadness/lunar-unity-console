@@ -38,10 +38,10 @@ static NSDictionary * _propertyTypeLookup;
     LUConsolePluginSettings * _settings;
 }
 
-@property (nonatomic, assign) IBOutlet UIView * contentView;
-@property (nonatomic, assign) IBOutlet UIView * bottomBarView;
-@property (nonatomic, assign) IBOutlet UILabel * titleLabel;
-@property (nonatomic, assign) IBOutlet UITableView * tableView;
+@property (nonatomic, weak) IBOutlet UIView * contentView;
+@property (nonatomic, weak) IBOutlet UIView * bottomBarView;
+@property (nonatomic, weak) IBOutlet UILabel * titleLabel;
+@property (nonatomic, weak) IBOutlet UITableView * tableView;
 
 @end
 
@@ -66,19 +66,13 @@ static NSDictionary * _propertyTypeLookup;
     self = [super initWithNibName:NSStringFromClass([self class]) bundle:nil];
     if (self)
     {
-        _settings = [settings retain];
-        _entries = [[LUConsoleSettingsEntry listSettingsEntries:settings] retain];
+        _settings = settings;
+        _entries = [LUConsoleSettingsEntry listSettingsEntries:settings];
         
     }
     return self;
 }
 
-- (void)dealloc
-{
-    [_entries release];
-    [_settings release];
-    [super dealloc];
-}
 
 #pragma mark -
 #pragma mark View
@@ -198,29 +192,19 @@ static NSDictionary * _propertyTypeLookup;
             value == nil ||
             type == nil)
         {
-            [self release];
             self = nil;
             return nil;
         }
         
-        _name = [name retain];
-        _title = [title retain];
-        _value = [value retain];
-        _initialValue = [value retain];
-        _type = [type retain];
+        _name = name;
+        _title = title;
+        _value = value;
+        _initialValue = value;
+        _type = type;
     }
     return self;
 }
 
-- (void)dealloc
-{
-    [_name release];
-    [_title release];
-    [_value release];
-    [_initialValue release];
-    [_type release];
-    [super dealloc];
-}
 
 #pragma mark -
 #pragma mark Introspection
@@ -284,7 +268,6 @@ static NSDictionary * _propertyTypeLookup;
             }
             
             [entries addObject:entry];
-            [entry release];
         }
     }
     free(properties);

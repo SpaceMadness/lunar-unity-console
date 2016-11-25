@@ -28,7 +28,6 @@ static inline NSNumber *LUNumberFromString(NSString *str)
     NSNumberFormatter *numberFormatter = [NSNumberFormatter new];
     numberFormatter.numberStyle = NSNumberFormatterDecimalStyle;
     NSNumber *number = [numberFormatter numberFromString:str];
-    [numberFormatter release];
     
     return number;
 }

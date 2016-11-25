@@ -42,11 +42,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [_table release];
-    [super dealloc];
-}
 
 - (LUConsoleCollapsedLogEntry *)addEntry:(LUConsoleLogEntry *)entry
 {

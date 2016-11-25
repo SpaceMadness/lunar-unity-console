@@ -27,7 +27,7 @@
 
 + (instancetype)cellWithFrame:(CGRect)frame cellIdentifier:(nullable NSString *)cellIdentifier
 {
-    return [[[[self class] alloc] initWithFrame:frame cellIdentifier:cellIdentifier] autorelease];
+    return [[[self class] alloc] initWithFrame:frame cellIdentifier:cellIdentifier];
 }
 
 - (instancetype)initWithFrame:(CGRect)frame cellIdentifier:(nullable NSString *)cellIdentifier

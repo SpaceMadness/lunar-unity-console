@@ -42,11 +42,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [_entries release];
-    [super dealloc];
-}
 
 #pragma mark -
 #pragma mark Entries
@@ -82,7 +77,6 @@
         [_delegate lunarConsole:self didUpdateEntryAtIndex:index trimmedCount:trimmed];
     }
     
-    [entry release];
 }
 
 - (void)clear

@@ -40,7 +40,7 @@
 
 + (instancetype)buttonWithTitle:(NSString *)title target:(id)target action:(SEL)action
 {
-    return [[[self alloc] initWithTitle:title target:target action:action] autorelease];
+    return [[self alloc] initWithTitle:title target:target action:action];
 }
 
 - (instancetype)initWithTitle:(NSString *)title target:(id)target action:(SEL)action
@@ -48,20 +48,13 @@
     self = [super init];
     if (self)
     {
-        _title  = [title retain];
-        _target = [target retain];
+        _title  = title;
+        _target = target;
         _action = action;
     }
     return self;
 }
 
-- (void)dealloc
-{
-    [_title release];
-    [_target release];
-    
-    [super dealloc];
-}
 
 - (UIButton *)UIButton
 {
@@ -86,7 +79,7 @@
     NSMutableArray * _buttons;
 }
 
-@property (nonatomic, assign) IBOutlet UIView * contentView;
+@property (nonatomic, weak) IBOutlet UIView * contentView;
 
 @end
 
@@ -102,11 +95,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [_buttons release];
-    [super dealloc];
-}
 
 - (void)viewDidLoad
 {
@@ -116,7 +104,6 @@
     UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                  action:@selector(handleBackgroundTap:)];
     [self.view addGestureRecognizer:recognizer];
-    [recognizer release];
     
     // colors
     LUTheme *theme = [LUTheme mainTheme];
@@ -148,7 +135,6 @@
 {
     LUConsoleLogMenuControllerButton *button = [[LUConsoleLogMenuControllerButton alloc] initWithTitle:title target:target action:action];
     [_buttons addObject:button];
-    [button release];
 }
 
 - (void)addButtonsToView:(UIView *)view

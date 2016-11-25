@@ -34,7 +34,7 @@
 
 + (instancetype)listWithCapacity:(NSUInteger)capacity trimCount:(NSUInteger)trimCount
 {
-    return [[[self alloc] initWithCapacity:capacity trimCount:trimCount] autorelease];
+    return [[self alloc] initWithCapacity:capacity trimCount:trimCount];
 }
 
 - (instancetype)initWithCapacity:(NSUInteger)capacity trimCount:(NSUInteger)trimCount
@@ -49,11 +49,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [_objects release];
-    [super dealloc];
-}
 
 #pragma mark -
 #pragma mark Objects
@@ -85,8 +80,6 @@
 
 - (void)removeAllObjects
 {
-    [_objects release]; // NSMutableArray array never shinks after growing
-    
     _objects = [NSMutableArray new];
     _totalCount = 0;
 }

@@ -34,17 +34,12 @@ static const NSUInteger kCountMax = 999;
 
 @implementation LUConsoleLogTypeButton
 
-- (void)dealloc
-{
-    [_initialText release];
-    [super dealloc];
-}
 
 - (void)awakeFromNib
 {
     [super awakeFromNib];
     
-    _initialText = [self.titleLabel.text retain];
+    _initialText = self.titleLabel.text;
     _count = INT32_MAX;
 
     // text color
@@ -68,7 +63,6 @@ static const NSUInteger kCountMax = 999;
         {
             NSString *countText = [[NSString alloc] initWithFormat:@"%ld", (unsigned long)count];
             [self setCountText:countText];
-            [countText release];
         }
         else if (_count < kCountMax)
         {

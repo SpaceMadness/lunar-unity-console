@@ -35,10 +35,5 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [_userData release];
-    [super dealloc];
-}
 
 @end

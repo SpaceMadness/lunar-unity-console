@@ -46,22 +46,16 @@ static const NSUInteger kPluginSettingsVersion = 1;
     {
         if (filepath == nil)
         {
-            [self release];
             self = nil;
             return nil;
         }
         
-        _filepath = [filepath retain];
+        _filepath = filepath;
         [self initDefaults];
     }
     return self;
 }
 
-- (void)dealloc
-{
-    [_filepath release];
-    [super dealloc];
-}
 
 #pragma mark -
 #pragma mark NSCoding
@@ -107,7 +101,7 @@ static const NSUInteger kPluginSettingsVersion = 1;
         return settings;
     }
     
-    return [[[[self class] alloc] initWithFilepath:path] autorelease];
+    return [[[self class] alloc] initWithFilepath:path];
 }
 
 - (BOOL)save
@@ -122,8 +116,7 @@ static const NSUInteger kPluginSettingsVersion = 1;
 {
     if (_filepath != filepath)
     {
-        [_filepath release];
-        _filepath = [filepath retain];
+        _filepath = filepath;
     }
 }
 

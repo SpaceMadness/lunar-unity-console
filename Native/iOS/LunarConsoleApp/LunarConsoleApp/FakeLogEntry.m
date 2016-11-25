@@ -35,11 +35,5 @@
     return self;
 }
 
-- (void)dealloc
-{
-    [_message release];
-    [_stacktrace release];
-    [super dealloc];
-}
 
 @end

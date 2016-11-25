@@ -56,20 +56,19 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.LunarMob
         {
             NSLog(@"Console is not initialized. Mininum iOS version required: %d", LU_SYSTEM_VERSION_MIN);
             
-            [self release];
             self = nil;
             return nil;
         }
         
         _scriptMessenger = [[LUUnityScriptMessenger alloc] initWithTargetName:targetName methodName:methodName];
-        _version = [version retain];
+        _version = version;
         _console = [[LUConsole alloc] initWithCapacity:capacity trimCount:trimCount];
         _gesture = [self gestureFromString:gestureName];
         
         NSArray *searchPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *documentPath = [searchPaths objectAtIndex:0];
         NSString *settingsFile = [documentPath stringByAppendingPathComponent:kSettingsFilename];
-        _settings = [[LUConsolePluginSettings settingsWithContentsOfFile:settingsFile] retain];
+        _settings = [LUConsolePluginSettings settingsWithContentsOfFile:settingsFile];
     }
     return self;
 }
@@ -78,16 +77,7 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.LunarMob
 {
     [self disableGestureRecognition];
     
-    [_scriptMessenger release];
-    [_version release];
-    [_console release];
-    [_consoleWindow release];
-    [_overlayWindow release];
-    [_warningWindow release];
-    [_gestureRecognizer release];
-    [_settings release];
     
-    [super dealloc];
 }
 
 #pragma mark -
@@ -140,7 +130,6 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.LunarMob
     {
         _overlayWindow.rootViewController = nil;
         _overlayWindow.hidden = YES;
-        [_overlayWindow release];
         _overlayWindow = nil;
     }
 }
@@ -179,7 +168,6 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.LunarMob
             window.hidden = YES;
         }];
         
-        [_consoleWindow release];
         _consoleWindow = nil;
     }
     
@@ -224,7 +212,6 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.LunarMob
         controller.view.frame = _warningWindow.bounds;
         controller.delegate = self;
         _warningWindow.rootViewController = controller;
-        [controller release];
         
         _warningWindow.hidden = NO;
         
@@ -239,7 +226,6 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.LunarMob
     if (_warningWindow)
     {
         _warningWindow.hidden = YES;
-        [_warningWindow release];
         _warningWindow = nil;
     }
 }
@@ -324,7 +310,6 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.LunarMob
     if (_gestureRecognizer != nil)
     {
         [[self keyWindow] removeGestureRecognizer:_gestureRecognizer];
-        [_gestureRecognizer release];
         _gestureRecognizer = nil;
     }
 }
@@ -364,7 +349,6 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.LunarMob
 {
     NSInteger trimCount = _console.trimmedCount;
     
-    [_console release];
     _console = [[LUConsole alloc] initWithCapacity:capacity trimCount:trimCount];
 }
 
@@ -376,7 +360,6 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.LunarMob
 - (void)setTrim:(NSInteger)trim
 {
     NSInteger capacity = _console.capacity;
-    [_console release];
     _console = [[LUConsole alloc] initWithCapacity:capacity trimCount:trim];
 }
 

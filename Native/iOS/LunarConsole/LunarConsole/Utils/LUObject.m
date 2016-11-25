@@ -28,7 +28,6 @@
 - (void)dealloc
 {
     [self unregisterNotifications];
-    [super dealloc];
 }
 
 #pragma mark -

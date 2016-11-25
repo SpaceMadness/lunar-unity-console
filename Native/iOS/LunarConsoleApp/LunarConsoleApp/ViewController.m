@@ -39,9 +39,9 @@ void UnitySendMessage(const char *objectName, const char *methodName, const char
     NSUInteger _index;
 }
 
-@property (nonatomic, assign) IBOutlet UITextField * messageText;
-@property (nonatomic, assign) IBOutlet UITextField * capacityText;
-@property (nonatomic, assign) IBOutlet UITextField * trimText;
+@property (nonatomic, weak) IBOutlet UITextField * messageText;
+@property (nonatomic, weak) IBOutlet UITextField * capacityText;
+@property (nonatomic, weak) IBOutlet UITextField * trimText;
 
 @property (nonatomic, strong) NSArray * logEntries;
 
@@ -52,8 +52,6 @@ void UnitySendMessage(const char *objectName, const char *methodName, const char
 - (void)dealloc
 {
     _pluginInstance = nil;
-    [_plugin release];
-    [super dealloc];
 }
 
 - (void)viewDidLoad
@@ -217,7 +215,6 @@ void UnitySendMessage(const char *objectName, const char *methodName, const char
         
         FakeLogEntry *entry = [[FakeLogEntry alloc] initWithType:type message:message stackTrace:stacktrace];
         [entries addObject:entry];
-        [entry release];
     }
     return entries;
 }
