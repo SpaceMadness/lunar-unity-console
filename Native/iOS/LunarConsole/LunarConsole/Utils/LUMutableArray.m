@@ -34,7 +34,7 @@
 
 + (instancetype)listWithCapacity:(NSUInteger)capacity trimCount:(NSUInteger)trimCount
 {
-    return LU_AUTORELEASE([[self alloc] initWithCapacity:capacity trimCount:trimCount]);
+    return [[[self alloc] initWithCapacity:capacity trimCount:trimCount] autorelease];
 }
 
 - (instancetype)initWithCapacity:(NSUInteger)capacity trimCount:(NSUInteger)trimCount

@@ -81,7 +81,7 @@ static LUConsoleLogControllerState * _sharedControllerState;
 
 + (instancetype)controllerWithPlugin:(LUConsolePlugin *)plugin
 {
-    return LU_AUTORELEASE([[[self class] alloc] initWithPlugin:plugin]);
+    return [[[[self class] alloc] initWithPlugin:plugin] autorelease];
 }
 
 - (instancetype)initWithPlugin:(LUConsolePlugin *)plugin

@@ -107,7 +107,7 @@ static const NSUInteger kPluginSettingsVersion = 1;
         return settings;
     }
     
-    return LU_AUTORELEASE([[[self class] alloc] initWithFilepath:path]);
+    return [[[[self class] alloc] initWithFilepath:path] autorelease];
 }
 
 - (BOOL)save

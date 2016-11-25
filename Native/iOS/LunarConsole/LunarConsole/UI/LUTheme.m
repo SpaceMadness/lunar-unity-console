@@ -239,7 +239,7 @@ static UIImage * CreateCollapseBackgroundImage()
 
 + (instancetype)cellSkin
 {
-    return LU_AUTORELEASE([[[self class] alloc] init]);
+    return [[[[self class] alloc] init] autorelease];
 }
 
 - (void)dealloc

@@ -40,7 +40,7 @@
 
 + (instancetype)controllerWithConsole:(LUConsole *)console settings:(LUConsoleOverlayControllerSettings *)settings
 {
-    return LU_AUTORELEASE([[[self class] alloc] initWithConsole:console settings:settings]);
+    return [[[[self class] alloc] initWithConsole:console settings:settings] autorelease];
 }
 
 - (instancetype)initWithConsole:(LUConsole *)console settings:(LUConsoleOverlayControllerSettings *)settings
@@ -215,7 +215,7 @@
 
 + (instancetype)settings
 {
-    return LU_AUTORELEASE([[[self class] alloc] init]);
+    return [[[[self class] alloc] init] autorelease];
 }
 
 - (instancetype)init

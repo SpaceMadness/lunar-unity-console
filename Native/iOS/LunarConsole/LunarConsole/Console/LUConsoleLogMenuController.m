@@ -40,7 +40,7 @@
 
 + (instancetype)buttonWithTitle:(NSString *)title target:(id)target action:(SEL)action
 {
-    return LU_AUTORELEASE([[self alloc] initWithTitle:title target:target action:action]);
+    return [[[self alloc] initWithTitle:title target:target action:action] autorelease];
 }
 
 - (instancetype)initWithTitle:(NSString *)title target:(id)target action:(SEL)action

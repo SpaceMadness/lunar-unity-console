@@ -38,7 +38,7 @@
 
 + (instancetype)listWithCapacity:(NSUInteger)capacity trimCount:(NSUInteger)trimCount
 {
-    return LU_AUTORELEASE([[[self class] alloc] initWithCapacity:capacity trimCount:trimCount]);
+    return [[[[self class] alloc] initWithCapacity:capacity trimCount:trimCount] autorelease];
 }
 
 - (instancetype)initWithCapacity:(NSUInteger)capacity trimCount:(NSUInteger)trimCount
@@ -162,7 +162,7 @@
 {
     if (_filterText != filterText) // filter text has changed
     {
-        NSString *oldFilterText = LU_AUTORELEASE([_filterText retain]); // manual reference counting rocks!
+        NSString *oldFilterText = [[_filterText retain] autorelease]; // manual reference counting rocks!
         
         [_filterText release];
         _filterText = [filterText retain];

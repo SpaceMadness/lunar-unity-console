@@ -58,7 +58,7 @@ static NSArray * _cellSkinLookup;
 
 + (instancetype)entryWithType:(LUConsoleLogType)type message:(NSString *)message stackTrace:(NSString *)stackTrace
 {
-    return LU_AUTORELEASE([[[self class] alloc] initWithType:type message:message stackTrace:stackTrace]);
+    return [[[[self class] alloc] initWithType:type message:message stackTrace:stackTrace] autorelease];
 }
 
 - (instancetype)initWithType:(LUConsoleLogType)type message:(NSString *)message stackTrace:(NSString *)stackTrace
@@ -167,7 +167,7 @@ static NSArray * _cellSkinLookup;
 
 + (instancetype)entryWithEntry:(LUConsoleLogEntry *)entry
 {
-    return LU_AUTORELEASE([[self alloc] initWithEntry:entry]);
+    return [[[self alloc] initWithEntry:entry] autorelease];
 }
 
 - (instancetype)initWithEntry:(LUConsoleLogEntry *)entry
@@ -222,7 +222,7 @@ static NSArray * _cellSkinLookup;
 
 + (instancetype)entryWithEntry:(LUConsoleLogEntry *)entry
 {
-    return LU_AUTORELEASE([[self alloc] initWithEntry:entry]);
+    return [[[self alloc] initWithEntry:entry] autorelease];
 }
 
 - (instancetype)initWithEntry:(LUConsoleLogEntry *)entry

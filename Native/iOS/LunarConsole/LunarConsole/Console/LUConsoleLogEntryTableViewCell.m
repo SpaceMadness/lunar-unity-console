@@ -62,7 +62,7 @@ static UIEdgeInsets _messageInsets;
 
 + (instancetype)cellWithFrame:(CGRect)frame cellIdentifier:(nullable NSString *)cellIdentifier
 {
-    return LU_AUTORELEASE([[[self class] alloc] initWithFrame:frame cellIdentifier:cellIdentifier]);
+    return [[[[self class] alloc] initWithFrame:frame cellIdentifier:cellIdentifier] autorelease];
 }
 
 - (instancetype)initWithFrame:(CGRect)frame cellIdentifier:(nullable NSString *)cellIdentifier
