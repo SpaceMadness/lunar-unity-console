@@ -67,8 +67,8 @@ static NSArray * _cellSkinLookup;
     if (self)
     {
         _type = type;
-        _message = LU_RETAIN(message);
-        _stackTrace = LU_RETAIN(stackTrace);
+        _message = [message retain];
+        _stackTrace = [stackTrace retain];
         _cachedHeight = -1;
     }
     return self;

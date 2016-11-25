@@ -39,7 +39,7 @@
         }
         
         _actionId = actionId;
-        _name = LU_RETAIN(name);
+        _name = [name retain];
     }
     return self;
 }

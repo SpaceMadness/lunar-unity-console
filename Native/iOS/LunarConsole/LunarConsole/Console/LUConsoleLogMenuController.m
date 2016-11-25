@@ -48,8 +48,8 @@
     self = [super init];
     if (self)
     {
-        _title  = LU_RETAIN(title);
-        _target = LU_RETAIN(target);
+        _title  = [title retain];
+        _target = [target retain];
         _action = action;
     }
     return self;

@@ -66,8 +66,8 @@ static NSDictionary * _propertyTypeLookup;
     self = [super initWithNibName:NSStringFromClass([self class]) bundle:nil];
     if (self)
     {
-        _settings = LU_RETAIN(settings);
-        _entries = LU_RETAIN([LUConsoleSettingsEntry listSettingsEntries:settings]);
+        _settings = [settings retain];
+        _entries = [[LUConsoleSettingsEntry listSettingsEntries:settings] retain];
         
     }
     return self;
@@ -203,11 +203,11 @@ static NSDictionary * _propertyTypeLookup;
             return nil;
         }
         
-        _name = LU_RETAIN(name);
-        _title = LU_RETAIN(title);
-        _value = LU_RETAIN(value);
-        _initialValue = LU_RETAIN(value);
-        _type = LU_RETAIN(type);
+        _name = [name retain];
+        _title = [title retain];
+        _value = [value retain];
+        _initialValue = [value retain];
+        _type = [type retain];
     }
     return self;
 }

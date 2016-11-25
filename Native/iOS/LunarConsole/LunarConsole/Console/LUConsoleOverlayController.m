@@ -48,10 +48,10 @@
     self = [super initWithNibName:NSStringFromClass([self class]) bundle:nil];
     if (self)
     {
-        _console = LU_RETAIN(console);
+        _console = [console retain];
         _console.delegate = self;
         
-        _settings = LU_RETAIN(settings);
+        _settings = [settings retain];
         
         _entries = [[NSMutableArray alloc] initWithCapacity:_settings.maxVisibleEntries];
     }

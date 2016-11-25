@@ -51,7 +51,7 @@ static const NSUInteger kPluginSettingsVersion = 1;
             return nil;
         }
         
-        _filepath = LU_RETAIN(filepath);
+        _filepath = [filepath retain];
         [self initDefaults];
     }
     return self;
@@ -123,7 +123,7 @@ static const NSUInteger kPluginSettingsVersion = 1;
     if (_filepath != filepath)
     {
         [_filepath release];
-        _filepath = LU_RETAIN(filepath);
+        _filepath = [filepath retain];
     }
 }
 

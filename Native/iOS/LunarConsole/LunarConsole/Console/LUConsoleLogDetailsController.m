@@ -47,7 +47,7 @@
     self = [super initWithNibName:NSStringFromClass([self class]) bundle:nil];
     if (self)
     {
-        _entry = LU_RETAIN(entry);
+        _entry = [entry retain];
     }
     return self;
 }

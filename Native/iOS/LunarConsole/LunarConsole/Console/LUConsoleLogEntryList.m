@@ -162,10 +162,10 @@
 {
     if (_filterText != filterText) // filter text has changed
     {
-        NSString *oldFilterText = LU_AUTORELEASE(LU_RETAIN(_filterText)); // manual reference counting rocks!
+        NSString *oldFilterText = LU_AUTORELEASE([_filterText retain]); // manual reference counting rocks!
         
         [_filterText release];
-        _filterText = LU_RETAIN(filterText);
+        _filterText = [filterText retain];
         
         if (filterText.length > oldFilterText.length && (oldFilterText.length == 0 || [filterText hasPrefix:oldFilterText])) // added more characters
         {
@@ -259,7 +259,7 @@
     
     // store filtered items
     [_filteredEntries release];
-    _filteredEntries = LU_RETAIN(filteredEntries);
+    _filteredEntries = [filteredEntries retain];
 }
 
 - (LUMutableArray *)filterEntries:(LUMutableArray *)entries

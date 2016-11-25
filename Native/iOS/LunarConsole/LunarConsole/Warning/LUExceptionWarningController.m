@@ -39,7 +39,7 @@
     self = [super initWithNibName:NSStringFromClass([self class]) bundle:nil];
     if (self)
     {
-        _message = LU_RETAIN(message);
+        _message = [message retain];
     }
     return self;
 }

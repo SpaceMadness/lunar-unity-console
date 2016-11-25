@@ -44,7 +44,7 @@ static const NSUInteger kCountMax = 999;
 {
     [super awakeFromNib];
     
-    _initialText = LU_RETAIN(self.titleLabel.text);
+    _initialText = [self.titleLabel.text retain];
     _count = INT32_MAX;
 
     // text color

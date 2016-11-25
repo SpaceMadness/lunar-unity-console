@@ -62,14 +62,14 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.LunarMob
         }
         
         _scriptMessenger = [[LUUnityScriptMessenger alloc] initWithTargetName:targetName methodName:methodName];
-        _version = LU_RETAIN(version);
+        _version = [version retain];
         _console = [[LUConsole alloc] initWithCapacity:capacity trimCount:trimCount];
         _gesture = [self gestureFromString:gestureName];
         
         NSArray *searchPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         NSString *documentPath = [searchPaths objectAtIndex:0];
         NSString *settingsFile = [documentPath stringByAppendingPathComponent:kSettingsFilename];
-        _settings = LU_RETAIN([LUConsolePluginSettings settingsWithContentsOfFile:settingsFile]);
+        _settings = [[LUConsolePluginSettings settingsWithContentsOfFile:settingsFile] retain];
     }
     return self;
 }
