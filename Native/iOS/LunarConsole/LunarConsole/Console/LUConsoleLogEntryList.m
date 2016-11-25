@@ -55,10 +55,10 @@
 
 - (void)dealloc
 {
-    LU_RELEASE(_entries);
-    LU_RELEASE(_filteredEntries);
-    LU_RELEASE(_filterText);
-    LU_RELEASE(_entryLookup);
+    [_entries release];
+    [_filteredEntries release];
+    [_filterText release];
+    [_entryLookup release];
     LU_SUPER_DEALLOC
 }
 
@@ -148,7 +148,7 @@
     }
     else
     {
-        LU_RELEASE(_entryLookup);
+        [_entryLookup release];
         _entryLookup = nil;
     }
     
@@ -164,7 +164,7 @@
     {
         NSString *oldFilterText = LU_AUTORELEASE(LU_RETAIN(_filterText)); // manual reference counting rocks!
         
-        LU_RELEASE(_filterText);
+        [_filterText release];
         _filterText = LU_RETAIN(filterText);
         
         if (filterText.length > oldFilterText.length && (oldFilterText.length == 0 || [filterText hasPrefix:oldFilterText])) // added more characters
@@ -241,7 +241,7 @@
     {
         _currentEntries = _entries;
         
-        LU_RELEASE(_filteredEntries);
+        [_filteredEntries release];
         _filteredEntries = nil;
         
         return YES;
@@ -258,7 +258,7 @@
     _currentEntries = filteredEntries;
     
     // store filtered items
-    LU_RELEASE(_filteredEntries);
+    [_filteredEntries release];
     _filteredEntries = LU_RETAIN(filteredEntries);
 }
 

@@ -37,8 +37,8 @@
 
 - (void)dealloc
 {
-    LU_RELEASE(_message);
-    LU_RELEASE(_stacktrace);
+    [_message release];
+    [_stacktrace release];
     LU_SUPER_DEALLOC
 }
 

@@ -46,7 +46,7 @@
 
 - (void)dealloc
 {
-    LU_RELEASE(_message);
+    [_message release];
     LU_SUPER_DEALLOC
 }
 

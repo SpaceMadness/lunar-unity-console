@@ -105,8 +105,8 @@ static UIEdgeInsets _messageInsets;
 
 - (void)dealloc
 {
-    LU_RELEASE(_messageLabel);
-    LU_RELEASE(_iconView);
+    [_messageLabel release];
+    [_iconView release];
     LU_SUPER_DEALLOC
 }
 
@@ -231,8 +231,8 @@ static UIEdgeInsets _messageInsets;
 
 - (void)dealloc
 {
-    LU_RELEASE(_backgroundImageView);
-    LU_RELEASE(_countLabel);
+    [_backgroundImageView release];
+    [_countLabel release];
     LU_SUPER_DEALLOC
 }
 
@@ -307,7 +307,7 @@ static UIEdgeInsets _messageInsets;
         [self.contentView addSubview:messageLabel];
         
         self.messageLabel = messageLabel;
-        LU_RELEASE(messageLabel);
+        [messageLabel release];
     }
     return self;
 }

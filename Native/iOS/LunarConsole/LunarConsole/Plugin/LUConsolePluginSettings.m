@@ -46,7 +46,7 @@ static const NSUInteger kPluginSettingsVersion = 1;
     {
         if (filepath == nil)
         {
-            LU_RELEASE(self);
+            [self release];
             self = nil;
             return nil;
         }
@@ -59,7 +59,7 @@ static const NSUInteger kPluginSettingsVersion = 1;
 
 - (void)dealloc
 {
-    LU_RELEASE(_filepath);
+    [_filepath release];
     LU_SUPER_DEALLOC
 }
 
@@ -122,7 +122,7 @@ static const NSUInteger kPluginSettingsVersion = 1;
 {
     if (_filepath != filepath)
     {
-        LU_RELEASE(_filepath);
+        [_filepath release];
         _filepath = LU_RETAIN(filepath);
     }
 }

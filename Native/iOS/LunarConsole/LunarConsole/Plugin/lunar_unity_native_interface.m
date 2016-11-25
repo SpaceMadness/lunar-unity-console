@@ -46,10 +46,10 @@ void __lunar_console_initialize(const char *targetNameStr, const char *methodNam
                                                                gestureName:gesture];
             [_lunarConsolePlugin start];
             
-            LU_RELEASE(targetName);
-            LU_RELEASE(methodName);
-            LU_RELEASE(version);
-            LU_RELEASE(gesture);
+            [targetName release];
+            [methodName release];
+            [version release];
+            [gesture release];
         }
     });
 }
@@ -57,7 +57,7 @@ void __lunar_console_initialize(const char *targetNameStr, const char *methodNam
 OBJC_EXTERN // see: https://github.com/SpaceMadness/lunar-unity-console/pull/18
 void __lunar_console_destroy() {
     lunar_dispatch_main(^{
-        LU_RELEASE(_lunarConsolePlugin);
+        [_lunarConsolePlugin release];
         _lunarConsolePlugin = nil;
     });
 }
@@ -97,6 +97,6 @@ void __lunar_console_log_message(const char * messageStr, const char * stackTrac
 
     [_lunarConsolePlugin logMessage:message stackTrace:stackTrace type:type];
     
-    LU_RELEASE(message);
-    LU_RELEASE(stackTrace);
+    [message release];
+    [stackTrace release];
 }

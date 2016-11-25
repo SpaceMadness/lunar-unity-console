@@ -68,8 +68,8 @@
     _tableView.delegate   = nil;
     _tableView.dataSource = nil;
     
-    LU_RELEASE(_console);
-    LU_RELEASE(_settings);
+    [_console release];
+    [_settings release];
     LU_SUPER_DEALLOC;
 }
 

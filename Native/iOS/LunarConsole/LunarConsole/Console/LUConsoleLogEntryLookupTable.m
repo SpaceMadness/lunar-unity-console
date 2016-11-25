@@ -44,7 +44,7 @@
 
 - (void)dealloc
 {
-    LU_RELEASE(_table);
+    [_table release];
     LU_SUPER_DEALLOC
 }
 

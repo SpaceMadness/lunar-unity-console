@@ -75,8 +75,8 @@ static NSDictionary * _propertyTypeLookup;
 
 - (void)dealloc
 {
-    LU_RELEASE(_entries);
-    LU_RELEASE(_settings);
+    [_entries release];
+    [_settings release];
     LU_SUPER_DEALLOC
 }
 
@@ -198,7 +198,7 @@ static NSDictionary * _propertyTypeLookup;
             value == nil ||
             type == nil)
         {
-            LU_RELEASE(self);
+            [self release];
             self = nil;
             return nil;
         }
@@ -214,11 +214,11 @@ static NSDictionary * _propertyTypeLookup;
 
 - (void)dealloc
 {
-    LU_RELEASE(_name);
-    LU_RELEASE(_title);
-    LU_RELEASE(_value);
-    LU_RELEASE(_initialValue);
-    LU_RELEASE(_type);
+    [_name release];
+    [_title release];
+    [_value release];
+    [_initialValue release];
+    [_type release];
     LU_SUPER_DEALLOC
 }
 
@@ -284,7 +284,7 @@ static NSDictionary * _propertyTypeLookup;
             }
             
             [entries addObject:entry];
-            LU_RELEASE(entry);
+            [entry release];
         }
     }
     free(properties);

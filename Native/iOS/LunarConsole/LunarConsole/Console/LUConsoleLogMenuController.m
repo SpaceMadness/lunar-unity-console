@@ -57,8 +57,8 @@
 
 - (void)dealloc
 {
-    LU_RELEASE(_title);
-    LU_RELEASE(_target);
+    [_title release];
+    [_target release];
     
     LU_SUPER_DEALLOC
 }
@@ -104,7 +104,7 @@
 
 - (void)dealloc
 {
-    LU_RELEASE(_buttons);
+    [_buttons release];
     LU_SUPER_DEALLOC
 }
 
@@ -116,7 +116,7 @@
     UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                  action:@selector(handleBackgroundTap:)];
     [self.view addGestureRecognizer:recognizer];
-    LU_RELEASE(recognizer);
+    [recognizer release];
     
     // colors
     LUTheme *theme = [LUTheme mainTheme];
@@ -148,7 +148,7 @@
 {
     LUConsoleLogMenuControllerButton *button = [[LUConsoleLogMenuControllerButton alloc] initWithTitle:title target:target action:action];
     [_buttons addObject:button];
-    LU_RELEASE(button);
+    [button release];
 }
 
 - (void)addButtonsToView:(UIView *)view

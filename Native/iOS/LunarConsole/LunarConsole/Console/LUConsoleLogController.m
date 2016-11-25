@@ -107,7 +107,7 @@ static LUConsoleLogControllerState * _sharedControllerState;
     _warningButton.delegate = nil;
     _errorButton.delegate   = nil;
     
-    LU_RELEASE(_version);
+    [_version release];
     LU_SUPER_DEALLOC
 }
 
@@ -143,7 +143,7 @@ static LUConsoleLogControllerState * _sharedControllerState;
     UITapGestureRecognizer *statusBarTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                                     action:@selector(onStatusBarTap:)];
     [_statusBarView addGestureRecognizer:statusBarTapGestureRecognizer];
-    LU_RELEASE(statusBarTapGestureRecognizer);
+    [statusBarTapGestureRecognizer release];
     
     _statusBarView.text = [NSString stringWithFormat:@"Lunar Console v%@", _version ? _version : @"?.?.?"];
     
@@ -276,7 +276,7 @@ static LUConsoleLogControllerState * _sharedControllerState;
     {
         [self presentViewController:controller animated:YES completion:nil];
     }
-    LU_RELEASE(controller);
+    [controller release];
 }
 
 - (IBAction)onSettings:(id)sender
@@ -285,7 +285,7 @@ static LUConsoleLogControllerState * _sharedControllerState;
     controller.delegate = self;
     // add as child view controller
     [self addChildOverlayController:controller animated:YES];
-    LU_RELEASE(controller);
+    [controller release];
 }
 
 - (IBAction)onStatusBarTap:(UITapGestureRecognizer *)recognizer
@@ -313,7 +313,7 @@ static LUConsoleLogControllerState * _sharedControllerState;
     // add as child view controller
     [self addChildOverlayController:controller animated:NO];
     
-    LU_RELEASE(controller);
+    [controller release];
 }
 
 #pragma mark -
@@ -464,7 +464,7 @@ static LUConsoleLogControllerState * _sharedControllerState;
     // add as child view controller
     [self addChildOverlayController:controller animated:YES];
     
-    LU_RELEASE(controller);
+    [controller release];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
@@ -686,7 +686,7 @@ static LUConsoleLogControllerState * _sharedControllerState;
     {
         NSArray *deleteIndices = [[NSArray alloc] initWithObjects:[NSIndexPath indexPathForRow:0 inSection:0], nil];
         [_tableView deleteRowsAtIndexPaths:deleteIndices withRowAnimation:UITableViewRowAnimationNone];
-        LU_RELEASE(deleteIndices);
+        [deleteIndices release];
     }
     else if (count > 1)
     {
@@ -696,7 +696,7 @@ static LUConsoleLogControllerState * _sharedControllerState;
             [deleteIndices addObject:[NSIndexPath indexPathForRow:rowIndex inSection:0]];
         }
         [_tableView deleteRowsAtIndexPaths:deleteIndices withRowAnimation:UITableViewRowAnimationNone];
-        LU_RELEASE(deleteIndices);
+        [deleteIndices release];
     }
 }
 
@@ -706,7 +706,7 @@ static LUConsoleLogControllerState * _sharedControllerState;
     
     NSArray *indices = [[NSArray alloc] initWithObjects:[NSIndexPath indexPathForRow:index inSection:0], nil];
     [_tableView insertRowsAtIndexPaths:indices withRowAnimation:UITableViewRowAnimationNone];
-    LU_RELEASE(indices);
+    [indices release];
     
     // scroll to the end
     if (_scrollLocked)
@@ -721,7 +721,7 @@ static LUConsoleLogControllerState * _sharedControllerState;
     
     NSArray *indices = [[NSArray alloc] initWithObjects:[NSIndexPath indexPathForRow:index inSection:0], nil];
     [_tableView reloadRowsAtIndexPaths:indices withRowAnimation:UITableViewRowAnimationNone];
-    LU_RELEASE(indices);
+    [indices release];
 }
 
 - (void)updateEntriesCount

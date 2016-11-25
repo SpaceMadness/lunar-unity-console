@@ -37,7 +37,7 @@
 
 - (void)dealloc
 {
-    LU_RELEASE(_userData);
+    [_userData release];
     LU_SUPER_DEALLOC
 }
 

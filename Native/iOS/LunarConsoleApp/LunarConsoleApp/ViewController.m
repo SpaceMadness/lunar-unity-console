@@ -27,7 +27,7 @@
 static const NSUInteger kConsoleCapacity  = 4096;
 static const NSUInteger kConsoleTrimCount = 512;
 
-static __weak LUConsolePlugin * _pluginInstance;
+static LU_WEAK LUConsolePlugin * _pluginInstance;
 
 void UnitySendMessage(const char *objectName, const char *methodName, const char *message)
 {
@@ -39,9 +39,9 @@ void UnitySendMessage(const char *objectName, const char *methodName, const char
     NSUInteger _index;
 }
 
-@property (nonatomic, weak) IBOutlet UITextField * messageText;
-@property (nonatomic, weak) IBOutlet UITextField * capacityText;
-@property (nonatomic, weak) IBOutlet UITextField * trimText;
+@property (nonatomic, assign) IBOutlet UITextField * messageText;
+@property (nonatomic, assign) IBOutlet UITextField * capacityText;
+@property (nonatomic, assign) IBOutlet UITextField * trimText;
 
 @property (nonatomic, strong) NSArray * logEntries;
 
@@ -52,7 +52,7 @@ void UnitySendMessage(const char *objectName, const char *methodName, const char
 - (void)dealloc
 {
     _pluginInstance = nil;
-    LU_RELEASE(_plugin);
+    [_plugin release];
     LU_SUPER_DEALLOC
 }
 
@@ -217,7 +217,7 @@ void UnitySendMessage(const char *objectName, const char *methodName, const char
         
         FakeLogEntry *entry = [[FakeLogEntry alloc] initWithType:type message:message stackTrace:stacktrace];
         [entries addObject:entry];
-        LU_RELEASE(entry);
+        [entry release];
     }
     return entries;
 }

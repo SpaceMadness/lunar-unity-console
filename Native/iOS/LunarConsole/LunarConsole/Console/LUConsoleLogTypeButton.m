@@ -36,7 +36,7 @@ static const NSUInteger kCountMax = 999;
 
 - (void)dealloc
 {
-    LU_RELEASE(_initialText);
+    [_initialText release];
     LU_SUPER_DEALLOC
 }
 
@@ -68,7 +68,7 @@ static const NSUInteger kCountMax = 999;
         {
             NSString *countText = [[NSString alloc] initWithFormat:@"%ld", (unsigned long)count];
             [self setCountText:countText];
-            LU_RELEASE(countText);
+            [countText release];
         }
         else if (_count < kCountMax)
         {

@@ -33,7 +33,7 @@
         if (name.length == 0)
         {
             NSLog(@"Can't create an entry: name is nil or empty");
-            LU_RELEASE(self);
+            [self release];
             self = nil;
             return nil;
         }
@@ -46,7 +46,7 @@
 
 - (void)dealloc
 {
-    LU_RELEASE(_name);
+    [_name release];
     LU_SUPER_DEALLOC
 }
 

@@ -76,8 +76,8 @@ static NSArray * _cellSkinLookup;
 
 - (void)dealloc
 {
-    LU_RELEASE(_message);
-    LU_RELEASE(_stackTrace);
+    [_message release];
+    [_stackTrace release];
     LU_SUPER_DEALLOC
 }
 

@@ -38,7 +38,7 @@
     
     [self assertResult:@"1", @"2", @"3", nil];
     
-    LU_RELEASE(console);
+    [console release];
 }
 
 - (void)testTrim
@@ -56,7 +56,7 @@
     
     [self assertResult:@"4", @"5", @"6", @"7", nil];
     
-    LU_RELEASE(console);
+    [console release];
 }
 
 - (void)testClear
@@ -74,7 +74,7 @@
     
     [self assertResult:nil];
     
-    LU_RELEASE(console);
+    [console release];
 }
 
 #pragma mark -

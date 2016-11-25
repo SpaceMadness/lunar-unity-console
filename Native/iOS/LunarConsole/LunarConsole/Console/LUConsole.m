@@ -44,7 +44,7 @@
 
 - (void)dealloc
 {
-    LU_RELEASE(_entries);
+    [_entries release];
     LU_SUPER_DEALLOC
 }
 
@@ -82,7 +82,7 @@
         [_delegate lunarConsole:self didUpdateEntryAtIndex:index trimmedCount:trimmed];
     }
     
-    LU_RELEASE(entry);
+    [entry release];
 }
 
 - (void)clear

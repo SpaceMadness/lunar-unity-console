@@ -51,7 +51,7 @@
 
 - (void)dealloc
 {
-    LU_RELEASE(_objects);
+    [_objects release];
     LU_SUPER_DEALLOC
 }
 
@@ -85,7 +85,7 @@
 
 - (void)removeAllObjects
 {
-    LU_RELEASE(_objects); // NSMutableArray array never shinks after growing
+    [_objects release]; // NSMutableArray array never shinks after growing
     
     _objects = [NSMutableArray new];
     _totalCount = 0;
