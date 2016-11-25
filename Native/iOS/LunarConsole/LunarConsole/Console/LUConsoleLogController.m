@@ -107,7 +107,7 @@ static LUConsoleLogControllerState * _sharedControllerState;
     _warningButton.delegate = nil;
     _errorButton.delegate   = nil;
     
-    LU_RELEASE(_version)
+    LU_RELEASE(_version);
     LU_SUPER_DEALLOC
 }
 
