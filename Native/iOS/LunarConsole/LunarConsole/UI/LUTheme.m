@@ -51,6 +51,8 @@ static LUTheme * _mainTheme;
 @property (nonatomic, assign) CGFloat buttonWidth;
 @property (nonatomic, assign) CGFloat buttonHeight;
 
+@property (nonatomic, strong) LUButtonSkin *actionButtonLargeSkin;
+
 @property (nonatomic, strong) UIImage *collapseBackgroundImage;
 @property (nonatomic, strong) UIColor *collapseBackgroundColor;
 @property (nonatomic, strong) UIColor *collapseTextColor;
@@ -70,6 +72,14 @@ static LUTheme * _mainTheme;
 @property (nonatomic, strong) UIColor *backgroundColorLight;
 @property (nonatomic, strong) UIColor *backgroundColorDark;
 @property (nonatomic, strong) UIColor *overlayTextColor;
+
+@end
+
+@interface LUButtonSkin ()
+
+@property (nonatomic, strong) UIImage *normalImage;
+@property (nonatomic, strong) UIImage *selectedImage;
+@property (nonatomic, strong) UIFont  *font;
 
 @end
 
@@ -157,6 +167,11 @@ static UIImage * CreateCollapseBackgroundImage()
         _mainTheme.contextMenuTextColor = cellLog.textColor;
         _mainTheme.contextMenuTextHighlightColor = [UIColor whiteColor];
         _mainTheme.switchTintColor = UIColorMake(0xfed900);
+        
+        LUButtonSkin *actionButtonLargeSkin = [LUButtonSkin buttonSkin];
+        actionButtonLargeSkin.normalImage = LUGet3SlicedImage(@"lunar_console_action_button_large_normal");
+        actionButtonLargeSkin.selectedImage = LUGet3SlicedImage(@"lunar_console_action_button_large_selected");
+        _mainTheme.actionButtonLargeSkin = actionButtonLargeSkin;
     }
 }
 
@@ -216,8 +231,16 @@ static UIImage * CreateCollapseBackgroundImage()
 
 + (instancetype)cellSkin
 {
-    return [[[self class] alloc] init];
+    return [[self alloc] init];
 }
 
+@end
+
+@implementation LUButtonSkin
+
++ (instancetype)buttonSkin
+{
+    return [[self alloc] init];
+}
 
 @end

@@ -33,6 +33,16 @@
 
 @end
 
+@interface LUButtonSkin : NSObject
+
++ (instancetype)buttonSkin;
+
+@property (nonatomic, readonly) UIImage *normalImage;
+@property (nonatomic, readonly) UIImage *selectedImage;
+@property (nonatomic, readonly) UIFont  *font;
+
+@end
+
 @interface LUTheme : NSObject
 
 @property (nonatomic, readonly) UIColor *tableColor;
@@ -59,6 +69,8 @@
 @property (nonatomic, readonly) CGFloat indentVerTiny;
 @property (nonatomic, readonly) CGFloat buttonWidth;
 @property (nonatomic, readonly) CGFloat buttonHeight;
+
+@property (nonatomic, readonly) LUButtonSkin *actionButtonLargeSkin;
 
 @property (nonatomic, readonly) UIImage *collapseBackgroundImage;
 @property (nonatomic, readonly) UIColor *collapseBackgroundColor;
