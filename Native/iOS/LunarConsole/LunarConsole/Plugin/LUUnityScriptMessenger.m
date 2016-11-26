@@ -43,7 +43,6 @@ extern void UnitySendMessage(const char *objectName, const char *methodName, con
         if (targetName.length == 0)
         {
             NSLog(@"Can't create script messenger: target name is nil or empty");
-            LU_RELEASE(self);
             self = nil;
             return nil;
         }
@@ -51,7 +50,6 @@ extern void UnitySendMessage(const char *objectName, const char *methodName, con
         if (methodName.length == 0)
         {
             NSLog(@"Can't create script messenger: method name is nil or empty");
-            LU_RELEASE(self);
             self = nil;
             return nil;
         }
@@ -62,12 +60,6 @@ extern void UnitySendMessage(const char *objectName, const char *methodName, con
     return self;
 }
 
-- (void)dealloc
-{
-    LU_RELEASE(_targetName);
-    LU_RELEASE(_methodName);
-    LU_SUPER_DEALLOC
-}
 
 - (void)sendMessageName:(NSString *)name
 {

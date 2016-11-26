@@ -30,13 +30,13 @@
     LUConsoleLogEntry * _entry;
 }
 
-@property (nonatomic, assign) IBOutlet NSLayoutConstraint * contentWidthConstraint;
-@property (nonatomic, assign) IBOutlet NSLayoutConstraint * contentHeightConstraint;
-@property (nonatomic, assign) IBOutlet UIView             * contentView;
-@property (nonatomic, assign) IBOutlet UIView             * bottomBarView;
-@property (nonatomic, assign) IBOutlet UIImageView        * iconView;
-@property (nonatomic, assign) IBOutlet UILabel            * messageView;
-@property (nonatomic, assign) IBOutlet UITextView         * stackTraceView;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint * contentWidthConstraint;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint * contentHeightConstraint;
+@property (nonatomic, weak) IBOutlet UIView             * contentView;
+@property (nonatomic, weak) IBOutlet UIView             * bottomBarView;
+@property (nonatomic, weak) IBOutlet UIImageView        * iconView;
+@property (nonatomic, weak) IBOutlet UILabel            * messageView;
+@property (nonatomic, weak) IBOutlet UITextView         * stackTraceView;
 
 @end
 
@@ -47,16 +47,11 @@
     self = [super initWithNibName:NSStringFromClass([self class]) bundle:nil];
     if (self)
     {
-        _entry = LU_RETAIN(entry);
+        _entry = entry;
     }
     return self;
 }
 
-- (void)dealloc
-{
-    LU_RELEASE(_entry);
-    LU_SUPER_DEALLOC
-}
 
 - (void)viewDidLoad
 {

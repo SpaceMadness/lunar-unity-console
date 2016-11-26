@@ -28,7 +28,7 @@
     NSString * _message;
 }
 
-@property (nonatomic, assign) IBOutlet UILabel  *errorLabel;
+@property (nonatomic, weak) IBOutlet UILabel  *errorLabel;
 
 @end
 
@@ -39,16 +39,11 @@
     self = [super initWithNibName:NSStringFromClass([self class]) bundle:nil];
     if (self)
     {
-        _message = LU_RETAIN(message);
+        _message = message;
     }
     return self;
 }
 
-- (void)dealloc
-{
-    LU_RELEASE(_message);
-    LU_SUPER_DEALLOC
-}
 
 - (void)viewDidLoad
 {

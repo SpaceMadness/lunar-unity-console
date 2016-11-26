@@ -31,7 +31,6 @@ void LUDisplayAlertView(NSString *title, NSString *message)
                                               cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil];
     [alertView show];
-    LU_RELEASE(alertView);
 }
 
 CGRect LUGetScreenBounds()

@@ -36,8 +36,8 @@
 
 @interface LUConsoleLogController : LUViewController
 
-@property (nonatomic, retain) NSString *version;
-@property (nonatomic, assign) id<LUConsoleLogControllerDelegate> delegate;
+@property (nonatomic, strong) NSString *version;
+@property (nonatomic, weak) id<LUConsoleLogControllerDelegate> delegate;
 
 + (instancetype)controllerWithPlugin:(LUConsolePlugin *)console;
 - (instancetype)initWithPlugin:(LUConsolePlugin *)console;

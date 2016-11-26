@@ -33,22 +33,16 @@
         if (name.length == 0)
         {
             NSLog(@"Can't create an entry: name is nil or empty");
-            LU_RELEASE(self);
             self = nil;
             return nil;
         }
         
         _actionId = actionId;
-        _name = LU_RETAIN(name);
+        _name = name;
     }
     return self;
 }
 
-- (void)dealloc
-{
-    LU_RELEASE(_name);
-    LU_SUPER_DEALLOC
-}
 
 #pragma mark -
 #pragma mark NSComparisonMethods

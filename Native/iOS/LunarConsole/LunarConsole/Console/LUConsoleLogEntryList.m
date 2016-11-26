@@ -38,7 +38,7 @@
 
 + (instancetype)listWithCapacity:(NSUInteger)capacity trimCount:(NSUInteger)trimCount
 {
-    return LU_AUTORELEASE([[[self class] alloc] initWithCapacity:capacity trimCount:trimCount]);
+    return [[[self class] alloc] initWithCapacity:capacity trimCount:trimCount];
 }
 
 - (instancetype)initWithCapacity:(NSUInteger)capacity trimCount:(NSUInteger)trimCount
@@ -53,14 +53,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    LU_RELEASE(_entries);
-    LU_RELEASE(_filteredEntries);
-    LU_RELEASE(_filterText);
-    LU_RELEASE(_entryLookup);
-    LU_SUPER_DEALLOC
-}
 
 #pragma mark -
 #pragma mark Entries
@@ -148,7 +140,6 @@
     }
     else
     {
-        LU_RELEASE(_entryLookup);
         _entryLookup = nil;
     }
     
@@ -162,10 +153,9 @@
 {
     if (_filterText != filterText) // filter text has changed
     {
-        NSString *oldFilterText = LU_AUTORELEASE(LU_RETAIN(_filterText)); // manual reference counting rocks!
+        NSString *oldFilterText = _filterText;
         
-        LU_RELEASE(_filterText);
-        _filterText = LU_RETAIN(filterText);
+        _filterText = filterText;
         
         if (filterText.length > oldFilterText.length && (oldFilterText.length == 0 || [filterText hasPrefix:oldFilterText])) // added more characters
         {
@@ -241,7 +231,6 @@
     {
         _currentEntries = _entries;
         
-        LU_RELEASE(_filteredEntries);
         _filteredEntries = nil;
         
         return YES;
@@ -258,8 +247,7 @@
     _currentEntries = filteredEntries;
     
     // store filtered items
-    LU_RELEASE(_filteredEntries);
-    _filteredEntries = LU_RETAIN(filteredEntries);
+    _filteredEntries = filteredEntries;
 }
 
 - (LUMutableArray *)filterEntries:(LUMutableArray *)entries

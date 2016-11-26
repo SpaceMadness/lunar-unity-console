@@ -34,7 +34,7 @@ void UnitySendMessage(const char *objectName, const char *methodName, const char
 {
     [super setUp];
     
-    LU_RELEASE(_result);
+    [_result release];
     _result = [NSMutableArray new];
     
     LUAssertSetHandler(^(NSString *message) {

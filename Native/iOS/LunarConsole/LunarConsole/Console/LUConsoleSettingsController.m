@@ -38,10 +38,10 @@ static NSDictionary * _propertyTypeLookup;
     LUConsolePluginSettings * _settings;
 }
 
-@property (nonatomic, assign) IBOutlet UIView * contentView;
-@property (nonatomic, assign) IBOutlet UIView * bottomBarView;
-@property (nonatomic, assign) IBOutlet UILabel * titleLabel;
-@property (nonatomic, assign) IBOutlet UITableView * tableView;
+@property (nonatomic, weak) IBOutlet UIView * contentView;
+@property (nonatomic, weak) IBOutlet UIView * bottomBarView;
+@property (nonatomic, weak) IBOutlet UILabel * titleLabel;
+@property (nonatomic, weak) IBOutlet UITableView * tableView;
 
 @end
 
@@ -66,19 +66,13 @@ static NSDictionary * _propertyTypeLookup;
     self = [super initWithNibName:NSStringFromClass([self class]) bundle:nil];
     if (self)
     {
-        _settings = LU_RETAIN(settings);
-        _entries = LU_RETAIN([LUConsoleSettingsEntry listSettingsEntries:settings]);
+        _settings = settings;
+        _entries = [LUConsoleSettingsEntry listSettingsEntries:settings];
         
     }
     return self;
 }
 
-- (void)dealloc
-{
-    LU_RELEASE(_entries);
-    LU_RELEASE(_settings);
-    LU_SUPER_DEALLOC
-}
 
 #pragma mark -
 #pragma mark View
@@ -198,29 +192,19 @@ static NSDictionary * _propertyTypeLookup;
             value == nil ||
             type == nil)
         {
-            LU_RELEASE(self);
             self = nil;
             return nil;
         }
         
-        _name = LU_RETAIN(name);
-        _title = LU_RETAIN(title);
-        _value = LU_RETAIN(value);
-        _initialValue = LU_RETAIN(value);
-        _type = LU_RETAIN(type);
+        _name = name;
+        _title = title;
+        _value = value;
+        _initialValue = value;
+        _type = type;
     }
     return self;
 }
 
-- (void)dealloc
-{
-    LU_RELEASE(_name);
-    LU_RELEASE(_title);
-    LU_RELEASE(_value);
-    LU_RELEASE(_initialValue);
-    LU_RELEASE(_type);
-    LU_SUPER_DEALLOC
-}
 
 #pragma mark -
 #pragma mark Introspection
@@ -284,7 +268,6 @@ static NSDictionary * _propertyTypeLookup;
             }
             
             [entries addObject:entry];
-            LU_RELEASE(entry);
         }
     }
     free(properties);

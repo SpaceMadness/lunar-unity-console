@@ -34,7 +34,7 @@
 
 @interface LUExceptionWarningController : LUViewController
 
-@property (nonatomic, assign) id<LUExceptionWarningControllerDelegate> delegate;
+@property (nonatomic, weak) id<LUExceptionWarningControllerDelegate> delegate;
 
 - (instancetype)initWithMessage:(NSString *)message;
 

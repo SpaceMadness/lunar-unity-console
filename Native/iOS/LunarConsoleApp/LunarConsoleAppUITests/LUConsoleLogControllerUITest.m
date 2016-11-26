@@ -22,7 +22,6 @@
 #import <XCTest/XCTest.h>
 
 #import "Lunar.h"
-#import "ViewController.h"
 #import "UITestCaseBase.h"
 
 #define GET_CONSOLE_TABLE(app) ([app.tables elementBoundByIndex:0])
