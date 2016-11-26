@@ -44,6 +44,8 @@
 #import "LULittleHelper.h"
 #import "LUMutableArray.h"
 #import "LUObject.h"
+#import "LUPanViewGestureRecognizer.h"
+#import "LUPassTouchView.h"
 #import "LUStacktrace.h"
 #import "LUStringUtils.h"
 #import "LUSwitch.h"

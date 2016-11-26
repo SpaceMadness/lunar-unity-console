@@ -8,6 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+@class LUActionButton;
+
+@protocol LUActionButtonDelegate <NSObject>
+
+- (void)actionButtonDidStartEdit:(LUActionButton *)actionButton;
+
+@end
+
 @interface LUActionButton : UIButton
+
+@property (nonatomic, weak) id<LUActionButtonDelegate> stateDelegate;
 
 @end

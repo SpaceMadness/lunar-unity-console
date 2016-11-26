@@ -13,6 +13,8 @@
 		840F07F81DEA1E5A00E9F13D /* LUActionButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F07F71DEA1E5A00E9F13D /* LUActionButton.m */; };
 		840F07FC1DEA229900E9F13D /* LUConsoleActionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F07FA1DEA229900E9F13D /* LUConsoleActionController.m */; };
 		840F07FF1DEA251900E9F13D /* LUButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F07FE1DEA251900E9F13D /* LUButton.m */; };
+		840F08101DEA320E00E9F13D /* LUPanViewGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F080F1DEA320E00E9F13D /* LUPanViewGestureRecognizer.m */; };
+		840F08131DEA389B00E9F13D /* LUPassTouchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F08121DEA389B00E9F13D /* LUPassTouchView.m */; };
 		844741B51B719C3100F5ABD3 /* libLunarConsole.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 844741A91B719C3100F5ABD3 /* libLunarConsole.a */; };
 		84B7BD8E1D2229810048472B /* LUEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B7BD8B1D2229810048472B /* LUEntry.m */; };
 		84B7BD8F1D2229810048472B /* LUEntryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B7BD8D1D2229810048472B /* LUEntryTableViewCell.m */; };
@@ -95,6 +97,10 @@
 		840F07FB1DEA229900E9F13D /* LUConsoleActionController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LUConsoleActionController.xib; sourceTree = "<group>"; };
 		840F07FD1DEA251900E9F13D /* LUButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUButton.h; sourceTree = "<group>"; };
 		840F07FE1DEA251900E9F13D /* LUButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUButton.m; sourceTree = "<group>"; };
+		840F080E1DEA320E00E9F13D /* LUPanViewGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUPanViewGestureRecognizer.h; sourceTree = "<group>"; };
+		840F080F1DEA320E00E9F13D /* LUPanViewGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUPanViewGestureRecognizer.m; sourceTree = "<group>"; };
+		840F08111DEA389B00E9F13D /* LUPassTouchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUPassTouchView.h; sourceTree = "<group>"; };
+		840F08121DEA389B00E9F13D /* LUPassTouchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUPassTouchView.m; sourceTree = "<group>"; };
 		844741A91B719C3100F5ABD3 /* libLunarConsole.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libLunarConsole.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		844741B41B719C3100F5ABD3 /* LunarConsoleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LunarConsoleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		844741BA1B719C3100F5ABD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -450,6 +456,10 @@
 				840F07F71DEA1E5A00E9F13D /* LUActionButton.m */,
 				840F07FD1DEA251900E9F13D /* LUButton.h */,
 				840F07FE1DEA251900E9F13D /* LUButton.m */,
+				840F080E1DEA320E00E9F13D /* LUPanViewGestureRecognizer.h */,
+				840F080F1DEA320E00E9F13D /* LUPanViewGestureRecognizer.m */,
+				840F08111DEA389B00E9F13D /* LUPassTouchView.h */,
+				840F08121DEA389B00E9F13D /* LUPassTouchView.m */,
 				EF4C364B1D6E6B1D0036585B /* LUSwitch.h */,
 				EF4C364C1D6E6B1D0036585B /* LUSwitch.m */,
 				EF21AE211BF548810053D50B /* LUTableView.h */,
@@ -600,6 +610,7 @@
 				EF21AE231BF548810053D50B /* LUTableView.m in Sources */,
 				EF0836AC1B7ABCCE00DFB877 /* LUMutableArray.m in Sources */,
 				840F07FC1DEA229900E9F13D /* LUConsoleActionController.m in Sources */,
+				840F08131DEA389B00E9F13D /* LUPassTouchView.m in Sources */,
 				EF0836A81B7ABCCE00DFB877 /* LUToggleButton.m in Sources */,
 				84EA4FCA1C57163000A0635C /* LUConsoleLogEntryLookupTable.m in Sources */,
 				EF5AD10E1D6BB24400B27500 /* LUConsoleSettingsController.m in Sources */,
@@ -618,6 +629,7 @@
 				EF21AE201BF5383E0053D50B /* LULittleHelper.m in Sources */,
 				840F07F81DEA1E5A00E9F13D /* LUActionButton.m in Sources */,
 				EFB99CDF1D21E67200C95E80 /* LUConsoleLogEntryTableViewCell.m in Sources */,
+				840F08101DEA320E00E9F13D /* LUPanViewGestureRecognizer.m in Sources */,
 				EF4C364D1D6E6B1D0036585B /* LUSwitch.m in Sources */,
 				EFB99CEA1D21EF6300C95E80 /* LUStringUtils.m in Sources */,
 				EF0836A41B7ABCCE00DFB877 /* lunar_unity_native_interface.m in Sources */,

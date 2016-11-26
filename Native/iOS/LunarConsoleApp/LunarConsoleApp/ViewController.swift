@@ -121,7 +121,7 @@ class ViewController: LUViewController {
     }
     
     private func showOverlay() {
-        plugin.showOverlay()
+        plugin.showActionOverlay()
     }
     
     private func showAlert() {

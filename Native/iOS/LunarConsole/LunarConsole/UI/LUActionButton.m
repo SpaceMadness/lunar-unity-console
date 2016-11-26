@@ -10,6 +10,13 @@
 
 #import "Lunar.h"
 
+@interface LUActionButton ()
+{
+    UIGestureRecognizer * _longPressGestureRecognizer;
+    UIGestureRecognizer * _panViewGestureRecognizer;
+}
+@end
+
 @implementation LUActionButton
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder
@@ -21,8 +28,20 @@
         
         [self setBackgroundImage:skin.normalImage forState:UIControlStateNormal];
         [self setBackgroundImage:skin.selectedImage forState:UIControlStateHighlighted];
+        
+        _longPressGestureRecognizer = [[UILongPressGestureRecognizer alloc] initWithTarget:self
+                                                                                    action:@selector(handleLongPressGesture:)];
+        [self addGestureRecognizer:_longPressGestureRecognizer];
     }
     return self;
+}
+
+- (void)handleLongPressGesture:(UILongPressGestureRecognizer *)gestureRecognizer
+{
+    [self removeGestureRecognizer:gestureRecognizer];
+    
+    _panViewGestureRecognizer = [LUPanViewGestureRecognizer new];
+    [self addGestureRecognizer:_panViewGestureRecognizer];
 }
 
 @end

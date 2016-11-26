@@ -25,4 +25,9 @@
 
 @implementation LUWindow
 
+- (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event
+{
+    return [self.rootViewController.view pointInside:point withEvent:event];
+}
+
 @end

@@ -21,6 +21,7 @@
     if ([self class] == [LUConsoleActionController class])
     {
         [LUActionButton class];
+        [LUPassTouchView class];
     }
 }
 
