@@ -81,6 +81,7 @@
 {
     if (app.keys[@"Delete"].exists) return app.keys[@"Delete"];
     if (app.keys[@"delete"].exists) return app.keys[@"delete"];
+    if (app.keys[@"Удалить"].exists) return app.keys[@"Удалить"]; // полная хуйня, но без нее не работает
     
     XCTFail(@"Can't resolve 'delete' button");
     return nil;
