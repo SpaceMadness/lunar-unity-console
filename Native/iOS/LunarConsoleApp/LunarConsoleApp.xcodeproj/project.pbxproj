@@ -7,11 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		840F07E71DE9001700E9F13D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840F07E61DE9001700E9F13D /* ViewController.swift */; };
+		840F07E91DE9105600E9F13D /* FakeLogEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840F07E81DE9105600E9F13D /* FakeLogEntry.swift */; };
 		844741EE1B719DA500F5ABD3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 844741ED1B719DA500F5ABD3 /* main.m */; };
 		844741F11B719DA500F5ABD3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 844741F01B719DA500F5ABD3 /* AppDelegate.m */; };
 		844741F91B719DA500F5ABD3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 844741F81B719DA500F5ABD3 /* Images.xcassets */; };
 		8447421C1B719F3A00F5ABD3 /* libLunarConsole.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 844742171B719DB600F5ABD3 /* libLunarConsole.a */; };
-		8447421F1B719F8800F5ABD3 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8447421E1B719F8800F5ABD3 /* ViewController.m */; };
 		846EE88D1C5EEF3F00C688FF /* lunar_console_icon_button_expand.png in Resources */ = {isa = PBXBuildFile; fileRef = 846EE88A1C5EEF3F00C688FF /* lunar_console_icon_button_expand.png */; };
 		846EE88E1C5EEF3F00C688FF /* lunar_console_icon_button_expand@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 846EE88B1C5EEF3F00C688FF /* lunar_console_icon_button_expand@2x.png */; };
 		846EE88F1C5EEF3F00C688FF /* lunar_console_icon_button_expand@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 846EE88C1C5EEF3F00C688FF /* lunar_console_icon_button_expand@3x.png */; };
@@ -70,7 +71,6 @@
 		EF5AD1131D6BBFC300B27500 /* LUConsoleSettingsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF5AD1111D6BBFC300B27500 /* LUConsoleSettingsController.xib */; };
 		EF5AD1141D6BBFC300B27500 /* LUSettingsTableCellBool.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF5AD1121D6BBFC300B27500 /* LUSettingsTableCellBool.xib */; };
 		EF64F8F21C03D86E008DCB8E /* input.txt in Resources */ = {isa = PBXBuildFile; fileRef = EF64F8F11C03D86E008DCB8E /* input.txt */; };
-		EF64F8F61C03D8B3008DCB8E /* FakeLogEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = EF64F8F51C03D8B3008DCB8E /* FakeLogEntry.m */; };
 		EF81893C1BE16E58008FFCB9 /* libLunarConsole.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 844742171B719DB600F5ABD3 /* libLunarConsole.a */; };
 		EFAE76481D2486D70072CCBF /* LUConsoleLogControllerUITest.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAE76471D2486D70072CCBF /* LUConsoleLogControllerUITest.m */; };
 		EFAE764D1D24878B0072CCBF /* UITestCaseBase.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAE764A1D24878B0072CCBF /* UITestCaseBase.m */; };
@@ -127,6 +127,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		840F07E51DE9001600E9F13D /* LunarConsoleApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LunarConsoleApp-Bridging-Header.h"; sourceTree = "<group>"; };
+		840F07E61DE9001700E9F13D /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		840F07E81DE9105600E9F13D /* FakeLogEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeLogEntry.swift; sourceTree = "<group>"; };
 		844741E81B719DA500F5ABD3 /* LunarConsoleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LunarConsoleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		844741EC1B719DA500F5ABD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		844741ED1B719DA500F5ABD3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -138,8 +141,6 @@
 		844742011B719DA500F5ABD3 /* LunarConsoleAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LunarConsoleAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		844742061B719DA500F5ABD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		844742111B719DB600F5ABD3 /* LunarConsole.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LunarConsole.xcodeproj; path = ../LunarConsole/LunarConsole.xcodeproj; sourceTree = "<group>"; };
-		8447421D1B719F8800F5ABD3 /* ViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		8447421E1B719F8800F5ABD3 /* ViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		846EE88A1C5EEF3F00C688FF /* lunar_console_icon_button_expand.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lunar_console_icon_button_expand.png; path = ../../LunarConsole/LunarConsole/Images/lunar_console_icon_button_expand.png; sourceTree = "<group>"; };
 		846EE88B1C5EEF3F00C688FF /* lunar_console_icon_button_expand@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lunar_console_icon_button_expand@2x.png"; path = "../../LunarConsole/LunarConsole/Images/lunar_console_icon_button_expand@2x.png"; sourceTree = "<group>"; };
 		846EE88C1C5EEF3F00C688FF /* lunar_console_icon_button_expand@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lunar_console_icon_button_expand@3x.png"; path = "../../LunarConsole/LunarConsole/Images/lunar_console_icon_button_expand@3x.png"; sourceTree = "<group>"; };
@@ -196,8 +197,6 @@
 		EF5AD1111D6BBFC300B27500 /* LUConsoleSettingsController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LUConsoleSettingsController.xib; path = ../../LunarConsole/LunarConsole/Console/LUConsoleSettingsController.xib; sourceTree = "<group>"; };
 		EF5AD1121D6BBFC300B27500 /* LUSettingsTableCellBool.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LUSettingsTableCellBool.xib; path = ../../LunarConsole/LunarConsole/Console/LUSettingsTableCellBool.xib; sourceTree = "<group>"; };
 		EF64F8F11C03D86E008DCB8E /* input.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = input.txt; sourceTree = "<group>"; };
-		EF64F8F41C03D8B3008DCB8E /* FakeLogEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FakeLogEntry.h; sourceTree = "<group>"; };
-		EF64F8F51C03D8B3008DCB8E /* FakeLogEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FakeLogEntry.m; sourceTree = "<group>"; };
 		EF81892E1BE16844008FFCB9 /* LunarConsoleAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LunarConsoleAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF8189321BE16844008FFCB9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EFAE76471D2486D70072CCBF /* LUConsoleLogControllerUITest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUConsoleLogControllerUITest.m; sourceTree = "<group>"; };
@@ -267,15 +266,14 @@
 				844741EF1B719DA500F5ABD3 /* AppDelegate.h */,
 				844741F01B719DA500F5ABD3 /* AppDelegate.m */,
 				84E5B80D1B77011900315599 /* Assets */,
-				EF64F8F41C03D8B3008DCB8E /* FakeLogEntry.h */,
-				EF64F8F51C03D8B3008DCB8E /* FakeLogEntry.m */,
 				844741F81B719DA500F5ABD3 /* Images.xcassets */,
 				EF64F8F11C03D86E008DCB8E /* input.txt */,
 				844741FA1B719DA500F5ABD3 /* LaunchScreen.xib */,
 				844741F51B719DA500F5ABD3 /* Main.storyboard */,
 				844741EB1B719DA500F5ABD3 /* Supporting Files */,
-				8447421D1B719F8800F5ABD3 /* ViewController.h */,
-				8447421E1B719F8800F5ABD3 /* ViewController.m */,
+				840F07E61DE9001700E9F13D /* ViewController.swift */,
+				840F07E51DE9001600E9F13D /* LunarConsoleApp-Bridging-Header.h */,
+				840F07E81DE9105600E9F13D /* FakeLogEntry.swift */,
 			);
 			path = LunarConsoleApp;
 			sourceTree = "<group>";
@@ -469,6 +467,7 @@
 				TargetAttributes = {
 					844741E71B719DA500F5ABD3 = {
 						CreatedOnToolsVersion = 6.4;
+						LastSwiftMigration = 0810;
 					};
 					844742001B719DA500F5ABD3 = {
 						CreatedOnToolsVersion = 6.4;
@@ -614,10 +613,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8447421F1B719F8800F5ABD3 /* ViewController.m in Sources */,
+				840F07E91DE9105600E9F13D /* FakeLogEntry.swift in Sources */,
+				840F07E71DE9001700E9F13D /* ViewController.swift in Sources */,
 				844741F11B719DA500F5ABD3 /* AppDelegate.m in Sources */,
 				844741EE1B719DA500F5ABD3 /* main.m in Sources */,
-				EF64F8F61C03D8B3008DCB8E /* FakeLogEntry.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -772,12 +771,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				INFOPLIST_FILE = LunarConsoleApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.spacemadness.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "LunarConsoleApp/LunarConsoleApp-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -785,18 +788,22 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				INFOPLIST_FILE = LunarConsoleApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.spacemadness.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "LunarConsoleApp/LunarConsoleApp-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
 		8447420F1B719DA500F5ABD3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -817,6 +824,7 @@
 		844742101B719DA500F5ABD3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -833,6 +841,7 @@
 		EF8189361BE16844008FFCB9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_TESTABILITY = YES;
@@ -849,6 +858,7 @@
 		EF8189371BE16844008FFCB9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				INFOPLIST_FILE = LunarConsoleAppUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
