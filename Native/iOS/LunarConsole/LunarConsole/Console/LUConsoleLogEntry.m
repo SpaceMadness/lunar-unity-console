@@ -58,7 +58,7 @@ static NSArray * _cellSkinLookup;
 
 + (instancetype)entryWithType:(LUConsoleLogType)type message:(NSString *)message stackTrace:(NSString *)stackTrace
 {
-    return LU_AUTORELEASE([[[self class] alloc] initWithType:type message:message stackTrace:stackTrace]);
+    return [[[self class] alloc] initWithType:type message:message stackTrace:stackTrace];
 }
 
 - (instancetype)initWithType:(LUConsoleLogType)type message:(NSString *)message stackTrace:(NSString *)stackTrace
@@ -67,19 +67,13 @@ static NSArray * _cellSkinLookup;
     if (self)
     {
         _type = type;
-        _message = LU_RETAIN(message);
-        _stackTrace = LU_RETAIN(stackTrace);
+        _message = message;
+        _stackTrace = stackTrace;
         _cachedHeight = -1;
     }
     return self;
 }
 
-- (void)dealloc
-{
-    LU_RELEASE(_message);
-    LU_RELEASE(_stackTrace);
-    LU_SUPER_DEALLOC
-}
 
 #pragma mark -
 #pragma mark Equality
@@ -167,7 +161,7 @@ static NSArray * _cellSkinLookup;
 
 + (instancetype)entryWithEntry:(LUConsoleLogEntry *)entry
 {
-    return LU_AUTORELEASE([[self alloc] initWithEntry:entry]);
+    return [[self alloc] initWithEntry:entry];
 }
 
 - (instancetype)initWithEntry:(LUConsoleLogEntry *)entry
@@ -222,7 +216,7 @@ static NSArray * _cellSkinLookup;
 
 + (instancetype)entryWithEntry:(LUConsoleLogEntry *)entry
 {
-    return LU_AUTORELEASE([[self alloc] initWithEntry:entry]);
+    return [[self alloc] initWithEntry:entry];
 }
 
 - (instancetype)initWithEntry:(LUConsoleLogEntry *)entry

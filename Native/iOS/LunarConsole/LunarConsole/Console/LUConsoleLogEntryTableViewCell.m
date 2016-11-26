@@ -27,8 +27,8 @@ static UIEdgeInsets _messageInsets;
 
 @interface LUConsoleLogEntryTableViewCell ()
 
-@property (nonatomic, retain) UILabel     * messageLabel;
-@property (nonatomic, retain) UIImageView * iconView;
+@property (nonatomic, strong) UILabel     * messageLabel;
+@property (nonatomic, strong) UIImageView * iconView;
 
 @end
 
@@ -62,7 +62,7 @@ static UIEdgeInsets _messageInsets;
 
 + (instancetype)cellWithFrame:(CGRect)frame cellIdentifier:(nullable NSString *)cellIdentifier
 {
-    return LU_AUTORELEASE([[[self class] alloc] initWithFrame:frame cellIdentifier:cellIdentifier]);
+    return [[[self class] alloc] initWithFrame:frame cellIdentifier:cellIdentifier];
 }
 
 - (instancetype)initWithFrame:(CGRect)frame cellIdentifier:(nullable NSString *)cellIdentifier
@@ -103,12 +103,6 @@ static UIEdgeInsets _messageInsets;
     return self;
 }
 
-- (void)dealloc
-{
-    LU_RELEASE(_messageLabel);
-    LU_RELEASE(_iconView);
-    LU_SUPER_DEALLOC
-}
 
 - (void)setSize:(CGSize)size
 {
@@ -229,12 +223,6 @@ static UIEdgeInsets _messageInsets;
     return self;
 }
 
-- (void)dealloc
-{
-    LU_RELEASE(_backgroundImageView);
-    LU_RELEASE(_countLabel);
-    LU_SUPER_DEALLOC
-}
 
 - (void)setSize:(CGSize)size
 {
@@ -307,7 +295,6 @@ static UIEdgeInsets _messageInsets;
         [self.contentView addSubview:messageLabel];
         
         self.messageLabel = messageLabel;
-        LU_RELEASE(messageLabel);
     }
     return self;
 }

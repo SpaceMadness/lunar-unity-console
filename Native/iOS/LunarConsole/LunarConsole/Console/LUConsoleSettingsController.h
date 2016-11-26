@@ -49,7 +49,7 @@
 
 @interface LUConsoleSettingsController : LUViewController
 
-@property (nonatomic, assign) id<LUConsoleSettingsControllerDelegate> delegate;
+@property (nonatomic, weak) id<LUConsoleSettingsControllerDelegate> delegate;
 @property (nonatomic, readonly) NSArray * changedEntries;
 
 - (instancetype)initWithSettings:(LUConsolePluginSettings *)settings;

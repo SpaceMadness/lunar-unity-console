@@ -1,50 +1,54 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="GeT-2f-Yq5">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="GeT-2f-Yq5">
+    <device id="ipad9_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="LunarConsoleApp" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="evW-4U-GLQ">
-                                <rect key="frame" x="245" y="285" width="110" height="30"/>
+                                <rect key="frame" x="329" y="497" width="110" height="30"/>
                                 <state key="normal" title="Show Controller">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="onShowController:" destination="BYZ-38-t0r" eventType="touchUpInside" id="9iE-I5-wZL"/>
+                                    <action selector="onShowControllerWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Ket-UX-4KP"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fgb-vV-fT6">
-                                <rect key="frame" x="253" y="323" width="94" height="30"/>
+                                <rect key="frame" x="337" y="535" width="94" height="30"/>
                                 <state key="normal" title="Show Overlay">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="onShowOverlay:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Mwt-Nm-rMC"/>
+                                    <action selector="onShowOverlayWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Bdz-N5-ght"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iu3-T1-O2O">
-                                <rect key="frame" x="257" y="247" width="86" height="30"/>
+                                <rect key="frame" x="341" y="459" width="86" height="30"/>
                                 <state key="normal" title="Start Logger"/>
                                 <connections>
-                                    <action selector="onToggleLogger:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7al-Bg-fS1"/>
+                                    <action selector="onToggleLoggerWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="KnI-49-DiD"/>
                                 </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LPa-0J-Gun">
-                                <rect key="frame" x="20" y="8" width="399" height="30"/>
+                                <rect key="frame" x="20" y="8" width="567" height="30"/>
                                 <accessibility key="accessibilityConfiguration" label="Test Message Text"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
@@ -53,28 +57,28 @@
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P6c-4t-lvy">
-                                <rect key="frame" x="427" y="8" width="46" height="30"/>
+                                <rect key="frame" x="595" y="8" width="46" height="30"/>
                                 <state key="normal" title="Debug"/>
                                 <connections>
-                                    <action selector="onLogDebug:" destination="BYZ-38-t0r" eventType="touchUpInside" id="R1h-RV-K5M"/>
+                                    <action selector="onLogDebugWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="pxl-iV-2Vi"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e5g-fh-dT4">
-                                <rect key="frame" x="481" y="8" width="57" height="30"/>
+                                <rect key="frame" x="649" y="8" width="57" height="30"/>
                                 <state key="normal" title="Warning"/>
                                 <connections>
-                                    <action selector="onLogWarning:" destination="BYZ-38-t0r" eventType="touchUpInside" id="f62-sh-byk"/>
+                                    <action selector="onLogWarningWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="YZV-mK-9Ew"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qip-u4-7Vo">
-                                <rect key="frame" x="546" y="8" width="34" height="30"/>
+                                <rect key="frame" x="714" y="8" width="34" height="30"/>
                                 <state key="normal" title="Error"/>
                                 <connections>
-                                    <action selector="onLogError:" destination="BYZ-38-t0r" eventType="touchUpInside" id="lcE-DP-TAA"/>
+                                    <action selector="onLogErrorWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="DVB-ol-2Ji"/>
                                 </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zNG-Pl-iur">
-                                <rect key="frame" x="20" y="83" width="464" height="30"/>
+                                <rect key="frame" x="20" y="83" width="632" height="30"/>
                                 <accessibility key="accessibilityConfiguration" label="Test Trim Text"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
@@ -83,7 +87,7 @@
                                 </connections>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4Y1-hE-rHl">
-                                <rect key="frame" x="20" y="45" width="464" height="30"/>
+                                <rect key="frame" x="20" y="45" width="632" height="30"/>
                                 <accessibility key="accessibilityConfiguration" label="Test Capacity Text"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
@@ -92,61 +96,61 @@
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6wn-Mw-3aO">
-                                <rect key="frame" x="492" y="45" width="88" height="30"/>
+                                <rect key="frame" x="660" y="45" width="88" height="30"/>
                                 <accessibility key="accessibilityConfiguration" label="Test Capacity Button"/>
                                 <state key="normal" title="Set Capacity"/>
                                 <connections>
-                                    <action selector="onSetCapacity:" destination="BYZ-38-t0r" eventType="touchUpInside" id="djr-ze-fIj"/>
+                                    <action selector="onSetCapacityWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dqR-ny-s2p"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vyR-xr-omb">
-                                <rect key="frame" x="492" y="83" width="58" height="30"/>
+                                <rect key="frame" x="660" y="83" width="58" height="30"/>
                                 <accessibility key="accessibilityConfiguration" label="Test Trim Button"/>
                                 <state key="normal" title="Set Trim"/>
                                 <connections>
-                                    <action selector="onSetTrim:" destination="BYZ-38-t0r" eventType="touchUpInside" id="q40-8a-QTB"/>
+                                    <action selector="onSetTrimWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="NHP-8w-Cia"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TwB-1j-1uD">
-                                <rect key="frame" x="263" y="361" width="75" height="30"/>
+                                <rect key="frame" x="347" y="573" width="75" height="30"/>
                                 <state key="normal" title="Show Alert">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
                                 <connections>
-                                    <action selector="onShowAlert:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gxP-9L-RHp"/>
+                                    <action selector="onShowAlertWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="BNt-Fw-gIk"/>
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="TwB-1j-1uD" firstAttribute="top" secondItem="fgb-vV-fT6" secondAttribute="bottom" constant="8" id="3Z6-n9-yX6"/>
                             <constraint firstItem="LPa-0J-Gun" firstAttribute="centerY" secondItem="P6c-4t-lvy" secondAttribute="centerY" id="5S9-wg-1pK"/>
                             <constraint firstAttribute="leadingMargin" secondItem="zNG-Pl-iur" secondAttribute="leading" id="8Gl-Pt-4Y5"/>
                             <constraint firstItem="TwB-1j-1uD" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="AWv-yg-o09"/>
-                            <constraint firstItem="zNG-Pl-iur" firstAttribute="top" secondItem="4Y1-hE-rHl" secondAttribute="bottom" constant="8" id="Cs5-Zi-nhn"/>
                             <constraint firstAttribute="trailingMargin" secondItem="6wn-Mw-3aO" secondAttribute="trailing" id="D3I-8o-91C"/>
+                            <constraint firstItem="6wn-Mw-3aO" firstAttribute="leading" secondItem="4Y1-hE-rHl" secondAttribute="trailing" constant="8" symbolic="YES" id="DP6-To-oXB"/>
+                            <constraint firstItem="4Y1-hE-rHl" firstAttribute="leading" secondItem="LPa-0J-Gun" secondAttribute="leading" id="Ghk-D7-Q37"/>
+                            <constraint firstItem="zNG-Pl-iur" firstAttribute="top" secondItem="4Y1-hE-rHl" secondAttribute="bottom" constant="8" symbolic="YES" id="HgD-d2-GfX"/>
                             <constraint firstItem="fgb-vV-fT6" firstAttribute="centerX" secondItem="evW-4U-GLQ" secondAttribute="centerX" id="Kbb-av-69L"/>
-                            <constraint firstAttribute="leadingMargin" secondItem="4Y1-hE-rHl" secondAttribute="leading" id="PtN-M8-feG"/>
                             <constraint firstItem="fgb-vV-fT6" firstAttribute="top" secondItem="evW-4U-GLQ" secondAttribute="bottom" constant="8" id="QBP-Gd-QnM"/>
                             <constraint firstItem="TwB-1j-1uD" firstAttribute="centerX" secondItem="fgb-vV-fT6" secondAttribute="centerX" id="Qxr-wO-HbL"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Qip-u4-7Vo" secondAttribute="trailing" id="T8x-C3-Ugg"/>
                             <constraint firstItem="Qip-u4-7Vo" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="U0g-Bb-cQb"/>
-                            <constraint firstItem="4Y1-hE-rHl" firstAttribute="top" secondItem="LPa-0J-Gun" secondAttribute="bottom" constant="7" id="Uqk-Kw-48k"/>
                             <constraint firstItem="P6c-4t-lvy" firstAttribute="leading" secondItem="LPa-0J-Gun" secondAttribute="trailing" constant="8" id="VD8-2f-EJS"/>
                             <constraint firstItem="TwB-1j-1uD" firstAttribute="top" secondItem="evW-4U-GLQ" secondAttribute="bottom" constant="8" symbolic="YES" id="W77-1F-rUD"/>
-                            <constraint firstItem="6wn-Mw-3aO" firstAttribute="leading" secondItem="4Y1-hE-rHl" secondAttribute="trailing" constant="8" id="Xna-Sh-ECU"/>
                             <constraint firstItem="P6c-4t-lvy" firstAttribute="centerY" secondItem="e5g-fh-dT4" secondAttribute="centerY" id="aWw-N0-zEE"/>
-                            <constraint firstItem="6wn-Mw-3aO" firstAttribute="centerY" secondItem="4Y1-hE-rHl" secondAttribute="centerY" id="c63-g7-xeN"/>
                             <constraint firstItem="Qip-u4-7Vo" firstAttribute="leading" secondItem="e5g-fh-dT4" secondAttribute="trailing" constant="8" id="dOR-Mx-0wD"/>
                             <constraint firstItem="vyR-xr-omb" firstAttribute="leading" secondItem="zNG-Pl-iur" secondAttribute="trailing" constant="8" id="fdm-Oe-MBc"/>
                             <constraint firstItem="e5g-fh-dT4" firstAttribute="leading" secondItem="P6c-4t-lvy" secondAttribute="trailing" constant="8" id="idH-GI-SbY"/>
                             <constraint firstItem="Iu3-T1-O2O" firstAttribute="centerX" secondItem="evW-4U-GLQ" secondAttribute="centerX" id="laq-1P-0EA"/>
                             <constraint firstItem="vyR-xr-omb" firstAttribute="centerY" secondItem="zNG-Pl-iur" secondAttribute="centerY" id="nPO-Ba-Ur9"/>
+                            <constraint firstItem="4Y1-hE-rHl" firstAttribute="top" secondItem="P6c-4t-lvy" secondAttribute="bottom" constant="7" id="npz-f5-7ON"/>
                             <constraint firstItem="e5g-fh-dT4" firstAttribute="centerY" secondItem="Qip-u4-7Vo" secondAttribute="centerY" id="pCU-am-cl8"/>
                             <constraint firstItem="evW-4U-GLQ" firstAttribute="top" secondItem="Iu3-T1-O2O" secondAttribute="bottom" constant="8" id="pKv-tM-l2r"/>
                             <constraint firstAttribute="leadingMargin" secondItem="LPa-0J-Gun" secondAttribute="leading" id="po1-8V-U9h"/>
                             <constraint firstItem="fgb-vV-fT6" firstAttribute="trailing" secondItem="TwB-1j-1uD" secondAttribute="trailing" id="sBI-sk-cmx"/>
                             <constraint firstItem="evW-4U-GLQ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="taA-Zn-51T"/>
+                            <constraint firstItem="4Y1-hE-rHl" firstAttribute="top" secondItem="6wn-Mw-3aO" secondAttribute="top" id="vha-Ph-gff"/>
                             <constraint firstAttribute="trailingMargin" secondItem="vyR-xr-omb" secondAttribute="trailing" constant="30" id="viS-br-dPW"/>
                             <constraint firstItem="evW-4U-GLQ" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="xud-K5-PL3"/>
                             <constraint firstItem="fgb-vV-fT6" firstAttribute="leading" secondItem="evW-4U-GLQ" secondAttribute="leading" id="y6l-sb-eyU"/>
@@ -164,9 +168,9 @@
                     <nil key="simulatedTopBarMetrics"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
-                        <outlet property="capacityText" destination="4Y1-hE-rHl" id="rrs-rT-nly"/>
-                        <outlet property="messageText" destination="LPa-0J-Gun" id="5kG-Ji-3eE"/>
-                        <outlet property="trimText" destination="zNG-Pl-iur" id="N40-DQ-w1P"/>
+                        <outlet property="capacityText" destination="4Y1-hE-rHl" id="uFj-zC-uLZ"/>
+                        <outlet property="messageText" destination="LPa-0J-Gun" id="4Q6-Bu-RH9"/>
+                        <outlet property="trimText" destination="zNG-Pl-iur" id="UVe-5G-cqZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

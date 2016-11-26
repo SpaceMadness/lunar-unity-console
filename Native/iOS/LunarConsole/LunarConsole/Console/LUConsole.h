@@ -40,7 +40,7 @@
 
 @interface LUConsole : NSObject
 
-@property (nonatomic, assign) id<LunarConsoleDelegate> delegate;
+@property (nonatomic, weak) id<LunarConsoleDelegate> delegate;
 @property (nonatomic, assign, getter=isCollapsed) BOOL collapsed;
 
 @property (nonatomic, readonly) LUConsoleLogEntryList * entries;

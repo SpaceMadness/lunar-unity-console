@@ -160,29 +160,6 @@ static UIImage * CreateCollapseBackgroundImage()
     }
 }
 
-- (void)dealloc
-{
-    LU_RELEASE(_tableColor);
-    LU_RELEASE(_logButtonTitleColor);
-    LU_RELEASE(_logButtonTitleSelectedColor);
-    LU_RELEASE(_switchTintColor);
-    LU_RELEASE(_cellLog);
-    LU_RELEASE(_cellWarning);
-    LU_RELEASE(_cellError);
-    LU_RELEASE(_backgroundColorDark);
-    LU_RELEASE(_backgroundColorLight);
-    LU_RELEASE(_font);
-    LU_RELEASE(_fontSmall);
-    LU_RELEASE(_collapseBackgroundImage);
-    LU_RELEASE(_collapseBackgroundColor);
-    LU_RELEASE(_collapseTextColor);
-    LU_RELEASE(_contextMenuFont);
-    LU_RELEASE(_contextMenuBackgroundColor);
-    LU_RELEASE(_contextMenuTextColor);
-    LU_RELEASE(_contextMenuTextHighlightColor);
-    
-    LU_SUPER_DEALLOC
-}
 
 + (UIFont *)createDefaultFont
 {
@@ -239,17 +216,8 @@ static UIImage * CreateCollapseBackgroundImage()
 
 + (instancetype)cellSkin
 {
-    return LU_AUTORELEASE([[[self class] alloc] init]);
+    return [[[self class] alloc] init];
 }
 
-- (void)dealloc
-{
-    LU_RELEASE(_icon);
-    LU_RELEASE(_textColor);
-    LU_RELEASE(_backgroundColorLight);
-    LU_RELEASE(_backgroundColorDark);
-    LU_RELEASE(_overlayTextColor);
-    LU_SUPER_DEALLOC
-}
 
 @end

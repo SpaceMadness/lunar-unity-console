@@ -35,6 +35,6 @@
 
 @interface LUTableView : UITableView
 
-@property (nonatomic, assign) id<LUTableViewTouchDelegate> touchDelegate;
+@property (nonatomic, weak) id<LUTableViewTouchDelegate> touchDelegate;
 
 @end

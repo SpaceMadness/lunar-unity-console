@@ -32,7 +32,7 @@
     BOOL                                  _entryRemovalCancelled;
 }
 
-@property (nonatomic, assign) IBOutlet UITableView * tableView;
+@property (nonatomic, weak) IBOutlet UITableView * tableView;
 
 @end
 
@@ -40,7 +40,7 @@
 
 + (instancetype)controllerWithConsole:(LUConsole *)console settings:(LUConsoleOverlayControllerSettings *)settings
 {
-    return LU_AUTORELEASE([[[self class] alloc] initWithConsole:console settings:settings]);
+    return [[[self class] alloc] initWithConsole:console settings:settings];
 }
 
 - (instancetype)initWithConsole:(LUConsole *)console settings:(LUConsoleOverlayControllerSettings *)settings
@@ -48,10 +48,10 @@
     self = [super initWithNibName:NSStringFromClass([self class]) bundle:nil];
     if (self)
     {
-        _console = LU_RETAIN(console);
+        _console = console;
         _console.delegate = self;
         
-        _settings = LU_RETAIN(settings);
+        _settings = settings;
         
         _entries = [[NSMutableArray alloc] initWithCapacity:_settings.maxVisibleEntries];
     }
@@ -67,10 +67,6 @@
     
     _tableView.delegate   = nil;
     _tableView.dataSource = nil;
-    
-    LU_RELEASE(_console);
-    LU_RELEASE(_settings);
-    LU_SUPER_DEALLOC;
 }
 
 #pragma mark -
@@ -215,7 +211,7 @@
 
 + (instancetype)settings
 {
-    return LU_AUTORELEASE([[[self class] alloc] init]);
+    return [[[self class] alloc] init];
 }
 
 - (instancetype)init

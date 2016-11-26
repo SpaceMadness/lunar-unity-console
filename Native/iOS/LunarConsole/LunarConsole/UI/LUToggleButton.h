@@ -32,6 +32,6 @@
 @interface LUToggleButton : UIButton
 
 @property (nonatomic, assign, getter=isOn) BOOL on;
-@property (nonatomic, assign) id<LUToggleButtonDelegate> delegate;
+@property (nonatomic, weak) id<LUToggleButtonDelegate> delegate;
 
 @end

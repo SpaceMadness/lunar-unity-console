@@ -35,10 +35,5 @@
     return self;
 }
 
-- (void)dealloc
-{
-    LU_RELEASE(_userData);
-    LU_SUPER_DEALLOC
-}
 
 @end

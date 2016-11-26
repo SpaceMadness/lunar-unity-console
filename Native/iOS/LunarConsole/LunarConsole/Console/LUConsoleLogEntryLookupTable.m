@@ -42,11 +42,6 @@
     return self;
 }
 
-- (void)dealloc
-{
-    LU_RELEASE(_table);
-    LU_SUPER_DEALLOC
-}
 
 - (LUConsoleCollapsedLogEntry *)addEntry:(LUConsoleLogEntry *)entry
 {

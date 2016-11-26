@@ -40,7 +40,7 @@
 
 - (void)tearDown
 {
-    LU_RELEASE(_table);
+    [_table release];
     [super tearDown];
 }
 
