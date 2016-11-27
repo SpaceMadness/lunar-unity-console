@@ -24,6 +24,7 @@ class ViewController: LUViewController {
     @IBOutlet weak var messageText: UITextField!
     @IBOutlet weak var capacityText: UITextField!
     @IBOutlet weak var trimText: UITextField!
+    @IBOutlet weak var actionOverlaySwitch: UISwitch!
     
     deinit {
         ViewController.pluginInstance = nil
@@ -161,7 +162,16 @@ class ViewController: LUViewController {
     // MARK: - Helpers
     
     private func showConsoleController() {
+        removeOverlayViewFromWindow(window: UIApplication.shared.keyWindow!)
+        
         plugin.showConsole()
+        
+        let window = plugin.consoleWindow!
+        removeOverlayViewFromWindow(window: window)
+        
+        if actionOverlaySwitch.isOn {
+            addOverlayViewToWindow(window: window)
+        }
     }
     
     private func showOverlay() {

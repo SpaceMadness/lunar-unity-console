@@ -34,20 +34,14 @@ class ActionOverlayView: UIView {
     }
     
     @objc private func onButtonPress(sender: UIButton) {
-        let alertController = UIAlertController(title: "Command", message: "Enter command", preferredStyle: .alert)
-        alertController.addTextField { (textField) in
-            textField.placeholder = "Command"
-        }
-        
-        alertController.addAction(UIAlertAction(title: "Run", style: .default, handler: { (action) in
-            if let callback = self.callback {
-                callback(alertController.textFields![0].text!)
-            }
-        }))
-        
-        alertController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
-        }))
-        
-        UIApplication.shared.keyWindow?.rootViewController?.present(alertController, animated: true, completion: nil)
+        let textInputView = TextInputView(title: "Command",
+                                          message: "Enter command",
+                                          cancelButton: "Run",
+                                          completion: { (text) in
+                                            if let callback = self.callback {
+                                                callback(text)
+                                            }
+        })
+        textInputView.show()
     }
 }

@@ -23,6 +23,7 @@
 		840F089E1DEAAFAF00E9F13D /* lunar_console_actions_empty_warning@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 840F089B1DEAAFAF00E9F13D /* lunar_console_actions_empty_warning@2x.png */; };
 		840F089F1DEAAFAF00E9F13D /* lunar_console_actions_empty_warning@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 840F089C1DEAAFAF00E9F13D /* lunar_console_actions_empty_warning@3x.png */; };
 		840F08AB1DEABA4500E9F13D /* ActionOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840F08AA1DEABA4500E9F13D /* ActionOverlayView.swift */; };
+		840F08AD1DEB72C900E9F13D /* TextInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840F08AC1DEB72C900E9F13D /* TextInputView.swift */; };
 		844741EE1B719DA500F5ABD3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 844741ED1B719DA500F5ABD3 /* main.m */; };
 		844741F11B719DA500F5ABD3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 844741F01B719DA500F5ABD3 /* AppDelegate.m */; };
 		844741F91B719DA500F5ABD3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 844741F81B719DA500F5ABD3 /* Images.xcassets */; };
@@ -158,6 +159,7 @@
 		840F089B1DEAAFAF00E9F13D /* lunar_console_actions_empty_warning@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lunar_console_actions_empty_warning@2x.png"; path = "../../LunarConsole/LunarConsole/Images/lunar_console_actions_empty_warning@2x.png"; sourceTree = "<group>"; };
 		840F089C1DEAAFAF00E9F13D /* lunar_console_actions_empty_warning@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lunar_console_actions_empty_warning@3x.png"; path = "../../LunarConsole/LunarConsole/Images/lunar_console_actions_empty_warning@3x.png"; sourceTree = "<group>"; };
 		840F08AA1DEABA4500E9F13D /* ActionOverlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionOverlayView.swift; sourceTree = "<group>"; };
+		840F08AC1DEB72C900E9F13D /* TextInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextInputView.swift; sourceTree = "<group>"; };
 		844741E81B719DA500F5ABD3 /* LunarConsoleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LunarConsoleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		844741EC1B719DA500F5ABD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		844741ED1B719DA500F5ABD3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -303,6 +305,7 @@
 				844741EB1B719DA500F5ABD3 /* Supporting Files */,
 				840F07E61DE9001700E9F13D /* ViewController.swift */,
 				840F08AA1DEABA4500E9F13D /* ActionOverlayView.swift */,
+				840F08AC1DEB72C900E9F13D /* TextInputView.swift */,
 			);
 			path = LunarConsoleApp;
 			sourceTree = "<group>";
@@ -673,6 +676,7 @@
 				844741F11B719DA500F5ABD3 /* AppDelegate.m in Sources */,
 				840F08AB1DEABA4500E9F13D /* ActionOverlayView.swift in Sources */,
 				844741EE1B719DA500F5ABD3 /* main.m in Sources */,
+				840F08AD1DEB72C900E9F13D /* TextInputView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

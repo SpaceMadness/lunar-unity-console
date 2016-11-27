@@ -184,6 +184,7 @@
                     <nil key="simulatedTopBarMetrics"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
+                        <outlet property="actionOverlaySwitch" destination="6FP-nf-7BK" id="wps-9h-D9t"/>
                         <outlet property="capacityText" destination="4Y1-hE-rHl" id="uFj-zC-uLZ"/>
                         <outlet property="messageText" destination="LPa-0J-Gun" id="4Q6-Bu-RH9"/>
                         <outlet property="trimText" destination="zNG-Pl-iur" id="UVe-5G-cqZ"/>
