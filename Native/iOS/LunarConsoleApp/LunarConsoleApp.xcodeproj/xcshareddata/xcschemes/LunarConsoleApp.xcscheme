@@ -32,6 +32,16 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
+               BlueprintIdentifier = "844741B31B719C3100F5ABD3"
+               BuildableName = "LunarConsoleTests.xctest"
+               BlueprintName = "LunarConsoleTests"
+               ReferencedContainer = "container:../LunarConsole/LunarConsole.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
                BlueprintIdentifier = "844742001B719DA500F5ABD3"
                BuildableName = "LunarConsoleAppTests.xctest"
                BlueprintName = "LunarConsoleAppTests"
@@ -46,16 +56,6 @@
                BuildableName = "LunarConsoleAppUITests.xctest"
                BlueprintName = "LunarConsoleAppUITests"
                ReferencedContainer = "container:LunarConsoleApp.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "844741B31B719C3100F5ABD3"
-               BuildableName = "LunarConsoleTests.xctest"
-               BlueprintName = "LunarConsoleTests"
-               ReferencedContainer = "container:../LunarConsole/LunarConsole.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
