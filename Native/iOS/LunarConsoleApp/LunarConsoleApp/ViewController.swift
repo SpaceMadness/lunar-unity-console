@@ -117,7 +117,7 @@ class ViewController: LUViewController {
     // MARK: - Helpers
     
     private func showConsoleController() {
-        plugin.show()
+        plugin.showConsole()
     }
     
     private func showOverlay() {

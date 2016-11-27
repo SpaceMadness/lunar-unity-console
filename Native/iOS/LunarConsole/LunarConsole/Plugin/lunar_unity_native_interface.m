@@ -62,7 +62,7 @@ void __lunar_console_show()
 {
     lunar_dispatch_main(^{
         LUAssert(_lunarConsolePlugin);
-        [_lunarConsolePlugin show];
+        [_lunarConsolePlugin showConsole];
     });
 }
 
@@ -71,7 +71,7 @@ void __lunar_console_hide()
 {
     lunar_dispatch_main(^{
         LUAssert(_lunarConsolePlugin);
-        [_lunarConsolePlugin hide];
+        [_lunarConsolePlugin hideConsole];
     });
 }
 

@@ -95,7 +95,7 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.LunarMob
     }
 }
 
-- (void)show
+- (void)showConsole
 {
     [self hideOverlay];
     
@@ -124,44 +124,7 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.LunarMob
     }
 }
 
-- (void)hideOverlay
-{
-    if (_overlayWindow != nil)
-    {
-        _overlayWindow.rootViewController = nil;
-        _overlayWindow.hidden = YES;
-        _overlayWindow = nil;
-    }
-}
-
-- (void)showOverlay
-{
-    if (_overlayWindow == nil)
-    {
-        LUConsoleOverlayControllerSettings *settings = [LUConsoleOverlayControllerSettings settings];
-        LUConsoleOverlayController *controller = [LUConsoleOverlayController controllerWithConsole:_console
-                                                                                          settings:settings];
-        
-        CGRect windowFrame = LUGetScreenBounds();
-        _overlayWindow = [[LUWindow alloc] initWithFrame:windowFrame];
-        _overlayWindow.userInteractionEnabled = NO;
-        _overlayWindow.rootViewController = controller;
-        _overlayWindow.opaque = YES;
-        _overlayWindow.hidden = NO;
-    }
-}
-
-- (void)showActionOverlay
-{
-    
-}
-
-- (void)hideActionOverlay
-{
-    
-}
-
-- (void)hide
+- (void)hideConsole
 {
     if (_consoleWindow != nil)
     {
@@ -185,6 +148,43 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.LunarMob
     {
         [self showOverlay];
     }
+}
+
+- (void)showOverlay
+{
+    if (_overlayWindow == nil)
+    {
+        LUConsoleOverlayControllerSettings *settings = [LUConsoleOverlayControllerSettings settings];
+        LUConsoleOverlayController *controller = [LUConsoleOverlayController controllerWithConsole:_console
+                                                                                          settings:settings];
+        
+        CGRect windowFrame = LUGetScreenBounds();
+        _overlayWindow = [[LUWindow alloc] initWithFrame:windowFrame];
+        _overlayWindow.userInteractionEnabled = NO;
+        _overlayWindow.rootViewController = controller;
+        _overlayWindow.opaque = YES;
+        _overlayWindow.hidden = NO;
+    }
+}
+
+- (void)hideOverlay
+{
+    if (_overlayWindow != nil)
+    {
+        _overlayWindow.rootViewController = nil;
+        _overlayWindow.hidden = YES;
+        _overlayWindow = nil;
+    }
+}
+
+- (void)showActionOverlay
+{
+    
+}
+
+- (void)hideActionOverlay
+{
+    
 }
 
 - (void)logMessage:(NSString *)message stackTrace:(NSString *)stackTrace type:(LUConsoleLogType)type
@@ -277,7 +277,7 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.LunarMob
 
 - (void)consoleControllerDidClose:(LUConsoleLogController *)controller
 {
-    [self hide];
+    [self hideConsole];
     
     [_scriptMessenger sendMessageName:kScriptMessageConsoleClose];
 }
@@ -288,7 +288,7 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.LunarMob
 - (void)exceptionWarningControllerDidShow:(LUExceptionWarningController *)controller
 {
     [self hideWarning];
-    [self show];
+    [self showConsole];
 }
 
 - (void)exceptionWarningControllerDidDismiss:(LUExceptionWarningController *)controller
@@ -328,7 +328,7 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.LunarMob
 {
     if (gr.state == UIGestureRecognizerStateEnded)
     {
-        [self show];
+        [self showConsole];
     }
 }
 

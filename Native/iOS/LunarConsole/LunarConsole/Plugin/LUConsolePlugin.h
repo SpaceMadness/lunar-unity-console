@@ -55,8 +55,8 @@ typedef enum : NSUInteger {
 
 - (void)start;
 
-- (void)show;
-- (void)hide;
+- (void)showConsole;
+- (void)hideConsole;
 
 - (void)showOverlay;
 - (void)hideOverlay;
