@@ -22,6 +22,7 @@
 		840F089D1DEAAFAF00E9F13D /* lunar_console_actions_empty_warning.png in Resources */ = {isa = PBXBuildFile; fileRef = 840F089A1DEAAFAF00E9F13D /* lunar_console_actions_empty_warning.png */; };
 		840F089E1DEAAFAF00E9F13D /* lunar_console_actions_empty_warning@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 840F089B1DEAAFAF00E9F13D /* lunar_console_actions_empty_warning@2x.png */; };
 		840F089F1DEAAFAF00E9F13D /* lunar_console_actions_empty_warning@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 840F089C1DEAAFAF00E9F13D /* lunar_console_actions_empty_warning@3x.png */; };
+		840F08AB1DEABA4500E9F13D /* ActionOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840F08AA1DEABA4500E9F13D /* ActionOverlayView.swift */; };
 		844741EE1B719DA500F5ABD3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 844741ED1B719DA500F5ABD3 /* main.m */; };
 		844741F11B719DA500F5ABD3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 844741F01B719DA500F5ABD3 /* AppDelegate.m */; };
 		844741F91B719DA500F5ABD3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 844741F81B719DA500F5ABD3 /* Images.xcassets */; };
@@ -156,6 +157,7 @@
 		840F089A1DEAAFAF00E9F13D /* lunar_console_actions_empty_warning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lunar_console_actions_empty_warning.png; path = ../../LunarConsole/LunarConsole/Images/lunar_console_actions_empty_warning.png; sourceTree = "<group>"; };
 		840F089B1DEAAFAF00E9F13D /* lunar_console_actions_empty_warning@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lunar_console_actions_empty_warning@2x.png"; path = "../../LunarConsole/LunarConsole/Images/lunar_console_actions_empty_warning@2x.png"; sourceTree = "<group>"; };
 		840F089C1DEAAFAF00E9F13D /* lunar_console_actions_empty_warning@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lunar_console_actions_empty_warning@3x.png"; path = "../../LunarConsole/LunarConsole/Images/lunar_console_actions_empty_warning@3x.png"; sourceTree = "<group>"; };
+		840F08AA1DEABA4500E9F13D /* ActionOverlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionOverlayView.swift; sourceTree = "<group>"; };
 		844741E81B719DA500F5ABD3 /* LunarConsoleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LunarConsoleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		844741EC1B719DA500F5ABD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		844741ED1B719DA500F5ABD3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -292,14 +294,15 @@
 				844741EF1B719DA500F5ABD3 /* AppDelegate.h */,
 				844741F01B719DA500F5ABD3 /* AppDelegate.m */,
 				84E5B80D1B77011900315599 /* Assets */,
+				840F07E81DE9105600E9F13D /* FakeLogEntry.swift */,
 				844741F81B719DA500F5ABD3 /* Images.xcassets */,
 				EF64F8F11C03D86E008DCB8E /* input.txt */,
 				844741FA1B719DA500F5ABD3 /* LaunchScreen.xib */,
+				840F07E51DE9001600E9F13D /* LunarConsoleApp-Bridging-Header.h */,
 				844741F51B719DA500F5ABD3 /* Main.storyboard */,
 				844741EB1B719DA500F5ABD3 /* Supporting Files */,
 				840F07E61DE9001700E9F13D /* ViewController.swift */,
-				840F07E51DE9001600E9F13D /* LunarConsoleApp-Bridging-Header.h */,
-				840F07E81DE9105600E9F13D /* FakeLogEntry.swift */,
+				840F08AA1DEABA4500E9F13D /* ActionOverlayView.swift */,
 			);
 			path = LunarConsoleApp;
 			sourceTree = "<group>";
@@ -668,6 +671,7 @@
 				840F07E91DE9105600E9F13D /* FakeLogEntry.swift in Sources */,
 				840F07E71DE9001700E9F13D /* ViewController.swift in Sources */,
 				844741F11B719DA500F5ABD3 /* AppDelegate.m in Sources */,
+				840F08AB1DEABA4500E9F13D /* ActionOverlayView.swift in Sources */,
 				844741EE1B719DA500F5ABD3 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

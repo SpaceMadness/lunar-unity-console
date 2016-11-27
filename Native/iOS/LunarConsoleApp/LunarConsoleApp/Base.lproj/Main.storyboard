@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="GeT-2f-Yq5">
-    <device id="ipad9_7" orientation="portrait">
+    <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -19,11 +19,11 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="768" height="1024"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="evW-4U-GLQ">
-                                <rect key="frame" x="329" y="497" width="110" height="30"/>
+                                <rect key="frame" x="105" y="269" width="110" height="30"/>
                                 <state key="normal" title="Show Controller">
                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
@@ -32,7 +32,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fgb-vV-fT6">
-                                <rect key="frame" x="337" y="535" width="94" height="30"/>
+                                <rect key="frame" x="113" y="307" width="94" height="30"/>
                                 <state key="normal" title="Show Overlay">
                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
@@ -41,14 +41,14 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iu3-T1-O2O">
-                                <rect key="frame" x="341" y="459" width="86" height="30"/>
+                                <rect key="frame" x="117" y="231" width="86" height="30"/>
                                 <state key="normal" title="Start Logger"/>
                                 <connections>
                                     <action selector="onToggleLoggerWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="KnI-49-DiD"/>
                                 </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LPa-0J-Gun">
-                                <rect key="frame" x="20" y="8" width="567" height="30"/>
+                                <rect key="frame" x="16" y="8" width="127" height="30"/>
                                 <accessibility key="accessibilityConfiguration" label="Test Message Text"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
@@ -57,28 +57,28 @@
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P6c-4t-lvy">
-                                <rect key="frame" x="595" y="8" width="46" height="30"/>
+                                <rect key="frame" x="151" y="8" width="46" height="30"/>
                                 <state key="normal" title="Debug"/>
                                 <connections>
                                     <action selector="onLogDebugWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="pxl-iV-2Vi"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e5g-fh-dT4">
-                                <rect key="frame" x="649" y="8" width="57" height="30"/>
+                                <rect key="frame" x="205" y="8" width="57" height="30"/>
                                 <state key="normal" title="Warning"/>
                                 <connections>
                                     <action selector="onLogWarningWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="YZV-mK-9Ew"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qip-u4-7Vo">
-                                <rect key="frame" x="714" y="8" width="34" height="30"/>
+                                <rect key="frame" x="270" y="8" width="34" height="30"/>
                                 <state key="normal" title="Error"/>
                                 <connections>
                                     <action selector="onLogErrorWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="DVB-ol-2Ji"/>
                                 </connections>
                             </button>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zNG-Pl-iur">
-                                <rect key="frame" x="20" y="83" width="632" height="30"/>
+                                <rect key="frame" x="16" y="83" width="192" height="30"/>
                                 <accessibility key="accessibilityConfiguration" label="Test Trim Text"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
@@ -87,7 +87,7 @@
                                 </connections>
                             </textField>
                             <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4Y1-hE-rHl">
-                                <rect key="frame" x="20" y="45" width="632" height="30"/>
+                                <rect key="frame" x="16" y="45" width="192" height="30"/>
                                 <accessibility key="accessibilityConfiguration" label="Test Capacity Text"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
@@ -96,7 +96,7 @@
                                 </connections>
                             </textField>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6wn-Mw-3aO">
-                                <rect key="frame" x="660" y="45" width="88" height="30"/>
+                                <rect key="frame" x="216" y="45" width="88" height="30"/>
                                 <accessibility key="accessibilityConfiguration" label="Test Capacity Button"/>
                                 <state key="normal" title="Set Capacity"/>
                                 <connections>
@@ -104,7 +104,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vyR-xr-omb">
-                                <rect key="frame" x="660" y="83" width="58" height="30"/>
+                                <rect key="frame" x="216" y="83" width="58" height="30"/>
                                 <accessibility key="accessibilityConfiguration" label="Test Trim Button"/>
                                 <state key="normal" title="Set Trim"/>
                                 <connections>
@@ -112,7 +112,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TwB-1j-1uD">
-                                <rect key="frame" x="347" y="573" width="75" height="30"/>
+                                <rect key="frame" x="123" y="345" width="75" height="30"/>
                                 <state key="normal" title="Show Alert">
                                     <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
@@ -120,6 +120,18 @@
                                     <action selector="onShowAlertWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="BNt-Fw-gIk"/>
                                 </connections>
                             </button>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="6FP-nf-7BK">
+                                <rect key="frame" x="20" y="121" width="51" height="31"/>
+                                <connections>
+                                    <action selector="onToggleActionOverlayWithSender:" destination="BYZ-38-t0r" eventType="valueChanged" id="yEO-ab-CIr"/>
+                                </connections>
+                            </switch>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Action overlay" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tE7-xZ-xkW">
+                                <rect key="frame" x="77" y="126" width="108" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -130,6 +142,7 @@
                             <constraint firstAttribute="trailingMargin" secondItem="6wn-Mw-3aO" secondAttribute="trailing" id="D3I-8o-91C"/>
                             <constraint firstItem="6wn-Mw-3aO" firstAttribute="leading" secondItem="4Y1-hE-rHl" secondAttribute="trailing" constant="8" symbolic="YES" id="DP6-To-oXB"/>
                             <constraint firstItem="4Y1-hE-rHl" firstAttribute="leading" secondItem="LPa-0J-Gun" secondAttribute="leading" id="Ghk-D7-Q37"/>
+                            <constraint firstItem="6FP-nf-7BK" firstAttribute="top" secondItem="zNG-Pl-iur" secondAttribute="bottom" constant="8" id="H78-iB-H3e"/>
                             <constraint firstItem="zNG-Pl-iur" firstAttribute="top" secondItem="4Y1-hE-rHl" secondAttribute="bottom" constant="8" symbolic="YES" id="HgD-d2-GfX"/>
                             <constraint firstItem="fgb-vV-fT6" firstAttribute="centerX" secondItem="evW-4U-GLQ" secondAttribute="centerX" id="Kbb-av-69L"/>
                             <constraint firstItem="fgb-vV-fT6" firstAttribute="top" secondItem="evW-4U-GLQ" secondAttribute="bottom" constant="8" id="QBP-Gd-QnM"/>
@@ -138,9 +151,12 @@
                             <constraint firstItem="Qip-u4-7Vo" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="U0g-Bb-cQb"/>
                             <constraint firstItem="P6c-4t-lvy" firstAttribute="leading" secondItem="LPa-0J-Gun" secondAttribute="trailing" constant="8" id="VD8-2f-EJS"/>
                             <constraint firstItem="TwB-1j-1uD" firstAttribute="top" secondItem="evW-4U-GLQ" secondAttribute="bottom" constant="8" symbolic="YES" id="W77-1F-rUD"/>
+                            <constraint firstItem="6FP-nf-7BK" firstAttribute="centerY" secondItem="tE7-xZ-xkW" secondAttribute="centerY" id="XwT-lw-0mF"/>
+                            <constraint firstItem="tE7-xZ-xkW" firstAttribute="leading" secondItem="6FP-nf-7BK" secondAttribute="trailing" constant="8" id="Z0e-bC-qew"/>
                             <constraint firstItem="P6c-4t-lvy" firstAttribute="centerY" secondItem="e5g-fh-dT4" secondAttribute="centerY" id="aWw-N0-zEE"/>
                             <constraint firstItem="Qip-u4-7Vo" firstAttribute="leading" secondItem="e5g-fh-dT4" secondAttribute="trailing" constant="8" id="dOR-Mx-0wD"/>
                             <constraint firstItem="vyR-xr-omb" firstAttribute="leading" secondItem="zNG-Pl-iur" secondAttribute="trailing" constant="8" id="fdm-Oe-MBc"/>
+                            <constraint firstItem="6FP-nf-7BK" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="4" id="fgC-H9-Jhg"/>
                             <constraint firstItem="e5g-fh-dT4" firstAttribute="leading" secondItem="P6c-4t-lvy" secondAttribute="trailing" constant="8" id="idH-GI-SbY"/>
                             <constraint firstItem="Iu3-T1-O2O" firstAttribute="centerX" secondItem="evW-4U-GLQ" secondAttribute="centerX" id="laq-1P-0EA"/>
                             <constraint firstItem="vyR-xr-omb" firstAttribute="centerY" secondItem="zNG-Pl-iur" secondAttribute="centerY" id="nPO-Ba-Ur9"/>

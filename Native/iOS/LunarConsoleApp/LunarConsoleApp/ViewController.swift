@@ -12,6 +12,8 @@ class ViewController: LUViewController {
     
     private let kConsoleCapacity: UInt  = 4096
     private let kConsoleTrimCount: UInt = 512
+    private let kActionOverlayViewWidth: CGFloat = 32.0
+    private let kActionOverlayViewHeight: CGFloat = 32.0
     
     private(set) var plugin: LUConsolePlugin!
     private var index: Int = 0
@@ -37,12 +39,12 @@ class ViewController: LUViewController {
         
         ViewController.pluginInstance = plugin;
         
-        plugin.registerAction(withId: 0, name: "Action 1")
-        plugin.registerAction(withId: 1, name: "Action 2")
-        plugin.registerAction(withId: 2, name: "Action 3")
-        plugin.registerAction(withId: 3, name: "Action 4")
-        
-        plugin.registerVariable(withId: 0, name: "bool", type: "Boolean", value: "1")
+//        plugin.registerAction(withId: 0, name: "Action 1")
+//        plugin.registerAction(withId: 1, name: "Action 2")
+//        plugin.registerAction(withId: 2, name: "Action 3")
+//        plugin.registerAction(withId: 3, name: "Action 4")
+//        
+//        plugin.registerVariable(withId: 0, name: "bool", type: "Boolean", value: "1")
     }
     
     // MARK: - Actions
@@ -92,6 +94,16 @@ class ViewController: LUViewController {
         }
     }
     
+    @IBAction func onToggleActionOverlay(sender: AnyObject) {
+        let swtch = sender as! UISwitch
+        if swtch.isOn {
+            addOverlayViewToWindow(window: UIApplication.shared.keyWindow!)
+        }
+        else {
+            removeOverlayViewFromWindow(window: UIApplication.shared.keyWindow!)
+        }
+    }
+    
     // MARK: - Log Entries
     
     private func loadLogEntries() -> [FakeLogEntry] {
@@ -120,6 +132,31 @@ class ViewController: LUViewController {
         return entries;
     }
 
+    // MARK: - Test overlay
+    
+    private func addOverlayViewToWindow(window: UIWindow) {
+        let windowSize = window.frame.size;
+        let frame = CGRect(x: 0,
+                           y: windowSize.height - kActionOverlayViewHeight,
+                           width: kActionOverlayViewWidth,
+                           height: kActionOverlayViewHeight
+        )
+        
+        let overlayView = ActionOverlayView(frame: frame)
+        overlayView.callback = { (text) in
+            print(text)
+        }
+        window.addSubview(overlayView)
+    }
+    
+    private func removeOverlayViewFromWindow(window: UIWindow) {
+        for view in window.subviews {
+            if view.isKind(of: ActionOverlayView.self) {
+                view.removeFromSuperview()
+                break
+            }
+        }
+    }
     
     // MARK: - Helpers
     
