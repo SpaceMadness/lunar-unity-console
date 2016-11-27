@@ -76,6 +76,16 @@
 @property (nonatomic, readonly) UIColor *collapseBackgroundColor;
 @property (nonatomic, readonly) UIColor *collapseTextColor;
 
+@property (nonatomic, readonly) UIFont  *actionsWarningFont;
+@property (nonatomic, readonly) UIColor *actionsWarningTextColor;
+@property (nonatomic, readonly) UIFont  *actionsFont;
+@property (nonatomic, readonly) UIColor *actionsTextColor;
+@property (nonatomic, readonly) UIColor *actionsBackgroundColorLight;
+@property (nonatomic, readonly) UIColor *actionsBackgroundColorDark;
+@property (nonatomic, readonly) UIFont  *actionsGroupFont;
+@property (nonatomic, readonly) UIColor *actionsGroupTextColor;
+@property (nonatomic, readonly) UIColor *actionsGroupBackgroundColor;
+
 @property (nonatomic, readonly) UIFont  *contextMenuFont;
 @property (nonatomic, readonly) UIColor *contextMenuBackgroundColor;
 @property (nonatomic, readonly) UIColor *contextMenuTextColor;

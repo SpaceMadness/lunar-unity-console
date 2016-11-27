@@ -57,6 +57,16 @@ static LUTheme * _mainTheme;
 @property (nonatomic, strong) UIColor *collapseBackgroundColor;
 @property (nonatomic, strong) UIColor *collapseTextColor;
 
+@property (nonatomic, strong) UIFont  *actionsWarningFont;
+@property (nonatomic, strong) UIColor *actionsWarningTextColor;
+@property (nonatomic, strong) UIFont  *actionsFont;
+@property (nonatomic, strong) UIColor *actionsTextColor;
+@property (nonatomic, strong) UIColor *actionsBackgroundColorLight;
+@property (nonatomic, strong) UIColor *actionsBackgroundColorDark;
+@property (nonatomic, strong) UIFont  *actionsGroupFont;
+@property (nonatomic, strong) UIColor *actionsGroupTextColor;
+@property (nonatomic, strong) UIColor *actionsGroupBackgroundColor;
+
 @property (nonatomic, strong) UIFont  *contextMenuFont;
 @property (nonatomic, strong) UIColor *contextMenuBackgroundColor;
 @property (nonatomic, strong) UIColor *contextMenuTextColor;
@@ -162,6 +172,15 @@ static UIImage * CreateCollapseBackgroundImage()
         _mainTheme.collapseBackgroundImage = CreateCollapseBackgroundImage();
         _mainTheme.collapseBackgroundColor = UIColorMake(0x424242);
         _mainTheme.collapseTextColor = cellLog.textColor;
+        _mainTheme.actionsWarningFont = [UIFont systemFontOfSize:18];
+        _mainTheme.actionsWarningTextColor = cellLog.textColor;
+        _mainTheme.actionsFont = [self createCustomFontWithSize:12];
+        _mainTheme.actionsTextColor = cellLog.textColor;
+        _mainTheme.actionsBackgroundColorDark = cellLog.backgroundColorDark;
+        _mainTheme.actionsBackgroundColorLight = cellLog.backgroundColorLight;
+        _mainTheme.actionsGroupFont = [self createCustomFontWithSize:12];
+        _mainTheme.actionsGroupTextColor = [UIColor whiteColor];
+        _mainTheme.actionsGroupBackgroundColor = UIColorMake(0x262626);
         _mainTheme.contextMenuFont = [self createContextMenuFont];
         _mainTheme.contextMenuBackgroundColor = UIColorMake(0x3c3c3c);
         _mainTheme.contextMenuTextColor = cellLog.textColor;
@@ -173,6 +192,17 @@ static UIImage * CreateCollapseBackgroundImage()
         actionButtonLargeSkin.selectedImage = LUGet3SlicedImage(@"lunar_console_action_button_large_selected");
         _mainTheme.actionButtonLargeSkin = actionButtonLargeSkin;
     }
+}
+
++ (UIFont *)createCustomFontWithSize:(CGFloat)size
+{
+    UIFont *font = [UIFont fontWithName:@"Menlo-regular" size:size];
+    if (font != nil)
+    {
+        return font;
+    }
+    
+    return [UIFont systemFontOfSize:size];
 }
 
 

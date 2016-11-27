@@ -1,0 +1,351 @@
+//
+//  LUActionController.m
+//  LunarConsole
+//
+//  Created by Alex Lementuev on 2/23/16.
+//  Copyright © 2016 Space Madness. All rights reserved.
+//
+
+#import "Lunar.h"
+
+#import "LUActionController.h"
+
+static const NSInteger kSectionIndexActions = 0;
+static const NSInteger kSectionIndexVariables = 1;
+static const NSInteger kSectionCount = 2;
+
+@interface LUActionController () <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, LUActionRegistryFilterDelegate, LUCVarTableViewCellDelegate>
+{
+    LUActionRegistryFilter * _actionRegistryFilter;
+}
+
+@property (nonatomic, assign) IBOutlet UIView       * noActionsWarningView;
+@property (nonatomic, assign) IBOutlet UILabel      * noActionsWarningLabel;
+@property (nonatomic, assign) IBOutlet UITableView  * tableView;
+@property (nonatomic, assign) IBOutlet UISearchBar  * filterBar;
+
+@end
+
+@implementation LUActionController
+
++ (instancetype)controllerWithActionRegistry:(LUActionRegistry *)actionRegistry
+{
+    return [[self alloc] initWithActionRegistry:actionRegistry];
+}
+
+- (instancetype)initWithActionRegistry:(LUActionRegistry *)actionRegistry
+{
+    self = [super initWithNibName:NSStringFromClass([self class]) bundle:nil];
+    if (self)
+    {
+        if (actionRegistry == nil)
+        {
+            NSLog(@"Can't create action controller: action register is nil");
+            
+            self = nil;
+            return nil;
+        }
+        
+        _actionRegistryFilter = [[LUActionRegistryFilter alloc] initWithActionRegistry:actionRegistry];
+        _actionRegistryFilter.delegate = self;
+    }
+    return self;
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    LUTheme *theme = [LUTheme mainTheme];
+    
+    // title
+    self.title = @"Actions";
+    
+    // background
+    self.view.opaque = YES;
+    self.view.backgroundColor = theme.tableColor;
+    
+    // table view
+    _tableView.backgroundColor = theme.tableColor;
+    
+    // no actions warning
+    _noActionsWarningView.backgroundColor = theme.tableColor;
+    _noActionsWarningView.opaque = YES;
+    _noActionsWarningLabel.font = theme.actionsWarningFont;
+    _noActionsWarningLabel.textColor = theme.actionsWarningTextColor;
+    
+    [self updateNoActionWarningView];
+    
+    // accessibility
+    LU_SET_ACCESSIBILITY_IDENTIFIER(_noActionsWarningView, @"No Actions Warning View");
+    
+//    // "status bar" view
+//    UITapGestureRecognizer *statusBarTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self                                                                                                    action:@selector(onStatusBarTap:)];
+//    [_statusBarView addGestureRecognizer:statusBarTapGestureRecognizer];
+//    LU_RELEASE(statusBarTapGestureRecognizer);
+//    
+//    _statusBarView.text = [NSString stringWithFormat:@"Lunar Console v%@", _version ? _version : @"?.?.?"];
+    
+    
+    // filter text
+    // _filterBar.text = _console.entries.filterText;
+}
+
+#pragma mark -
+#pragma mark Status bar
+
+- (BOOL)prefersStatusBarHidden
+{
+    return YES;
+}
+
+#pragma mark -
+#pragma mark Filtering
+
+- (void)filterByText:(NSString *)text
+{
+    BOOL changed = [_actionRegistryFilter setFilterText:text];
+    if (changed)
+    {
+        [_tableView reloadData];
+    }
+}
+
+#pragma mark -
+#pragma mark UITableViewDataSource
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return kSectionCount;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    if (section == kSectionIndexActions)
+    {
+        return _actionRegistryFilter.actions.count;
+    }
+    
+    if (section == kSectionIndexVariables)
+    {
+        return _actionRegistryFilter.variables.count;
+    }
+    
+    LUAssertMsgv(section < kSectionCount, @"Unexpected section index: %ld", (long) section);
+    return 0;
+}
+
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    if (section == kSectionIndexActions)
+    {
+        return [self actionCount] > 0 ? @"Actions" : @"";
+    }
+    
+    if (section == kSectionIndexVariables)
+    {
+        return [self variableCount] > 0 ? @"Variables" : @"";
+    }
+    
+    LUAssertMsgv(section < kSectionCount, @"Unexpected section index: %ld", (long) section);
+    return @"";
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSInteger section = indexPath.section;
+    NSInteger index = indexPath.row;
+    
+    if (section == kSectionIndexActions)
+    {
+        return [self tableView:tableView actionCellForRowAtIndex:index];
+    }
+    
+    if (section == kSectionIndexVariables)
+    {
+        return [self tableView:tableView variableCellForRowAtIndex:index];
+    }
+    
+    LUAssertMsgv(section < kSectionCount, @"Unexpected section index: %ld", (long) section);
+    return nil;
+}
+
+#pragma mark -
+#pragma mark UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
+{
+    if ([view isKindOfClass:[UITableViewHeaderFooterView class]])
+    {
+        LUTheme *theme = [LUTheme mainTheme];
+        
+        UITableViewHeaderFooterView *headerView = (UITableViewHeaderFooterView *)view;
+        headerView.textLabel.font = theme.actionsGroupFont;
+        headerView.textLabel.textColor = theme.actionsGroupTextColor;
+        headerView.contentView.backgroundColor = theme.actionsGroupBackgroundColor;
+    }
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    
+    if ([_delegate respondsToSelector:@selector(actionController:didSelectActionWithId:)])
+    {
+        LUAction *action = [self actionAtIndex:indexPath.row];
+        [_delegate actionController:self didSelectActionWithId:action.actionId];
+    }
+}
+
+#pragma mark -
+#pragma mark UISearchBarDelegate
+
+- (BOOL)searchBarShouldBeginEditing:(UISearchBar *)searchBar
+{
+    [searchBar setShowsCancelButton:YES animated:YES];
+    return YES;
+}
+
+- (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar
+{
+    [searchBar setShowsCancelButton:NO animated:YES];
+    return YES;
+}
+
+- (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
+{
+    [searchBar setShowsCancelButton:NO animated:YES];
+    [searchBar resignFirstResponder];
+}
+
+- (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText
+{
+    [self filterByText:searchText];
+    
+    if (searchText.length == 0)
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [searchBar resignFirstResponder];
+        });
+    }
+}
+
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
+{
+    [searchBar resignFirstResponder];
+}
+
+#pragma mark -
+#pragma mark LUActionRegistryFilterDelegate
+
+- (void)actionRegistryFilter:(LUActionRegistryFilter *)registryFilter didAddAction:(LUAction *)action atIndex:(NSUInteger)index
+{
+    NSArray *array = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:index inSection:kSectionIndexActions]];
+    [_tableView insertRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationNone];
+    
+    [self updateNoActionWarningView];
+}
+
+- (void)actionRegistryFilter:(LUActionRegistryFilter *)registryFilter didRemoveAction:(LUAction *)action atIndex:(NSUInteger)index
+{
+    NSArray *array = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:index inSection:kSectionIndexActions]];
+    [_tableView deleteRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationNone];
+    
+    [self updateNoActionWarningView];
+}
+
+- (void)actionRegistryFilter:(LUActionRegistryFilter *)registry didRegisterVariable:(LUCVar *)variable atIndex:(NSUInteger)index
+{
+    NSArray *array = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:index inSection:kSectionIndexVariables]];
+    [_tableView insertRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationNone];
+    
+    [self updateNoActionWarningView];
+}
+
+- (void)actionRegistryFilter:(LUActionRegistryFilter *)registry didChangeVariable:(LUCVar *)variable atIndex:(NSUInteger)index
+{
+    NSArray *array = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:index inSection:kSectionIndexVariables]];
+    [_tableView reloadRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationNone];
+}
+
+#pragma mark -
+#pragma mark LUCVarTableViewCellDelegate
+
+- (void)consoleVariableTableViewCell:(LUCVarTableViewCell *)cell didChangeValue:(NSString *)value
+{
+    LUCVar *cvar = [_actionRegistryFilter.registry variableWithId:cell.variableId];
+    LUAssert(cvar);
+    cvar.value = value;
+}
+
+#pragma mark -
+#pragma mark Actions
+
+- (UITableViewCell *)tableView:(UITableView *)tableView actionCellForRowAtIndex:(NSInteger)index
+{
+    LUAction *action = [self actionAtIndex:index];
+    
+    LUTheme *theme = [LUTheme mainTheme];
+    
+    LUActionTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"action"];
+    if (cell == nil)
+    {
+        cell = [LUActionTableViewCell cellWithReuseIdentifier:@"action"];
+    }
+    cell.title = action.name;
+    cell.cellColor = index % 2 == 0 ? theme.actionsBackgroundColorDark : theme.actionsBackgroundColorLight;
+    
+    return cell;
+}
+
+- (LUAction *)actionAtIndex:(NSInteger)index
+{
+    return _actionRegistryFilter.actions[index];
+}
+
+- (NSInteger)actionCount
+{
+    return _actionRegistryFilter.actions.count;
+}
+
+#pragma mark -
+#pragma mark Variables
+
+- (UITableViewCell *)tableView:(UITableView *)tableView variableCellForRowAtIndex:(NSInteger)index
+{
+    LUTheme *theme = [LUTheme mainTheme];
+    
+    LUCVar *cvar = [self variableAtIndex:index];
+    LUCVarTableViewCell *cell = (LUCVarTableViewCell *)[cvar tableView:tableView cellAtIndex:index];
+    cell.delegate = self;
+    cell.contentView.backgroundColor = index % 2 == 0 ? theme.actionsBackgroundColorDark : theme.actionsBackgroundColorLight;
+    return cell;
+}
+
+- (LUCVar *)variableAtIndex:(NSInteger)index
+{
+    return _actionRegistryFilter.variables[index];
+}
+
+- (NSInteger)variableCount
+{
+    return _actionRegistryFilter.variables.count;
+}
+
+#pragma mark -
+#pragma mark No actions warning view
+
+- (void)updateNoActionWarningView
+{
+    BOOL hasContent = [self actionCount] > 0 || [self variableCount] > 0;
+    [self setNoActionsWarningViewHidden:hasContent];
+}
+
+- (void)setNoActionsWarningViewHidden:(BOOL)hidden
+{
+    _tableView.hidden = !hidden;
+    _filterBar.hidden = !hidden;
+    _noActionsWarningView.hidden = hidden;
+}
+
+@end

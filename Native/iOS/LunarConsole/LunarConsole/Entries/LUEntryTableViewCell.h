@@ -23,8 +23,8 @@
 
 @interface LUEntryTableViewCell : UITableViewCell
 
-+ (nonnull instancetype)cellWithFrame:(CGRect)frame cellIdentifier:(nullable NSString *)cellIdentifier;
-- (nonnull instancetype)initWithFrame:(CGRect)frame cellIdentifier:(nullable NSString *)cellIdentifier;
++ (instancetype)cellWithFrame:(CGRect)frame cellIdentifier:(NSString *)cellIdentifier;
+- (instancetype)initWithFrame:(CGRect)frame cellIdentifier:(NSString *)cellIdentifier;
 
 - (void)setSize:(CGSize)size;
 

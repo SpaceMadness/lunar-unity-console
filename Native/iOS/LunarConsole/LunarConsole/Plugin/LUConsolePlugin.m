@@ -153,17 +153,7 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.LunarMob
 
 - (void)showActionOverlay
 {
-    if (_actionOverlayWindow == nil)
-    {
-        LUConsoleActionController *controller = [LUConsoleActionController new];
-        
-        CGRect windowFrame = LUGetScreenBounds();
-        _actionOverlayWindow = [[LUWindow alloc] initWithFrame:windowFrame];
-        _actionOverlayWindow.backgroundColor = [UIColor clearColor];
-        _actionOverlayWindow.rootViewController = controller;
-        _actionOverlayWindow.opaque = YES;
-        _actionOverlayWindow.hidden = NO;
-    }
+    
 }
 
 - (void)hideActionOverlay
