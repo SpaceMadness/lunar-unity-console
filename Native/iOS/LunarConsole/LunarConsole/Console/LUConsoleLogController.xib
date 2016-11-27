@@ -165,21 +165,6 @@
                     <state key="normal" image="lunar_console_icon_button_collapse.png" backgroundImage="lunar_console_log_button_background.png"/>
                     <state key="selected" image="lunar_console_icon_button_expand.png" backgroundImage="lunar_console_log_button_background.png"/>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iO7-bg-aml" userLabel="Button Close">
-                    <rect key="frame" x="266" y="530" width="46" height="30"/>
-                    <accessibility key="accessibilityConfiguration" label="Console Close Button"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="46" id="2FV-L4-z85"/>
-                        <constraint firstAttribute="height" constant="30" id="6Pc-Qn-PHN"/>
-                    </constraints>
-                    <state key="normal" image="lunar_console_icon_button_close.png">
-                        <color key="titleColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    </state>
-                    <connections>
-                        <action selector="onClose:" destination="-1" eventType="touchUpInside" id="ge2-k8-6EI"/>
-                    </connections>
-                </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NSV-Dn-alC" userLabel="Button Settings">
                     <rect key="frame" x="224" y="530" width="46" height="30"/>
                     <constraints>
@@ -215,7 +200,6 @@
                 <constraint firstAttribute="trailing" secondItem="Ouu-Ne-nFv" secondAttribute="trailing" id="UZN-94-PhZ"/>
                 <constraint firstItem="vKS-zo-ZIz" firstAttribute="leading" secondItem="MJy-N8-UoI" secondAttribute="leading" id="VCt-Nm-L6Q"/>
                 <constraint firstItem="fve-SL-Ifu" firstAttribute="width" secondItem="k0I-ks-m0p" secondAttribute="width" id="Wff-FC-NCP"/>
-                <constraint firstAttribute="bottom" secondItem="iO7-bg-aml" secondAttribute="bottom" constant="8" id="X1N-FS-kQU"/>
                 <constraint firstItem="dmv-dc-ake" firstAttribute="height" secondItem="jA1-cI-4L9" secondAttribute="height" id="X9L-Ad-mgV"/>
                 <constraint firstItem="WdV-vA-4jI" firstAttribute="width" secondItem="Yxu-k1-Kpx" secondAttribute="width" id="Xpn-6n-2at"/>
                 <constraint firstItem="uTu-w2-mXe" firstAttribute="height" secondItem="WdV-vA-4jI" secondAttribute="height" id="Xsv-MU-yFw"/>
@@ -235,7 +219,6 @@
                 <constraint firstItem="Ouu-Ne-nFv" firstAttribute="leading" secondItem="MJy-N8-UoI" secondAttribute="leading" id="f8x-BZ-nwU"/>
                 <constraint firstItem="9Gl-60-1dT" firstAttribute="centerY" secondItem="dmv-dc-ake" secondAttribute="centerY" id="fav-gp-Xbs"/>
                 <constraint firstItem="WdV-vA-4jI" firstAttribute="height" secondItem="Yxu-k1-Kpx" secondAttribute="height" id="feH-cj-FMx"/>
-                <constraint firstAttribute="trailing" secondItem="iO7-bg-aml" secondAttribute="trailing" constant="8" id="g6N-Y1-IgM"/>
                 <constraint firstAttribute="bottom" secondItem="cXe-z7-jmy" secondAttribute="bottom" constant="8" id="gj4-8E-3kj"/>
                 <constraint firstItem="c7V-25-T5q" firstAttribute="height" secondItem="jA1-cI-4L9" secondAttribute="height" id="hgu-Rx-tC7"/>
                 <constraint firstItem="WdV-vA-4jI" firstAttribute="leading" secondItem="Yxu-k1-Kpx" secondAttribute="trailing" constant="8" id="kgx-iC-CYP"/>
@@ -279,7 +262,6 @@
     <resources>
         <image name="lunar_console_icon_button_clear.png" width="24" height="24"/>
         <image name="lunar_console_icon_button_clipboard.png" width="24" height="24"/>
-        <image name="lunar_console_icon_button_close.png" width="24" height="24"/>
         <image name="lunar_console_icon_button_collapse.png" width="24" height="24"/>
         <image name="lunar_console_icon_button_email.png" width="24" height="24"/>
         <image name="lunar_console_icon_button_expand.png" width="24" height="24"/>

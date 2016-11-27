@@ -30,10 +30,9 @@ static NSString * const kScriptMessageConsoleOpen  = @"console_open";
 static NSString * const kScriptMessageConsoleClose = @"console_close";
 static NSString * const kSettingsFilename          = @"com.spacemadness.LunarMobileConsoleSettings.bin";
 
-@interface LUConsolePlugin () <LUConsoleLogControllerDelegate, LUExceptionWarningControllerDelegate>
+@interface LUConsolePlugin () <LUConsoleControllerDelegate, LUExceptionWarningControllerDelegate>
 {
     LUUnityScriptMessenger  * _scriptMessenger;
-    NSString                * _version;
     UIGestureRecognizer     * _gestureRecognizer;
     LUConsoleGesture          _gesture;
 }
@@ -102,10 +101,8 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.LunarMob
     
     if (_consoleWindow == nil)
     {
-        // LUConsoleLogController *controller = [LUConsoleLogController controllerWithPlugin:self];
         LUConsoleController *controller = [LUConsoleController controllerWithPlugin:self];
-        // controller.version = _version;
-        // controller.delegate = self;
+        controller.delegate = self;
         
         CGRect windowFrame = LUGetScreenBounds();
         CGRect windowInitialFrame = windowFrame;
@@ -293,14 +290,14 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.LunarMob
 }
 
 #pragma mark -
-#pragma mark LUConsoleLogControllerDelegate
+#pragma mark LUConsoleControllerDelegate
 
-- (void)consoleControllerDidOpen:(LUConsoleLogController *)controller
+- (void)consoleControllerDidOpen:(LUConsoleController *)controller
 {
     [_scriptMessenger sendMessageName:kScriptMessageConsoleOpen];
 }
 
-- (void)consoleControllerDidClose:(LUConsoleLogController *)controller
+- (void)consoleControllerDidClose:(LUConsoleController *)controller
 {
     [self hideConsole];
     

@@ -45,6 +45,12 @@
         
         LUActionController *actionController = [LUActionController controllerWithActionRegistry:_plugin.actionRegistry];
         [self addPageController:actionController];
+        
+        // notify delegate
+        if ([_delegate respondsToSelector:@selector(consoleControllerDidOpen:)])
+        {
+            [_delegate consoleControllerDidOpen:self];
+        }
     });
 }
 
@@ -62,6 +68,17 @@
     contentSize.height = pageSize.height;
     
     _scrollView.contentSize = contentSize;
+}
+
+#pragma mark -
+#pragma mark Actions
+
+- (IBAction)onClose:(id)sender
+{
+    if ([_delegate respondsToSelector:@selector(consoleControllerDidClose:)])
+    {
+        [_delegate consoleControllerDidClose:self];
+    }
 }
 
 @end

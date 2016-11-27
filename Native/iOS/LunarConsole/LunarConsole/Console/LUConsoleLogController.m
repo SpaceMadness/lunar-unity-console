@@ -169,12 +169,6 @@ static LUConsoleLogControllerState * _sharedControllerState;
         {
             [self scrollToBottomAnimated:NO];
         }
-        
-        // notify delegate
-        if ([_delegate respondsToSelector:@selector(consoleControllerDidOpen:)])
-        {
-            [_delegate consoleControllerDidOpen:self];
-        }
     });
 }
 
@@ -229,14 +223,6 @@ static LUConsoleLogControllerState * _sharedControllerState;
 
 #pragma mark -
 #pragma mark Actions
-
-- (IBAction)onClose:(id)sender
-{
-    if ([_delegate respondsToSelector:@selector(consoleControllerDidClose:)])
-    {
-        [_delegate consoleControllerDidClose:self];
-    }
-}
 
 - (IBAction)onClear:(id)sender
 {

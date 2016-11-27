@@ -42,6 +42,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, readonly) LUWindow         * warningWindow;
 @property (nonatomic, readonly) LUConsole        * console;
 @property (nonatomic, readonly) LUActionRegistry * actionRegistry;
+@property (nonatomic, readonly) NSString         * version;
 
 @property (nonatomic, assign) NSInteger capacity;
 @property (nonatomic, assign) NSInteger trim;
