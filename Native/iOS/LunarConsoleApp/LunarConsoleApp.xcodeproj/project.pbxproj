@@ -19,6 +19,9 @@
 		840F08951DEAA96D00E9F13D /* LUActionController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 840F08941DEAA96D00E9F13D /* LUActionController.xib */; };
 		840F08981DEAA9A100E9F13D /* LUCVarBooleanTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 840F08961DEAA9A100E9F13D /* LUCVarBooleanTableViewCell.xib */; };
 		840F08991DEAA9A100E9F13D /* LUCVarInputTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 840F08971DEAA9A100E9F13D /* LUCVarInputTableViewCell.xib */; };
+		840F089D1DEAAFAF00E9F13D /* lunar_console_actions_empty_warning.png in Resources */ = {isa = PBXBuildFile; fileRef = 840F089A1DEAAFAF00E9F13D /* lunar_console_actions_empty_warning.png */; };
+		840F089E1DEAAFAF00E9F13D /* lunar_console_actions_empty_warning@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 840F089B1DEAAFAF00E9F13D /* lunar_console_actions_empty_warning@2x.png */; };
+		840F089F1DEAAFAF00E9F13D /* lunar_console_actions_empty_warning@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 840F089C1DEAAFAF00E9F13D /* lunar_console_actions_empty_warning@3x.png */; };
 		844741EE1B719DA500F5ABD3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 844741ED1B719DA500F5ABD3 /* main.m */; };
 		844741F11B719DA500F5ABD3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 844741F01B719DA500F5ABD3 /* AppDelegate.m */; };
 		844741F91B719DA500F5ABD3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 844741F81B719DA500F5ABD3 /* Images.xcassets */; };
@@ -150,6 +153,9 @@
 		840F08941DEAA96D00E9F13D /* LUActionController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LUActionController.xib; path = ../../LunarConsole/LunarConsole/Entries/Actions/LUActionController.xib; sourceTree = "<group>"; };
 		840F08961DEAA9A100E9F13D /* LUCVarBooleanTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LUCVarBooleanTableViewCell.xib; path = ../../LunarConsole/LunarConsole/Entries/Variables/LUCVarBooleanTableViewCell.xib; sourceTree = "<group>"; };
 		840F08971DEAA9A100E9F13D /* LUCVarInputTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LUCVarInputTableViewCell.xib; path = ../../LunarConsole/LunarConsole/Entries/Variables/LUCVarInputTableViewCell.xib; sourceTree = "<group>"; };
+		840F089A1DEAAFAF00E9F13D /* lunar_console_actions_empty_warning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lunar_console_actions_empty_warning.png; path = ../../LunarConsole/LunarConsole/Images/lunar_console_actions_empty_warning.png; sourceTree = "<group>"; };
+		840F089B1DEAAFAF00E9F13D /* lunar_console_actions_empty_warning@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lunar_console_actions_empty_warning@2x.png"; path = "../../LunarConsole/LunarConsole/Images/lunar_console_actions_empty_warning@2x.png"; sourceTree = "<group>"; };
+		840F089C1DEAAFAF00E9F13D /* lunar_console_actions_empty_warning@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lunar_console_actions_empty_warning@3x.png"; path = "../../LunarConsole/LunarConsole/Images/lunar_console_actions_empty_warning@3x.png"; sourceTree = "<group>"; };
 		844741E81B719DA500F5ABD3 /* LunarConsoleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LunarConsoleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		844741EC1B719DA500F5ABD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		844741ED1B719DA500F5ABD3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -335,8 +341,6 @@
 		84E5B80D1B77011900315599 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
-				840F08961DEAA9A100E9F13D /* LUCVarBooleanTableViewCell.xib */,
-				840F08971DEAA9A100E9F13D /* LUCVarInputTableViewCell.xib */,
 				840F08941DEAA96D00E9F13D /* LUActionController.xib */,
 				840F08921DEAA95300E9F13D /* LUConsoleController.xib */,
 				EFB99CCC1D21E25E00C95E80 /* LUConsoleLogController.xib */,
@@ -344,6 +348,8 @@
 				EFB99CD81D21E4DD00C95E80 /* LUConsoleLogMenuController.xib */,
 				84FF9A1B1D69279B0034E40E /* LUConsoleOverlayController.xib */,
 				EF5AD1111D6BBFC300B27500 /* LUConsoleSettingsController.xib */,
+				840F08961DEAA9A100E9F13D /* LUCVarBooleanTableViewCell.xib */,
+				840F08971DEAA9A100E9F13D /* LUCVarInputTableViewCell.xib */,
 				EFB99CE51D21E70F00C95E80 /* LUExceptionWarningController.xib */,
 				840F08021DEA2A1300E9F13D /* lunar_console_action_button_large_normal.png */,
 				840F08031DEA2A1300E9F13D /* lunar_console_action_button_large_normal@2x.png */,
@@ -351,6 +357,9 @@
 				840F08051DEA2A1300E9F13D /* lunar_console_action_button_large_selected.png */,
 				840F08061DEA2A1300E9F13D /* lunar_console_action_button_large_selected@2x.png */,
 				840F08071DEA2A1300E9F13D /* lunar_console_action_button_large_selected@3x.png */,
+				840F089A1DEAAFAF00E9F13D /* lunar_console_actions_empty_warning.png */,
+				840F089B1DEAAFAF00E9F13D /* lunar_console_actions_empty_warning@2x.png */,
+				840F089C1DEAAFAF00E9F13D /* lunar_console_actions_empty_warning@3x.png */,
 				84EA4FCE1C573C7A00A0635C /* lunar_console_collapse_background.png */,
 				84EA4FCF1C573C7A00A0635C /* lunar_console_collapse_background@2x.png */,
 				84EA4FD01C573C7A00A0635C /* lunar_console_collapse_background@3x.png */,
@@ -557,6 +566,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				840F089D1DEAAFAF00E9F13D /* lunar_console_actions_empty_warning.png in Resources */,
+				840F089E1DEAAFAF00E9F13D /* lunar_console_actions_empty_warning@2x.png in Resources */,
+				840F089F1DEAAFAF00E9F13D /* lunar_console_actions_empty_warning@3x.png in Resources */,
 				840F08981DEAA9A100E9F13D /* LUCVarBooleanTableViewCell.xib in Resources */,
 				840F08991DEAA9A100E9F13D /* LUCVarInputTableViewCell.xib in Resources */,
 				840F08951DEAA96D00E9F13D /* LUActionController.xib in Resources */,
