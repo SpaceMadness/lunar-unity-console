@@ -102,9 +102,10 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.LunarMob
     
     if (_consoleWindow == nil)
     {
-        LUConsoleLogController *controller = [LUConsoleLogController controllerWithPlugin:self];
-        controller.version = _version;
-        controller.delegate = self;
+        // LUConsoleLogController *controller = [LUConsoleLogController controllerWithPlugin:self];
+        LUConsoleController *controller = [LUConsoleController controllerWithPlugin:self];
+        // controller.version = _version;
+        // controller.delegate = self;
         
         CGRect windowFrame = LUGetScreenBounds();
         CGRect windowInitialFrame = windowFrame;

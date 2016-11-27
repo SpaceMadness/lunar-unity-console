@@ -161,6 +161,7 @@
 		840F087C1DEA6B7400E9F13D /* LUSortedListTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUSortedListTest.m; sourceTree = "<group>"; };
 		840F087D1DEA6B7400E9F13D /* LUStacktraceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUStacktraceTest.m; sourceTree = "<group>"; };
 		840F087E1DEA6B7400E9F13D /* LUStringUtilsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUStringUtilsTest.m; sourceTree = "<group>"; };
+		840F08891DEA98AD00E9F13D /* LUConsoleController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LUConsoleController.xib; sourceTree = "<group>"; };
 		844741A91B719C3100F5ABD3 /* libLunarConsole.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libLunarConsole.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		844741B41B719C3100F5ABD3 /* LunarConsoleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LunarConsoleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		844741BA1B719C3100F5ABD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -442,6 +443,7 @@
 				EF0836531B7ABCCE00DFB877 /* LUConsole.m */,
 				840F08141DEA502A00E9F13D /* LUConsoleController.h */,
 				840F08151DEA502A00E9F13D /* LUConsoleController.m */,
+				840F08891DEA98AD00E9F13D /* LUConsoleController.xib */,
 				EFB99CC61D21E15A00C95E80 /* LUConsoleLogController.h */,
 				EFB99CC71D21E15A00C95E80 /* LUConsoleLogController.m */,
 				EFB99CC81D21E15A00C95E80 /* LUConsoleLogController.xib */,

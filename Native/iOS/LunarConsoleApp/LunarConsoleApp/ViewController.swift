@@ -36,6 +36,13 @@ class ViewController: LUViewController {
         trimText.text = "\(kConsoleTrimCount)"
         
         ViewController.pluginInstance = plugin;
+        
+        plugin.registerAction(withId: 0, name: "Action 1")
+        plugin.registerAction(withId: 1, name: "Action 2")
+        plugin.registerAction(withId: 2, name: "Action 3")
+        plugin.registerAction(withId: 3, name: "Action 4")
+        
+        plugin.registerVariable(withId: 0, name: "bool", type: "Boolean", value: "1")
     }
     
     // MARK: - Actions
