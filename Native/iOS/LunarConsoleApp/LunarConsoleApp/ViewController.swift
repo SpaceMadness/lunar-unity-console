@@ -136,9 +136,8 @@ class ViewController: LUViewController {
     // MARK: - Test overlay
     
     private func addOverlayViewToWindow(window: UIWindow) {
-        let windowSize = window.frame.size;
         let frame = CGRect(x: 0,
-                           y: windowSize.height - kActionOverlayViewHeight,
+                           y: 0,
                            width: kActionOverlayViewWidth,
                            height: kActionOverlayViewHeight
         )
