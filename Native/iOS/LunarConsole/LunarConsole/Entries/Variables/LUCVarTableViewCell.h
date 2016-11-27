@@ -21,7 +21,7 @@
 
 @property (nonatomic, readonly) NSString * cellNibName;
 @property (nonatomic, readonly) int variableId;
-@property (nonatomic, assign) id<LUCVarTableViewCellDelegate> delegate;
+@property (nonatomic, weak) id<LUCVarTableViewCellDelegate> delegate;
 
 - (instancetype)initWithReuseIdentifier:(NSString *)reuseIdentifier;
 

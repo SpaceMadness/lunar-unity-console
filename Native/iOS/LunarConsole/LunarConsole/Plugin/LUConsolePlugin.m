@@ -63,6 +63,7 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.LunarMob
         _scriptMessenger = [[LUUnityScriptMessenger alloc] initWithTargetName:targetName methodName:methodName];
         _version = version;
         _console = [[LUConsole alloc] initWithCapacity:capacity trimCount:trimCount];
+        _actionRegistry = [[LUActionRegistry alloc] init];
         _gesture = [self gestureFromString:gestureName];
         
         NSArray *searchPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -203,6 +204,29 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.LunarMob
 - (void)clear
 {
     [_console clear];
+}
+
+#pragma mark -
+#pragma mark Quick actions
+
+- (void)registerActionWithId:(int)actionId name:(NSString *)name
+{
+    [_actionRegistry registerActionWithId:actionId name:name];
+}
+
+- (void)unregisterActionWithId:(int)actionId
+{
+    [_actionRegistry unregisterActionWithId:actionId];
+}
+
+- (void)registerVariableWithId:(int)entryId name:(NSString *)name type:(NSString *)type value:(NSString *)value
+{
+    [_actionRegistry registerVariableWithId:entryId name:name typeName:type value:value];
+}
+
+- (void)setValue:(NSString *)value forVariableWithId:(int)variableId
+{
+    [_actionRegistry setValue:value forVariableWithId:variableId];
 }
 
 #pragma mark -

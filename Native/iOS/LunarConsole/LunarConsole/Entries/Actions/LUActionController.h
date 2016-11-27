@@ -22,7 +22,7 @@
 
 @interface LUActionController : LUViewController
 
-@property (nonatomic, assign) id<LUActionControllerDelegate> delegate;
+@property (nonatomic, weak) id<LUActionControllerDelegate> delegate;
 
 + (instancetype)controllerWithActionRegistry:(LUActionRegistry *)actionRegistry;
 - (instancetype)initWithActionRegistry:(LUActionRegistry *)actionRegistry;

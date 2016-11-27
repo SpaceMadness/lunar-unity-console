@@ -12,7 +12,7 @@
 
 @interface LUCVarInputTableViewCell () <UITextFieldDelegate>
 
-@property (nonatomic, assign) IBOutlet UITextField * inputField;
+@property (nonatomic, weak) IBOutlet UITextField * inputField;
 @property (nonatomic, strong) NSString * lastValue;
 
 @end

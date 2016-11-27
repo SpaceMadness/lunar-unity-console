@@ -24,6 +24,7 @@
 #import "LUObject.h"
 #import "LUConsoleLogEntry.h"
 
+@class LUActionRegistry;
 @class LUConsole;
 @class LUWindow;
 @class LUConsolePluginSettings;
@@ -40,6 +41,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, readonly) LUWindow         * actionOverlayWindow;
 @property (nonatomic, readonly) LUWindow         * warningWindow;
 @property (nonatomic, readonly) LUConsole        * console;
+@property (nonatomic, readonly) LUActionRegistry * actionRegistry;
 
 @property (nonatomic, assign) NSInteger capacity;
 @property (nonatomic, assign) NSInteger trim;
@@ -66,6 +68,12 @@ typedef enum : NSUInteger {
 
 - (void)logMessage:(NSString *)message stackTrace:(NSString *)stackTrace type:(LUConsoleLogType)type;
 - (void)clear;
+
+- (void)registerActionWithId:(int)actionId name:(NSString *)name;
+- (void)unregisterActionWithId:(int)actionId;
+
+- (void)registerVariableWithId:(int)entryId name:(NSString *)name type:(NSString *)type value:(NSString *)value;
+- (void)setValue:(NSString *)value forVariableWithId:(int)variableId;
 
 - (void)enableGestureRecognition;
 - (void)disableGestureRecognition;

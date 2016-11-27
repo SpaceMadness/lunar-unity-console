@@ -25,7 +25,7 @@ extern NSString * const LUCVarTypeNameUnknown;
 @interface LUCVar : LUEntry
 
 @property (nonatomic, readonly) LUCVarType type;
-@property (nonatomic, retain) NSString *value;
+@property (nonatomic, strong) NSString *value;
 
 + (instancetype)variableWithId:(int)entryId name:(NSString *)name value:(NSString *)value type:(LUCVarType)type cellClass:(Class)cellClass;
 - (instancetype)initWithId:(int)entryId name:(NSString *)name value:(NSString *)value type:(LUCVarType)type cellClass:(Class)cellClass;

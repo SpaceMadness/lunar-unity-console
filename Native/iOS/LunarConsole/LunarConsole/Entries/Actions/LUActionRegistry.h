@@ -26,7 +26,7 @@
 @property (nonatomic, readonly) NSArray *actions;
 @property (nonatomic, readonly) NSArray *variables;
 
-@property (nonatomic, assign) id<LUActionRegistryDelegate> delegate;
+@property (nonatomic, weak) id<LUActionRegistryDelegate> delegate;
 
 + (instancetype)registry;
 

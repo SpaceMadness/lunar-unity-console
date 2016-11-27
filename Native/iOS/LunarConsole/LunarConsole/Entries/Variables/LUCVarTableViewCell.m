@@ -12,7 +12,7 @@
 
 @interface LUCVarTableViewCell ()
 
-@property (nonatomic, assign) IBOutlet UILabel *titleLabel;
+@property (nonatomic, weak) IBOutlet UILabel *titleLabel;
 
 @end
 

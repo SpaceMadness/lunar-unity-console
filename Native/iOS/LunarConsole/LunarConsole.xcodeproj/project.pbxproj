@@ -27,16 +27,16 @@
 		840F08461DEA53DF00E9F13D /* LUCVarStringTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F08381DEA53DF00E9F13D /* LUCVarStringTableViewCell.m */; };
 		840F08471DEA53DF00E9F13D /* LUCVarTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F083A1DEA53DF00E9F13D /* LUCVarTableViewCell.m */; };
 		840F084D1DEA566F00E9F13D /* LUSortedList.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F084C1DEA566F00E9F13D /* LUSortedList.m */; };
-		840F085D1DEA596200E9F13D /* TestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F08521DEA596200E9F13D /* TestCase.m */; };
-		840F085E1DEA596200E9F13D /* LUActionRegistryFilterTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F08541DEA596200E9F13D /* LUActionRegistryFilterTest.m */; };
-		840F085F1DEA596200E9F13D /* LUActionRegistryTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F08551DEA596200E9F13D /* LUActionRegistryTest.m */; };
-		840F08601DEA596200E9F13D /* LUConsoleEntryListTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F08561DEA596200E9F13D /* LUConsoleEntryListTest.m */; };
-		840F08611DEA596200E9F13D /* LUConsoleEntryLookupTableTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F08571DEA596200E9F13D /* LUConsoleEntryLookupTableTest.m */; };
-		840F08621DEA596200E9F13D /* LUConsoleTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F08581DEA596200E9F13D /* LUConsoleTest.m */; };
-		840F08631DEA596200E9F13D /* LUMutableArrayTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F08591DEA596200E9F13D /* LUMutableArrayTest.m */; };
-		840F08641DEA596200E9F13D /* LUSortedListTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F085A1DEA596200E9F13D /* LUSortedListTest.m */; };
-		840F08651DEA596200E9F13D /* LUStacktraceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F085B1DEA596200E9F13D /* LUStacktraceTest.m */; };
-		840F08661DEA596200E9F13D /* LUStringUtilsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F085C1DEA596200E9F13D /* LUStringUtilsTest.m */; };
+		840F087F1DEA6B7400E9F13D /* TestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F08751DEA6B7400E9F13D /* TestCase.m */; };
+		840F08801DEA6B7400E9F13D /* LUActionRegistryFilterTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F08761DEA6B7400E9F13D /* LUActionRegistryFilterTest.m */; };
+		840F08811DEA6B7400E9F13D /* LUActionRegistryTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F08771DEA6B7400E9F13D /* LUActionRegistryTest.m */; };
+		840F08821DEA6B7400E9F13D /* LUConsoleEntryListTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F08781DEA6B7400E9F13D /* LUConsoleEntryListTest.m */; };
+		840F08831DEA6B7400E9F13D /* LUConsoleEntryLookupTableTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F08791DEA6B7400E9F13D /* LUConsoleEntryLookupTableTest.m */; };
+		840F08841DEA6B7400E9F13D /* LUConsoleTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F087A1DEA6B7400E9F13D /* LUConsoleTest.m */; };
+		840F08851DEA6B7400E9F13D /* LUMutableArrayTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F087B1DEA6B7400E9F13D /* LUMutableArrayTest.m */; };
+		840F08861DEA6B7400E9F13D /* LUSortedListTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F087C1DEA6B7400E9F13D /* LUSortedListTest.m */; };
+		840F08871DEA6B7400E9F13D /* LUStacktraceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F087D1DEA6B7400E9F13D /* LUStacktraceTest.m */; };
+		840F08881DEA6B7400E9F13D /* LUStringUtilsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F087E1DEA6B7400E9F13D /* LUStringUtilsTest.m */; };
 		844741B51B719C3100F5ABD3 /* libLunarConsole.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 844741A91B719C3100F5ABD3 /* libLunarConsole.a */; };
 		84B7BD8E1D2229810048472B /* LUEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B7BD8B1D2229810048472B /* LUEntry.m */; };
 		84B7BD8F1D2229810048472B /* LUEntryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B7BD8D1D2229810048472B /* LUEntryTableViewCell.m */; };
@@ -147,17 +147,20 @@
 		840F084C1DEA566F00E9F13D /* LUSortedList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUSortedList.m; sourceTree = "<group>"; };
 		840F084F1DEA56C400E9F13D /* LUUtils.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LUUtils.h; sourceTree = "<group>"; };
 		840F08501DEA58A700E9F13D /* LUActions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LUActions.h; sourceTree = "<group>"; };
-		840F08511DEA596200E9F13D /* TestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestCase.h; sourceTree = "<group>"; };
-		840F08521DEA596200E9F13D /* TestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestCase.m; sourceTree = "<group>"; };
-		840F08541DEA596200E9F13D /* LUActionRegistryFilterTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LUActionRegistryFilterTest.m; path = "../../../../../lunar-unity-console-old/Native/iOS/LunarConsole/LunarConsoleTests/LUActionRegistryFilterTest.m"; sourceTree = "<group>"; };
-		840F08551DEA596200E9F13D /* LUActionRegistryTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LUActionRegistryTest.m; path = "../../../../../lunar-unity-console-old/Native/iOS/LunarConsole/LunarConsoleTests/LUActionRegistryTest.m"; sourceTree = "<group>"; };
-		840F08561DEA596200E9F13D /* LUConsoleEntryListTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LUConsoleEntryListTest.m; path = "../../../../../lunar-unity-console-old/Native/iOS/LunarConsole/LunarConsoleTests/LUConsoleEntryListTest.m"; sourceTree = "<group>"; };
-		840F08571DEA596200E9F13D /* LUConsoleEntryLookupTableTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LUConsoleEntryLookupTableTest.m; path = "../../../../../lunar-unity-console-old/Native/iOS/LunarConsole/LunarConsoleTests/LUConsoleEntryLookupTableTest.m"; sourceTree = "<group>"; };
-		840F08581DEA596200E9F13D /* LUConsoleTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LUConsoleTest.m; path = "../../../../../lunar-unity-console-old/Native/iOS/LunarConsole/LunarConsoleTests/LUConsoleTest.m"; sourceTree = "<group>"; };
-		840F08591DEA596200E9F13D /* LUMutableArrayTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LUMutableArrayTest.m; path = "../../../../../lunar-unity-console-old/Native/iOS/LunarConsole/LunarConsoleTests/LUMutableArrayTest.m"; sourceTree = "<group>"; };
-		840F085A1DEA596200E9F13D /* LUSortedListTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LUSortedListTest.m; path = "../../../../../lunar-unity-console-old/Native/iOS/LunarConsole/LunarConsoleTests/LUSortedListTest.m"; sourceTree = "<group>"; };
-		840F085B1DEA596200E9F13D /* LUStacktraceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LUStacktraceTest.m; path = "../../../../../lunar-unity-console-old/Native/iOS/LunarConsole/LunarConsoleTests/LUStacktraceTest.m"; sourceTree = "<group>"; };
-		840F085C1DEA596200E9F13D /* LUStringUtilsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LUStringUtilsTest.m; path = "../../../../../lunar-unity-console-old/Native/iOS/LunarConsole/LunarConsoleTests/LUStringUtilsTest.m"; sourceTree = "<group>"; };
+		840F086A1DEA6A2E00E9F13D /* lunar_console_actions_empty_warning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lunar_console_actions_empty_warning.png; sourceTree = "<group>"; };
+		840F086B1DEA6A2E00E9F13D /* lunar_console_actions_empty_warning@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lunar_console_actions_empty_warning@2x.png"; sourceTree = "<group>"; };
+		840F086C1DEA6A2E00E9F13D /* lunar_console_actions_empty_warning@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lunar_console_actions_empty_warning@3x.png"; sourceTree = "<group>"; };
+		840F08741DEA6B7400E9F13D /* TestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestCase.h; sourceTree = "<group>"; };
+		840F08751DEA6B7400E9F13D /* TestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestCase.m; sourceTree = "<group>"; };
+		840F08761DEA6B7400E9F13D /* LUActionRegistryFilterTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUActionRegistryFilterTest.m; sourceTree = "<group>"; };
+		840F08771DEA6B7400E9F13D /* LUActionRegistryTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUActionRegistryTest.m; sourceTree = "<group>"; };
+		840F08781DEA6B7400E9F13D /* LUConsoleEntryListTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUConsoleEntryListTest.m; sourceTree = "<group>"; };
+		840F08791DEA6B7400E9F13D /* LUConsoleEntryLookupTableTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUConsoleEntryLookupTableTest.m; sourceTree = "<group>"; };
+		840F087A1DEA6B7400E9F13D /* LUConsoleTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUConsoleTest.m; sourceTree = "<group>"; };
+		840F087B1DEA6B7400E9F13D /* LUMutableArrayTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUMutableArrayTest.m; sourceTree = "<group>"; };
+		840F087C1DEA6B7400E9F13D /* LUSortedListTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUSortedListTest.m; sourceTree = "<group>"; };
+		840F087D1DEA6B7400E9F13D /* LUStacktraceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUStacktraceTest.m; sourceTree = "<group>"; };
+		840F087E1DEA6B7400E9F13D /* LUStringUtilsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUStringUtilsTest.m; sourceTree = "<group>"; };
 		844741A91B719C3100F5ABD3 /* libLunarConsole.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libLunarConsole.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		844741B41B719C3100F5ABD3 /* LunarConsoleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LunarConsoleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		844741BA1B719C3100F5ABD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -351,14 +354,13 @@
 			path = Variables;
 			sourceTree = "<group>";
 		};
-		840F08531DEA596200E9F13D /* Helpers */ = {
+		840F08731DEA6B7400E9F13D /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
-				840F08511DEA596200E9F13D /* TestCase.h */,
-				840F08521DEA596200E9F13D /* TestCase.m */,
+				840F08741DEA6B7400E9F13D /* TestCase.h */,
+				840F08751DEA6B7400E9F13D /* TestCase.m */,
 			);
-			name = Helpers;
-			path = "../../../../../lunar-unity-console-old/Native/iOS/LunarConsole/LunarConsoleTests/Helpers";
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		844741A01B719C3100F5ABD3 = {
@@ -383,16 +385,16 @@
 		844741B81B719C3100F5ABD3 /* LunarConsoleTests */ = {
 			isa = PBXGroup;
 			children = (
-				840F08531DEA596200E9F13D /* Helpers */,
-				840F08541DEA596200E9F13D /* LUActionRegistryFilterTest.m */,
-				840F08551DEA596200E9F13D /* LUActionRegistryTest.m */,
-				840F08561DEA596200E9F13D /* LUConsoleEntryListTest.m */,
-				840F08571DEA596200E9F13D /* LUConsoleEntryLookupTableTest.m */,
-				840F08581DEA596200E9F13D /* LUConsoleTest.m */,
-				840F08591DEA596200E9F13D /* LUMutableArrayTest.m */,
-				840F085A1DEA596200E9F13D /* LUSortedListTest.m */,
-				840F085B1DEA596200E9F13D /* LUStacktraceTest.m */,
-				840F085C1DEA596200E9F13D /* LUStringUtilsTest.m */,
+				840F08731DEA6B7400E9F13D /* Helpers */,
+				840F08761DEA6B7400E9F13D /* LUActionRegistryFilterTest.m */,
+				840F08771DEA6B7400E9F13D /* LUActionRegistryTest.m */,
+				840F08781DEA6B7400E9F13D /* LUConsoleEntryListTest.m */,
+				840F08791DEA6B7400E9F13D /* LUConsoleEntryLookupTableTest.m */,
+				840F087A1DEA6B7400E9F13D /* LUConsoleTest.m */,
+				840F087B1DEA6B7400E9F13D /* LUMutableArrayTest.m */,
+				840F087C1DEA6B7400E9F13D /* LUSortedListTest.m */,
+				840F087D1DEA6B7400E9F13D /* LUStacktraceTest.m */,
+				840F087E1DEA6B7400E9F13D /* LUStringUtilsTest.m */,
 				844741B91B719C3100F5ABD3 /* Supporting Files */,
 			);
 			path = LunarConsoleTests;
@@ -479,6 +481,9 @@
 				840F07EF1DE97A8800E9F13D /* lunar_console_action_button_large_selected.png */,
 				840F07F01DE97A8800E9F13D /* lunar_console_action_button_large_selected@2x.png */,
 				840F07F11DE97A8800E9F13D /* lunar_console_action_button_large_selected@3x.png */,
+				840F086A1DEA6A2E00E9F13D /* lunar_console_actions_empty_warning.png */,
+				840F086B1DEA6A2E00E9F13D /* lunar_console_actions_empty_warning@2x.png */,
+				840F086C1DEA6A2E00E9F13D /* lunar_console_actions_empty_warning@3x.png */,
 				84EA4FCB1C572E6700A0635C /* lunar_console_collapse_background.png */,
 				84EA4FCC1C572E6700A0635C /* lunar_console_collapse_background@2x.png */,
 				84EA4FCD1C572E6700A0635C /* lunar_console_collapse_background@3x.png */,
@@ -762,16 +767,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				840F08621DEA596200E9F13D /* LUConsoleTest.m in Sources */,
-				840F08651DEA596200E9F13D /* LUStacktraceTest.m in Sources */,
-				840F085F1DEA596200E9F13D /* LUActionRegistryTest.m in Sources */,
-				840F08601DEA596200E9F13D /* LUConsoleEntryListTest.m in Sources */,
-				840F08641DEA596200E9F13D /* LUSortedListTest.m in Sources */,
-				840F08631DEA596200E9F13D /* LUMutableArrayTest.m in Sources */,
-				840F085D1DEA596200E9F13D /* TestCase.m in Sources */,
-				840F08661DEA596200E9F13D /* LUStringUtilsTest.m in Sources */,
-				840F08611DEA596200E9F13D /* LUConsoleEntryLookupTableTest.m in Sources */,
-				840F085E1DEA596200E9F13D /* LUActionRegistryFilterTest.m in Sources */,
+				840F08841DEA6B7400E9F13D /* LUConsoleTest.m in Sources */,
+				840F08871DEA6B7400E9F13D /* LUStacktraceTest.m in Sources */,
+				840F08811DEA6B7400E9F13D /* LUActionRegistryTest.m in Sources */,
+				840F08821DEA6B7400E9F13D /* LUConsoleEntryListTest.m in Sources */,
+				840F08861DEA6B7400E9F13D /* LUSortedListTest.m in Sources */,
+				840F08851DEA6B7400E9F13D /* LUMutableArrayTest.m in Sources */,
+				840F087F1DEA6B7400E9F13D /* TestCase.m in Sources */,
+				840F08881DEA6B7400E9F13D /* LUStringUtilsTest.m in Sources */,
+				840F08831DEA6B7400E9F13D /* LUConsoleEntryLookupTableTest.m in Sources */,
+				840F08801DEA6B7400E9F13D /* LUActionRegistryFilterTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

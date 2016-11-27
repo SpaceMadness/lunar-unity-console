@@ -25,7 +25,7 @@
 
 @property (nonatomic, readonly) LUActionRegistry *registry;
 @property (nonatomic, readonly) BOOL isFiltering;
-@property (nonatomic, assign) id<LUActionRegistryFilterDelegate> delegate;
+@property (nonatomic, weak) id<LUActionRegistryFilterDelegate> delegate;
 @property (nonatomic, readonly) NSArray *actions;
 @property (nonatomic, readonly) NSArray *variables;
 

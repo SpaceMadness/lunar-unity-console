@@ -12,7 +12,7 @@
 
 @interface LUCVarBooleanTableViewCell ()
 
-@property (nonatomic, assign) IBOutlet UISwitch * toggleSwitch;
+@property (nonatomic, weak) IBOutlet UISwitch * toggleSwitch;
 
 @end
 
