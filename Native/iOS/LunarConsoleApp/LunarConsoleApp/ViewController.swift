@@ -18,6 +18,10 @@ class ViewController: LUViewController {
     private(set) var plugin: LUConsolePlugin!
     private var index: Int = 0
     private var logEntries: [FakeLogEntry]!
+    private var commandLookup: Dictionary<String, (_ jsonObj: Dictionary<String, Any>) -> Void>!
+    
+    var nextActionId: Int = 0
+    var nextVariableId: Int = 0
     
     static var pluginInstance: LUConsolePlugin?
     
@@ -32,7 +36,9 @@ class ViewController: LUViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        actionOverlaySwitch.setTestAccessibilityIdentifier("Action Overlay Switch")
+        
         plugin = LUConsolePlugin(targetName: "LunarConsole", methodName: "OnNativeMessage", version: "0.0.0b", capacity: kConsoleCapacity, trimCount: kConsoleTrimCount, gestureName: "SwipeDown")
         
         capacityText.text = "\(kConsoleCapacity)"
@@ -40,12 +46,7 @@ class ViewController: LUViewController {
         
         ViewController.pluginInstance = plugin;
         
-//        plugin.registerAction(withId: 0, name: "Action 1")
-//        plugin.registerAction(withId: 1, name: "Action 2")
-//        plugin.registerAction(withId: 2, name: "Action 3")
-//        plugin.registerAction(withId: 3, name: "Action 4")
-//        
-//        plugin.registerVariable(withId: 0, name: "bool", type: "Boolean", value: "1")
+        commandLookup = createCommandLookup()
     }
     
     // MARK: - Actions
@@ -143,8 +144,8 @@ class ViewController: LUViewController {
         )
         
         let overlayView = ActionOverlayView(frame: frame)
-        overlayView.callback = { (text) in
-            print(text)
+        overlayView.callback = { [unowned self] (text) in
+            self.runCommand(text: text)
         }
         window.addSubview(overlayView)
     }
@@ -154,6 +155,38 @@ class ViewController: LUViewController {
             if view.isKind(of: ActionOverlayView.self) {
                 view.removeFromSuperview()
                 break
+            }
+        }
+    }
+    
+    private func runCommand(text: String) {
+        var json: Any!
+        do {
+            json = try JSONSerialization.jsonObject(with: text.data(using: .utf8)!, options: JSONSerialization.ReadingOptions())
+        } catch {
+            print("Invalid command json")
+            return
+        }
+        
+        runCommand(jsonObj: json)
+    }
+    
+    private func runCommand(jsonObj: Any) {
+        if let jsonArray = jsonObj as? Array<Any> {
+            for obj in jsonArray {
+                runCommand(jsonObj: obj)
+            }
+        } else if let jsonDict = jsonObj as? Dictionary<String, Any> {
+            runCommand(jsonDict: jsonDict)
+        }
+    }
+    
+    private func runCommand(jsonDict: Dictionary<String, Any>) {
+        if let name = jsonDict["name"] as? String {
+            if let command = commandLookup[name] {
+                command(jsonDict)
+            } else {
+                print("Unknown command: \(name)")
             }
         }
     }
@@ -218,5 +251,36 @@ extension ViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return false
+    }
+}
+
+extension ViewController {
+    
+    func createCommandLookup() -> Dictionary<String, (_ jsonObj: Dictionary<String, Any>) -> Void> {
+        var dict = Dictionary<String, (_ jsonObj: Dictionary<String, Any>) -> Void>()
+        dict["add_actions"] = onAddActions
+        dict["remove_actions"] = onRemoveActions
+        return dict
+    }
+    
+    func onAddActions(jsonDict: Dictionary<String, Any>) {
+        
+        let actions = jsonDict["actions"] as! Array<Dictionary<String, Any>>
+        for action in actions {
+            let id = Int32((action["id"] as! NSNumber).intValue)
+            let name = action["name"] as! String
+            
+            plugin.registerAction(withId: id, name: name)
+        }
+    }
+    
+    func onRemoveActions(jsonDict: Dictionary<String, Any>) {
+        
+        let actions = jsonDict["actions"] as! Array<Dictionary<String, String>>
+        for action in actions {
+            let id = Int32(action["id"]!)!
+            
+            plugin.unregisterAction(withId: id)
+        }
     }
 }

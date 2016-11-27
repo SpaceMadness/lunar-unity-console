@@ -23,7 +23,9 @@
 		840F089E1DEAAFAF00E9F13D /* lunar_console_actions_empty_warning@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 840F089B1DEAAFAF00E9F13D /* lunar_console_actions_empty_warning@2x.png */; };
 		840F089F1DEAAFAF00E9F13D /* lunar_console_actions_empty_warning@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 840F089C1DEAAFAF00E9F13D /* lunar_console_actions_empty_warning@3x.png */; };
 		840F08AB1DEABA4500E9F13D /* ActionOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840F08AA1DEABA4500E9F13D /* ActionOverlayView.swift */; };
-		840F08AD1DEB72C900E9F13D /* TextInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840F08AC1DEB72C900E9F13D /* TextInputView.swift */; };
+		840F08B01DEB7E3300E9F13D /* ActionControllerTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840F08AF1DEB7E3300E9F13D /* ActionControllerTest.swift */; };
+		840F08B51DEB8F6E00E9F13D /* TextInputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F08B41DEB8F6E00E9F13D /* TextInputView.m */; };
+		840F08B81DEB934000E9F13D /* UIView+Accessibility.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F08B71DEB934000E9F13D /* UIView+Accessibility.m */; };
 		844741EE1B719DA500F5ABD3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 844741ED1B719DA500F5ABD3 /* main.m */; };
 		844741F11B719DA500F5ABD3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 844741F01B719DA500F5ABD3 /* AppDelegate.m */; };
 		844741F91B719DA500F5ABD3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 844741F81B719DA500F5ABD3 /* Images.xcassets */; };
@@ -159,7 +161,12 @@
 		840F089B1DEAAFAF00E9F13D /* lunar_console_actions_empty_warning@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lunar_console_actions_empty_warning@2x.png"; path = "../../LunarConsole/LunarConsole/Images/lunar_console_actions_empty_warning@2x.png"; sourceTree = "<group>"; };
 		840F089C1DEAAFAF00E9F13D /* lunar_console_actions_empty_warning@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lunar_console_actions_empty_warning@3x.png"; path = "../../LunarConsole/LunarConsole/Images/lunar_console_actions_empty_warning@3x.png"; sourceTree = "<group>"; };
 		840F08AA1DEABA4500E9F13D /* ActionOverlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionOverlayView.swift; sourceTree = "<group>"; };
-		840F08AC1DEB72C900E9F13D /* TextInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextInputView.swift; sourceTree = "<group>"; };
+		840F08AE1DEB7E3200E9F13D /* LunarConsoleAppUITests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LunarConsoleAppUITests-Bridging-Header.h"; sourceTree = "<group>"; };
+		840F08AF1DEB7E3300E9F13D /* ActionControllerTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionControllerTest.swift; sourceTree = "<group>"; };
+		840F08B31DEB8F6E00E9F13D /* TextInputView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextInputView.h; sourceTree = "<group>"; };
+		840F08B41DEB8F6E00E9F13D /* TextInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextInputView.m; sourceTree = "<group>"; };
+		840F08B61DEB934000E9F13D /* UIView+Accessibility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Accessibility.h"; sourceTree = "<group>"; };
+		840F08B71DEB934000E9F13D /* UIView+Accessibility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Accessibility.m"; sourceTree = "<group>"; };
 		844741E81B719DA500F5ABD3 /* LunarConsoleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LunarConsoleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		844741EC1B719DA500F5ABD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		844741ED1B719DA500F5ABD3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -293,6 +300,7 @@
 		844741EA1B719DA500F5ABD3 /* LunarConsoleApp */ = {
 			isa = PBXGroup;
 			children = (
+				840F08AA1DEABA4500E9F13D /* ActionOverlayView.swift */,
 				844741EF1B719DA500F5ABD3 /* AppDelegate.h */,
 				844741F01B719DA500F5ABD3 /* AppDelegate.m */,
 				84E5B80D1B77011900315599 /* Assets */,
@@ -303,9 +311,11 @@
 				840F07E51DE9001600E9F13D /* LunarConsoleApp-Bridging-Header.h */,
 				844741F51B719DA500F5ABD3 /* Main.storyboard */,
 				844741EB1B719DA500F5ABD3 /* Supporting Files */,
+				840F08B31DEB8F6E00E9F13D /* TextInputView.h */,
+				840F08B41DEB8F6E00E9F13D /* TextInputView.m */,
+				840F08B61DEB934000E9F13D /* UIView+Accessibility.h */,
+				840F08B71DEB934000E9F13D /* UIView+Accessibility.m */,
 				840F07E61DE9001700E9F13D /* ViewController.swift */,
-				840F08AA1DEABA4500E9F13D /* ActionOverlayView.swift */,
-				840F08AC1DEB72C900E9F13D /* TextInputView.swift */,
 			);
 			path = LunarConsoleApp;
 			sourceTree = "<group>";
@@ -433,12 +443,14 @@
 		EF81892F1BE16844008FFCB9 /* LunarConsoleAppUITests */ = {
 			isa = PBXGroup;
 			children = (
+				840F08AF1DEB7E3300E9F13D /* ActionControllerTest.swift */,
+				EF8189321BE16844008FFCB9 /* Info.plist */,
+				EFAE76471D2486D70072CCBF /* LUConsoleLogControllerUITest.m */,
+				840F08AE1DEB7E3200E9F13D /* LunarConsoleAppUITests-Bridging-Header.h */,
 				EFAE76491D24878B0072CCBF /* UITestCaseBase.h */,
 				EFAE764A1D24878B0072CCBF /* UITestCaseBase.m */,
 				EFAE764B1D24878B0072CCBF /* XCTestCase+Operations.h */,
 				EFAE764C1D24878B0072CCBF /* XCTestCase+Operations.m */,
-				EFAE76471D2486D70072CCBF /* LUConsoleLogControllerUITest.m */,
-				EF8189321BE16844008FFCB9 /* Info.plist */,
 			);
 			path = LunarConsoleAppUITests;
 			sourceTree = "<group>";
@@ -520,6 +532,7 @@
 					};
 					EF81892D1BE16844008FFCB9 = {
 						CreatedOnToolsVersion = 7.1;
+						LastSwiftMigration = 0810;
 						TestTargetID = 844741E71B719DA500F5ABD3;
 					};
 				};
@@ -673,10 +686,11 @@
 			files = (
 				840F07E91DE9105600E9F13D /* FakeLogEntry.swift in Sources */,
 				840F07E71DE9001700E9F13D /* ViewController.swift in Sources */,
+				840F08B51DEB8F6E00E9F13D /* TextInputView.m in Sources */,
+				840F08B81DEB934000E9F13D /* UIView+Accessibility.m in Sources */,
 				844741F11B719DA500F5ABD3 /* AppDelegate.m in Sources */,
 				840F08AB1DEABA4500E9F13D /* ActionOverlayView.swift in Sources */,
 				844741EE1B719DA500F5ABD3 /* main.m in Sources */,
-				840F08AD1DEB72C900E9F13D /* TextInputView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -694,6 +708,7 @@
 				EFAE764E1D24878B0072CCBF /* XCTestCase+Operations.m in Sources */,
 				EFAE764D1D24878B0072CCBF /* UITestCaseBase.m in Sources */,
 				EFAE76481D2486D70072CCBF /* LUConsoleLogControllerUITest.m in Sources */,
+				840F08B01DEB7E3300E9F13D /* ActionControllerTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -907,6 +922,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_TESTABILITY = YES;
@@ -915,6 +931,9 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.blastworksinc.LunarConsoleAppUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "LunarConsoleAppUITests/LunarConsoleAppUITests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = LunarConsoleApp;
 				USES_XCTRUNNER = YES;
 			};
@@ -924,12 +943,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				INFOPLIST_FILE = LunarConsoleAppUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.blastworksinc.LunarConsoleAppUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "LunarConsoleAppUITests/LunarConsoleAppUITests-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = LunarConsoleApp;
 				USES_XCTRUNNER = YES;
 			};

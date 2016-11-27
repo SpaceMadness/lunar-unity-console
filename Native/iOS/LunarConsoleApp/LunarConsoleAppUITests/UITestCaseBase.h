@@ -36,4 +36,6 @@
 - (XCUIElement *)appDeleteKey:(XCUIApplication *)app;
 - (XCUIElement *)appReturnButton:(XCUIApplication *)app;
 
+- (void)app:(XCUIApplication *)app runCommandName:(NSString *)name payload:(NSDictionary *)commandDict;
+
 @end

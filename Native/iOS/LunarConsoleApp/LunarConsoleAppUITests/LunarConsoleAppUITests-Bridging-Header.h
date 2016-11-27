@@ -2,6 +2,5 @@
 //  Use this file to import your target's public headers that you would like to expose to Swift.
 //
 
-#import "Lunar.h"
-#import "TextInputView.h"
-#import "UIView+Accessibility.h"
+#import "UITestCaseBase.h"
+#import "XCTestCase+Operations.h"

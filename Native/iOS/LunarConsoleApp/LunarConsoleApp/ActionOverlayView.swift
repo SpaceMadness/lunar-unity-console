@@ -31,17 +31,15 @@ class ActionOverlayView: UIView {
         var buttonFrame = button.frame
         buttonFrame.origin = CGPoint(x: 0.5 * (frame.width - buttonFrame.width), y: 0.5 * (frame.height - buttonFrame.width))
         button.frame = buttonFrame
+        button.setTestAccessibilityIdentifier("Test Run Command Button")
     }
     
     @objc private func onButtonPress(sender: UIButton) {
-        let textInputView = TextInputView(title: "Command",
-                                          message: "Enter command",
-                                          cancelButton: "Run",
-                                          completion: { (text) in
-                                            if let callback = self.callback {
-                                                callback(text)
-                                            }
-        })
+        let textInputView = TextInputView(title: "Command", message: "Enter command", cancelButtonTitle: "Run", callback: { (inputView, text) in
+            if let callback = self.callback {
+                callback(text!)
+            }
+        })!
         textInputView.show()
     }
 }

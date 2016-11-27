@@ -81,7 +81,6 @@
 {
     if (app.keys[@"Delete"].exists) return app.keys[@"Delete"];
     if (app.keys[@"delete"].exists) return app.keys[@"delete"];
-    if (app.keys[@"Удалить"].exists) return app.keys[@"Удалить"]; // полная хуйня, но без нее не работает
     
     XCTFail(@"Can't resolve 'delete' button");
     return nil;
@@ -94,6 +93,26 @@
     
     XCTFail(@"Can't resolve 'return' button");
     return nil;
+}
+
+- (void)app:(XCUIApplication *)app runCommandName:(NSString *)name payload:(NSDictionary *)payload
+{
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:payload];
+    dict[@"name"] = name;
+    
+    NSError *error = nil;
+    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:0 error:&error];
+    if (error) {
+        NSLog(@"Unable to serialize command: %@", error);
+        return;
+    }
+    NSString *json = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+    NSLog(@"Running command: %@", json);
+    
+    [self app:app tapButton:@"Test Run Command Button"];
+    XCUIElement *alert = app.alerts[@"Command"];
+    [alert.textFields[@"Text Input Field"] typeText:json];
+    [alert.buttons[@"Run"] tap];
 }
 
 @end
