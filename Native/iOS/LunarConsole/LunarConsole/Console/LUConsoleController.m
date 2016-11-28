@@ -19,6 +19,22 @@
 
 @implementation LUConsoleController
 
++ (void)load
+{
+    if (!LU_IOS_MIN_VERSION_AVAILABLE)
+    {
+        return;
+    }
+    
+    if ([self class] == [LUConsoleLogController class])
+    {
+        // force linker to add these classes for Interface Builder
+        [LUConsoleLogTypeButton class];
+        [LUSwitch class];
+        [LUTableView class];
+    }
+}
+
 + (instancetype)controllerWithPlugin:(LUConsolePlugin *)plugin
 {
     return [[self alloc] initWithPlugin:plugin];

@@ -36,19 +36,18 @@ class ActionControllerTest: UITestCaseBase {
     // MARK: - Tests
     
     func testNoAction() {
+        // open controller
         openActionController()
         
         // should be no actions
-        XCTAssert(app.otherElements["No Actions Warning View"].isHittable);
+        assertNoActions()
     }
     
-    func testAddAction() {
+    func testActionOperations() {
         // add a few actions
-        addActions(actions: [
-            Action(id: 1, name: "Action 1"),
-            Action(id: 2, name: "Action 2"),
-            Action(id: 3, name: "Action 3")
-        ])
+        addActions(actions: Action(id: 1, name: "Action 1"),
+                   Action(id: 2, name: "Action 2"),
+                   Action(id: 3, name: "Action 3"))
         
         // open controller
         openActionController()
@@ -60,29 +59,89 @@ class ActionControllerTest: UITestCaseBase {
         closeActionController()
         
         // add more actions
-        addActions(actions: [
-            Action(id: 4, name: "Action 4")
-        ])
+        addActions(actions: Action(id: 4, name: "Action 4"))
         
         // open controller
         openActionController()
         
         // check actions
         assertActions(actions: "Action 1", "Action 2", "Action 3", "Action 4")
+        
+        // close controller
+        closeActionController()
+        
+        // remove some actions
+        removeActions(actions: 2, 3)
+        
+        // open controller
+        openActionController()
+        
+        // check actions
+        assertActions(actions: "Action 1", "Action 4")
+        
+        // close controller
+        closeActionController()
+        
+        // remove some actions
+        removeActions(actions: 1, 4)
+        
+        // open controller
+        openActionController()
+        
+        // should be no actions
+        assertNoActions()
+    }
+    
+    func testActionOperationsWithConsoleOpen() {
+        
+        // open controller
+        openActionController()
+        
+        // add a few actions
+        addActions(actions: Action(id: 1, name: "Action 1"),
+                   Action(id: 2, name: "Action 2"),
+                   Action(id: 3, name: "Action 3"))
+        
+        
+        
+        // check actions
+        assertActions(actions: "Action 1", "Action 2", "Action 3")
+        
+        // add more actions
+        addActions(actions: Action(id: 4, name: "Action 4"))
+        
+        // check actions
+        assertActions(actions: "Action 1", "Action 2", "Action 3", "Action 4")
+        
+        // remove some actions
+        removeActions(actions: 2, 3)
+        
+        // check actions
+        assertActions(actions: "Action 1", "Action 4")
+        
+        // remove some actions
+        removeActions(actions: 1, 4)
+        
+        // should be no actions
+        assertNoActions()
     }
     
     // MARK: - Helpers
     
+    func assertNoActions() {
+        XCTAssert(app.otherElements["No Actions Warning View"].isHittable);
+    }
+    
     func assertActions(actions: String...) {
         
         let table = app.tables.element;
-        var expected = Array<String>()
+        var expected = [String]()
         expected.append("Actions")
         expected.append(contentsOf: actions)
         checkTable(table, items: expected)
     }
     
-    func addActions(actions: Array<Action>) {
+    func addActions(actions: Action...) {
         var dict = Dictionary<String, Any>()
         var data = Array<Any>()
         for action in actions {
@@ -94,6 +153,12 @@ class ActionControllerTest: UITestCaseBase {
         dict["actions"] = data
         
         app(app, runCommandName: "add_actions", payload: dict)
+    }
+    
+    func removeActions(actions: Int...) {
+        var dict = Dictionary<String, Any>()
+        dict["actions"] = actions
+        app(app, runCommandName: "remove_actions", payload: dict)
     }
     
     func openActionController() {

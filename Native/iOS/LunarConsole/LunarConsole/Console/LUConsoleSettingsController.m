@@ -47,20 +47,6 @@ static NSDictionary * _propertyTypeLookup;
 
 @implementation LUConsoleSettingsController
 
-+ (void)load
-{
-    if (!LU_IOS_MIN_VERSION_AVAILABLE)
-    {
-        return;
-    }
-    
-    if ([self class] == [LUConsoleSettingsController class])
-    {
-        // force linker to add these classes for Interface Builder
-        [LUSwitch class];
-    }
-}
-
 - (instancetype)initWithSettings:(LUConsolePluginSettings *)settings
 {
     self = [super initWithNibName:NSStringFromClass([self class]) bundle:nil];

@@ -283,9 +283,9 @@ extension ViewController {
     
     func onRemoveActions(jsonDict: Dictionary<String, Any>) {
         
-        let actions = jsonDict["actions"] as! Array<Dictionary<String, String>>
+        let actions = jsonDict["actions"] as! Array<Any>
         for action in actions {
-            let id = Int32(action["id"]!)!
+            let id = Int32((action as! NSNumber).intValue)
             
             plugin.unregisterAction(withId: id)
         }

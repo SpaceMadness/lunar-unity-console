@@ -64,21 +64,6 @@ static LUConsoleLogControllerState * _sharedControllerState;
 
 @implementation LUConsoleLogController
 
-+ (void)load
-{
-    if (!LU_IOS_MIN_VERSION_AVAILABLE)
-    {
-        return;
-    }
-    
-    if ([self class] == [LUConsoleLogController class])
-    {
-        // force linker to add these classes for Interface Builder
-        [LUTableView class];
-        [LUConsoleLogTypeButton class];
-    }
-}
-
 + (instancetype)controllerWithPlugin:(LUConsolePlugin *)plugin
 {
     return [[[self class] alloc] initWithPlugin:plugin];
