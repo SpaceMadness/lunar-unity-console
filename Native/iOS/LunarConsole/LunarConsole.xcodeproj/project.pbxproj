@@ -166,7 +166,6 @@
 		840F08891DEA98AD00E9F13D /* LUConsoleController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LUConsoleController.xib; sourceTree = "<group>"; };
 		840F08B91DEBBEF400E9F13D /* LUResizeOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUResizeOverlayView.h; sourceTree = "<group>"; };
 		840F08BA1DEBBEF400E9F13D /* LUResizeOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUResizeOverlayView.m; sourceTree = "<group>"; };
-		840F08BC1DEBBF0100E9F13D /* LUResizeOverlayView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LUResizeOverlayView.xib; sourceTree = "<group>"; };
 		840F08BD1DEBCB1C00E9F13D /* LUResizeBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUResizeBarView.h; sourceTree = "<group>"; };
 		840F08BE1DEBCB1C00E9F13D /* LUResizeBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUResizeBarView.m; sourceTree = "<group>"; };
 		844741A91B719C3100F5ABD3 /* libLunarConsole.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libLunarConsole.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -578,7 +577,6 @@
 				840F08BE1DEBCB1C00E9F13D /* LUResizeBarView.m */,
 				840F08B91DEBBEF400E9F13D /* LUResizeOverlayView.h */,
 				840F08BA1DEBBEF400E9F13D /* LUResizeOverlayView.m */,
-				840F08BC1DEBBF0100E9F13D /* LUResizeOverlayView.xib */,
 				EF4C364B1D6E6B1D0036585B /* LUSwitch.h */,
 				EF4C364C1D6E6B1D0036585B /* LUSwitch.m */,
 				EF21AE211BF548810053D50B /* LUTableView.h */,

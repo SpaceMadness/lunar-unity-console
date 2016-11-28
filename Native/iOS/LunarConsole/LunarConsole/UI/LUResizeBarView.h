@@ -12,11 +12,10 @@
 
 typedef void (^LUResizeBarViewCallback)(LUResizeBarView *resizeBarView, CGPoint translation);
 
-IB_DESIGNABLE
 @interface LUResizeBarView : UIView
 
-@property (nonatomic, assign) IBInspectable BOOL horizontal;
-@property (nonatomic, assign) IBInspectable BOOL vertical;
+@property (nonatomic, assign) BOOL horizontal;
+@property (nonatomic, assign) BOOL vertical;
 
 @property (nonatomic, copy) LUResizeBarViewCallback callback;
 

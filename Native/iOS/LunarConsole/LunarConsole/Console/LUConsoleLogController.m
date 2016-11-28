@@ -273,6 +273,9 @@ static LUConsoleLogControllerState * _sharedControllerState;
         [controller addButtonTitle:@"Collapse" target:self action:@selector(onCollapseButton:)];
     }
     
+    // resize button
+    [controller addButtonTitle:@"Resize" target:self action:@selector(onResizeButton:)];
+    
     [controller setDelegate:self];
     
     // add as child view controller
@@ -599,6 +602,13 @@ static LUConsoleLogControllerState * _sharedControllerState;
 - (void)onExpandButton:(id)sender
 {
     [self setCollapsed:NO];
+}
+
+- (void)onResizeButton:(id)sender
+{
+    LUResizeOverlayView *view = (LUResizeOverlayView *) [[NSBundle mainBundle] loadNibNamed:@"LUResizeOverlayView" owner:nil options:nil].firstObject;
+    [self.view addSubview:view];
+    view.frame = self.view.bounds;
 }
 
 #pragma mark -

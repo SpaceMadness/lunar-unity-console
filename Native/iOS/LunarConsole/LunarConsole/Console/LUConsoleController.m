@@ -32,6 +32,8 @@
         [LUConsoleLogTypeButton class];
         [LUSwitch class];
         [LUTableView class];
+        [LUResizeOverlayView class];
+        [LUResizeBarView class];
     }
 }
 
