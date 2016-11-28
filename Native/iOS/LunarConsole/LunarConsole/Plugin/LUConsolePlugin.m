@@ -295,6 +295,10 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.LunarMob
 - (void)consoleControllerDidOpen:(LUConsoleController *)controller
 {
     [_scriptMessenger sendMessageName:kScriptMessageConsoleOpen];
+    
+    if ([_delegate respondsToSelector:@selector(consolePluginDidOpenController:)]) {
+        [_delegate consolePluginDidOpenController:self];
+    }
 }
 
 - (void)consoleControllerDidClose:(LUConsoleController *)controller
@@ -302,6 +306,10 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.LunarMob
     [self hideConsole];
     
     [_scriptMessenger sendMessageName:kScriptMessageConsoleClose];
+    
+    if ([_delegate respondsToSelector:@selector(consolePluginDidCloseController:)]) {
+        [_delegate consolePluginDidCloseController:self];
+    }
 }
 
 #pragma mark -

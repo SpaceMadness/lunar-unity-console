@@ -26,13 +26,22 @@
 
 @class LUActionRegistry;
 @class LUConsole;
-@class LUWindow;
+@class LUConsolePlugin;
 @class LUConsolePluginSettings;
+@class LUWindow;
 
 typedef enum : NSUInteger {
     LUConsoleGestureNone,
     LUConsoleGestureSwipe
 } LUConsoleGesture;
+
+@protocol LUConsolePluginDelegate <NSObject>
+
+@optional
+- (void)consolePluginDidOpenController:(LUConsolePlugin *)plugin;
+- (void)consolePluginDidCloseController:(LUConsolePlugin *)plugin;
+
+@end
 
 @interface LUConsolePlugin : LUObject
 
@@ -48,6 +57,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, assign) NSInteger trim;
 
 @property (nonatomic, readonly) LUConsolePluginSettings *settings;
+@property (nonatomic, weak) id<LUConsolePluginDelegate> delegate;
 
 - (instancetype)initWithTargetName:(NSString *)targetName
                         methodName:(NSString *)methodName

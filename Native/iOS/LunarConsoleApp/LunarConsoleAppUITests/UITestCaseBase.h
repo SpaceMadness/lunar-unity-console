@@ -38,4 +38,6 @@
 
 - (void)app:(XCUIApplication *)app runCommandName:(NSString *)name payload:(NSDictionary *)commandDict;
 
+- (void)checkTable:(XCUIElement *)table items:(NSArray<NSString *> *)items;
+
 @end

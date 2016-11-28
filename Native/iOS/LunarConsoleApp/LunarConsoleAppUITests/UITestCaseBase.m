@@ -115,4 +115,15 @@
     [alert.buttons[@"Run"] tap];
 }
 
+- (void)checkTable:(XCUIElement *)table items:(NSArray<NSString *> *)items
+{
+    XCUIElementQuery *staticTexts = table.staticTexts;
+    XCTAssertEqual(staticTexts.count, items.count);
+    for (int i = 0; i < staticTexts.count; ++i)
+    {
+        XCUIElement *element = [staticTexts elementBoundByIndex:i];
+        XCTAssert([items[i] isEqualToString:element.label]);
+    }
+}
+
 @end

@@ -40,6 +40,7 @@ class ViewController: LUViewController {
         actionOverlaySwitch.setTestAccessibilityIdentifier("Action Overlay Switch")
         
         plugin = LUConsolePlugin(targetName: "LunarConsole", methodName: "OnNativeMessage", version: "0.0.0b", capacity: kConsoleCapacity, trimCount: kConsoleTrimCount, gestureName: "SwipeDown")
+        plugin.delegate = self
         
         capacityText.text = "\(kConsoleCapacity)"
         trimText.text = "\(kConsoleTrimCount)"
@@ -156,6 +157,12 @@ class ViewController: LUViewController {
                 view.removeFromSuperview()
                 break
             }
+        }
+    }
+    
+    func tryAddOverlayView() {
+        if actionOverlaySwitch.isOn {
+            addOverlayViewToWindow(window: UIApplication.shared.keyWindow!)
         }
     }
     
@@ -282,5 +289,11 @@ extension ViewController {
             
             plugin.unregisterAction(withId: id)
         }
+    }
+}
+
+extension ViewController: LUConsolePluginDelegate {
+    func consolePluginDidCloseController(_ plugin: LUConsolePlugin!) {
+        tryAddOverlayView()
     }
 }

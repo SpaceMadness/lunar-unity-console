@@ -52,9 +52,35 @@ class ActionControllerTest: UITestCaseBase {
         
         // open controller
         openActionController()
+        
+        // check actions
+        assertActions(actions: "Action 1", "Action 2", "Action 3")
+        
+        // close controller
+        closeActionController()
+        
+        // add more actions
+        addActions(actions: [
+            Action(id: 4, name: "Action 4")
+        ])
+        
+        // open controller
+        openActionController()
+        
+        // check actions
+        assertActions(actions: "Action 1", "Action 2", "Action 3", "Action 4")
     }
     
     // MARK: - Helpers
+    
+    func assertActions(actions: String...) {
+        
+        let table = app.tables.element;
+        var expected = Array<String>()
+        expected.append("Actions")
+        expected.append(contentsOf: actions)
+        checkTable(table, items: expected)
+    }
     
     func addActions(actions: Array<Action>) {
         var dict = Dictionary<String, Any>()
@@ -72,6 +98,11 @@ class ActionControllerTest: UITestCaseBase {
     
     func openActionController() {
         app(app, tapButton: "Show Controller")
+        app.swipeLeft()
+    }
+    
+    func closeActionController() {
+        app(app, tapButton: "Console Close Button")
         app.swipeLeft()
     }
     
