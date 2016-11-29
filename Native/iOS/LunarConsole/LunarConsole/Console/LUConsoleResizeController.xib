@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LUConsoleResizeController">
+            <connections>
+                <outlet property="resizeBottomBar" destination="Z5w-JX-OEd" id="U6d-EU-cwH"/>
+                <outlet property="resizeBottomLeftBar" destination="WIa-CS-3jJ" id="DKL-06-Olf"/>
+                <outlet property="resizeBottomRightBar" destination="utP-IQ-Uq9" id="3ck-bO-Moh"/>
+                <outlet property="resizeLeftBar" destination="xPr-BS-0Cx" id="69p-fU-b44"/>
+                <outlet property="resizeRightBar" destination="yUz-VB-ayv" id="wLT-iu-GBJ"/>
+                <outlet property="resizeTopBar" destination="18B-uW-y5W" id="AHR-fH-Uqf"/>
+                <outlet property="resizeTopLeftBar" destination="xlx-AN-9Gs" id="sCU-2x-jPU"/>
+                <outlet property="resizeTopRightBar" destination="PhG-jU-na2" id="py9-Zi-hmw"/>
+                <outlet property="view" destination="Uwc-4L-NS0" id="TgI-Pn-rZi"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="Uwc-4L-NS0" userLabel="View">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="18B-uW-y5W" userLabel="Resize Top Bar">
+                    <rect key="frame" x="44" y="0.0" width="287" height="44"/>
+                    <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="44" id="BTa-G8-z7a"/>
+                        <constraint firstAttribute="height" constant="44" id="oha-Gq-VMW"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Z5w-JX-OEd" userLabel="Resize Bottom Bar">
+                    <rect key="frame" x="44" y="623" width="287" height="44"/>
+                    <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="44" id="irk-RA-th1"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xPr-BS-0Cx" userLabel="Resize Left Bar">
+                    <rect key="frame" x="0.0" y="45" width="44" height="578"/>
+                    <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="44" id="jOc-Vn-Nwi"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yUz-VB-ayv" userLabel="Resize Right Bar">
+                    <rect key="frame" x="331" y="44" width="44" height="578"/>
+                    <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="44" id="3Dh-uj-L4r"/>
+                    </constraints>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xlx-AN-9Gs" userLabel="Resize Top Left Bar">
+                    <rect key="frame" x="0.0" y="0.0" width="44" height="44"/>
+                    <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PhG-jU-na2" userLabel="Resize Top Right Bar">
+                    <rect key="frame" x="331" y="0.0" width="44" height="44"/>
+                    <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WIa-CS-3jJ" userLabel="Resize Bottom Left Bar">
+                    <rect key="frame" x="0.0" y="623" width="44" height="44"/>
+                    <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="utP-IQ-Uq9" userLabel="Resize Bottom Right Bar">
+                    <rect key="frame" x="331" y="623" width="44" height="44"/>
+                    <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                </view>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Drag Borders To Resize" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qIu-gH-eto" userLabel="Drag Borders To Resize">
+                    <rect key="frame" x="98" y="323" width="179" height="21"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uYK-R6-5FQ" userLabel="Button Close">
+                    <rect key="frame" x="167.5" y="585" width="39" height="30"/>
+                    <state key="normal" title="Close"/>
+                </button>
+            </subviews>
+            <constraints>
+                <constraint firstItem="WIa-CS-3jJ" firstAttribute="top" secondItem="xPr-BS-0Cx" secondAttribute="bottom" id="3RU-8Y-Ebp"/>
+                <constraint firstItem="xPr-BS-0Cx" firstAttribute="top" secondItem="xlx-AN-9Gs" secondAttribute="bottom" constant="1" id="4qJ-7f-Kd5"/>
+                <constraint firstItem="Z5w-JX-OEd" firstAttribute="top" secondItem="xPr-BS-0Cx" secondAttribute="bottom" id="7aN-vZ-lMn"/>
+                <constraint firstItem="xPr-BS-0Cx" firstAttribute="top" secondItem="18B-uW-y5W" secondAttribute="bottom" constant="1" id="7h4-Wt-3Tm"/>
+                <constraint firstItem="qIu-gH-eto" firstAttribute="centerY" secondItem="Uwc-4L-NS0" secondAttribute="centerY" id="937-XQ-EPq"/>
+                <constraint firstItem="yUz-VB-ayv" firstAttribute="top" secondItem="PhG-jU-na2" secondAttribute="bottom" id="D47-1W-Vrl"/>
+                <constraint firstItem="utP-IQ-Uq9" firstAttribute="width" secondItem="yUz-VB-ayv" secondAttribute="width" id="D7k-Kb-b15"/>
+                <constraint firstItem="utP-IQ-Uq9" firstAttribute="leading" secondItem="Z5w-JX-OEd" secondAttribute="trailing" id="Fl8-t5-bWF"/>
+                <constraint firstItem="PhG-jU-na2" firstAttribute="leading" secondItem="18B-uW-y5W" secondAttribute="trailing" id="KuR-6h-dW4"/>
+                <constraint firstItem="xlx-AN-9Gs" firstAttribute="width" secondItem="xPr-BS-0Cx" secondAttribute="width" id="N2S-f0-bvj"/>
+                <constraint firstAttribute="trailing" secondItem="Z5w-JX-OEd" secondAttribute="trailing" constant="44" id="Qrf-5C-Uk4"/>
+                <constraint firstAttribute="trailing" secondItem="18B-uW-y5W" secondAttribute="trailing" constant="44" id="TJc-d1-MgE"/>
+                <constraint firstItem="utP-IQ-Uq9" firstAttribute="height" secondItem="Z5w-JX-OEd" secondAttribute="height" id="Tmm-Kq-nqA"/>
+                <constraint firstItem="18B-uW-y5W" firstAttribute="leading" secondItem="xlx-AN-9Gs" secondAttribute="trailing" id="V8K-1T-IoI"/>
+                <constraint firstItem="utP-IQ-Uq9" firstAttribute="top" secondItem="yUz-VB-ayv" secondAttribute="bottom" constant="1" id="VgY-at-bh7"/>
+                <constraint firstItem="yUz-VB-ayv" firstAttribute="top" secondItem="18B-uW-y5W" secondAttribute="bottom" id="Wxy-ZZ-ZIb"/>
+                <constraint firstItem="WIa-CS-3jJ" firstAttribute="height" secondItem="Z5w-JX-OEd" secondAttribute="height" id="Xd2-xQ-QSc"/>
+                <constraint firstItem="uYK-R6-5FQ" firstAttribute="centerX" secondItem="Uwc-4L-NS0" secondAttribute="centerX" id="d7w-lF-vx8"/>
+                <constraint firstItem="PhG-jU-na2" firstAttribute="width" secondItem="yUz-VB-ayv" secondAttribute="width" id="dba-Hq-VlL"/>
+                <constraint firstItem="18B-uW-y5W" firstAttribute="leading" secondItem="Uwc-4L-NS0" secondAttribute="leading" constant="44" id="eT7-BC-JMG"/>
+                <constraint firstAttribute="trailing" secondItem="yUz-VB-ayv" secondAttribute="trailing" id="eZD-Sp-zaU"/>
+                <constraint firstItem="qIu-gH-eto" firstAttribute="centerX" secondItem="Uwc-4L-NS0" secondAttribute="centerX" id="gqp-zC-0FE"/>
+                <constraint firstItem="PhG-jU-na2" firstAttribute="height" secondItem="18B-uW-y5W" secondAttribute="height" id="k78-xS-gpT"/>
+                <constraint firstItem="18B-uW-y5W" firstAttribute="top" secondItem="Uwc-4L-NS0" secondAttribute="top" id="nya-W5-cne"/>
+                <constraint firstItem="xPr-BS-0Cx" firstAttribute="leading" secondItem="Uwc-4L-NS0" secondAttribute="leading" id="o7V-Yk-7Vt"/>
+                <constraint firstItem="xlx-AN-9Gs" firstAttribute="height" secondItem="18B-uW-y5W" secondAttribute="height" id="rdz-Mr-lka"/>
+                <constraint firstItem="Z5w-JX-OEd" firstAttribute="leading" secondItem="WIa-CS-3jJ" secondAttribute="trailing" id="rvC-0i-622"/>
+                <constraint firstItem="Z5w-JX-OEd" firstAttribute="leading" secondItem="Uwc-4L-NS0" secondAttribute="leading" constant="44" id="sMc-Zp-GWb"/>
+                <constraint firstItem="Z5w-JX-OEd" firstAttribute="top" secondItem="yUz-VB-ayv" secondAttribute="bottom" constant="1" id="sRs-X1-a5t"/>
+                <constraint firstAttribute="bottom" secondItem="Z5w-JX-OEd" secondAttribute="bottom" id="tWa-ul-Ov5"/>
+                <constraint firstItem="WIa-CS-3jJ" firstAttribute="width" secondItem="xPr-BS-0Cx" secondAttribute="width" id="yYf-tO-r3I"/>
+                <constraint firstItem="Z5w-JX-OEd" firstAttribute="top" secondItem="uYK-R6-5FQ" secondAttribute="bottom" constant="8" id="yju-uk-hQq"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <nil key="simulatedTopBarMetrics"/>
+            <point key="canvasLocation" x="34.5" y="54.5"/>
+        </view>
+    </objects>
+</document>

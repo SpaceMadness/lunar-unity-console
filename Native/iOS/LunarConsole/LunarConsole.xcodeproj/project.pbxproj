@@ -37,8 +37,7 @@
 		840F08861DEA6B7400E9F13D /* LUSortedListTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F087C1DEA6B7400E9F13D /* LUSortedListTest.m */; };
 		840F08871DEA6B7400E9F13D /* LUStacktraceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F087D1DEA6B7400E9F13D /* LUStacktraceTest.m */; };
 		840F08881DEA6B7400E9F13D /* LUStringUtilsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F087E1DEA6B7400E9F13D /* LUStringUtilsTest.m */; };
-		840F08BB1DEBBEF400E9F13D /* LUResizeOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F08BA1DEBBEF400E9F13D /* LUResizeOverlayView.m */; };
-		840F08BF1DEBCB1C00E9F13D /* LUResizeBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F08BE1DEBCB1C00E9F13D /* LUResizeBarView.m */; };
+		840F08CC1DED086E00E9F13D /* LUConsoleResizeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F08CA1DED086E00E9F13D /* LUConsoleResizeController.m */; };
 		844741B51B719C3100F5ABD3 /* libLunarConsole.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 844741A91B719C3100F5ABD3 /* libLunarConsole.a */; };
 		84B7BD8E1D2229810048472B /* LUEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B7BD8B1D2229810048472B /* LUEntry.m */; };
 		84B7BD8F1D2229810048472B /* LUEntryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B7BD8D1D2229810048472B /* LUEntryTableViewCell.m */; };
@@ -164,10 +163,9 @@
 		840F087D1DEA6B7400E9F13D /* LUStacktraceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUStacktraceTest.m; sourceTree = "<group>"; };
 		840F087E1DEA6B7400E9F13D /* LUStringUtilsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUStringUtilsTest.m; sourceTree = "<group>"; };
 		840F08891DEA98AD00E9F13D /* LUConsoleController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LUConsoleController.xib; sourceTree = "<group>"; };
-		840F08B91DEBBEF400E9F13D /* LUResizeOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUResizeOverlayView.h; sourceTree = "<group>"; };
-		840F08BA1DEBBEF400E9F13D /* LUResizeOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUResizeOverlayView.m; sourceTree = "<group>"; };
-		840F08BD1DEBCB1C00E9F13D /* LUResizeBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUResizeBarView.h; sourceTree = "<group>"; };
-		840F08BE1DEBCB1C00E9F13D /* LUResizeBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUResizeBarView.m; sourceTree = "<group>"; };
+		840F08C91DED086E00E9F13D /* LUConsoleResizeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUConsoleResizeController.h; sourceTree = "<group>"; };
+		840F08CA1DED086E00E9F13D /* LUConsoleResizeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUConsoleResizeController.m; sourceTree = "<group>"; };
+		840F08CB1DED086E00E9F13D /* LUConsoleResizeController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LUConsoleResizeController.xib; sourceTree = "<group>"; };
 		844741A91B719C3100F5ABD3 /* libLunarConsole.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libLunarConsole.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		844741B41B719C3100F5ABD3 /* LunarConsoleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LunarConsoleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		844741BA1B719C3100F5ABD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -472,6 +470,9 @@
 				84FF9A171D69257F0034E40E /* LUConsoleOverlayController.h */,
 				84FF9A181D69257F0034E40E /* LUConsoleOverlayController.m */,
 				84FF9A191D69257F0034E40E /* LUConsoleOverlayController.xib */,
+				840F08C91DED086E00E9F13D /* LUConsoleResizeController.h */,
+				840F08CA1DED086E00E9F13D /* LUConsoleResizeController.m */,
+				840F08CB1DED086E00E9F13D /* LUConsoleResizeController.xib */,
 				EF5AD10C1D6BB24400B27500 /* LUConsoleSettingsController.h */,
 				EF5AD10D1D6BB24400B27500 /* LUConsoleSettingsController.m */,
 				EF5AD10F1D6BB25800B27500 /* LUConsoleSettingsController.xib */,
@@ -573,10 +574,6 @@
 				840F080F1DEA320E00E9F13D /* LUPanViewGestureRecognizer.m */,
 				840F08111DEA389B00E9F13D /* LUPassTouchView.h */,
 				840F08121DEA389B00E9F13D /* LUPassTouchView.m */,
-				840F08BD1DEBCB1C00E9F13D /* LUResizeBarView.h */,
-				840F08BE1DEBCB1C00E9F13D /* LUResizeBarView.m */,
-				840F08B91DEBBEF400E9F13D /* LUResizeOverlayView.h */,
-				840F08BA1DEBBEF400E9F13D /* LUResizeOverlayView.m */,
 				EF4C364B1D6E6B1D0036585B /* LUSwitch.h */,
 				EF4C364C1D6E6B1D0036585B /* LUSwitch.m */,
 				EF21AE211BF548810053D50B /* LUTableView.h */,
@@ -743,6 +740,7 @@
 				EFB99CE41D21E6EA00C95E80 /* LUExceptionWarningController.m in Sources */,
 				840F08411DEA53DF00E9F13D /* LUCVarBooleanTableViewCell.m in Sources */,
 				84B7BD8F1D2229810048472B /* LUEntryTableViewCell.m in Sources */,
+				840F08CC1DED086E00E9F13D /* LUConsoleResizeController.m in Sources */,
 				840F08431DEA53DF00E9F13D /* LUCVarFloatTableViewCell.m in Sources */,
 				EF0836A91B7ABCCE00DFB877 /* LUWindow.m in Sources */,
 				EF0836A31B7ABCCE00DFB877 /* LUConsolePlugin.m in Sources */,
@@ -755,7 +753,6 @@
 				EF0836AD1B7ABCCE00DFB877 /* LUObject.m in Sources */,
 				840F083B1DEA53DF00E9F13D /* LUAction.m in Sources */,
 				840F083E1DEA53DF00E9F13D /* LUActionRegistryFilter.m in Sources */,
-				840F08BB1DEBBEF400E9F13D /* LUResizeOverlayView.m in Sources */,
 				EF5AD10B1D6B9CF100B27500 /* LUConsolePluginSettings.m in Sources */,
 				EF21AE201BF5383E0053D50B /* LULittleHelper.m in Sources */,
 				840F07F81DEA1E5A00E9F13D /* LUActionButton.m in Sources */,
@@ -767,7 +764,6 @@
 				840F08161DEA502A00E9F13D /* LUConsoleController.m in Sources */,
 				EFB99CEA1D21EF6300C95E80 /* LUStringUtils.m in Sources */,
 				840F08461DEA53DF00E9F13D /* LUCVarStringTableViewCell.m in Sources */,
-				840F08BF1DEBCB1C00E9F13D /* LUResizeBarView.m in Sources */,
 				EF0836A41B7ABCCE00DFB877 /* lunar_unity_native_interface.m in Sources */,
 				EFB99CD71D21E4A500C95E80 /* LUConsoleLogMenuController.m in Sources */,
 				84B7BD921D222A160048472B /* LUViewController.m in Sources */,

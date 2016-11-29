@@ -51,10 +51,8 @@ static LUConsoleLogControllerState * _sharedControllerState;
 @property (nonatomic, weak) IBOutlet LUConsoleLogTypeButton * warningButton;
 @property (nonatomic, weak) IBOutlet LUConsoleLogTypeButton * errorButton;
 
-@property (nonatomic, weak) IBOutlet LUToggleButton * toggleCollapseButton;
 @property (nonatomic, weak) IBOutlet LUToggleButton * scrollLockButton;
 
-@property (nonatomic, weak) IBOutlet NSLayoutConstraint * lastToolbarButtonTrailingConstraint;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint * lastToolbarButtonTrailingConstraintCompact;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint * overflowLabelHeightConstraint;
 
@@ -98,10 +96,6 @@ static LUConsoleLogControllerState * _sharedControllerState;
     [super viewDidLoad];
     
     self.console.delegate = self;
-    
-    // collapse/expand button
-    _toggleCollapseButton.on = self.console.isCollapsed;
-    _toggleCollapseButton.delegate = self;
     
     // scroll lock
     _scrollLocked = YES; // scroll is locked by default
@@ -357,10 +351,6 @@ static LUConsoleLogControllerState * _sharedControllerState;
     {
         self.scrollLocked = button.isOn;
     }
-    else if (button == _toggleCollapseButton)
-    {
-        [self setCollapsed:button.isOn];
-    }
     else
     {
         LUConsoleLogTypeMask mask = 0;
@@ -466,7 +456,7 @@ static LUConsoleLogControllerState * _sharedControllerState;
     
     if (self.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassCompact)
     {
-        NSLayoutConstraint *constraint = [self lastToolbarButtonConstraint];
+        NSLayoutConstraint *constraint = self.lastToolbarButtonTrailingConstraintCompact;
         CGFloat offset = CGRectGetWidth(self.view.bounds) - CGRectGetWidth(self.filterBar.bounds);
         constraint.constant = -offset;
         
@@ -484,7 +474,7 @@ static LUConsoleLogControllerState * _sharedControllerState;
     
     if (self.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassCompact)
     {
-        NSLayoutConstraint *constraint = [self lastToolbarButtonConstraint];
+        NSLayoutConstraint *constraint = self.lastToolbarButtonTrailingConstraintCompact;
         constraint.constant = 0;
         
         [UIView animateWithDuration:0.4 animations:^{
@@ -516,12 +506,6 @@ static LUConsoleLogControllerState * _sharedControllerState;
 - (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar
 {
     [searchBar resignFirstResponder];
-}
-
-- (NSLayoutConstraint *)lastToolbarButtonConstraint
-{
-    return self.lastToolbarButtonTrailingConstraintCompact != nil ?
-    self.lastToolbarButtonTrailingConstraintCompact : self.lastToolbarButtonTrailingConstraint;
 }
 
 #pragma mark -
@@ -606,9 +590,10 @@ static LUConsoleLogControllerState * _sharedControllerState;
 
 - (void)onResizeButton:(id)sender
 {
-    LUResizeOverlayView *view = (LUResizeOverlayView *) [[NSBundle mainBundle] loadNibNamed:@"LUResizeOverlayView" owner:nil options:nil].firstObject;
-    [self.view addSubview:view];
-    view.frame = self.view.bounds;
+    if ([_resizeDelegate respondsToSelector:@selector(consoleLogControllerDidRequestResize:)])
+    {
+        [_resizeDelegate consoleLogControllerDidRequestResize:self];
+    }
 }
 
 #pragma mark -

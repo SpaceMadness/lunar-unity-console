@@ -10,9 +10,10 @@
 
 #import "Lunar.h"
 
-@interface LUConsoleController ()
+@interface LUConsoleController () <LUConsoleLogControllerResizeDelegate>
 
 @property (nonatomic, weak) IBOutlet UIScrollView *scrollView;
+
 @property (nonatomic, weak) LUConsolePlugin *plugin;
 
 @end
@@ -32,8 +33,6 @@
         [LUConsoleLogTypeButton class];
         [LUSwitch class];
         [LUTableView class];
-        [LUResizeOverlayView class];
-        [LUResizeBarView class];
     }
 }
 
@@ -59,6 +58,8 @@
     // give auto layout a chance to set frames
     dispatch_async(dispatch_get_main_queue(), ^{
         LUConsoleLogController *logController = [LUConsoleLogController controllerWithPlugin:_plugin];
+        logController.version = _plugin.version;
+        logController.resizeDelegate = self;
         [self addPageController:logController];
         
         LUActionController *actionController = [LUActionController controllerWithActionRegistry:_plugin.actionRegistry];
@@ -97,6 +98,17 @@
     {
         [_delegate consoleControllerDidClose:self];
     }
+}
+
+#pragma mark -
+#pragma mark LUConsoleLogControllerResizeDelegate
+
+- (void)consoleLogControllerDidRequestResize:(LUConsoleLogController *)controller
+{
+    self.scrollView.hidden = YES;
+    
+    LUConsoleResizeController *resizeController = [LUConsoleResizeController new];
+    [self addChildController:resizeController withFrame:self.view.bounds];
 }
 
 @end

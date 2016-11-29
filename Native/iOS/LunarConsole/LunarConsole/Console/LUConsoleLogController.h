@@ -24,10 +24,18 @@
 #import "LUViewController.h"
 
 @class LUConsolePlugin;
+@class LUConsoleLogController;
+
+@protocol LUConsoleLogControllerResizeDelegate <NSObject>
+
+- (void)consoleLogControllerDidRequestResize:(LUConsoleLogController *)controller;
+
+@end
 
 @interface LUConsoleLogController : LUViewController
 
 @property (nonatomic, strong) NSString *version;
+@property (nonatomic, weak) id<LUConsoleLogControllerResizeDelegate> resizeDelegate;
 
 + (instancetype)controllerWithPlugin:(LUConsolePlugin *)console;
 - (instancetype)initWithPlugin:(LUConsolePlugin *)console;

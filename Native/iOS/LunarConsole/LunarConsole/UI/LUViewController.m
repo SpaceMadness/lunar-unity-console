@@ -35,4 +35,22 @@
     return YES;
 }
 
+#pragma mark -
+#pragma mark Child controllers
+
+- (void)addChildController:(UIViewController *)childController withFrame:(CGRect)frame
+{
+    [self addChildViewController:childController];
+    childController.view.frame = frame;
+    [self.view addSubview:childController.view];
+    [childController didMoveToParentViewController:self];
+}
+
+- (void)removeChildController:(UIViewController *)childController
+{
+    [childController willMoveToParentViewController:nil];
+    [childController.view removeFromSuperview];
+    [childController removeFromParentViewController];
+}
+
 @end

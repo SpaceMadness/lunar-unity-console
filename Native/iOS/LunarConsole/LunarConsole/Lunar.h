@@ -38,6 +38,7 @@
 #import "LUConsolePlugin.h"
 #import "LUConsolePluginSettings.h"
 #import "LUConsoleSettingsController.h"
+#import "LUConsoleResizeController.h"
 #import "LUEntry.h"
 #import "LUEntryTableViewCell.h"
 #import "LUExceptionWarningController.h"
@@ -50,5 +51,3 @@
 #import "LUUnityScriptMessenger.h"
 #import "LUViewController.h"
 #import "LUWindow.h"
-#import "LUResizeOverlayView.h"
-#import "LUResizeBarView.h"
