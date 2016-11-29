@@ -19,6 +19,15 @@
 
 @end
 
+@interface LUConsoleControllerState : NSObject
+
+@property (nonatomic, readonly) BOOL hasCustomControllerFrame;
+@property (nonatomic, assign) CGRect controllerFrame;
+
++ (instancetype)sharedControllerState;
+
+@end
+
 @interface LUConsoleController : LUViewController
 
 @property (nonatomic, weak) id<LUConsoleControllerDelegate> delegate;

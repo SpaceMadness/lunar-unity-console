@@ -8,6 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+@class LUConsoleResizeController;
+
+@protocol LUConsoleResizeControllerDelegate <NSObject>
+
+- (void)consoleResizeControllerDidClose:(LUConsoleResizeController *)controller;
+
+@end
+
 @interface LUConsoleResizeController : UIViewController
+
+@property (nonatomic, weak) id<LUConsoleResizeControllerDelegate> delegate;
 
 @end

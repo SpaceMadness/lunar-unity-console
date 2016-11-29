@@ -25,8 +25,6 @@
 
 #import "Lunar.h"
 
-static LUConsoleLogControllerState * _sharedControllerState;
-
 @interface LUConsoleLogController () <LunarConsoleDelegate, LUToggleButtonDelegate,
     UITableViewDataSource, UITableViewDelegate,
     UISearchBarDelegate,
@@ -763,33 +761,9 @@ static LUConsoleLogControllerState * _sharedControllerState;
     return [LUTheme mainTheme];
 }
 
-- (LUConsoleLogControllerState *)controllerState
+- (LUConsoleControllerState *)controllerState
 {
-    return [LUConsoleLogControllerState sharedControllerState];
-}
-
-@end
-
-@implementation LUConsoleLogControllerState
-
-- (instancetype)init
-{
-    self = [super init];
-    if (self)
-    {
-        // TODO: init state variables
-    }
-    return self;
-}
-
-+ (instancetype)sharedControllerState
-{
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        _sharedControllerState = [[self alloc] init];
-    });
-    
-    return _sharedControllerState;
+    return [LUConsoleControllerState sharedControllerState];
 }
 
 @end

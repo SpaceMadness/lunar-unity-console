@@ -41,9 +41,3 @@
 - (instancetype)initWithPlugin:(LUConsolePlugin *)console;
 
 @end
-
-@interface LUConsoleLogControllerState : NSObject
-
-+ (instancetype)sharedControllerState;
-
-@end

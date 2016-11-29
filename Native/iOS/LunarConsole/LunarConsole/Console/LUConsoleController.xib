@@ -11,42 +11,60 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LUConsoleController">
             <connections>
+                <outlet property="contentBottomConstraint" destination="dZC-oa-5dG" id="IfI-OO-HxK"/>
+                <outlet property="contentLeadingConstraint" destination="nUn-pA-jOd" id="7mN-AL-n0G"/>
+                <outlet property="contentTopConstraint" destination="sl4-vv-BsW" id="sPM-ez-eXP"/>
+                <outlet property="contentTrailingConstraint" destination="MpP-DO-sDS" id="e2C-xo-WHb"/>
+                <outlet property="contentView" destination="iN0-l3-epB" id="Cfd-tf-khi"/>
                 <outlet property="scrollView" destination="QZh-44-ufg" id="5v6-SF-FBV"/>
-                <outlet property="view" destination="iN0-l3-epB" id="bJA-Aw-nkt"/>
+                <outlet property="view" destination="AWe-Zx-zbM" id="Shr-g5-gHC"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="iN0-l3-epB">
+        <view contentMode="scaleToFill" id="AWe-Zx-zbM" customClass="LUPassTouchView">
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <autoresizingMask key="autoresizingMask"/>
             <subviews>
-                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QZh-44-ufg">
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iN0-l3-epB" userLabel="Content View">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                </scrollView>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oul-sE-Ybi" userLabel="Button Close">
-                    <rect key="frame" x="321" y="629" width="46" height="30"/>
-                    <accessibility key="accessibilityConfiguration" label="Console Close Button"/>
+                    <subviews>
+                        <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" pagingEnabled="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QZh-44-ufg">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                        </scrollView>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oul-sE-Ybi" userLabel="Button Close">
+                            <rect key="frame" x="321" y="629" width="46" height="30"/>
+                            <accessibility key="accessibilityConfiguration" label="Console Close Button"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="46" id="a3s-Vn-MPB"/>
+                                <constraint firstAttribute="height" constant="30" id="zVr-kS-ipi"/>
+                            </constraints>
+                            <state key="normal" image="lunar_console_icon_button_close.png">
+                                <color key="titleColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </state>
+                            <connections>
+                                <action selector="onClose:" destination="-1" eventType="touchUpInside" id="20Z-tS-7Tx"/>
+                            </connections>
+                        </button>
+                    </subviews>
                     <constraints>
-                        <constraint firstAttribute="width" constant="46" id="NoT-W9-YEO"/>
-                        <constraint firstAttribute="height" constant="30" id="WrF-RY-ABy"/>
+                        <constraint firstItem="QZh-44-ufg" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="0ls-Qa-ES2"/>
+                        <constraint firstItem="QZh-44-ufg" firstAttribute="height" secondItem="iN0-l3-epB" secondAttribute="height" id="CW9-dd-ipz"/>
+                        <constraint firstAttribute="bottom" secondItem="oul-sE-Ybi" secondAttribute="bottom" constant="8" id="Ywd-JS-xl0"/>
+                        <constraint firstItem="QZh-44-ufg" firstAttribute="width" secondItem="iN0-l3-epB" secondAttribute="width" id="jvI-z2-x9Q"/>
+                        <constraint firstAttribute="trailing" secondItem="oul-sE-Ybi" secondAttribute="trailing" constant="8" id="k1j-79-C7Q"/>
+                        <constraint firstItem="QZh-44-ufg" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="tqC-Kd-9SD"/>
                     </constraints>
-                    <state key="normal" image="lunar_console_icon_button_close.png">
-                        <color key="titleColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    </state>
-                    <connections>
-                        <action selector="onClose:" destination="-1" eventType="touchUpInside" id="20Z-tS-7Tx"/>
-                    </connections>
-                </button>
+                </view>
             </subviews>
             <constraints>
-                <constraint firstItem="QZh-44-ufg" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="058-HX-JjB"/>
-                <constraint firstAttribute="trailing" secondItem="oul-sE-Ybi" secondAttribute="trailing" constant="8" id="2JR-95-m6q"/>
-                <constraint firstAttribute="trailing" secondItem="QZh-44-ufg" secondAttribute="trailing" id="8LK-Dl-gLx"/>
-                <constraint firstAttribute="bottom" secondItem="oul-sE-Ybi" secondAttribute="bottom" constant="8" id="Euh-x1-oUP"/>
-                <constraint firstAttribute="bottom" secondItem="QZh-44-ufg" secondAttribute="bottom" id="Ewv-G3-lB5"/>
-                <constraint firstItem="QZh-44-ufg" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="F8L-rF-O5H"/>
+                <constraint firstAttribute="trailing" secondItem="iN0-l3-epB" secondAttribute="trailing" id="MpP-DO-sDS"/>
+                <constraint firstAttribute="bottom" secondItem="iN0-l3-epB" secondAttribute="bottom" id="dZC-oa-5dG"/>
+                <constraint firstItem="iN0-l3-epB" firstAttribute="leading" secondItem="AWe-Zx-zbM" secondAttribute="leading" id="nUn-pA-jOd"/>
+                <constraint firstItem="iN0-l3-epB" firstAttribute="top" secondItem="AWe-Zx-zbM" secondAttribute="top" id="sl4-vv-BsW"/>
             </constraints>
+            <point key="canvasLocation" x="124" y="83"/>
         </view>
     </objects>
     <resources>

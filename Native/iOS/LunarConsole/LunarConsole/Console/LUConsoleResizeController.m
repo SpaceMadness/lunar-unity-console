@@ -108,6 +108,16 @@ typedef enum : NSUInteger {
 }
 
 #pragma mark -
+#pragma mark Actions
+
+- (IBAction)onClose:(id)sender {
+    if ([_delegate respondsToSelector:@selector(consoleResizeControllerDidClose:)])
+    {
+        [_delegate consoleResizeControllerDidClose:self];
+    }
+}
+
+#pragma mark -
 #pragma mark Helpers
 
 - (LUConsoleResizeOperation)lookupResizeOperationForView:(UIView *)view
