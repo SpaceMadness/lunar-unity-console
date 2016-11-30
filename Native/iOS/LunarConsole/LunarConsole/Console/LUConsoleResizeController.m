@@ -10,6 +10,9 @@
 
 #import "Lunar.h"
 
+static const CGFloat kMinWidth = 320;
+static const CGFloat kMinHeight = 320;
+
 typedef enum : NSUInteger {
     LUConsoleResizeOperationNone        = 0,
     LUConsoleResizeOperationMove        = 1 << 1,
@@ -26,6 +29,7 @@ typedef enum : NSUInteger {
 @interface LUConsoleResizeController ()
 {
     CGPoint _touchStart;
+    UITouch * _initialTouch;
     LUConsoleResizeOperation _resizeOperation;
 }
 
@@ -50,22 +54,16 @@ typedef enum : NSUInteger {
     return self;
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-}
-
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
 #pragma mark -
 #pragma mark Touch handling
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-    UITouch *touch = [touches anyObject];
-    _touchStart = [touch locationInView:self.view];
-    _resizeOperation = [self lookupResizeOperationForView:touch.view];
+    if (_initialTouch == nil)
+    {
+        _initialTouch = [touches anyObject];
+        _touchStart = [_initialTouch locationInView:self.view];
+        _resizeOperation = [self lookupResizeOperationForView:_initialTouch.view];
+    }
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -75,6 +73,8 @@ typedef enum : NSUInteger {
     CGFloat deltaWidth = touchPoint.x - previous.x;
     CGFloat deltaHeight = touchPoint.y - previous.y;
     
+    CGRect oldFrame = self.view.frame;
+    
     // get the frame values so we can calculate changes below
     CGFloat x = self.view.frame.origin.x;
     CGFloat y = self.view.frame.origin.y;
@@ -83,28 +83,62 @@ typedef enum : NSUInteger {
     
     if (_resizeOperation & LUConsoleResizeOperationTop)
     {
+        if (deltaHeight < 0 && y + deltaHeight < 0)
+        {
+            deltaHeight = -y;
+        }
+        else if (deltaHeight > 0 && height - deltaHeight < kMinHeight)
+        {
+            deltaHeight = height - kMinHeight;
+        }
+        
         self.view.frame = CGRectMake(x, y + deltaHeight, width, height - deltaHeight);
     }
     else if (_resizeOperation & LUConsoleResizeOperationBottom)
     {
-        self.view.frame = CGRectMake(x, y, width, height + deltaHeight);
+        self.view.frame = CGRectMake(x, y, width, MAX(height + deltaHeight, kMinHeight));
     }
     
     if (_resizeOperation & LUConsoleResizeOperationLeft)
     {
+        if (deltaWidth < 0 && x + deltaWidth < 0)
+        {
+            deltaWidth = -x;
+        }
+        else if (deltaWidth > 0 && width - deltaWidth < kMinWidth)
+        {
+            deltaWidth = width - kMinWidth;
+        }
+        
         self.view.frame = CGRectMake(x + deltaWidth, y, width - deltaWidth, height);
     }
     else if (_resizeOperation & LUConsoleResizeOperationRight)
     {
-        self.view.frame = CGRectMake(x, y, width + deltaWidth, height);
+        self.view.frame = CGRectMake(x, y, MAX(width + deltaWidth, kMinWidth), height);
     }
     
     if (_resizeOperation == LUConsoleResizeOperationMove)
     {
         // not dragging from a corner -- move the view
-        self.view.center = CGPointMake(self.view.center.x + touchPoint.x - _touchStart.x,
-                                       self.view.center.y + touchPoint.y - _touchStart.y);
+        CGPoint center = CGPointMake(self.view.center.x + touchPoint.x - _touchStart.x,
+                                     self.view.center.y + touchPoint.y - _touchStart.y);
+        center.x = MAX(0.5 * width, center.x);
+        center.y = MAX(0.5 * height, center.y);
+        
+        center.x = MIN(CGRectGetWidth(self.view.superview.bounds) - 0.5 * width, center.x);
+        center.y = MIN(CGRectGetHeight(self.view.superview.bounds) - 0.5 * height, center.y);
+        self.view.center = center;
     }
+    
+    if (CGRectEqualToRect(self.view.frame, oldFrame))
+    {
+        _touchStart = [_initialTouch locationInView:self.view];
+    }
+}
+
+- (void)touchesEnded:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event
+{
+    _initialTouch = nil;
 }
 
 #pragma mark -
