@@ -244,7 +244,7 @@ static const CGFloat kMinWidthToResizeSearchBar = 480;
     LUConsoleSettingsController *controller = [[LUConsoleSettingsController alloc] initWithSettings:_plugin.settings];
     controller.delegate = self;
     // add as child view controller
-    [self addChildOverlayController:controller animated:YES];
+    [self parentController:self.parentViewController addChildOverlayController:controller animated:YES];
 }
 
 - (IBAction)onStatusBarTap:(UITapGestureRecognizer *)recognizer
@@ -419,8 +419,7 @@ static const CGFloat kMinWidthToResizeSearchBar = 480;
     controller.delegate = self;
     
     // add as child view controller
-    [self addChildOverlayController:controller animated:YES];
-    
+    [self parentController:self.parentViewController addChildOverlayController:controller animated:YES];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
@@ -715,11 +714,16 @@ static const CGFloat kMinWidthToResizeSearchBar = 480;
 
 - (void)addChildOverlayController:(UIViewController *)controller animated:(BOOL)animated
 {
+    [self parentController:self addChildOverlayController:controller animated:animated];
+}
+
+- (void)parentController:(UIViewController *)parentController addChildOverlayController:(UIViewController *)controller animated:(BOOL)animated
+{
     // add as child view controller
-    [self addChildViewController:controller];
-    controller.view.frame = self.view.bounds;
-    [self.view addSubview:controller.view];
-    [controller didMoveToParentViewController:self];
+    [parentController addChildViewController:controller];
+    controller.view.frame = parentController.view.bounds;
+    [parentController.view addSubview:controller.view];
+    [controller didMoveToParentViewController:parentController];
     
     // animate
     if (animated) {
@@ -737,7 +741,7 @@ static const CGFloat kMinWidthToResizeSearchBar = 480;
         [UIView animateWithDuration:0.4 animations:^{
             controller.view.alpha = 0;
         } completion:^(BOOL finished) {
-            [controller willMoveToParentViewController:self];
+            [controller willMoveToParentViewController:nil];
             [controller.view removeFromSuperview];
             [controller removeFromParentViewController];
         }];
