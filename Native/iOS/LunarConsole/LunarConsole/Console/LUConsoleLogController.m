@@ -243,8 +243,12 @@ static const CGFloat kMinWidthToResizeSearchBar = 480;
 {
     LUConsoleSettingsController *controller = [[LUConsoleSettingsController alloc] initWithSettings:_plugin.settings];
     controller.delegate = self;
+    
+    LUConsolePopupController *popupController = [[LUConsolePopupController alloc] initWithContentController:controller];
+    
+    
     // add as child view controller
-    [self parentController:self.parentViewController addChildOverlayController:controller animated:YES];
+    [self parentController:self.parentViewController addChildOverlayController:popupController animated:YES];
 }
 
 - (IBAction)onStatusBarTap:(UITapGestureRecognizer *)recognizer

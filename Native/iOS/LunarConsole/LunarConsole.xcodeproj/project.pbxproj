@@ -38,6 +38,7 @@
 		840F08871DEA6B7400E9F13D /* LUStacktraceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F087D1DEA6B7400E9F13D /* LUStacktraceTest.m */; };
 		840F08881DEA6B7400E9F13D /* LUStringUtilsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F087E1DEA6B7400E9F13D /* LUStringUtilsTest.m */; };
 		840F08CC1DED086E00E9F13D /* LUConsoleResizeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F08CA1DED086E00E9F13D /* LUConsoleResizeController.m */; };
+		84368BCF1DF154E90099321C /* LUConsolePopupController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84368BCD1DF154E90099321C /* LUConsolePopupController.m */; };
 		844741B51B719C3100F5ABD3 /* libLunarConsole.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 844741A91B719C3100F5ABD3 /* libLunarConsole.a */; };
 		84B7BD8E1D2229810048472B /* LUEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B7BD8B1D2229810048472B /* LUEntry.m */; };
 		84B7BD8F1D2229810048472B /* LUEntryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B7BD8D1D2229810048472B /* LUEntryTableViewCell.m */; };
@@ -166,6 +167,9 @@
 		840F08C91DED086E00E9F13D /* LUConsoleResizeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUConsoleResizeController.h; sourceTree = "<group>"; };
 		840F08CA1DED086E00E9F13D /* LUConsoleResizeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUConsoleResizeController.m; sourceTree = "<group>"; };
 		840F08CB1DED086E00E9F13D /* LUConsoleResizeController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LUConsoleResizeController.xib; sourceTree = "<group>"; };
+		84368BCC1DF154E90099321C /* LUConsolePopupController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUConsolePopupController.h; sourceTree = "<group>"; };
+		84368BCD1DF154E90099321C /* LUConsolePopupController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUConsolePopupController.m; sourceTree = "<group>"; };
+		84368BCE1DF154E90099321C /* LUConsolePopupController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LUConsolePopupController.xib; sourceTree = "<group>"; };
 		844741A91B719C3100F5ABD3 /* libLunarConsole.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libLunarConsole.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		844741B41B719C3100F5ABD3 /* LunarConsoleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LunarConsoleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		844741BA1B719C3100F5ABD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -470,6 +474,9 @@
 				84FF9A171D69257F0034E40E /* LUConsoleOverlayController.h */,
 				84FF9A181D69257F0034E40E /* LUConsoleOverlayController.m */,
 				84FF9A191D69257F0034E40E /* LUConsoleOverlayController.xib */,
+				84368BCC1DF154E90099321C /* LUConsolePopupController.h */,
+				84368BCD1DF154E90099321C /* LUConsolePopupController.m */,
+				84368BCE1DF154E90099321C /* LUConsolePopupController.xib */,
 				840F08C91DED086E00E9F13D /* LUConsoleResizeController.h */,
 				840F08CA1DED086E00E9F13D /* LUConsoleResizeController.m */,
 				840F08CB1DED086E00E9F13D /* LUConsoleResizeController.xib */,
@@ -732,6 +739,7 @@
 				EF0836AC1B7ABCCE00DFB877 /* LUMutableArray.m in Sources */,
 				840F08131DEA389B00E9F13D /* LUPassTouchView.m in Sources */,
 				840F083C1DEA53DF00E9F13D /* LUActionController.m in Sources */,
+				84368BCF1DF154E90099321C /* LUConsolePopupController.m in Sources */,
 				840F084D1DEA566F00E9F13D /* LUSortedList.m in Sources */,
 				EF0836A81B7ABCCE00DFB877 /* LUToggleButton.m in Sources */,
 				84EA4FCA1C57163000A0635C /* LUConsoleLogEntryLookupTable.m in Sources */,
