@@ -25,12 +25,15 @@
 
 #import "LUConsolePluginSettings.h"
 
-static const NSUInteger kPluginSettingsVersion = 1;
+static const NSUInteger kPluginSettingsVersion          = 1;
+
+static NSString * const kKeyVersion                     = @"version";
+static NSString * const kKeyEnableExceptionWarning      = @"enableExceptionWarning";
+static NSString * const kKeyEnableTransparentLogOverlay = @"enableTransparentLogOverlay";
 
 @interface LUConsolePluginSettings () <NSCoding>
 {
     NSString   * _filepath;
-    NSUInteger   _version;
 }
 
 // IMPORTANT: don't create any other properties here
@@ -65,18 +68,23 @@ static const NSUInteger kPluginSettingsVersion = 1;
     self = [super init];
     if (self)
     {
-        _version = [decoder decodeIntegerForKey:@"version"];
-        _enableExceptionWarning = [decoder decodeBoolForKey:@"enableExceptionWarning"];
-        _enableTransparentLogOverlay = [decoder decodeBoolForKey:@"enableTransparentLogOverlay"];
+        [self initDefaults];
+        
+        NSInteger version = [decoder decodeIntegerForKey:kKeyVersion];
+        if (version == kPluginSettingsVersion)
+        {
+            _enableExceptionWarning = [decoder decodeBoolForKey:kKeyEnableExceptionWarning];
+            _enableTransparentLogOverlay = [decoder decodeBoolForKey:kKeyEnableTransparentLogOverlay];
+        }
     }
     return self;
 }
 
 - (void)encodeWithCoder:(NSCoder *)coder
 {
-    [coder encodeInteger:_version forKey:@"version"];
-    [coder encodeBool:_enableExceptionWarning forKey:@"enableExceptionWarning"];
-    [coder encodeBool:_enableTransparentLogOverlay forKey:@"enableTransparentLogOverlay"];
+    [coder encodeInteger:kPluginSettingsVersion forKey:kKeyVersion];
+    [coder encodeBool:_enableExceptionWarning forKey:kKeyEnableExceptionWarning];
+    [coder encodeBool:_enableTransparentLogOverlay forKey:kKeyEnableTransparentLogOverlay];
 }
 
 #pragma mark -
@@ -84,7 +92,6 @@ static const NSUInteger kPluginSettingsVersion = 1;
 
 - (void)initDefaults
 {
-    _version = kPluginSettingsVersion;
     _enableExceptionWarning = YES;
     _enableTransparentLogOverlay = NO;
 }
