@@ -43,6 +43,9 @@ static NSDictionary * _propertyTypeLookup;
 @property (nonatomic, weak) IBOutlet UILabel * titleLabel;
 @property (nonatomic, weak) IBOutlet UITableView * tableView;
 
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *contentWidthConstraint;
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *contentHeightConstraint;
+
 @end
 
 @implementation LUConsoleSettingsController
@@ -76,10 +79,34 @@ static NSDictionary * _propertyTypeLookup;
     _bottomBarView.backgroundColor =
     _tableView.backgroundColor = theme.tableColor;
     
+    _tableView.rowHeight = 43;
+    
     _contentView.layer.borderColor = [[UIColor colorWithRed:0.37 green:0.37 blue:0.37 alpha:1.0] CGColor];
     _contentView.layer.borderWidth = 2;
     
     _titleLabel.textColor = theme.cellLog.textColor;
+}
+
+- (void)viewDidLayoutSubviews
+{
+    [super viewDidLayoutSubviews];
+    
+    CGSize fullSize = self.view.bounds.size;
+    CGFloat contentWidth, contentHeight;
+    
+    if (fullSize.width < fullSize.height)
+    {
+        contentWidth = MAX(320, 2 * fullSize.width / 3) - 2 * 20;
+        contentHeight = 1.5 * contentWidth;
+    }
+    else
+    {
+        contentHeight = MAX(320, 2 * fullSize.height / 3) - 2 * 20;
+        contentWidth = 1.5 * contentHeight;
+    }
+    
+    self.contentWidthConstraint.constant = contentWidth;
+    self.contentHeightConstraint.constant = contentHeight;
 }
 
 #pragma mark -
