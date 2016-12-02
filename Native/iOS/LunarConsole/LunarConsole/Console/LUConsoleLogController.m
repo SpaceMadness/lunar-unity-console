@@ -25,6 +25,8 @@
 
 #import "Lunar.h"
 
+static const CGFloat kMinWidthToResizeSearchBar = 480;
+
 @interface LUConsoleLogController () <LunarConsoleDelegate, LUToggleButtonDelegate,
     UITableViewDataSource, UITableViewDelegate,
     UISearchBarDelegate,
@@ -452,7 +454,7 @@
 {
     [searchBar setShowsCancelButton:YES animated:YES];
     
-    if (self.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassCompact)
+    if (CGRectGetWidth(self.view.bounds) < kMinWidthToResizeSearchBar)
     {
         NSLayoutConstraint *constraint = self.lastToolbarButtonTrailingConstraintCompact;
         CGFloat offset = CGRectGetWidth(self.view.bounds) - CGRectGetWidth(self.filterBar.bounds);
@@ -470,7 +472,7 @@
 {
     [searchBar setShowsCancelButton:NO animated:YES];
     
-    if (self.traitCollection.horizontalSizeClass == UIUserInterfaceSizeClassCompact)
+    if (CGRectGetWidth(self.view.bounds) < kMinWidthToResizeSearchBar)
     {
         NSLayoutConstraint *constraint = self.lastToolbarButtonTrailingConstraintCompact;
         constraint.constant = 0;
