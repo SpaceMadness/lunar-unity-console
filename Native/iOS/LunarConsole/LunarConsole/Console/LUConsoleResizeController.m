@@ -33,6 +33,7 @@ typedef enum : NSUInteger {
     LUConsoleResizeOperation _resizeOperation;
 }
 
+@property (weak, nonatomic) IBOutlet UILabel *hintLabel;
 @property (weak, nonatomic) IBOutlet UIView *resizeTopBar;
 @property (weak, nonatomic) IBOutlet UIView *resizeBottomBar;
 @property (weak, nonatomic) IBOutlet UIView *resizeLeftBar;
@@ -54,10 +55,31 @@ typedef enum : NSUInteger {
     return self;
 }
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    LUTheme *theme = [LUTheme mainTheme];
+    
+    self.view.backgroundColor =
+    _resizeTopBar.backgroundColor =
+    _resizeBottomBar.backgroundColor =
+    _resizeLeftBar.backgroundColor =
+    _resizeRightBar.backgroundColor =
+    _resizeTopLeftBar.backgroundColor =
+    _resizeTopRightBar.backgroundColor =
+    _resizeBottomLeftBar.backgroundColor =
+    _resizeBottomRightBar.backgroundColor = theme.tableColor;
+    
+    _hintLabel.font = theme.actionsWarningFont; // TODO: make a separate entry
+    _hintLabel.textColor = theme.actionsTextColor; // TODO: make a separate entry
+}
+
 #pragma mark -
 #pragma mark Touch handling
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
     if (_initialTouch == nil)
     {
         _initialTouch = [touches anyObject];
@@ -66,7 +88,8 @@ typedef enum : NSUInteger {
     }
 }
 
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
     CGPoint touchPoint = [[touches anyObject] locationInView:self.view];
     CGPoint previous = [[touches anyObject] previousLocationInView:self.view];
     
@@ -96,7 +119,21 @@ typedef enum : NSUInteger {
     }
     else if (_resizeOperation & LUConsoleResizeOperationBottom)
     {
-        self.view.frame = CGRectMake(x, y, width, MAX(height + deltaHeight, kMinHeight));
+        CGFloat newHeight = height + deltaHeight;
+        if (deltaHeight < 0 && newHeight < kMinHeight)
+        {
+            newHeight = kMinHeight;
+        }
+        else
+        {
+            CGFloat maxHeight = CGRectGetHeight(LUGetScreenBounds()) - y;
+            if (newHeight > maxHeight)
+            {
+                newHeight = maxHeight;
+            }
+        }
+        
+        self.view.frame = CGRectMake(x, y, width, newHeight);
     }
     
     if (_resizeOperation & LUConsoleResizeOperationLeft)
@@ -114,7 +151,21 @@ typedef enum : NSUInteger {
     }
     else if (_resizeOperation & LUConsoleResizeOperationRight)
     {
-        self.view.frame = CGRectMake(x, y, MAX(width + deltaWidth, kMinWidth), height);
+        CGFloat newWidth = width + deltaWidth;
+        if (deltaWidth < 0 && newWidth < kMinWidth)
+        {
+            newWidth = kMinWidth;
+        }
+        else
+        {
+            CGFloat maxWidth = CGRectGetWidth(LUGetScreenBounds()) - x;
+            if (newWidth > maxWidth)
+            {
+                newWidth = maxWidth;
+            }
+        }
+        
+        self.view.frame = CGRectMake(x, y, newWidth, height);
     }
     
     if (_resizeOperation == LUConsoleResizeOperationMove)
@@ -144,7 +195,8 @@ typedef enum : NSUInteger {
 #pragma mark -
 #pragma mark Actions
 
-- (IBAction)onClose:(id)sender {
+- (IBAction)onClose:(id)sender
+{
     if ([_delegate respondsToSelector:@selector(consoleResizeControllerDidClose:)])
     {
         [_delegate consoleResizeControllerDidClose:self];

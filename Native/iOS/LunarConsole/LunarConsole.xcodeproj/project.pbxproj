@@ -170,6 +170,12 @@
 		84368BCC1DF154E90099321C /* LUConsolePopupController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUConsolePopupController.h; sourceTree = "<group>"; };
 		84368BCD1DF154E90099321C /* LUConsolePopupController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUConsolePopupController.m; sourceTree = "<group>"; };
 		84368BCE1DF154E90099321C /* LUConsolePopupController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LUConsolePopupController.xib; sourceTree = "<group>"; };
+		84368BD31DF26F880099321C /* lunar_console_resize_handle_horizontal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lunar_console_resize_handle_horizontal.png; sourceTree = "<group>"; };
+		84368BD41DF26F880099321C /* lunar_console_resize_handle_horizontal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lunar_console_resize_handle_horizontal@2x.png"; sourceTree = "<group>"; };
+		84368BD51DF26F880099321C /* lunar_console_resize_handle_horizontal@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lunar_console_resize_handle_horizontal@3x.png"; sourceTree = "<group>"; };
+		84368BD61DF26F880099321C /* lunar_console_resize_handle_vertical.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lunar_console_resize_handle_vertical.png; sourceTree = "<group>"; };
+		84368BD71DF26F880099321C /* lunar_console_resize_handle_vertical@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lunar_console_resize_handle_vertical@2x.png"; sourceTree = "<group>"; };
+		84368BD81DF26F880099321C /* lunar_console_resize_handle_vertical@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lunar_console_resize_handle_vertical@3x.png"; sourceTree = "<group>"; };
 		844741A91B719C3100F5ABD3 /* libLunarConsole.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libLunarConsole.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		844741B41B719C3100F5ABD3 /* LunarConsoleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LunarConsoleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		844741BA1B719C3100F5ABD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -491,6 +497,12 @@
 		EF08365F1B7ABCCE00DFB877 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				84368BD31DF26F880099321C /* lunar_console_resize_handle_horizontal.png */,
+				84368BD41DF26F880099321C /* lunar_console_resize_handle_horizontal@2x.png */,
+				84368BD51DF26F880099321C /* lunar_console_resize_handle_horizontal@3x.png */,
+				84368BD61DF26F880099321C /* lunar_console_resize_handle_vertical.png */,
+				84368BD71DF26F880099321C /* lunar_console_resize_handle_vertical@2x.png */,
+				84368BD81DF26F880099321C /* lunar_console_resize_handle_vertical@3x.png */,
 				840F07EC1DE9790400E9F13D /* lunar_console_action_button_large_normal.png */,
 				840F07ED1DE9790400E9F13D /* lunar_console_action_button_large_normal@2x.png */,
 				840F07EE1DE9790400E9F13D /* lunar_console_action_button_large_normal@3x.png */,
