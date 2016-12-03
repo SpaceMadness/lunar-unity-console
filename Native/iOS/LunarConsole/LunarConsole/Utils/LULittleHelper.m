@@ -56,6 +56,11 @@ UIInterfaceOrientation LUGetInterfaceOrientation()
     return [UIApplication sharedApplication].statusBarOrientation;
 }
 
+BOOL LUIsPortraitInterfaceOrientation(void)
+{
+    return UIInterfaceOrientationIsPortrait(LUGetInterfaceOrientation());
+}
+
 BOOL LUIsLandscapeInterfaceOrientation()
 {
     return UIInterfaceOrientationIsLandscape(LUGetInterfaceOrientation());

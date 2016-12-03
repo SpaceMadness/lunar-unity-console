@@ -268,7 +268,7 @@ static const CGFloat kMinWidthToResizeSearchBar = 480;
     }
     
     // resize button
-    [controller addButtonTitle:@"Resize" target:self action:@selector(onResizeButton:)];
+    [controller addButtonTitle:@"Move/Resize" target:self action:@selector(onResizeButton:)];
     
     [controller setDelegate:self];
     

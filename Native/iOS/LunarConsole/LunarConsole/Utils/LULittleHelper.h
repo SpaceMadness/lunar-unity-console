@@ -26,4 +26,5 @@ void   LUDisplayAlertView(NSString *title, NSString *message);
 CGRect LUGetScreenBounds(void);
 
 UIInterfaceOrientation LUGetInterfaceOrientation(void);
+BOOL LUIsPortraitInterfaceOrientation(void);
 BOOL LUIsLandscapeInterfaceOrientation(void);

@@ -84,11 +84,6 @@ static LUConsoleControllerState * _sharedControllerState;
     
     self.contentView.translatesAutoresizingMaskIntoConstraints = NO;
     self.scrollView.translatesAutoresizingMaskIntoConstraints = NO;
-    
-    if ([LUConsoleControllerState sharedControllerState].hasCustomControllerFrame)
-    {
-        [self setControllerFrame:[LUConsoleControllerState sharedControllerState].controllerFrame];
-    }
 }
 
 - (void)viewDidLayoutSubviews
@@ -99,6 +94,11 @@ static LUConsoleControllerState * _sharedControllerState;
     CGSize pageSize = _scrollView.bounds.size;
     CGSize contentSize = CGSizeMake(_pageControllers.count * pageSize.width, pageSize.height);
     _scrollView.contentSize = contentSize;
+    
+    if ([LUConsoleControllerState sharedControllerState].hasCustomControllerFrame)
+    {
+        [self setControllerFrame:[LUConsoleControllerState sharedControllerState].controllerFrame];
+    }
 }
 
 - (void)setPageControllers:(NSArray<UIViewController *> *)controllers
@@ -260,6 +260,29 @@ static LUConsoleControllerState * _sharedControllerState;
 @end
 
 @implementation LUConsoleControllerState
+
+- (instancetype)init
+{
+    self = [super init];
+    if (self)
+    {
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        {
+            CGSize screenSize = LUGetScreenBounds().size;
+            CGRect controllerFrame;
+            if (LUIsPortraitInterfaceOrientation())
+            {
+                controllerFrame = CGRectMake(0.1 * screenSize.width, 0, 0.1 * screenSize.width, 0.4 * screenSize.height);
+            }
+            else
+            {
+                controllerFrame = CGRectMake(0.15 * screenSize.width, 0, 0.15 * screenSize.width, 0.25 * screenSize.height);
+            }
+            [self setControllerFrame:controllerFrame];
+        }
+    }
+    return self;
+}
 
 + (instancetype)sharedControllerState
 {
