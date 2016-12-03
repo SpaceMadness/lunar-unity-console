@@ -24,18 +24,8 @@
 #import "LUViewController.h"
 
 @class LUConsoleLogEntry;
-@class LUConsoleLogDetailsController;
-
-@protocol LUConsoleLogDetailsControllerDelegate <NSObject>
-
-- (void)detailsControllerDidClose:(LUConsoleLogDetailsController *)controller;
-
-@end
-
 
 @interface LUConsoleLogDetailsController : LUViewController
-
-@property (nonatomic, weak) id<LUConsoleLogDetailsControllerDelegate> delegate;
 
 - (instancetype)initWithEntry:(LUConsoleLogEntry *)entry;
 

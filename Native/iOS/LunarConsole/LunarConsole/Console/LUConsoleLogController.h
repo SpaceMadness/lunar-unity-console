@@ -37,7 +37,7 @@
 @property (nonatomic, strong) NSString *version;
 @property (nonatomic, weak) id<LUConsoleLogControllerResizeDelegate> resizeDelegate;
 
-+ (instancetype)controllerWithPlugin:(LUConsolePlugin *)console;
-- (instancetype)initWithPlugin:(LUConsolePlugin *)console;
++ (instancetype)controllerWithPlugin:(LUConsolePlugin *)plugin;
+- (instancetype)initWithPlugin:(LUConsolePlugin *)plugin;
 
 @end

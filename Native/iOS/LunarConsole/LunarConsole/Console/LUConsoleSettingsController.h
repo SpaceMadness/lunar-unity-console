@@ -41,15 +41,8 @@
 
 @end
 
-@protocol LUConsoleSettingsControllerDelegate <NSObject>
-
-- (void)consoleSettingsControllerDidClose:(LUConsoleSettingsController *)controller;
-
-@end
-
 @interface LUConsoleSettingsController : LUViewController
 
-@property (nonatomic, weak) id<LUConsoleSettingsControllerDelegate> delegate;
 @property (nonatomic, readonly) NSArray * changedEntries;
 
 - (instancetype)initWithSettings:(LUConsolePluginSettings *)settings;

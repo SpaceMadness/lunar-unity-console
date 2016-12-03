@@ -73,6 +73,8 @@ static LUTheme * _mainTheme;
 @property (nonatomic, strong) UIColor *contextMenuTextHighlightColor;
 
 @property (nonatomic, strong) UIColor *switchTintColor;
+@property (nonatomic, strong) UIImage *settingsIconImage;
+
 @end
 
 @interface LUCellSkin ()
@@ -186,6 +188,7 @@ static UIImage * CreateCollapseBackgroundImage()
         _mainTheme.contextMenuTextColor = cellLog.textColor;
         _mainTheme.contextMenuTextHighlightColor = [UIColor whiteColor];
         _mainTheme.switchTintColor = UIColorMake(0xfed900);
+        _mainTheme.settingsIconImage = LUGetImage(@"lunar_console_icon_settings");
         
         LUButtonSkin *actionButtonLargeSkin = [LUButtonSkin buttonSkin];
         actionButtonLargeSkin.normalImage = LUGet3SlicedImage(@"lunar_console_action_button_large_normal");

@@ -21,7 +21,11 @@
 
 #import "LUViewController.h"
 
+#import "Lunar.h"
+
 @interface LUViewController ()
+
+@property (nonatomic, weak) LUConsolePopupController *popupController;
 
 @end
 
@@ -33,6 +37,14 @@
 - (BOOL)prefersStatusBarHidden
 {
     return YES;
+}
+
+#pragma mark -
+#pragma mark Popup controller
+
+- (void)setPopupController:(LUConsolePopupController *)controller
+{
+    _popupController = controller;
 }
 
 #pragma mark -

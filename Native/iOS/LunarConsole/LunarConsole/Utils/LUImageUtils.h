@@ -8,4 +8,5 @@
 
 #import <UIKit/UIKit.h>
 
+UIImage *LUGetImage(NSString *name);
 UIImage *LUGet3SlicedImage(NSString *name);

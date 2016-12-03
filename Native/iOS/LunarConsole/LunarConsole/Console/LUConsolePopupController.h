@@ -8,24 +8,32 @@
 
 #import "LUViewController.h"
 
+@class LUConsolePopupButton;
 @class LUConsolePopupController;
 
 @protocol LUConsolePopupControllerDelegate <NSObject>
 
-- (void)popupControllerDidClose:(LUConsolePopupController *)controller;
+- (void)popupControllerDidDismiss:(LUConsolePopupController *)controller;
 
-@optional
-- (void)popupControllerDidPressMoreButton:(LUConsolePopupController *)controller;
+@end
+
+typedef void(^LUConsolePopupButtonCallback)(LUConsolePopupButton *button);
+
+@interface LUConsolePopupButton : NSObject
+
++ (instancetype)buttonWithIcon:(UIImage *)icon target:(id)target action:(SEL)action;
+- (instancetype)initWithIcon:(UIImage *)icon target:(id)target action:(SEL)action;
 
 @end
 
 @interface LUConsolePopupController : LUViewController
 
-@property (nonatomic, readonly) UIViewController *contentController;
-@property (nonatomic, strong) UIImage *iconImage;
-@property (nonatomic, strong) NSString *popupTitle;
+@property (nonatomic, readonly) LUViewController *contentController;
 @property (nonatomic, weak) id<LUConsolePopupControllerDelegate> popupDelegate;
 
-- (instancetype)initWithContentController:(UIViewController *)contentController;
+- (instancetype)initWithContentController:(LUViewController *)contentController;
+
+- (void)presentFromController:(UIViewController *)controller animated:(BOOL)animated;
+- (void)dismissAnimated:(BOOL)animated;
 
 @end

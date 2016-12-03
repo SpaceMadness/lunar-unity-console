@@ -9,10 +9,16 @@
 #import "LUImageUtils.h"
 #import "Lunar.h"
 
-UIImage *LUGet3SlicedImage(NSString *name)
+UIImage *LUGetImage(NSString *name)
 {
     UIImage *image = [UIImage imageNamed:name];
     LUAssertMsgv(image != nil, @"Can't load image: %@", name);
+    return image;
+}
+
+UIImage *LUGet3SlicedImage(NSString *name)
+{
+    UIImage *image = LUGetImage(name);
     LUAssertMsgv(((int)image.size.width) % 3 == 0, @"3 sliced image has wrong width: %g", image.size.width);
     return [image stretchableImageWithLeftCapWidth:image.size.width / 3 topCapHeight:0];
 }

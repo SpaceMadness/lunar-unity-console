@@ -32,9 +32,8 @@ static const CGFloat kMinWidthToResizeSearchBar = 480;
     UISearchBarDelegate,
     MFMailComposeViewControllerDelegate,
     LUTableViewTouchDelegate,
-    LUConsoleLogDetailsControllerDelegate,
     LUConsoleLogMenuControllerDelegate,
-    LUConsoleSettingsControllerDelegate>
+    LUConsolePopupControllerDelegate>
 {
     LU_WEAK LUConsolePlugin * _plugin;
 }
@@ -242,13 +241,10 @@ static const CGFloat kMinWidthToResizeSearchBar = 480;
 - (IBAction)onSettings:(id)sender
 {
     LUConsoleSettingsController *controller = [[LUConsoleSettingsController alloc] initWithSettings:_plugin.settings];
-    controller.delegate = self;
-    
     LUConsolePopupController *popupController = [[LUConsolePopupController alloc] initWithContentController:controller];
+    popupController.popupDelegate = self;
     
-    
-    // add as child view controller
-    [self parentController:self.parentViewController addChildOverlayController:popupController animated:YES];
+    [popupController presentFromController:self.parentViewController animated:YES];
 }
 
 - (IBAction)onStatusBarTap:(UITapGestureRecognizer *)recognizer
@@ -420,10 +416,9 @@ static const CGFloat kMinWidthToResizeSearchBar = 480;
     LUConsoleLogEntry *entry = [self entryForRowAtIndexPath:indexPath];
     
     LUConsoleLogDetailsController *controller = [[LUConsoleLogDetailsController alloc] initWithEntry:entry];
-    controller.delegate = self;
-    
-    // add as child view controller
-    [self parentController:self.parentViewController addChildOverlayController:controller animated:YES];
+    LUConsolePopupController *popupController = [[LUConsolePopupController alloc] initWithContentController:controller];
+    popupController.popupDelegate = self;
+    [popupController presentFromController:self.parentViewController animated:YES];
     
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
@@ -537,14 +532,6 @@ static const CGFloat kMinWidthToResizeSearchBar = 480;
 }
 
 #pragma mark -
-#pragma mark LUConsoleLogDetailsControllerDelegate
-
-- (void)detailsControllerDidClose:(LUConsoleLogDetailsController *)controller
-{
-    [self removeChildOverlayController:controller animated:YES];
-}
-
-#pragma mark -
 #pragma mark LUConsoleLogMenuControllerDelegate
 
 - (void)menuControllerDidRequestClose:(LUConsoleLogMenuController *)controller
@@ -553,21 +540,11 @@ static const CGFloat kMinWidthToResizeSearchBar = 480;
 }
 
 #pragma mark -
-#pragma mark LUConsoleSettingsControllerDelegate
+#pragma mark LUConsolePopupControllerDelegate
 
-- (void)consoleSettingsControllerDidClose:(LUConsoleSettingsController *)controller
+- (void)popupControllerDidDismiss:(LUConsolePopupController *)controller
 {
-    NSArray *entries = controller.changedEntries;
-    if (entries.count > 0)
-    {
-        for (LUConsoleSettingsEntry *entry in entries)
-        {
-            [_plugin.settings setValue:entry.value forKey:entry.name];
-        }
-        [_plugin.settings save];
-    }
-    
-    [self removeChildOverlayController:controller animated:YES];
+    [controller dismissAnimated:YES];
 }
 
 #pragma mark -

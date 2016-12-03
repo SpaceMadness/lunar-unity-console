@@ -38,13 +38,7 @@ static NSDictionary * _propertyTypeLookup;
     LUConsolePluginSettings * _settings;
 }
 
-@property (nonatomic, weak) IBOutlet UIView * contentView;
-@property (nonatomic, weak) IBOutlet UIView * bottomBarView;
-@property (nonatomic, weak) IBOutlet UILabel * titleLabel;
 @property (nonatomic, weak) IBOutlet UITableView * tableView;
-
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *contentWidthConstraint;
-@property (weak, nonatomic) IBOutlet NSLayoutConstraint *contentHeightConstraint;
 
 @end
 
@@ -70,43 +64,12 @@ static NSDictionary * _propertyTypeLookup;
 {
     [super viewDidLoad];
     
-    // colors
-    self.view.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.5];
-    
     LUTheme *theme = [LUTheme mainTheme];
-    
-    _contentView.backgroundColor =
-    _bottomBarView.backgroundColor =
     _tableView.backgroundColor = theme.tableColor;
-    
     _tableView.rowHeight = 43;
     
-    _contentView.layer.borderColor = [[UIColor colorWithRed:0.37 green:0.37 blue:0.37 alpha:1.0] CGColor];
-    _contentView.layer.borderWidth = 2;
-    
-    _titleLabel.textColor = theme.cellLog.textColor;
-}
-
-- (void)viewDidLayoutSubviews
-{
-    [super viewDidLayoutSubviews];
-    
-    CGSize fullSize = self.view.bounds.size;
-    CGFloat contentWidth, contentHeight;
-    
-    if (fullSize.width < fullSize.height)
-    {
-        contentWidth = MAX(320, 2 * fullSize.width / 3) - 2 * 20;
-        contentHeight = 1.5 * contentWidth;
-    }
-    else
-    {
-        contentHeight = MAX(320, 2 * fullSize.height / 3) - 2 * 20;
-        contentWidth = 1.5 * contentHeight;
-    }
-    
-    self.contentWidthConstraint.constant = contentWidth;
-    self.contentHeightConstraint.constant = contentHeight;
+    self.popupTitle = @"Settings";
+    self.popupIcon = theme.settingsIconImage;
 }
 
 #pragma mark -
@@ -151,23 +114,22 @@ static NSDictionary * _propertyTypeLookup;
 }
 
 #pragma mark -
-#pragma mark Actions
-
-- (IBAction)onClose:(id)sender
-{
-    if ([_delegate respondsToSelector:@selector(consoleSettingsControllerDidClose:)])
-    {
-        [_delegate consoleSettingsControllerDidClose:self];
-    }
-}
-
-#pragma mark -
-#pragma mark
+#pragma mark Controls
 
 - (void)onToggleBoolean:(LUSwitch *)swtch
 {
     LUConsoleSettingsEntry *entry = swtch.userData;
     entry.value = swtch.isOn ? @YES : @NO;
+    [self settingEntryDidChange:entry];
+}
+
+#pragma mark -
+#pragma mark Entries
+
+- (void)settingEntryDidChange:(LUConsoleSettingsEntry *)entry
+{
+    [_settings setValue:entry.value forKey:entry.name];
+    [_settings save];
 }
 
 #pragma mark -

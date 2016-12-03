@@ -21,7 +21,15 @@
 
 #import <UIKit/UIKit.h>
 
+@class LUConsolePopupButton;
+@class LUConsolePopupController;
+
 @interface LUViewController : UIViewController
+
+@property (nonatomic, weak, readonly) LUConsolePopupController *popupController;
+@property (nonatomic, strong) NSArray<LUConsolePopupButton *> *popupButtons;
+@property (nonatomic, strong) NSString *popupTitle;
+@property (nonatomic, strong) UIImage *popupIcon;
 
 - (void)addChildController:(UIViewController *)childController withFrame:(CGRect)frame;
 - (void)removeChildController:(UIViewController *)childController;

@@ -93,6 +93,8 @@
 
 @property (nonatomic, readonly) UIColor *switchTintColor;
 
+@property (nonatomic, readonly) UIImage *settingsIconImage;
+
 + (LUTheme *)mainTheme;
 
 @end
