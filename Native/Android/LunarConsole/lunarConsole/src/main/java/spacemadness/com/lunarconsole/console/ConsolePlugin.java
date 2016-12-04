@@ -67,8 +67,8 @@ public class ConsolePlugin implements
     private final PluginSettings settings;
 
     private ConsoleLogView consoleLogView;
+    private ConsoleLogOverlayView consoleLogOverlayView;
     private WarningView warningView;
-    private OverlayView overlayView;
 
     private final WeakReference<Activity> activityRef;
     private final GestureRecognizer gestureDetector;
@@ -226,7 +226,7 @@ public class ConsolePlugin implements
                 @Override
                 public void run()
                 {
-                    showOverlayView();
+                    showLogOverlayView();
                 }
             });
         }
@@ -364,7 +364,7 @@ public class ConsolePlugin implements
     {
         if (instance != null)
         {
-            instance.showOverlayView();
+            instance.showLogOverlayView();
         }
         else
         {
@@ -395,7 +395,7 @@ public class ConsolePlugin implements
     {
         if (instance != null)
         {
-            instance.hideOverlayView();
+            instance.hideLogOverlayView();
         }
         else
         {
@@ -497,7 +497,7 @@ public class ConsolePlugin implements
 
     private boolean showConsole()
     {
-        hideOverlayView();
+        hideLogOverlayView();
 
         try
         {
@@ -569,7 +569,7 @@ public class ConsolePlugin implements
 
                             if (settings.isEnableTransparentLogOverlay())
                             {
-                                showOverlayView();
+                                showLogOverlayView();
                             }
                         }
 
@@ -696,31 +696,31 @@ public class ConsolePlugin implements
 
     public boolean isOverlayViewShown()
     {
-        return overlayView != null;
+        return consoleLogOverlayView != null;
     }
 
-    public boolean showOverlayView()
+    public boolean showLogOverlayView()
     {
         try
         {
-            if (overlayView == null)
+            if (consoleLogOverlayView == null)
             {
-                Log.d(OVERLAY_VIEW, "Show console");
+                Log.d(OVERLAY_VIEW, "Show log overlay view");
 
                 final Activity activity = getActivity();
                 if (activity == null)
                 {
-                    Log.e("Can't show overlay: activity reference is lost");
+                    Log.e("Can't show log overlay: activity reference is lost");
                     return false;
                 }
 
-                OverlayView.Settings overlaySettings = new OverlayView.Settings();
+                ConsoleLogOverlayView.Settings overlaySettings = new ConsoleLogOverlayView.Settings();
 
                 final FrameLayout rootLayout = getRootLayout(activity);
-                overlayView = new OverlayView(activity, console, overlaySettings);
+                consoleLogOverlayView = new ConsoleLogOverlayView(activity, console, overlaySettings);
 
                 LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-                rootLayout.addView(overlayView, params);
+                rootLayout.addView(consoleLogOverlayView, params);
 
                 return true;
             }
@@ -733,25 +733,25 @@ public class ConsolePlugin implements
         return false;
     }
 
-    public boolean hideOverlayView()
+    public boolean hideLogOverlayView()
     {
         try
         {
-            if (overlayView != null)
+            if (consoleLogOverlayView != null)
             {
-                Log.d(CONSOLE, "Hide console");
+                Log.d(CONSOLE, "Hide log overlay view");
 
                 Activity activity = getActivity();
                 if (activity == null)
                 {
-                    Log.e("Can't hide overlay: activity reference is lost");
+                    Log.e("Can't hide log overlay view: activity reference is lost");
                     return false;
                 }
 
-                ViewParent parent = overlayView.getParent();
+                ViewParent parent = consoleLogOverlayView.getParent();
                 if (parent instanceof ViewGroup)
                 {
-                    ((ViewGroup) parent).removeView(overlayView);
+                    ((ViewGroup) parent).removeView(consoleLogOverlayView);
                 }
                 else
                 {
@@ -759,15 +759,15 @@ public class ConsolePlugin implements
                     return false;
                 }
 
-                overlayView.destroy();
-                overlayView = null;
+                consoleLogOverlayView.destroy();
+                consoleLogOverlayView = null;
 
                 return true;
             }
         }
         catch (Exception e)
         {
-            Log.e(e, "Can't hide overlay view");
+            Log.e(e, "Can't hide log overlay view");
         }
 
         return false;

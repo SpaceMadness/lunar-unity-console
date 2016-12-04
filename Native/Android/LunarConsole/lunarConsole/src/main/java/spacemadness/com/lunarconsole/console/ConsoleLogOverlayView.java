@@ -35,7 +35,7 @@ import static spacemadness.com.lunarconsole.debug.Tags.OVERLAY_VIEW;
 
 import static spacemadness.com.lunarconsole.debug.TestHelper.*;
 
-public class OverlayView extends ListView implements Destroyable, DataSource, LunarConsoleListener
+public class ConsoleLogOverlayView extends ListView implements Destroyable, DataSource, LunarConsoleListener
 {
     private final Console console;
 
@@ -73,7 +73,7 @@ public class OverlayView extends ListView implements Destroyable, DataSource, Lu
     };
     private boolean entryRemovalScheduled;
 
-    public OverlayView(Context context, Console console, Settings settings)
+    public ConsoleLogOverlayView(Context context, Console console, Settings settings)
     {
         super(context);
 
