@@ -53,7 +53,7 @@ import static spacemadness.com.lunarconsole.debug.Tags.*;
 
 public class ConsolePlugin implements
         Destroyable,
-        ConsoleView.Listener,
+        ConsoleLogView.Listener,
         WarningView.Listener
 {
     private static final String SCRIPT_MESSAGE_CONSOLE_OPEN  = "console_open";
@@ -66,7 +66,7 @@ public class ConsolePlugin implements
     private final String version;
     private final PluginSettings settings;
 
-    private ConsoleView consoleView;
+    private ConsoleLogView consoleLogView;
     private WarningView warningView;
     private OverlayView overlayView;
 
@@ -501,7 +501,7 @@ public class ConsolePlugin implements
 
         try
         {
-            if (consoleView == null)
+            if (consoleLogView == null)
             {
                 Log.d(CONSOLE, "Show console");
 
@@ -514,18 +514,18 @@ public class ConsolePlugin implements
 
                 final FrameLayout rootLayout = getRootLayout(activity);
 
-                consoleView = new ConsoleView(activity, console);
-                consoleView.setListener(this);
+                consoleLogView = new ConsoleLogView(activity, console);
+                consoleLogView.setListener(this);
 
-                consoleView.requestFocus();
+                consoleLogView.requestFocus();
 
                 LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-                rootLayout.addView(consoleView, params);
+                rootLayout.addView(consoleLogView, params);
 
                 Animation animation = AnimationUtils.loadAnimation(activity, R.anim.lunar_console_slide_in_top);
-                consoleView.startAnimation(animation);
+                consoleLogView.startAnimation(animation);
 
-                consoleView.notifyOpen();
+                consoleLogView.notifyOpen();
 
                 // don't handle gestures if console is shown
                 disableGestureRecognition();
@@ -547,7 +547,7 @@ public class ConsolePlugin implements
     {
         try
         {
-            if (consoleView != null)
+            if (consoleLogView != null)
             {
                 Log.d(CONSOLE, "Hide console");
 
@@ -579,7 +579,7 @@ public class ConsolePlugin implements
 
                         }
                     });
-                    consoleView.startAnimation(animation);
+                    consoleLogView.startAnimation(animation);
                 }
                 else
                 {
@@ -599,20 +599,20 @@ public class ConsolePlugin implements
 
     private void removeConsoleView()
     {
-        if (consoleView != null)
+        if (consoleLogView != null)
         {
-            ViewParent parent = consoleView.getParent();
+            ViewParent parent = consoleLogView.getParent();
             if (parent instanceof ViewGroup)
             {
-                ((ViewGroup) parent).removeView(consoleView);
+                ((ViewGroup) parent).removeView(consoleLogView);
             }
             else
             {
                 Log.e("Can't remove console view: unexpected parent " + parent);
             }
 
-            consoleView.destroy();
-            consoleView = null;
+            consoleLogView.destroy();
+            consoleLogView = null;
 
             enableGestureRecognition();
         }
@@ -777,13 +777,13 @@ public class ConsolePlugin implements
     // ConsoleView.Listener
 
     @Override
-    public void onOpen(ConsoleView view)
+    public void onOpen(ConsoleLogView view)
     {
         sendNativeCallback(SCRIPT_MESSAGE_CONSOLE_OPEN);
     }
 
     @Override
-    public void onClose(ConsoleView view)
+    public void onClose(ConsoleLogView view)
     {
         hideConsole();
         sendNativeCallback(SCRIPT_MESSAGE_CONSOLE_CLOSE);
@@ -873,7 +873,7 @@ public class ConsolePlugin implements
 
     public boolean isConsoleShown()
     {
-        return consoleView != null;
+        return consoleLogView != null;
     }
 
     public static String getVersion()

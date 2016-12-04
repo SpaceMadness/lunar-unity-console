@@ -67,7 +67,7 @@ import static android.widget.LinearLayout.LayoutParams.*;
 import static spacemadness.com.lunarconsole.console.ConsoleLogType.*;
 import static spacemadness.com.lunarconsole.debug.Tags.*;
 
-public class ConsoleView extends LinearLayout implements
+public class ConsoleLogView extends LinearLayout implements
         Destroyable,
         LunarConsoleListener,
         LogTypeButton.OnStateChangeListener
@@ -93,7 +93,7 @@ public class ConsoleView extends LinearLayout implements
     private boolean scrollLocked;
     private boolean softKeyboardVisible;
 
-    public ConsoleView(Activity activity, final Console console)
+    public ConsoleLogView(Activity activity, final Console console)
     {
         super(activity);
 
@@ -794,7 +794,7 @@ public class ConsoleView extends LinearLayout implements
 
     public interface Listener
     {
-        void onOpen(ConsoleView view);
-        void onClose(ConsoleView view);
+        void onOpen(ConsoleLogView view);
+        void onClose(ConsoleLogView view);
     }
 }
