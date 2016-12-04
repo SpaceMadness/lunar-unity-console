@@ -117,7 +117,7 @@ public class ConsoleView extends LinearLayout implements
         });
 
         // might not be the most efficient way but we'll keep it for now
-        rootView = LayoutInflater.from(activity).inflate(R.layout.lunar_layout_console, this, false);
+        rootView = LayoutInflater.from(activity).inflate(R.layout.lunar_console_layout_console, this, false);
         addView(rootView, new LayoutParams(MATCH_PARENT, MATCH_PARENT));
 
         // initialize adapter
@@ -163,7 +163,7 @@ public class ConsoleView extends LinearLayout implements
                 AlertDialog.Builder builder = new AlertDialog.Builder(ctx);
 
                 LayoutInflater inflater = LayoutInflater.from(ctx);
-                View contentView = inflater.inflate(R.layout.lunar_layout_log_details_dialog, null);
+                View contentView = inflater.inflate(R.layout.lunar_console_layout_log_details_dialog, null);
                 ImageView imageView = (ImageView) contentView.findViewById(R.id.lunar_console_log_details_icon);
                 TextView messageView = (TextView) contentView.findViewById(R.id.lunar_console_log_details_message);
                 TextView stacktraceView = (TextView) contentView.findViewById(R.id.lunar_console_log_details_stacktrace);
@@ -617,7 +617,7 @@ public class ConsoleView extends LinearLayout implements
 
                 if (itemId == R.id.lunar_console_menu_move_resize)
                 {
-                    
+
                 }
 
                 return false;

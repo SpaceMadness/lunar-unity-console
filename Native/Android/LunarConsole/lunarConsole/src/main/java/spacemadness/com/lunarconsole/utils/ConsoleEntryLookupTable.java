@@ -27,6 +27,7 @@ import java.util.Map;
 import spacemadness.com.lunarconsole.console.ConsoleCollapsedEntry;
 import spacemadness.com.lunarconsole.console.ConsoleEntry;
 
+// TODO: use trie data structure for a faster lookup
 public class ConsoleEntryLookupTable
 {
     private final Map<String, ConsoleCollapsedEntry> table;

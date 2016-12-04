@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout style="@style/lunar_console_move_resize_view_style"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <!-- Top left -->
+    <lunarpool.spacemadness.com.dragandresize.ResizeHandleView
+        android:id="@+id/lunar_console_resize_bar_top_left"
+        style="@style/lunar_console_move_resize_corner_handle_style"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        />
+
+    <!-- Top right -->
+    <lunarpool.spacemadness.com.dragandresize.ResizeHandleView
+        android:id="@+id/lunar_console_resize_bar_top_right"
+        style="@style/lunar_console_move_resize_corner_handle_style"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        />
+
+    <!-- Top -->
+    <lunarpool.spacemadness.com.dragandresize.ResizeHandleView
+        android:id="@+id/lunar_console_resize_bar_top"
+        style="@style/lunar_console_move_resize_horizontal_handle_style"
+        android:layout_alignParentTop="true"
+        android:layout_toLeftOf="@+id/lunar_console_resize_bar_top_right"
+        android:layout_toRightOf="@+id/lunar_console_resize_bar_top_left"
+        />
+
+    <!-- Left -->
+    <lunarpool.spacemadness.com.dragandresize.ResizeHandleView
+        android:id="@+id/lunar_console_resize_bar_left"
+        style="@style/lunar_console_move_resize_horizontal_handle_style"
+        android:layout_above="@+id/lunar_console_resize_bar_bottom_left"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/lunar_console_resize_bar_top_left"
+        />
+
+    <!-- Right -->
+    <lunarpool.spacemadness.com.dragandresize.ResizeHandleView
+        android:id="@+id/lunar_console_resize_bar_right"
+        style="@style/lunar_console_move_resize_horizontal_handle_style"
+        android:layout_above="@+id/lunar_console_resize_bar_bottom_right"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/lunar_console_resize_bar_top_right"/>
+
+    <!-- Bottom left -->
+    <lunarpool.spacemadness.com.dragandresize.ResizeHandleView
+        android:id="@+id/lunar_console_resize_bar_bottom_left"
+        style="@style/lunar_console_move_resize_corner_handle_style"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        />
+
+    <!-- Bottom right -->
+    <lunarpool.spacemadness.com.dragandresize.ResizeHandleView
+        android:id="@+id/lunar_console_resize_bar_bottom_right"
+        style="@style/lunar_console_move_resize_corner_handle_style"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        />
+
+    <!-- Bottom -->
+    <lunarpool.spacemadness.com.dragandresize.ResizeHandleView
+        android:id="@+id/lunar_console_resize_bar_bottom"
+        style="@style/lunar_console_move_resize_horizontal_handle_style"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/lunar_console_resize_bar_bottom_right"
+        android:layout_toRightOf="@+id/lunar_console_resize_bar_bottom_left"
+        />
+
+</RelativeLayout>

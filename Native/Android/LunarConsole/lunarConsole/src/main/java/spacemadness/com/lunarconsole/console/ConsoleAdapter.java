@@ -44,6 +44,6 @@ public class ConsoleAdapter extends BaseConsoleAdapter
     protected View createConvertView(ViewGroup parent)
     {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        return inflater.inflate(R.layout.lunar_layout_console_log_entry, parent, false);
+        return inflater.inflate(R.layout.lunar_console_layout_console_log_entry, parent, false);
     }
 }

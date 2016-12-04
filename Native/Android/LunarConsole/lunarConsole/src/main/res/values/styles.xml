@@ -51,6 +51,7 @@
     </style>
 
     <style name="lunar_console_log_entry_message_style" parent="lunar_console_base_text_style"/>
+
     <style name="lunar_console_log_entry_overlay_style" parent="lunar_console_base_text_style">
         <item name="android:shadowColor">@color/lunar_console_color_overlay_entry_shadow</item>
         <item name="android:shadowRadius">1.0</item>
@@ -59,13 +60,37 @@
     </style>
 
     <style name="lunar_console_log_details_message_style" parent="lunar_console_base_text_style"/>
+
     <style name="lunar_console_log_details_stacktrace_style" parent="lunar_console_base_text_style">
         <item name="android:textSize">10sp</item>
     </style>
+
     <style name="lunar_console_log_details_collapsed_style" parent="lunar_console_base_text_style">
         <item name="android:paddingLeft">8dp</item>
         <item name="android:paddingRight">8dp</item>
         <item name="android:background">@drawable/lunar_console_shape_collapse_text_background</item>
+    </style>
+
+    <style name="lunar_console_move_resize_view_style_base">
+        <item name="android:background">@color/lunar_console_color_cell_background_dark</item>
+    </style>
+
+    <style name="lunar_console_move_resize_view_style" parent="lunar_console_move_resize_view_style_base">
+    </style>
+
+    <style name="lunar_console_move_resize_corner_handle_style" parent="lunar_console_move_resize_view_style_base">
+        <item name="android:layout_width">44dp</item>
+        <item name="android:layout_height">44dp</item>
+    </style>
+
+    <style name="lunar_console_move_resize_vertical_handle_style" parent="lunar_console_move_resize_view_style_base">
+        <item name="android:layout_width">44dp</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="lunar_console_move_resize_horizontal_handle_style" parent="lunar_console_move_resize_view_style_base">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">44dp</item>
     </style>
 
 </resources>

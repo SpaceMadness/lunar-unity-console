@@ -72,7 +72,7 @@ public class WarningView extends FrameLayout implements Destroyable
 
     private void init(Context context)
     {
-        View view = LayoutInflater.from(context).inflate(R.layout.lunar_layout_warning, null, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.lunar_console_layout_warning, null, false);
 
         setupUI(view);
 
