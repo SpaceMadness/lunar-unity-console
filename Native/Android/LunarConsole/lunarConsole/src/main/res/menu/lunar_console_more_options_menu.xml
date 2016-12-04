@@ -6,6 +6,11 @@
         android:title="@string/lunar_console_more_menu_collapse" />
 
     <item
+        android:id="@+id/lunar_console_menu_move_resize"
+        android:title="@string/lunar_console_more_menu_move_resize" />
+
+    <item
         android:id="@+id/lunar_console_menu_settings"
         android:title="@string/lunar_console_more_menu_settings" />
+
 </menu>

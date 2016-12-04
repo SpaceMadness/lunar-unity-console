@@ -615,6 +615,11 @@ public class ConsoleView extends LinearLayout implements
                     return true;
                 }
 
+                if (itemId == R.id.lunar_console_menu_move_resize)
+                {
+                    
+                }
+
                 return false;
             }
         });

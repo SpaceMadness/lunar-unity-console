@@ -2,6 +2,7 @@
     <string name="app_name">LunarConsole</string>
     <string name="lunar_console_more_menu_collapse">Collapse</string>
     <string name="lunar_console_more_menu_settings">Settings</string>
+    <string name="lunar_console_more_menu_move_resize">Move/Resize</string>
     <string name="lunar_console_title_fake_status_bar">Lunar Console v%1$s</string>
     <string name="lunar_console_overflow_warning_text">Too much output: %1$d item(s) trimmed</string>
     <string name="lunar_console_log_details_dialog_no_stacktrace_warning">No stack trace
