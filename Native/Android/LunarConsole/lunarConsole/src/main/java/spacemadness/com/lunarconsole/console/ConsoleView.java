@@ -21,6 +21,7 @@
 
 package spacemadness.com.lunarconsole.console;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -28,6 +29,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
+import android.os.Build;
 import android.text.ClipboardManager;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -576,6 +578,7 @@ public class ConsoleView extends LinearLayout implements
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // More options context menu
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void showMoreOptionsMenu(View v)
     {
         PopupMenu popup = new PopupMenu(getContext(), v);
@@ -617,7 +620,8 @@ public class ConsoleView extends LinearLayout implements
 
                 if (itemId == R.id.lunar_console_menu_move_resize)
                 {
-
+                    showMoveResizeView(getContext());
+                    return true;
                 }
 
                 return false;
@@ -687,6 +691,17 @@ public class ConsoleView extends LinearLayout implements
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Move/Resize
+
+    private void showMoveResizeView(Context context)
+    {
+        final LayoutInflater inflater = LayoutInflater.from(context);
+        final View view = inflater.inflate(R.layout.lunar_console_layout_move_resize, this, false);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT);
+        addView(view, layoutParams);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     // LULogTypeButton.OnStateChangeListener
 
     @Override
@@ -712,7 +727,7 @@ public class ConsoleView extends LinearLayout implements
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Helpers
+    // Clipboard
 
     @SuppressWarnings("deprecation")
     private boolean copyToClipboard(String outputText)
