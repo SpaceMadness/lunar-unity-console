@@ -58,6 +58,7 @@ import spacemadness.com.lunarconsole.debug.Assert;
 import spacemadness.com.lunarconsole.debug.Log;
 import spacemadness.com.lunarconsole.settings.SettingsActivity;
 import spacemadness.com.lunarconsole.ui.LogTypeButton;
+import spacemadness.com.lunarconsole.ui.MoveResizeView;
 import spacemadness.com.lunarconsole.ui.ToggleButton;
 import spacemadness.com.lunarconsole.ui.ToggleImageButton;
 import spacemadness.com.lunarconsole.utils.ObjectUtils;
@@ -703,11 +704,9 @@ public class ConsoleLogView extends LinearLayout implements
 
         if (parentLayout != null)
         {
-            final LayoutInflater inflater = LayoutInflater.from(context);
-            final View view = inflater.inflate(R.layout.lunar_console_layout_move_resize, this, false);
-
+            MoveResizeView moveResizeView = new MoveResizeView(context);
             FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT);
-            parentLayout.addView(view, layoutParams);
+            parentLayout.addView(moveResizeView, layoutParams);
         }
     }
 

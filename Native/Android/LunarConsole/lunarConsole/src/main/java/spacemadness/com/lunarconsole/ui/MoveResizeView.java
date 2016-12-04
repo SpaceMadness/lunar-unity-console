@@ -47,6 +47,7 @@ public class MoveResizeView extends LinearLayout
         loadViewFromXml(context);
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public MoveResizeView(Context context, AttributeSet attrs, int defStyleAttr)
     {
         super(context, attrs, defStyleAttr);

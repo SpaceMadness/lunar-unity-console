@@ -86,6 +86,7 @@
     <style name="lunar_console_move_resize_vertical_handle_style" parent="lunar_console_move_resize_view_style_base">
         <item name="android:layout_width">44dp</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:src">@drawable/lunar_console_icon_button_more</item>
     </style>
 
     <style name="lunar_console_move_resize_horizontal_handle_style" parent="lunar_console_move_resize_view_style_base">

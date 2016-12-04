@@ -105,7 +105,7 @@ public class ConsolePlugin implements
     /**
      * Data holder for plugin initialization
      */
-    static class UnitySettings
+    private static class UnitySettings
     {
         public final ConsolePluginImp pluginImp;
         public final String version;
@@ -113,7 +113,7 @@ public class ConsolePlugin implements
         public final int trim;
         public final String gesture;
 
-        public UnitySettings(ConsolePluginImp pluginImp, String version, int capacity, int trim, String gesture)
+        UnitySettings(ConsolePluginImp pluginImp, String version, int capacity, int trim, String gesture)
         {
             this.pluginImp = notNull(pluginImp, "Plugin implementation");
             this.gesture = notNullAndNotEmpty(gesture, "Gesture");
@@ -712,12 +712,12 @@ public class ConsolePlugin implements
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Overlay view
 
-    public boolean isOverlayViewShown()
+    private boolean isOverlayViewShown()
     {
         return consoleLogOverlayView != null;
     }
 
-    public boolean showLogOverlayView()
+    private boolean showLogOverlayView()
     {
         try
         {
@@ -751,7 +751,7 @@ public class ConsolePlugin implements
         return false;
     }
 
-    public boolean hideLogOverlayView()
+    private boolean hideLogOverlayView()
     {
         try
         {
@@ -826,7 +826,7 @@ public class ConsolePlugin implements
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Gesture recognition
 
-    public void enableGestureRecognition()
+    private void enableGestureRecognition()
     {
         Log.d(GESTURES, "Enable gesture recognition");
 
@@ -848,7 +848,7 @@ public class ConsolePlugin implements
         });
     }
 
-    public void disableGestureRecognition()
+    private void disableGestureRecognition()
     {
         Log.d(GESTURES, "Disable gesture recognition");
 
@@ -889,29 +889,19 @@ public class ConsolePlugin implements
         return instance != null ? instance.settings : null;
     }
 
-    public boolean isConsoleShown()
-    {
-        return consoleLogView != null;
-    }
-
     public static String getVersion()
     {
         return instance != null ? instance.version : "?.?.?";
     }
 
+    private boolean isConsoleShown()
+    {
+        return consoleLogView != null;
+    }
+
     private static Console getConsole()
     {
         return instance.console;
-    }
-
-    public static int getCapacity()
-    {
-        return getConsole().getCapacity();
-    }
-
-    public static int getTrimSize()
-    {
-        return getConsole().getTrimSize();
     }
 
     public static void setCapacity(int capacity)
