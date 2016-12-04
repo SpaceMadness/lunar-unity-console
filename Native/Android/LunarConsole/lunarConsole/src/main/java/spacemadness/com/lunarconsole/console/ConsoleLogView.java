@@ -43,6 +43,7 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -53,11 +54,13 @@ import java.lang.ref.WeakReference;
 
 import spacemadness.com.lunarconsole.R;
 import spacemadness.com.lunarconsole.core.Destroyable;
+import spacemadness.com.lunarconsole.debug.Assert;
 import spacemadness.com.lunarconsole.debug.Log;
 import spacemadness.com.lunarconsole.settings.SettingsActivity;
 import spacemadness.com.lunarconsole.ui.LogTypeButton;
 import spacemadness.com.lunarconsole.ui.ToggleButton;
 import spacemadness.com.lunarconsole.ui.ToggleImageButton;
+import spacemadness.com.lunarconsole.utils.ObjectUtils;
 import spacemadness.com.lunarconsole.utils.StackTrace;
 import spacemadness.com.lunarconsole.utils.StringUtils;
 import spacemadness.com.lunarconsole.utils.ThreadUtils;
@@ -695,10 +698,17 @@ public class ConsoleLogView extends LinearLayout implements
 
     private void showMoveResizeView(Context context)
     {
-        final LayoutInflater inflater = LayoutInflater.from(context);
-        final View view = inflater.inflate(R.layout.lunar_console_layout_move_resize, this, false);
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT);
-        addView(view, layoutParams);
+        final FrameLayout parentLayout = ObjectUtils.as(getParent(), FrameLayout.class);
+        Assert.IsNotNull(parentLayout);
+
+        if (parentLayout != null)
+        {
+            final LayoutInflater inflater = LayoutInflater.from(context);
+            final View view = inflater.inflate(R.layout.lunar_console_layout_move_resize, this, false);
+
+            FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT);
+            parentLayout.addView(view, layoutParams);
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

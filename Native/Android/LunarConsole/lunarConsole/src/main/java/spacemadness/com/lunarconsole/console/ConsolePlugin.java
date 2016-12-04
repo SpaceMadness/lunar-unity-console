@@ -66,6 +66,9 @@ public class ConsolePlugin implements
     private final String version;
     private final PluginSettings settings;
 
+    /** Parent container for console log view */
+    private FrameLayout consoleContentView;
+
     private ConsoleLogView consoleLogView;
     private ConsoleLogOverlayView consoleLogOverlayView;
     private WarningView warningView;
@@ -512,19 +515,28 @@ public class ConsolePlugin implements
                     return false;
                 }
 
+                // get root content layout
                 final FrameLayout rootLayout = getRootLayout(activity);
 
+                // we need to add an additional layout between console log view and content view
+                // in order to be able to place additional overlay layouts on top of everything
+                consoleContentView = new FrameLayout(activity);
+                rootLayout.addView(consoleContentView, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+
+                // create console log view
                 consoleLogView = new ConsoleLogView(activity, console);
                 consoleLogView.setListener(this);
-
                 consoleLogView.requestFocus();
 
+                // place console log view into console layout
                 LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-                rootLayout.addView(consoleLogView, params);
+                consoleContentView.addView(consoleLogView, params);
 
+                // show animation
                 Animation animation = AnimationUtils.loadAnimation(activity, R.anim.lunar_console_slide_in_top);
                 consoleLogView.startAnimation(animation);
 
+                // notify delegates
                 consoleLogView.notifyOpen();
 
                 // don't handle gestures if console is shown
@@ -601,19 +613,25 @@ public class ConsolePlugin implements
     {
         if (consoleLogView != null)
         {
-            ViewParent parent = consoleLogView.getParent();
+            // remove console log view from console content view
+            consoleContentView.removeView(consoleLogView);
+
+            // remove console content view from the root content view
+            ViewParent parent = consoleContentView.getParent();
             if (parent instanceof ViewGroup)
             {
-                ((ViewGroup) parent).removeView(consoleLogView);
+                ((ViewGroup) parent).removeView(consoleContentView);
             }
             else
             {
                 Log.e("Can't remove console view: unexpected parent " + parent);
             }
+            consoleContentView = null;
 
             consoleLogView.destroy();
             consoleLogView = null;
 
+            // start listening for gestures
             enableGestureRecognition();
         }
     }
