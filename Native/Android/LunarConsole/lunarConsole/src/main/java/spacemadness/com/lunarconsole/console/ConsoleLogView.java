@@ -40,7 +40,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -711,6 +710,7 @@ public class ConsoleLogView extends LinearLayout implements
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Move/Resize
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void showMoveResizeView(Context context)
     {
         Assert.IsNull(moveResizeView);
@@ -727,10 +727,15 @@ public class ConsoleLogView extends LinearLayout implements
 
                 final MarginLayoutParams p = (MarginLayoutParams) getLayoutParams();
                 moveResizeView.setMargins(p.leftMargin, p.topMargin, p.rightMargin, p.bottomMargin);
+
+                // hide the log view
+                // setVisibility(GONE); we can't use setVisibility here since it break back button handling
+                setAlpha(0);
             }
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void hideMoveResizeView()
     {
         Assert.IsNotNull(moveResizeView);
@@ -749,6 +754,10 @@ public class ConsoleLogView extends LinearLayout implements
 
             moveResizeView.destroy();
             moveResizeView = null;
+
+            // show the log view
+            // setVisibility(VISIBLE); we can't use setVisibility here since it break back button handling
+            setAlpha(1);
         }
     }
 
