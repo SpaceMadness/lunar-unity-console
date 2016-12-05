@@ -12,8 +12,10 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import spacemadness.com.lunarconsole.R;
+import spacemadness.com.lunarconsole.core.Destroyable;
+import spacemadness.com.lunarconsole.utils.MathUtils;
 
-public class MoveResizeView extends LinearLayout
+public class MoveResizeView extends LinearLayout implements Destroyable
 {
     private static final int OPERATION_NONE = 0;
     private static final int OPERATION_MOVE = 1 << 0;
@@ -175,20 +177,20 @@ public class MoveResizeView extends LinearLayout
         {
             if ((operation & OPERATION_RESIZE_TOP) != 0)
             {
-                layoutParams.topMargin = clamp(layoutParams.topMargin + dy, 0, height - (minHeight + layoutParams.bottomMargin));
+                layoutParams.topMargin = MathUtils.clamp(layoutParams.topMargin + dy, 0, height - (minHeight + layoutParams.bottomMargin));
             }
             else if ((operation & OPERATION_RESIZE_BOTTOM) != 0)
             {
-                layoutParams.bottomMargin = clamp(layoutParams.bottomMargin - dy, 0, height - (minHeight + layoutParams.topMargin));
+                layoutParams.bottomMargin = MathUtils.clamp(layoutParams.bottomMargin - dy, 0, height - (minHeight + layoutParams.topMargin));
             }
 
             if ((operation & OPERATION_RESIZE_LEFT) != 0)
             {
-                layoutParams.leftMargin = clamp(layoutParams.leftMargin + dx, 0, width - (minWidth + layoutParams.rightMargin));
+                layoutParams.leftMargin = MathUtils.clamp(layoutParams.leftMargin + dx, 0, width - (minWidth + layoutParams.rightMargin));
             }
             else if ((operation & OPERATION_RESIZE_RIGHT) != 0)
             {
-                layoutParams.rightMargin = clamp(layoutParams.rightMargin - dx, 0, width - (minWidth + layoutParams.leftMargin));
+                layoutParams.rightMargin = MathUtils.clamp(layoutParams.rightMargin - dx, 0, width - (minWidth + layoutParams.leftMargin));
             }
         }
 
@@ -198,10 +200,11 @@ public class MoveResizeView extends LinearLayout
         return true;
     }
 
-    private int clamp(int value, int min, int max)
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Touch events
+
+    @Override
+    public void destroy()
     {
-        if (value < min) return min;
-        if (value > max) return max;
-        return value;
     }
 }

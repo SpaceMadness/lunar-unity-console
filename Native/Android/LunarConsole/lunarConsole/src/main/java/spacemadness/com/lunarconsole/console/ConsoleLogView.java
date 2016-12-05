@@ -39,6 +39,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -83,6 +85,9 @@ public class ConsoleLogView extends LinearLayout implements
     private final Console console;
     private final ListView listView;
     private final ConsoleAdapter consoleAdapter;
+
+    /** An overlay layout for move/resize operations */
+    private MoveResizeView moveResizeView;
 
     private final LogTypeButton logButton;
     private final LogTypeButton warningButton;
@@ -294,19 +299,28 @@ public class ConsoleLogView extends LinearLayout implements
         {
             if (event.getAction() == KeyEvent.ACTION_UP)
             {
-                if (softKeyboardVisible)
-                {
-                    hideSoftKeyboard();
-                }
-                else
-                {
-                    notifyClose();
-                }
+                onBackButton();
             }
             return true;
         }
 
         return super.dispatchKeyEventPreIme(event);
+    }
+
+    private void onBackButton()
+    {
+        if (softKeyboardVisible)
+        {
+            hideSoftKeyboard();
+        }
+        else if (isMoveResizeViewVisible())
+        {
+            hideMoveResizeView();
+        }
+        else
+        {
+            notifyClose();
+        }
     }
 
     private void hideSoftKeyboard()
@@ -699,15 +713,38 @@ public class ConsoleLogView extends LinearLayout implements
 
     private void showMoveResizeView(Context context)
     {
-        final FrameLayout parentLayout = ObjectUtils.as(getParent(), FrameLayout.class);
-        Assert.IsNotNull(parentLayout);
+        Assert.IsNull(moveResizeView);
 
-        if (parentLayout != null)
+        if (moveResizeView == null)
         {
-            MoveResizeView moveResizeView = new MoveResizeView(context);
-            FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT);
-            parentLayout.addView(moveResizeView, layoutParams);
+            final FrameLayout parentLayout = ObjectUtils.as(getParent(), FrameLayout.class);
+            Assert.IsNotNull(parentLayout);
+
+            if (parentLayout != null)
+            {
+                moveResizeView = new MoveResizeView(context);
+                FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT);
+                parentLayout.addView(moveResizeView, layoutParams);
+            }
         }
+    }
+
+    private void hideMoveResizeView()
+    {
+        Assert.IsNotNull(moveResizeView);
+        if (moveResizeView != null)
+        {
+            final ViewGroup parent = (ViewGroup) moveResizeView.getParent();
+            parent.removeView(moveResizeView);
+
+            moveResizeView.destroy();
+            moveResizeView = null;
+        }
+    }
+
+    private boolean isMoveResizeViewVisible()
+    {
+        return moveResizeView != null;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
