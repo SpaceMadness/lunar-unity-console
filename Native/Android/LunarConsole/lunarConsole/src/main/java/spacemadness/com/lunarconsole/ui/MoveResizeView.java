@@ -143,7 +143,7 @@ public class MoveResizeView extends LinearLayout implements Destroyable
 
     protected boolean onPointerMove(int dx, int dy)
     {
-        final MarginLayoutParams layoutParams = (MarginLayoutParams) targetView.getLayoutParams();
+        final MarginLayoutParams layoutParams = getMarginLayoutParams();
         final ViewGroup parentGroup = (ViewGroup) targetView.getParent();
         final int width = parentGroup.getWidth();
         final int height = parentGroup.getHeight();
@@ -201,7 +201,42 @@ public class MoveResizeView extends LinearLayout implements Destroyable
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Touch events
+    // Layout margins
+
+    public void setMargins(int left, int top, int right, int bottom)
+    {
+        final MarginLayoutParams layoutParams = (MarginLayoutParams) targetView.getLayoutParams();
+        layoutParams.setMargins(left, top, right, bottom);
+        targetView.invalidate();
+    }
+
+    public int getTopMargin()
+    {
+        return getMarginLayoutParams().topMargin;
+    }
+
+    public int getBottomMargin()
+    {
+        return getMarginLayoutParams().bottomMargin;
+    }
+
+    public int getLeftMargin()
+    {
+        return getMarginLayoutParams().leftMargin;
+    }
+
+    public int getRightMargin()
+    {
+        return getMarginLayoutParams().rightMargin;
+    }
+
+    private MarginLayoutParams getMarginLayoutParams()
+    {
+        return (MarginLayoutParams) targetView.getLayoutParams();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // Destroyable
 
     @Override
     public void destroy()

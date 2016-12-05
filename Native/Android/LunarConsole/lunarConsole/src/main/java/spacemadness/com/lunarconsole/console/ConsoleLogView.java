@@ -714,7 +714,6 @@ public class ConsoleLogView extends LinearLayout implements
     private void showMoveResizeView(Context context)
     {
         Assert.IsNull(moveResizeView);
-
         if (moveResizeView == null)
         {
             final FrameLayout parentLayout = ObjectUtils.as(getParent(), FrameLayout.class);
@@ -725,6 +724,9 @@ public class ConsoleLogView extends LinearLayout implements
                 moveResizeView = new MoveResizeView(context);
                 FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT);
                 parentLayout.addView(moveResizeView, layoutParams);
+
+                final MarginLayoutParams p = (MarginLayoutParams) getLayoutParams();
+                moveResizeView.setMargins(p.leftMargin, p.topMargin, p.rightMargin, p.bottomMargin);
             }
         }
     }
@@ -734,6 +736,14 @@ public class ConsoleLogView extends LinearLayout implements
         Assert.IsNotNull(moveResizeView);
         if (moveResizeView != null)
         {
+            final MarginLayoutParams parentLayoutParams = (MarginLayoutParams) getLayoutParams();
+
+            parentLayoutParams.topMargin = moveResizeView.getTopMargin();
+            parentLayoutParams.bottomMargin = moveResizeView.getBottomMargin();
+            parentLayoutParams.leftMargin = moveResizeView.getLeftMargin();
+            parentLayoutParams.rightMargin = moveResizeView.getRightMargin();
+            invalidate();
+
             final ViewGroup parent = (ViewGroup) moveResizeView.getParent();
             parent.removeView(moveResizeView);
 
