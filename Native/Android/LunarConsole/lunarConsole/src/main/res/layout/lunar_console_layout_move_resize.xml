@@ -75,4 +75,11 @@
         android:layout_toRightOf="@+id/lunar_console_resize_bar_bottom_left"
         />
 
+    <TextView
+        style="@style/lunar_console_move_resize_hint_style"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="@string/lunar_console_move_resize_hint"
+        />
+
 </RelativeLayout>

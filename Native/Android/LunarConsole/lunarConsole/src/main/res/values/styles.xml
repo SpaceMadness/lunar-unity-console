@@ -85,12 +85,23 @@
         <item name="android:layout_width">44dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:src">@drawable/lunar_console_icon_resize_ver</item>
+        <item name="android:scaleType">centerInside</item>
     </style>
 
     <style name="lunar_console_move_resize_horizontal_handle_style">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">44dp</item>
         <item name="android:src">@drawable/lunar_console_icon_resize_hor</item>
+        <item name="android:scaleType">centerInside</item>
+    </style>
+
+    <style name="lunar_console_move_resize_hint_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#ffb1b1b1</item>
+        <item name="android:typeface">monospace</item>
+        <item name="android:gravity">center</item>
     </style>
 
 </resources>
