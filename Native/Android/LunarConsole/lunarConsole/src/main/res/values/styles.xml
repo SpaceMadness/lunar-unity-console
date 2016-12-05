@@ -68,30 +68,29 @@
     <style name="lunar_console_log_details_collapsed_style" parent="lunar_console_base_text_style">
         <item name="android:paddingLeft">8dp</item>
         <item name="android:paddingRight">8dp</item>
-        <item name="android:background">@drawable/lunar_console_shape_collapse_text_background</item>
+        <item name="android:background">@drawable/lunar_console_shape_collapse_text_background
+        </item>
     </style>
 
-    <style name="lunar_console_move_resize_view_style_base">
-        <item name="android:background">@color/lunar_console_color_cell_background_dark</item>
+    <style name="lunar_console_move_resize_view_style">
+        <item name="android:background">@drawable/lunar_console_shape_move_resize</item>
     </style>
 
-    <style name="lunar_console_move_resize_view_style" parent="lunar_console_move_resize_view_style_base">
-    </style>
-
-    <style name="lunar_console_move_resize_corner_handle_style" parent="lunar_console_move_resize_view_style_base">
+    <style name="lunar_console_move_resize_corner_handle_style">
         <item name="android:layout_width">44dp</item>
         <item name="android:layout_height">44dp</item>
     </style>
 
-    <style name="lunar_console_move_resize_vertical_handle_style" parent="lunar_console_move_resize_view_style_base">
+    <style name="lunar_console_move_resize_vertical_handle_style">
         <item name="android:layout_width">44dp</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:src">@drawable/lunar_console_icon_button_more</item>
+        <item name="android:src">@drawable/lunar_console_icon_resize_ver</item>
     </style>
 
-    <style name="lunar_console_move_resize_horizontal_handle_style" parent="lunar_console_move_resize_view_style_base">
+    <style name="lunar_console_move_resize_horizontal_handle_style">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">44dp</item>
+        <item name="android:src">@drawable/lunar_console_icon_resize_hor</item>
     </style>
 
 </resources>

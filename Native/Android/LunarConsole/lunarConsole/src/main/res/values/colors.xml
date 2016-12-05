@@ -20,4 +20,5 @@
     <color name="lunar_console_color_overlay_entry_log_warning">#fff4f600</color>
     <color name="lunar_console_color_overlay_entry_log_error">#fffc0000</color>
     <color name="lunar_console_color_overlay_entry_shadow">#ffadadad</color>
+    <color name="lunar_console_color_border_color">#ff979797</color>
 </resources>
