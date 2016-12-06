@@ -1,5 +1,5 @@
 //
-//  LUFileUtils.h
+//  LUSerializableObject.h
 //  LunarConsole
 //
 //  Created by Alex Lementuev on 12/5/16.
@@ -8,7 +8,9 @@
 
 #import <Foundation/Foundation.h>
 
-NSString *LUGetDocumentsDir(void);
-NSString *LUGetDocumentsFile(NSString *name);
+@interface LUSerializableObject : NSObject
 
-BOOL LUFileExists(NSString *path);
++ (instancetype)loadFromFile:(NSString *)filename;
+- (BOOL)save;
+
+@end

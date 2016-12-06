@@ -7,6 +7,7 @@
 //
 
 #import "LUViewController.h"
+#import "LUSerializableObject.h"
 
 @class LUConsolePlugin;
 @class LUConsoleController;
@@ -21,12 +22,10 @@ extern NSString * const LUConsoleControllerDidResizeNotification;
 
 @end
 
-@interface LUConsoleControllerState : NSObject
+@interface LUConsoleControllerState : LUSerializableObject
 
 @property (nonatomic, readonly) BOOL hasCustomControllerFrame;
 @property (nonatomic, assign) CGRect controllerFrame;
-
-+ (instancetype)sharedControllerState;
 
 @end
 

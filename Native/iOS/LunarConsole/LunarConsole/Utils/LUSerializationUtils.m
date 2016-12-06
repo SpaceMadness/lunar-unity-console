@@ -18,7 +18,7 @@ BOOL LUSerializeObject(id object, NSString *filename)
         return NO;
     }
     
-    NSString *path = LUGetDocumentsFile(filename, YES);
+    NSString *path = LUGetDocumentsFile(filename);
     [data writeToFile:path atomically:YES];
     
     return YES;
@@ -26,7 +26,7 @@ BOOL LUSerializeObject(id object, NSString *filename)
 
 id LUDeserializeObject(NSString *filename)
 {
-    NSString *path = LUGetDocumentsFile(filename, NO);
+    NSString *path = LUGetDocumentsFile(filename);
     NSData *data = [NSData dataWithContentsOfFile:path];
     if (data == nil)
     {

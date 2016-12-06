@@ -64,7 +64,7 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.LunarMob
         _console = [[LUConsole alloc] initWithCapacity:capacity trimCount:trimCount];
         _actionRegistry = [[LUActionRegistry alloc] init];
         _gesture = [self gestureFromString:gestureName];
-        _settings = [LUConsolePluginSettings settingsWithContentsOfFile:kSettingsFilename];
+        _settings = [LUConsolePluginSettings loadFromFile:kSettingsFilename];
     }
     return self;
 }

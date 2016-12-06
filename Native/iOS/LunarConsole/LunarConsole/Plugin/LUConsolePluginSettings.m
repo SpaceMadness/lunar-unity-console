@@ -23,16 +23,10 @@
 
 #import "LUConsolePluginSettings.h"
 
-static const NSUInteger kPluginSettingsVersion          = 1;
-
-static NSString * const kKeyVersion                     = @"version";
 static NSString * const kKeyEnableExceptionWarning      = @"enableExceptionWarning";
 static NSString * const kKeyEnableTransparentLogOverlay = @"enableTransparentLogOverlay";
 
-@interface LUConsolePluginSettings () <NSCoding>
-{
-    NSString   * _filename;
-}
+@interface LUConsolePluginSettings ()
 
 // IMPORTANT: don't create any other properties here
 
@@ -40,53 +34,19 @@ static NSString * const kKeyEnableTransparentLogOverlay = @"enableTransparentLog
 
 @implementation LUConsolePluginSettings
 
-- (instancetype)initWithFilename:(NSString *)filename
-{
-    self = [super init];
-    if (self)
-    {
-        if (filename == nil)
-        {
-            self = nil;
-            return nil;
-        }
-        
-        _filename = filename;
-        [self initDefaults];
-    }
-    return self;
-}
-
-
 #pragma mark -
-#pragma mark NSCoding
+#pragma mark Loading
 
-- (nullable instancetype)initWithCoder:(NSCoder *)decoder
++ (void)initialize
 {
-    self = [super init];
-    if (self)
+    if ([self class] == [LUConsolePluginSettings class])
     {
-        [self initDefaults];
-        
-        NSInteger version = [decoder decodeIntegerForKey:kKeyVersion];
-        if (version == kPluginSettingsVersion)
-        {
-            _enableExceptionWarning = [decoder decodeBoolForKey:kKeyEnableExceptionWarning];
-            _enableTransparentLogOverlay = [decoder decodeBoolForKey:kKeyEnableTransparentLogOverlay];
-        }
+        [self setVersion:2];
     }
-    return self;
-}
-
-- (void)encodeWithCoder:(NSCoder *)coder
-{
-    [coder encodeInteger:kPluginSettingsVersion forKey:kKeyVersion];
-    [coder encodeBool:_enableExceptionWarning forKey:kKeyEnableExceptionWarning];
-    [coder encodeBool:_enableTransparentLogOverlay forKey:kKeyEnableTransparentLogOverlay];
 }
 
 #pragma mark -
-#pragma mark Defaults
+#pragma mark Inheritance
 
 - (void)initDefaults
 {
@@ -94,32 +54,16 @@ static NSString * const kKeyEnableTransparentLogOverlay = @"enableTransparentLog
     _enableTransparentLogOverlay = NO;
 }
 
-#pragma mark -
-#pragma mark Save/Load
-
-+ (instancetype)settingsWithContentsOfFile:(NSString *)filename
+- (void)serializeWithCoder:(NSCoder *)coder
 {
-    LUConsolePluginSettings *settings = LUDeserializeObject(filename);
-    if (settings != nil)
-    {
-        [settings setFilename:filename];
-        return settings;
-    }
-    
-    return [[[self class] alloc] initWithFilename:filename];
+    [coder encodeBool:_enableExceptionWarning forKey:kKeyEnableExceptionWarning];
+    [coder encodeBool:_enableTransparentLogOverlay forKey:kKeyEnableTransparentLogOverlay];
 }
 
-- (BOOL)save
+- (void)deserializeWithDecoder:(NSCoder *)decoder
 {
-    return LUSerializeObject(self, _filename);
-}
-
-#pragma mark -
-#pragma mark Path
-
-- (void)setFilename:(NSString *)filename
-{
-    _filename = filename;
+    _enableExceptionWarning = [decoder decodeBoolForKey:kKeyEnableExceptionWarning];
+    _enableTransparentLogOverlay = [decoder decodeBoolForKey:kKeyEnableTransparentLogOverlay];
 }
 
 @end

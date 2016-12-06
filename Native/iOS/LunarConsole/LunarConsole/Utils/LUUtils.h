@@ -14,6 +14,7 @@
 #import "LULittleHelper.h"
 #import "LUMutableArray.h"
 #import "LUObject.h"
+#import "LUSerializableObject.h"
 #import "LUSerializationUtils.h"
 #import "LUSortedList.h"
 #import "LUStacktrace.h"

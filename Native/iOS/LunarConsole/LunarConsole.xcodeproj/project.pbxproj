@@ -41,6 +41,7 @@
 		84368BCF1DF154E90099321C /* LUConsolePopupController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84368BCD1DF154E90099321C /* LUConsolePopupController.m */; };
 		84368BEB1DF662170099321C /* LUSerializationUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 84368BEA1DF662170099321C /* LUSerializationUtils.m */; };
 		84368BEE1DF664220099321C /* LUFileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 84368BED1DF664220099321C /* LUFileUtils.m */; };
+		84368BF11DF669750099321C /* LUSerializableObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 84368BF01DF669750099321C /* LUSerializableObject.m */; };
 		844741B51B719C3100F5ABD3 /* libLunarConsole.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 844741A91B719C3100F5ABD3 /* libLunarConsole.a */; };
 		84B7BD8E1D2229810048472B /* LUEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B7BD8B1D2229810048472B /* LUEntry.m */; };
 		84B7BD8F1D2229810048472B /* LUEntryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B7BD8D1D2229810048472B /* LUEntryTableViewCell.m */; };
@@ -182,6 +183,8 @@
 		84368BEA1DF662170099321C /* LUSerializationUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUSerializationUtils.m; sourceTree = "<group>"; };
 		84368BEC1DF664220099321C /* LUFileUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUFileUtils.h; sourceTree = "<group>"; };
 		84368BED1DF664220099321C /* LUFileUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUFileUtils.m; sourceTree = "<group>"; };
+		84368BEF1DF669750099321C /* LUSerializableObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUSerializableObject.h; sourceTree = "<group>"; };
+		84368BF01DF669750099321C /* LUSerializableObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUSerializableObject.m; sourceTree = "<group>"; };
 		844741A91B719C3100F5ABD3 /* libLunarConsole.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libLunarConsole.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		844741B41B719C3100F5ABD3 /* LunarConsoleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LunarConsoleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		844741BA1B719C3100F5ABD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -633,6 +636,8 @@
 				EF0836981B7ABCCE00DFB877 /* LUMutableArray.m */,
 				EF0836991B7ABCCE00DFB877 /* LUObject.h */,
 				EF08369A1B7ABCCE00DFB877 /* LUObject.m */,
+				84368BEF1DF669750099321C /* LUSerializableObject.h */,
+				84368BF01DF669750099321C /* LUSerializableObject.m */,
 				84368BE91DF662170099321C /* LUSerializationUtils.h */,
 				84368BEA1DF662170099321C /* LUSerializationUtils.m */,
 				840F084B1DEA566F00E9F13D /* LUSortedList.h */,
@@ -788,6 +793,7 @@
 				EF5AD10B1D6B9CF100B27500 /* LUConsolePluginSettings.m in Sources */,
 				EF21AE201BF5383E0053D50B /* LULittleHelper.m in Sources */,
 				840F07F81DEA1E5A00E9F13D /* LUActionButton.m in Sources */,
+				84368BF11DF669750099321C /* LUSerializableObject.m in Sources */,
 				EFB99CDF1D21E67200C95E80 /* LUConsoleLogEntryTableViewCell.m in Sources */,
 				840F08451DEA53DF00E9F13D /* LUCVarIntegerTableViewCell.m in Sources */,
 				840F083F1DEA53DF00E9F13D /* LUActionTableViewCell.m in Sources */,

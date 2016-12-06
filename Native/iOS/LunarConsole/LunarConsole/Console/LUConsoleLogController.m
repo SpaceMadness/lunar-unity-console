@@ -772,9 +772,4 @@ static const CGFloat kMinWidthToResizeSearchBar = 480;
     return [LUTheme mainTheme];
 }
 
-- (LUConsoleControllerState *)controllerState
-{
-    return [LUConsoleControllerState sharedControllerState];
-}
-
 @end

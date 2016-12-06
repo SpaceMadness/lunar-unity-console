@@ -20,13 +20,11 @@
 //
 
 #import "LUObject.h"
+#import "LUSerializableObject.h"
 
-@interface LUConsolePluginSettings : LUObject
+@interface LUConsolePluginSettings : LUSerializableObject
 
 @property (nonatomic, assign) BOOL enableExceptionWarning;
 @property (nonatomic, assign) BOOL enableTransparentLogOverlay;
-
-+ (instancetype)settingsWithContentsOfFile:(NSString *)filename;
-- (BOOL)save;
 
 @end

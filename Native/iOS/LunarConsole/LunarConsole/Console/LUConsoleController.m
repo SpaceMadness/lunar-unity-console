@@ -12,10 +12,6 @@
 
 NSString * const LUConsoleControllerDidResizeNotification = @"LUConsoleControllerDidResizeNotification";
 
-static const NSUInteger kConsoleControllerStateVersion = 1;
-
-static LUConsoleControllerState * _sharedControllerState;
-
 @interface LUConsoleController () <LUConsoleLogControllerResizeDelegate, LUConsoleResizeControllerDelegate>
 
 @property (nonatomic, weak) IBOutlet UIScrollView *scrollView; // we need to be able to use "paging" scrolling between differenct controllers
@@ -30,6 +26,7 @@ static LUConsoleControllerState * _sharedControllerState;
 
 @property (nonatomic, weak) LUConsolePlugin *plugin;
 @property (nonatomic, strong) NSArray<UIViewController *> *pageControllers;
+@property (nonatomic, strong) LUConsoleControllerState *state;
 
 @end
 
@@ -63,6 +60,7 @@ static LUConsoleControllerState * _sharedControllerState;
     if (self)
     {
         _plugin = plugin;
+        _state = [LUConsoleControllerState loadFromFile:@"controllerstate"];
     }
     return self;
 }
@@ -99,9 +97,9 @@ static LUConsoleControllerState * _sharedControllerState;
     CGSize contentSize = CGSizeMake(_pageControllers.count * pageSize.width, pageSize.height);
     _scrollView.contentSize = contentSize;
     
-    if ([LUConsoleControllerState sharedControllerState].hasCustomControllerFrame)
+    if (_state.hasCustomControllerFrame)
     {
-        [self setControllerFrame:[LUConsoleControllerState sharedControllerState].controllerFrame];
+        [self setControllerFrame:_state.controllerFrame];
     }
 }
 
@@ -215,8 +213,6 @@ static LUConsoleControllerState * _sharedControllerState;
     self.contentLeadingConstraint.constant = CGRectGetMinX(frame);
     self.contentTrailingConstraint.constant = frame.size.width;
     [self.contentView layoutIfNeeded];
-    
-    [LUConsoleControllerState sharedControllerState].controllerFrame = frame;
 }
 
 #pragma mark -
@@ -258,79 +254,59 @@ static LUConsoleControllerState * _sharedControllerState;
     [self setControllerFrame:frame];
     [self setContentHidden:NO];
     
+    _state.controllerFrame = frame;
+    
     // TODO: use wrappers
     [[NSNotificationCenter defaultCenter] postNotificationName:LUConsoleControllerDidResizeNotification object:nil];
 }
 
 @end
 
-@interface LUConsoleControllerState () <NSCoding>
-
-@end
-
 @implementation LUConsoleControllerState
 
-- (instancetype)init
-{
-    self = [super init];
-    if (self)
-    {
-        [self setDefaults];
-    }
-    return self;
-}
-
 #pragma mark -
-#pragma mark NSCoding
+#pragma mark Loading
 
-- (instancetype)initWithCoder:(NSCoder *)aDecoder
++ (void)initialize
 {
-    self = [super init];
-    if (self)
+    if ([self class] == [LUConsoleControllerState class])
     {
-        [self setDefaults];
-        
-        NSUInteger version = [aDecoder decodeIntegerForKey:@"version"];
-        if (version == kConsoleControllerStateVersion)
-        {
-            _hasCustomControllerFrame = [aDecoder decodeBoolForKey:@"hasCustomControllerFrame"];
-            if (_hasCustomControllerFrame)
-            {
-                _controllerFrame = [aDecoder decodeCGRectForKey:@"controllerFrame"];
-            }
-        }
-    }
-    return self;
-}
-
-- (void)encodeWithCoder:(NSCoder *)aCoder
-{
-    [aCoder encodeInteger:kConsoleControllerStateVersion forKey:@"version"];
-    if (_hasCustomControllerFrame)
-    {
-        [aCoder encodeBool:_hasCustomControllerFrame forKey:@"hasCustomControllerFrame"];
-        [aCoder encodeCGRect:_controllerFrame forKey:@"controllerFrame"];
+        [self setVersion:1];
     }
 }
 
 #pragma mark -
-#pragma mark Defaults
+#pragma mark Inheritance
 
-- (void)setDefaults
+- (void)initDefaults
 {
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
     {
+        _hasCustomControllerFrame = YES;
         CGSize screenSize = LUGetScreenBounds().size;
-        CGRect controllerFrame;
         if (LUIsPortraitInterfaceOrientation())
         {
-            controllerFrame = CGRectMake(0, 0, 0, 0.4 * screenSize.height);
+            _controllerFrame = CGRectMake(0, 0, 0, 0.4 * screenSize.height);
         }
         else
         {
-            controllerFrame = CGRectMake(0, 0, 0, 0.25 * screenSize.height);
+            _controllerFrame = CGRectMake(0, 0, 0, 0.25 * screenSize.height);
         }
-        [self setControllerFrame:controllerFrame];
+    }
+}
+
+- (void)serializeWithCoder:(NSCoder *)coder
+{
+    [coder encodeBool:_hasCustomControllerFrame forKey:@"hasCustomControllerFrame"];
+    [coder encodeCGRect:_controllerFrame forKey:@"controllerFrame"];
+}
+
+- (void)deserializeWithDecoder:(NSCoder *)decoder
+{
+    _hasCustomControllerFrame = [decoder decodeBoolForKey:@"hasCustomControllerFrame"];
+    if (_hasCustomControllerFrame)
+    {
+        _controllerFrame = [decoder decodeCGRectForKey:@"controllerFrame"];
     }
 }
 
@@ -341,18 +317,8 @@ static LUConsoleControllerState * _sharedControllerState;
 {
     _hasCustomControllerFrame = YES;
     _controllerFrame = controllerFrame;
-}
-
-#pragma mark -
-#pragma mark Singleton
-
-+ (instancetype)sharedControllerState
-{
-    static dispatch_once_t onceToken;
-    dispatch_once(&onceToken, ^{
-        _sharedControllerState = [[self alloc] init];
-    });
     
-    return _sharedControllerState;
+    [self save];
 }
+
 @end

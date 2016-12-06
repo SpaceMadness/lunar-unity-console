@@ -8,15 +8,15 @@
 
 #import "LUFileUtils.h"
 
-NSString *LUGetDocumentsDir(BOOL createIfNeccessary)
+NSString *LUGetDocumentsDir()
 {
-    NSArray *searchPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, createIfNeccessary);
+    NSArray *searchPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     return [searchPaths objectAtIndex:0];
 }
 
-NSString *LUGetDocumentsFile(NSString *name, BOOL createIfNeccessary)
+NSString *LUGetDocumentsFile(NSString *name)
 {
-    NSString *documentsDir = LUGetDocumentsDir(createIfNeccessary);
+    NSString *documentsDir = LUGetDocumentsDir();
     return [documentsDir stringByAppendingPathComponent:name];
 }
 
