@@ -41,7 +41,7 @@ static NSString * const kKeyEnableTransparentLogOverlay = @"enableTransparentLog
 {
     if ([self class] == [LUConsolePluginSettings class])
     {
-        [self setVersion:2];
+        [self setVersion:1];
     }
 }
 

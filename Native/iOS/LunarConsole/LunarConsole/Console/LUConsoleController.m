@@ -10,6 +10,8 @@
 
 #import "Lunar.h"
 
+static NSString * const kStateFilename = @"com.spacemadness.lunarmobileconsole.state.bin";
+
 NSString * const LUConsoleControllerDidResizeNotification = @"LUConsoleControllerDidResizeNotification";
 
 @interface LUConsoleController () <LUConsoleLogControllerResizeDelegate, LUConsoleResizeControllerDelegate>
@@ -60,7 +62,7 @@ NSString * const LUConsoleControllerDidResizeNotification = @"LUConsoleControlle
     if (self)
     {
         _plugin = plugin;
-        _state = [LUConsoleControllerState loadFromFile:@"controllerstate"];
+        _state = [LUConsoleControllerState loadFromFile:kStateFilename];
     }
     return self;
 }

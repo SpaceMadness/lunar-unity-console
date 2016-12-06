@@ -28,7 +28,7 @@ static const CGFloat kWarningHeight = 45.0f;
 
 static NSString * const kScriptMessageConsoleOpen  = @"console_open";
 static NSString * const kScriptMessageConsoleClose = @"console_close";
-static NSString * const kSettingsFilename          = @"com.spacemadness.LunarMobileConsoleSettings.bin";
+static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmobileconsole.settings.bin";
 
 @interface LUConsolePlugin () <LUConsoleControllerDelegate, LUExceptionWarningControllerDelegate>
 {
