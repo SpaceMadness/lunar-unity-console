@@ -21,7 +21,54 @@
 
 package spacemadness.com.lunarconsole.console;
 
-// FIXME: replace with a better solution
 class ConsoleViewState
 {
+    private int leftMargin;
+    private int rightMargin;
+    private int topMargin;
+    private int bottomMargin;
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Getters/Setters
+
+    public int getBottomMargin()
+    {
+        return bottomMargin;
+    }
+
+    public int getTopMargin()
+    {
+        return topMargin;
+    }
+
+    public int getRightMargin()
+    {
+        return rightMargin;
+    }
+
+    public int getLeftMargin()
+    {
+        return leftMargin;
+    }
+
+    public void setMargins(int topMargin, int bottomMargin, int leftMargin, int rightMargin)
+    {
+        this.topMargin = topMargin;
+        this.bottomMargin = bottomMargin;
+        this.leftMargin = leftMargin;
+        this.rightMargin = rightMargin;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Thread safe singleton
+
+    public static ConsoleViewState instance()
+    {
+        return Holder.INSTANCE;
+    }
+
+    private static final class Holder
+    {
+        static final ConsoleViewState INSTANCE = new ConsoleViewState();
+    }
 }

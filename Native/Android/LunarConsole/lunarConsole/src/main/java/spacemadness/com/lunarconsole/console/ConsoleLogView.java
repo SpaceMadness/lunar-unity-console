@@ -749,6 +749,12 @@ public class ConsoleLogView extends LinearLayout implements
             parentLayoutParams.rightMargin = moveResizeView.getRightMargin();
             invalidate();
 
+            // update state margins
+            ConsoleViewState.instance().setMargins(moveResizeView.getTopMargin(),
+                    moveResizeView.getBottomMargin(),
+                    moveResizeView.getLeftMargin(),
+                    moveResizeView.getRightMargin());
+
             final ViewGroup parent = (ViewGroup) moveResizeView.getParent();
             parent.removeView(moveResizeView);
 

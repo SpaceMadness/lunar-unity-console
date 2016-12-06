@@ -65,6 +65,9 @@ public class MoveResizeView extends LinearLayout implements Destroyable
 
     private void loadViewFromXml(Context context)
     {
+        minWidth = context.getResources().getDimensionPixelSize(R.dimen.lunar_console_move_resize_min_width);
+        minHeight = context.getResources().getDimensionPixelSize(R.dimen.lunar_console_move_resize_min_height);
+
         LayoutInflater inflater = LayoutInflater.from(context);
         targetView = (RelativeLayout) inflater.inflate(R.layout.lunar_console_layout_move_resize, null, false);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);

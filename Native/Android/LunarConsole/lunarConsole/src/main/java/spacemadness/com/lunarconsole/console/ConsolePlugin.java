@@ -530,6 +530,15 @@ public class ConsolePlugin implements
 
                 // place console log view into console layout
                 LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+
+                // set layout margins
+                final ConsoleViewState state = ConsoleViewState.instance();
+                params.topMargin = state.getTopMargin();
+                params.bottomMargin = state.getBottomMargin();
+                params.leftMargin = state.getLeftMargin();
+                params.rightMargin = state.getRightMargin();
+
+                // add view
                 consoleContentView.addView(consoleLogView, params);
 
                 // show animation
