@@ -64,11 +64,7 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.LunarMob
         _console = [[LUConsole alloc] initWithCapacity:capacity trimCount:trimCount];
         _actionRegistry = [[LUActionRegistry alloc] init];
         _gesture = [self gestureFromString:gestureName];
-        
-        NSArray *searchPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString *documentPath = [searchPaths objectAtIndex:0];
-        NSString *settingsFile = [documentPath stringByAppendingPathComponent:kSettingsFilename];
-        _settings = [LUConsolePluginSettings settingsWithContentsOfFile:settingsFile];
+        _settings = [LUConsolePluginSettings settingsWithContentsOfFile:kSettingsFilename];
     }
     return self;
 }
@@ -76,8 +72,6 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.LunarMob
 - (void)dealloc
 {
     [self disableGestureRecognition];
-    
-    
 }
 
 #pragma mark -

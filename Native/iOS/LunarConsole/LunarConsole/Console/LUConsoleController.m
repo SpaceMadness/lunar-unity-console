@@ -12,6 +12,8 @@
 
 NSString * const LUConsoleControllerDidResizeNotification = @"LUConsoleControllerDidResizeNotification";
 
+static const NSUInteger kConsoleControllerStateVersion = 1;
+
 static LUConsoleControllerState * _sharedControllerState;
 
 @interface LUConsoleController () <LUConsoleLogControllerResizeDelegate, LUConsoleResizeControllerDelegate>
@@ -262,6 +264,10 @@ static LUConsoleControllerState * _sharedControllerState;
 
 @end
 
+@interface LUConsoleControllerState () <NSCoding>
+
+@end
+
 @implementation LUConsoleControllerState
 
 - (instancetype)init
@@ -269,23 +275,76 @@ static LUConsoleControllerState * _sharedControllerState;
     self = [super init];
     if (self)
     {
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+        [self setDefaults];
+    }
+    return self;
+}
+
+#pragma mark -
+#pragma mark NSCoding
+
+- (instancetype)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super init];
+    if (self)
+    {
+        [self setDefaults];
+        
+        NSUInteger version = [aDecoder decodeIntegerForKey:@"version"];
+        if (version == kConsoleControllerStateVersion)
         {
-            CGSize screenSize = LUGetScreenBounds().size;
-            CGRect controllerFrame;
-            if (LUIsPortraitInterfaceOrientation())
+            _hasCustomControllerFrame = [aDecoder decodeBoolForKey:@"hasCustomControllerFrame"];
+            if (_hasCustomControllerFrame)
             {
-                controllerFrame = CGRectMake(0, 0, 0, 0.4 * screenSize.height);
+                _controllerFrame = [aDecoder decodeCGRectForKey:@"controllerFrame"];
             }
-            else
-            {
-                controllerFrame = CGRectMake(0, 0, 0, 0.25 * screenSize.height);
-            }
-            [self setControllerFrame:controllerFrame];
         }
     }
     return self;
 }
+
+- (void)encodeWithCoder:(NSCoder *)aCoder
+{
+    [aCoder encodeInteger:kConsoleControllerStateVersion forKey:@"version"];
+    if (_hasCustomControllerFrame)
+    {
+        [aCoder encodeBool:_hasCustomControllerFrame forKey:@"hasCustomControllerFrame"];
+        [aCoder encodeCGRect:_controllerFrame forKey:@"controllerFrame"];
+    }
+}
+
+#pragma mark -
+#pragma mark Defaults
+
+- (void)setDefaults
+{
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    {
+        CGSize screenSize = LUGetScreenBounds().size;
+        CGRect controllerFrame;
+        if (LUIsPortraitInterfaceOrientation())
+        {
+            controllerFrame = CGRectMake(0, 0, 0, 0.4 * screenSize.height);
+        }
+        else
+        {
+            controllerFrame = CGRectMake(0, 0, 0, 0.25 * screenSize.height);
+        }
+        [self setControllerFrame:controllerFrame];
+    }
+}
+
+#pragma mark -
+#pragma mark Getters/Setters
+
+- (void)setControllerFrame:(CGRect)controllerFrame
+{
+    _hasCustomControllerFrame = YES;
+    _controllerFrame = controllerFrame;
+}
+
+#pragma mark -
+#pragma mark Singleton
 
 + (instancetype)sharedControllerState
 {
@@ -296,11 +355,4 @@ static LUConsoleControllerState * _sharedControllerState;
     
     return _sharedControllerState;
 }
-
-- (void)setControllerFrame:(CGRect)controllerFrame
-{
-    _hasCustomControllerFrame = YES;
-    _controllerFrame = controllerFrame;
-}
-
 @end

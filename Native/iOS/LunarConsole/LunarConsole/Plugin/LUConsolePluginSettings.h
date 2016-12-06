@@ -26,7 +26,7 @@
 @property (nonatomic, assign) BOOL enableExceptionWarning;
 @property (nonatomic, assign) BOOL enableTransparentLogOverlay;
 
-+ (instancetype)settingsWithContentsOfFile:(NSString *)path;
++ (instancetype)settingsWithContentsOfFile:(NSString *)filename;
 - (BOOL)save;
 
 @end

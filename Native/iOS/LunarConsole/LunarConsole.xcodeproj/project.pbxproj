@@ -39,6 +39,8 @@
 		840F08881DEA6B7400E9F13D /* LUStringUtilsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F087E1DEA6B7400E9F13D /* LUStringUtilsTest.m */; };
 		840F08CC1DED086E00E9F13D /* LUConsoleResizeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F08CA1DED086E00E9F13D /* LUConsoleResizeController.m */; };
 		84368BCF1DF154E90099321C /* LUConsolePopupController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84368BCD1DF154E90099321C /* LUConsolePopupController.m */; };
+		84368BEB1DF662170099321C /* LUSerializationUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 84368BEA1DF662170099321C /* LUSerializationUtils.m */; };
+		84368BEE1DF664220099321C /* LUFileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 84368BED1DF664220099321C /* LUFileUtils.m */; };
 		844741B51B719C3100F5ABD3 /* libLunarConsole.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 844741A91B719C3100F5ABD3 /* libLunarConsole.a */; };
 		84B7BD8E1D2229810048472B /* LUEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B7BD8B1D2229810048472B /* LUEntry.m */; };
 		84B7BD8F1D2229810048472B /* LUEntryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B7BD8D1D2229810048472B /* LUEntryTableViewCell.m */; };
@@ -176,6 +178,10 @@
 		84368BD61DF26F880099321C /* lunar_console_resize_handle_vertical.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lunar_console_resize_handle_vertical.png; sourceTree = "<group>"; };
 		84368BD71DF26F880099321C /* lunar_console_resize_handle_vertical@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lunar_console_resize_handle_vertical@2x.png"; sourceTree = "<group>"; };
 		84368BD81DF26F880099321C /* lunar_console_resize_handle_vertical@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lunar_console_resize_handle_vertical@3x.png"; sourceTree = "<group>"; };
+		84368BE91DF662170099321C /* LUSerializationUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUSerializationUtils.h; sourceTree = "<group>"; };
+		84368BEA1DF662170099321C /* LUSerializationUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUSerializationUtils.m; sourceTree = "<group>"; };
+		84368BEC1DF664220099321C /* LUFileUtils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUFileUtils.h; sourceTree = "<group>"; };
+		84368BED1DF664220099321C /* LUFileUtils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUFileUtils.m; sourceTree = "<group>"; };
 		844741A91B719C3100F5ABD3 /* libLunarConsole.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libLunarConsole.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		844741B41B719C3100F5ABD3 /* LunarConsoleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LunarConsoleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		844741BA1B719C3100F5ABD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -617,6 +623,8 @@
 				EF0836941B7ABCCE00DFB877 /* LUAvailability.h */,
 				EF0836951B7ABCCE00DFB877 /* LUAvailability.m */,
 				EF0836961B7ABCCE00DFB877 /* LUDefines.h */,
+				84368BEC1DF664220099321C /* LUFileUtils.h */,
+				84368BED1DF664220099321C /* LUFileUtils.m */,
 				840F07F21DE97D9A00E9F13D /* LUImageUtils.h */,
 				840F07F31DE97E0000E9F13D /* LUImageUtils.m */,
 				EF21AE1E1BF5383E0053D50B /* LULittleHelper.h */,
@@ -625,6 +633,8 @@
 				EF0836981B7ABCCE00DFB877 /* LUMutableArray.m */,
 				EF0836991B7ABCCE00DFB877 /* LUObject.h */,
 				EF08369A1B7ABCCE00DFB877 /* LUObject.m */,
+				84368BE91DF662170099321C /* LUSerializationUtils.h */,
+				84368BEA1DF662170099321C /* LUSerializationUtils.m */,
 				840F084B1DEA566F00E9F13D /* LUSortedList.h */,
 				840F084C1DEA566F00E9F13D /* LUSortedList.m */,
 				EF64F8F71C03DCE8008DCB8E /* LUStacktrace.h */,
@@ -736,6 +746,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				84368BEB1DF662170099321C /* LUSerializationUtils.m in Sources */,
 				EF0836AE1B7ABCCE00DFB877 /* LUThreading.m in Sources */,
 				840F083D1DEA53DF00E9F13D /* LUActionRegistry.m in Sources */,
 				EF0836AB1B7ABCCE00DFB877 /* LUAvailability.m in Sources */,
@@ -753,6 +764,7 @@
 				840F083C1DEA53DF00E9F13D /* LUActionController.m in Sources */,
 				84368BCF1DF154E90099321C /* LUConsolePopupController.m in Sources */,
 				840F084D1DEA566F00E9F13D /* LUSortedList.m in Sources */,
+				84368BEE1DF664220099321C /* LUFileUtils.m in Sources */,
 				EF0836A81B7ABCCE00DFB877 /* LUToggleButton.m in Sources */,
 				84EA4FCA1C57163000A0635C /* LUConsoleLogEntryLookupTable.m in Sources */,
 				840F08471DEA53DF00E9F13D /* LUCVarTableViewCell.m in Sources */,

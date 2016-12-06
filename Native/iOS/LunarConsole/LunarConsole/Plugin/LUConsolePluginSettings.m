@@ -19,8 +19,6 @@
 //  limitations under the License.
 //
 
-#import <objc/runtime.h>
-
 #import "Lunar.h"
 
 #import "LUConsolePluginSettings.h"
@@ -33,7 +31,7 @@ static NSString * const kKeyEnableTransparentLogOverlay = @"enableTransparentLog
 
 @interface LUConsolePluginSettings () <NSCoding>
 {
-    NSString   * _filepath;
+    NSString   * _filename;
 }
 
 // IMPORTANT: don't create any other properties here
@@ -42,18 +40,18 @@ static NSString * const kKeyEnableTransparentLogOverlay = @"enableTransparentLog
 
 @implementation LUConsolePluginSettings
 
-- (instancetype)initWithFilepath:(NSString *)filepath
+- (instancetype)initWithFilename:(NSString *)filename
 {
     self = [super init];
     if (self)
     {
-        if (filepath == nil)
+        if (filename == nil)
         {
             self = nil;
             return nil;
         }
         
-        _filepath = filepath;
+        _filename = filename;
         [self initDefaults];
     }
     return self;
@@ -99,32 +97,29 @@ static NSString * const kKeyEnableTransparentLogOverlay = @"enableTransparentLog
 #pragma mark -
 #pragma mark Save/Load
 
-+ (instancetype)settingsWithContentsOfFile:(NSString *)path
++ (instancetype)settingsWithContentsOfFile:(NSString *)filename
 {
-    LUConsolePluginSettings *settings = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
+    LUConsolePluginSettings *settings = LUDeserializeObject(filename);
     if (settings != nil)
     {
-        [settings setFilepath:path];
+        [settings setFilename:filename];
         return settings;
     }
     
-    return [[[self class] alloc] initWithFilepath:path];
+    return [[[self class] alloc] initWithFilename:filename];
 }
 
 - (BOOL)save
 {
-    return [NSKeyedArchiver archiveRootObject:self toFile:_filepath];
+    return LUSerializeObject(self, _filename);
 }
 
 #pragma mark -
 #pragma mark Path
 
-- (void)setFilepath:(NSString *)filepath
+- (void)setFilename:(NSString *)filename
 {
-    if (_filepath != filepath)
-    {
-        _filepath = filepath;
-    }
+    _filename = filename;
 }
 
 @end
