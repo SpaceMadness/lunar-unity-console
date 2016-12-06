@@ -71,13 +71,16 @@ static const CGFloat kMinWidthToResizeSearchBar = 480;
     self = [super initWithNibName:NSStringFromClass([self class]) bundle:nil];
     if (self)
     {
-        _plugin = plugin; // no retain here
+        _plugin = plugin; // weak variable: no retain here
+        [self registerNotifications];
     }
     return self;
 }
 
 - (void)dealloc
 {
+    [self unregisterNotifications];
+    
     if (self.console.delegate == self)
     {
         self.console.delegate = nil;
@@ -167,6 +170,27 @@ static const CGFloat kMinWidthToResizeSearchBar = 480;
     [super didReceiveMemoryWarning];
     
     // TODO: clean up cells
+}
+
+#pragma mark -
+#pragma mark Notifications
+
+- (void)registerNotifications
+{
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(consoleControllerDidResizeNotification:)
+                                                 name:LUConsoleControllerDidResizeNotification
+                                               object:nil];
+}
+
+- (void)unregisterNotifications
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)consoleControllerDidResizeNotification:(NSNotification *)notification
+{
+    [_tableView reloadRowsAtIndexPaths:_tableView.indexPathsForVisibleRows withRowAnimation:UITableViewRowAnimationNone];
 }
 
 #pragma mark -

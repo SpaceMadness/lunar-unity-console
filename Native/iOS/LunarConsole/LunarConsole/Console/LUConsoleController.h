@@ -11,6 +11,8 @@
 @class LUConsolePlugin;
 @class LUConsoleController;
 
+extern NSString * const LUConsoleControllerDidResizeNotification;
+
 @protocol LUConsoleControllerDelegate <NSObject>
 
 @optional

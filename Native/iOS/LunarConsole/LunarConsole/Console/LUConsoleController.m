@@ -10,6 +10,8 @@
 
 #import "Lunar.h"
 
+NSString * const LUConsoleControllerDidResizeNotification = @"LUConsoleControllerDidResizeNotification";
+
 static LUConsoleControllerState * _sharedControllerState;
 
 @interface LUConsoleController () <LUConsoleLogControllerResizeDelegate, LUConsoleResizeControllerDelegate>
@@ -210,7 +212,7 @@ static LUConsoleControllerState * _sharedControllerState;
     self.contentBottomConstraint.constant = frame.size.height;
     self.contentLeadingConstraint.constant = CGRectGetMinX(frame);
     self.contentTrailingConstraint.constant = frame.size.width;
-    [self.view layoutIfNeeded];
+    [self.contentView layoutIfNeeded];
     
     [LUConsoleControllerState sharedControllerState].controllerFrame = frame;
 }
@@ -250,11 +252,12 @@ static LUConsoleControllerState * _sharedControllerState;
     CGSize size = self.view.bounds.size;
     frame.size.width = size.width - CGRectGetMaxX(frame);
     frame.size.height = size.height - CGRectGetMaxY(frame);
-    [self.view layoutIfNeeded];
     
     [self setControllerFrame:frame];
-    
     [self setContentHidden:NO];
+    
+    // TODO: use wrappers
+    [[NSNotificationCenter defaultCenter] postNotificationName:LUConsoleControllerDidResizeNotification object:nil];
 }
 
 @end
@@ -272,11 +275,11 @@ static LUConsoleControllerState * _sharedControllerState;
             CGRect controllerFrame;
             if (LUIsPortraitInterfaceOrientation())
             {
-                controllerFrame = CGRectMake(0.1 * screenSize.width, 0, 0.1 * screenSize.width, 0.4 * screenSize.height);
+                controllerFrame = CGRectMake(0, 0, 0, 0.4 * screenSize.height);
             }
             else
             {
-                controllerFrame = CGRectMake(0.15 * screenSize.width, 0, 0.15 * screenSize.width, 0.25 * screenSize.height);
+                controllerFrame = CGRectMake(0, 0, 0, 0.25 * screenSize.height);
             }
             [self setControllerFrame:controllerFrame];
         }

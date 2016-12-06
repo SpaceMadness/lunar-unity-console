@@ -19,6 +19,18 @@
 //  limitations under the License.
 //
 
+#if !defined(LU_INLINE)
+# if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L
+#  define LU_INLINE static inline
+# elif defined(__cplusplus)
+#  define LU_INLINE static inline
+# elif defined(__GNUC__)
+#  define LU_INLINE static __inline__
+# else
+#  define LU_INLINE static
+# endif
+#endif
+
 #define LU_SHOULD_IMPLEMENT_METHOD \
     NSLog(@"%@ should implement %@ method", NSStringFromClass([self class]), NSStringFromSelector(_cmd));
 

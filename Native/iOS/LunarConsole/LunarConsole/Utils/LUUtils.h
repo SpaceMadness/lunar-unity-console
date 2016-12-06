@@ -17,3 +17,9 @@
 #import "LUStacktrace.h"
 #import "LUStringUtils.h"
 #import "LUThreading.h"
+
+LU_INLINE BOOL
+LUFloatApprox(float a, float b)
+{
+    return fabsf(a - b) < 0.00001;
+}

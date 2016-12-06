@@ -46,10 +46,17 @@ static const NSInteger kSectionCount = 2;
             return nil;
         }
         
+        [self registerNotifications];
+        
         _actionRegistryFilter = [[LUActionRegistryFilter alloc] initWithActionRegistry:actionRegistry];
         _actionRegistryFilter.delegate = self;
     }
     return self;
+}
+
+- (void)dealloc
+{
+    [self unregisterNotifications];
 }
 
 - (void)viewDidLoad
@@ -92,11 +99,24 @@ static const NSInteger kSectionCount = 2;
 }
 
 #pragma mark -
-#pragma mark Status bar
+#pragma mark Notifications
 
-- (BOOL)prefersStatusBarHidden
+- (void)registerNotifications
 {
-    return YES;
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(consoleControllerDidResizeNotification:)
+                                                 name:LUConsoleControllerDidResizeNotification
+                                               object:nil];
+}
+
+- (void)unregisterNotifications
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+- (void)consoleControllerDidResizeNotification:(NSNotification *)notification
+{
+    [_tableView reloadRowsAtIndexPaths:_tableView.indexPathsForVisibleRows withRowAnimation:UITableViewRowAnimationNone];
 }
 
 #pragma mark -
