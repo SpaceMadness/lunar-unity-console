@@ -26,13 +26,13 @@ public class MoveResizeView extends LinearLayout implements Destroyable
     private static final int OPERATION_RESIZE_TOP_LEFT = OPERATION_RESIZE_TOP | OPERATION_RESIZE_LEFT;
     private static final int OPERATION_RESIZE_TOP_RIGHT = OPERATION_RESIZE_TOP | OPERATION_RESIZE_RIGHT;
     private static final int OPERATION_RESIZE_BOTTOM_LEFT = OPERATION_RESIZE_BOTTOM | OPERATION_RESIZE_LEFT;
-    private static final int OPERATION_RESIZE_BOTTOM_RIGHT = OPERATION_RESIZE_BOTTOM | OPERATION_RESIZE_RIGHT;
 
     private int operation;
     private int minWidth;
     private int minHeight;
     private float lastX;
     private float lastY;
+    private OnCloseListener closeListener;
 
     /** The target layout for resizing */
     private RelativeLayout targetView;
@@ -80,6 +80,21 @@ public class MoveResizeView extends LinearLayout implements Destroyable
 
     private void setupUI()
     {
+        // close button
+        targetView.findViewById(R.id.lunar_console_resize_button_close)
+                .setOnClickListener(new OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        if (closeListener != null)
+                        {
+                            closeListener.onClose(MoveResizeView.this);
+                        }
+                    }
+                });
+
+        // resize handles
         final SparseIntArray operationLookup = new SparseIntArray();
         operationLookup.append(R.id.lunar_console_resize_bar_top, OPERATION_RESIZE_TOP);
         operationLookup.append(R.id.lunar_console_resize_bar_bottom, OPERATION_RESIZE_BOTTOM);
@@ -88,7 +103,6 @@ public class MoveResizeView extends LinearLayout implements Destroyable
         operationLookup.append(R.id.lunar_console_resize_bar_top_left, OPERATION_RESIZE_TOP_LEFT);
         operationLookup.append(R.id.lunar_console_resize_bar_top_right, OPERATION_RESIZE_TOP_RIGHT);
         operationLookup.append(R.id.lunar_console_resize_bar_bottom_left, OPERATION_RESIZE_BOTTOM_LEFT);
-        operationLookup.append(R.id.lunar_console_resize_bar_bottom_right, OPERATION_RESIZE_BOTTOM_RIGHT);
 
         OnTouchListener resizeHandleTouchListener = new OnTouchListener()
         {
@@ -238,11 +252,29 @@ public class MoveResizeView extends LinearLayout implements Destroyable
         return (MarginLayoutParams) targetView.getLayoutParams();
     }
 
+    public OnCloseListener getOnCloseListener()
+    {
+        return closeListener;
+    }
+
+    public void setOnCloseListener(OnCloseListener closeListener)
+    {
+        this.closeListener = closeListener;
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////
     // Destroyable
 
     @Override
     public void destroy()
     {
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////
+    // Listener
+
+    public interface OnCloseListener
+    {
+        void onClose(MoveResizeView view);
     }
 }

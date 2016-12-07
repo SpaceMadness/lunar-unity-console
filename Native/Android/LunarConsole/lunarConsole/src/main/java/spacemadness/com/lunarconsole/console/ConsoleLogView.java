@@ -731,6 +731,16 @@ public class ConsoleLogView extends LinearLayout implements
                 // hide the log view
                 // setVisibility(GONE); we can't use setVisibility here since it break back button handling
                 setAlpha(0);
+
+                // handle close button
+                moveResizeView.setOnCloseListener(new MoveResizeView.OnCloseListener()
+                {
+                    @Override
+                    public void onClose(MoveResizeView view)
+                    {
+                        hideMoveResizeView();
+                    }
+                });
             }
         }
     }

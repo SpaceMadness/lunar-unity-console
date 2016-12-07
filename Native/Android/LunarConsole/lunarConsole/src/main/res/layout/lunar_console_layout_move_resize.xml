@@ -44,7 +44,7 @@
     <ImageView
         android:id="@+id/lunar_console_resize_bar_right"
         style="@style/lunar_console_move_resize_vertical_handle_style"
-        android:layout_above="@+id/lunar_console_resize_bar_bottom_right"
+        android:layout_above="@+id/lunar_console_resize_button_close"
         android:layout_alignParentRight="true"
         android:layout_below="@+id/lunar_console_resize_bar_top_right"/>
 
@@ -57,21 +57,21 @@
         android:layout_alignParentStart="true"
         />
 
-    <!-- Bottom right -->
-    <ImageView
-        android:id="@+id/lunar_console_resize_bar_bottom_right"
-        style="@style/lunar_console_move_resize_corner_handle_style"
+    <!-- Close button -->
+    <ImageButton
+        android:id="@+id/lunar_console_resize_button_close"
+        style="@style/lunar_console_base_button_style"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        />
+        android:src="@drawable/lunar_console_icon_button_close"/>
 
     <!-- Bottom -->
     <ImageView
         android:id="@+id/lunar_console_resize_bar_bottom"
         style="@style/lunar_console_move_resize_horizontal_handle_style"
         android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/lunar_console_resize_bar_bottom_right"
+        android:layout_toLeftOf="@+id/lunar_console_resize_button_close"
         android:layout_toRightOf="@+id/lunar_console_resize_bar_bottom_left"
         />
 
