@@ -2,14 +2,19 @@
 
 ## v.0.7.0 - 12/7/2016
 
+**New:**
+
+* Added support for console move/resize.
+
 **Fixes:**
 
-* **iOS**: fixed adaptive UI-layout.
-* **Android**: minor UI fixes.
+* **iOS**: Xcode 7 compatibility and UI fixes.
+* **Android**: Android Nougat compatibility fixes.
 
 **Improvements:**
 
 * Added move/resize feature.
+* **iOS**: improved memory usage.
 
 ## v.0.6.1 - 9/19/2016
 
