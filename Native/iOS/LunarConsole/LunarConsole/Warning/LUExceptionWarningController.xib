@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
+        <development version="7000" identifier="xcode"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <objects>
@@ -22,8 +23,8 @@
                         <constraint firstAttribute="width" constant="46" id="aTP-bg-WL0"/>
                     </constraints>
                     <state key="normal" image="lunar_console_icon_button_close.png">
-                        <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
                     <connections>
                         <action selector="onDismissButton:" destination="-1" eventType="touchUpInside" id="67Q-EL-eNF"/>
@@ -39,7 +40,7 @@
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Error message" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pZD-Ol-Boa">
                     <rect key="frame" x="40" y="17" width="452" height="12"/>
                     <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="10"/>
-                    <color key="textColor" red="0.75294117647058822" green="0.56862745098039214" blue="0.56470588235294117" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <color key="textColor" red="0.69611859321594238" green="0.49145245552062988" blue="0.49235033988952637" alpha="1" colorSpace="calibratedRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hTg-YX-Dhr" userLabel="Button Console">
@@ -49,15 +50,15 @@
                         <constraint firstAttribute="width" constant="46" id="qX2-ZL-pNc"/>
                     </constraints>
                     <state key="normal" image="lunar_console_icon_button_console.png">
-                        <color key="titleColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
-                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
                     <connections>
                         <action selector="onShowButton:" destination="-1" eventType="touchUpInside" id="azz-H7-KZF"/>
                     </connections>
                 </button>
             </subviews>
-            <color key="backgroundColor" red="0.30588235294117649" green="0.23137254901960785" blue="0.22745098039215686" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" red="0.23780983686447144" green="0.1744040846824646" blue="0.17268505692481995" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstItem="pZD-Ol-Boa" firstAttribute="leading" secondItem="SWg-mO-f9d" secondAttribute="trailing" constant="8" id="2SB-sq-tZV"/>
                 <constraint firstAttribute="trailing" secondItem="oB0-hv-xDX" secondAttribute="trailing" id="3Ad-dN-9WS"/>

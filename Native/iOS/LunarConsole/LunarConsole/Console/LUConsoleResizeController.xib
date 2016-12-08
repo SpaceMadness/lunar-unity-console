@@ -1,12 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16A323" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="retina4_7" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
-        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+        <development version="7000" identifier="xcode"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LUConsoleResizeController">
@@ -24,17 +21,17 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view clipsSubviews="YES" contentMode="scaleToFill" id="Uwc-4L-NS0" userLabel="View">
-            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="18B-uW-y5W" userLabel="Resize Top Bar">
-                    <rect key="frame" x="44" y="0.0" width="287" height="44"/>
+                    <rect key="frame" x="44" y="0.0" width="512" height="44"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lunar_console_resize_handle_horizontal.png" translatesAutoresizingMaskIntoConstraints="NO" id="etl-o5-XsQ" userLabel="Handle Image">
-                            <rect key="frame" x="131" y="10" width="24" height="24"/>
+                            <rect key="frame" x="244" y="10" width="24" height="24"/>
                         </imageView>
                     </subviews>
-                    <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" red="1" green="0.57637232542037964" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstItem="etl-o5-XsQ" firstAttribute="centerY" secondItem="18B-uW-y5W" secondAttribute="centerY" id="81a-2l-cDY"/>
                         <constraint firstItem="etl-o5-XsQ" firstAttribute="centerX" secondItem="18B-uW-y5W" secondAttribute="centerX" id="Fvm-05-Hsi"/>
@@ -42,13 +39,13 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Z5w-JX-OEd" userLabel="Resize Bottom Bar">
-                    <rect key="frame" x="44" y="623" width="277" height="44"/>
+                    <rect key="frame" x="44" y="556" width="502" height="44"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lunar_console_resize_handle_horizontal.png" translatesAutoresizingMaskIntoConstraints="NO" id="QpC-1x-KHk" userLabel="Handle Image">
-                            <rect key="frame" x="127" y="10" width="24" height="24"/>
+                            <rect key="frame" x="239" y="10" width="24" height="24"/>
                         </imageView>
                     </subviews>
-                    <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" red="1" green="0.57637232542037964" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstItem="QpC-1x-KHk" firstAttribute="centerX" secondItem="Z5w-JX-OEd" secondAttribute="centerX" id="ZlN-1o-ZRg"/>
                         <constraint firstAttribute="height" constant="44" id="pus-j8-YCe"/>
@@ -56,13 +53,13 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xPr-BS-0Cx" userLabel="Resize Left Bar">
-                    <rect key="frame" x="0.0" y="44" width="44" height="579"/>
+                    <rect key="frame" x="0.0" y="44" width="44" height="512"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lunar_console_resize_handle_vertical.png" translatesAutoresizingMaskIntoConstraints="NO" id="qRS-IQ-mcT" userLabel="Handle Image">
-                            <rect key="frame" x="10" y="278" width="24" height="24"/>
+                            <rect key="frame" x="10" y="244" width="24" height="24"/>
                         </imageView>
                     </subviews>
-                    <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" red="1" green="0.57637232542037964" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstItem="qRS-IQ-mcT" firstAttribute="centerX" secondItem="xPr-BS-0Cx" secondAttribute="centerX" id="m4N-5g-flz"/>
                         <constraint firstItem="qRS-IQ-mcT" firstAttribute="centerY" secondItem="xPr-BS-0Cx" secondAttribute="centerY" id="no1-R5-3bR"/>
@@ -70,13 +67,13 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yUz-VB-ayv" userLabel="Resize Right Bar">
-                    <rect key="frame" x="331" y="44" width="44" height="585"/>
+                    <rect key="frame" x="556" y="44" width="44" height="518"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lunar_console_resize_handle_vertical.png" translatesAutoresizingMaskIntoConstraints="NO" id="Uz5-MG-psH" userLabel="Handle Image">
-                            <rect key="frame" x="10" y="280.5" width="24" height="24"/>
+                            <rect key="frame" x="10" y="247" width="24" height="24"/>
                         </imageView>
                     </subviews>
-                    <color key="backgroundColor" red="1" green="0.5" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" red="1" green="0.57637232542037964" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="44" id="4wn-AR-kkF"/>
                         <constraint firstItem="Uz5-MG-psH" firstAttribute="centerX" secondItem="yUz-VB-ayv" secondAttribute="centerX" id="V1z-LM-5pV"/>
@@ -85,38 +82,37 @@
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xlx-AN-9Gs" userLabel="Resize Top Left Bar">
                     <rect key="frame" x="0.0" y="0.0" width="44" height="44"/>
-                    <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" red="0.0" green="0.97680455446243286" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="44" id="aGu-X4-RPI"/>
                         <constraint firstAttribute="height" constant="44" id="xPf-k8-HcL"/>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="PhG-jU-na2" userLabel="Resize Top Right Bar">
-                    <rect key="frame" x="331" y="0.0" width="44" height="44"/>
-                    <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <rect key="frame" x="556" y="0.0" width="44" height="44"/>
+                    <color key="backgroundColor" red="0.0" green="0.97680455446243286" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="44" id="kOZ-a9-1Y2"/>
                         <constraint firstAttribute="height" constant="44" id="nyo-Ki-eKL"/>
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WIa-CS-3jJ" userLabel="Resize Bottom Left Bar">
-                    <rect key="frame" x="0.0" y="623" width="44" height="44"/>
-                    <color key="backgroundColor" red="0.0" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <rect key="frame" x="0.0" y="556" width="44" height="44"/>
+                    <color key="backgroundColor" red="0.0" green="0.97680455446243286" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="44" id="HOJ-jV-uOg"/>
                         <constraint firstAttribute="height" constant="44" id="ajJ-HZ-PC7"/>
                     </constraints>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qIu-gH-eto" userLabel="Drag Borders To Resize">
-                    <rect key="frame" x="97" y="313" width="182" height="41"/>
+                    <rect key="frame" x="209" y="280" width="182" height="41"/>
                     <string key="text">Drag Handles To Resize
 Drag View To Move</string>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                    <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uYK-R6-5FQ" userLabel="Button Close">
-                    <rect key="frame" x="321" y="629" width="46" height="30"/>
+                    <rect key="frame" x="546" y="562" width="46" height="30"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="46" id="TN6-Qt-Bor"/>
                         <constraint firstAttribute="height" constant="30" id="X0w-g2-xfO"/>
@@ -127,7 +123,7 @@ Drag View To Move</string>
                     </connections>
                 </button>
             </subviews>
-            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="PhG-jU-na2" secondAttribute="trailing" id="2Cv-IP-pr5"/>
                 <constraint firstItem="xPr-BS-0Cx" firstAttribute="top" secondItem="xlx-AN-9Gs" secondAttribute="bottom" id="3Id-P6-jen"/>
