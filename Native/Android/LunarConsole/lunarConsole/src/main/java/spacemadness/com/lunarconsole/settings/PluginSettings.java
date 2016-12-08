@@ -25,6 +25,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
@@ -33,10 +35,11 @@ import java.util.List;
 import spacemadness.com.lunarconsole.debug.Log;
 import spacemadness.com.lunarconsole.utils.ClassUtils;
 
-import static spacemadness.com.lunarconsole.debug.Tags.SETTINGS;
+import static spacemadness.com.lunarconsole.debug.Tags.*;
 import static spacemadness.com.lunarconsole.utils.ClassUtils.FieldFilter;
 
 @Target(ElementType.FIELD)
+@Retention(RetentionPolicy.RUNTIME)
 @interface PluginSettingsEntry
 {
     String defaultValue();
