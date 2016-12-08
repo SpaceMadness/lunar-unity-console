@@ -92,6 +92,7 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
 - (void)showConsole
 {
     [self hideOverlay];
+    [self hideWarning];
     
     if (_consoleWindow == nil)
     {
