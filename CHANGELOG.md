@@ -1,5 +1,16 @@
 # Lunar Console Changelog
 
+## v.0.7.0 - 12/7/2016
+
+**Fixes:**
+
+* **iOS**: fixed adaptive UI-layout.
+* **Android**: minor UI fixes.
+
+**Improvements:**
+
+* Added move/resize feature.
+
 ## v.0.6.1 - 9/19/2016
 
 **Fixes:**
