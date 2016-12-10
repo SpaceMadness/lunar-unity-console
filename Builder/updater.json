@@ -1,6 +1,6 @@
 {
   "status": "OK",
-  "version": "0.6.1",
-  "message": "Fixes:\n\n* Multithreaded logging.\n* Vuforia plugin compatibility issues.",
+  "version": "0.7.0",
+  "message": "New:\n\n* Added support for console move/resize.\n\nFixes:\n\n* iOS: Xcode 7 compatibility and UI fixes.\n* Android: Android Nougat compatibility fixes.\n\nImprovements:\n\n* Added move/resize feature.\n* iOS: improved memory usage.",
   "url": "https://goo.gl/S8QXav"
 }
