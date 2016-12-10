@@ -7,6 +7,63 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4DD4F5131DFB7F4B00032A29 /* LUSerializationUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 84368BEA1DF662170099321C /* LUSerializationUtils.m */; };
+		4DD4F5141DFB7F4B00032A29 /* LUThreading.m in Sources */ = {isa = PBXBuildFile; fileRef = EF08369C1B7ABCCE00DFB877 /* LUThreading.m */; };
+		4DD4F5151DFB7F4B00032A29 /* LUActionRegistry.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F08231DEA53DF00E9F13D /* LUActionRegistry.m */; };
+		4DD4F5161DFB7F4B00032A29 /* LUAvailability.m in Sources */ = {isa = PBXBuildFile; fileRef = EF0836951B7ABCCE00DFB877 /* LUAvailability.m */; };
+		4DD4F5171DFB7F4B00032A29 /* LUUnityScriptMessenger.m in Sources */ = {isa = PBXBuildFile; fileRef = EF98F6501CC1A0B3004943CF /* LUUnityScriptMessenger.m */; };
+		4DD4F5181DFB7F4B00032A29 /* LUConsole.m in Sources */ = {isa = PBXBuildFile; fileRef = EF0836531B7ABCCE00DFB877 /* LUConsole.m */; };
+		4DD4F5191DFB7F4B00032A29 /* LUCVarInputTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F08331DEA53DF00E9F13D /* LUCVarInputTableViewCell.m */; };
+		4DD4F51A1DFB7F4B00032A29 /* LUConsoleLogController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB99CC71D21E15A00C95E80 /* LUConsoleLogController.m */; };
+		4DD4F51B1DFB7F4B00032A29 /* LUConsoleLogEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = EF0836551B7ABCCE00DFB877 /* LUConsoleLogEntry.m */; };
+		4DD4F51C1DFB7F4B00032A29 /* LUCVarFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F082F1DEA53DF00E9F13D /* LUCVarFactory.m */; };
+		4DD4F51D1DFB7F4B00032A29 /* LUAssert.m in Sources */ = {isa = PBXBuildFile; fileRef = EF0836931B7ABCCE00DFB877 /* LUAssert.m */; };
+		4DD4F51E1DFB7F4B00032A29 /* LUCVar.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F082A1DEA53DF00E9F13D /* LUCVar.m */; };
+		4DD4F51F1DFB7F4B00032A29 /* LUTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = EF21AE221BF548810053D50B /* LUTableView.m */; };
+		4DD4F5201DFB7F4B00032A29 /* LUMutableArray.m in Sources */ = {isa = PBXBuildFile; fileRef = EF0836981B7ABCCE00DFB877 /* LUMutableArray.m */; };
+		4DD4F5211DFB7F4B00032A29 /* LUPassTouchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F08121DEA389B00E9F13D /* LUPassTouchView.m */; };
+		4DD4F5221DFB7F4B00032A29 /* LUActionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F08201DEA53DF00E9F13D /* LUActionController.m */; };
+		4DD4F5231DFB7F4B00032A29 /* LUConsolePopupController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84368BCD1DF154E90099321C /* LUConsolePopupController.m */; };
+		4DD4F5241DFB7F4B00032A29 /* LUSortedList.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F084C1DEA566F00E9F13D /* LUSortedList.m */; };
+		4DD4F5251DFB7F4B00032A29 /* LUFileUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 84368BED1DF664220099321C /* LUFileUtils.m */; };
+		4DD4F5261DFB7F4B00032A29 /* LUToggleButton.m in Sources */ = {isa = PBXBuildFile; fileRef = EF08368E1B7ABCCE00DFB877 /* LUToggleButton.m */; };
+		4DD4F5271DFB7F4B00032A29 /* LUConsoleLogEntryLookupTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 84EA4FC91C57163000A0635C /* LUConsoleLogEntryLookupTable.m */; };
+		4DD4F5281DFB7F4B00032A29 /* LUCVarTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F083A1DEA53DF00E9F13D /* LUCVarTableViewCell.m */; };
+		4DD4F5291DFB7F4B00032A29 /* LUConsoleSettingsController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF5AD10D1D6BB24400B27500 /* LUConsoleSettingsController.m */; };
+		4DD4F52A1DFB7F4B00032A29 /* LUExceptionWarningController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB99CE21D21E6EA00C95E80 /* LUExceptionWarningController.m */; };
+		4DD4F52B1DFB7F4B00032A29 /* LUCVarBooleanTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F082C1DEA53DF00E9F13D /* LUCVarBooleanTableViewCell.m */; };
+		4DD4F52C1DFB7F4B00032A29 /* LUEntryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B7BD8D1D2229810048472B /* LUEntryTableViewCell.m */; };
+		4DD4F52D1DFB7F4B00032A29 /* LUConsoleResizeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F08CA1DED086E00E9F13D /* LUConsoleResizeController.m */; };
+		4DD4F52E1DFB7F4B00032A29 /* LUCVarFloatTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F08311DEA53DF00E9F13D /* LUCVarFloatTableViewCell.m */; };
+		4DD4F52F1DFB7F4B00032A29 /* LUWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = EF0836901B7ABCCE00DFB877 /* LUWindow.m */; };
+		4DD4F5301DFB7F4B00032A29 /* LUConsolePlugin.m in Sources */ = {isa = PBXBuildFile; fileRef = EF0836831B7ABCCE00DFB877 /* LUConsolePlugin.m */; };
+		4DD4F5311DFB7F4B00032A29 /* LUTheme.m in Sources */ = {isa = PBXBuildFile; fileRef = EF08368C1B7ABCCE00DFB877 /* LUTheme.m */; };
+		4DD4F5321DFB7F4B00032A29 /* LUConsoleLogTypeButton.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB99CDB1D21E60000C95E80 /* LUConsoleLogTypeButton.m */; };
+		4DD4F5331DFB7F4B00032A29 /* LUStacktrace.m in Sources */ = {isa = PBXBuildFile; fileRef = EF64F8F81C03DCE8008DCB8E /* LUStacktrace.m */; };
+		4DD4F5341DFB7F4B00032A29 /* LUConsoleLogDetailsController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB99CCF1D21E37F00C95E80 /* LUConsoleLogDetailsController.m */; };
+		4DD4F5351DFB7F4B00032A29 /* LUImageUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F07F31DE97E0000E9F13D /* LUImageUtils.m */; };
+		4DD4F5361DFB7F4B00032A29 /* LUButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F07FE1DEA251900E9F13D /* LUButton.m */; };
+		4DD4F5371DFB7F4B00032A29 /* LUObject.m in Sources */ = {isa = PBXBuildFile; fileRef = EF08369A1B7ABCCE00DFB877 /* LUObject.m */; };
+		4DD4F5381DFB7F4B00032A29 /* LUAction.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F081E1DEA53DF00E9F13D /* LUAction.m */; };
+		4DD4F5391DFB7F4B00032A29 /* LUActionRegistryFilter.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F08251DEA53DF00E9F13D /* LUActionRegistryFilter.m */; };
+		4DD4F53A1DFB7F4B00032A29 /* LUConsolePluginSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = EF5AD10A1D6B9CF100B27500 /* LUConsolePluginSettings.m */; };
+		4DD4F53B1DFB7F4B00032A29 /* LULittleHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = EF21AE1F1BF5383E0053D50B /* LULittleHelper.m */; };
+		4DD4F53C1DFB7F4B00032A29 /* LUActionButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F07F71DEA1E5A00E9F13D /* LUActionButton.m */; };
+		4DD4F53D1DFB7F4B00032A29 /* LUSerializableObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 84368BF01DF669750099321C /* LUSerializableObject.m */; };
+		4DD4F53E1DFB7F4B00032A29 /* LUConsoleLogEntryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB99CDE1D21E67200C95E80 /* LUConsoleLogEntryTableViewCell.m */; };
+		4DD4F53F1DFB7F4B00032A29 /* LUCVarIntegerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F08361DEA53DF00E9F13D /* LUCVarIntegerTableViewCell.m */; };
+		4DD4F5401DFB7F4B00032A29 /* LUActionTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F08271DEA53DF00E9F13D /* LUActionTableViewCell.m */; };
+		4DD4F5411DFB7F4B00032A29 /* LUPanViewGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F080F1DEA320E00E9F13D /* LUPanViewGestureRecognizer.m */; };
+		4DD4F5421DFB7F4B00032A29 /* LUSwitch.m in Sources */ = {isa = PBXBuildFile; fileRef = EF4C364C1D6E6B1D0036585B /* LUSwitch.m */; };
+		4DD4F5431DFB7F4B00032A29 /* LUConsoleController.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F08151DEA502A00E9F13D /* LUConsoleController.m */; };
+		4DD4F5441DFB7F4B00032A29 /* LUStringUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB99CE91D21EF6300C95E80 /* LUStringUtils.m */; };
+		4DD4F5451DFB7F4B00032A29 /* LUCVarStringTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F08381DEA53DF00E9F13D /* LUCVarStringTableViewCell.m */; };
+		4DD4F5461DFB7F4B00032A29 /* lunar_unity_native_interface.m in Sources */ = {isa = PBXBuildFile; fileRef = EF0836851B7ABCCE00DFB877 /* lunar_unity_native_interface.m */; };
+		4DD4F5471DFB7F4B00032A29 /* LUConsoleLogMenuController.m in Sources */ = {isa = PBXBuildFile; fileRef = EFB99CD51D21E4A500C95E80 /* LUConsoleLogMenuController.m */; };
+		4DD4F5481DFB7F4B00032A29 /* LUViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B7BD911D222A160048472B /* LUViewController.m */; };
+		4DD4F5491DFB7F4B00032A29 /* LUConsoleLogEntryList.m in Sources */ = {isa = PBXBuildFile; fileRef = EF0836571B7ABCCE00DFB877 /* LUConsoleLogEntryList.m */; };
+		4DD4F54A1DFB7F4B00032A29 /* LUEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 84B7BD8B1D2229810048472B /* LUEntry.m */; };
+		4DD4F54B1DFB7F4B00032A29 /* LUConsoleOverlayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 84FF9A181D69257F0034E40E /* LUConsoleOverlayController.m */; };
 		840F07F41DE97E0000E9F13D /* LUImageUtils.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F07F31DE97E0000E9F13D /* LUImageUtils.m */; };
 		840F07F81DEA1E5A00E9F13D /* LUActionButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F07F71DEA1E5A00E9F13D /* LUActionButton.m */; };
 		840F07FF1DEA251900E9F13D /* LUButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F07FE1DEA251900E9F13D /* LUButton.m */; };
@@ -88,6 +145,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		4DD4F54D1DFB7F4B00032A29 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		844741A71B719C3100F5ABD3 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -100,6 +166,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4DD4F5511DFB7F4B00032A29 /* libLunarConsoleFree.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libLunarConsoleFree.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		840F07EC1DE9790400E9F13D /* lunar_console_action_button_large_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lunar_console_action_button_large_normal.png; sourceTree = "<group>"; };
 		840F07ED1DE9790400E9F13D /* lunar_console_action_button_large_normal@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lunar_console_action_button_large_normal@2x.png"; sourceTree = "<group>"; };
 		840F07EE1DE9790400E9F13D /* lunar_console_action_button_large_normal@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lunar_console_action_button_large_normal@3x.png"; sourceTree = "<group>"; };
@@ -315,6 +382,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		4DD4F54C1DFB7F4B00032A29 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		844741A61B719C3100F5ABD3 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -402,6 +476,7 @@
 			children = (
 				844741A91B719C3100F5ABD3 /* libLunarConsole.a */,
 				844741B41B719C3100F5ABD3 /* LunarConsoleTests.xctest */,
+				4DD4F5511DFB7F4B00032A29 /* libLunarConsoleFree.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -666,6 +741,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		4DD4F5111DFB7F4B00032A29 /* LunarConsoleFree */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4DD4F54E1DFB7F4B00032A29 /* Build configuration list for PBXNativeTarget "LunarConsoleFree" */;
+			buildPhases = (
+				4DD4F5121DFB7F4B00032A29 /* Sources */,
+				4DD4F54C1DFB7F4B00032A29 /* Frameworks */,
+				4DD4F54D1DFB7F4B00032A29 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = LunarConsoleFree;
+			productName = LunarConsole;
+			productReference = 4DD4F5511DFB7F4B00032A29 /* libLunarConsoleFree.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 		844741A81B719C3100F5ABD3 /* LunarConsole */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 844741BD1B719C3100F5ABD3 /* Build configuration list for PBXNativeTarget "LunarConsole" */;
@@ -731,6 +823,7 @@
 			projectRoot = "";
 			targets = (
 				844741A81B719C3100F5ABD3 /* LunarConsole */,
+				4DD4F5111DFB7F4B00032A29 /* LunarConsoleFree */,
 				844741B31B719C3100F5ABD3 /* LunarConsoleTests */,
 			);
 		};
@@ -747,6 +840,70 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		4DD4F5121DFB7F4B00032A29 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4DD4F5131DFB7F4B00032A29 /* LUSerializationUtils.m in Sources */,
+				4DD4F5141DFB7F4B00032A29 /* LUThreading.m in Sources */,
+				4DD4F5151DFB7F4B00032A29 /* LUActionRegistry.m in Sources */,
+				4DD4F5161DFB7F4B00032A29 /* LUAvailability.m in Sources */,
+				4DD4F5171DFB7F4B00032A29 /* LUUnityScriptMessenger.m in Sources */,
+				4DD4F5181DFB7F4B00032A29 /* LUConsole.m in Sources */,
+				4DD4F5191DFB7F4B00032A29 /* LUCVarInputTableViewCell.m in Sources */,
+				4DD4F51A1DFB7F4B00032A29 /* LUConsoleLogController.m in Sources */,
+				4DD4F51B1DFB7F4B00032A29 /* LUConsoleLogEntry.m in Sources */,
+				4DD4F51C1DFB7F4B00032A29 /* LUCVarFactory.m in Sources */,
+				4DD4F51D1DFB7F4B00032A29 /* LUAssert.m in Sources */,
+				4DD4F51E1DFB7F4B00032A29 /* LUCVar.m in Sources */,
+				4DD4F51F1DFB7F4B00032A29 /* LUTableView.m in Sources */,
+				4DD4F5201DFB7F4B00032A29 /* LUMutableArray.m in Sources */,
+				4DD4F5211DFB7F4B00032A29 /* LUPassTouchView.m in Sources */,
+				4DD4F5221DFB7F4B00032A29 /* LUActionController.m in Sources */,
+				4DD4F5231DFB7F4B00032A29 /* LUConsolePopupController.m in Sources */,
+				4DD4F5241DFB7F4B00032A29 /* LUSortedList.m in Sources */,
+				4DD4F5251DFB7F4B00032A29 /* LUFileUtils.m in Sources */,
+				4DD4F5261DFB7F4B00032A29 /* LUToggleButton.m in Sources */,
+				4DD4F5271DFB7F4B00032A29 /* LUConsoleLogEntryLookupTable.m in Sources */,
+				4DD4F5281DFB7F4B00032A29 /* LUCVarTableViewCell.m in Sources */,
+				4DD4F5291DFB7F4B00032A29 /* LUConsoleSettingsController.m in Sources */,
+				4DD4F52A1DFB7F4B00032A29 /* LUExceptionWarningController.m in Sources */,
+				4DD4F52B1DFB7F4B00032A29 /* LUCVarBooleanTableViewCell.m in Sources */,
+				4DD4F52C1DFB7F4B00032A29 /* LUEntryTableViewCell.m in Sources */,
+				4DD4F52D1DFB7F4B00032A29 /* LUConsoleResizeController.m in Sources */,
+				4DD4F52E1DFB7F4B00032A29 /* LUCVarFloatTableViewCell.m in Sources */,
+				4DD4F52F1DFB7F4B00032A29 /* LUWindow.m in Sources */,
+				4DD4F5301DFB7F4B00032A29 /* LUConsolePlugin.m in Sources */,
+				4DD4F5311DFB7F4B00032A29 /* LUTheme.m in Sources */,
+				4DD4F5321DFB7F4B00032A29 /* LUConsoleLogTypeButton.m in Sources */,
+				4DD4F5331DFB7F4B00032A29 /* LUStacktrace.m in Sources */,
+				4DD4F5341DFB7F4B00032A29 /* LUConsoleLogDetailsController.m in Sources */,
+				4DD4F5351DFB7F4B00032A29 /* LUImageUtils.m in Sources */,
+				4DD4F5361DFB7F4B00032A29 /* LUButton.m in Sources */,
+				4DD4F5371DFB7F4B00032A29 /* LUObject.m in Sources */,
+				4DD4F5381DFB7F4B00032A29 /* LUAction.m in Sources */,
+				4DD4F5391DFB7F4B00032A29 /* LUActionRegistryFilter.m in Sources */,
+				4DD4F53A1DFB7F4B00032A29 /* LUConsolePluginSettings.m in Sources */,
+				4DD4F53B1DFB7F4B00032A29 /* LULittleHelper.m in Sources */,
+				4DD4F53C1DFB7F4B00032A29 /* LUActionButton.m in Sources */,
+				4DD4F53D1DFB7F4B00032A29 /* LUSerializableObject.m in Sources */,
+				4DD4F53E1DFB7F4B00032A29 /* LUConsoleLogEntryTableViewCell.m in Sources */,
+				4DD4F53F1DFB7F4B00032A29 /* LUCVarIntegerTableViewCell.m in Sources */,
+				4DD4F5401DFB7F4B00032A29 /* LUActionTableViewCell.m in Sources */,
+				4DD4F5411DFB7F4B00032A29 /* LUPanViewGestureRecognizer.m in Sources */,
+				4DD4F5421DFB7F4B00032A29 /* LUSwitch.m in Sources */,
+				4DD4F5431DFB7F4B00032A29 /* LUConsoleController.m in Sources */,
+				4DD4F5441DFB7F4B00032A29 /* LUStringUtils.m in Sources */,
+				4DD4F5451DFB7F4B00032A29 /* LUCVarStringTableViewCell.m in Sources */,
+				4DD4F5461DFB7F4B00032A29 /* lunar_unity_native_interface.m in Sources */,
+				4DD4F5471DFB7F4B00032A29 /* LUConsoleLogMenuController.m in Sources */,
+				4DD4F5481DFB7F4B00032A29 /* LUViewController.m in Sources */,
+				4DD4F5491DFB7F4B00032A29 /* LUConsoleLogEntryList.m in Sources */,
+				4DD4F54A1DFB7F4B00032A29 /* LUEntry.m in Sources */,
+				4DD4F54B1DFB7F4B00032A29 /* LUConsoleOverlayController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		844741A51B719C3100F5ABD3 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -839,6 +996,26 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		4DD4F54F1DFB7F4B00032A29 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		4DD4F5501DFB7F4B00032A29 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = YES;
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 		844741BB1B719C3100F5ABD3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -982,6 +1159,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		4DD4F54E1DFB7F4B00032A29 /* Build configuration list for PBXNativeTarget "LunarConsoleFree" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4DD4F54F1DFB7F4B00032A29 /* Debug */,
+				4DD4F5501DFB7F4B00032A29 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		844741A41B719C3100F5ABD3 /* Build configuration list for PBXProject "LunarConsole" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
