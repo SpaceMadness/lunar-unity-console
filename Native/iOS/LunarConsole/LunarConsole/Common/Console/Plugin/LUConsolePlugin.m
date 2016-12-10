@@ -29,6 +29,7 @@ static const CGFloat kWarningHeight = 45.0f;
 static NSString * const kScriptMessageConsoleOpen    = @"console_open";
 static NSString * const kScriptMessageConsoleClose   = @"console_close";
 static NSString * const kScriptMessageChangeVariable = @"console_change_variable";
+static NSString * const kScriptMessageSelectAction   = @"console_select_action";
 
 static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmobileconsole.settings.bin";
 
@@ -269,6 +270,9 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
     
     [self registerNotificationName:LUActionControllerDidChangeVariable
                           selector:@selector(actionControllerDidChangeVariableNotification:)];
+    
+    [self registerNotificationName:LUActionControllerDidSelectAction
+                          selector:@selector(actionControllerDidSelectActionNotification:)];
 }
 
 - (void)deviceOrientationDidChangeNotification:(NSNotification *)notification
@@ -288,6 +292,18 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
              @"value" : variable.value
         };
         [_scriptMessenger sendMessageName:kScriptMessageChangeVariable params:params];
+    }
+}
+
+- (void)actionControllerDidSelectActionNotification:(NSNotification *)notification
+{
+    LUAction *action = [notification.userInfo objectForKey:LUActionControllerDidSelectActionKeyAction];
+    LUAssert(action);
+    
+    if (action)
+    {
+        NSDictionary *params = @{ @"id" : [NSNumber numberWithInt:action.actionId] };
+        [_scriptMessenger sendMessageName:kScriptMessageSelectAction params:params];
     }
 }
 

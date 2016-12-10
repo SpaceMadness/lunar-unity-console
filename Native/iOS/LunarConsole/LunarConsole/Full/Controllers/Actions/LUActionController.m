@@ -26,6 +26,9 @@
 NSString * const LUActionControllerDidChangeVariable = @"LUActionControllerDidChangeVariable";
 NSString * const LUActionControllerDidChangeVariableKeyVariable = @"variable";
 
+NSString * const LUActionControllerDidSelectAction = @"LUActionControllerDidSelectAction";
+NSString * const LUActionControllerDidSelectActionKeyAction = @"action";
+
 static const NSInteger kSectionIndexActions = 0;
 static const NSInteger kSectionIndexVariables = 1;
 static const NSInteger kSectionCount = 2;
@@ -215,10 +218,11 @@ static const NSInteger kSectionCount = 2;
 {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     
-    if ([_delegate respondsToSelector:@selector(actionController:didSelectActionWithId:)])
+    if (indexPath.section == kSectionIndexActions)
     {
         LUAction *action = [self actionAtIndex:indexPath.row];
-        [_delegate actionController:self didSelectActionWithId:action.actionId];
+        NSDictionary *userInfo = @{ LUActionControllerDidSelectActionKeyAction : action };
+        [LUNotificationCenter postNotificationName:LUActionControllerDidSelectAction object:nil userInfo:userInfo];
     }
 }
 
