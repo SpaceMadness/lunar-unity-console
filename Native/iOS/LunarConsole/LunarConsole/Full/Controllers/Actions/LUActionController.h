@@ -26,6 +26,9 @@
 @class LUActionController;
 @class LUActionRegistry;
 
+extern NSString * const LUActionControllerDidChangeVariable;
+extern NSString * const LUActionControllerDidChangeVariableKeyVariable;
+
 @protocol LUActionControllerDelegate <NSObject>
 
 @required

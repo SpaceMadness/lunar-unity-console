@@ -23,6 +23,9 @@
 
 #import "LUActionController.h"
 
+NSString * const LUActionControllerDidChangeVariable = @"LUActionControllerDidChangeVariable";
+NSString * const LUActionControllerDidChangeVariableKeyVariable = @"variable";
+
 static const NSInteger kSectionIndexActions = 0;
 static const NSInteger kSectionIndexVariables = 1;
 static const NSInteger kSectionCount = 2;
@@ -98,17 +101,6 @@ static const NSInteger kSectionCount = 2;
     
     // accessibility
     LU_SET_ACCESSIBILITY_IDENTIFIER(_noActionsWarningView, @"No Actions Warning View");
-    
-//    // "status bar" view
-//    UITapGestureRecognizer *statusBarTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self                                                                                                    action:@selector(onStatusBarTap:)];
-//    [_statusBarView addGestureRecognizer:statusBarTapGestureRecognizer];
-//    [statusBarTapGestureRecognizer release];
-//    
-//    _statusBarView.text = [NSString stringWithFormat:@"Lunar Console v%@", _version ? _version : @"?.?.?"];
-    
-    
-    // filter text
-    // _filterBar.text = _console.entries.filterText;
 }
 
 #pragma mark -
@@ -116,15 +108,15 @@ static const NSInteger kSectionCount = 2;
 
 - (void)registerNotifications
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(consoleControllerDidResizeNotification:)
-                                                 name:LUConsoleControllerDidResizeNotification
-                                               object:nil];
+    [LUNotificationCenter addObserver:self
+                             selector:@selector(consoleControllerDidResizeNotification:)
+                                 name:LUConsoleControllerDidResizeNotification
+                               object:nil];
 }
 
 - (void)unregisterNotifications
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [LUNotificationCenter removeObserver:self];
 }
 
 - (void)consoleControllerDidResizeNotification:(NSNotification *)notification
@@ -308,7 +300,17 @@ static const NSInteger kSectionCount = 2;
 {
     LUCVar *cvar = [_actionRegistryFilter.registry variableWithId:cell.variableId];
     LUAssert(cvar);
-    cvar.value = value;
+    
+    if (cvar)
+    {
+        cvar.value = value;
+        
+        // post notification
+        NSDictionary *userInfo = @{ LUActionControllerDidChangeVariableKeyVariable : cvar };
+        [LUNotificationCenter postNotificationName:LUActionControllerDidChangeVariable
+                                            object:nil
+                                          userInfo:userInfo];
+    }
 }
 
 #pragma mark -

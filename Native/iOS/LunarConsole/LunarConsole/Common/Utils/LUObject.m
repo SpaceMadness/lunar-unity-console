@@ -35,12 +35,12 @@
 
 - (void)registerNotificationName:(NSString *)name selector:(SEL)selector
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:selector name:name object:nil];
+    [LUNotificationCenter addObserver:self selector:selector name:name object:nil];
 }
 
 - (void)unregisterNotifications
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [LUNotificationCenter removeObserver:self];
 }
 
 @end

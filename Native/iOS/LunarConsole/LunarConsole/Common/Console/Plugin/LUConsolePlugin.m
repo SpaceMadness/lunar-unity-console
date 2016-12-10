@@ -26,8 +26,10 @@
 static const NSTimeInterval kWindowAnimationDuration = 0.4f;
 static const CGFloat kWarningHeight = 45.0f;
 
-static NSString * const kScriptMessageConsoleOpen  = @"console_open";
-static NSString * const kScriptMessageConsoleClose = @"console_close";
+static NSString * const kScriptMessageConsoleOpen    = @"console_open";
+static NSString * const kScriptMessageConsoleClose   = @"console_close";
+static NSString * const kScriptMessageChangeVariable = @"console_change_variable";
+
 static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmobileconsole.settings.bin";
 
 @interface LUConsolePlugin () <LUConsoleControllerDelegate, LUExceptionWarningControllerDelegate>
@@ -264,11 +266,29 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
 {
     [self registerNotificationName:UIDeviceOrientationDidChangeNotification
                           selector:@selector(deviceOrientationDidChangeNotification:)];
+    
+    [self registerNotificationName:LUActionControllerDidChangeVariable
+                          selector:@selector(actionControllerDidChangeVariableNotification:)];
 }
 
 - (void)deviceOrientationDidChangeNotification:(NSNotification *)notification
 {
     // TODO: resize window
+}
+
+- (void)actionControllerDidChangeVariableNotification:(NSNotification *)notification
+{
+    LUCVar *variable = [notification.userInfo objectForKey:LUActionControllerDidChangeVariableKeyVariable];
+    LUAssert(variable);
+    
+    if (variable)
+    {
+        NSDictionary *params = @{
+             @"id"    : [NSNumber numberWithInt:variable.actionId],
+             @"value" : variable.value
+        };
+        [_scriptMessenger sendMessageName:kScriptMessageChangeVariable params:params];
+    }
 }
 
 #pragma mark -

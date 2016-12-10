@@ -271,8 +271,8 @@ NSString * const LUConsoleControllerDidResizeNotification = @"LUConsoleControlle
     
     _state.controllerFrame = frame;
     
-    // TODO: use wrappers
-    [[NSNotificationCenter defaultCenter] postNotificationName:LUConsoleControllerDidResizeNotification object:nil];
+    // post notification
+    [LUNotificationCenter postNotificationName:LUConsoleControllerDidResizeNotification object:nil];
 }
 
 @end

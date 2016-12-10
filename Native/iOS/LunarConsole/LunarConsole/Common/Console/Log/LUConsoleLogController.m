@@ -177,15 +177,15 @@ static const CGFloat kMinWidthToResizeSearchBar = 480;
 
 - (void)registerNotifications
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(consoleControllerDidResizeNotification:)
-                                                 name:LUConsoleControllerDidResizeNotification
-                                               object:nil];
+    [LUNotificationCenter addObserver:self
+                             selector:@selector(consoleControllerDidResizeNotification:)
+                                 name:LUConsoleControllerDidResizeNotification
+                               object:nil];
 }
 
 - (void)unregisterNotifications
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [LUNotificationCenter removeObserver:self];
 }
 
 - (void)consoleControllerDidResizeNotification:(NSNotification *)notification
