@@ -39,6 +39,9 @@
 {
     [super setupVariable:variable];
     
+    _inputField.backgroundColor = [LUTheme mainTheme].variableEditBackground;
+    _inputField.textColor = [LUTheme mainTheme].variableEditTextColor;
+    
     _inputField.text = variable.value;
     self.lastValue = variable.value;
 }
@@ -71,7 +74,7 @@
     }
     else
     {
-        // FIXME: show error message
+        LUDisplayAlertView(@"Input Error", [NSString stringWithFormat:@"Invalid value: '%@'", value]);
         textField.text = self.lastValue;
     }
 }

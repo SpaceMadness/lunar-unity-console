@@ -72,6 +72,10 @@ static LUTheme * _mainTheme;
 @property (nonatomic, strong) UIColor *contextMenuTextColor;
 @property (nonatomic, strong) UIColor *contextMenuTextHighlightColor;
 
+@property (nonatomic, strong) UIFont  *variableEditFont;
+@property (nonatomic, strong) UIColor *variableEditTextColor;
+@property (nonatomic, strong) UIColor *variableEditBackground;
+
 @property (nonatomic, strong) UIColor *switchTintColor;
 @property (nonatomic, strong) UIImage *settingsIconImage;
 
@@ -95,7 +99,7 @@ static LUTheme * _mainTheme;
 
 @end
 
-static UIColor * UIColorMake(int rgb)
+static UIColor * LUColorMake(int rgb)
 {
     CGFloat red = ((rgb >> 16) & 0xff) / 255.0;
     CGFloat green = ((rgb >> 8) & 0xff) / 255.0;
@@ -131,29 +135,29 @@ static UIImage * CreateCollapseBackgroundImage()
     {
         LUCellSkin *cellLog = [LUCellSkin cellSkin];
         cellLog.icon = [UIImage imageNamed:@"lunar_console_icon_log.png"];
-        cellLog.textColor = UIColorMake(0xb1b1b1);
-        cellLog.backgroundColorLight = UIColorMake(0x3c3c3c);
-        cellLog.backgroundColorDark = UIColorMake(0x373737);
-        cellLog.overlayTextColor = UIColorMake(0xadadad);
+        cellLog.textColor = LUColorMake(0xb1b1b1);
+        cellLog.backgroundColorLight = LUColorMake(0x3c3c3c);
+        cellLog.backgroundColorDark = LUColorMake(0x373737);
+        cellLog.overlayTextColor = LUColorMake(0xadadad);
         
         LUCellSkin *cellError = [LUCellSkin cellSkin];
         cellError.icon = [UIImage imageNamed:@"lunar_console_icon_log_error.png"];
         cellError.textColor = cellLog.textColor;
         cellError.backgroundColorLight = cellLog.backgroundColorLight;
         cellError.backgroundColorDark = cellLog.backgroundColorDark;
-        cellError.overlayTextColor = UIColorMake(0xfc0000);
+        cellError.overlayTextColor = LUColorMake(0xfc0000);
         
         LUCellSkin *cellWarning = [LUCellSkin cellSkin];
         cellWarning.icon = [UIImage imageNamed:@"lunar_console_icon_log_warning.png"];
         cellWarning.textColor = cellLog.textColor;
         cellWarning.backgroundColorLight = cellLog.backgroundColorLight;
         cellWarning.backgroundColorDark = cellLog.backgroundColorDark;
-        cellWarning.overlayTextColor = UIColorMake(0xf4f600);
+        cellWarning.overlayTextColor = LUColorMake(0xf4f600);
         
         _mainTheme = [LUTheme new];
-        _mainTheme.tableColor = UIColorMake(0x2c2c27);
-        _mainTheme.logButtonTitleColor = UIColorMake(0xb1b1b1);
-        _mainTheme.logButtonTitleSelectedColor = UIColorMake(0x595959);
+        _mainTheme.tableColor = LUColorMake(0x2c2c27);
+        _mainTheme.logButtonTitleColor = LUColorMake(0xb1b1b1);
+        _mainTheme.logButtonTitleSelectedColor = LUColorMake(0x595959);
         _mainTheme.cellLog = cellLog;
         _mainTheme.cellError = cellError;
         _mainTheme.cellWarning = cellWarning;
@@ -172,7 +176,7 @@ static UIImage * CreateCollapseBackgroundImage()
         _mainTheme.buttonWidth = 46;
         _mainTheme.buttonHeight = 30;
         _mainTheme.collapseBackgroundImage = CreateCollapseBackgroundImage();
-        _mainTheme.collapseBackgroundColor = UIColorMake(0x424242);
+        _mainTheme.collapseBackgroundColor = LUColorMake(0x424242);
         _mainTheme.collapseTextColor = cellLog.textColor;
         _mainTheme.actionsWarningFont = [UIFont systemFontOfSize:18];
         _mainTheme.actionsWarningTextColor = cellLog.textColor;
@@ -182,13 +186,16 @@ static UIImage * CreateCollapseBackgroundImage()
         _mainTheme.actionsBackgroundColorLight = cellLog.backgroundColorLight;
         _mainTheme.actionsGroupFont = [self createCustomFontWithSize:12];
         _mainTheme.actionsGroupTextColor = [UIColor whiteColor];
-        _mainTheme.actionsGroupBackgroundColor = UIColorMake(0x262626);
+        _mainTheme.actionsGroupBackgroundColor = LUColorMake(0x262626);
         _mainTheme.contextMenuFont = [self createContextMenuFont];
-        _mainTheme.contextMenuBackgroundColor = UIColorMake(0x3c3c3c);
+        _mainTheme.contextMenuBackgroundColor = LUColorMake(0x3c3c3c);
         _mainTheme.contextMenuTextColor = cellLog.textColor;
         _mainTheme.contextMenuTextHighlightColor = [UIColor whiteColor];
-        _mainTheme.switchTintColor = UIColorMake(0xfed900);
+        _mainTheme.switchTintColor = LUColorMake(0xfed900);
         _mainTheme.settingsIconImage = LUGetImage(@"lunar_console_icon_settings");
+        _mainTheme.variableEditFont = _mainTheme.actionsFont;
+        _mainTheme.variableEditTextColor = LUColorMake(0xb4b4b4);
+        _mainTheme.variableEditBackground = LUColorMake(0x4d4d4d);
         
         LUButtonSkin *actionButtonLargeSkin = [LUButtonSkin buttonSkin];
         actionButtonLargeSkin.normalImage = LUGet3SlicedImage(@"lunar_console_action_button_large_normal");
