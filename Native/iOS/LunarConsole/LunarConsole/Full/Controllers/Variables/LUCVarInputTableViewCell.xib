@@ -1,10 +1,13 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2659" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <development version="7000" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LUCVarInputTableViewCell">
@@ -18,11 +21,11 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="CDy-Fc-yEC" id="e5n-ot-TQF">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t44-Et-iu9">
-                        <rect key="frame" x="8" y="11" width="199" height="21"/>
+                        <rect key="frame" x="20" y="11" width="187" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
@@ -40,9 +43,10 @@
                     </textField>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="t44-Et-iu9" firstAttribute="leading" secondItem="e5n-ot-TQF" secondAttribute="leadingMargin" id="54r-Q1-t2U"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="t44-Et-iu9" secondAttribute="bottom" constant="3" id="35p-lw-x7B"/>
+                    <constraint firstItem="t44-Et-iu9" firstAttribute="leading" secondItem="e5n-ot-TQF" secondAttribute="leadingMargin" constant="12" id="54r-Q1-t2U"/>
                     <constraint firstItem="199-bK-QjZ" firstAttribute="trailing" secondItem="e5n-ot-TQF" secondAttribute="trailingMargin" id="IxO-hp-gSb"/>
-                    <constraint firstItem="t44-Et-iu9" firstAttribute="centerY" secondItem="e5n-ot-TQF" secondAttribute="centerY" id="JIP-fM-nbD"/>
+                    <constraint firstItem="t44-Et-iu9" firstAttribute="top" secondItem="e5n-ot-TQF" secondAttribute="topMargin" constant="3" id="JgB-ny-hac"/>
                     <constraint firstItem="199-bK-QjZ" firstAttribute="leading" secondItem="t44-Et-iu9" secondAttribute="trailing" constant="8" symbolic="YES" id="VIZ-mg-T5p"/>
                     <constraint firstItem="t44-Et-iu9" firstAttribute="centerY" secondItem="199-bK-QjZ" secondAttribute="centerY" id="cJI-uK-lsS"/>
                 </constraints>

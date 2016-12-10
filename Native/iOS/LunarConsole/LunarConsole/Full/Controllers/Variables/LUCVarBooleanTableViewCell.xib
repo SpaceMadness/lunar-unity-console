@@ -1,10 +1,13 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2659" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <development version="7000" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LUCVarBooleanTableViewCell">
@@ -18,7 +21,7 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tme-tx-8sc" id="ngz-Lv-75T">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bmv-fG-j2u">
@@ -28,7 +31,7 @@
                         </connections>
                     </switch>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s1l-u3-wS8">
-                        <rect key="frame" x="8" y="11" width="247" height="21"/>
+                        <rect key="frame" x="20" y="11" width="235" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
@@ -37,7 +40,7 @@
                 <constraints>
                     <constraint firstItem="bmv-fG-j2u" firstAttribute="trailing" secondItem="ngz-Lv-75T" secondAttribute="trailingMargin" id="Mjl-E7-NlI"/>
                     <constraint firstItem="s1l-u3-wS8" firstAttribute="centerY" secondItem="bmv-fG-j2u" secondAttribute="centerY" id="UzU-og-Agk"/>
-                    <constraint firstItem="s1l-u3-wS8" firstAttribute="leading" secondItem="ngz-Lv-75T" secondAttribute="leadingMargin" id="fhL-gy-MZG"/>
+                    <constraint firstItem="s1l-u3-wS8" firstAttribute="leading" secondItem="ngz-Lv-75T" secondAttribute="leadingMargin" constant="12" id="fhL-gy-MZG"/>
                     <constraint firstAttribute="bottomMargin" secondItem="s1l-u3-wS8" secondAttribute="bottom" constant="3" id="jA4-K5-v3h"/>
                     <constraint firstItem="bmv-fG-j2u" firstAttribute="leading" secondItem="s1l-u3-wS8" secondAttribute="trailing" constant="8" symbolic="YES" id="lX1-1V-Pz7"/>
                     <constraint firstItem="s1l-u3-wS8" firstAttribute="top" secondItem="ngz-Lv-75T" secondAttribute="topMargin" constant="3" id="xja-mS-DaB"/>
