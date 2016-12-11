@@ -99,7 +99,7 @@
 #pragma mark -
 #pragma mark Variables
 
-- (LUCVar *)registerVariableWithId:(int)variableId name:(NSString *)name typeName:(NSString *)typeName value:(NSString *)value
+- (LUCVar *)registerVariableWithId:(int)variableId name:(NSString *)name typeName:(NSString *)typeName value:(NSString *)value defaultValue:(NSString *)defaultValue
 {
     LUCVarType type = [LUCVar typeForName:typeName];
     if (type == LUCVarTypeUnknown)
@@ -108,7 +108,7 @@
         return nil;
     }
     
-    LUCVar *variable = [LUCVarFactory variableWithId:variableId name:name value:value type:type];
+    LUCVar *variable = [LUCVarFactory variableWithId:variableId name:name value:value defaultValue:defaultValue type:type];
     NSInteger index = [_variables addObject:variable];
     [_delegate actionRegistry:self didRegisterVariable:variable atIndex:index];
     

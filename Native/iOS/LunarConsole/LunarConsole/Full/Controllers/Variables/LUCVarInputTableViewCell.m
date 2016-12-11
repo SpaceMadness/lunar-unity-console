@@ -26,7 +26,10 @@
 @interface LUCVarInputTableViewCell () <UITextFieldDelegate>
 
 @property (nonatomic, weak) IBOutlet UITextField * inputField;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint * resetButtonWidthConstraint;
+
 @property (nonatomic, strong) NSString * lastValue;
+@property (nonatomic, assign) CGFloat resetButtonInitialWidth;
 
 @end
 
@@ -38,6 +41,8 @@
 - (void)setupVariable:(LUCVar *)variable
 {
     [super setupVariable:variable];
+    
+    _resetButtonInitialWidth = _resetButtonWidthConstraint.constant;
     
     _inputField.backgroundColor = [LUTheme mainTheme].variableEditBackground;
     _inputField.textColor = [LUTheme mainTheme].variableEditTextColor;

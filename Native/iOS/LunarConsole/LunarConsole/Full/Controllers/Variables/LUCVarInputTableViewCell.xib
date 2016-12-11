@@ -13,6 +13,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LUCVarInputTableViewCell">
             <connections>
                 <outlet property="inputField" destination="199-bK-QjZ" id="WAt-wB-5jS"/>
+                <outlet property="resetButtonWidthConstraint" destination="hi4-id-hkZ" id="wkr-lV-mlT"/>
                 <outlet property="titleLabel" destination="t44-Et-iu9" id="lyT-o5-anA"/>
             </connections>
         </placeholder>

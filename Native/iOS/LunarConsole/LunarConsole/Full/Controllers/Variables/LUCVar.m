@@ -38,17 +38,27 @@ NSString * const LUCVarTypeNameUnknown = @"Unknown";
 
 @implementation LUCVar
 
-+ (instancetype)variableWithId:(int)entryId name:(NSString *)name value:(NSString *)value type:(LUCVarType)type cellClass:(Class)cellClass
++ (instancetype)variableWithId:(int)entryId
+                          name:(NSString *)name
+                         value:(NSString *)value
+                  defaultValue:(NSString *)defaultValue
+                          type:(LUCVarType)type
+                     cellClass:(Class)cellClass
 {
-    return [[self alloc] initWithId:entryId name:name value:value type:type cellClass:cellClass];
+    return [[self alloc] initWithId:entryId name:name value:value defaultValue:defaultValue type:type cellClass:cellClass];
 }
 
-- (instancetype)initWithId:(int)entryId name:(NSString *)name value:(NSString *)value type:(LUCVarType)type cellClass:(Class)cellClass
+- (instancetype)initWithId:(int)entryId name:(NSString *)name
+                     value:(NSString *)value
+              defaultValue:(NSString *)defaultValue
+                      type:(LUCVarType)type
+                 cellClass:(Class)cellClass
 {
     self = [super initWithId:entryId name:name];
     if (self)
     {
         _value = value;
+        _defaultValue = defaultValue;
         _cellClass = cellClass;
         _type = type;
     }
