@@ -7,12 +7,12 @@ using NUnit.Framework;
 using LunarConsolePlugin;
 using LunarConsolePluginInternal;
 
-namespace QuickActions
+namespace Actions
 {
     using Assert = NUnit.Framework.Assert;
 
     [TestFixture]
-    public class QuickActionRegistryTest : TestFixtureBase, ICActionRegistryDelegate
+    public class CActionRegistryTest : TestFixtureBase, ICActionRegistryDelegate
     {
         CRegistry m_actionRegistry;
 
@@ -483,11 +483,6 @@ namespace QuickActions
             return m_actionRegistry.RegisterAction(name, actionDelegate);
         }
 
-        CAction RegisterAction(string groupName, string name, Action actionDelegate)
-        {
-            return m_actionRegistry.RegisterAction(groupName, name, actionDelegate);
-        }
-
         void UnregisterAction(string name)
         {
             m_actionRegistry.Unregister(name);
@@ -508,28 +503,8 @@ namespace QuickActions
             m_actionRegistry.UnregisterAll(target);
         }
 
-        void AssertGroups(params string[] expected)
+        void AssertActions(params QuickActionInfo[] expected)
         {
-            var actionGroups = m_actionRegistry.actionGroups;
-            Assert.AreEqual(expected.Length, actionGroups.Count);
-
-            int index = 0;
-            foreach (var actionGroup in actionGroups)
-            {
-                Assert.AreEqual(expected[index++], actionGroup.name);
-            }
-        }
-
-        void AssertActions(string actionGroupName, params QuickActionInfo[] expected)
-        {
-            AssertActions(FindGroup(actionGroupName), expected);
-        }
-
-        void AssertActions(QuickActionGroup actionGroup, params QuickActionInfo[] expected)
-        {
-            var actions = actionGroup.actions;
-            Assert.AreEqual(expected.Length, actions.Count);
-
             int index = 0;
             foreach (var action in actions)
             {

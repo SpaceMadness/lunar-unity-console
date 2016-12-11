@@ -1,13 +1,13 @@
 ﻿using System;
 
-namespace QuickActions
+namespace Actions
 {
-    struct QuickActionInfo
+    struct CActionInfo
     {
         public readonly string name;
         public readonly Delegate actionDelegate;
 
-        public QuickActionInfo(string name, Action actionDelegate)
+        public CActionInfo(string name, Action actionDelegate)
         {
             this.name = name;
             this.actionDelegate = actionDelegate;
