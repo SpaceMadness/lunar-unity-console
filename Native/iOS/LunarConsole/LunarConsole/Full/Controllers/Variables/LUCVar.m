@@ -66,6 +66,14 @@ NSString * const LUCVarTypeNameUnknown = @"Unknown";
 }
 
 #pragma mark -
+#pragma mark Default value
+
+- (void)resetToDefaultValue
+{
+    _value = _defaultValue;
+}
+
+#pragma mark -
 #pragma mark UITableView
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellAtIndex:(NSUInteger)index
@@ -105,6 +113,14 @@ NSString * const LUCVarTypeNameUnknown = @"Unknown";
         case LUCVarTypeString:  return LUCVarTypeNameString;
         case LUCVarTypeUnknown: return LUCVarTypeNameUnknown;
     }
+}
+
+#pragma mark -
+#pragma mark Properties
+
+- (BOOL)isDefaultValue
+{
+    return [_value isEqualToString:_defaultValue];
 }
 
 @end
