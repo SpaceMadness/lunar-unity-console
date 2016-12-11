@@ -41,9 +41,9 @@
     <Compile Include="Core\TestFixtureBase.cs" />
     <Compile Include="Actions\QuickActionRegistryTest.cs" />
     <Compile Include="Actions\QuickActionGroupTest.cs" />
-    <Compile Include="Utils\MyListTest.cs" />
     <Compile Include="Actions\QuickActionInfo.cs" />
     <Compile Include="Utils\StringUtilsTest.cs" />
+    <Compile Include="Utils\SortedListTest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

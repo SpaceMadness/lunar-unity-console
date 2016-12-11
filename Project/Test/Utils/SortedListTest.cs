@@ -6,16 +6,16 @@ using LunarConsolePluginInternal;
 namespace Utils
 {
     [TestFixture]
-    public class MyListTest : TestFixtureBase
+    public class SortedListTest : TestFixtureBase
     {
-        MyList<string> m_list;
+        SortedList<string> m_list;
 
         #region Setup
 
         [SetUp]
         public void SetUp()
         {
-            m_list = new MyList<string>();
+            m_list = new SortedList<string>();
         }
 
         #endregion
