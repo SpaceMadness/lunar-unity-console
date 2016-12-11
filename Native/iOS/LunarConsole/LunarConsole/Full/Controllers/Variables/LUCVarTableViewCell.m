@@ -23,9 +23,14 @@
 
 #import "Lunar.h"
 
+NSString * const LUActionControllerDidChangeVariable = @"LUActionControllerDidChangeVariable";
+NSString * const LUActionControllerDidChangeVariableKeyVariable = @"variable";
+
 @interface LUCVarTableViewCell ()
 
 @property (nonatomic, weak) IBOutlet UILabel *titleLabel;
+
+@property (nonatomic, weak) LUCVar *variable;
 
 @end
 
@@ -64,7 +69,7 @@
 
 - (void)setupVariable:(LUCVar *)variable
 {
-    _variableId = variable.actionId;
+    _variable = variable;
     
     _titleLabel.text = variable.name;
     
@@ -75,12 +80,27 @@
     _titleLabel.opaque = YES;
 }
 
-- (void)notifyValueChanged:(NSString *)value
+- (void)setVariableValue:(NSString *)value
 {
-    if ([_delegate respondsToSelector:@selector(consoleVariableTableViewCell:didChangeValue:)])
+    LUAssert(_variable);
+    if (_variable)
     {
-        [_delegate consoleVariableTableViewCell:self didChangeValue:value];
+        _variable.value = value;
+    
+        // post notification
+        NSDictionary *userInfo = @{ LUActionControllerDidChangeVariableKeyVariable : _variable };
+        [LUNotificationCenter postNotificationName:LUActionControllerDidChangeVariable
+                                            object:nil
+                                          userInfo:userInfo];
     }
+}
+
+#pragma mark -
+#pragma mark Properties
+
+- (int)variableId
+{
+    return _variable.actionId;
 }
 
 @end

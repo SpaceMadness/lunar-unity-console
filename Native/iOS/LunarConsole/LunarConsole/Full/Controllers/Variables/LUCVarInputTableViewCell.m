@@ -28,7 +28,6 @@
 @property (nonatomic, weak) IBOutlet UITextField * inputField;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint * resetButtonWidthConstraint;
 
-@property (nonatomic, strong) NSString * lastValue;
 @property (nonatomic, assign) CGFloat resetButtonInitialWidth;
 
 @end
@@ -48,13 +47,40 @@
     _inputField.textColor = [LUTheme mainTheme].variableEditTextColor;
     
     _inputField.text = variable.value;
-    self.lastValue = variable.value;
+    [self updateResetButton];
 }
 
 - (BOOL)isValidInputText:(NSString *)text
 {
     LU_SHOULD_IMPLEMENT_METHOD
     return NO;
+}
+
+#pragma mark -
+#pragma mark Actions
+
+- (IBAction)onResetButton:(id)sender
+{
+    _inputField.text = self.variable.defaultValue;
+    [self setVariableValue:self.variable.defaultValue];
+}
+
+#pragma mark -
+#pragma mark Setup value
+
+- (void)setVariableValue:(NSString *)value
+{
+    [super setVariableValue:value];
+    [self updateResetButton];
+}
+
+#pragma mark -
+#pragma mark Reset button
+
+- (void)updateResetButton
+{
+    _resetButtonWidthConstraint.constant = self.variable.isDefaultValue ? 0 : _resetButtonInitialWidth;
+    [self layoutIfNeeded];
 }
 
 #pragma mark -
@@ -74,13 +100,11 @@
     
     if ([self isValidInputText:value])
     {
-        self.lastValue = value;
-        [self notifyValueChanged:value];
+        [self setVariableValue:value];
     }
     else
     {
         LUDisplayAlertView(@"Input Error", [NSString stringWithFormat:@"Invalid value: '%@'", value]);
-        textField.text = self.lastValue;
     }
 }
 
