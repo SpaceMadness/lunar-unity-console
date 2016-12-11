@@ -48,6 +48,18 @@ class ViewController: LUViewController {
         ViewController.pluginInstance = plugin;
         
         commandLookup = createCommandLookup()
+
+        /*
+        plugin.registerAction(withId: 1, name: "Action 1")
+        plugin.registerAction(withId: 2, name: "Action 2")
+        plugin.registerAction(withId: 3, name: "Action 3")
+        plugin.registerAction(withId: 4, name: "Action 4")
+        
+        plugin.registerVariable(withId: 5, name: "string", type: LUCVarTypeNameString, value: "Test")
+        plugin.registerVariable(withId: 6, name: "float", type: LUCVarTypeNameFloat, value: "3.14")
+        plugin.registerVariable(withId: 7, name: "boolean", type: LUCVarTypeNameBoolean, value: "true")
+        plugin.registerVariable(withId: 8, name: "int", type: LUCVarTypeNameInteger, value: "10")
+        */
     }
     
     // MARK: - Actions
