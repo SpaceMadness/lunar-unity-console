@@ -6,14 +6,14 @@ namespace LunarConsolePluginInternal
     /// <summary>
     /// Utility list for storing and retreiving items in a sorted order
     /// </summary>
-    public class MyList<T> : IEnumerable<T> where T : class, IComparable<T>
+    public class SortedList<T> : IEnumerable<T> where T : class, IComparable<T>
     {
         public delegate void EachCallback(T element);
         public delegate bool FilterCallback(T element);
 
         readonly LinkedList<T> m_list;
 
-        public MyList()
+        public SortedList()
         {
             m_list = new LinkedList<T>();
         }

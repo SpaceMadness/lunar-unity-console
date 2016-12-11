@@ -6,7 +6,7 @@ using LunarConsolePlugin;
 
 namespace LunarConsolePluginInternal
 {
-    using CVarList = MyList<CVar>;
+    using CVarList = SortedList<CVar>;
 
     delegate bool CActionFilter(CAction action);
 

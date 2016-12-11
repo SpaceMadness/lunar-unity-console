@@ -117,13 +117,13 @@ namespace LunarConsolePluginInternal
 
     public class CActionList : IEnumerable<CAction>
 	{
-		private readonly MyList<CAction> m_actions;
+		private readonly SortedList<CAction> m_actions;
 		private readonly Dictionary<int, CAction> m_actionLookupById;
 		private readonly Dictionary<string, CAction> m_actionLookupByName;
 
 		public CActionList()
 		{
-			m_actions = new MyList<CAction>();
+			m_actions = new SortedList<CAction>();
 			m_actionLookupById = new Dictionary<int, CAction>();
 			m_actionLookupByName = new Dictionary<string, CAction>();
 		}
