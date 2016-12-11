@@ -25,7 +25,7 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t44-Et-iu9">
-                        <rect key="frame" x="12" y="3" width="134" height="38"/>
+                        <rect key="frame" x="20" y="3" width="126" height="38"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
@@ -64,7 +64,7 @@
             </tableViewCellContentView>
             <constraints>
                 <constraint firstItem="199-bK-QjZ" firstAttribute="centerY" secondItem="CDy-Fc-yEC" secondAttribute="centerY" id="4T3-65-rc7"/>
-                <constraint firstItem="t44-Et-iu9" firstAttribute="leading" secondItem="CDy-Fc-yEC" secondAttribute="leading" constant="12" id="AEd-dl-3bU"/>
+                <constraint firstItem="t44-Et-iu9" firstAttribute="leading" secondItem="CDy-Fc-yEC" secondAttribute="leading" constant="20" id="AEd-dl-3bU"/>
                 <constraint firstAttribute="trailing" secondItem="199-bK-QjZ" secondAttribute="trailing" constant="8" id="k4p-r3-8k2"/>
                 <constraint firstItem="t44-Et-iu9" firstAttribute="top" secondItem="CDy-Fc-yEC" secondAttribute="top" constant="3" id="rsw-23-lNf"/>
                 <constraint firstAttribute="bottom" secondItem="t44-Et-iu9" secondAttribute="bottom" constant="3" id="wNm-zA-ovf"/>
