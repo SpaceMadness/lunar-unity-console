@@ -6,12 +6,9 @@ using LunarConsolePlugin;
 
 namespace LunarConsolePluginInternal
 {
-    using QuickActionLookup = Dictionary<int, CAction>;
-    using QuickActionGroupList = MyList<QuickActionGroup>;
-    using QuickActionGroupLookup = Dictionary<string, QuickActionGroup>;
     using CVarList = MyList<CVar>;
 
-    delegate bool CActionFilter<T>(T cmd) where T : CAction;
+    delegate bool CActionFilter(CAction action);
 
     public interface ICActionRegistryDelegate
     {
@@ -22,21 +19,14 @@ namespace LunarConsolePluginInternal
 
     public class CRegistry
     {
-        readonly QuickActionLookup m_actionLookup = new QuickActionLookup();
-        ICActionRegistryDelegate m_delegate;
+        readonly CActionList m_actions = new CActionList();
+        readonly CVarList m_vars = new CVarList();
 
-        readonly QuickActionGroupList m_actionGroups = new QuickActionGroupList();
-        readonly QuickActionGroupLookup m_actionGroupLookup = new QuickActionGroupLookup();
-        readonly CVarList m_cvars = new CVarList();
+        ICActionRegistryDelegate m_delegate;
 
         #region Commands registry
 
         internal CAction RegisterAction(string name, Delegate actionDelegate)
-        {
-            return RegisterAction("", name, actionDelegate);
-        }
-
-        internal CAction RegisterAction(string group, string name, Delegate actionDelegate)
         {
             if (name == null)
             {
@@ -53,8 +43,7 @@ namespace LunarConsolePluginInternal
                 throw new ArgumentNullException("actionDelegate");
             }
 
-            QuickActionGroup actionGroup = ResolveActionGroup(StringUtils.NonNullOrEmpty(group));
-            CAction action = actionGroup.FindAction(name);
+            CAction action = m_actions.Find(name);
             if (action != null)
             {
                 Log.w("Overriding action: {0}", name);
@@ -63,15 +52,13 @@ namespace LunarConsolePluginInternal
             else
             {
                 action = new CAction(name, actionDelegate);
-                actionGroup.AddAction(action);
+                m_actions.Add(action);
 
                 if (m_delegate != null)
                 {
                     m_delegate.OnActionAdded(this, action);
                 }
             }
-
-            m_actionLookup[action.id] = action;
 
             return action;
         }
@@ -116,14 +103,11 @@ namespace LunarConsolePluginInternal
             }
 
             IList<CAction> actionsToRemove = new List<CAction>();
-            foreach (var group in m_actionGroups)
+            foreach (var action in m_actions)
             {
-                foreach (var action in group.actions)
+                if (filter(action))
                 {
-                    if (filter(action))
-                    {
-                        actionsToRemove.Add(action);
-                    }
+                    actionsToRemove.Add(action);
                 }
             }
 
@@ -137,7 +121,7 @@ namespace LunarConsolePluginInternal
 
         bool RemoveAction(CAction action)
         {
-            if (m_actionLookup.Remove(action.id))
+            if (m_actions.Remove(action.id))
             {
                 if (m_delegate != null)
                 {
@@ -152,40 +136,7 @@ namespace LunarConsolePluginInternal
 
         public CAction FindAction(int id)
         {
-            CAction cmd;
-            if (m_actionLookup.TryGetValue(id, out cmd))
-            {
-                return cmd;
-            }
-
-            return null;
-        }
-
-        #endregion
-
-        #region Action groups
-
-        public QuickActionGroup FindActionGroup(string name)
-        {
-            QuickActionGroup group;
-            return name != null && m_actionGroupLookup.TryGetValue(name, out group) ? group : null;
-        }
-
-        QuickActionGroup ResolveActionGroup(string name)
-        {
-            if (name == null)
-            {
-                throw new ArgumentNullException("name");
-            }
-
-            QuickActionGroup group;
-            if (!m_actionGroupLookup.TryGetValue(name, out group))
-            {
-                group = new QuickActionGroup(name);
-                m_actionGroups.Add(group);
-                m_actionGroupLookup[name] = group;
-            }
-            return group;
+            return m_actions.Find(id);
         }
 
         #endregion
@@ -194,7 +145,7 @@ namespace LunarConsolePluginInternal
 
         public void Register(CVar cvar)
         {
-            m_cvars.Add(cvar);
+            m_vars.Add(cvar);
 
             if (m_delegate != null)
             {
@@ -212,14 +163,9 @@ namespace LunarConsolePluginInternal
             set { m_delegate = value; }
         }
 
-        public QuickActionGroupList actionGroups
-        {
-            get { return m_actionGroups; }
-        }
-
         public CVarList cvars
         {
-            get { return m_cvars; }
+            get { return m_vars; }
         }
 
         #endregion

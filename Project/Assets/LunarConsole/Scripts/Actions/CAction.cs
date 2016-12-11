@@ -114,4 +114,70 @@ namespace LunarConsolePluginInternal
 
         #endregion
     }
+
+    public class CActionList : IEnumerable<CAction>
+	{
+		private readonly MyList<CAction> m_actions;
+		private readonly Dictionary<int, CAction> m_actionLookupById;
+		private readonly Dictionary<string, CAction> m_actionLookupByName;
+
+		public CActionList()
+		{
+			m_actions = new MyList<CAction>();
+			m_actionLookupById = new Dictionary<int, CAction>();
+			m_actionLookupByName = new Dictionary<string, CAction>();
+		}
+
+		public void Add(CAction action)
+		{
+			m_actions.Add(action);
+            m_actionLookupById.Add(action.id, action);
+            m_actionLookupByName.Add(action.name, action);
+		}
+
+        public bool Remove(int id)
+        {
+            CAction action;
+            if (m_actionLookupById.TryGetValue(id, out action))
+            {
+                m_actionLookupById.Remove(id);
+                m_actionLookupByName.Remove(action.name);
+                m_actions.Remove(action);
+
+                return true;
+            }
+
+            return false;
+        }
+
+        public CAction Find(string name)
+		{
+			CAction action;
+			return m_actionLookupByName.TryGetValue(name, out action) ? action : null;
+		}
+
+		public CAction Find(int id)
+		{
+			CAction action;
+			return m_actionLookupById.TryGetValue(id, out action) ? action : null;
+		}
+
+        #region IEnumerable implementation
+
+        public IEnumerator<CAction> GetEnumerator()
+        {
+            return m_actions.GetEnumerator();
+        }
+
+        #endregion
+
+        #region IEnumerable implementation
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return m_actions.GetEnumerator();
+        }
+
+        #endregion
+	}
 }
