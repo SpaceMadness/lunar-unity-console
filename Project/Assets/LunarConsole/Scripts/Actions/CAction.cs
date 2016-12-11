@@ -7,17 +7,16 @@ using UnityEngine;
 
 namespace LunarConsolePluginInternal
 {
-    public class QuickAction : IComparable<QuickAction>
+    public class CAction : IComparable<CAction>
     {
         static readonly string[] kEmptyArgs = new String[0];
         static int s_nextActionId;
 
         readonly int m_id;
         readonly string m_name;
-        QuickActionGroup m_group;
         Delegate m_actionDelegate;
 
-        public QuickAction(string name, Delegate actionDelegate)
+        public CAction(string name, Delegate actionDelegate)
         {
             if (name == null)
             {
@@ -61,17 +60,6 @@ namespace LunarConsolePluginInternal
             return false;
         }
 
-        internal bool RemoveFromGroup()
-        {
-            if (m_group != null)
-            {
-                m_group.RemoveAction(this);
-                return true;
-            }
-
-            return false;
-        }
-
         #region Helpers
 
         internal bool StartsWith(string prefix)
@@ -83,7 +71,7 @@ namespace LunarConsolePluginInternal
 
         #region IComparable
 
-        public int CompareTo(QuickAction other)
+        public int CompareTo(CAction other)
         {
             return name.CompareTo(other.name);
         }
@@ -109,17 +97,6 @@ namespace LunarConsolePluginInternal
         public string name
         {
             get { return m_name; }
-        }
-
-        public QuickActionGroup group
-        {
-            get { return m_group; }
-            internal set { m_group = value; }
-        }
-
-        public string groupName
-        {
-            get { return m_group != null ? m_group.name : null; }
         }
 
         public Delegate actionDelegate

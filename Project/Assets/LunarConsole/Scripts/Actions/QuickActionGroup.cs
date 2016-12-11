@@ -3,8 +3,8 @@ using System.Collections.Generic;
 
 namespace LunarConsolePluginInternal
 {
-    using QuickActionList = MyList<QuickAction>;
-    using QuickActionLookup = Dictionary<string, QuickAction>;
+    using QuickActionList = MyList<CAction>;
+    using QuickActionLookup = Dictionary<string, CAction>;
 
     public class QuickActionGroup : IComparable<QuickActionGroup>
     {
@@ -19,38 +19,26 @@ namespace LunarConsolePluginInternal
             m_actionLookup = new QuickActionLookup();
         }
 
-        internal void AddAction(QuickAction action)
+        internal void AddAction(CAction action)
         {
-            if (action.group != null)
-            {
-                throw new ArgumentException("Action already belongs to a group");
-            }
-
             m_actions.Add(action);
             m_actionLookup[action.name] = action;
-            action.group = this;
         }
 
-        internal bool RemoveAction(QuickAction action)
+        internal bool RemoveAction(CAction action)
         {
-            if (action.group != this)
-            {
-                throw new ArgumentException("Action doesn't belong to a group");
-            }
-
             if (m_actionLookup.Remove(action.name))
             {
                 m_actions.Remove(action);
-                action.group = null;
                 return true;
             }
 
             return false;
         }
 
-        public QuickAction FindAction(string name)
+        public CAction FindAction(string name)
         {
-            QuickAction action;
+            CAction action;
             return m_actionLookup.TryGetValue(name, out action) ? action : null;
         }
 

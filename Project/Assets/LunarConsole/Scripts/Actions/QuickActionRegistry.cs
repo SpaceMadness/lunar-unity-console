@@ -6,17 +6,17 @@ using LunarConsolePlugin;
 
 namespace LunarConsolePluginInternal
 {
-    using QuickActionLookup = Dictionary<int, QuickAction>;
+    using QuickActionLookup = Dictionary<int, CAction>;
     using QuickActionGroupList = MyList<QuickActionGroup>;
     using QuickActionGroupLookup = Dictionary<string, QuickActionGroup>;
     using CVarList = MyList<CVar>;
 
-    delegate bool QuickActionFilter<T>(T cmd) where T : QuickAction;
+    delegate bool QuickActionFilter<T>(T cmd) where T : CAction;
 
     public interface IQuickActionRegistryDelegate
     {
-        void OnActionAdded(QuickActionRegistry registry, QuickAction action);
-        void OnActionRemoved(QuickActionRegistry registry, QuickAction action);
+        void OnActionAdded(QuickActionRegistry registry, CAction action);
+        void OnActionRemoved(QuickActionRegistry registry, CAction action);
         void OnVariableAdded(QuickActionRegistry registry, CVar cvar);
     }
 
@@ -31,12 +31,12 @@ namespace LunarConsolePluginInternal
 
         #region Commands registry
 
-        internal QuickAction RegisterAction(string name, Delegate actionDelegate)
+        internal CAction RegisterAction(string name, Delegate actionDelegate)
         {
             return RegisterAction("", name, actionDelegate);
         }
 
-        internal QuickAction RegisterAction(string group, string name, Delegate actionDelegate)
+        internal CAction RegisterAction(string group, string name, Delegate actionDelegate)
         {
             if (name == null)
             {
@@ -54,7 +54,7 @@ namespace LunarConsolePluginInternal
             }
 
             QuickActionGroup actionGroup = ResolveActionGroup(StringUtils.NonNullOrEmpty(group));
-            QuickAction action = actionGroup.FindAction(name);
+            CAction action = actionGroup.FindAction(name);
             if (action != null)
             {
                 Log.w("Overriding action: {0}", name);
@@ -62,7 +62,7 @@ namespace LunarConsolePluginInternal
             }
             else
             {
-                action = new QuickAction(name, actionDelegate);
+                action = new CAction(name, actionDelegate);
                 actionGroup.AddAction(action);
 
                 if (m_delegate != null)
@@ -78,7 +78,7 @@ namespace LunarConsolePluginInternal
 
         public bool Unregister(string name)
         {
-            return Unregister(delegate(QuickAction action)
+            return Unregister(delegate(CAction action)
             {
                 return action.name == name;
             });
@@ -86,7 +86,7 @@ namespace LunarConsolePluginInternal
 
         public bool Unregister(int id)
         {
-            return Unregister(delegate(QuickAction action)
+            return Unregister(delegate(CAction action)
             {
                 return action.id == id;
             });
@@ -94,7 +94,7 @@ namespace LunarConsolePluginInternal
 
         public bool Unregister(Delegate del)
         {
-            return Unregister(delegate(QuickAction action)
+            return Unregister(delegate(CAction action)
             {
                 return action.actionDelegate == del;
             });
@@ -102,20 +102,20 @@ namespace LunarConsolePluginInternal
 
         public bool UnregisterAll(object target)
         {
-            return target != null && Unregister(delegate(QuickAction action)
+            return target != null && Unregister(delegate(CAction action)
             {
                 return action.actionDelegate.Target == target;
             });
         }
 
-        bool Unregister(QuickActionFilter<QuickAction> filter)
+        bool Unregister(QuickActionFilter<CAction> filter)
         {
             if (filter == null)
             {
                 throw new ArgumentNullException("filter");
             }
 
-            IList<QuickAction> actionsToRemove = new List<QuickAction>();
+            IList<CAction> actionsToRemove = new List<CAction>();
             foreach (var group in m_actionGroups)
             {
                 foreach (var action in group.actions)
@@ -135,11 +135,10 @@ namespace LunarConsolePluginInternal
             return actionsToRemove.Count > 0;
         }
 
-        bool RemoveAction(QuickAction action)
+        bool RemoveAction(CAction action)
         {
             if (m_actionLookup.Remove(action.id))
             {
-                action.RemoveFromGroup();
                 if (m_delegate != null)
                 {
                     m_delegate.OnActionRemoved(this, action);
@@ -151,9 +150,9 @@ namespace LunarConsolePluginInternal
             return false;
         }
 
-        public QuickAction FindAction(int id)
+        public CAction FindAction(int id)
         {
-            QuickAction cmd;
+            CAction cmd;
             if (m_actionLookup.TryGetValue(id, out cmd))
             {
                 return cmd;
