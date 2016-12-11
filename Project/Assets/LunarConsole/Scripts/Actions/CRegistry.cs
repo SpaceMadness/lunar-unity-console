@@ -163,6 +163,11 @@ namespace LunarConsolePluginInternal
             set { m_delegate = value; }
         }
 
+        public CActionList actions
+        {
+            get { return m_actions; }
+        }
+
         public CVarList cvars
         {
             get { return m_vars; }
