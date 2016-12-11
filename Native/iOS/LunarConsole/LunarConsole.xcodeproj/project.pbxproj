@@ -349,6 +349,9 @@
 		4DD4FC511DFB933700032A29 /* lunar_console_action_button_large_selected@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lunar_console_action_button_large_selected@3x.png"; sourceTree = "<group>"; };
 		4DE389E81DFCAC0E003A2B6B /* LUNotificationCenter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUNotificationCenter.h; sourceTree = "<group>"; };
 		4DE389E91DFCAC0E003A2B6B /* LUNotificationCenter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = LUNotificationCenter.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		4DE389EC1DFCD310003A2B6B /* lunar_console_icon_button_variable_reset.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lunar_console_icon_button_variable_reset.png; sourceTree = "<group>"; };
+		4DE389ED1DFCD310003A2B6B /* lunar_console_icon_button_variable_reset@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lunar_console_icon_button_variable_reset@2x.png"; sourceTree = "<group>"; };
+		4DE389EE1DFCD310003A2B6B /* lunar_console_icon_button_variable_reset@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lunar_console_icon_button_variable_reset@3x.png"; sourceTree = "<group>"; };
 		840F08741DEA6B7400E9F13D /* TestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestCase.h; sourceTree = "<group>"; };
 		840F08751DEA6B7400E9F13D /* TestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestCase.m; sourceTree = "<group>"; };
 		840F08761DEA6B7400E9F13D /* LUActionRegistryFilterTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUActionRegistryFilterTest.m; sourceTree = "<group>"; };
@@ -741,6 +744,9 @@
 				4DD4FC4F1DFB933700032A29 /* lunar_console_action_button_large_selected.png */,
 				4DD4FC501DFB933700032A29 /* lunar_console_action_button_large_selected@2x.png */,
 				4DD4FC511DFB933700032A29 /* lunar_console_action_button_large_selected@3x.png */,
+				4DE389EC1DFCD310003A2B6B /* lunar_console_icon_button_variable_reset.png */,
+				4DE389ED1DFCD310003A2B6B /* lunar_console_icon_button_variable_reset@2x.png */,
+				4DE389EE1DFCD310003A2B6B /* lunar_console_icon_button_variable_reset@3x.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";

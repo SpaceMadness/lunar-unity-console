@@ -25,15 +25,26 @@
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="t44-Et-iu9">
-                        <rect key="frame" x="20" y="11" width="187" height="21"/>
+                        <rect key="frame" x="20" y="11" width="131" height="21"/>
                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="199-bK-QjZ" userLabel="Input Field">
-                        <rect key="frame" x="215" y="7" width="97" height="30"/>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rKa-Bk-Nep" userLabel="Button Reset">
+                        <rect key="frame" x="274" y="6" width="46" height="30"/>
                         <constraints>
-                            <constraint firstAttribute="width" constant="97" id="0WY-4X-I7k"/>
+                            <constraint firstAttribute="height" constant="30" id="Rst-7Y-Bby"/>
+                            <constraint firstAttribute="width" constant="46" id="hi4-id-hkZ"/>
+                        </constraints>
+                        <state key="normal" image="lunar_console_icon_button_variable_reset.png">
+                            <color key="titleColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </state>
+                    </button>
+                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="199-bK-QjZ" userLabel="Input Field">
+                        <rect key="frame" x="151" y="6" width="123" height="30"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="123" id="LMZ-SX-j49"/>
                         </constraints>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <textInputTraits key="textInputTraits"/>
@@ -43,15 +54,22 @@
                     </textField>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="bottomMargin" secondItem="t44-Et-iu9" secondAttribute="bottom" constant="3" id="35p-lw-x7B"/>
-                    <constraint firstItem="t44-Et-iu9" firstAttribute="leading" secondItem="e5n-ot-TQF" secondAttribute="leadingMargin" constant="12" id="54r-Q1-t2U"/>
-                    <constraint firstItem="199-bK-QjZ" firstAttribute="trailing" secondItem="e5n-ot-TQF" secondAttribute="trailingMargin" id="IxO-hp-gSb"/>
-                    <constraint firstItem="t44-Et-iu9" firstAttribute="top" secondItem="e5n-ot-TQF" secondAttribute="topMargin" constant="3" id="JgB-ny-hac"/>
-                    <constraint firstItem="199-bK-QjZ" firstAttribute="leading" secondItem="t44-Et-iu9" secondAttribute="trailing" constant="8" symbolic="YES" id="VIZ-mg-T5p"/>
-                    <constraint firstItem="t44-Et-iu9" firstAttribute="centerY" secondItem="199-bK-QjZ" secondAttribute="centerY" id="cJI-uK-lsS"/>
+                    <constraint firstItem="199-bK-QjZ" firstAttribute="leading" secondItem="t44-Et-iu9" secondAttribute="trailing" id="H6S-mm-S2t"/>
+                    <constraint firstItem="rKa-Bk-Nep" firstAttribute="leading" secondItem="199-bK-QjZ" secondAttribute="trailing" id="OjD-KK-uFb"/>
+                    <constraint firstItem="199-bK-QjZ" firstAttribute="centerY" secondItem="t44-Et-iu9" secondAttribute="centerY" id="Rz5-kE-MHX"/>
+                    <constraint firstItem="rKa-Bk-Nep" firstAttribute="centerY" secondItem="199-bK-QjZ" secondAttribute="centerY" id="UgV-Pd-uD6"/>
+                    <constraint firstAttribute="trailingMargin" secondItem="rKa-Bk-Nep" secondAttribute="trailing" constant="-8" id="fr9-82-9Jq"/>
                 </constraints>
             </tableViewCellContentView>
+            <constraints>
+                <constraint firstItem="t44-Et-iu9" firstAttribute="leading" secondItem="CDy-Fc-yEC" secondAttribute="leading" constant="20" id="AEd-dl-3bU"/>
+                <constraint firstItem="t44-Et-iu9" firstAttribute="top" secondItem="CDy-Fc-yEC" secondAttribute="top" constant="11" id="rsw-23-lNf"/>
+                <constraint firstAttribute="bottom" secondItem="t44-Et-iu9" secondAttribute="bottom" constant="12" id="wNm-zA-ovf"/>
+            </constraints>
             <point key="canvasLocation" x="266" y="363"/>
         </tableViewCell>
     </objects>
+    <resources>
+        <image name="lunar_console_icon_button_variable_reset.png" width="24" height="24"/>
+    </resources>
 </document>
