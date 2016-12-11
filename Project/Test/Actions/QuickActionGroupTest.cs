@@ -56,9 +56,9 @@ namespace QuickActions
         [Test]
         public void TestRemove()
         {
-            QuickAction a1 = AddAction("a1", ActionDelegate1);
-            QuickAction a2 = AddAction("a2", ActionDelegate2);
-            QuickAction a3 = AddAction("a3", ActionDelegate3);
+            CAction a1 = AddAction("a1", ActionDelegate1);
+            CAction a2 = AddAction("a2", ActionDelegate2);
+            CAction a3 = AddAction("a3", ActionDelegate3);
 
             AssertActions(
                 new QuickActionInfo("a1", ActionDelegate1),
@@ -105,14 +105,14 @@ namespace QuickActions
 
         #region Helpers
 
-        QuickAction AddAction(string name, Action actionDelegate)
+        CAction AddAction(string name, Action actionDelegate)
         {
-            QuickAction action = new QuickAction(name, actionDelegate);
+            CAction action = new CAction(name, actionDelegate);
             m_actionGroup.AddAction(action);
             return action;
         }
 
-        void RemoveAction(QuickAction action)
+        void RemoveAction(CAction action)
         {
             m_actionGroup.RemoveAction(action);
         }

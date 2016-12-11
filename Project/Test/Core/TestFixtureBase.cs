@@ -57,7 +57,7 @@ public abstract class TestFixtureBase
         }
     }
 
-    protected void AssertTitles(IList<QuickAction> command, params string[] expected)
+    protected void AssertTitles(IList<CAction> command, params string[] expected)
     {
         Assert.AreEqual(command.Count, expected.Length, StringUtils.TryFormat("Expected: [{0}]\nActual: [{1}]"), Join(", ", expected), JoinTypes(", ", command));
         for (int i = 0; i < expected.Length; ++i)

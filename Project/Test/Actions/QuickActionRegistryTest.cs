@@ -361,12 +361,12 @@ namespace QuickActions
         [Test]
         public void TestLookupAction()
         {
-            QuickAction a = RegisterAction("a", "a1", Del1);
-            QuickAction b = RegisterAction("b", "b1", Del1);
-            QuickAction c = RegisterAction("c", "c1", Del1);
-            QuickAction d = RegisterAction("",  "d1", Del1);
+            CAction a = RegisterAction("a", "a1", Del1);
+            CAction b = RegisterAction("b", "b1", Del1);
+            CAction c = RegisterAction("c", "c1", Del1);
+            CAction d = RegisterAction("",  "d1", Del1);
 
-            QuickAction[] actions = { a, b, c, d };
+            CAction[] actions = { a, b, c, d };
             for (int i = 0; i < actions.Length - 1; ++i)
             {
                 for (int j = i + 1; j < actions.Length; ++j)
@@ -445,17 +445,17 @@ namespace QuickActions
 
         #region IQuickActionRegistryDelegate implementation
 
-        public void OnActionAdded(CRegistry registry, QuickAction action)
+        public void OnActionAdded(CRegistry registry, CAction action)
         {
             AddResult("added: " + action.groupName + "/" + action.name);
         }
 
-        public void OnActionChanged(CRegistry registry, QuickAction action)
+        public void OnActionChanged(CRegistry registry, CAction action)
         {
             AddResult("changed: " + action.groupName + "/" + action.name);
         }
 
-        public void OnActionRemoved(CRegistry registry, QuickAction action)
+        public void OnActionRemoved(CRegistry registry, CAction action)
         {
             AddResult("removed: " + action.groupName + "/" + action.name);
         }
@@ -473,22 +473,17 @@ namespace QuickActions
 
         #region Helpers
 
-        QuickActionGroup FindGroup(string name)
-        {
-            return m_actionRegistry.FindActionGroup(name);
-        }
-
-        QuickAction FindAction(int id)
+        CAction FindAction(int id)
         {
             return m_actionRegistry.FindAction(id);
         }
 
-        QuickAction RegisterAction(string name, Action actionDelegate)
+        CAction RegisterAction(string name, Action actionDelegate)
         {
             return m_actionRegistry.RegisterAction(name, actionDelegate);
         }
 
-        QuickAction RegisterAction(string groupName, string name, Action actionDelegate)
+        CAction RegisterAction(string groupName, string name, Action actionDelegate)
         {
             return m_actionRegistry.RegisterAction(groupName, name, actionDelegate);
         }
