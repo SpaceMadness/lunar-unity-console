@@ -12,9 +12,9 @@ namespace QuickActions
     using Assert = NUnit.Framework.Assert;
 
     [TestFixture]
-    public class QuickActionRegistryTest : TestFixtureBase, IQuickActionRegistryDelegate
+    public class QuickActionRegistryTest : TestFixtureBase, ICActionRegistryDelegate
     {
-        QuickActionRegistry m_actionRegistry;
+        CRegistry m_actionRegistry;
 
         #region Setup
 
@@ -23,7 +23,7 @@ namespace QuickActions
         {
             RunSetUp();
 
-            m_actionRegistry = new QuickActionRegistry();
+            m_actionRegistry = new CRegistry();
             m_actionRegistry.registryDelegate = this;
         }
 
@@ -445,27 +445,27 @@ namespace QuickActions
 
         #region IQuickActionRegistryDelegate implementation
 
-        public void OnActionAdded(QuickActionRegistry registry, QuickAction action)
+        public void OnActionAdded(CRegistry registry, QuickAction action)
         {
             AddResult("added: " + action.groupName + "/" + action.name);
         }
 
-        public void OnActionChanged(QuickActionRegistry registry, QuickAction action)
+        public void OnActionChanged(CRegistry registry, QuickAction action)
         {
             AddResult("changed: " + action.groupName + "/" + action.name);
         }
 
-        public void OnActionRemoved(QuickActionRegistry registry, QuickAction action)
+        public void OnActionRemoved(CRegistry registry, QuickAction action)
         {
             AddResult("removed: " + action.groupName + "/" + action.name);
         }
 
-        public void OnActionsCleared(QuickActionRegistry registry)
+        public void OnActionsCleared(CRegistry registry)
         {
             AddResult("cleared");
         }
 
-        public void OnVariableAdded(QuickActionRegistry registry, CVar cvar)
+        public void OnVariableAdded(CRegistry registry, CVar cvar)
         {
         }
 

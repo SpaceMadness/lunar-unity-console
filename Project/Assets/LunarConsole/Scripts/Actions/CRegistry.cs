@@ -11,19 +11,19 @@ namespace LunarConsolePluginInternal
     using QuickActionGroupLookup = Dictionary<string, QuickActionGroup>;
     using CVarList = MyList<CVar>;
 
-    delegate bool QuickActionFilter<T>(T cmd) where T : CAction;
+    delegate bool CActionFilter<T>(T cmd) where T : CAction;
 
-    public interface IQuickActionRegistryDelegate
+    public interface ICActionRegistryDelegate
     {
-        void OnActionAdded(QuickActionRegistry registry, CAction action);
-        void OnActionRemoved(QuickActionRegistry registry, CAction action);
-        void OnVariableAdded(QuickActionRegistry registry, CVar cvar);
+        void OnActionAdded(CRegistry registry, CAction action);
+        void OnActionRemoved(CRegistry registry, CAction action);
+        void OnVariableAdded(CRegistry registry, CVar cvar);
     }
 
-    public class QuickActionRegistry
+    public class CRegistry
     {
         readonly QuickActionLookup m_actionLookup = new QuickActionLookup();
-        IQuickActionRegistryDelegate m_delegate;
+        ICActionRegistryDelegate m_delegate;
 
         readonly QuickActionGroupList m_actionGroups = new QuickActionGroupList();
         readonly QuickActionGroupLookup m_actionGroupLookup = new QuickActionGroupLookup();
@@ -108,7 +108,7 @@ namespace LunarConsolePluginInternal
             });
         }
 
-        bool Unregister(QuickActionFilter<CAction> filter)
+        bool Unregister(CActionFilter filter)
         {
             if (filter == null)
             {
@@ -206,7 +206,7 @@ namespace LunarConsolePluginInternal
 
         #region Properties
 
-        public IQuickActionRegistryDelegate registryDelegate
+        public ICActionRegistryDelegate registryDelegate
         {
             get { return m_delegate; }
             set { m_delegate = value; }
