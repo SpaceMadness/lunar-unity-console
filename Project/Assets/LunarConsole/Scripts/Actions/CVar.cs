@@ -9,50 +9,12 @@ namespace LunarConsolePlugin
 {
     public delegate void CVarChangedDelegate(CVar cvar);
 
-    public enum CFlags
-    {   
-        /// <summary>
-        /// No flags (default value)
-        /// </summary>
-        None      = 0,
-
-        /// <summary>
-        /// The value cannot be modified from the command line
-        /// </summary>
-        Readonly  = 1 << 1,
-
-        /// <summary>
-        /// Only accessible in debug mode
-        /// </summary>
-        Debug     = 1 << 2,
-
-        /// <summary>
-        /// Won't be listed in cvarlist
-        /// </summary>
-        Hidden    = 1 << 3,
-
-        /// <summary>
-        /// System variable (hidden in cvarlist unless "--all (-a)" option is used)
-        /// </summary>
-        System    = 1 << 4,
-
-        /// <summary>
-        /// Don't save into config file
-        /// </summary>
-        NoArchive = 1 << 5,
-    }
-
     public enum CVarType
     {
         Boolean,
         Integer,
         Float,
-        String,
-        Color,
-        Rect,
-        Vector2,
-        Vector3,
-        Vector4
+        String
     }
 
     struct CValue
@@ -60,14 +22,12 @@ namespace LunarConsolePlugin
         public string stringValue;
         public int intValue;
         public float floatValue;
-        public Vector4 vectorValue;
 
         public bool Equals(ref CValue other)
         {
             return other.intValue == intValue &&
-                other.floatValue == floatValue &&
-                other.stringValue == stringValue &&
-                other.vectorValue == vectorValue;
+            other.floatValue == floatValue &&
+            other.stringValue == stringValue;
         }
     }
 
@@ -79,119 +39,37 @@ namespace LunarConsolePlugin
         private CValue m_value;
         private CValue m_defaultValue;
 
-        private CFlags m_flags;
-
         private CVarChangedDelegateList m_delegateList;
 
         public CVar(string name, bool defaultValue)
-            : this(name, defaultValue, CFlags.None)
-        {
-        }
-
-        public CVar(string name, bool defaultValue, CFlags flags)
-            : this(name, CVarType.Boolean, flags)
+            : this(name, CVarType.Boolean)
         {
             this.IntValue = defaultValue ? 1 : 0;
             m_defaultValue = m_value;
         }
 
         public CVar(string name, int defaultValue)
-            : this(name, defaultValue, CFlags.None)
-        {
-        }
-
-        public CVar(string name, int defaultValue, CFlags flags)
-            : this(name, CVarType.Integer, flags)
+            : this(name, CVarType.Integer)
         {
             this.IntValue = defaultValue;
             m_defaultValue = m_value;
         }
 
         public CVar(string name, float defaultValue)
-            : this(name, defaultValue, CFlags.None)
-        {
-        }
-
-        public CVar(string name, float defaultValue, CFlags flags)
-            : this(name, CVarType.Float, flags)
+            : this(name, CVarType.Float)
         {
             this.FloatValue = defaultValue;
             m_defaultValue = m_value;
         }
 
         public CVar(string name, string defaultValue)
-            : this(name, defaultValue, CFlags.None)
-        {
-        }
-
-        public CVar(string name, string defaultValue, CFlags flags)
-            : this(name, CVarType.String, flags)
+            : this(name, CVarType.String)
         {
             this.Value = defaultValue;
             m_defaultValue = m_value;
         }
 
-        public CVar(string name, Color defaultValue)
-            : this(name, defaultValue, CFlags.None)
-        {
-        }
-
-        public CVar(string name, Color defaultValue, CFlags flags)
-            : this(name, CVarType.Color, flags)
-        {
-            this.ColorValue = defaultValue;;
-            m_defaultValue = m_value;
-        }
-
-        public CVar(string name, Rect defaultValue)
-            : this(name, defaultValue, CFlags.None)
-        {
-        }
-
-        public CVar(string name, Rect defaultValue, CFlags flags)
-            : this(name, CVarType.Rect, flags)
-        {
-            this.RectValue = defaultValue;
-            m_defaultValue = m_value;
-        }
-
-        public CVar(string name, Vector2 defaultValue)
-            : this(name, defaultValue, CFlags.None)
-        {
-        }
-
-        public CVar(string name, Vector2 defaultValue, CFlags flags)
-            : this(name, CVarType.Vector2, flags)
-        {
-            this.Vector2Value = defaultValue;
-            m_defaultValue = m_value;
-        }
-
-        public CVar(string name, Vector3 defaultValue)
-            : this(name, defaultValue, CFlags.None)
-        {
-        }
-
-        public CVar(string name, Vector3 defaultValue, CFlags flags)
-            : this(name, CVarType.Vector3, flags)
-        {
-            this.Vector3Value = defaultValue;
-            m_defaultValue = m_value;
-        }
-
-        public CVar(string name, Vector4 defaultValue)
-            : this(name, defaultValue, CFlags.None)
-        {
-        }
-
-        public CVar(string name, Vector4 defaultValue, CFlags flags)
-            : this(name, CVarType.Vector4, flags)
-        {
-            this.Vector4Value = defaultValue;
-            m_defaultValue = m_value;
-        }
-
-        private CVar(string name, CVarType type, CFlags flags)
+        private CVar(string name, CVarType type)
         {
             if (name == null)
             {
@@ -200,7 +78,6 @@ namespace LunarConsolePlugin
 
             m_name = name;
             m_type = type;
-            m_flags = flags;
 
             Register(this);
         }
@@ -286,12 +163,11 @@ namespace LunarConsolePlugin
 
         public bool Equals(CVar other)
         {
-            return other != null && 
-                other.m_name == m_name &&
-                other.m_value.Equals(ref m_value) &&
-                other.m_defaultValue.Equals(ref m_defaultValue) &&
-                other.m_type == m_type &&
-                other.m_flags == m_flags;
+            return other != null &&
+            other.m_name == m_name &&
+            other.m_value.Equals(ref m_value) &&
+            other.m_defaultValue.Equals(ref m_defaultValue) &&
+            other.m_type == m_type;
         }
 
         #endregion
@@ -341,7 +217,6 @@ namespace LunarConsolePlugin
                 m_value.stringValue = value;
                 m_value.intValue = 0;
                 m_value.floatValue = 0.0f;
-                m_value.vectorValue = new Vector4();
 
                 if (changed)
                 {
@@ -365,7 +240,6 @@ namespace LunarConsolePlugin
                 m_value.stringValue = StringUtils.ToString(value);
                 m_value.intValue = value;
                 m_value.floatValue = (float)value;
-                m_value.vectorValue = new Vector4();
 
                 if (changed)
                 {
@@ -389,7 +263,6 @@ namespace LunarConsolePlugin
                 m_value.stringValue = StringUtils.ToString(value);
                 m_value.intValue = (int)value;
                 m_value.floatValue = value;
-                m_value.vectorValue = new Vector4();
 
                 if (oldValue != value)
                 {
@@ -409,144 +282,6 @@ namespace LunarConsolePlugin
             set { this.IntValue = value ? 1 : 0; }
         }
 
-        public bool IsColor
-        {
-            get { return m_type == CVarType.Color; }
-        }
-
-        public Color ColorValue
-        {
-            get { return new Color(
-                m_value.vectorValue.x, 
-                m_value.vectorValue.y, 
-                m_value.vectorValue.z, 
-                m_value.vectorValue.w); 
-            }
-            set {
-                Vector4 vector = new Vector4(value.r, value.g, value.b, value.a);
-                bool changed = m_value.vectorValue != vector;
-
-                m_value.stringValue = StringUtils.ToString(ref value);
-                m_value.intValue = 0;
-                m_value.floatValue = 0.0f;
-                m_value.vectorValue = vector;
-                m_value.intValue = (int)(ColorUtils.ToRGBA(ref value));
-
-                if (changed)
-                {
-                    NotifyValueChanged();
-                }
-            }
-        }
-
-        public bool IsRect
-        {
-            get { return m_type == CVarType.Rect; }
-        }
-
-        public Rect RectValue
-        {
-            get { return new Rect(
-                m_value.vectorValue.x, 
-                m_value.vectorValue.y, 
-                m_value.vectorValue.z, 
-                m_value.vectorValue.w); 
-            }
-
-            set {
-                Vector4 vector = new Vector4(value.x, value.y, value.width, value.height);
-                bool changed = m_value.vectorValue != vector;
-
-                m_value.stringValue = StringUtils.ToString(ref value);
-                m_value.intValue = 0;
-                m_value.floatValue = 0.0f;
-                m_value.vectorValue = vector;
-
-                if (changed)
-                {
-                    NotifyValueChanged();
-                }
-            }
-        }
-
-        public bool IsVector2
-        {
-            get { return m_type == CVarType.Vector2; }
-        }
-
-        public Vector2 Vector2Value
-        {
-            get { return new Vector2(
-                m_value.vectorValue.x, 
-                m_value.vectorValue.y); 
-            }
-            set {
-                Vector4 vector = new Vector4(value.x, value.y);
-                bool changed = m_value.vectorValue != vector;
-
-                m_value.stringValue = StringUtils.ToString(ref value);
-                m_value.intValue = 0;
-                m_value.floatValue = 0.0f;
-                m_value.vectorValue = vector;
-
-                if (changed)
-                {
-                    NotifyValueChanged();
-                }
-            }
-        }
-
-        public bool IsVector3
-        {
-            get { return m_type == CVarType.Vector3; }
-        }
-
-        public Vector3 Vector3Value
-        {
-            get { return new Vector3(
-                m_value.vectorValue.x, 
-                m_value.vectorValue.y,
-                m_value.vectorValue.z); 
-            }
-            set {
-                Vector4 vector = new Vector4(value.x, value.y, value.z);
-                bool changed = m_value.vectorValue != vector;
-
-                m_value.stringValue = StringUtils.ToString(ref value);
-                m_value.intValue = 0;
-                m_value.floatValue = 0.0f;
-                m_value.vectorValue = vector;
-
-                if (changed)
-                {
-                    NotifyValueChanged();
-                }
-            }
-        }
-
-        public bool IsVector4
-        {
-            get { return m_type == CVarType.Vector4; }
-        }
-
-        public Vector4 Vector4Value
-        {
-            get { return m_value.vectorValue; }
-            set {
-                bool changed = m_value.vectorValue != value;
-
-                m_value.stringValue = StringUtils.ToString(ref value);
-                m_value.intValue = 0;
-                m_value.floatValue = 0.0f;
-                m_value.vectorValue = value;
-
-                if (changed)
-                {
-                    NotifyValueChanged();
-                }
-            }
-        }
-
         public bool IsDefault
         {
             get { return m_value.Equals(m_defaultValue); }
@@ -560,26 +295,6 @@ namespace LunarConsolePlugin
                     NotifyValueChanged();
                 }
             }
-        }
-
-        internal bool IsHidden
-        {
-            get { return HasFlag(CFlags.Hidden); }
-        }
-
-        internal bool IsSystem
-        {
-            get { return HasFlag(CFlags.System); }
-        }
-
-        internal bool IsDebug
-        {
-            get { return HasFlag(CFlags.Debug); }
-        }
-
-        internal bool HasFlag(CFlags flag)
-        {
-            return (m_flags & flag) != 0;
         }
 
         #endregion
@@ -621,4 +336,4 @@ namespace LunarConsolePlugin
         {
         }
     }
-    }
+}
