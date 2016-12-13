@@ -93,7 +93,7 @@ namespace LunarConsolePlugin
 
         private static void Register(CVar cvar)
         {
-            LunarConsoleLittleHelper.Register(cvar);
+            throw new NotImplementedException();
         }
 
         #endregion
