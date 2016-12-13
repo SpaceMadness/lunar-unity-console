@@ -89,6 +89,8 @@ namespace LunarConsolePlugin
         #if LUNAR_CONSOLE_ENABLED
 
         IPlatform m_platform;
+        CRegistry m_registry;
+
         IDictionary<string, LunarConsoleNativeMessageHandler> m_nativeHandlerLookup;
 
         Queue<MessageInfo> m_queuedMessages;
@@ -145,6 +147,9 @@ namespace LunarConsolePlugin
                     m_platform = CreatePlatform(capacity, trim);
                     if (m_platform != null)
                     {
+                        m_registry = new CRegistry();
+                        m_registry.registryDelegate = m_platform;
+
                         m_queuedMessages = new Queue<MessageInfo>();
                         int mainThreadId = Thread.CurrentThread.ManagedThreadId;
 
@@ -197,7 +202,7 @@ namespace LunarConsolePlugin
             return gesture.ToString();
         }
 
-        interface IPlatform
+        interface IPlatform : ICRegistryDelegate
         {
             void OnLogMessageReceived(string message, string stackTrace, LogType type);
             bool ShowConsole();
@@ -251,6 +256,18 @@ namespace LunarConsolePlugin
             [DllImport("__Internal")]
             private static extern void __lunar_console_clear();
 
+            [DllImport("__Internal")]
+            private static extern void __lunar_console_action_register(int actionId, string name);
+
+            [DllImport("__Internal")]
+            private static extern void __lunar_console_action_unregister(int actionId);
+
+            [DllImport("__Internal")]
+            private static extern void __lunar_console_cvar_register(int variableId, string name, string type, string value, string defaultValue);
+
+            [DllImport("__Internal")]
+            private static extern void __lunar_console_cvar_update(int variableId, string value);
+
             /// <summary>
             /// Initializes a new instance of the iOS platform class.
             /// </summary>
@@ -285,6 +302,21 @@ namespace LunarConsolePlugin
             public void ClearConsole()
             {
                 __lunar_console_clear();
+            }
+
+            public void OnActionRegistered(CRegistry registry, CAction action)
+            {
+                __lunar_console_action_register(action.Id, action.Name);
+            }
+
+            public void OnActionUnregistered(CRegistry registry, CAction action)
+            {
+                __lunar_console_action_unregister(action.Id);
+            }
+
+            public void OnVariableRegistered(CRegistry registry, CVar cvar)
+            {
+                __lunar_console_cvar_register(cvar.Id, cvar.Name, cvar.Type.ToString(), cvar.Value, cvar.DefaultValue);
             }
         }
 
@@ -497,7 +529,7 @@ namespace LunarConsolePlugin
 
         #endif // LUNAR_CONSOLE_ENABLED
 
-        #region Operations
+        #region Public API
 
         /// <summary>
         /// Shows Lunar console on top of everything. Does nothing if platform is not supported or if plugin is not initizlied.
@@ -568,7 +600,94 @@ namespace LunarConsolePlugin
 #endif
         }
 
+        public static void RegisterAction(string name, Action action)
+        {
+#if LUNAR_CONSOLE_PLATFORM_SUPPORTED
+        #if LUNAR_CONSOLE_ENABLED
+            if (s_instance != null)
+            {
+                s_instance.RegisterConsoleAction(name, action);
+            }
+            else
+            {
+                Debug.LogError("Can't register action: instance is not initialized. Make sure you've installed it correctly");
+            }
+        #else
+            Debug.LogWarning("Can't register action: plugin is disabled");
+        #endif
+#else
+            Debug.LogWarning("Can't register action: current platform is not supported");
+#endif // LUNAR_CONSOLE_PLATFORM_SUPPORTED
+        }
+
+        public static void UnregisterAction(Action action)
+        {
+#if LUNAR_CONSOLE_PLATFORM_SUPPORTED
+        #if LUNAR_CONSOLE_ENABLED
+            if (s_instance != null)
+            {
+                s_instance.UnregisterConsoleAction(action);
+            }
+            else
+            {
+                Debug.LogError("Can't unregister action: instance is not initialized. Make sure you've installed it correctly");
+            }
+        #else
+            Debug.LogWarning("Can't unregister action: plugin is disabled");
+        #endif
+#else
+            Debug.LogWarning("Can't unregister action: current platform is not supported");
+#endif // LUNAR_CONSOLE_PLATFORM_SUPPORTED
+        }
+
+        public static void UnregisterAction(string name)
+        {
+#if LUNAR_CONSOLE_PLATFORM_SUPPORTED
+        #if LUNAR_CONSOLE_ENABLED
+            if (s_instance != null)
+            {
+                s_instance.UnregisterConsoleAction(name);
+            }
+            else
+            {
+                Debug.LogError("Can't unregister action: instance is not initialized. Make sure you've installed it correctly");
+            }
+        #else
+            Debug.LogWarning("Can't unregister action: plugin is disabled");
+        #endif
+#else
+            Debug.LogWarning("Can't unregister action: current platform is not supported");
+#endif // LUNAR_CONSOLE_PLATFORM_SUPPORTED
+        }
+
+        public static void UnregisterAllActions(object target)
+        {
+#if LUNAR_CONSOLE_PLATFORM_SUPPORTED
+        #if LUNAR_CONSOLE_ENABLED
+            if (s_instance != null)
+            {
+                s_instance.UnregisterAllConsoleActions(target);
+            }
+            else
+            {
+                Debug.LogError("Can't unregister actions: instance is not initialized. Make sure you've installed it correctly");
+            }
+        #else
+            Debug.LogWarning("Can't unregister actions: plugin is disabled");
+        #endif
+#else
+            Debug.LogWarning("Can't unregister actions: current platform is not supported");
+#endif // LUNAR_CONSOLE_PLATFORM_SUPPORTED
+        }
+
+        /// <summary>
+        /// Console opened callback
+        /// </summary>
         public static Action onConsoleOpened { get; set; }
+
+        /// <summary>
+        /// Console closed callback
+        /// </summary>
         public static Action onConsoleClosed { get; set; }
 
         #if LUNAR_CONSOLE_ENABLED
@@ -594,6 +713,38 @@ namespace LunarConsolePlugin
             if (m_platform != null)
             {
                 m_platform.ClearConsole();
+            }
+        }
+
+        void RegisterConsoleAction(string name, Action actionDelegate)
+        {
+            if (m_registry != null)
+            {
+                m_registry.RegisterAction(name, actionDelegate);
+            }
+        }
+
+        void UnregisterConsoleAction(Action actionDelegate)
+        {
+            if (m_registry != null)
+            {
+                m_registry.Unregister(actionDelegate);
+            }
+        }
+
+        void UnregisterConsoleAction(string name)
+        {
+            if (m_registry != null)
+            {
+                m_registry.Unregister(name);
+            }
+        }
+
+        void UnregisterAllConsoleActions(object target)
+        {
+            if (m_registry != null)
+            {
+                m_registry.UnregisterAll(target);
             }
         }
 

@@ -47,9 +47,9 @@ namespace Actions
                 Assert.AreSame(actions[index++], action);
             }
             
-            Assert.AreSame(a1, actionList.Find(a1.id));
-            Assert.AreSame(a2, actionList.Find(a2.id));
-            Assert.AreSame(a3, actionList.Find(a3.id));
+            Assert.AreSame(a1, actionList.Find(a1.Id));
+            Assert.AreSame(a2, actionList.Find(a2.Id));
+            Assert.AreSame(a3, actionList.Find(a3.Id));
         }
 
         [Test]
@@ -68,34 +68,34 @@ namespace Actions
             actionList.Add(a1);
             actionList.Add(a2);
             
-            Assert.AreSame(a1, actionList.Find(a1.id));
-            Assert.AreSame(a2, actionList.Find(a2.id));
-            Assert.AreSame(a3, actionList.Find(a3.id));
+            Assert.AreSame(a1, actionList.Find(a1.Id));
+            Assert.AreSame(a2, actionList.Find(a2.Id));
+            Assert.AreSame(a3, actionList.Find(a3.Id));
 
-            actionList.Remove(a1.id);
+            actionList.Remove(a1.Id);
             
-            Assert.IsNull(actionList.Find(a1.id));
-            Assert.AreSame(a2, actionList.Find(a2.id));
-            Assert.AreSame(a3, actionList.Find(a3.id));
+            Assert.IsNull(actionList.Find(a1.Id));
+            Assert.AreSame(a2, actionList.Find(a2.Id));
+            Assert.AreSame(a3, actionList.Find(a3.Id));
 
-            actionList.Remove(a2.id);
+            actionList.Remove(a2.Id);
             
-            Assert.IsNull(actionList.Find(a1.id));
-            Assert.IsNull(actionList.Find(a2.id));
-            Assert.AreSame(a3, actionList.Find(a3.id));
+            Assert.IsNull(actionList.Find(a1.Id));
+            Assert.IsNull(actionList.Find(a2.Id));
+            Assert.AreSame(a3, actionList.Find(a3.Id));
 
-            actionList.Remove(a3.id);
+            actionList.Remove(a3.Id);
             
-            Assert.IsNull(actionList.Find(a1.id));
-            Assert.IsNull(actionList.Find(a2.id));
-            Assert.IsNull(actionList.Find(a3.id));
+            Assert.IsNull(actionList.Find(a1.Id));
+            Assert.IsNull(actionList.Find(a2.Id));
+            Assert.IsNull(actionList.Find(a3.Id));
 
-            actionList.Remove(a1.id);
-            actionList.Remove(a2.id);
-            actionList.Remove(a3.id);
-            Assert.IsNull(actionList.Find(a1.id));
-            Assert.IsNull(actionList.Find(a2.id));
-            Assert.IsNull(actionList.Find(a3.id));
+            actionList.Remove(a1.Id);
+            actionList.Remove(a2.Id);
+            actionList.Remove(a3.Id);
+            Assert.IsNull(actionList.Find(a1.Id));
+            Assert.IsNull(actionList.Find(a2.Id));
+            Assert.IsNull(actionList.Find(a3.Id));
         }
 
         [Test]
@@ -114,13 +114,13 @@ namespace Actions
             actionList.Add(a1);
             actionList.Add(a2);
 
-            Assert.AreSame(a1, actionList.Find(a1.id));
-            Assert.AreSame(a2, actionList.Find(a2.id));
-            Assert.AreSame(a3, actionList.Find(a3.id));
+            Assert.AreSame(a1, actionList.Find(a1.Id));
+            Assert.AreSame(a2, actionList.Find(a2.Id));
+            Assert.AreSame(a3, actionList.Find(a3.Id));
 
-            Assert.AreSame(a1, actionList.Find(a1.name));
-            Assert.AreSame(a2, actionList.Find(a2.name));
-            Assert.AreSame(a3, actionList.Find(a3.name));
+            Assert.AreSame(a1, actionList.Find(a1.Name));
+            Assert.AreSame(a2, actionList.Find(a2.Name));
+            Assert.AreSame(a3, actionList.Find(a3.Name));
         }
 
         #region Helpers

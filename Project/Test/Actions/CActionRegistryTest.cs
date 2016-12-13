@@ -12,7 +12,7 @@ namespace Actions
     using Assert = NUnit.Framework.Assert;
 
     [TestFixture]
-    public class CActionRegistryTest : TestFixtureBase, ICActionRegistryDelegate
+    public class CActionRegistryTest : TestFixtureBase, ICRegistryDelegate
     {
         CRegistry m_registry;
 
@@ -177,38 +177,38 @@ namespace Actions
             {
                 for (int j = i + 1; j < actions.Length; ++j)
                 {
-                    Assert.AreNotEqual(actions[i].id, actions[j].id);
+                    Assert.AreNotEqual(actions[i].Id, actions[j].Id);
                 }
             }
 
-            Assert.AreSame(a, FindAction(a.id));
-            Assert.AreSame(b, FindAction(b.id));
-            Assert.AreSame(c, FindAction(c.id));
-            Assert.AreSame(d, FindAction(d.id));
+            Assert.AreSame(a, FindAction(a.Id));
+            Assert.AreSame(b, FindAction(b.Id));
+            Assert.AreSame(c, FindAction(c.Id));
+            Assert.AreSame(d, FindAction(d.Id));
 
-            UnregisterAction(a.id);
-            Assert.IsNull(FindAction(a.id));
-            Assert.AreSame(b, FindAction(b.id));
-            Assert.AreSame(c, FindAction(c.id));
-            Assert.AreSame(d, FindAction(d.id));
+            UnregisterAction(a.Id);
+            Assert.IsNull(FindAction(a.Id));
+            Assert.AreSame(b, FindAction(b.Id));
+            Assert.AreSame(c, FindAction(c.Id));
+            Assert.AreSame(d, FindAction(d.Id));
 
-            UnregisterAction(b.id);
-            Assert.IsNull(FindAction(a.id));
-            Assert.IsNull(FindAction(b.id));
-            Assert.AreSame(c, FindAction(c.id));
-            Assert.AreSame(d, FindAction(d.id));
+            UnregisterAction(b.Id);
+            Assert.IsNull(FindAction(a.Id));
+            Assert.IsNull(FindAction(b.Id));
+            Assert.AreSame(c, FindAction(c.Id));
+            Assert.AreSame(d, FindAction(d.Id));
 
-            UnregisterAction(c.id);
-            Assert.IsNull(FindAction(a.id));
-            Assert.IsNull(FindAction(b.id));
-            Assert.IsNull(FindAction(c.id));
-            Assert.AreSame(d, FindAction(d.id));
+            UnregisterAction(c.Id);
+            Assert.IsNull(FindAction(a.Id));
+            Assert.IsNull(FindAction(b.Id));
+            Assert.IsNull(FindAction(c.Id));
+            Assert.AreSame(d, FindAction(d.Id));
 
-            UnregisterAction(d.id);
-            Assert.IsNull(FindAction(a.id));
-            Assert.IsNull(FindAction(b.id));
-            Assert.IsNull(FindAction(c.id));
-            Assert.IsNull(FindAction(d.id));
+            UnregisterAction(d.Id);
+            Assert.IsNull(FindAction(a.Id));
+            Assert.IsNull(FindAction(b.Id));
+            Assert.IsNull(FindAction(c.Id));
+            Assert.IsNull(FindAction(d.Id));
         }
 
         #endregion
@@ -235,19 +235,19 @@ namespace Actions
 
         #region IQuickActionRegistryDelegate implementation
 
-        public void OnActionAdded(CRegistry registry, CAction action)
+        public void OnActionRegistered(CRegistry registry, CAction action)
         {
-            AddResult("added: " + action.name);
+            AddResult("added: " + action.Name);
         }
 
         public void OnActionChanged(CRegistry registry, CAction action)
         {
-            AddResult("changed: " + action.name);
+            AddResult("changed: " + action.Name);
         }
 
-        public void OnActionRemoved(CRegistry registry, CAction action)
+        public void OnActionUnregistered(CRegistry registry, CAction action)
         {
-            AddResult("removed: " + action.name);
+            AddResult("removed: " + action.Name);
         }
 
         public void OnActionsCleared(CRegistry registry)
@@ -255,7 +255,7 @@ namespace Actions
             AddResult("cleared");
         }
 
-        public void OnVariableAdded(CRegistry registry, CVar cvar)
+        public void OnVariableRegistered(CRegistry registry, CVar cvar)
         {
         }
 
@@ -298,8 +298,8 @@ namespace Actions
             int index = 0;
             foreach (var action in m_registry.actions)
             {
-                Assert.AreEqual(expected[index].name, action.name);
-                Assert.AreEqual(expected[index].actionDelegate, action.actionDelegate);
+                Assert.AreEqual(expected[index].name, action.Name);
+                Assert.AreEqual(expected[index].actionDelegate, action.ActionDelegate);
                 ++index;
             }
         }

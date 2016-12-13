@@ -33,6 +33,9 @@ namespace LunarConsolePlugin
 
     public class CVar : IEquatable<CVar>, IComparable<CVar>
     {
+        private static int s_nextId;
+
+        private readonly int m_id;
         private readonly string m_name;
         private readonly CVarType m_type;
 
@@ -75,6 +78,8 @@ namespace LunarConsolePlugin
             {
                 throw new NullReferenceException("Name is null");
             }
+
+            m_id = ++s_nextId;
 
             m_name = name;
             m_type = type;
@@ -186,6 +191,11 @@ namespace LunarConsolePlugin
         //////////////////////////////////////////////////////////////////////////////
 
         #region Properties
+
+        public int Id
+        {
+            get { return m_id; }
+        }
 
         public string Name
         {

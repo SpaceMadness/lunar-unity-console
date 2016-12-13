@@ -42,7 +42,7 @@ namespace LunarConsolePluginInternal
         {
             try
             {
-                return ReflectionUtils.Invoke(actionDelegate, kEmptyArgs); // TODO: remove it
+                return ReflectionUtils.Invoke(ActionDelegate, kEmptyArgs); // TODO: remove it
             }
             catch (ReflectionException e)
             {
@@ -64,7 +64,7 @@ namespace LunarConsolePluginInternal
 
         internal bool StartsWith(string prefix)
         {
-            return StringUtils.StartsWithIgnoreCase(name, prefix);
+            return StringUtils.StartsWithIgnoreCase(Name, prefix);
         }
 
         #endregion
@@ -73,7 +73,7 @@ namespace LunarConsolePluginInternal
 
         public int CompareTo(CAction other)
         {
-            return name.CompareTo(other.name);
+            return Name.CompareTo(other.Name);
         }
 
         #endregion
@@ -82,24 +82,24 @@ namespace LunarConsolePluginInternal
 
         public override string ToString()
         {
-            return string.Format("{0} ({1})", name, actionDelegate);
+            return string.Format("{0} ({1})", Name, ActionDelegate);
         }
 
         #endregion
 
         #region Properties
 
-        public int id
+        public int Id
         {
             get { return m_id; }
         }
 
-        public string name
+        public string Name
         {
             get { return m_name; }
         }
 
-        public Delegate actionDelegate
+        public Delegate ActionDelegate
         {
             get { return m_actionDelegate; }
             set
@@ -116,24 +116,24 @@ namespace LunarConsolePluginInternal
     }
 
     public class CActionList : IEnumerable<CAction>
-	{
-		private readonly SortedList<CAction> m_actions;
-		private readonly Dictionary<int, CAction> m_actionLookupById;
-		private readonly Dictionary<string, CAction> m_actionLookupByName;
+    {
+        private readonly SortedList<CAction> m_actions;
+        private readonly Dictionary<int, CAction> m_actionLookupById;
+        private readonly Dictionary<string, CAction> m_actionLookupByName;
 
-		public CActionList()
-		{
-			m_actions = new SortedList<CAction>();
-			m_actionLookupById = new Dictionary<int, CAction>();
-			m_actionLookupByName = new Dictionary<string, CAction>();
-		}
+        public CActionList()
+        {
+            m_actions = new SortedList<CAction>();
+            m_actionLookupById = new Dictionary<int, CAction>();
+            m_actionLookupByName = new Dictionary<string, CAction>();
+        }
 
-		public void Add(CAction action)
-		{
-			m_actions.Add(action);
-            m_actionLookupById.Add(action.id, action);
-            m_actionLookupByName.Add(action.name, action);
-		}
+        public void Add(CAction action)
+        {
+            m_actions.Add(action);
+            m_actionLookupById.Add(action.Id, action);
+            m_actionLookupByName.Add(action.Name, action);
+        }
 
         public bool Remove(int id)
         {
@@ -141,7 +141,7 @@ namespace LunarConsolePluginInternal
             if (m_actionLookupById.TryGetValue(id, out action))
             {
                 m_actionLookupById.Remove(id);
-                m_actionLookupByName.Remove(action.name);
+                m_actionLookupByName.Remove(action.Name);
                 m_actions.Remove(action);
 
                 return true;
@@ -151,16 +151,16 @@ namespace LunarConsolePluginInternal
         }
 
         public CAction Find(string name)
-		{
-			CAction action;
-			return m_actionLookupByName.TryGetValue(name, out action) ? action : null;
-		}
+        {
+            CAction action;
+            return m_actionLookupByName.TryGetValue(name, out action) ? action : null;
+        }
 
-		public CAction Find(int id)
-		{
-			CAction action;
-			return m_actionLookupById.TryGetValue(id, out action) ? action : null;
-		}
+        public CAction Find(int id)
+        {
+            CAction action;
+            return m_actionLookupById.TryGetValue(id, out action) ? action : null;
+        }
 
         #region IEnumerable implementation
 
@@ -179,5 +179,5 @@ namespace LunarConsolePluginInternal
         }
 
         #endregion
-	}
+    }
 }

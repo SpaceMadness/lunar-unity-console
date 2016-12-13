@@ -94,7 +94,7 @@ void __lunar_console_log_message(const char * messageStr, const char * stackTrac
     
 }
 
-void __lunar_console_action_add(int actionId, const char *actionNameStr)
+void __lunar_console_action_register(int actionId, const char *actionNameStr)
 {
     NSString *actionName = [[NSString alloc] initWithUTF8String:actionNameStr];
     lunar_dispatch_main(^{
@@ -102,14 +102,14 @@ void __lunar_console_action_add(int actionId, const char *actionNameStr)
     });
 }
 
-void __lunar_console_action_remove(int actionId)
+void __lunar_console_action_unregister(int actionId)
 {
     lunar_dispatch_main(^{
         [_lunarConsolePlugin unregisterActionWithId:actionId];
     });
 }
 
-void __lunar_console_cvar_add(int entryId, const char *nameStr, const char *typeStr, const char *valueStr, const char *defaultValueStr)
+void __lunar_console_cvar_register(int entryId, const char *nameStr, const char *typeStr, const char *valueStr, const char *defaultValueStr)
 {
     lunar_dispatch_main(^{
         NSString *name = [[NSString alloc] initWithUTF8String:nameStr];
@@ -120,7 +120,7 @@ void __lunar_console_cvar_add(int entryId, const char *nameStr, const char *type
     });
 }
 
-void __lunar_console_cvar_set(int entryId, const char *valueStr)
+void __lunar_console_cvar_update(int entryId, const char *valueStr)
 {
     lunar_dispatch_main(^{
         NSString *value = [[NSString alloc] initWithUTF8String:valueStr];

@@ -62,7 +62,7 @@ public abstract class TestFixtureBase
         Assert.AreEqual(command.Count, expected.Length, StringUtils.TryFormat("Expected: [{0}]\nActual: [{1}]"), Join(", ", expected), JoinTypes(", ", command));
         for (int i = 0; i < expected.Length; ++i)
         {
-            Assert.AreEqual(command[i].name, expected[i]);
+            Assert.AreEqual(command[i].Name, expected[i]);
         }
     }
 

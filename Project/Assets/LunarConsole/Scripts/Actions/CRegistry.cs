@@ -10,11 +10,11 @@ namespace LunarConsolePluginInternal
 
     delegate bool CActionFilter(CAction action);
 
-    public interface ICActionRegistryDelegate
+    public interface ICRegistryDelegate
     {
-        void OnActionAdded(CRegistry registry, CAction action);
-        void OnActionRemoved(CRegistry registry, CAction action);
-        void OnVariableAdded(CRegistry registry, CVar cvar);
+        void OnActionRegistered(CRegistry registry, CAction action);
+        void OnActionUnregistered(CRegistry registry, CAction action);
+        void OnVariableRegistered(CRegistry registry, CVar cvar);
     }
 
     public class CRegistry
@@ -22,11 +22,11 @@ namespace LunarConsolePluginInternal
         readonly CActionList m_actions = new CActionList();
         readonly CVarList m_vars = new CVarList();
 
-        ICActionRegistryDelegate m_delegate;
+        ICRegistryDelegate m_delegate;
 
         #region Commands registry
 
-        internal CAction RegisterAction(string name, Delegate actionDelegate)
+        public CAction RegisterAction(string name, Delegate actionDelegate)
         {
             if (name == null)
             {
@@ -47,7 +47,7 @@ namespace LunarConsolePluginInternal
             if (action != null)
             {
                 Log.w("Overriding action: {0}", name);
-                action.actionDelegate = actionDelegate;
+                action.ActionDelegate = actionDelegate;
             }
             else
             {
@@ -56,7 +56,7 @@ namespace LunarConsolePluginInternal
 
                 if (m_delegate != null)
                 {
-                    m_delegate.OnActionAdded(this, action);
+                    m_delegate.OnActionRegistered(this, action);
                 }
             }
 
@@ -67,7 +67,7 @@ namespace LunarConsolePluginInternal
         {
             return Unregister(delegate(CAction action)
             {
-                return action.name == name;
+                return action.Name == name;
             });
         }
 
@@ -75,7 +75,7 @@ namespace LunarConsolePluginInternal
         {
             return Unregister(delegate(CAction action)
             {
-                return action.id == id;
+                return action.Id == id;
             });
         }
 
@@ -83,7 +83,7 @@ namespace LunarConsolePluginInternal
         {
             return Unregister(delegate(CAction action)
             {
-                return action.actionDelegate == del;
+                return action.ActionDelegate == del;
             });
         }
 
@@ -91,7 +91,7 @@ namespace LunarConsolePluginInternal
         {
             return target != null && Unregister(delegate(CAction action)
             {
-                return action.actionDelegate.Target == target;
+                return action.ActionDelegate.Target == target;
             });
         }
 
@@ -121,11 +121,11 @@ namespace LunarConsolePluginInternal
 
         bool RemoveAction(CAction action)
         {
-            if (m_actions.Remove(action.id))
+            if (m_actions.Remove(action.Id))
             {
                 if (m_delegate != null)
                 {
-                    m_delegate.OnActionRemoved(this, action);
+                    m_delegate.OnActionUnregistered(this, action);
                 }
 
                 return true;
@@ -149,7 +149,7 @@ namespace LunarConsolePluginInternal
 
             if (m_delegate != null)
             {
-                m_delegate.OnVariableAdded(this, cvar);
+                m_delegate.OnVariableRegistered(this, cvar);
             }
         }
 
@@ -157,7 +157,7 @@ namespace LunarConsolePluginInternal
 
         #region Properties
 
-        public ICActionRegistryDelegate registryDelegate
+        public ICRegistryDelegate registryDelegate
         {
             get { return m_delegate; }
             set { m_delegate = value; }
