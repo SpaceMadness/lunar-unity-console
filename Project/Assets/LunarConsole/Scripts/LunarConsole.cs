@@ -503,6 +503,7 @@ namespace LunarConsolePlugin
                     m_nativeHandlerLookup = new Dictionary<string, LunarConsoleNativeMessageHandler>();
                     m_nativeHandlerLookup["console_open"] = ConsoleOpenHandler;
                     m_nativeHandlerLookup["console_close"] = ConsoleCloseHandler;
+                    m_nativeHandlerLookup["console_action"] = ConsoleActionHandler;
                 }
 
                 return m_nativeHandlerLookup;
@@ -522,6 +523,45 @@ namespace LunarConsolePlugin
             if (onConsoleClosed != null)
             {
                 onConsoleClosed();
+            }
+        }
+
+        void ConsoleActionHandler(IDictionary<string, string> data)
+        {
+            if (m_registry == null)
+            {
+                Debug.LogError("Can't run action: make sure plugin is properly initialized");
+                return;
+            }
+
+            string actionIdStr;
+            if (!data.TryGetValue("id", out actionIdStr))
+            {
+                Debug.LogError("Can't run action: data is not properly formatted");
+                return;
+            }
+
+            int actionId;
+            if (!int.TryParse(actionIdStr, out actionId))
+            {
+                Debug.LogError("Can't run action: invalid ID " + actionIdStr);
+                return;
+            }
+
+            var action = m_registry.FindAction(actionId);
+            if (action == null)
+            {
+                Debug.LogError("Can't run action: ID not found " + actionIdStr);
+                return;
+            }
+
+            try
+            {
+                action.Execute();
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("Can't run action: " + e.Message);
             }
         }
 
