@@ -42,6 +42,7 @@ import spacemadness.com.lunarconsole.debug.Log;
 import spacemadness.com.lunarconsole.settings.PluginSettings;
 import spacemadness.com.lunarconsole.ui.gestures.GestureRecognizer;
 import spacemadness.com.lunarconsole.ui.gestures.GestureRecognizerFactory;
+import spacemadness.com.lunarconsole.utils.NotImplementedException;
 
 import static android.widget.FrameLayout.LayoutParams;
 import static spacemadness.com.lunarconsole.console.Console.Options;
@@ -100,7 +101,7 @@ public class ConsolePlugin implements
     });
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Static interface
+    // Lifecycle
     
     /**
      * Data holder for plugin initialization
@@ -153,21 +154,6 @@ public class ConsolePlugin implements
             }
             return value;
         }
-    }    
-
-    /**
-     * This method is called by a Unity managed code. Do not rename or change params types of order
-     * @param targetName - the name of game object which would receive native callbacks
-     * @param methodName - the name of the method of the game object to be called
-     * @param version - the plugin version
-     * @param capacity - the console`s capacity (everything beyond that would be trimmed)
-     * @param trim - the trim amount upon console overflow (how many items would be trimmed when console overflows)
-     * @param gesture - the name of a touch gesture to open the console or "none" if disabled
-     */
-    public static void init(String targetName, String methodName, String version, int capacity, int trim, String gesture)
-    {
-        Activity activity = UnityPlayer.currentActivity;
-        init(activity, new UnitySettings(new UnityPluginImp(activity, targetName, methodName), version, capacity, trim, gesture));
     }
 
     public static void init(Activity activity, String version, int capacity, int trim, String gesture)
@@ -272,6 +258,24 @@ public class ConsolePlugin implements
         }
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Unity native methods
+
+    /**
+     * This method is called by a Unity managed code. Do not rename or change params types of order
+     * @param targetName - the name of game object which would receive native callbacks
+     * @param methodName - the name of the method of the game object to be called
+     * @param version - the plugin version
+     * @param capacity - the console`s capacity (everything beyond that would be trimmed)
+     * @param trim - the trim amount upon console overflow (how many items would be trimmed when console overflows)
+     * @param gesture - the name of a touch gesture to open the console or "none" if disabled
+     */
+    public static void init(String targetName, String methodName, String version, int capacity, int trim, String gesture)
+    {
+        Activity activity = UnityPlayer.currentActivity;
+        init(activity, new UnitySettings(new UnityPluginImp(activity, targetName, methodName), version, capacity, trim, gesture));
+    }
+
     public static void logMessage(String message, String stackTrace, int logType)
     {
         entryDispatcher.add(new ConsoleEntry((byte) logType, message, stackTrace));
@@ -296,18 +300,6 @@ public class ConsolePlugin implements
         }
     }
 
-    private static void show0()
-    {
-        if (instance != null)
-        {
-            instance.showConsole();
-        }
-        else
-        {
-            Log.w("Can't show console: instance is not initialized");
-        }
-    }
-
     public static void hide()
     {
         if (isRunningOnMainThread())
@@ -327,6 +319,47 @@ public class ConsolePlugin implements
         }
     }
 
+    public static void clear()
+    {
+        if (isRunningOnMainThread())
+        {
+            clear0();
+        }
+        else
+        {
+            runOnUIThread(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    clear0();
+                }
+            });
+        }
+    }
+
+    public static void registerAction(int actionId, String actionName)
+    {
+        throw new NotImplementedException();
+    }
+
+    public static void unregisterAction(int actionId)
+    {
+        throw new NotImplementedException();
+    }
+
+    private static void show0()
+    {
+        if (instance != null)
+        {
+            instance.showConsole();
+        }
+        else
+        {
+            Log.w("Can't show console: instance is not initialized");
+        }
+    }
+
     private static void hide0()
     {
         if (instance != null)
@@ -338,6 +371,17 @@ public class ConsolePlugin implements
             Log.w("Can't hide console: instance is not initialized");
         }
     }
+
+    private static void clear0()
+    {
+        if (instance != null)
+        {
+            instance.clearConsole();
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Overlay
 
     public static boolean isOverlayShown()
     {
@@ -403,33 +447,6 @@ public class ConsolePlugin implements
         else
         {
             Log.w("Can't hide overlay: instance is not initialized");
-        }
-    }
-
-    public static void clear()
-    {
-        if (isRunningOnMainThread())
-        {
-            clear0();
-        }
-        else
-        {
-            runOnUIThread(new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    clear0();
-                }
-            });
-        }
-    }
-
-    private static void clear0()
-    {
-        if (instance != null)
-        {
-            instance.clearConsole();
         }
     }
 

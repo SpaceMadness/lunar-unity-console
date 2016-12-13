@@ -324,20 +324,22 @@ namespace LunarConsolePlugin
 
         class PlatformAndroid : IPlatform
         {
-            private readonly object logLock = new object();
+            private readonly object m_logLock = new object();
 
-            private readonly jvalue[] args0 = new jvalue[0];
-            private readonly jvalue[] args3 = new jvalue[3];
+            private readonly jvalue[] m_args0 = new jvalue[0];
+            private readonly jvalue[] m_args3 = new jvalue[3];
 
-            private static readonly string PluginClassName = "spacemadness.com.lunarconsole.console.ConsolePlugin";
+            private static readonly string kPluginClassName = "spacemadness.com.lunarconsole.console.ConsolePlugin";
 
-            private readonly AndroidJavaClass pluginClass;
+            private readonly AndroidJavaClass m_pluginClass;
 
-            private readonly IntPtr pluginClassRaw;
-            private readonly IntPtr methodLogMessage;
-            private readonly IntPtr methodShowConsole;
-            private readonly IntPtr methodHideConsole;
-            private readonly IntPtr methodClearConsole;
+            private readonly IntPtr m_pluginClassRaw;
+            private readonly IntPtr m_methodLogMessage;
+            private readonly IntPtr m_methodShowConsole;
+            private readonly IntPtr m_methodHideConsole;
+            private readonly IntPtr m_methodClearConsole;
+            private readonly IntPtr m_methodRegisterAction;
+            private readonly IntPtr m_methodUnregisterAction;
 
             /// <summary>
             /// Initializes a new instance of the Android platform class.
@@ -350,10 +352,10 @@ namespace LunarConsolePlugin
             /// <param name="gesture">Gesture name to activate the console</param>
             public PlatformAndroid(string targetName, string methodName, string version, int capacity, int trim, string gesture)
             {
-                pluginClass = new AndroidJavaClass(PluginClassName);
-                pluginClassRaw = pluginClass.GetRawClass();
+                m_pluginClass = new AndroidJavaClass(kPluginClassName);
+                m_pluginClassRaw = m_pluginClass.GetRawClass();
 
-                IntPtr methodInit = GetStaticMethod(pluginClassRaw, "init", "(Ljava.lang.String;Ljava.lang.String;Ljava.lang.String;IILjava.lang.String;)V");
+                IntPtr methodInit = GetStaticMethod(m_pluginClassRaw, "init", "(Ljava.lang.String;Ljava.lang.String;Ljava.lang.String;IILjava.lang.String;)V");
                 CallStaticVoidMethod(methodInit, new jvalue[] {
                     jval(targetName),
                     jval(methodName),
@@ -363,28 +365,30 @@ namespace LunarConsolePlugin
                     jval(gesture)
                 });
 
-                methodLogMessage = GetStaticMethod(pluginClassRaw, "logMessage", "(Ljava.lang.String;Ljava.lang.String;I)V");
-                methodShowConsole = GetStaticMethod(pluginClassRaw, "show", "()V");
-                methodHideConsole = GetStaticMethod(pluginClassRaw, "hide", "()V");
-                methodClearConsole = GetStaticMethod(pluginClassRaw, "clear", "()V");
+                m_methodLogMessage = GetStaticMethod(m_pluginClassRaw, "logMessage", "(Ljava.lang.String;Ljava.lang.String;I)V");
+                m_methodShowConsole = GetStaticMethod(m_pluginClassRaw, "show", "()V");
+                m_methodHideConsole = GetStaticMethod(m_pluginClassRaw, "hide", "()V");
+                m_methodClearConsole = GetStaticMethod(m_pluginClassRaw, "clear", "()V");
+                m_methodRegisterAction = GetStaticMethod(m_pluginClassRaw, "registerAction", "(ILjava.lang.String;)V");
+                m_methodUnregisterAction = GetStaticMethod(m_pluginClassRaw, "unregisterAction", "(I)V");
             }
 
             ~PlatformAndroid()
             {
-                pluginClass.Dispose();
+                m_pluginClass.Dispose();
             }
 
             #region IPlatform implementation
             
             public void OnLogMessageReceived(string message, string stackTrace, LogType type)
             {
-                lock (logLock)
+                lock (m_logLock)
                 {
-                    args3[0] = jval(message);
-                    args3[1] = jval(stackTrace);
-                    args3[2] = jval((int)type);
+                    m_args3[0] = jval(message);
+                    m_args3[1] = jval(stackTrace);
+                    m_args3[2] = jval((int)type);
 
-                    CallStaticVoidMethod(methodLogMessage, args3);
+                    CallStaticVoidMethod(m_methodLogMessage, m_args3);
                 }
             }
 
@@ -392,7 +396,7 @@ namespace LunarConsolePlugin
             {
                 try
                 {
-                    CallStaticVoidMethod(methodShowConsole, args0);
+                    CallStaticVoidMethod(m_methodShowConsole, m_args0);
                     return true;
                 }
                 catch (Exception)
@@ -405,7 +409,7 @@ namespace LunarConsolePlugin
             {
                 try
                 {
-                    CallStaticVoidMethod(methodHideConsole, args0);
+                    CallStaticVoidMethod(m_methodHideConsole, m_args0);
                     return true;
                 }
                 catch (Exception)
@@ -418,11 +422,23 @@ namespace LunarConsolePlugin
             {
                 try
                 {
-                    CallStaticVoidMethod(methodClearConsole, args0);
+                    CallStaticVoidMethod(m_methodClearConsole, m_args0);
                 }
                 catch (Exception)
                 {
                 }
+            }
+
+            public void OnActionRegistered(CRegistry registry, CAction action)
+            {
+            }
+
+            public void OnActionUnregistered(CRegistry registry, CAction action)
+            {
+            }
+
+            public void OnVariableRegistered(CRegistry registry, CVar cvar)
+            {
             }
 
             #endregion
@@ -436,12 +452,12 @@ namespace LunarConsolePlugin
 
             private void CallStaticVoidMethod(IntPtr method, jvalue[] args)
             {
-                AndroidJNI.CallStaticVoidMethod(pluginClassRaw, method, args);
+                AndroidJNI.CallStaticVoidMethod(m_pluginClassRaw, method, args);
             }
 
             private bool CallStaticBoolMethod(IntPtr method, jvalue[] args)
             {
-                return AndroidJNI.CallStaticBooleanMethod(pluginClassRaw, method, args);
+                return AndroidJNI.CallStaticBooleanMethod(m_pluginClassRaw, method, args);
             }
 
             private jvalue jval(string value)
