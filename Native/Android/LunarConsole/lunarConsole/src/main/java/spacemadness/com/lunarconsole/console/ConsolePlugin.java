@@ -37,6 +37,7 @@ import java.util.List;
 import java.util.Map;
 
 import spacemadness.com.lunarconsole.R;
+import spacemadness.com.lunarconsole.console.actions.LUActionRegistry;
 import spacemadness.com.lunarconsole.core.Destroyable;
 import spacemadness.com.lunarconsole.debug.Log;
 import spacemadness.com.lunarconsole.settings.PluginSettings;
@@ -63,6 +64,7 @@ public class ConsolePlugin implements
     private static ConsolePlugin instance;
 
     private Console console;
+    private final LUActionRegistry actionRegistry;
     private final ConsolePluginImp pluginImp;
     private final String version;
     private final PluginSettings settings;
@@ -410,12 +412,31 @@ public class ConsolePlugin implements
 
     private static void registerAction0(int actionId, String actionName)
     {
-        throw new NotImplementedException();
+        if (instance != null)
+        {
+            instance.registerConsoleAction(actionId, actionName);
+        }
     }
 
     private static void unregisterAction0(int actionId)
     {
-        throw new NotImplementedException();
+        if (instance != null)
+        {
+            instance.unregisterConsoleAction(actionId);
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Actions and variables
+
+    private void registerConsoleAction(int actionId, String actionName)
+    {
+        actionRegistry.registerActionWithId(actionId, actionName);
+    }
+
+    private void unregisterConsoleAction(int actionId)
+    {
+        actionRegistry.unregisterActionWithId(actionId);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -506,6 +527,8 @@ public class ConsolePlugin implements
         Options options = new Options(unitySettings.capacity);
         options.setTrimCount(unitySettings.trim);
         console = new Console(options);
+        actionRegistry = new LUActionRegistry();
+
         activityRef = new WeakReference<>(activity);
 
         gestureDetector = GestureRecognizerFactory.create(activity, unitySettings.gesture);
