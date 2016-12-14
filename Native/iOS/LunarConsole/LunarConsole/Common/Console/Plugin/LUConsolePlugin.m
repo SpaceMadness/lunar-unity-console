@@ -28,7 +28,7 @@ static const CGFloat kWarningHeight = 45.0f;
 
 static NSString * const kScriptMessageConsoleOpen    = @"console_open";
 static NSString * const kScriptMessageConsoleClose   = @"console_close";
-static NSString * const kScriptMessageChangeVariable = @"console_change_variable";
+static NSString * const kScriptMessageSetVariable    = @"console_variable_set";
 static NSString * const kScriptMessageAction         = @"console_action";
 
 static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmobileconsole.settings.bin";
@@ -296,7 +296,7 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
              @"id"    : [NSNumber numberWithInt:variable.actionId],
              @"value" : variable.value
         };
-        [_scriptMessenger sendMessageName:kScriptMessageChangeVariable params:params];
+        [_scriptMessenger sendMessageName:kScriptMessageSetVariable params:params];
     }
 }
 

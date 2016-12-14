@@ -338,14 +338,42 @@ public class ConsolePlugin implements
         }
     }
 
-    public static void registerAction(int actionId, String actionName)
+    public static void registerAction(final int actionId, final String actionName)
     {
-        throw new NotImplementedException();
+        if (isRunningOnMainThread())
+        {
+            registerAction0(actionId, actionName);
+        }
+        else
+        {
+            runOnUIThread(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    registerAction0(actionId, actionName);
+                }
+            });
+        }
     }
 
-    public static void unregisterAction(int actionId)
+    public static void unregisterAction(final int actionId)
     {
-        throw new NotImplementedException();
+        if (isRunningOnMainThread())
+        {
+            unregisterAction0(actionId);
+        }
+        else
+        {
+            runOnUIThread(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    unregisterAction0(actionId);
+                }
+            });
+        }
     }
 
     private static void show0()
@@ -378,6 +406,16 @@ public class ConsolePlugin implements
         {
             instance.clearConsole();
         }
+    }
+
+    private static void registerAction0(int actionId, String actionName)
+    {
+        throw new NotImplementedException();
+    }
+
+    private static void unregisterAction0(int actionId)
+    {
+        throw new NotImplementedException();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
