@@ -12,7 +12,7 @@ import spacemadness.com.lunarconsole.utils.NotImplementedException;
 public class LUActionRegistry
 {
     private final List<LUAction> actions;
-    private final List<LUCvar> variables;
+    private final List<LUCVar> variables;
     private Delegate delegate; // FIXME: rename
 
     public LUActionRegistry()
@@ -42,9 +42,22 @@ public class LUActionRegistry
         throw new NotImplementedException();
     }
 
-    public LUCvar variableWithId(int variableId) // FIXME: rename
+    public LUCVar variableWithId(int variableId) // FIXME: rename
     {
         throw new NotImplementedException();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Getters/Setters
+
+    public Delegate getDelegate()
+    {
+        return delegate;
+    }
+
+    public void setDelegate(Delegate delegate)
+    {
+        this.delegate = delegate;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -52,5 +65,9 @@ public class LUActionRegistry
 
     public interface Delegate // FIXME: rename
     {
+        void didAddAction(LUActionRegistry registry, LUAction action);
+        void didRemoveAction(LUActionRegistry registry, LUAction action);
+        void didRegisterVariable(LUActionRegistry registry, LUCVar variable);
+        void didDidChangeVariable(LUActionRegistry registry, LUCVar variable);
     }
 }
