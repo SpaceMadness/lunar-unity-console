@@ -1,6 +1,7 @@
 package spacemadness.com.lunarconsole.utils;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -9,7 +10,7 @@ import java.util.TreeSet;
  * Created by weeebox on 12/13/16.
  */
 
-public class LUSortedList<T extends Comparable<T>>
+public class LUSortedList<T extends Comparable> implements Iterable<T>
 {
     private final List<T> list;
 
@@ -68,5 +69,14 @@ public class LUSortedList<T extends Comparable<T>>
     public int count()
     {
         return list.size();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Iterable
+
+    @Override
+    public Iterator<T> iterator()
+    {
+        return list.iterator();
     }
 }

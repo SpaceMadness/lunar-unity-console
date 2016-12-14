@@ -3,6 +3,7 @@ package spacemadness.com.lunarconsole.console.actions;
 import java.util.ArrayList;
 import java.util.List;
 
+import spacemadness.com.lunarconsole.utils.LUSortedList;
 import spacemadness.com.lunarconsole.utils.NotImplementedException;
 
 /**
@@ -11,20 +12,20 @@ import spacemadness.com.lunarconsole.utils.NotImplementedException;
 
 public class LUActionRegistry
 {
-    private final List<LUAction> actions;
-    private final List<LUCVar> variables;
+    private final LUSortedList<LUAction> actions;
+    private final LUSortedList<LUCVar> variables;
     private Delegate delegate; // FIXME: rename
 
     public LUActionRegistry()
     {
-        actions = new ArrayList<>();
-        variables = new ArrayList<>();
+        actions = new LUSortedList<>();
+        variables = new LUSortedList<>();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Actions
 
-    public LUAction registerActionWithId(int actionId, String name) // FIXME: rename
+    public LUAction registerActionWithId(int actionId, String name)
     {
         throw new NotImplementedException();
     }
@@ -37,18 +38,33 @@ public class LUActionRegistry
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Variables
 
-    public void setVariable(int variableId, String value)
+    public LUCVar registerVariableWithId(int variableId, String name, LUCVarType type, String value, String defaultValue)
     {
         throw new NotImplementedException();
     }
 
-    public LUCVar variableWithId(int variableId) // FIXME: rename
+    public void setValue(String value, int variableId)
+    {
+        throw new NotImplementedException();
+    }
+
+    public LUCVar variableWithId(int variableId)
     {
         throw new NotImplementedException();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Getters/Setters
+
+    public LUSortedList<LUAction> actions()
+    {
+        return actions;
+    }
+
+    public LUSortedList<LUCVar> variables()
+    {
+        return variables;
+    }
 
     public Delegate getDelegate()
     {

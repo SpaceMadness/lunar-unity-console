@@ -1,7 +1,6 @@
 package spacemadness.com.lunarconsole.console.actions;
 
 import spacemadness.com.lunarconsole.TestCaseEx;
-import static spacemadness.com.lunarconsole.console.actions.LUCVar.*;
 
 public class LUActionRegistryTest extends TestCaseEx implements LUActionRegistry.Delegate
 {
@@ -83,16 +82,16 @@ public class LUActionRegistryTest extends TestCaseEx implements LUActionRegistry
         assertResult("added action: a3 (2)");
 
         // register variables
-        registerVariableWithName("1.bool", LUCVarTypeNameBoolean, "1");
+        registerVariableWithName("1.bool", LUCVarType.Boolean, "1");
         assertResult("register variable: Boolean 1.bool 1 (0)");
 
-        registerVariableWithName("2.int", LUCVarTypeNameInteger, "10");
+        registerVariableWithName("2.int", LUCVarType.Integer, "10");
         assertResult("register variable: Integer 2.int 10 (1)");
 
-        registerVariableWithName("3.float", LUCVarTypeNameFloat, "3.14");
+        registerVariableWithName("3.float", LUCVarType.Float, "3.14");
         assertResult("register variable: Float 3.float 3.14 (2)");
 
-        registerVariableWithName("4.string", LUCVarTypeNameString, "value");
+        registerVariableWithName("4.string", LUCVarType.String, "value");
         assertResult("register variable: String 4.string value (3)");
 
         // unregister variables
@@ -124,7 +123,7 @@ public class LUActionRegistryTest extends TestCaseEx implements LUActionRegistry
     @Override
     public void didRegisterVariable(LUActionRegistry registry, LUCVar variable)
     {
-        addResult(String.format("register variable: %s %s %s", LUCVar typeNameForType:variable.type, variable.name(), variable.value));
+        addResult(String.format("register variable: %s %s %s", variable.type(), variable.name(), variable.value()));
     }
 
     @Override
@@ -143,17 +142,17 @@ public class LUActionRegistryTest extends TestCaseEx implements LUActionRegistry
 
     private LUCVar registerVariableWithName(String name)
     {
-        return registerVariableWithName(name, LUCVarTypeNameString);
+        return registerVariableWithName(name, LUCVarType.String);
     }
 
-    private LUCVar registerVariableWithName(String name, String typeName)
+    private LUCVar registerVariableWithName(String name, LUCVarType type)
     {
-        return registerVariableWithName(name, typeName, "value");
+        return registerVariableWithName(name, type, "value");
     }
 
-    private LUCVar registerVariableWithName(String name, String typeName, String value)
+    private LUCVar registerVariableWithName(String name, LUCVarType type, String value)
     {
-        return _actionRegistry.registerVariableWithId(_nextActionId++, name, typeName, value);
+        return _actionRegistry.registerVariableWithId(_nextActionId++, name, type, value, value);
     }
 
     private void unregisterActionWithId(int actionId)
@@ -177,10 +176,10 @@ public class LUActionRegistryTest extends TestCaseEx implements LUActionRegistry
 
     private void assertActions(String... expected)
     {
-        assertEquals(expected.length, _actionRegistry.actions().count);
+        assertEquals(expected.length, _actionRegistry.actions().count());
 
         int index = 0;
-        for (LUAction action : _actionRegistry.actions)
+        for (LUAction action : _actionRegistry.actions())
         {
             assertEquals(expected[index], action.name());
             ++index;
@@ -189,10 +188,10 @@ public class LUActionRegistryTest extends TestCaseEx implements LUActionRegistry
 
     private void assertVariables(String... expected)
     {
-        assertEquals(expected.length, _actionRegistry.variables().count);
+        assertEquals(expected.length, _actionRegistry.variables().count());
 
         int index = 0;
-        for (LUCVar cvar : _actionRegistry.variables)
+        for (LUCVar cvar : _actionRegistry.variables())
         {
             assertEquals(expected[index], cvar.name());
             ++index;
