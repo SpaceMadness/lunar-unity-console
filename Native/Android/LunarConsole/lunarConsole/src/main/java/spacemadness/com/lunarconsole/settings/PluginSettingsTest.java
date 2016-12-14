@@ -35,11 +35,12 @@ public class PluginSettingsTest extends InstrumentationTestCase
         super.setUp();
 
         final Context context = getContext();
-        settings = new PluginSettings(context);
-        final SharedPreferences preferences = settings.getSharedPreferences(context);
+        final SharedPreferences preferences = PluginSettings.getSharedPreferences(context);
         final SharedPreferences.Editor editor = preferences.edit();
         editor.clear();
         editor.apply();
+
+        settings = new PluginSettings(context);
     }
 
     public void testSaveLoad()

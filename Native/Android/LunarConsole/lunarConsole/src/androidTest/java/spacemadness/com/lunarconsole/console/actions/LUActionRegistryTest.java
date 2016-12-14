@@ -1,5 +1,7 @@
 package spacemadness.com.lunarconsole.console.actions;
 
+import java.util.List;
+
 import spacemadness.com.lunarconsole.TestCaseEx;
 
 public class LUActionRegistryTest extends TestCaseEx implements LUActionRegistry.Delegate
@@ -109,25 +111,25 @@ public class LUActionRegistryTest extends TestCaseEx implements LUActionRegistry
     // LUActionRegistryDelegte
 
     @Override
-    public void didAddAction(LUActionRegistry registry, LUAction action)
+    public void didAddAction(LUActionRegistry registry, LUAction action, int index)
     {
-        addResult(String.format("added action: %s", action.name()));
+        addResult(String.format("added action: %s (%d)", action.name(), index));
     }
 
     @Override
-    public void didRemoveAction(LUActionRegistry registry, LUAction action)
+    public void didRemoveAction(LUActionRegistry registry, LUAction action, int index)
     {
-        addResult(String.format("removed action: %s", action.name()));
+        addResult(String.format("removed action: %s (%d)", action.name(), index));
     }
 
     @Override
-    public void didRegisterVariable(LUActionRegistry registry, LUCVar variable)
+    public void didRegisterVariable(LUActionRegistry registry, LUCVar variable, int index)
     {
-        addResult(String.format("register variable: %s %s %s", variable.type(), variable.name(), variable.value()));
+        addResult(String.format("register variable: %s %s %s (%d)", variable.type(), variable.name(), variable.value(), index));
     }
 
     @Override
-    public void didDidChangeVariable(LUActionRegistry registry, LUCVar variable)
+    public void didDidChangeVariable(LUActionRegistry registry, LUCVar variable, int index)
     {
         fail("Implement me");
     }
@@ -196,5 +198,12 @@ public class LUActionRegistryTest extends TestCaseEx implements LUActionRegistry
             assertEquals(expected[index], cvar.name());
             ++index;
         }
+    }
+
+    @Override
+    protected void assertResult(String... expected)
+    {
+        super.assertResult(expected);
+        clearResult();
     }
 }
