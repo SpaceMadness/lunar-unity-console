@@ -7,8 +7,12 @@ using UnityEngine;
 
 namespace LunarConsolePluginInternal
 {
+    public delegate bool ReflectionTypeFilter(Type type);
+
     static class ReflectionUtils
     {
+        #region Invocation
+
         private static readonly object[] EMPTY_INVOKE_ARGS = new object[0];
 
         public static bool Invoke(Delegate del, string[] invokeArgs)
@@ -208,6 +212,48 @@ namespace LunarConsolePluginInternal
             // return !arg.StartsWith("-") || StringUtils.IsNumeric(arg);
             return true;
         }
+
+        #endregion
+
+        #region Assembly Helper
+
+        public static List<Type> FindAttributeTypes<T>(Assembly assembly) where T : Attribute
+        {
+            return FindAttributeTypes(assembly, typeof(T));
+        }
+
+        public static List<Type> FindAttributeTypes(Assembly assembly, Type attributeType)
+        {
+            return FindTypes(assembly, delegate(Type type) {
+                var attributes = type.GetCustomAttributes(attributeType, false);
+                return attributes != null && attributes.Length > 0;
+            });
+        }
+
+        public static List<Type> FindTypes(Assembly assembly, ReflectionTypeFilter filter)
+        {
+            var list = new List<Type>();
+
+            try
+            {
+                var types = assembly.GetTypes();
+                foreach (var type in types)
+                {
+                    if (filter(type))
+                    {
+                        list.Add(type);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("Unable to list types: " + e.Message + "\n" + e.StackTrace);
+            }
+
+            return list;
+        }
+
+        #endregion
     }
 
     class ReflectionException : Exception

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 
 using UnityEngine;
 using LunarConsolePluginInternal;
@@ -308,6 +309,86 @@ namespace LunarConsolePlugin
         }
 
         #endregion
+    }
+
+    public class CVarList : IEnumerable<CVar>
+    {
+        private readonly SortedList<CVar> m_variables;
+        private readonly Dictionary<int, CVar> m_lookupById;
+
+        public CVarList()
+        {
+            m_variables = new SortedList<CVar>();
+            m_lookupById = new Dictionary<int, CVar>();
+        }
+
+        public void Add(CVar variable)
+        {
+            m_variables.Add(variable);
+            m_lookupById.Add(variable.Id, variable);
+        }
+
+        public bool Remove(int id)
+        {
+            CVar variable;
+            if (m_lookupById.TryGetValue(id, out variable))
+            {
+                m_lookupById.Remove(id);
+                m_variables.Remove(variable);
+
+                return true;
+            }
+
+            return false;
+        }
+
+        public CVar Find(int id)
+        {
+            CVar variable;
+            return m_lookupById.TryGetValue(id, out variable) ? variable : null;
+        }
+
+        #region IEnumerable implementation
+
+        public IEnumerator<CVar> GetEnumerator()
+        {
+            return m_variables.GetEnumerator();
+        }
+
+        #endregion
+
+        #region IEnumerable implementation
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return m_variables.GetEnumerator();
+        }
+
+        #endregion
+    }
+
+    public class CVarContainerAttribute : Attribute
+    {
+    }
+
+    static class CVarResolver
+    {
+        public static void ResolveVariables()
+        {
+            try
+            {
+                var assembly = typeof(CVarResolver).Assembly;
+                var containerTypes = ReflectionUtils.FindAttributeTypes<CVarContainerAttribute>(assembly);
+                foreach (var type in containerTypes)
+                {
+                    Debug.Log(type);
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("Unable to resolve variables: " + e.Message);
+            }
+        }
     }
 
     class CVarChangedDelegateList : BaseList<CVarChangedDelegate>

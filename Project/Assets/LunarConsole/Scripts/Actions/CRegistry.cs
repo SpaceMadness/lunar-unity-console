@@ -6,8 +6,6 @@ using LunarConsolePlugin;
 
 namespace LunarConsolePluginInternal
 {
-    using CVarList = SortedList<CVar>;
-
     delegate bool CActionFilter(CAction action);
 
     public interface ICRegistryDelegate
@@ -151,6 +149,11 @@ namespace LunarConsolePluginInternal
             {
                 m_delegate.OnVariableRegistered(this, cvar);
             }
+        }
+
+        public CVar FindVariable(int variableId)
+        {
+            return m_vars.Find(variableId);
         }
 
         #endregion

@@ -166,6 +166,8 @@ namespace LunarConsolePlugin
                             }
                         };
 
+                        CVarResolver.ResolveVariables();
+
                         return true;
                     }
                 }
@@ -520,6 +522,7 @@ namespace LunarConsolePlugin
                     m_nativeHandlerLookup["console_open"] = ConsoleOpenHandler;
                     m_nativeHandlerLookup["console_close"] = ConsoleCloseHandler;
                     m_nativeHandlerLookup["console_action"] = ConsoleActionHandler;
+                    m_nativeHandlerLookup["console_variable_set"] = ConsoleVariableSetHandler;
                 }
 
                 return m_nativeHandlerLookup;
@@ -578,6 +581,52 @@ namespace LunarConsolePlugin
             catch (Exception e)
             {
                 Debug.LogError("Can't run action: " + e.Message);
+            }
+        }
+
+        void ConsoleVariableSetHandler(IDictionary<string, string> data)
+        {
+            if (m_registry == null)
+            {
+                Debug.LogError("Can't set variable: make sure plugin is properly initialized");
+                return;
+            }
+
+            string variableIdStr;
+            if (!data.TryGetValue("id", out variableIdStr))
+            {
+                Debug.LogError("Can't set variable: missing 'id' property");
+                return;
+            }
+
+            string value;
+            if (!data.TryGetValue("value", out value))
+            {
+                Debug.LogError("Can't set variable: missing 'value' property");
+                return;
+            }
+
+            int variableId;
+            if (!int.TryParse(variableIdStr, out variableId))
+            {
+                Debug.LogError("Can't set variable: invalid ID " + variableIdStr);
+                return;
+            }
+
+            var variable = m_registry.FindVariable(variableId);
+            if (variable == null)
+            {
+                Debug.LogError("Can't set variable: ID not found " + variableIdStr);
+                return;
+            }
+
+            try
+            {
+                variable.Value = value;
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("Can't set variable: " + e.Message);
             }
         }
 
