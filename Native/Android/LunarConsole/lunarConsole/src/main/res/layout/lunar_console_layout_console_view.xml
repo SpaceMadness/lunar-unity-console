@@ -3,16 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <HorizontalScrollView
+    <spacemadness.com.lunarconsole.ui.ViewPager
+        android:id="@+id/lunar_console_view_pager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
-            android:id="@+id/lunar_console_container"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal" />
-    </HorizontalScrollView>
+        android:layout_height="match_parent" />
 
     <ImageButton
         android:id="@+id/lunar_console_button_close"
