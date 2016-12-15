@@ -180,7 +180,7 @@
 
 - (LUCVar *)registerVariableWithName:(NSString *)name type:(NSString *)typeName value:(NSString *)value
 {
-    return [_actionRegistry registerVariableWithId:_nextActionId++ name:name typeName:typeName value:value];
+    return [_actionRegistry registerVariableWithId:_nextActionId++ name:name typeName:typeName value:value defaultValue:value];
 }
 
 - (void)unregisterActionWithId:(int)actionId

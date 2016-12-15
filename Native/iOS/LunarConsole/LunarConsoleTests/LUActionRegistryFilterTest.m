@@ -492,12 +492,12 @@ static int _nextActionId;
 
 - (LUCVar *)registerVariableWithName:(NSString *)name type:(NSString *)typeName value:(NSString *)value
 {
-    return [_actionRegistry registerVariableWithId:_nextActionId++ name:name typeName:typeName value:value];
+    return [_actionRegistry registerVariableWithId:_nextActionId++ name:name typeName:typeName value:value defaultValue:value];
 }
 
 - (LUCVar *)registerVariableWithName:(NSString *)name
 {
-    return [_actionRegistry registerVariableWithId:_nextActionId++ name:name typeName:LUCVarTypeNameString value:@"value"];
+    return [_actionRegistry registerVariableWithId:_nextActionId++ name:name typeName:LUCVarTypeNameString value:@"value" defaultValue:@"value"];
 }
 
 - (BOOL)unregisterActionWithName:(NSString *)name
@@ -534,7 +534,7 @@ static LUActionRegistryFilter *createFilter(LUEntryInfo *first, ...)
         else if ([info isKindOfClass:[LUCVarInfo class]])
         {
             LUCVarInfo *cvar = (LUCVarInfo *)info;
-            [registry registerVariableWithId:_nextActionId++ name:cvar.name typeName:cvar.type value:cvar.value];
+            [registry registerVariableWithId:_nextActionId++ name:cvar.name typeName:cvar.type value:cvar.value defaultValue:cvar.value];
         }
         else
         {
