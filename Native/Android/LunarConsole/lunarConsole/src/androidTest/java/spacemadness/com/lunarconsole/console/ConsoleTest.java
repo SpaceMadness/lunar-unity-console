@@ -215,7 +215,7 @@ public class ConsoleTest extends TestCaseEx implements LunarConsoleListener
     // LunarConsoleListener
 
     @Override
-    public void onAddEntry(Console console, ConsoleEntry entry, boolean filtered)
+    public void onAddEntry(Console console, ConsoleLogEntry entry, boolean filtered)
     {
         addResult("add: " + entry.message);
     }

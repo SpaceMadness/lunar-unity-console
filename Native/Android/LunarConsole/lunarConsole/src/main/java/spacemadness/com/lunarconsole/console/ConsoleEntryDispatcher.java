@@ -31,7 +31,7 @@ import spacemadness.com.lunarconsole.utils.ThreadUtils;
 class ConsoleEntryDispatcher
 {
     private final OnDispatchListener listener;
-    private final List<ConsoleEntry> entries;
+    private final List<ConsoleLogEntry> entries;
     private final Runnable dispatchRunnable;
 
     public ConsoleEntryDispatcher(OnDispatchListener listener)
@@ -46,7 +46,7 @@ class ConsoleEntryDispatcher
         this.dispatchRunnable = createDispatchRunnable();
     }
 
-    public void add(ConsoleEntry entry)
+    public void add(ConsoleLogEntry entry)
     {
         synchronized (entries)
         {
@@ -110,6 +110,6 @@ class ConsoleEntryDispatcher
 
     public interface OnDispatchListener
     {
-        void onDispatchEntries(List<ConsoleEntry> entries);
+        void onDispatchEntries(List<ConsoleLogEntry> entries);
     }
 }

@@ -33,15 +33,12 @@ import android.os.Build;
 import android.text.ClipboardManager;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -54,7 +51,6 @@ import android.widget.TextView;
 import java.lang.ref.WeakReference;
 
 import spacemadness.com.lunarconsole.R;
-import spacemadness.com.lunarconsole.core.Destroyable;
 import spacemadness.com.lunarconsole.debug.Assert;
 import spacemadness.com.lunarconsole.debug.Log;
 import spacemadness.com.lunarconsole.settings.SettingsActivity;
@@ -68,12 +64,12 @@ import spacemadness.com.lunarconsole.utils.StringUtils;
 import spacemadness.com.lunarconsole.utils.ThreadUtils;
 import spacemadness.com.lunarconsole.utils.UIUtils;
 
-import static android.widget.LinearLayout.LayoutParams.*;
+import static android.widget.LinearLayout.LayoutParams.MATCH_PARENT;
+
 import static spacemadness.com.lunarconsole.console.ConsoleLogType.*;
 import static spacemadness.com.lunarconsole.debug.Tags.*;
 
-public class ConsoleLogView extends LinearLayout implements
-        Destroyable,
+public class ConsoleLogView extends AbstractConsoleView implements
         LunarConsoleListener,
         LogTypeButton.OnStateChangeListener
 {
@@ -99,7 +95,6 @@ public class ConsoleLogView extends LinearLayout implements
     private Listener listener;
 
     private boolean scrollLocked;
-    private boolean softKeyboardVisible;
 
     public ConsoleLogView(Activity activity, final Console console)
     {
@@ -127,7 +122,7 @@ public class ConsoleLogView extends LinearLayout implements
         });
 
         // might not be the most efficient way but we'll keep it for now
-        rootView = LayoutInflater.from(activity).inflate(R.layout.lunar_console_layout_console, this, false);
+        rootView = LayoutInflater.from(activity).inflate(R.layout.lunar_console_layout_console_log_view, this, false);
         addView(rootView, new LayoutParams(MATCH_PARENT, MATCH_PARENT));
 
         // initialize adapter
@@ -149,7 +144,7 @@ public class ConsoleLogView extends LinearLayout implements
             public void onItemClick(AdapterView<?> parent, final View view, int position, long id)
             {
                 final Context ctx = getContext();
-                final ConsoleEntry entry = console.getEntry(position);
+                final ConsoleLogEntry entry = console.getEntry(position);
 
                 // TODO: user color resource and animation
                 view.setBackgroundColor(0xff000000);
@@ -284,35 +279,9 @@ public class ConsoleLogView extends LinearLayout implements
     // Back button
 
     @Override
-    public boolean dispatchKeyEventPreIme(KeyEvent event)
+    protected void onBackButton()
     {
-        /*
-        This part is a bit hacky: we want to hide console view on back button press and not finish
-        the current activity. We intercept the event and don't let the system to handle it.
-        Handling soft keyboard is a separate case: we set a boolean flag when user touches the filter
-        input field and hide the keyboard manually if the flag is set. Without this hack the console
-        view will be hidden when user dismisses the keyboard. The solution is quite ugly but I don't
-        know a better way.
-         */
-        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK)
-        {
-            if (event.getAction() == KeyEvent.ACTION_UP)
-            {
-                onBackButton();
-            }
-            return true;
-        }
-
-        return super.dispatchKeyEventPreIme(event);
-    }
-
-    private void onBackButton()
-    {
-        if (softKeyboardVisible)
-        {
-            hideSoftKeyboard();
-        }
-        else if (isMoveResizeViewVisible())
+        if (isMoveResizeViewVisible())
         {
             hideMoveResizeView();
         }
@@ -320,14 +289,6 @@ public class ConsoleLogView extends LinearLayout implements
         {
             notifyClose();
         }
-    }
-
-    private void hideSoftKeyboard()
-    {
-        softKeyboardVisible = false;
-        InputMethodManager manager = (InputMethodManager) getContext().
-                getSystemService(Context.INPUT_METHOD_SERVICE);
-        manager.hideSoftInputFromWindow(getWindowToken(), 0);
     }
 
     void notifyOpen()
@@ -340,8 +301,6 @@ public class ConsoleLogView extends LinearLayout implements
 
     private void notifyClose()
     {
-        softKeyboardVisible = false;
-
         if (listener != null)
         {
             listener.onClose(this);
@@ -460,27 +419,8 @@ public class ConsoleLogView extends LinearLayout implements
                 filterByText(s.toString());
             }
         });
-        editText.setOnClickListener(new OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                softKeyboardVisible = true;
-            }
-        });
-        editText.setOnEditorActionListener(new TextView.OnEditorActionListener()
-        {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
-            {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH)
-                {
-                    hideSoftKeyboard();
-                    return true;
-                }
-                return false;
-            }
-        });
+
+        setupEditText(editText);
 
         return editText;
     }
@@ -653,7 +593,7 @@ public class ConsoleLogView extends LinearLayout implements
     // LunarConsoleListener
 
     @Override
-    public void onAddEntry(Console console, ConsoleEntry entry, boolean filtered)
+    public void onAddEntry(Console console, ConsoleLogEntry entry, boolean filtered)
     {
         if (filtered)
         {

@@ -37,7 +37,7 @@ public class ConsoleAdapter extends BaseConsoleAdapter
     @Override
     protected ViewHolder createViewHolder(View convertView)
     {
-        return new ConsoleEntry.ViewHolder(convertView);
+        return new ConsoleLogEntry.ViewHolder(convertView);
     }
 
     @Override

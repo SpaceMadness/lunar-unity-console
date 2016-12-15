@@ -1,5 +1,5 @@
 //
-//  ConsoleEntryDispatcherTest.java
+//  ConsoleLogEntryDispatcherTest.java
 //
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
@@ -25,7 +25,7 @@ import java.util.List;
 
 import spacemadness.com.lunarconsole.TestCaseEx;
 
-public class ConsoleEntryDispatcherTest extends TestCaseEx implements
+public class ConsoleLogEntryDispatcherTest extends TestCaseEx implements
         ConsoleEntryDispatcher.OnDispatchListener
 {
     public void testAddEntries() throws Exception
@@ -71,7 +71,7 @@ public class ConsoleEntryDispatcherTest extends TestCaseEx implements
     // ConsoleEntryDispatcher.OnDispatchListener
 
     @Override
-    public void onDispatchEntries(List<ConsoleEntry> entries)
+    public void onDispatchEntries(List<ConsoleLogEntry> entries)
     {
         for (int i = 0; i < entries.size(); ++i)
         {
@@ -97,12 +97,12 @@ public class ConsoleEntryDispatcherTest extends TestCaseEx implements
     {
         public MockConsoleEntryDispatcher()
         {
-            super(ConsoleEntryDispatcherTest.this);
+            super(ConsoleLogEntryDispatcherTest.this);
         }
 
         public void add(String message)
         {
-            add(new ConsoleEntry((byte) 0, message));
+            add(new ConsoleLogEntry((byte) 0, message));
         }
 
         public void runDispatch()

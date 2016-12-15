@@ -1,5 +1,5 @@
 //
-//  ConsoleEntryLookupTableTest.java
+//  ConsoleLogEntryLookupTableTest.java
 //
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
@@ -23,11 +23,11 @@ package spacemadness.com.lunarconsole.utils;
 
 import junit.framework.TestCase;
 
-import spacemadness.com.lunarconsole.console.ConsoleCollapsedEntry;
-import spacemadness.com.lunarconsole.console.ConsoleEntry;
+import spacemadness.com.lunarconsole.console.ConsoleCollapsedLogEntry;
+import spacemadness.com.lunarconsole.console.ConsoleLogEntry;
 import spacemadness.com.lunarconsole.console.ConsoleLogType;
 
-public class ConsoleEntryLookupTableTest extends TestCase
+public class ConsoleLogEntryLookupTableTest extends TestCase
 {
     private ConsoleEntryLookupTable table;
 
@@ -40,7 +40,7 @@ public class ConsoleEntryLookupTableTest extends TestCase
 
     public void testAddEntry()
     {
-        ConsoleCollapsedEntry entry = addEntryMessage("message1");
+        ConsoleCollapsedLogEntry entry = addEntryMessage("message1");
         assertEquals(1, entry.count);
 
         entry = addEntryMessage("message1");
@@ -53,14 +53,14 @@ public class ConsoleEntryLookupTableTest extends TestCase
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Helpers
 
-    private ConsoleCollapsedEntry addEntryMessage(String message)
+    private ConsoleCollapsedLogEntry addEntryMessage(String message)
     {
         return addEntryType(ConsoleLogType.LOG, message, "");
     }
 
-    private ConsoleCollapsedEntry addEntryType(byte type, String message, String stackTrace)
+    private ConsoleCollapsedLogEntry addEntryType(byte type, String message, String stackTrace)
     {
-        ConsoleEntry entry = new ConsoleEntry(type, message, stackTrace);
+        ConsoleLogEntry entry = new ConsoleLogEntry(type, message, stackTrace);
         return table.addEntry(entry);
     }
 }

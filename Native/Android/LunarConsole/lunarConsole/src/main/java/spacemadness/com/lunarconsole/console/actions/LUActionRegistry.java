@@ -1,5 +1,7 @@
 package spacemadness.com.lunarconsole.console.actions;
 
+import java.util.List;
+
 import spacemadness.com.lunarconsole.debug.Log;
 import spacemadness.com.lunarconsole.utils.LUSortedList;
 import spacemadness.com.lunarconsole.utils.ObjectUtils;
@@ -8,10 +10,10 @@ import spacemadness.com.lunarconsole.utils.ObjectUtils;
  * Created by alementuev on 12/13/16.
  */
 
-public class LUActionRegistry
+public class LUActionRegistry // FIXME: rename
 {
-    private final LUSortedList<LUAction> _actions;
-    private final LUSortedList<LUCVar> _variables;
+    private final LUSortedList<LUAction> _actions; // FIXME: rename
+    private final LUSortedList<LUCVar> _variables; // FIXME: rename
     private Delegate _delegate; // FIXME: rename
 
     public LUActionRegistry()
@@ -23,7 +25,7 @@ public class LUActionRegistry
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Actions
 
-    public LUAction registerActionWithId(int actionId, String actionName)
+    public LUAction registerActionWithId(int actionId, String actionName) // FIXME: rename
     {
         int actionIndex = indexOfActionWithName(actionName);
         if (actionIndex == -1)
@@ -36,7 +38,7 @@ public class LUActionRegistry
         return _actions.objectAtIndex(actionIndex);
     }
 
-    public boolean unregisterActionWithId(int actionId)
+    public boolean unregisterActionWithId(int actionId) // FIXME: rename
     {
         for (int actionIndex = _actions.count() - 1; actionIndex >= 0; --actionIndex)
         {
@@ -53,7 +55,7 @@ public class LUActionRegistry
         return false;
     }
 
-    private int indexOfActionWithName(String actionName)
+    private int indexOfActionWithName(String actionName) // FIXME: rename
     {
         // TODO: more optimized search
         for (int index = 0; index < _actions.count(); ++index)
@@ -71,7 +73,7 @@ public class LUActionRegistry
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Variables
 
-    public LUCVar registerVariableWithId(int variableId, String name, LUCVarType type, String value, String defaultValue)
+    public LUCVar registerVariableWithId(int variableId, String name, LUCVarType type, String value, String defaultValue) // FIXME: rename
     {
         LUCVar variable = new LUCVar(variableId, name, value, defaultValue, type);
         int index = _variables.addObject(variable);
@@ -81,7 +83,7 @@ public class LUActionRegistry
 
     }
 
-    public void setValue(String value, int variableId)
+    public void setValue(String value, int variableId) // FIXME: rename
     {
         int index = indexOfVariableWithId(variableId);
         if (index != -1)
@@ -96,13 +98,13 @@ public class LUActionRegistry
         }
     }
 
-    public LUCVar variableWithId(int variableId)
+    public LUCVar variableWithId(int variableId) // FIXME: rename
     {
         int index = indexOfVariableWithId(variableId);
         return index != -1 ? _variables.objectAtIndex(index) : null;
     }
 
-    private int indexOfVariableWithId(int variableId)
+    private int indexOfVariableWithId(int variableId) // FIXME: rename
     {
         int index = 0;
         for (LUCVar cvar : _variables)
@@ -121,14 +123,14 @@ public class LUActionRegistry
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Getters/Setters
 
-    public LUSortedList<LUAction> actions()
+    public List<LUAction> actions() // FIXME: rename
     {
-        return _actions;
+        return _actions.list();
     }
 
-    public LUSortedList<LUCVar> variables()
+    public List<LUCVar> variables() // FIXME: rename
     {
-        return _variables;
+        return _variables.list();
     }
 
     public Delegate getDelegate()

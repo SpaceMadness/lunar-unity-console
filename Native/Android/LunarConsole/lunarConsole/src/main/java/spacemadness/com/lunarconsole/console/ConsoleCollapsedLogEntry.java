@@ -1,5 +1,5 @@
 //
-//  ConsoleCollapsedEntry.java
+//  ConsoleCollapsedLogEntry.java
 //
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
@@ -24,12 +24,12 @@ package spacemadness.com.lunarconsole.console;
 /**
  * Created by alementuev on 2/4/16.
  */
-public class ConsoleCollapsedEntry extends ConsoleEntry
+public class ConsoleCollapsedLogEntry extends ConsoleLogEntry
 {
     /** Total amount of encounters */
     public int count;
 
-    public ConsoleCollapsedEntry(ConsoleEntry entry)
+    public ConsoleCollapsedLogEntry(ConsoleLogEntry entry)
     {
         super(entry.type, entry.message, entry.stackTrace);
 

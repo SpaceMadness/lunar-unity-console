@@ -75,7 +75,7 @@ public abstract class BaseConsoleAdapter extends BaseAdapter
             convertView.setTag(viewHolder);
         }
 
-        ConsoleEntry entry = dataSource.getEntry(position);
+        ConsoleLogEntry entry = dataSource.getEntry(position);
         viewHolder.bindViewHolder(entry);
 
         return convertView;
@@ -86,7 +86,7 @@ public abstract class BaseConsoleAdapter extends BaseAdapter
 
     public interface DataSource
     {
-        ConsoleEntry getEntry(int position);
+        ConsoleLogEntry getEntry(int position);
         int getEntryCount();
     }
 
@@ -97,7 +97,7 @@ public abstract class BaseConsoleAdapter extends BaseAdapter
 
     protected abstract View createConvertView(ViewGroup parent);
 
-    public static abstract class ViewHolder<T extends ConsoleEntry>
+    public static abstract class ViewHolder<T extends ConsoleLogEntry>
     {
         protected final View itemView;
 
@@ -106,7 +106,7 @@ public abstract class BaseConsoleAdapter extends BaseAdapter
             this.itemView = itemView;
         }
 
-        void bindViewHolder(ConsoleEntry entry)
+        void bindViewHolder(ConsoleLogEntry entry)
         {
             onBindViewHolder((T) entry);
         }

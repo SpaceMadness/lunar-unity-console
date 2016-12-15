@@ -1,5 +1,5 @@
 //
-//  ConsoleEntry.java
+//  ConsoleLogEntry.java
 //
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
@@ -32,7 +32,7 @@ import spacemadness.com.lunarconsole.utils.ObjectUtils;
 
 import static spacemadness.com.lunarconsole.console.ConsoleLogType.*;
 
-public class ConsoleEntry
+public class ConsoleLogEntry
 {
     private static final Appearance APPEARANCE_LOG          = new Appearance(R.drawable.lunar_console_icon_log, R.color.lunar_console_color_overlay_entry_log);
     private static final Appearance APPEARANCE_LOG_ERROR    = new Appearance(R.drawable.lunar_console_icon_log_error, R.color.lunar_console_color_overlay_entry_log_error);
@@ -55,17 +55,17 @@ public class ConsoleEntry
     public final String stackTrace;
 
     /** For testing purposes */
-    ConsoleEntry(String message)
+    ConsoleLogEntry(String message)
     {
         this(ConsoleLogType.LOG, message, "");
     }
 
-    public ConsoleEntry(byte type, String message)
+    public ConsoleLogEntry(byte type, String message)
     {
         this(type, message, null);
     }
 
-    public ConsoleEntry(byte type, String message, String stackTrace)
+    public ConsoleLogEntry(byte type, String message, String stackTrace)
     {
         this.type = type;
         this.message = message;
@@ -117,7 +117,7 @@ public class ConsoleEntry
     //////////////////////////////////////////////////////////////////////////////
     // View holder
 
-    public static class ViewHolder extends ConsoleAdapter.ViewHolder<ConsoleEntry>
+    public static class ViewHolder extends ConsoleAdapter.ViewHolder<ConsoleLogEntry>
     {
         private final View layout;
         private final ImageView iconView;
@@ -135,14 +135,14 @@ public class ConsoleEntry
         }
 
         @Override
-        public void onBindViewHolder(ConsoleEntry entry)
+        public void onBindViewHolder(ConsoleLogEntry entry)
         {
             Context context = getContext();
             layout.setBackgroundColor(entry.getBackgroundColor(context));
             iconView.setImageDrawable(entry.getIconDrawable(context));
             messageView.setText(entry.message);
 
-            ConsoleCollapsedEntry collapsedEntry = ObjectUtils.as(entry, ConsoleCollapsedEntry.class);
+            ConsoleCollapsedLogEntry collapsedEntry = ObjectUtils.as(entry, ConsoleCollapsedLogEntry.class);
             if (collapsedEntry != null && collapsedEntry.count > 1)
             {
                 collapsedCountView.setVisibility(View.VISIBLE);
@@ -155,7 +155,7 @@ public class ConsoleEntry
         }
     }
 
-    public static class OverlayViewHolder extends ConsoleAdapter.ViewHolder<ConsoleEntry>
+    public static class OverlayViewHolder extends ConsoleAdapter.ViewHolder<ConsoleLogEntry>
     {
         private final TextView messageView;
 
@@ -166,7 +166,7 @@ public class ConsoleEntry
         }
 
         @Override
-        public void onBindViewHolder(ConsoleEntry entry)
+        public void onBindViewHolder(ConsoleLogEntry entry)
         {
             final int colorId = getAppearance(entry.type).overlayColorId;
 

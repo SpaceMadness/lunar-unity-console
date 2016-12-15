@@ -24,25 +24,25 @@ package spacemadness.com.lunarconsole.utils;
 import java.util.HashMap;
 import java.util.Map;
 
-import spacemadness.com.lunarconsole.console.ConsoleCollapsedEntry;
-import spacemadness.com.lunarconsole.console.ConsoleEntry;
+import spacemadness.com.lunarconsole.console.ConsoleCollapsedLogEntry;
+import spacemadness.com.lunarconsole.console.ConsoleLogEntry;
 
 // TODO: use trie data structure for a faster lookup
 public class ConsoleEntryLookupTable
 {
-    private final Map<String, ConsoleCollapsedEntry> table;
+    private final Map<String, ConsoleCollapsedLogEntry> table;
 
     public ConsoleEntryLookupTable()
     {
         table = new HashMap<>();
     }
 
-    public ConsoleCollapsedEntry addEntry(ConsoleEntry entry)
+    public ConsoleCollapsedLogEntry addEntry(ConsoleLogEntry entry)
     {
-        ConsoleCollapsedEntry collapsedEntry = table.get(entry.message);
+        ConsoleCollapsedLogEntry collapsedEntry = table.get(entry.message);
         if (collapsedEntry == null)
         {
-            collapsedEntry = new ConsoleCollapsedEntry(entry);
+            collapsedEntry = new ConsoleCollapsedLogEntry(entry);
             table.put(collapsedEntry.message, collapsedEntry);
         }
         else
@@ -53,7 +53,7 @@ public class ConsoleEntryLookupTable
         return collapsedEntry;
     }
 
-    public void removeEntry(ConsoleCollapsedEntry entry)
+    public void removeEntry(ConsoleCollapsedLogEntry entry)
     {
         table.remove(entry.message);
     }

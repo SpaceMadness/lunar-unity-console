@@ -43,7 +43,6 @@ import spacemadness.com.lunarconsole.debug.Log;
 import spacemadness.com.lunarconsole.settings.PluginSettings;
 import spacemadness.com.lunarconsole.ui.gestures.GestureRecognizer;
 import spacemadness.com.lunarconsole.ui.gestures.GestureRecognizerFactory;
-import spacemadness.com.lunarconsole.utils.NotImplementedException;
 
 import static android.widget.FrameLayout.LayoutParams;
 import static spacemadness.com.lunarconsole.console.Console.Options;
@@ -53,10 +52,7 @@ import static spacemadness.com.lunarconsole.utils.UIUtils.*;
 import static spacemadness.com.lunarconsole.ui.gestures.GestureRecognizer.OnGestureListener;
 import static spacemadness.com.lunarconsole.debug.Tags.*;
 
-public class ConsolePlugin implements
-        Destroyable,
-        ConsoleLogView.Listener,
-        WarningView.Listener
+public class ConsolePlugin implements Destroyable
 {
     private static final String SCRIPT_MESSAGE_CONSOLE_OPEN  = "console_open";
     private static final String SCRIPT_MESSAGE_CONSOLE_CLOSE = "console_close";
@@ -69,10 +65,12 @@ public class ConsolePlugin implements
     private final String version;
     private final PluginSettings settings;
 
-    /** Parent container for console log view */
+    /** Parent container for console view (we need it to display additional overlays) */
     private FrameLayout consoleContentView;
 
-    private ConsoleLogView consoleLogView;
+    private ConsoleView consoleView;
+
+    // private ConsoleLogView consoleLogView;
     private ConsoleLogOverlayView consoleLogOverlayView;
     private WarningView warningView;
 
@@ -89,7 +87,7 @@ public class ConsolePlugin implements
             new ConsoleEntryDispatcher.OnDispatchListener()
     {
         @Override
-        public void onDispatchEntries(List<ConsoleEntry> entries)
+        public void onDispatchEntries(List<ConsoleLogEntry> entries)
         {
             if (instance != null)
             {
@@ -280,7 +278,7 @@ public class ConsolePlugin implements
 
     public static void logMessage(String message, String stackTrace, int logType)
     {
-        entryDispatcher.add(new ConsoleEntry((byte) logType, message, stackTrace));
+        entryDispatcher.add(new ConsoleLogEntry((byte) logType, message, stackTrace));
     }
 
     public static void show()
@@ -559,11 +557,11 @@ public class ConsolePlugin implements
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Console
 
-    private void logEntries(List<ConsoleEntry> entries)
+    private void logEntries(List<ConsoleLogEntry> entries)
     {
         for (int i = 0; i < entries.size(); ++i)
         {
-            ConsoleEntry entry = entries.get(i);
+            ConsoleLogEntry entry = entries.get(i);
 
             // add to console
             console.logMessage(entry);
@@ -582,7 +580,7 @@ public class ConsolePlugin implements
 
         try
         {
-            if (consoleLogView == null)
+            if (consoleView == null)
             {
                 Log.d(CONSOLE, "Show console");
 
@@ -596,15 +594,29 @@ public class ConsolePlugin implements
                 // get root content layout
                 final FrameLayout rootLayout = getRootLayout(activity);
 
-                // we need to add an additional layout between console log view and content view
+                // we need to add an additional layout between console view and content view
                 // in order to be able to place additional overlay layouts on top of everything
                 consoleContentView = new FrameLayout(activity);
                 rootLayout.addView(consoleContentView, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 
-                // create console log view
-                consoleLogView = new ConsoleLogView(activity, console);
-                consoleLogView.setListener(this);
-                consoleLogView.requestFocus();
+                // create console view
+                consoleView = new ConsoleView(activity, this);
+                consoleView.setListener(new ConsoleView.Listener()
+                {
+                    @Override
+                    public void onOpen(ConsoleView view)
+                    {
+                        sendNativeCallback(SCRIPT_MESSAGE_CONSOLE_OPEN);
+                    }
+
+                    @Override
+                    public void onClose(ConsoleView view)
+                    {
+                        hideConsole();
+                        sendNativeCallback(SCRIPT_MESSAGE_CONSOLE_CLOSE);
+                    }
+                });
+                consoleView.requestFocus();
 
                 // place console log view into console layout
                 LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
@@ -617,14 +629,14 @@ public class ConsolePlugin implements
                 params.rightMargin = state.getRightMargin();
 
                 // add view
-                consoleContentView.addView(consoleLogView, params);
+                consoleContentView.addView(consoleView, params);
 
                 // show animation
                 Animation animation = AnimationUtils.loadAnimation(activity, R.anim.lunar_console_slide_in_top);
-                consoleLogView.startAnimation(animation);
+                consoleView.startAnimation(animation);
 
                 // notify delegates
-                consoleLogView.notifyOpen();
+                consoleView.notifyOpen();
 
                 // don't handle gestures if console is shown
                 disableGestureRecognition();
@@ -646,7 +658,7 @@ public class ConsolePlugin implements
     {
         try
         {
-            if (consoleLogView != null)
+            if (consoleView != null)
             {
                 Log.d(CONSOLE, "Hide console");
 
@@ -678,7 +690,7 @@ public class ConsolePlugin implements
 
                         }
                     });
-                    consoleLogView.startAnimation(animation);
+                    consoleView.startAnimation(animation);
                 }
                 else
                 {
@@ -698,10 +710,10 @@ public class ConsolePlugin implements
 
     private void removeConsoleView()
     {
-        if (consoleLogView != null)
+        if (consoleView != null)
         {
             // remove console log view from console content view
-            consoleContentView.removeView(consoleLogView);
+            consoleContentView.removeView(consoleView);
 
             // remove console content view from the root content view
             ViewParent parent = consoleContentView.getParent();
@@ -715,8 +727,8 @@ public class ConsolePlugin implements
             }
             consoleContentView = null;
 
-            consoleLogView.destroy();
-            consoleLogView = null;
+            consoleView.destroy();
+            consoleView = null;
 
             // start listening for gestures
             enableGestureRecognition();
@@ -761,7 +773,21 @@ public class ConsolePlugin implements
                 final FrameLayout rootLayout = getRootLayout(activity);
 
                 warningView = new WarningView(activity);
-                warningView.setListener(this);
+                warningView.setListener(new WarningView.Listener()
+                {
+                    @Override
+                    public void onDismissClick(WarningView view)
+                    {
+                        hideWarning();
+                    }
+
+                    @Override
+                    public void onDetailsClick(WarningView view)
+                    {
+                        hideWarning();
+                        showConsole();
+                    }
+                });
 
                 rootLayout.addView(warningView);
             }
@@ -879,38 +905,6 @@ public class ConsolePlugin implements
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    // ConsoleView.Listener
-
-    @Override
-    public void onOpen(ConsoleLogView view)
-    {
-        sendNativeCallback(SCRIPT_MESSAGE_CONSOLE_OPEN);
-    }
-
-    @Override
-    public void onClose(ConsoleLogView view)
-    {
-        hideConsole();
-        sendNativeCallback(SCRIPT_MESSAGE_CONSOLE_CLOSE);
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // WarningView.Listener
-
-    @Override
-    public void onDismissClick(WarningView view)
-    {
-        hideWarning();
-    }
-
-    @Override
-    public void onDetailsClick(WarningView view)
-    {
-        hideWarning();
-        showConsole();
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
     // Gesture recognition
 
     private void enableGestureRecognition()
@@ -971,6 +965,21 @@ public class ConsolePlugin implements
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Getters/Setters
 
+    Console getConsole()
+    {
+        return console;
+    }
+
+    LUActionRegistry getActionRegistry()
+    {
+        return actionRegistry;
+    }
+
+    boolean isConsoleShown()
+    {
+        return consoleView != null;
+    }
+
     public static PluginSettings pluginSettings()
     {
         return instance != null ? instance.settings : null;
@@ -981,12 +990,7 @@ public class ConsolePlugin implements
         return instance != null ? instance.version : "?.?.?";
     }
 
-    private boolean isConsoleShown()
-    {
-        return consoleLogView != null;
-    }
-
-    private static Console getConsole()
+    private static Console getConsoleInstance()
     {
         return instance.console;
     }
@@ -994,13 +998,13 @@ public class ConsolePlugin implements
     public static void setCapacity(int capacity)
     {
         Options options = new Options(capacity);
-        options.setTrimCount(getConsole().getTrimSize());
+        options.setTrimCount(getConsoleInstance().getTrimSize());
         instance.console = new Console(options);
     }
 
     public static void setTrimSize(int trimCount)
     {
-        Options options = new Options(getConsole().getCapacity());
+        Options options = new Options(getConsoleInstance().getCapacity());
         options.setTrimCount(trimCount);
         instance.console = new Console(options);
     }

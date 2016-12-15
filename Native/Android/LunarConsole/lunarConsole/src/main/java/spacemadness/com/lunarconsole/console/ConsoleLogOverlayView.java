@@ -43,7 +43,7 @@ public class ConsoleLogOverlayView extends ListView implements Destroyable, Data
 
     private final ConsoleOverlayAdapter consoleAdapter;
 
-    private final CycleArray<ConsoleEntry> entries;
+    private final CycleArray<ConsoleLogEntry> entries;
 
     private final Runnable entryRemovalCallback = new Runnable()
     {
@@ -92,7 +92,7 @@ public class ConsoleLogOverlayView extends ListView implements Destroyable, Data
 
         this.settings = settings;
 
-        entries = new CycleArray<>(ConsoleEntry.class, settings.maxVisibleEntries);
+        entries = new CycleArray<>(ConsoleLogEntry.class, settings.maxVisibleEntries);
         consoleAdapter = new ConsoleOverlayAdapter(this);
 
         setDivider(null);
@@ -159,7 +159,7 @@ public class ConsoleLogOverlayView extends ListView implements Destroyable, Data
     // DataSource
 
     @Override
-    public ConsoleEntry getEntry(int position)
+    public ConsoleLogEntry getEntry(int position)
     {
         return entries.get(entries.getHeadIndex() + position);
     }
@@ -174,7 +174,7 @@ public class ConsoleLogOverlayView extends ListView implements Destroyable, Data
     // LunarConsoleListener
 
     @Override
-    public void onAddEntry(Console console, ConsoleEntry entry, boolean filtered)
+    public void onAddEntry(Console console, ConsoleLogEntry entry, boolean filtered)
     {
         entries.add(entry); // cycle array will handle entries trim
         reloadData();

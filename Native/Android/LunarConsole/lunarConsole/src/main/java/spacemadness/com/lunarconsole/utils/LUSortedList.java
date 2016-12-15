@@ -71,6 +71,11 @@ public class LUSortedList<T extends Comparable> implements Iterable<T>
         return list.size();
     }
 
+    public List<T> list()
+    {
+        return list;
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Iterable
 

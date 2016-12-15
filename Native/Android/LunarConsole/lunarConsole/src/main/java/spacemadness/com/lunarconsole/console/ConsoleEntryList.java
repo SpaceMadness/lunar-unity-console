@@ -80,7 +80,7 @@ public class ConsoleEntryList
     // Entries
 
     /** Adds a new entry object */
-    public int addEntry(ConsoleEntry entry)
+    public int addEntry(ConsoleLogEntry entry)
     {
         // count types
         int entryType = entry.type;
@@ -107,7 +107,7 @@ public class ConsoleEntryList
             {
                 if (collapsed)
                 {
-                    ConsoleCollapsedEntry collapsedEntry = entryLookup.addEntry(entry);
+                    ConsoleCollapsedLogEntry collapsedEntry = entryLookup.addEntry(entry);
                     if (collapsedEntry.index < filteredEntries.trimmedCount()) // first encounter or trimmed?
                     {
                         collapsedEntry.index = filteredEntries.totalCount();   // we use total count in case if list overflows
@@ -128,15 +128,15 @@ public class ConsoleEntryList
     }
 
     /** Returns entry at index */
-    public ConsoleEntry getEntry(int index)
+    public ConsoleLogEntry getEntry(int index)
     {
         return currentEntries.objectAtIndex(index);
     }
 
     /** Return collapsed entry at index or null if entry is not collapsed */
-    public ConsoleCollapsedEntry getCollapsedEntry(int index)
+    public ConsoleCollapsedLogEntry getCollapsedEntry(int index)
     {
-        return as(getEntry(index), ConsoleCollapsedEntry.class);
+        return as(getEntry(index), ConsoleCollapsedLogEntry.class);
     }
 
     /** Removes all entries from the list */
@@ -315,11 +315,11 @@ public class ConsoleEntryList
 
         if (collapsed)
         {
-            for (ConsoleEntry entry : entries)
+            for (ConsoleLogEntry entry : entries)
             {
                 if (filterEntry(entry))
                 {
-                    ConsoleCollapsedEntry collapsedEntry = as(entry, ConsoleCollapsedEntry.class);
+                    ConsoleCollapsedLogEntry collapsedEntry = as(entry, ConsoleCollapsedLogEntry.class);
                     if (collapsedEntry != null)
                     {
                         collapsedEntry.index = list.totalCount(); // update item's position
@@ -339,7 +339,7 @@ public class ConsoleEntryList
         }
         else
         {
-            for (ConsoleEntry entry : entries)
+            for (ConsoleLogEntry entry : entries)
             {
                 if (filterEntry(entry))
                 {
@@ -356,7 +356,7 @@ public class ConsoleEntryList
      * @param entry entry to check
      * @return true if entry passes the filter
      */
-    private boolean filterEntry(ConsoleEntry entry)
+    private boolean filterEntry(ConsoleLogEntry entry)
     {
         // filter by log type
         if ((logDisabledTypesMask & getMask(entry.type)) != 0)
@@ -389,7 +389,7 @@ public class ConsoleEntryList
 
         int index = 0;
         int count = currentEntries.count();
-        for (ConsoleEntry entry : currentEntries)
+        for (ConsoleLogEntry entry : currentEntries)
         {
             text.append(entry.message);
             if (entry.type == ConsoleLogType.EXCEPTION && entry.hasStackTrace())
@@ -506,11 +506,11 @@ public class ConsoleEntryList
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // LimitSizeEntryList
 
-    private static class LimitSizeEntryList extends LimitSizeList<ConsoleEntry>
+    private static class LimitSizeEntryList extends LimitSizeList<ConsoleLogEntry>
     {
         public LimitSizeEntryList(int capacity, int trimSize)
         {
-            super(ConsoleEntry.class, capacity, trimSize);
+            super(ConsoleLogEntry.class, capacity, trimSize);
         }
     }
 }

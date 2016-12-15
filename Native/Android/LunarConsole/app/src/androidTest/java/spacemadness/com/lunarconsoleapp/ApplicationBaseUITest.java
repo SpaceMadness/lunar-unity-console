@@ -48,8 +48,8 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-import spacemadness.com.lunarconsole.console.ConsoleCollapsedEntry;
-import spacemadness.com.lunarconsole.console.ConsoleEntry;
+import spacemadness.com.lunarconsole.console.ConsoleCollapsedLogEntry;
+import spacemadness.com.lunarconsole.console.ConsoleLogEntry;
 import spacemadness.com.lunarconsole.console.ConsoleLogType;
 import spacemadness.com.lunarconsole.console.ConsolePlugin;
 import spacemadness.com.lunarconsole.debug.TestHelper;
@@ -565,7 +565,7 @@ public class ApplicationBaseUITest implements TestHelper.EventListener {
             if (messageCount[i] == 0) // 'regular' entries
             {
                 // find entry view
-                DataInteraction entryView = onData(allOf(is(instanceOf(ConsoleEntry.class))))
+                DataInteraction entryView = onData(allOf(is(instanceOf(ConsoleLogEntry.class))))
                         .atPosition(i);
 
                 // check message
@@ -580,7 +580,7 @@ public class ApplicationBaseUITest implements TestHelper.EventListener {
             else // 'collapsed' entries
             {
                 // find entry view
-                DataInteraction entryView = onData(allOf(is(instanceOf(ConsoleCollapsedEntry.class))))
+                DataInteraction entryView = onData(allOf(is(instanceOf(ConsoleCollapsedLogEntry.class))))
                         .atPosition(i);
 
                 // check message

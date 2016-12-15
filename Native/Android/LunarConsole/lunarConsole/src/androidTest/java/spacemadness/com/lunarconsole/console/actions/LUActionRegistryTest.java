@@ -178,7 +178,7 @@ public class LUActionRegistryTest extends TestCaseEx implements LUActionRegistry
 
     private void assertActions(String... expected)
     {
-        assertEquals(expected.length, _actionRegistry.actions().count());
+        assertEquals(expected.length, _actionRegistry.actions().size());
 
         int index = 0;
         for (LUAction action : _actionRegistry.actions())
@@ -190,7 +190,7 @@ public class LUActionRegistryTest extends TestCaseEx implements LUActionRegistry
 
     private void assertVariables(String... expected)
     {
-        assertEquals(expected.length, _actionRegistry.variables().count());
+        assertEquals(expected.length, _actionRegistry.variables().size());
 
         int index = 0;
         for (LUCVar cvar : _actionRegistry.variables())
