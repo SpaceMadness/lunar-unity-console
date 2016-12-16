@@ -23,8 +23,8 @@ package spacemadness.com.lunarconsole.ui.gestures;
 
 import android.content.Context;
 
-import static spacemadness.com.lunarconsole.utils.UIUtils.dpToPx;
 import static spacemadness.com.lunarconsole.ui.gestures.SwipeGestureRecognizer.SwipeDirection;
+import static spacemadness.com.lunarconsole.utils.UIUtils.dpToPx;
 
 public class GestureRecognizerFactory
 {

@@ -8,11 +8,10 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import spacemadness.com.lunarconsole.R;
 import spacemadness.com.lunarconsole.core.Destroyable;
@@ -76,6 +75,17 @@ public class ConsoleView extends LinearLayout implements Destroyable
         // setup all edit text view to properly handle virtual keyboard
         setupVirtualKeyboardOnEditTextViews(consoleLogView);
         setupVirtualKeyboardOnEditTextViews(consoleActionView);
+
+        // setup close button
+        ImageButton closeButton = (ImageButton) rootView.findViewById(R.id.lunar_console_button_close);
+        closeButton.setOnClickListener(new OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                notifyClose();
+            }
+        });
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
