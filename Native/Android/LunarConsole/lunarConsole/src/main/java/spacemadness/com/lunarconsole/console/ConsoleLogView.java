@@ -104,8 +104,7 @@ public class ConsoleLogView extends AbstractConsoleView implements
         consoleAdapter = new ConsoleAdapter(console);
 
         // this view would hold all the logs
-        LinearLayout consoleContainer = findExistingViewById(
-                R.id.lunar_console_list_view_container);
+        LinearLayout listViewContainer = findExistingViewById(R.id.lunar_console_list_view_container);
 
         listView = new ListView(activity);
         listView.setDivider(null);
@@ -192,7 +191,7 @@ public class ConsoleLogView extends AbstractConsoleView implements
             }
         });
 
-        consoleContainer.addView(listView, new LayoutParams(MATCH_PARENT, MATCH_PARENT));
+        listViewContainer.addView(listView, new LayoutParams(MATCH_PARENT, MATCH_PARENT));
 
         // setup filtering elements
         setupFilterTextEdit();
