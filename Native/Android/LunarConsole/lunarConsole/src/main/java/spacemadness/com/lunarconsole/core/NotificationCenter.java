@@ -1,0 +1,138 @@
+package spacemadness.com.lunarconsole.core;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class NotificationCenter
+{
+    private final Map<String, NotificationList> listLookup;
+    private final DispatchQueue dispatchQueue;
+
+    public NotificationCenter(DispatchQueue dispatchQueue)
+    {
+        this.dispatchQueue = dispatchQueue;
+        this.listLookup = new HashMap<>();
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Notifications
+
+    public void postNotification(String name, Map<String, Object> userData)
+    {
+        final NotificationList list = findNotificationList(name);
+        if (list != null)
+        {
+            final Notification notification = new Notification(name, userData);
+            dispatchQueue.dispatchAsync(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    list.postNotification(notification);
+                }
+            });
+        }
+    }
+
+    public void addListener(String name, OnNotificationListener listener)
+    {
+        NotificationList list = resolveNotificationList(name);
+        list.add(listener);
+    }
+
+    public void removeListener(String name, OnNotificationListener listener)
+    {
+        NotificationList list = findNotificationList(name);
+        if (list != null)
+        {
+            list.remove(listener);
+            if (list.isEmpty())
+            {
+                removeNotificationList(name);
+            }
+        }
+    }
+
+    public void removeListener(OnNotificationListener listener)
+    {
+        List<String> keysToRemove = null;
+        for (Map.Entry<String, NotificationList> entry : listLookup.entrySet())
+        {
+            NotificationList list = entry.getValue();
+            if (list.remove(listener) && list.isEmpty())
+            {
+                if (keysToRemove == null)
+                {
+                    keysToRemove = new ArrayList<>();
+                }
+                keysToRemove.add(entry.getKey());
+            }
+        }
+
+        if (keysToRemove != null)
+        {
+            for (String key : keysToRemove)
+            {
+                listLookup.remove(key);
+            }
+        }
+    }
+
+    private NotificationList resolveNotificationList(String name)
+    {
+        NotificationList list = listLookup.get(name);
+        if (list == null)
+        {
+            list = new NotificationList();
+            listLookup.put(name, list);
+        }
+        return list;
+    }
+
+    private void removeNotificationList(String name)
+    {
+        listLookup.remove(name);
+    }
+
+    private NotificationList findNotificationList(String name)
+    {
+        return listLookup.get(name);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Getters/Setters
+
+    public static NotificationCenter defaultCenter()
+    {
+        return Holder.INSTANCE;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Instance holder
+
+    private static class Holder
+    {
+        private static NotificationCenter INSTANCE = new NotificationCenter(DispatchQueue.mainQueue());
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Callback
+
+    public interface OnNotificationListener
+    {
+        void onNotification(Notification notification);
+    }
+
+    private static class NotificationList extends ArrayList<OnNotificationListener>
+    {
+        public void postNotification(Notification notification)
+        {
+            for (OnNotificationListener listener : this)
+            {
+                listener.onNotification(notification);
+            }
+        }
+    }
+}
