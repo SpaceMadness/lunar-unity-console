@@ -102,14 +102,6 @@
             android:layout_toRightOf="@+id/lunar_console_button_copy"
             android:src="@drawable/lunar_console_icon_button_email"/>
 
-        <ImageButton
-            android:id="@+id/lunar_console_button_close"
-            style="@style/lunar_console_base_button_style"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:src="@drawable/lunar_console_icon_button_close"/>
-
     </RelativeLayout>
 
 </LinearLayout>

@@ -616,7 +616,6 @@ public class ConsolePlugin implements Destroyable
                         sendNativeCallback(SCRIPT_MESSAGE_CONSOLE_CLOSE);
                     }
                 });
-                consoleView.requestFocus();
 
                 // place console log view into console layout
                 LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
@@ -640,6 +639,9 @@ public class ConsolePlugin implements Destroyable
 
                 // don't handle gestures if console is shown
                 disableGestureRecognition();
+
+                // request focus
+                consoleView.requestFocus();
 
                 return true;
             }

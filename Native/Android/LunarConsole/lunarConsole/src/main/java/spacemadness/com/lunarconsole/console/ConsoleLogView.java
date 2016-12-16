@@ -38,10 +38,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -51,21 +49,17 @@ import android.widget.TextView;
 import java.lang.ref.WeakReference;
 
 import spacemadness.com.lunarconsole.R;
-import spacemadness.com.lunarconsole.debug.Assert;
 import spacemadness.com.lunarconsole.debug.Log;
 import spacemadness.com.lunarconsole.settings.SettingsActivity;
 import spacemadness.com.lunarconsole.ui.LogTypeButton;
-import spacemadness.com.lunarconsole.ui.MoveResizeView;
 import spacemadness.com.lunarconsole.ui.ToggleButton;
 import spacemadness.com.lunarconsole.ui.ToggleImageButton;
-import spacemadness.com.lunarconsole.utils.ObjectUtils;
 import spacemadness.com.lunarconsole.utils.StackTrace;
 import spacemadness.com.lunarconsole.utils.StringUtils;
 import spacemadness.com.lunarconsole.utils.ThreadUtils;
 import spacemadness.com.lunarconsole.utils.UIUtils;
 
 import static android.widget.LinearLayout.LayoutParams.MATCH_PARENT;
-
 import static spacemadness.com.lunarconsole.console.ConsoleLogType.*;
 import static spacemadness.com.lunarconsole.debug.Tags.*;
 
@@ -75,14 +69,9 @@ public class ConsoleLogView extends AbstractConsoleView implements
 {
     private final WeakReference<Activity> activityRef;
 
-    private final View rootView;
-
     private final Console console;
     private final ListView listView;
     private final ConsoleAdapter consoleAdapter;
-
-    /** An overlay layout for move/resize operations */
-    private MoveResizeView moveResizeView;
 
     private final LogTypeButton logButton;
     private final LogTypeButton warningButton;
@@ -92,13 +81,13 @@ public class ConsoleLogView extends AbstractConsoleView implements
 
     private ToggleImageButton scrollLockButton;
 
-    private Listener listener;
-
     private boolean scrollLocked;
+
+    private OnMoveSizeListener onMoveSizeListener;
 
     public ConsoleLogView(Activity activity, final Console console)
     {
-        super(activity);
+        super(activity, R.layout.lunar_console_layout_console_log_view);
 
         if (console == null)
         {
@@ -110,20 +99,6 @@ public class ConsoleLogView extends AbstractConsoleView implements
         this.console.setConsoleListener(this);
 
         scrollLocked = true; // scroll is locked by default
-
-        // disable touches
-        setOnTouchListener(new OnTouchListener()
-        {
-            @Override
-            public boolean onTouch(View v, MotionEvent event)
-            {
-                return true; // don't let touch events to pass through the view group
-            }
-        });
-
-        // might not be the most efficient way but we'll keep it for now
-        rootView = LayoutInflater.from(activity).inflate(R.layout.lunar_console_layout_console_log_view, this, false);
-        addView(rootView, new LayoutParams(MATCH_PARENT, MATCH_PARENT));
 
         // initialize adapter
         consoleAdapter = new ConsoleAdapter(console);
@@ -251,7 +226,6 @@ public class ConsoleLogView extends AbstractConsoleView implements
         {
             console.setConsoleListener(null);
         }
-        setListener(null);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -272,38 +246,6 @@ public class ConsoleLogView extends AbstractConsoleView implements
         if (shouldReload)
         {
             reloadData();
-        }
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Back button
-
-    @Override
-    protected void onBackButton()
-    {
-        if (isMoveResizeViewVisible())
-        {
-            hideMoveResizeView();
-        }
-        else
-        {
-            notifyClose();
-        }
-    }
-
-    void notifyOpen()
-    {
-        if (listener != null)
-        {
-            listener.onOpen(this);
-        }
-    }
-
-    private void notifyClose()
-    {
-        if (listener != null)
-        {
-            listener.onClose(this);
         }
     }
 
@@ -420,8 +362,6 @@ public class ConsoleLogView extends AbstractConsoleView implements
             }
         });
 
-        setupEditText(editText);
-
         return editText;
     }
 
@@ -451,8 +391,7 @@ public class ConsoleLogView extends AbstractConsoleView implements
             }
         });
 
-        scrollLockButton = (ToggleImageButton) rootView.
-                findViewById(R.id.lunar_console_button_lock);
+        scrollLockButton = findExistingViewById(R.id.lunar_console_button_lock);
         final Resources resources = getContext().getResources();
         scrollLockButton.setOnDrawable(resources.getDrawable(R.drawable.lunar_console_icon_button_lock));
         scrollLockButton.setOffDrawable(resources.getDrawable(R.drawable.lunar_console_icon_button_unlock));
@@ -481,15 +420,6 @@ public class ConsoleLogView extends AbstractConsoleView implements
             public void onClick(View v)
             {
                 sendConsoleOutputByEmail();
-            }
-        });
-
-        setOnClickListener(R.id.lunar_console_button_close, new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                notifyClose();
             }
         });
     }
@@ -577,7 +507,7 @@ public class ConsoleLogView extends AbstractConsoleView implements
 
                 if (itemId == R.id.lunar_console_menu_move_resize)
                 {
-                    showMoveResizeView(getContext());
+                    notifyMoveResize();
                     return true;
                 }
 
@@ -648,81 +578,6 @@ public class ConsoleLogView extends AbstractConsoleView implements
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Move/Resize
-
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    private void showMoveResizeView(Context context)
-    {
-        Assert.IsNull(moveResizeView);
-        if (moveResizeView == null)
-        {
-            final FrameLayout parentLayout = ObjectUtils.as(getParent(), FrameLayout.class);
-            Assert.IsNotNull(parentLayout);
-
-            if (parentLayout != null)
-            {
-                moveResizeView = new MoveResizeView(context);
-                FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT);
-                parentLayout.addView(moveResizeView, layoutParams);
-
-                final MarginLayoutParams p = (MarginLayoutParams) getLayoutParams();
-                moveResizeView.setMargins(p.leftMargin, p.topMargin, p.rightMargin, p.bottomMargin);
-
-                // hide the log view
-                // setVisibility(GONE); we can't use setVisibility here since it break back button handling
-                setAlpha(0);
-
-                // handle close button
-                moveResizeView.setOnCloseListener(new MoveResizeView.OnCloseListener()
-                {
-                    @Override
-                    public void onClose(MoveResizeView view)
-                    {
-                        hideMoveResizeView();
-                    }
-                });
-            }
-        }
-    }
-
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    private void hideMoveResizeView()
-    {
-        Assert.IsNotNull(moveResizeView);
-        if (moveResizeView != null)
-        {
-            final MarginLayoutParams parentLayoutParams = (MarginLayoutParams) getLayoutParams();
-
-            parentLayoutParams.topMargin = moveResizeView.getTopMargin();
-            parentLayoutParams.bottomMargin = moveResizeView.getBottomMargin();
-            parentLayoutParams.leftMargin = moveResizeView.getLeftMargin();
-            parentLayoutParams.rightMargin = moveResizeView.getRightMargin();
-            invalidate();
-
-            // update state margins
-            ConsoleViewState.instance().setMargins(moveResizeView.getTopMargin(),
-                    moveResizeView.getBottomMargin(),
-                    moveResizeView.getLeftMargin(),
-                    moveResizeView.getRightMargin());
-
-            final ViewGroup parent = (ViewGroup) moveResizeView.getParent();
-            parent.removeView(moveResizeView);
-
-            moveResizeView.destroy();
-            moveResizeView = null;
-
-            // show the log view
-            // setVisibility(VISIBLE); we can't use setVisibility here since it break back button handling
-            setAlpha(1);
-        }
-    }
-
-    private boolean isMoveResizeViewVisible()
-    {
-        return moveResizeView != null;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
     // LULogTypeButton.OnStateChangeListener
 
     @Override
@@ -771,51 +626,39 @@ public class ConsoleLogView extends AbstractConsoleView implements
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Listener notifications
+
+    private void notifyMoveResize()
+    {
+        if (onMoveSizeListener != null)
+        {
+            onMoveSizeListener.onMoveResize(this);
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     // Getters/Setters
-
-    public void setListener(Listener listener)
-    {
-        this.listener = listener;
-    }
-
-    public Listener getListener()
-    {
-        return listener;
-    }
 
     public Activity getActivity()
     {
         return activityRef.get();
     }
 
+    public OnMoveSizeListener getOnMoveSizeListener()
+    {
+        return onMoveSizeListener;
+    }
+
+    public void setOnMoveSizeListener(OnMoveSizeListener onMoveSizeListener)
+    {
+        this.onMoveSizeListener = onMoveSizeListener;
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Helpers
+    // Move resize listener
 
-    private <T extends View> T findExistingViewById(int id) throws ClassCastException
+    public interface OnMoveSizeListener
     {
-        return findExistingViewById(rootView, id);
-    }
-
-    private <T extends View> T findExistingViewById(View parent, int id) throws ClassCastException
-    {
-        View view = parent.findViewById(id);
-        if (view == null)
-        {
-            throw new IllegalArgumentException("View with id " + id + " not found");
-        }
-
-        return (T) view;
-    }
-
-    private void setOnClickListener(int viewId, View.OnClickListener listener)
-    {
-        View view = findExistingViewById(viewId);
-        view.setOnClickListener(listener);
-    }
-
-    public interface Listener
-    {
-        void onOpen(ConsoleLogView view);
-        void onClose(ConsoleLogView view);
+        void onMoveResize(ConsoleLogView consoleLogView);
     }
 }
