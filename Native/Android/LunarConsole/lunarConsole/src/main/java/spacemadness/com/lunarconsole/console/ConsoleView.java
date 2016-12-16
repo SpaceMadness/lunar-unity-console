@@ -149,11 +149,10 @@ public class ConsoleView extends LinearLayout implements Destroyable
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private void setPageViewsVisible(boolean visible)
     {
-        float alpha = visible ? 1 : 0;
+        int visibility = visible ? VISIBLE : GONE;
 
-        // setVisibility(VISIBLE); we can't use setVisibility here since it break back button handling
-        consoleLogView.setAlpha(alpha);
-        consoleActionView.setAlpha(alpha);
+        consoleLogView.setVisibility(visibility);
+        consoleActionView.setVisibility(visibility);
     }
 
     private boolean isMoveResizeViewVisible()
