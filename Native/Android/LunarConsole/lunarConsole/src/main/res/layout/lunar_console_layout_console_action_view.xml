@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/lunar_console_actions_view"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/lunar_console_color_table_background"
+              android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/lunar_console_fake_status_bar"
+        style="@style/lunar_console_fake_status_bar_style"
+        android:text="@string/lunar_console_title_actions_view"/>
+
+    <!-- TODO: use styles -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/lunar_console_color_table_title_background"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/lunar_console_text_edit_filter"
+            style="@style/lunar_console_filter_edit_text_style"
+            android:hint="Filter"/>
+
+    </LinearLayout>
+
+    <!--
+     This is a little hack: if we create a ListView in a layout file Unity will require
+     us to create a separate Android plugin with separate resources (otherwise ListView would
+     not be loaded correctly). As a workaround we need to create ListView programmatically
+     -->
+    <LinearLayout
+        android:id="@+id/lunar_console_list_view_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"/>
+
+</LinearLayout>
