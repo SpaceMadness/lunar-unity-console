@@ -253,8 +253,7 @@ class LUActionRegistryFilterTest: TestCase, LUActionRegistryFilterDelegate {
         assertNoActions(filter: _registryFilter)
     }
 
-    func testUnregisterActionFiltered()
-    {
+    func testUnregisterActionFiltered() {
         setFilter(text: "a11")
         
         let id2 = registerAction(name: "a11").actionId
@@ -312,8 +311,7 @@ class LUActionRegistryFilterTest: TestCase, LUActionRegistryFilterDelegate {
         assertResult(expected: "removed action: a2 (0)")
     }
 
-    func testDelegateNotificationsFiltered()
-    {
+    func testDelegateNotificationsFiltered() {
         // set filter
         setFilter(text: "a1")
         
@@ -348,41 +346,38 @@ class LUActionRegistryFilterTest: TestCase, LUActionRegistryFilterDelegate {
         assertResult(expected: "removed action: a12 (0)")
     }
 
-    func testFilteringByTextAddActions()
-    {
-    //    LUActionRegistryFilter *filter = createFilter(nil)
-    //    XCTAssert(!filter.isFiltering)
-    //    
-    //    XCTAssert(filter.setFilterText("line11"))
-    //    [filter.registry registerActionWithId:0 name:"line111" group:""]
-    //    
-    //    assertActions(filter: _registryFilter, names: "line111")
-    //    XCTAssert(filter.isFiltering)
-    //    
-    //    [filter.registry registerActionWithId:1 name:"line1" group:""]
-    //    [filter.registry registerActionWithId:2 name:"line11" group:""]
-    //    
-    //    assertActions(filter: _registryFilter, names: "line11", "line111")
-    //    
-    //    [filter.registry unregisterActionWithId:2]
-    //    assertActions(filter: _registryFilter, names: "line111")
-    //    
-    //    [filter.registry unregisterActionWithId:1]
-    //    assertActions(filter: _registryFilter, names: "line111")
-    //    
-    //    [filter.registry unregisterActionWithId:0]
-    //    [self assertFilterGroups:filter, nil]
-    //    
-    //    [filter.registry registerActionWithId:3 name:"line1" group:"a"]
-    //    [self assertFilterGroups:filter, nil]
-    //    
-    //    [filter.registry registerActionWithId:4 name:"line11" group:"a"]
-    //    [self assertFilterGroups:filter, [LUActionGroupInfo groupInfoWithName:"a" actions:"line11", nil], nil]
-    //    
-    //    filter.setFilterText("")
-    //    [self assertFilterGroups:filter, [LUActionGroupInfo groupInfoWithName:"a" actions:"line1", "line11", nil], nil]
+    func testFilteringByTextAddActions() {
+        let filter = LUActionRegistryFilter(actionRegistry: LUActionRegistry())!
+        XCTAssert(!filter.isFiltering)
         
-        // XCTFail("Implement me")
+        XCTAssert(filter.setFilterText("line11"))
+        filter.registry.registerAction(withId: 0, name: "line111")
+        
+        assertActions(filter: filter, names: "line111")
+        XCTAssert(filter.isFiltering)
+        
+        filter.registry.registerAction(withId: 1, name: "line1")
+        filter.registry.registerAction(withId: 2, name: "line11")
+        
+        assertActions(filter: filter, names: "line11", "line111")
+        
+        filter.registry.unregisterAction(withId: 2)
+        assertActions(filter: filter, names: "line111")
+        
+        filter.registry.unregisterAction(withId: 1)
+        assertActions(filter: filter, names: "line111")
+        
+        filter.registry.unregisterAction(withId: 0)
+        assertNoActions(filter: filter)
+        
+        filter.registry.registerAction(withId: 3, name: "line1")
+        assertNoActions(filter: filter)
+        
+        filter.registry.registerAction(withId: 4, name: "line11")
+        assertActions(filter: filter, names: "line11")
+        
+        filter.setFilterText("")
+        assertActions(filter: filter, names: "line1", "line11")
     }
 
     // MARK: - LUActionRegistryFilterDelegate

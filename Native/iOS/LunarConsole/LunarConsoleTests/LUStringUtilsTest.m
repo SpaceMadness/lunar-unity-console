@@ -106,7 +106,7 @@ inline static BOOL isEpsilonEqual(float a, float b)
        @"key6" : @""
     };
     
-    NSString *expected = @"key2:value with whitespace\nkey5:value with: separator\nkey3:value with\\nlinebreak\nkey1:value\nkey6:\nkey4:value with \"quotes\"";
+    NSString *expected = @"key3:value with\\nlinebreak\nkey1:value\nkey6:\nkey4:value with \"quotes\"\nkey2:value with whitespace\nkey5:value with: separator";
     NSString *actual = LUSerializeDictionaryToString(dict);
     
     XCTAssertEqualObjects(expected, actual);
