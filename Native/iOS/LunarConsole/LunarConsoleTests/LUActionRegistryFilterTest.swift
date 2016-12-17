@@ -71,7 +71,7 @@ class LUActionRegistryFilterTest: TestCase, LUActionRegistryFilterDelegate {
     // MARK: - Filter by text
 
     func testFilterByText() {
-        let filter = createFilter(entries:
+        registerEntries(entries:
           LUActionInfo(name: "line1"),
           LUActionInfo(name: "line11"),
           LUActionInfo(name: "line111"),
@@ -84,101 +84,101 @@ class LUActionRegistryFilterTest: TestCase, LUActionRegistryFilterDelegate {
           LUCVarInfo(name: "foo", value: "value", type: LUCVarTypeNameString)
         )
         
-        XCTAssert(!filter.isFiltering)
+        assertNotFiltering()
         
-        XCTAssert(filter.setFilterText("l"))
-        assertActions(filter: filter, names: "line1", "line11", "line111", "line1111")
-        assertVariables(filter: filter, names: "line1", "line11", "line111", "line1111")
-        XCTAssert(filter.isFiltering)
+        XCTAssert(setFilter(text: "l"))
+        assertActions(names: "line1", "line11", "line111", "line1111")
+        assertVariables(names: "line1", "line11", "line111", "line1111")
+        assertFiltering()
         
-        XCTAssert(!filter.setFilterText("l"))
-        assertActions(filter: filter, names: "line1", "line11", "line111", "line1111")
-        assertVariables(filter: filter, names: "line1", "line11", "line111", "line1111")
-        XCTAssert(filter.isFiltering)
+        XCTAssert(!setFilter(text: "l"))
+        assertActions(names: "line1", "line11", "line111", "line1111")
+        assertVariables(names: "line1", "line11", "line111", "line1111")
+        assertFiltering()
         
-        XCTAssert(filter.setFilterText("li"))
-        assertActions(filter: filter, names: "line1", "line11", "line111", "line1111")
-        assertVariables(filter: filter, names: "line1", "line11", "line111", "line1111")
-        XCTAssert(filter.isFiltering)
+        XCTAssert(setFilter(text: "li"))
+        assertActions(names: "line1", "line11", "line111", "line1111")
+        assertVariables(names: "line1", "line11", "line111", "line1111")
+        assertFiltering()
         
-        XCTAssert(filter.setFilterText("lin"))
-        assertActions(filter: filter, names: "line1", "line11", "line111", "line1111")
-        assertVariables(filter: filter, names: "line1", "line11", "line111", "line1111")
-        XCTAssert(filter.isFiltering)
+        XCTAssert(setFilter(text: "lin"))
+        assertActions(names: "line1", "line11", "line111", "line1111")
+        assertVariables(names: "line1", "line11", "line111", "line1111")
+        assertFiltering()
         
-        XCTAssert(filter.setFilterText("line"))
-        assertActions(filter: filter, names: "line1", "line11", "line111", "line1111")
-        assertVariables(filter: filter, names: "line1", "line11", "line111", "line1111")
-        XCTAssert(filter.isFiltering)
+        XCTAssert(setFilter(text: "line"))
+        assertActions(names: "line1", "line11", "line111", "line1111")
+        assertVariables(names: "line1", "line11", "line111", "line1111")
+        assertFiltering()
         
-        XCTAssert(filter.setFilterText("line1"))
-        assertActions(filter: filter, names: "line1", "line11", "line111", "line1111")
-        assertVariables(filter: filter, names: "line1", "line11", "line111", "line1111")
-        XCTAssert(filter.isFiltering)
+        XCTAssert(setFilter(text: "line1"))
+        assertActions(names: "line1", "line11", "line111", "line1111")
+        assertVariables(names: "line1", "line11", "line111", "line1111")
+        assertFiltering()
         
-        XCTAssert(filter.setFilterText("line11"))
-        assertActions(filter: filter, names: "line11", "line111", "line1111")
-        assertVariables(filter: filter, names: "line11", "line111", "line1111")
-        XCTAssert(filter.isFiltering)
+        XCTAssert(setFilter(text: "line11"))
+        assertActions(names: "line11", "line111", "line1111")
+        assertVariables(names: "line11", "line111", "line1111")
+        assertFiltering()
         
-        XCTAssert(filter.setFilterText("line111"))
-        assertActions(filter: filter, names: "line111", "line1111")
-        assertVariables(filter: filter, names: "line111", "line1111")
-        XCTAssert(filter.isFiltering)
+        XCTAssert(setFilter(text: "line111"))
+        assertActions(names: "line111", "line1111")
+        assertVariables(names: "line111", "line1111")
+        assertFiltering()
         
-        XCTAssert(filter.setFilterText("line1111"))
-        assertActions(filter: filter, names: "line1111")
-        assertVariables(filter: filter, names: "line1111")
-        XCTAssert(filter.isFiltering)
+        XCTAssert(setFilter(text: "line1111"))
+        assertActions(names: "line1111")
+        assertVariables(names: "line1111")
+        assertFiltering()
         
-        XCTAssert(filter.setFilterText("line11111"))
-        assertNoActions(filter: filter);
-        XCTAssert(filter.isFiltering)
+        XCTAssert(setFilter(text: "line11111"))
+        assertNoActions();
+        assertFiltering()
         
-        XCTAssert(filter.setFilterText("line1111"))
-        assertActions(filter: filter, names: "line1111")
-        assertVariables(filter: filter, names: "line1111")
-        XCTAssert(filter.isFiltering)
+        XCTAssert(setFilter(text: "line1111"))
+        assertActions(names: "line1111")
+        assertVariables(names: "line1111")
+        assertFiltering()
         
-        XCTAssert(filter.setFilterText("line111"))
-        assertActions(filter: filter, names: "line111", "line1111")
-        assertVariables(filter: filter, names: "line111", "line1111")
-        XCTAssert(filter.isFiltering)
+        XCTAssert(setFilter(text: "line111"))
+        assertActions(names: "line111", "line1111")
+        assertVariables(names: "line111", "line1111")
+        assertFiltering()
         
-        XCTAssert(filter.setFilterText("line11"))
-        assertActions(filter: filter, names: "line11", "line111", "line1111")
-        assertVariables(filter: filter, names: "line11", "line111", "line1111")
-        XCTAssert(filter.isFiltering)
+        XCTAssert(setFilter(text: "line11"))
+        assertActions(names: "line11", "line111", "line1111")
+        assertVariables(names: "line11", "line111", "line1111")
+        assertFiltering()
         
-        XCTAssert(filter.setFilterText("line1"))
-        assertActions(filter: filter, names: "line1", "line11", "line111", "line1111")
-        assertVariables(filter: filter, names: "line1", "line11", "line111", "line1111")
-        XCTAssert(filter.isFiltering)
+        XCTAssert(setFilter(text: "line1"))
+        assertActions(names: "line1", "line11", "line111", "line1111")
+        assertVariables(names: "line1", "line11", "line111", "line1111")
+        assertFiltering()
         
-        XCTAssert(filter.setFilterText("line"))
-        assertActions(filter: filter, names: "line1", "line11", "line111", "line1111")
-        assertVariables(filter: filter, names: "line1", "line11", "line111", "line1111")
-        XCTAssert(filter.isFiltering)
+        XCTAssert(setFilter(text: "line"))
+        assertActions(names: "line1", "line11", "line111", "line1111")
+        assertVariables(names: "line1", "line11", "line111", "line1111")
+        assertFiltering()
         
-        XCTAssert(filter.setFilterText("lin"))
-        assertActions(filter: filter, names: "line1", "line11", "line111", "line1111")
-        assertVariables(filter: filter, names: "line1", "line11", "line111", "line1111")
-        XCTAssert(filter.isFiltering)
+        XCTAssert(setFilter(text: "lin"))
+        assertActions(names: "line1", "line11", "line111", "line1111")
+        assertVariables(names: "line1", "line11", "line111", "line1111")
+        assertFiltering()
         
-        XCTAssert(filter.setFilterText("li"))
-        assertActions(filter: filter, names: "line1", "line11", "line111", "line1111")
-        assertVariables(filter: filter, names: "line1", "line11", "line111", "line1111")
-        XCTAssert(filter.isFiltering)
+        XCTAssert(setFilter(text: "li"))
+        assertActions(names: "line1", "line11", "line111", "line1111")
+        assertVariables(names: "line1", "line11", "line111", "line1111")
+        assertFiltering()
         
-        XCTAssert(filter.setFilterText("l"))
-        assertActions(filter: filter, names: "line1", "line11", "line111", "line1111")
-        assertVariables(filter: filter, names: "line1", "line11", "line111", "line1111")
-        XCTAssert(filter.isFiltering)
+        XCTAssert(setFilter(text: "l"))
+        assertActions(names: "line1", "line11", "line111", "line1111")
+        assertVariables(names: "line1", "line11", "line111", "line1111")
+        assertFiltering()
         
-        XCTAssert(filter.setFilterText(""))
-        assertActions(filter: filter, names: "foo", "line1", "line11", "line111", "line1111")
-        assertVariables(filter: filter, names: "foo", "line1", "line11", "line111", "line1111")
-        XCTAssert(!filter.isFiltering)
+        XCTAssert(setFilter(text: ""))
+        assertActions(names: "foo", "line1", "line11", "line111", "line1111")
+        assertVariables(names: "foo", "line1", "line11", "line111", "line1111")
+        assertNotFiltering()
     }
 
     // MARK: - Register entries
@@ -193,8 +193,8 @@ class LUActionRegistryFilterTest: TestCase, LUActionRegistryFilterDelegate {
         registerAction(name: "a111")
         registerVariable(name: "v111")
         
-        assertActions(filter: _registryFilter, names: "a1", "a11", "a111")
-        assertVariables(filter: _registryFilter, names: "v1", "v11", "v111")
+        assertActions(names: "a1", "a11", "a111")
+        assertVariables(names: "v1", "v11", "v111")
     }
 
     func testRegisterEntriesFiltered() {
@@ -204,8 +204,8 @@ class LUActionRegistryFilterTest: TestCase, LUActionRegistryFilterDelegate {
         registerAction(name: "a1")
         registerAction(name: "a111")
         
-        assertActions(filter: _registryFilter, names: "a11", "a111")
-        assertNoVariables(filter: _registryFilter)
+        assertActions(names: "a11", "a111")
+        assertNoVariables()
         
         registerVariable(name: "v11")
         registerVariable(name: "v1")
@@ -213,14 +213,14 @@ class LUActionRegistryFilterTest: TestCase, LUActionRegistryFilterDelegate {
         
         setFilter(text: "v11")
         
-        assertNoActions(filter: _registryFilter)
-        assertVariables(filter: _registryFilter, names: "v11", "v111")
+        assertNoActions()
+        assertVariables(names: "v11", "v111")
         
         // remove the filter
         setFilter(text: "")
         
-        assertActions(filter: _registryFilter, names: "a1", "a11", "a111")
-        assertVariables(filter: _registryFilter, names: "v1", "v11", "v111")
+        assertActions(names: "a1", "a11", "a111")
+        assertVariables(names: "v1", "v11", "v111")
     }
 
     func testRegisterMultipleActionsWithSameName() {
@@ -229,8 +229,27 @@ class LUActionRegistryFilterTest: TestCase, LUActionRegistryFilterDelegate {
         registerAction(name: "a1")
         registerAction(name: "a3")
         
-        // should be in default group
-        assertActions(filter: _registryFilter, names: "a1", "a2", "a3")
+        assertActions(names: "a1", "a2", "a3")
+    }
+    
+    func testRegisterMultipleActionsWithSameNameFiltered() {
+        setFilter(text: "a1");
+        assertFiltering()
+        
+        registerAction(name: "a")
+        registerAction(name: "a11")
+        registerAction(name: "a12")
+        registerAction(name: "a11")
+        
+        assertActions(names: "a11", "a12")
+        
+        setFilter(text: "a");
+        assertFiltering()
+        assertActions(names: "a", "a11", "a12")
+        
+        setFilter(text: "");
+        assertNotFiltering()
+        assertActions(names: "a", "a11", "a12")
     }
 
     // MARK: - Unregister actions
@@ -241,16 +260,16 @@ class LUActionRegistryFilterTest: TestCase, LUActionRegistryFilterDelegate {
         let id3 = registerAction(name: "a3").actionId
         
         unregisterAction(id: id1)
-        assertActions(filter: _registryFilter, names: "a2", "a3")
+        assertActions(names: "a2", "a3")
         
         unregisterAction(id: id2)
-        assertActions(filter: _registryFilter, names: "a3")
+        assertActions(names: "a3")
         
         unregisterAction(id: id3)
-        assertNoActions(filter: _registryFilter)
+        assertNoActions()
         
         unregisterAction(id: id3)
-        assertNoActions(filter: _registryFilter)
+        assertNoActions()
     }
 
     func testUnregisterActionFiltered() {
@@ -261,16 +280,16 @@ class LUActionRegistryFilterTest: TestCase, LUActionRegistryFilterDelegate {
         let id3 = registerAction(name: "a111").actionId
         
         unregisterAction(id: id1)
-        assertActions(filter: _registryFilter, names: "a11", "a111")
+        assertActions(names: "a11", "a111")
         
         unregisterAction(id: id2)
-        assertActions(filter: _registryFilter, names: "a111")
+        assertActions(names: "a111")
         
         unregisterAction(id: id3)
-        assertNoActions(filter: _registryFilter)
+        assertNoActions()
         
         unregisterAction(id: id3)
-        assertNoActions(filter: _registryFilter)
+        assertNoActions()
     }
 
     // MARK: - Delegate notifications
@@ -347,37 +366,36 @@ class LUActionRegistryFilterTest: TestCase, LUActionRegistryFilterDelegate {
     }
 
     func testFilteringByTextAddActions() {
-        let filter = LUActionRegistryFilter(actionRegistry: LUActionRegistry())!
-        XCTAssert(!filter.isFiltering)
+        assertNotFiltering()
         
-        XCTAssert(filter.setFilterText("line11"))
-        filter.registry.registerAction(withId: 0, name: "line111")
+        XCTAssert(setFilter(text: "line11"))
+        registerAction(id: 0, name: "line111")
         
-        assertActions(filter: filter, names: "line111")
-        XCTAssert(filter.isFiltering)
+        assertActions(names: "line111")
+        assertFiltering()
         
-        filter.registry.registerAction(withId: 1, name: "line1")
-        filter.registry.registerAction(withId: 2, name: "line11")
+        registerAction(id: 1, name: "line1")
+        registerAction(id: 2, name: "line11")
         
-        assertActions(filter: filter, names: "line11", "line111")
+        assertActions(names: "line11", "line111")
         
-        filter.registry.unregisterAction(withId: 2)
-        assertActions(filter: filter, names: "line111")
+        unregisterAction(id: 2)
+        assertActions(names: "line111")
         
-        filter.registry.unregisterAction(withId: 1)
-        assertActions(filter: filter, names: "line111")
+        unregisterAction(id: 1)
+        assertActions(names: "line111")
         
-        filter.registry.unregisterAction(withId: 0)
-        assertNoActions(filter: filter)
+        unregisterAction(id: 0)
+        assertNoActions()
         
-        filter.registry.registerAction(withId: 3, name: "line1")
-        assertNoActions(filter: filter)
+        registerAction(id: 3, name: "line1")
+        assertNoActions()
         
-        filter.registry.registerAction(withId: 4, name: "line11")
-        assertActions(filter: filter, names: "line11")
+        registerAction(id: 4, name: "line11")
+        assertActions(names: "line11")
         
-        filter.setFilterText("")
-        assertActions(filter: filter, names: "line1", "line11")
+        setFilter(text: "")
+        assertActions(names: "line1", "line11")
     }
 
     // MARK: - LUActionRegistryFilterDelegate
@@ -397,78 +415,37 @@ class LUActionRegistryFilterTest: TestCase, LUActionRegistryFilterDelegate {
     func actionRegistryFilter(_ registry: LUActionRegistryFilter!, didChangeVariable variable: LUCVar!, at index: UInt) {
         XCTFail("Implement me")
     }
-
+    
     // MARK: - Helpers
-
-    func setFilter(text: String) {
-        _registryFilter.setFilterText(text)
+    
+    @discardableResult
+    func setFilter(text: String) -> Bool {
+        return _registryFilter.setFilterText(text)
     }
     
-    func assertResult(expected: String...) {
-        let message = "Expected: '\(expected.joined(separator: ","))' but was '\(self.result.componentsJoined(by: ","))'"
-        
-        XCTAssertEqual(expected.count, self.result.count, message)
-        for i in 0..<expected.count {
-            XCTAssertEqual(expected[i], self.result[i] as! String, message)
-        }
-        
-        self.result.removeAllObjects()
-    }
-    
-    func assertNoActions(filter: LUActionRegistryFilter) {
-        XCTAssert(filter.actions.count == 0)
-    }
-    
-    func assertNoVariables(filter: LUActionRegistryFilter) {
-        XCTAssert(filter.variables.count == 0)
-    }
-    
-    func assertActions(filter: LUActionRegistryFilter, names: String...) {
-        var actualNames = [String]()
-        for i in 0..<filter.actions.count {
-            let action = filter.actions[i] as! LUAction
-            actualNames.append(action.name)
-        }
-        
-        XCTAssertEqual(names.count, actualNames.count, "Expected \(names.joined(separator: ",")) but was \(actualNames.joined(separator: ","))")
-        
-        for i in 0..<actualNames.count {
-            XCTAssertEqual(names[i], actualNames[i], "Expected \(names.joined(separator: ",")) but was \(actualNames.joined(separator: ","))")
-        }
-    }
-
-    func assertVariables(filter: LUActionRegistryFilter, names: String...) {
-        var actualNames = [String]()
-        for i in 0..<filter.variables.count {
-            let action = filter.variables[i] as! LUCVar
-            actualNames.append(action.name)
-        }
-        
-        XCTAssertEqual(names.count, actualNames.count, "Expected \(names.joined(separator: ",")) but was \(actualNames.joined(separator: ","))")
-        
-        for i in 0..<actualNames.count {
-            XCTAssertEqual(names[i], actualNames[i], "Expected \(names.joined(separator: ",")) but was \(actualNames.joined(separator: ","))")
-        }
-    }
-
     @discardableResult
     func registerAction(name: String) -> LUAction {
         _nextActionId = _nextActionId + 1
-        return _actionRegistry.registerAction(withId: _nextActionId, name: name)
+        return registerAction(id: _nextActionId, name: name)
     }
-
+    
+    @discardableResult
+    func registerAction(id: Int32, name: String) -> LUAction {
+        return _actionRegistry.registerAction(withId: id, name: name)
+    }
+    
     @discardableResult
     func registerVariable(name: String, typeName: String, value: String) -> LUCVar {
         _nextActionId = _nextActionId + 1
         return _actionRegistry.registerVariable(withId: _nextActionId, name: name, typeName: typeName, value: value, defaultValue: value)
     }
-
+    
     @discardableResult
     func registerVariable(name: String) -> LUCVar {
         _nextActionId = _nextActionId + 1
         return _actionRegistry.registerVariable(withId: _nextActionId, name: name, typeName: LUCVarTypeNameString, value: "value", defaultValue: "value")
     }
-
+    
     @discardableResult
     func unregisterAction(name: String) -> Bool {
         for i in 0..<_actionRegistry.actions.count {
@@ -481,26 +458,79 @@ class LUActionRegistryFilterTest: TestCase, LUActionRegistryFilterDelegate {
         
         return false
     }
-
+    
     func unregisterAction(id: Int32) {
         _actionRegistry.unregisterAction(withId: id)
     }
-
-    func createFilter(entries: LUEntryInfo...) -> LUActionRegistryFilter {
-        let registry = LUActionRegistry()
-        
+    
+    func registerEntries(entries: LUEntryInfo...) {
         for info in entries {
             _nextActionId = _nextActionId + 1
             
             if let action = info as? LUActionInfo {
-                registry.registerAction(withId: _nextActionId, name: action.name)
+                _actionRegistry.registerAction(withId: _nextActionId, name: action.name)
             } else if let cvar = info as? LUCVarInfo {
-                registry.registerVariable(withId: _nextActionId, name: cvar.name, typeName: cvar.type, value: cvar.value, defaultValue: cvar.value)
+                _actionRegistry.registerVariable(withId: _nextActionId, name: cvar.name, typeName: cvar.type, value: cvar.value, defaultValue: cvar.value)
             } else {
                 abort() // not the best solution but better than ignoring
             }
         }
+    }
+
+    // MARK: - Assertion Helpers
+    
+    func assertResult(expected: String...) {
+        let message = "Expected: '\(expected.joined(separator: ","))' but was '\(self.result.componentsJoined(by: ","))'"
         
-        return LUActionRegistryFilter(actionRegistry: registry)
+        XCTAssertEqual(expected.count, self.result.count, message)
+        for i in 0..<expected.count {
+            XCTAssertEqual(expected[i], self.result[i] as! String, message)
+        }
+        
+        self.result.removeAllObjects()
+    }
+    
+    func assertNoActions() {
+        XCTAssert(_registryFilter.actions.count == 0)
+    }
+    
+    func assertNoVariables() {
+        XCTAssert(_registryFilter.variables.count == 0)
+    }
+    
+    func assertActions(names: String...) {
+        var actualNames = [String]()
+        for i in 0..<_registryFilter.actions.count {
+            let action = _registryFilter.actions[i] as! LUAction
+            actualNames.append(action.name)
+        }
+        
+        XCTAssertEqual(names.count, actualNames.count, "Expected \(names.joined(separator: ",")) but was \(actualNames.joined(separator: ","))")
+        
+        for i in 0..<actualNames.count {
+            XCTAssertEqual(names[i], actualNames[i], "Expected \(names.joined(separator: ",")) but was \(actualNames.joined(separator: ","))")
+        }
+    }
+
+    func assertVariables(names: String...) {
+        var actualNames = [String]()
+        for i in 0..<_registryFilter.variables.count {
+            let action = _registryFilter.variables[i] as! LUCVar
+            actualNames.append(action.name)
+        }
+        
+        XCTAssertEqual(names.count, actualNames.count, "Expected \(names.joined(separator: ",")) but was \(actualNames.joined(separator: ","))")
+        
+        for i in 0..<actualNames.count {
+            XCTAssertEqual(names[i], actualNames[i], "Expected \(names.joined(separator: ",")) but was \(actualNames.joined(separator: ","))")
+        }
+    }
+    
+    func assertFiltering() {
+        XCTAssertTrue(_registryFilter.isFiltering)
+    }
+    
+    func assertNotFiltering() {
+        XCTAssertFalse(_registryFilter.isFiltering)
     }
 }
