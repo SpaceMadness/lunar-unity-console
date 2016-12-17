@@ -314,7 +314,38 @@ class LUActionRegistryFilterTest: TestCase, LUActionRegistryFilterDelegate {
 
     func testDelegateNotificationsFiltered()
     {
-        // XCTFail("Implement me")
+        // set filter
+        setFilter(text: "a1")
+        
+        // register actions
+        registerAction(name: "a")
+        
+        registerAction(name: "a11")
+        assertResult(expected: "added action: a11 (0)")
+        
+        registerAction(name: "a12")
+        assertResult(expected: "added action: a12 (1)")
+        
+        // register variables
+        registerVariable(name: "a", typeName: LUCVarTypeNameBoolean, value: "1")
+        
+        registerVariable(name: "a1", typeName: LUCVarTypeNameInteger, value: "10")
+        assertResult(expected: "register variable: Integer a1 10 (0)")
+        
+        registerVariable(name: "a12", typeName: LUCVarTypeNameFloat, value: "3.14")
+        assertResult(expected: "register variable: Float a12 3.14 (1)")
+        
+        registerVariable(name: "a13", typeName: LUCVarTypeNameString, value: "value")
+        assertResult(expected: "register variable: String a13 value (2)")
+        
+        // unregister variables
+        unregisterAction(name: "a1")
+        
+        unregisterAction(name: "a11")
+        assertResult(expected: "removed action: a11 (0)")
+        
+        unregisterAction(name: "a12")
+        assertResult(expected: "removed action: a12 (0)")
     }
 
     func testFilteringByTextAddActions()
@@ -357,15 +388,15 @@ class LUActionRegistryFilterTest: TestCase, LUActionRegistryFilterDelegate {
     // MARK: - LUActionRegistryFilterDelegate
     
     func actionRegistryFilter(_ registryFilter: LUActionRegistryFilter!, didAdd action: LUAction!, at index: UInt) {
-        addResult("added action: \(action.name) (\(index))")
+        addResult("added action: \(action.name!) (\(index))")
     }
 
     func actionRegistryFilter(_ registryFilter: LUActionRegistryFilter!, didRemove action: LUAction!, at index: UInt) {
-        addResult("removed action: \(action.name) (\(index))")
+        addResult("removed action: \(action.name!) (\(index))")
     }
     
     func actionRegistryFilter(_ registry: LUActionRegistryFilter!, didRegisterVariable variable: LUCVar!, at index: UInt) {
-        addResult("register variable: \(LUCVar.typeName(for: variable.type)) \(variable.name) \(variable.value), (\(index))")
+        addResult("register variable: \(LUCVar.typeName(for: variable.type)!) \(variable.name!) \(variable.value!) (\(index))")
     }
     
     func actionRegistryFilter(_ registry: LUActionRegistryFilter!, didChangeVariable variable: LUCVar!, at index: UInt) {
@@ -379,7 +410,14 @@ class LUActionRegistryFilterTest: TestCase, LUActionRegistryFilterDelegate {
     }
     
     func assertResult(expected: String...) {
+        let message = "Expected: '\(expected.joined(separator: ","))' but was '\(self.result.componentsJoined(by: ","))'"
         
+        XCTAssertEqual(expected.count, self.result.count, message)
+        for i in 0..<expected.count {
+            XCTAssertEqual(expected[i], self.result[i] as! String, message)
+        }
+        
+        self.result.removeAllObjects()
     }
     
     func assertNoActions(filter: LUActionRegistryFilter) {
@@ -418,23 +456,27 @@ class LUActionRegistryFilterTest: TestCase, LUActionRegistryFilterDelegate {
         }
     }
 
+    @discardableResult
     func registerAction(name: String) -> LUAction {
         _nextActionId = _nextActionId + 1
         return _actionRegistry.registerAction(withId: _nextActionId, name: name)
     }
 
+    @discardableResult
     func registerVariable(name: String, typeName: String, value: String) -> LUCVar {
         _nextActionId = _nextActionId + 1
         return _actionRegistry.registerVariable(withId: _nextActionId, name: name, typeName: typeName, value: value, defaultValue: value)
     }
 
+    @discardableResult
     func registerVariable(name: String) -> LUCVar {
         _nextActionId = _nextActionId + 1
         return _actionRegistry.registerVariable(withId: _nextActionId, name: name, typeName: LUCVarTypeNameString, value: "value", defaultValue: "value")
     }
 
+    @discardableResult
     func unregisterAction(name: String) -> Bool {
-        for i in 0..<_actionRegistry.actions.count - 1 {
+        for i in 0..<_actionRegistry.actions.count {
             let action = _actionRegistry.actions[i] as! LUAction
             if action.name == name {
                 _actionRegistry.unregisterAction(withId: action.actionId)
