@@ -110,7 +110,6 @@
 		4DE389EA1DFCAC0E003A2B6B /* LUNotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DE389E91DFCAC0E003A2B6B /* LUNotificationCenter.m */; };
 		4DE389EB1DFCAC0E003A2B6B /* LUNotificationCenter.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DE389E91DFCAC0E003A2B6B /* LUNotificationCenter.m */; };
 		840F087F1DEA6B7400E9F13D /* TestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F08751DEA6B7400E9F13D /* TestCase.m */; };
-		840F08801DEA6B7400E9F13D /* LUActionRegistryFilterTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F08761DEA6B7400E9F13D /* LUActionRegistryFilterTest.m */; };
 		840F08811DEA6B7400E9F13D /* LUActionRegistryTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F08771DEA6B7400E9F13D /* LUActionRegistryTest.m */; };
 		840F08821DEA6B7400E9F13D /* LUConsoleEntryListTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F08781DEA6B7400E9F13D /* LUConsoleEntryListTest.m */; };
 		840F08831DEA6B7400E9F13D /* LUConsoleEntryLookupTableTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F08791DEA6B7400E9F13D /* LUConsoleEntryLookupTableTest.m */; };
@@ -120,6 +119,7 @@
 		840F08871DEA6B7400E9F13D /* LUStacktraceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F087D1DEA6B7400E9F13D /* LUStacktraceTest.m */; };
 		840F08881DEA6B7400E9F13D /* LUStringUtilsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F087E1DEA6B7400E9F13D /* LUStringUtilsTest.m */; };
 		844741B51B719C3100F5ABD3 /* libLunarConsole.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 844741A91B719C3100F5ABD3 /* libLunarConsole.a */; };
+		EF1D47A81E04A60B005BEC07 /* LUActionRegistryFilterTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1D47A71E04A60B005BEC07 /* LUActionRegistryFilterTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -354,7 +354,6 @@
 		4DE389EE1DFCD310003A2B6B /* lunar_console_icon_button_variable_reset@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lunar_console_icon_button_variable_reset@3x.png"; sourceTree = "<group>"; };
 		840F08741DEA6B7400E9F13D /* TestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestCase.h; sourceTree = "<group>"; };
 		840F08751DEA6B7400E9F13D /* TestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestCase.m; sourceTree = "<group>"; };
-		840F08761DEA6B7400E9F13D /* LUActionRegistryFilterTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUActionRegistryFilterTest.m; sourceTree = "<group>"; };
 		840F08771DEA6B7400E9F13D /* LUActionRegistryTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUActionRegistryTest.m; sourceTree = "<group>"; };
 		840F08781DEA6B7400E9F13D /* LUConsoleEntryListTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUConsoleEntryListTest.m; sourceTree = "<group>"; };
 		840F08791DEA6B7400E9F13D /* LUConsoleEntryLookupTableTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUConsoleEntryLookupTableTest.m; sourceTree = "<group>"; };
@@ -366,6 +365,8 @@
 		844741A91B719C3100F5ABD3 /* libLunarConsole.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libLunarConsole.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		844741B41B719C3100F5ABD3 /* LunarConsoleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LunarConsoleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		844741BA1B719C3100F5ABD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EF1D47A61E04A60A005BEC07 /* LunarConsoleTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LunarConsoleTests-Bridging-Header.h"; sourceTree = "<group>"; };
+		EF1D47A71E04A60B005BEC07 /* LUActionRegistryFilterTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LUActionRegistryFilterTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -784,12 +785,13 @@
 			isa = PBXGroup;
 			children = (
 				840F08731DEA6B7400E9F13D /* Helpers */,
-				840F08761DEA6B7400E9F13D /* LUActionRegistryFilterTest.m */,
+				EF1D47A71E04A60B005BEC07 /* LUActionRegistryFilterTest.swift */,
 				840F08771DEA6B7400E9F13D /* LUActionRegistryTest.m */,
 				840F08781DEA6B7400E9F13D /* LUConsoleEntryListTest.m */,
 				840F08791DEA6B7400E9F13D /* LUConsoleEntryLookupTableTest.m */,
 				840F087A1DEA6B7400E9F13D /* LUConsoleTest.m */,
 				840F087B1DEA6B7400E9F13D /* LUMutableArrayTest.m */,
+				EF1D47A61E04A60A005BEC07 /* LunarConsoleTests-Bridging-Header.h */,
 				840F087C1DEA6B7400E9F13D /* LUSortedListTest.m */,
 				840F087D1DEA6B7400E9F13D /* LUStacktraceTest.m */,
 				840F087E1DEA6B7400E9F13D /* LUStringUtilsTest.m */,
@@ -875,6 +877,7 @@
 					};
 					844741B31B719C3100F5ABD3 = {
 						CreatedOnToolsVersion = 6.4;
+						LastSwiftMigration = 0820;
 					};
 				};
 			};
@@ -1030,6 +1033,7 @@
 			files = (
 				840F08841DEA6B7400E9F13D /* LUConsoleTest.m in Sources */,
 				840F08871DEA6B7400E9F13D /* LUStacktraceTest.m in Sources */,
+				EF1D47A81E04A60B005BEC07 /* LUActionRegistryFilterTest.swift in Sources */,
 				840F08811DEA6B7400E9F13D /* LUActionRegistryTest.m in Sources */,
 				840F08821DEA6B7400E9F13D /* LUConsoleEntryListTest.m in Sources */,
 				840F08861DEA6B7400E9F13D /* LUSortedListTest.m in Sources */,
@@ -1037,7 +1041,6 @@
 				840F087F1DEA6B7400E9F13D /* TestCase.m in Sources */,
 				840F08881DEA6B7400E9F13D /* LUStringUtilsTest.m in Sources */,
 				840F08831DEA6B7400E9F13D /* LUConsoleEntryLookupTableTest.m in Sources */,
-				840F08801DEA6B7400E9F13D /* LUActionRegistryFilterTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1181,6 +1184,7 @@
 		844741C11B719C3100F5ABD3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -1194,12 +1198,16 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.spacemadness.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "LunarConsoleTests/LunarConsoleTests-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
 		844741C21B719C3100F5ABD3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
@@ -1209,6 +1217,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.spacemadness.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "LunarConsoleTests/LunarConsoleTests-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

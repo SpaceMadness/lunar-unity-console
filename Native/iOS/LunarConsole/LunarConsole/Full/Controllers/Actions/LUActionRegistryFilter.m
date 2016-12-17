@@ -64,7 +64,7 @@
 
 - (BOOL)setFilterText:(NSString *)filterText
 {
-    if (_filterText != filterText) // filter text has changed
+    if (![_filterText isEqualToString:filterText]) // filter text has changed
     {
         NSString *oldFilterText = _filterText;
         _filterText = filterText;
