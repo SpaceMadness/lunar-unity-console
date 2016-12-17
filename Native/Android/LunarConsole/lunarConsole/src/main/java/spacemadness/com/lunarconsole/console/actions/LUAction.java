@@ -1,13 +1,46 @@
 package spacemadness.com.lunarconsole.console.actions;
 
-/**
- * Created by alementuev on 12/13/16.
- */
+import android.view.View;
+import android.widget.TextView;
+
+import spacemadness.com.lunarconsole.R;
+import spacemadness.com.lunarconsole.console.ConsoleActionAdapter;
 
 public class LUAction extends LUEntry
 {
     public LUAction(int actionId, String name)
     {
         super(actionId, name);
+    }
+
+    @Override
+    public long getItemId()
+    {
+        return 1; // FIXME: don't use magic number
+    }
+
+    //////////////////////////////////////////////////////////////////////////////
+    // View holder
+
+    public static class ViewHolder extends ConsoleActionAdapter.ViewHolder<LUAction>
+    {
+        private final View layout;
+        private final TextView nameView;
+
+        public ViewHolder(View itemView)
+        {
+            super(itemView);
+
+            layout = itemView.findViewById(R.id.lunar_console_action_entry_layout);
+            nameView = (TextView) itemView.findViewById(R.id.lunar_console_action_entry_name);
+        }
+
+        @Override
+        public void onBindViewHolder(LUAction action)
+        {
+            // Context context = getContext();
+            // layout.setBackgroundColor(action.getBackgroundColor(context));
+            nameView.setText(action.name());
+        }
     }
 }

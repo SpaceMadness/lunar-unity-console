@@ -1,5 +1,5 @@
 //
-//  ConsoleEntryLookupTable.java
+//  ConsoleLogEntryLookupTable.java
 //
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
@@ -28,11 +28,11 @@ import spacemadness.com.lunarconsole.console.ConsoleCollapsedLogEntry;
 import spacemadness.com.lunarconsole.console.ConsoleLogEntry;
 
 // TODO: use trie data structure for a faster lookup
-public class ConsoleEntryLookupTable
+public class ConsoleLogEntryLookupTable
 {
     private final Map<String, ConsoleCollapsedLogEntry> table;
 
-    public ConsoleEntryLookupTable()
+    public ConsoleLogEntryLookupTable()
     {
         table = new HashMap<>();
     }

@@ -26,11 +26,11 @@ import java.util.List;
 import spacemadness.com.lunarconsole.TestCaseEx;
 
 public class ConsoleLogEntryDispatcherTest extends TestCaseEx implements
-        ConsoleEntryDispatcher.OnDispatchListener
+        ConsoleLogEntryDispatcher.OnDispatchListener
 {
     public void testAddEntries() throws Exception
     {
-        MockConsoleEntryDispatcher dispatcher = new MockConsoleEntryDispatcher();
+        MockConsoleLogEntryDispatcher dispatcher = new MockConsoleLogEntryDispatcher();
         dispatcher.add("1");
         dispatcher.add("2");
         dispatcher.add("3");
@@ -58,7 +58,7 @@ public class ConsoleLogEntryDispatcherTest extends TestCaseEx implements
 
     public void testRemoveEntries() throws Exception
     {
-        MockConsoleEntryDispatcher dispatcher = new MockConsoleEntryDispatcher();
+        MockConsoleLogEntryDispatcher dispatcher = new MockConsoleLogEntryDispatcher();
         dispatcher.add("1");
         dispatcher.add("2");
         dispatcher.add("3");
@@ -68,7 +68,7 @@ public class ConsoleLogEntryDispatcherTest extends TestCaseEx implements
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    // ConsoleEntryDispatcher.OnDispatchListener
+    // ConsoleLogEntryDispatcher.OnDispatchListener
 
     @Override
     public void onDispatchEntries(List<ConsoleLogEntry> entries)
@@ -93,9 +93,9 @@ public class ConsoleLogEntryDispatcherTest extends TestCaseEx implements
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Mocks
 
-    private class MockConsoleEntryDispatcher extends ConsoleEntryDispatcher
+    private class MockConsoleLogEntryDispatcher extends ConsoleLogEntryDispatcher
     {
-        public MockConsoleEntryDispatcher()
+        public MockConsoleLogEntryDispatcher()
         {
             super(ConsoleLogEntryDispatcherTest.this);
         }

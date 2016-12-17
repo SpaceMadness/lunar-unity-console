@@ -1,10 +1,8 @@
 package spacemadness.com.lunarconsole.console.actions;
 
-/**
- * Created by alementuev on 12/13/16.
- */
+import spacemadness.com.lunarconsole.console.ConsoleEntry;
 
-public class LUEntry implements Comparable<LUEntry> // FIXME: rename
+public abstract class LUEntry extends ConsoleEntry implements Comparable<LUEntry> // FIXME: rename
 {
     private final int actionId; // FIXME: rename
     private final String name;

@@ -72,6 +72,14 @@
         </item>
     </style>
 
+    <style name="lunar_console_action_entry_style" parent="lunar_console_base_text_style">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+    </style>
+
     <style name="lunar_console_move_resize_view_style">
         <item name="android:background">@drawable/lunar_console_shape_move_resize</item>
     </style>

@@ -1,5 +1,5 @@
 //
-//  ConsoleEntryList.java
+//  ConsoleLogEntryList.java
 //
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
@@ -22,7 +22,7 @@
 package spacemadness.com.lunarconsole.console;
 
 import spacemadness.com.lunarconsole.debug.Assert;
-import spacemadness.com.lunarconsole.utils.ConsoleEntryLookupTable;
+import spacemadness.com.lunarconsole.utils.ConsoleLogEntryLookupTable;
 
 import static spacemadness.com.lunarconsole.utils.ObjectUtils.*;
 import static spacemadness.com.lunarconsole.utils.StringUtils.*;
@@ -31,7 +31,7 @@ import static spacemadness.com.lunarconsole.console.ConsoleLogType.*;
 /** A class which represents a console entry list.
  * Supports collapsing similar items and filtering by text and log type.
  */
-public class ConsoleEntryList
+public class ConsoleLogEntryList
 {
     /** Stores all entries */
     private final LimitSizeEntryList entries;
@@ -46,7 +46,7 @@ public class ConsoleEntryList
     private String filterText;
 
     /** Lookup table for collapsed entries (or null is entries are not collapsed) */
-    private ConsoleEntryLookupTable entryLookup;
+    private ConsoleLogEntryLookupTable entryLookup;
 
     /** Holds disabled log entries types bit mask */
     private int logDisabledTypesMask;
@@ -69,7 +69,7 @@ public class ConsoleEntryList
      * @param capacity the maximum amount of entries this list can store
      * @param trimSize the number of items trimmed when list overflows
      */
-    public ConsoleEntryList(int capacity, int trimSize)
+    public ConsoleLogEntryList(int capacity, int trimSize)
     {
         entries = new LimitSizeEntryList(capacity, trimSize);
         currentEntries = entries;
@@ -420,7 +420,7 @@ public class ConsoleEntryList
         if (collapsed)
         {
             Assert.IsNull(entryLookup);
-            entryLookup = new ConsoleEntryLookupTable();
+            entryLookup = new ConsoleLogEntryLookupTable();
         }
         else
         {

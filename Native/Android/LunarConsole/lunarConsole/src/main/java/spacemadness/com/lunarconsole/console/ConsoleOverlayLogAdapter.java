@@ -1,5 +1,5 @@
 //
-//  ConsoleAdapter.java
+//  ConsoleOverlayLogAdapter.java
 //
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
@@ -27,9 +27,9 @@ import android.view.ViewGroup;
 
 import spacemadness.com.lunarconsole.R;
 
-public class ConsoleAdapter extends BaseConsoleAdapter
+public class ConsoleOverlayLogAdapter extends BaseConsoleLogAdapter
 {
-    public ConsoleAdapter(DataSource dataSource)
+    public ConsoleOverlayLogAdapter(DataSource dataSource)
     {
         super(dataSource);
     }
@@ -37,13 +37,13 @@ public class ConsoleAdapter extends BaseConsoleAdapter
     @Override
     protected ViewHolder createViewHolder(View convertView)
     {
-        return new ConsoleLogEntry.ViewHolder(convertView);
+        return new ConsoleLogEntry.OverlayViewHolder(convertView);
     }
 
     @Override
     protected View createConvertView(ViewGroup parent)
     {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        return inflater.inflate(R.layout.lunar_console_layout_console_log_entry, parent, false);
+        return inflater.inflate(R.layout.lunar_console_layout_overlay_log_entry, parent, false);
     }
 }

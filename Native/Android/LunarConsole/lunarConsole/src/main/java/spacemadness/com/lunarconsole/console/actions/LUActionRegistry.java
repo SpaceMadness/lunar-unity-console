@@ -6,47 +6,43 @@ import spacemadness.com.lunarconsole.debug.Log;
 import spacemadness.com.lunarconsole.utils.LUSortedList;
 import spacemadness.com.lunarconsole.utils.ObjectUtils;
 
-/**
- * Created by alementuev on 12/13/16.
- */
-
 public class LUActionRegistry // FIXME: rename
 {
-    private final LUSortedList<LUAction> _actions; // FIXME: rename
-    private final LUSortedList<LUCVar> _variables; // FIXME: rename
-    private Delegate _delegate; // FIXME: rename
+    private final LUSortedList<LUAction> actions;
+    private final LUSortedList<LUCVar> variables;
+    private Delegate delegate;
 
     public LUActionRegistry()
     {
-        _actions = new LUSortedList<>();
-        _variables = new LUSortedList<>();
+        actions = new LUSortedList<>();
+        variables = new LUSortedList<>();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Actions
 
-    public LUAction registerActionWithId(int actionId, String actionName) // FIXME: rename
+    public LUAction registerAction(int actionId, String actionName)
     {
-        int actionIndex = indexOfActionWithName(actionName);
+        int actionIndex = indexOfAction(actionName);
         if (actionIndex == -1)
         {
             LUAction action = new LUAction(actionId, actionName);
-            actionIndex = _actions.addObject(action);
-            _delegate.didAddAction(this, action, actionIndex);
+            actionIndex = actions.addObject(action);
+            notifyActionAdd(action, actionIndex);
         }
 
-        return _actions.objectAtIndex(actionIndex);
+        return actions.objectAtIndex(actionIndex);
     }
 
-    public boolean unregisterActionWithId(int actionId) // FIXME: rename
+    public boolean unregisterAction(int actionId)
     {
-        for (int actionIndex = _actions.count() - 1; actionIndex >= 0; --actionIndex)
+        for (int actionIndex = actions.count() - 1; actionIndex >= 0; --actionIndex)
         {
-            LUAction action = _actions.objectAtIndex(actionIndex);
+            LUAction action = actions.objectAtIndex(actionIndex);
             if (action.actionId() == actionId)
             {
-                _actions.removeObjectAtIndex(actionIndex);
-                _delegate.didRemoveAction(this, action, actionIndex);
+                actions.removeObjectAtIndex(actionIndex);
+                notifyActionRemove(action, actionIndex);
 
                 return true;
             }
@@ -55,12 +51,12 @@ public class LUActionRegistry // FIXME: rename
         return false;
     }
 
-    private int indexOfActionWithName(String actionName) // FIXME: rename
+    private int indexOfAction(String actionName)
     {
         // TODO: more optimized search
-        for (int index = 0; index < _actions.count(); ++index)
+        for (int index = 0; index < actions.count(); ++index)
         {
-            LUAction action = _actions.objectAtIndex(index);
+            LUAction action = actions.objectAtIndex(index);
             if (ObjectUtils.areEqual(action.name(), actionName))
             {
                 return index;
@@ -73,24 +69,24 @@ public class LUActionRegistry // FIXME: rename
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Variables
 
-    public LUCVar registerVariableWithId(int variableId, String name, LUCVarType type, String value, String defaultValue) // FIXME: rename
+    public LUCVar registerVariable(int variableId, String name, LUCVarType type, String value, String defaultValue) // FIXME: rename
     {
         LUCVar variable = new LUCVar(variableId, name, value, defaultValue, type);
-        int index = _variables.addObject(variable);
-        _delegate.didRegisterVariable(this, variable, index);
+        int index = variables.addObject(variable);
+        notifyVariableRegister(variable, index);
 
         return variable;
 
     }
 
-    public void setValue(String value, int variableId) // FIXME: rename
+    public void setVariableValue(String value, int variableId)
     {
-        int index = indexOfVariableWithId(variableId);
+        int index = indexOfVariable(variableId);
         if (index != -1)
         {
-            LUCVar cvar = _variables.objectAtIndex(index);
+            LUCVar cvar = variables.objectAtIndex(index);
             cvar.setValue(value);
-            _delegate.didDidChangeVariable(this, cvar, index);
+            notifyVariableChange(cvar, index);
         }
         else
         {
@@ -98,16 +94,16 @@ public class LUActionRegistry // FIXME: rename
         }
     }
 
-    public LUCVar variableWithId(int variableId) // FIXME: rename
+    public LUCVar findVariable(int variableId)
     {
-        int index = indexOfVariableWithId(variableId);
-        return index != -1 ? _variables.objectAtIndex(index) : null;
+        int index = indexOfVariable(variableId);
+        return index != -1 ? variables.objectAtIndex(index) : null;
     }
 
-    private int indexOfVariableWithId(int variableId) // FIXME: rename
+    private int indexOfVariable(int variableId) // FIXME: rename
     {
         int index = 0;
-        for (LUCVar cvar : _variables)
+        for (LUCVar cvar : variables)
         {
             if (cvar.actionId() == variableId)
             {
@@ -121,26 +117,61 @@ public class LUActionRegistry // FIXME: rename
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Delegate notifications
+
+    private void notifyActionAdd(LUAction action, int actionIndex)
+    {
+        if (delegate != null)
+        {
+            delegate.didAddAction(this, action, actionIndex);
+        }
+    }
+
+    private void notifyActionRemove(LUAction action, int actionIndex)
+    {
+        if (delegate != null)
+        {
+            delegate.didRemoveAction(this, action, actionIndex);
+        }
+    }
+
+    private void notifyVariableRegister(LUCVar variable, int index)
+    {
+        if (delegate != null)
+        {
+            delegate.didRegisterVariable(this, variable, index);
+        }
+    }
+
+    private void notifyVariableChange(LUCVar cvar, int index)
+    {
+        if (delegate != null)
+        {
+            delegate.didDidChangeVariable(this, cvar, index);
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     // Getters/Setters
 
     public List<LUAction> actions() // FIXME: rename
     {
-        return _actions.list();
+        return actions.list();
     }
 
     public List<LUCVar> variables() // FIXME: rename
     {
-        return _variables.list();
+        return variables.list();
     }
 
     public Delegate getDelegate()
     {
-        return _delegate;
+        return delegate;
     }
 
     public void setDelegate(Delegate delegate)
     {
-        this._delegate = delegate;
+        this.delegate = delegate;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

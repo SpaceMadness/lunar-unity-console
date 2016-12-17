@@ -1,5 +1,5 @@
 //
-//  ViewHolderBuilder.java
+//  BaseConsoleLogAdapter.java
 //
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
@@ -21,9 +21,10 @@
 
 package spacemadness.com.lunarconsole.console;
 
-import android.view.ViewGroup;
-
-public abstract class ViewHolderBuilder<T extends ConsoleLogEntry>
+abstract class BaseConsoleLogAdapter extends BaseConsoleAdapter<ConsoleLogEntry>
 {
-    public abstract ConsoleLogAdapter.ViewHolder<T> createViewHolder(ViewGroup parent);
+    BaseConsoleLogAdapter(DataSource<ConsoleLogEntry> dataSource)
+    {
+        super(dataSource);
+    }
 }

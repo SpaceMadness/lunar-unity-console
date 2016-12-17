@@ -29,13 +29,13 @@ import spacemadness.com.lunarconsole.console.ConsoleLogType;
 
 public class ConsoleLogEntryLookupTableTest extends TestCase
 {
-    private ConsoleEntryLookupTable table;
+    private ConsoleLogEntryLookupTable table;
 
     @Override
     protected void setUp() throws Exception
     {
         super.setUp();
-        table = new ConsoleEntryLookupTable();
+        table = new ConsoleLogEntryLookupTable();
     }
 
     public void testAddEntry()

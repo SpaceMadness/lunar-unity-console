@@ -32,7 +32,10 @@ import spacemadness.com.lunarconsole.utils.ObjectUtils;
 
 import static spacemadness.com.lunarconsole.console.ConsoleLogType.*;
 
-public class ConsoleLogEntry
+/**
+ * Class for representing console log messages
+ */
+public class ConsoleLogEntry extends ConsoleEntry
 {
     private static final Appearance APPEARANCE_LOG          = new Appearance(R.drawable.lunar_console_icon_log, R.color.lunar_console_color_overlay_entry_log);
     private static final Appearance APPEARANCE_LOG_ERROR    = new Appearance(R.drawable.lunar_console_icon_log_error, R.color.lunar_console_color_overlay_entry_log_error);
@@ -70,6 +73,12 @@ public class ConsoleLogEntry
         this.type = type;
         this.message = message;
         this.stackTrace = stackTrace;
+    }
+
+    @Override
+    public long getItemId()
+    {
+        return type;
     }
 
     @SuppressWarnings("deprecation")
@@ -117,7 +126,7 @@ public class ConsoleLogEntry
     //////////////////////////////////////////////////////////////////////////////
     // View holder
 
-    public static class ViewHolder extends ConsoleAdapter.ViewHolder<ConsoleLogEntry>
+    public static class ViewHolder extends ConsoleLogAdapter.ViewHolder<ConsoleLogEntry>
     {
         private final View layout;
         private final ImageView iconView;
@@ -155,7 +164,7 @@ public class ConsoleLogEntry
         }
     }
 
-    public static class OverlayViewHolder extends ConsoleAdapter.ViewHolder<ConsoleLogEntry>
+    public static class OverlayViewHolder extends ConsoleLogAdapter.ViewHolder<ConsoleLogEntry>
     {
         private final TextView messageView;
 

@@ -2,9 +2,6 @@ package spacemadness.com.lunarconsole.console.actions;
 
 import spacemadness.com.lunarconsole.utils.ObjectUtils;
 
-/**
- * Created by alementuev on 12/13/16.
- */
 public class LUCVar extends LUEntry
 {
     private final LUCVarType type;
@@ -33,6 +30,12 @@ public class LUCVar extends LUEntry
     public void setValue(String value)
     {
         this.value = value;
+    }
+
+    @Override
+    public long getItemId()
+    {
+        return 2; // FIXME: don't use magic number
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

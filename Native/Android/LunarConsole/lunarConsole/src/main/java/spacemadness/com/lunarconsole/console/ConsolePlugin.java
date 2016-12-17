@@ -71,7 +71,7 @@ public class ConsolePlugin implements Destroyable
     private ConsoleView consoleView;
 
     // private ConsoleLogView consoleLogView;
-    private ConsoleLogOverlayView consoleLogOverlayView;
+    private ConsoleOverlayLogView consoleOverlayLogView;
     private WarningView warningView;
 
     private final WeakReference<Activity> activityRef;
@@ -83,8 +83,8 @@ public class ConsolePlugin implements Destroyable
     /* Since the game can log many console entries on the secondary thread, we need an efficient
      * way to batch them on the main thread
      */
-    private static final ConsoleEntryDispatcher entryDispatcher = new ConsoleEntryDispatcher(
-            new ConsoleEntryDispatcher.OnDispatchListener()
+    private static final ConsoleLogEntryDispatcher entryDispatcher = new ConsoleLogEntryDispatcher(
+            new ConsoleLogEntryDispatcher.OnDispatchListener()
     {
         @Override
         public void onDispatchEntries(List<ConsoleLogEntry> entries)
@@ -429,12 +429,12 @@ public class ConsolePlugin implements Destroyable
 
     private void registerConsoleAction(int actionId, String actionName)
     {
-        actionRegistry.registerActionWithId(actionId, actionName);
+        actionRegistry.registerAction(actionId, actionName);
     }
 
     private void unregisterConsoleAction(int actionId)
     {
-        actionRegistry.unregisterActionWithId(actionId);
+        actionRegistry.unregisterAction(actionId);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -829,14 +829,14 @@ public class ConsolePlugin implements Destroyable
 
     private boolean isOverlayViewShown()
     {
-        return consoleLogOverlayView != null;
+        return consoleOverlayLogView != null;
     }
 
     private boolean showLogOverlayView()
     {
         try
         {
-            if (consoleLogOverlayView == null)
+            if (consoleOverlayLogView == null)
             {
                 Log.d(OVERLAY_VIEW, "Show log overlay view");
 
@@ -847,13 +847,13 @@ public class ConsolePlugin implements Destroyable
                     return false;
                 }
 
-                ConsoleLogOverlayView.Settings overlaySettings = new ConsoleLogOverlayView.Settings();
+                ConsoleOverlayLogView.Settings overlaySettings = new ConsoleOverlayLogView.Settings();
 
                 final FrameLayout rootLayout = getRootLayout(activity);
-                consoleLogOverlayView = new ConsoleLogOverlayView(activity, console, overlaySettings);
+                consoleOverlayLogView = new ConsoleOverlayLogView(activity, console, overlaySettings);
 
                 LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-                rootLayout.addView(consoleLogOverlayView, params);
+                rootLayout.addView(consoleOverlayLogView, params);
 
                 return true;
             }
@@ -870,7 +870,7 @@ public class ConsolePlugin implements Destroyable
     {
         try
         {
-            if (consoleLogOverlayView != null)
+            if (consoleOverlayLogView != null)
             {
                 Log.d(CONSOLE, "Hide log overlay view");
 
@@ -881,10 +881,10 @@ public class ConsolePlugin implements Destroyable
                     return false;
                 }
 
-                ViewParent parent = consoleLogOverlayView.getParent();
+                ViewParent parent = consoleOverlayLogView.getParent();
                 if (parent instanceof ViewGroup)
                 {
-                    ((ViewGroup) parent).removeView(consoleLogOverlayView);
+                    ((ViewGroup) parent).removeView(consoleOverlayLogView);
                 }
                 else
                 {
@@ -892,8 +892,8 @@ public class ConsolePlugin implements Destroyable
                     return false;
                 }
 
-                consoleLogOverlayView.destroy();
-                consoleLogOverlayView = null;
+                consoleOverlayLogView.destroy();
+                consoleOverlayLogView = null;
 
                 return true;
             }

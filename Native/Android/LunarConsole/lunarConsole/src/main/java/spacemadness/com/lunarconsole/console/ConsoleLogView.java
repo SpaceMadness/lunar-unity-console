@@ -51,6 +51,7 @@ import java.lang.ref.WeakReference;
 import spacemadness.com.lunarconsole.R;
 import spacemadness.com.lunarconsole.debug.Log;
 import spacemadness.com.lunarconsole.settings.SettingsActivity;
+import spacemadness.com.lunarconsole.ui.ConsoleListView;
 import spacemadness.com.lunarconsole.ui.LogTypeButton;
 import spacemadness.com.lunarconsole.ui.ToggleButton;
 import spacemadness.com.lunarconsole.ui.ToggleImageButton;
@@ -71,7 +72,7 @@ public class ConsoleLogView extends AbstractConsoleView implements
 
     private final Console console;
     private final ListView listView;
-    private final ConsoleAdapter consoleAdapter;
+    private final ConsoleLogAdapter consoleLogAdapter;
 
     private final LogTypeButton logButton;
     private final LogTypeButton warningButton;
@@ -101,17 +102,12 @@ public class ConsoleLogView extends AbstractConsoleView implements
         scrollLocked = true; // scroll is locked by default
 
         // initialize adapter
-        consoleAdapter = new ConsoleAdapter(console);
+        consoleLogAdapter = new ConsoleLogAdapter(console);
 
         // this view would hold all the logs
         LinearLayout listViewContainer = findExistingViewById(R.id.lunar_console_list_view_container);
 
-        listView = new ListView(activity);
-        listView.setDivider(null);
-        listView.setDividerHeight(0);
-        listView.setAdapter(consoleAdapter);
-        listView.setOverScrollMode(ListView.OVER_SCROLL_NEVER);
-        listView.setScrollingCacheEnabled(false);
+        listView = new ConsoleListView(activity);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             @Override
@@ -210,6 +206,7 @@ public class ConsoleLogView extends AbstractConsoleView implements
         // setup overflow warning
         overflowText = findExistingViewById(R.id.lunar_console_text_overflow);
 
+        // fetch some data
         reloadData();
 
         // if scroll lock is on - we should scroll to bottom
@@ -253,7 +250,7 @@ public class ConsoleLogView extends AbstractConsoleView implements
 
     private void reloadData()
     {
-        consoleAdapter.notifyDataSetChanged();
+        consoleLogAdapter.notifyDataSetChanged();
         updateOverflowText();
     }
 
@@ -455,7 +452,7 @@ public class ConsoleLogView extends AbstractConsoleView implements
 
     private void updateLogButtons()
     {
-        final ConsoleEntryList entries = console.entries();
+        final ConsoleLogEntryList entries = console.entries();
         logButton.setCount(entries.getLogCount());
         warningButton.setCount(entries.getWarningCount());
         errorButton.setCount(entries.getErrorCount());
@@ -526,7 +523,7 @@ public class ConsoleLogView extends AbstractConsoleView implements
     {
         if (filtered)
         {
-            consoleAdapter.notifyDataSetChanged();
+            consoleLogAdapter.notifyDataSetChanged();
             scrollToBottom(console);
         }
 
@@ -536,7 +533,7 @@ public class ConsoleLogView extends AbstractConsoleView implements
     @Override
     public void onRemoveEntries(Console console, int start, int length)
     {
-        consoleAdapter.notifyDataSetChanged();
+        consoleLogAdapter.notifyDataSetChanged();
         scrollToBottom(console);
         updateLogButtons();
         updateOverflowText();
@@ -545,7 +542,7 @@ public class ConsoleLogView extends AbstractConsoleView implements
     @Override
     public void onChangeEntries(Console console)
     {
-        consoleAdapter.notifyDataSetChanged();
+        consoleLogAdapter.notifyDataSetChanged();
         scrollToBottom(console);
         updateLogButtons();
         updateOverflowText();

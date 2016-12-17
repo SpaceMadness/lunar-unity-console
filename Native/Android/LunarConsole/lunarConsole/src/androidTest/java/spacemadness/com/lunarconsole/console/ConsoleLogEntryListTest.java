@@ -32,7 +32,7 @@ public class ConsoleLogEntryListTest extends TestCase
 
     public void testFilteringByText()
     {
-        ConsoleEntryList list = createEntryListWithMessages(
+        ConsoleLogEntryList list = createEntryListWithMessages(
             "line1",
             "line11",
             "line111",
@@ -121,7 +121,7 @@ public class ConsoleLogEntryListTest extends TestCase
 
     public void testFilteringByLogType()
     {
-        ConsoleEntryList list = createEntryListWithEntries(
+        ConsoleLogEntryList list = createEntryListWithEntries(
                 new ConsoleLogEntry(ERROR, "error1"),
                 new ConsoleLogEntry(ERROR, "error2"),
                 new ConsoleLogEntry(ASSERT, "assert1"),
@@ -219,7 +219,7 @@ public class ConsoleLogEntryListTest extends TestCase
 
     public void testFilteringByLogTypeMask()
     {
-        ConsoleEntryList list = createEntryListWithEntries(
+        ConsoleLogEntryList list = createEntryListWithEntries(
                 new ConsoleLogEntry(ERROR, "error1"),
                 new ConsoleLogEntry(ERROR, "error2"),
                 new ConsoleLogEntry(ASSERT, "assert1"),
@@ -281,7 +281,7 @@ public class ConsoleLogEntryListTest extends TestCase
 
     public void testCollapseEntries()
     {
-        ConsoleEntryList list = createEntryListWithEntries(kDefaultCapacity, kDefaultTrim,
+        ConsoleLogEntryList list = createEntryListWithEntries(kDefaultCapacity, kDefaultTrim,
         new ConsoleLogEntry("message1"),
         new ConsoleLogEntry("message1"),
         new ConsoleLogEntry("message1"),
@@ -304,7 +304,7 @@ public class ConsoleLogEntryListTest extends TestCase
 
     public void testCollapseAddEntries()
     {
-        ConsoleEntryList list = createEntryListWithEntries(kDefaultCapacity, kDefaultTrim,
+        ConsoleLogEntryList list = createEntryListWithEntries(kDefaultCapacity, kDefaultTrim,
             new ConsoleLogEntry("message1"),
             new ConsoleLogEntry("message1"),
             new ConsoleLogEntry("message1"));
@@ -365,7 +365,7 @@ public class ConsoleLogEntryListTest extends TestCase
 
     public void testCollapseAddEntriesOverflow()
     {
-        ConsoleEntryList list = createEntryListWithEntries(3, 1,
+        ConsoleLogEntryList list = createEntryListWithEntries(3, 1,
           new ConsoleLogEntry("message1"),
           new ConsoleLogEntry("message1"),
           new ConsoleLogEntry("message1"));
@@ -389,7 +389,7 @@ public class ConsoleLogEntryListTest extends TestCase
 
     public void testCollapseAddEntriesOverflowDistinctive()
     {
-        ConsoleEntryList list = createEntryListWithEntries(3, 1,
+        ConsoleLogEntryList list = createEntryListWithEntries(3, 1,
           new ConsoleLogEntry("message1"),
           new ConsoleLogEntry("message1"),
           new ConsoleLogEntry("message1"));
@@ -413,7 +413,7 @@ public class ConsoleLogEntryListTest extends TestCase
 
     public void testCollapseFilteredEntries()
     {
-        ConsoleEntryList list = createEntryListWithEntries(kDefaultCapacity, kDefaultTrim,
+        ConsoleLogEntryList list = createEntryListWithEntries(kDefaultCapacity, kDefaultTrim,
           new ConsoleLogEntry("message1"),
           new ConsoleLogEntry("message12"),
           new ConsoleLogEntry("message2"),
@@ -443,7 +443,7 @@ public class ConsoleLogEntryListTest extends TestCase
 
     public void testCollapseAddFilteredEntries()
     {
-        ConsoleEntryList list = createEntryListWithEntries(kDefaultCapacity, kDefaultTrim,
+        ConsoleLogEntryList list = createEntryListWithEntries(kDefaultCapacity, kDefaultTrim,
           new ConsoleLogEntry("message1"),
           new ConsoleLogEntry("message1"),
           new ConsoleLogEntry("message1"));
@@ -515,7 +515,7 @@ public class ConsoleLogEntryListTest extends TestCase
 
     public void testCollapseAddFilteredEntriesOverflow()
     {
-        ConsoleEntryList list = createEntryListWithEntries(3, 1,
+        ConsoleLogEntryList list = createEntryListWithEntries(3, 1,
           new ConsoleLogEntry("message1"),
           new ConsoleLogEntry("message1"),
           new ConsoleLogEntry("message1"));
@@ -576,7 +576,7 @@ public class ConsoleLogEntryListTest extends TestCase
 
     public void testFilterCollapsedEntries()
     {
-        ConsoleEntryList list = createEntryListWithEntries(kDefaultCapacity, kDefaultTrim,
+        ConsoleLogEntryList list = createEntryListWithEntries(kDefaultCapacity, kDefaultTrim,
           new ConsoleLogEntry("message1"),
           new ConsoleLogEntry("message12"),
           new ConsoleLogEntry("message2"),
@@ -624,7 +624,7 @@ public class ConsoleLogEntryListTest extends TestCase
 
     public void testFilterCollapsedEntriesAndAddEntries()
     {
-        ConsoleEntryList list = createEntryListWithEntries(kDefaultCapacity, kDefaultTrim,
+        ConsoleLogEntryList list = createEntryListWithEntries(kDefaultCapacity, kDefaultTrim,
           new ConsoleLogEntry("message1"),
           new ConsoleLogEntry("message1"),
           new ConsoleLogEntry("message1"));
@@ -692,7 +692,7 @@ public class ConsoleLogEntryListTest extends TestCase
 
     public void testFilterCollapsedEntriesAndAddEntriesOverflow()
     {
-        ConsoleEntryList list = createEntryListWithEntries(3, 1,
+        ConsoleLogEntryList list = createEntryListWithEntries(3, 1,
           new ConsoleLogEntry("message1"),
           new ConsoleLogEntry("message1"),
           new ConsoleLogEntry("message1"));
@@ -752,7 +752,7 @@ public class ConsoleLogEntryListTest extends TestCase
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Helpers
 
-    private void listAssertMessages(ConsoleEntryList list, String... expected)
+    private void listAssertMessages(ConsoleLogEntryList list, String... expected)
     {
         assertEquals(expected.length, list.count());
         for (int i = 0; i < expected.length; ++i)
@@ -762,9 +762,9 @@ public class ConsoleLogEntryListTest extends TestCase
         }
     }
 
-    private ConsoleEntryList createEntryListWithMessages(String... messages)
+    private ConsoleLogEntryList createEntryListWithMessages(String... messages)
     {
-        ConsoleEntryList list = new ConsoleEntryList(100, 1);
+        ConsoleLogEntryList list = new ConsoleLogEntryList(100, 1);
         for (String message : messages)
         {
             list.addEntry(new ConsoleLogEntry(LOG, message));
@@ -772,14 +772,14 @@ public class ConsoleLogEntryListTest extends TestCase
         return list;
     }
 
-    private ConsoleEntryList createEntryListWithEntries(ConsoleLogEntry... entries)
+    private ConsoleLogEntryList createEntryListWithEntries(ConsoleLogEntry... entries)
     {
         return createEntryListWithEntries(kDefaultCapacity, kDefaultTrim, entries);
     }
 
-    private ConsoleEntryList createEntryListWithEntries(int capacity, int trimSize, ConsoleLogEntry... entries)
+    private ConsoleLogEntryList createEntryListWithEntries(int capacity, int trimSize, ConsoleLogEntry... entries)
     {
-        ConsoleEntryList list = new ConsoleEntryList(capacity, trimSize);
+        ConsoleLogEntryList list = new ConsoleLogEntryList(capacity, trimSize);
         for (ConsoleLogEntry entry : entries)
         {
             list.addEntry(entry);
@@ -787,12 +787,12 @@ public class ConsoleLogEntryListTest extends TestCase
         return list;
     }
 
-    private void assertEntry(ConsoleEntryList list, int index, String message, int count)
+    private void assertEntry(ConsoleLogEntryList list, int index, String message, int count)
     {
         assertEntry(list, index, message, count, index);
     }
 
-    private void assertEntry(ConsoleEntryList list, int index, String expectedMessage, int expectedCount, int expectedIndex)
+    private void assertEntry(ConsoleLogEntryList list, int index, String expectedMessage, int expectedCount, int expectedIndex)
     {
         ConsoleCollapsedLogEntry entry = list.getCollapsedEntry(index);
         assertEquals(expectedMessage, entry.message);

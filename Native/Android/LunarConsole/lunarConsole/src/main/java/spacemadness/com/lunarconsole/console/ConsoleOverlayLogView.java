@@ -30,18 +30,18 @@ import spacemadness.com.lunarconsole.debug.Log;
 import spacemadness.com.lunarconsole.utils.CycleArray;
 import spacemadness.com.lunarconsole.utils.ThreadUtils;
 
-import static spacemadness.com.lunarconsole.console.BaseConsoleAdapter.DataSource;
+import static spacemadness.com.lunarconsole.console.BaseConsoleLogAdapter.DataSource;
 import static spacemadness.com.lunarconsole.debug.Tags.OVERLAY_VIEW;
 
 import static spacemadness.com.lunarconsole.debug.TestHelper.*;
 
-public class ConsoleLogOverlayView extends ListView implements Destroyable, DataSource, LunarConsoleListener
+public class ConsoleOverlayLogView extends ListView implements Destroyable, DataSource, LunarConsoleListener
 {
     private final Console console;
 
     private final Settings settings;
 
-    private final ConsoleOverlayAdapter consoleAdapter;
+    private final ConsoleOverlayLogAdapter consoleAdapter;
 
     private final CycleArray<ConsoleLogEntry> entries;
 
@@ -73,7 +73,7 @@ public class ConsoleLogOverlayView extends ListView implements Destroyable, Data
     };
     private boolean entryRemovalScheduled;
 
-    public ConsoleLogOverlayView(Context context, Console console, Settings settings)
+    public ConsoleOverlayLogView(Context context, Console console, Settings settings)
     {
         super(context);
 
@@ -93,7 +93,7 @@ public class ConsoleLogOverlayView extends ListView implements Destroyable, Data
         this.settings = settings;
 
         entries = new CycleArray<>(ConsoleLogEntry.class, settings.maxVisibleEntries);
-        consoleAdapter = new ConsoleOverlayAdapter(this);
+        consoleAdapter = new ConsoleOverlayLogAdapter(this);
 
         setDivider(null);
         setDividerHeight(0);

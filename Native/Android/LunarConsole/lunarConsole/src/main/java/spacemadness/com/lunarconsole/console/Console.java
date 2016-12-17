@@ -26,7 +26,7 @@ import spacemadness.com.lunarconsole.debug.Log;
 
 public class Console implements
         Destroyable,
-        ConsoleAdapter.DataSource
+        ConsoleLogAdapter.DataSource
 {
     private static final LunarConsoleListener NULL_LISTENER = new LunarConsoleListener()
     {
@@ -52,7 +52,7 @@ public class Console implements
     };
 
     private final Options options;
-    private final ConsoleEntryList entries;
+    private final ConsoleLogEntryList entries;
 
     private LunarConsoleListener consoleListener;
 
@@ -64,7 +64,7 @@ public class Console implements
         }
 
         this.options = options.clone();
-        this.entries = new ConsoleEntryList(options.getCapacity(), options.getTrimCount());
+        this.entries = new ConsoleLogEntryList(options.getCapacity(), options.getTrimCount());
         this.consoleListener = NULL_LISTENER;
     }
 
@@ -195,7 +195,7 @@ public class Console implements
         return entries.trimCount();
     }
 
-    public ConsoleEntryList entries()
+    public ConsoleLogEntryList entries()
     {
         return entries;
     }
@@ -227,7 +227,7 @@ public class Console implements
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    // ConsoleAdapter.DataSource
+    // ConsoleLogAdapter.DataSource
 
     @Override
     public ConsoleLogEntry getEntry(int position)

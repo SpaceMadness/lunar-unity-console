@@ -1,5 +1,5 @@
 //
-//  ConsoleEntryDispatcher.java
+//  ConsoleLogEntryDispatcher.java
 //
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
@@ -28,13 +28,13 @@ import spacemadness.com.lunarconsole.debug.Log;
 import spacemadness.com.lunarconsole.utils.ThreadUtils;
 
 /** Class for handling batches of console entries on UI-thread */
-class ConsoleEntryDispatcher
+class ConsoleLogEntryDispatcher
 {
     private final OnDispatchListener listener;
     private final List<ConsoleLogEntry> entries;
     private final Runnable dispatchRunnable;
 
-    public ConsoleEntryDispatcher(OnDispatchListener listener)
+    public ConsoleLogEntryDispatcher(OnDispatchListener listener)
     {
         if (listener == null)
         {

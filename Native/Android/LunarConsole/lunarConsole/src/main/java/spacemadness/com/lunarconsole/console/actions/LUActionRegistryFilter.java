@@ -220,6 +220,11 @@ public class LUActionRegistryFilter implements LUActionRegistry.Delegate // FIXM
         return _filteredActions != null || _filteredVariables != null;
     }
 
+    public String getFilterText()
+    {
+        return _filterText;
+    }
+
     public Delegate getDelegate()
     {
         return _delegate;
