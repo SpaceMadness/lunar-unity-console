@@ -418,35 +418,6 @@ class LUActionRegistryFilterTest: TestCase, LUActionRegistryFilterDelegate {
         }
     }
 
-    func assertFilterEntries(filter: LUActionRegistryFilter, entries: LUEntryInfo) {
-        XCTFail()
-        /*
-        va_list ap
-        va_start(ap, filter)
-        NSMutableArray *expectedActions = [NSMutableArray array]
-        NSMutableArray *expectedVariable = [NSMutableArray array]
-        for (LUActionInfo *info = va_arg(ap, LUActionInfo *) info != nil info = va_arg(ap, LUActionInfo *))
-        {
-            if ([info isKindOfClass:[LUActionInfo class]])
-            {
-                [expectedActions addObject:info]
-            }
-            else if ([info isKindOfClass:[LUCVarInfo class]])
-            {
-                [expectedVariable addObject:info]
-            }
-        }
-        va_end(ap)
-        
-        XCTAssertEqual(expectedActions.count, filter.actions.count, "Expected [%@] but was [%@]", [expectedActions componentsJoinedByString:","], [filter.actions componentsJoinedByString:","])
-        for (NSInteger i = 0 i < filter.actions.count ++i)
-        {
-            LUActionInfo *info = expectedActions[i]
-            XCTAssertTrue([info isEqualToEntry:filter.actions[i]], "Expected [%@] but was [%@]", [expectedActions componentsJoinedByString:","], [filter.actions componentsJoinedByString:","])
-        }
-        */
-    }
-
     func registerAction(name: String) -> LUAction {
         _nextActionId = _nextActionId + 1
         return _actionRegistry.registerAction(withId: _nextActionId, name: name)
