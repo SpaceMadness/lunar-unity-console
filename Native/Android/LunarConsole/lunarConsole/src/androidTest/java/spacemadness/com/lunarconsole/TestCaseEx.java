@@ -55,6 +55,7 @@ public class TestCaseEx extends TestCase
     protected void assertResult(String... expected)
     {
         assertResult(results, expected);
+        results.clear();
     }
 
     protected void assertResult(List<String> actual, String... expected)
