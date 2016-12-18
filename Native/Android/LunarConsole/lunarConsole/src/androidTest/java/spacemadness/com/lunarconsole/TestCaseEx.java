@@ -127,6 +127,11 @@ public class TestCaseEx extends TestCase
     //////////////////////////////////////////////////////////////////////////////
     // Results
 
+    protected void addResult(String format, Object... args)
+    {
+        addResult(String.format(format, args));
+    }
+
     protected void addResult(String result)
     {
         results.add(result);

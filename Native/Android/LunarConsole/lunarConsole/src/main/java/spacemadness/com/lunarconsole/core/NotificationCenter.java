@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class NotificationCenter
+public class NotificationCenter // FIXME: cover with unit-tests
 {
     private final Map<String, NotificationList> listLookup;
     private final DispatchQueue dispatchQueue;
