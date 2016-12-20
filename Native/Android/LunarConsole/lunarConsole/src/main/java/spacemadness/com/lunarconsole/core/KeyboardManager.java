@@ -1,59 +1,50 @@
 package spacemadness.com.lunarconsole.core;
 
+import android.app.Activity;
 import android.content.Context;
+import android.graphics.Rect;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import spacemadness.com.lunarconsole.debug.Log;
+import static spacemadness.com.lunarconsole.utils.ObjectUtils.*;
+import static spacemadness.com.lunarconsole.utils.UIUtils.*;
+
 public class KeyboardManager
 {
-    private boolean softKeyboardVisible;
-    private final View rootView;
+    private final static int KEYBOARD_VISIBLE_THRESHOLD_DP = 100;
 
-    public KeyboardManager(View rootView)
+    public static boolean isKeyboardVisible(Activity activity)
     {
-        if (rootView == null)
+        if (activity == null)
         {
-            throw new NullPointerException("Root view is null");
+            throw new NullPointerException("Activity is null");
         }
 
-        this.rootView = rootView;
+        Rect r = new Rect();
+
+        View activityRoot = getActivityRoot(activity);
+        int visibleThreshold =
+                Math.round(dpToPx(activity, KEYBOARD_VISIBLE_THRESHOLD_DP));
+
+        activityRoot.getWindowVisibleDisplayFrame(r);
+
+        int heightDiff = activityRoot.getRootView().getHeight() - r.height();
+        return heightDiff > visibleThreshold;
     }
 
-    public void setupEditText(EditText editText)
+    public static boolean hideSoftKeyboard(Activity activity)
     {
-        editText.setOnFocusChangeListener(new View.OnFocusChangeListener()
+        if (isKeyboardVisible(activity))
         {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus)
-            {
-                softKeyboardVisible = true;
-            }
-        });
-        editText.setOnEditorActionListener(new TextView.OnEditorActionListener()
-        {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
-            {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH)
-                {
-                    return hideSoftKeyboard();
-                }
-                return false;
-            }
-        });
-    }
+            View rootView = getActivityRoot(activity);
 
-    public boolean hideSoftKeyboard()
-    {
-        if (softKeyboardVisible)
-        {
-            softKeyboardVisible = false;
-
-            InputMethodManager manager = (InputMethodManager) rootView.getContext().
+            InputMethodManager manager = (InputMethodManager) activity.
                     getSystemService(Context.INPUT_METHOD_SERVICE);
             manager.hideSoftInputFromWindow(rootView.getWindowToken(), 0);
 
@@ -61,5 +52,33 @@ public class KeyboardManager
         }
 
         return false;
+    }
+
+    public static void setupEditText(EditText editText)
+    {
+        editText.setOnEditorActionListener(new TextView.OnEditorActionListener()
+        {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
+            {
+                Activity activity = as(v.getContext(), Activity.class);
+                if (activity == null)
+                {
+                    Log.e("Unable to handle IME_ACTION_SEARCH: context is not activity");
+                    return false;
+                }
+
+                if (actionId == EditorInfo.IME_ACTION_SEARCH)
+                {
+                    return hideSoftKeyboard(activity);
+                }
+                return false;
+            }
+        });
+    }
+
+    private static View getActivityRoot(Activity activity)
+    {
+        return ((ViewGroup) activity.findViewById(android.R.id.content)).getChildAt(0);
     }
 }

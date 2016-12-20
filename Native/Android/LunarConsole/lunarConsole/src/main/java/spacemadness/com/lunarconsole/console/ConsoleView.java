@@ -13,6 +13,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
+import java.lang.ref.WeakReference;
+
 import spacemadness.com.lunarconsole.R;
 import spacemadness.com.lunarconsole.core.Destroyable;
 import spacemadness.com.lunarconsole.core.KeyboardManager;
@@ -25,6 +27,7 @@ import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
 public class ConsoleView extends LinearLayout implements Destroyable
 {
+    private final WeakReference<Activity> activityRef;
     private final ConsoleLogView consoleLogView;
     private final ConsoleActionView consoleActionView;
     private final KeyboardManager keyboardManager;
@@ -46,7 +49,9 @@ public class ConsoleView extends LinearLayout implements Destroyable
             throw new NullPointerException("Console plugin is null");
         }
 
-        keyboardManager = new KeyboardManager(this);
+        activityRef = new WeakReference<>(activity);
+
+        keyboardManager = new KeyboardManager();
 
         View rootView = LayoutInflater.from(activity).inflate(R.layout.lunar_console_layout_console_view, this, false);
         addView(rootView, new LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT));
@@ -199,7 +204,7 @@ public class ConsoleView extends LinearLayout implements Destroyable
     private void handleBackButton()
     {
         // TODO: maintain a proper stack
-        if (keyboardManager.hideSoftKeyboard())
+        if (keyboardManager.hideSoftKeyboard(getActivity()))
         {
             // nothing to do here
         }
@@ -270,6 +275,11 @@ public class ConsoleView extends LinearLayout implements Destroyable
     public void setListener(Listener listener)
     {
         this.listener = listener;
+    }
+
+    public Activity getActivity()
+    {
+        return activityRef.get();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
