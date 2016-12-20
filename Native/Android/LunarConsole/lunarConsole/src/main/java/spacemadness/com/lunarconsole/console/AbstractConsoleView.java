@@ -35,6 +35,9 @@ public abstract class AbstractConsoleView extends LinearLayout implements Destro
         // might not be the most efficient way but we'll keep it for now
         rootView = LayoutInflater.from(context).inflate(rootViewId, this, false);
         addView(rootView, new LayoutParams(MATCH_PARENT, MATCH_PARENT));
+
+        setFocusable(true);
+        setFocusableInTouchMode(true);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
