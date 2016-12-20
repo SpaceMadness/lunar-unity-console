@@ -1,5 +1,5 @@
 //
-//  SwipeGestureRecognizer.java
+//  TwoFingerSwipeGestureRecognizer.java
 //
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
@@ -23,7 +23,7 @@ package spacemadness.com.lunarconsole.ui.gestures;
 
 import android.view.MotionEvent;
 
-public class SwipeGestureRecognizer extends GestureRecognizer<SwipeGestureRecognizer>
+public class TwoFingerSwipeGestureRecognizer extends GestureRecognizer<TwoFingerSwipeGestureRecognizer>
 {
     public enum SwipeDirection
     {
@@ -36,10 +36,10 @@ public class SwipeGestureRecognizer extends GestureRecognizer<SwipeGestureRecogn
     private final SwipeDirection direction;
     private final float threshold;
 
-    private TouchMotion firstTouchMotion;
-    private TouchMotion secondTouchMotion;
+    private final TouchMotion firstTouchMotion;
+    private final TouchMotion secondTouchMotion;
 
-    public SwipeGestureRecognizer(SwipeDirection direction, float threshold)
+    public TwoFingerSwipeGestureRecognizer(SwipeDirection direction, float threshold)
     {
         this.direction = direction;
         this.threshold = threshold;
