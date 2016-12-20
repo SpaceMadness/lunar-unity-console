@@ -28,7 +28,7 @@ public class ConsoleActionView extends AbstractConsoleView implements
 {
     private final LUActionRegistryFilter registryFilter;
     private final ListView listView;
-    private final ConsoleActionAdapter consoleAdapter;
+    private final ConsoleActionAdapter consoleActionAdapter;
 
     public ConsoleActionView(Activity activity, LUActionRegistry actionRegistry)
     {
@@ -38,12 +38,13 @@ public class ConsoleActionView extends AbstractConsoleView implements
         registryFilter.setDelegate(this);
 
         // initialize adapter
-        consoleAdapter = new ConsoleActionAdapter(new ActionDataSource(registryFilter));
+        consoleActionAdapter = new ConsoleActionAdapter(new ActionDataSource(registryFilter));
 
         // this view would hold all the logs
         LinearLayout listViewContainer = findExistingViewById(R.id.lunar_console_list_view_container);
 
         listView = new ConsoleListView(activity);
+        listView.setAdapter(consoleActionAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             @Override
@@ -114,12 +115,12 @@ public class ConsoleActionView extends AbstractConsoleView implements
 
     private void reloadData()
     {
-        consoleAdapter.notifyDataSetChanged();
+        consoleActionAdapter.notifyDataSetChanged();
     }
 
     private void notifyDataChanged()
     {
-        consoleAdapter.notifyDataSetChanged();
+        consoleActionAdapter.notifyDataSetChanged();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
