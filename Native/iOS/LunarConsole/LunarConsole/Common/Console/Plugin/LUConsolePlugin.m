@@ -270,19 +270,11 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
 
 - (void)registerNotifications
 {
-    [self registerNotificationName:UIDeviceOrientationDidChangeNotification
-                          selector:@selector(deviceOrientationDidChangeNotification:)];
-    
     [self registerNotificationName:LUActionControllerDidChangeVariable
                           selector:@selector(actionControllerDidChangeVariableNotification:)];
     
     [self registerNotificationName:LUActionControllerDidSelectAction
                           selector:@selector(actionControllerDidSelectActionNotification:)];
-}
-
-- (void)deviceOrientationDidChangeNotification:(NSNotification *)notification
-{
-    // TODO: resize window
 }
 
 - (void)actionControllerDidChangeVariableNotification:(NSNotification *)notification
