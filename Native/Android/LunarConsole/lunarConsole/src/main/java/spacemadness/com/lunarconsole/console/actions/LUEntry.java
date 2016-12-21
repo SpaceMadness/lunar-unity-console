@@ -1,5 +1,8 @@
 package spacemadness.com.lunarconsole.console.actions;
 
+import android.content.Context;
+
+import spacemadness.com.lunarconsole.R;
 import spacemadness.com.lunarconsole.console.ConsoleEntry;
 
 public abstract class LUEntry extends ConsoleEntry implements Comparable<LUEntry> // FIXME: rename
@@ -11,6 +14,18 @@ public abstract class LUEntry extends ConsoleEntry implements Comparable<LUEntry
     {
         this.actionId = actionId;
         this.name = name;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Appearance
+
+    @SuppressWarnings("deprecation")
+    public int getBackgroundColor(Context context, int position)
+    {
+        int colorId = position % 2 == 0 ?
+                R.color.lunar_console_color_cell_background_dark :
+                R.color.lunar_console_color_cell_background_light;
+        return context.getResources().getColor(colorId);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

@@ -55,7 +55,7 @@ abstract class BaseConsoleAdapter<T extends ConsoleEntry> extends BaseAdapter
         }
 
         T entry = dataSource.getEntry(position);
-        viewHolder.bindViewHolder(entry);
+        viewHolder.bindViewHolder(entry, position);
 
         return convertView;
     }
@@ -85,12 +85,12 @@ abstract class BaseConsoleAdapter<T extends ConsoleEntry> extends BaseAdapter
             this.itemView = itemView;
         }
 
-        void bindViewHolder(T entry)
+        void bindViewHolder(T entry, int position)
         {
-            onBindViewHolder(entry);
+            onBindViewHolder(entry, position);
         }
 
-        public abstract void onBindViewHolder(T entry);
+        public abstract void onBindViewHolder(T entry, int position);
 
         protected Context getContext()
         {

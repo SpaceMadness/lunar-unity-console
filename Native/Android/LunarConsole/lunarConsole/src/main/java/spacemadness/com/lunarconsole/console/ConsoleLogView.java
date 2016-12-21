@@ -112,7 +112,7 @@ public class ConsoleLogView extends AbstractConsoleView implements
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             @Override
-            public void onItemClick(AdapterView<?> parent, final View view, int position, long id)
+            public void onItemClick(AdapterView<?> parent, final View view, final int position, long id)
             {
                 final Context ctx = getContext();
                 final ConsoleLogEntry entry = console.getEntry(position);
@@ -126,7 +126,7 @@ public class ConsoleLogView extends AbstractConsoleView implements
                     {
                         try
                         {
-                            view.setBackgroundColor(entry.getBackgroundColor(ctx));
+                            view.setBackgroundColor(entry.getBackgroundColor(ctx, position));
                         }
                         catch (Exception e)
                         {

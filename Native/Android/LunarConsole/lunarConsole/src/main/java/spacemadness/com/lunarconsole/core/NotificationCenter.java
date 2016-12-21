@@ -19,6 +19,13 @@ public class NotificationCenter // FIXME: cover with unit-tests
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Notifications
 
+    public void postNotification(String name, String key, Object value)
+    {
+        Map<String, Object> userData = new HashMap<>();
+        userData.put(key, value);
+        postNotification(name, userData);
+    }
+
     public void postNotification(String name, Map<String, Object> userData)
     {
         final NotificationList list = findNotificationList(name);

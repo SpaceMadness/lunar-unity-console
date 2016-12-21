@@ -37,12 +37,18 @@ import java.util.List;
 import java.util.Map;
 
 import spacemadness.com.lunarconsole.R;
+import spacemadness.com.lunarconsole.console.actions.LUAction;
 import spacemadness.com.lunarconsole.console.actions.LUActionRegistry;
+import spacemadness.com.lunarconsole.console.actions.LUCVar;
 import spacemadness.com.lunarconsole.core.Destroyable;
+import spacemadness.com.lunarconsole.core.Notification;
+import spacemadness.com.lunarconsole.core.NotificationCenter;
+import spacemadness.com.lunarconsole.debug.Assert;
 import spacemadness.com.lunarconsole.debug.Log;
 import spacemadness.com.lunarconsole.settings.PluginSettings;
 import spacemadness.com.lunarconsole.ui.gestures.GestureRecognizer;
 import spacemadness.com.lunarconsole.ui.gestures.GestureRecognizerFactory;
+import spacemadness.com.lunarconsole.utils.DictionaryUtils;
 
 import static android.widget.FrameLayout.LayoutParams;
 import static spacemadness.com.lunarconsole.console.Console.Options;
@@ -51,11 +57,15 @@ import static spacemadness.com.lunarconsole.utils.ThreadUtils.*;
 import static spacemadness.com.lunarconsole.utils.UIUtils.*;
 import static spacemadness.com.lunarconsole.ui.gestures.GestureRecognizer.OnGestureListener;
 import static spacemadness.com.lunarconsole.debug.Tags.*;
+import static spacemadness.com.lunarconsole.console.ConsoleNotifications.*;
+import static spacemadness.com.lunarconsole.utils.ObjectUtils.*;
 
 public class ConsolePlugin implements Destroyable
 {
     private static final String SCRIPT_MESSAGE_CONSOLE_OPEN  = "console_open";
     private static final String SCRIPT_MESSAGE_CONSOLE_CLOSE = "console_close";
+    private static final String SCRIPT_MESSAGE_ACTION        = "console_action";
+    private static final String SCRIPT_MESSAGE_VARIABLE_SET  = "console_variable_set";
 
     private static ConsolePlugin instance;
 
@@ -538,6 +548,8 @@ public class ConsolePlugin implements Destroyable
                 showConsole();
             }
         });
+
+        registerNotifications();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -547,6 +559,7 @@ public class ConsolePlugin implements Destroyable
     public void destroy()
     {
         disableGestureRecognition();
+        unregisterNotifications();
 
         console.destroy();
         entryDispatcher.cancelAll();
@@ -962,6 +975,68 @@ public class ConsolePlugin implements Destroyable
     private void sendNativeCallback(String name, Map<String, Object> data)
     {
         pluginImp.sendUnityScriptMessage(name, data);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Notifications
+
+    private NotificationCenter.OnNotificationListener actionSelectListener;
+    private NotificationCenter.OnNotificationListener variableSetListener;
+
+    private void registerNotifications()
+    {
+        actionSelectListener = new NotificationCenter.OnNotificationListener()
+        {
+            @Override
+            public void onNotification(Notification notification)
+            {
+                LUAction action = as(notification.getUserData(ACTION_SELECT_KEY_ACTION), LUAction.class);
+                Assert.IsNotNull(action);
+
+                if (action != null)
+                {
+                    sendNativeCallback(SCRIPT_MESSAGE_ACTION, DictionaryUtils.createMap("id", action.actionId()));
+                }
+            }
+        };
+
+        variableSetListener = new NotificationCenter.OnNotificationListener()
+        {
+            @Override
+            public void onNotification(Notification notification)
+            {
+                LUCVar variable = as(notification.getUserData(VARIABLE_SET_KEY_VARIABLE), LUCVar.class);
+                Assert.IsNotNull(variable);
+
+                if (variable != null)
+                {
+                    Map<String, Object> params = DictionaryUtils.createMap(
+                            "id", variable.actionId(),
+                            "value", variable.value()
+                    );
+
+                    sendNativeCallback(SCRIPT_MESSAGE_VARIABLE_SET, params);
+                }
+            }
+        };
+
+        NotificationCenter.defaultCenter().addListener(ACTION_SELECT, actionSelectListener);
+        NotificationCenter.defaultCenter().addListener(VARIABLE_SET, variableSetListener);
+    }
+
+    private void unregisterNotifications()
+    {
+        if (actionSelectListener != null)
+        {
+            NotificationCenter.defaultCenter().removeListener(actionSelectListener);
+            actionSelectListener = null;
+        }
+
+        if (variableSetListener != null)
+        {
+            NotificationCenter.defaultCenter().removeListener(variableSetListener);
+            variableSetListener = null;
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

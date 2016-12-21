@@ -27,4 +27,9 @@ public class Notification
     {
         return userData;
     }
+
+    public Object getUserData(String key)
+    {
+        return userData != null ? userData.get(key) : null;
+    }
 }

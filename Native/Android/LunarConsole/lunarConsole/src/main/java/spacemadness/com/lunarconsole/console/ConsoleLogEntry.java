@@ -89,9 +89,9 @@ public class ConsoleLogEntry extends ConsoleEntry
     }
 
     @SuppressWarnings("deprecation")
-    public int getBackgroundColor(Context context)
+    public int getBackgroundColor(Context context, int position)
     {
-        int colorId = index % 2 == 0 ?
+        int colorId = position % 2 == 0 ?
                 R.color.lunar_console_color_cell_background_dark :
                 R.color.lunar_console_color_cell_background_light;
         return context.getResources().getColor(colorId);
@@ -144,10 +144,10 @@ public class ConsoleLogEntry extends ConsoleEntry
         }
 
         @Override
-        public void onBindViewHolder(ConsoleLogEntry entry)
+        public void onBindViewHolder(ConsoleLogEntry entry, int position)
         {
             Context context = getContext();
-            layout.setBackgroundColor(entry.getBackgroundColor(context));
+            layout.setBackgroundColor(entry.getBackgroundColor(context, position));
             iconView.setImageDrawable(entry.getIconDrawable(context));
             messageView.setText(entry.message);
 
@@ -175,7 +175,7 @@ public class ConsoleLogEntry extends ConsoleEntry
         }
 
         @Override
-        public void onBindViewHolder(ConsoleLogEntry entry)
+        public void onBindViewHolder(ConsoleLogEntry entry, int position)
         {
             final int colorId = getAppearance(entry.type).overlayColorId;
 

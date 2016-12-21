@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.HorizontalScrollView;
@@ -11,7 +12,10 @@ import android.widget.LinearLayout;
 
 public class ViewPager extends HorizontalScrollView
 {
+    private static final int MIN_FLING_VELOCITY = 1000;
+
     private LinearLayout contentLayout;
+    private GestureDetector gestureDetector;
 
     public ViewPager(Context context)
     {
@@ -46,6 +50,31 @@ public class ViewPager extends HorizontalScrollView
 
         setVerticalScrollBarEnabled(false);
         setHorizontalScrollBarEnabled(false);
+
+        // TODO: figure out a better solution
+        gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener()
+        {
+            @Override
+            public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY)
+            {
+                if (Math.abs(velocityX) >= MIN_FLING_VELOCITY)
+                {
+                    if (velocityX > 0)
+                    {
+                        scrollToPage(0, true);
+                    }
+                    else
+                    {
+                        scrollToPage(1, true);
+                    }
+
+                    return true;
+                }
+
+                scrollToClosestPage(true);
+                return true;
+            }
+        });
     }
 
     @Override
@@ -65,6 +94,29 @@ public class ViewPager extends HorizontalScrollView
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Touch input
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event)
+    {
+        if (gestureDetector.onTouchEvent(event))
+        {
+            return true;
+        }
+
+        if (event.getAction() == MotionEvent.ACTION_UP)
+        {
+            scrollToClosestPage(true);
+            return true;
+        }
+
+        return super.onTouchEvent(event);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Appearance
+
     @Override
     protected float getLeftFadingEdgeStrength()
     {
@@ -77,6 +129,9 @@ public class ViewPager extends HorizontalScrollView
         return 0.0f;
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Pages
+
     public void addPageView(View child)
     {
         int width = getWidth();
@@ -85,19 +140,22 @@ public class ViewPager extends HorizontalScrollView
         contentLayout.requestLayout();
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event)
+    public void scrollToPage(int pageIndex, boolean smooth)
     {
-        boolean result = super.onTouchEvent(event);
-
-        int width = getWidth();
-
-        if (event.getAction() == MotionEvent.ACTION_UP)
+        int pos = pageIndex * getWidth();
+        if (smooth)
         {
-            int pageIndex = (getScrollX() + width / 2) / width;
-            smoothScrollTo(pageIndex * width, 0);
+            smoothScrollTo(pos, 0);
         }
+        else
+        {
+            scrollTo(pos, 0);
+        }
+    }
 
-        return result;
+    private void scrollToClosestPage(boolean smooth)
+    {
+        final int width = getWidth();
+        scrollToPage((getScrollX() + width / 2) / width, smooth);
     }
 }

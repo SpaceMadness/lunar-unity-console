@@ -1,5 +1,6 @@
 package spacemadness.com.lunarconsole.console.actions;
 
+import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
@@ -36,10 +37,10 @@ public class LUAction extends LUEntry
         }
 
         @Override
-        public void onBindViewHolder(LUAction action)
+        public void onBindViewHolder(LUAction action, int position)
         {
-            // Context context = getContext();
-            // layout.setBackgroundColor(action.getBackgroundColor(context));
+            Context context = getContext();
+            layout.setBackgroundColor(action.getBackgroundColor(context, position));
             nameView.setText(action.name());
         }
     }

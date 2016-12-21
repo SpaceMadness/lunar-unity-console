@@ -1,6 +1,7 @@
 package spacemadness.com.lunarconsole.console;
 
 import android.app.Activity;
+import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -17,11 +18,15 @@ import spacemadness.com.lunarconsole.console.actions.LUActionRegistry;
 import spacemadness.com.lunarconsole.console.actions.LUActionRegistryFilter;
 import spacemadness.com.lunarconsole.console.actions.LUCVar;
 import spacemadness.com.lunarconsole.core.Destroyable;
+import spacemadness.com.lunarconsole.core.NotificationCenter;
+import spacemadness.com.lunarconsole.debug.Log;
 import spacemadness.com.lunarconsole.ui.ConsoleListView;
 import spacemadness.com.lunarconsole.utils.StringUtils;
+import spacemadness.com.lunarconsole.utils.ThreadUtils;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static spacemadness.com.lunarconsole.console.BaseConsoleAdapter.DataSource;
+import static spacemadness.com.lunarconsole.console.ConsoleNotifications.*;
 
 public class ConsoleActionView extends AbstractConsoleView implements
         LUActionRegistryFilter.Delegate, Destroyable
@@ -38,7 +43,8 @@ public class ConsoleActionView extends AbstractConsoleView implements
         registryFilter.setDelegate(this);
 
         // initialize adapter
-        consoleActionAdapter = new ConsoleActionAdapter(new ActionDataSource(registryFilter));
+        final ActionDataSource dataSource = new ActionDataSource(registryFilter);
+        consoleActionAdapter = new ConsoleActionAdapter(dataSource);
 
         // this view would hold all the logs
         LinearLayout listViewContainer = findExistingViewById(R.id.lunar_console_list_view_container);
@@ -48,8 +54,32 @@ public class ConsoleActionView extends AbstractConsoleView implements
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             @Override
-            public void onItemClick(AdapterView<?> parent, final View view, int position, long id)
+            public void onItemClick(AdapterView<?> parent, final View view, final int position, long id)
             {
+                final Context ctx = getContext();
+                final LUAction action = dataSource.getEntry(position);
+
+                // post notification
+                NotificationCenter.defaultCenter().postNotification(ACTION_SELECT, ACTION_SELECT_KEY_ACTION, action);
+
+                // visual feedback
+                // TODO: user color resource and animation
+                view.setBackgroundColor(0xff000000);
+                ThreadUtils.runOnUIThread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        try
+                        {
+                            view.setBackgroundColor(action.getBackgroundColor(ctx, position));
+                        }
+                        catch (Exception e)
+                        {
+                            Log.e(e, "Error while settings entry background color");
+                        }
+                    }
+                }, 200);
             }
         });
 
