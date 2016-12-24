@@ -11,4 +11,5 @@
         found.\n\nMake sure \"Development Build\" checkbox is checked under \"Build Settings\"
         (File ▶ Build Settings...)</string>
     <string name="lunar_console_log_details_dialog_button_copy_to_clipboard">Copy to Clipboard</string>
+    <string name="lunar_console_no_actions_warning">You don\'t have any actions yet</string>
 </resources>

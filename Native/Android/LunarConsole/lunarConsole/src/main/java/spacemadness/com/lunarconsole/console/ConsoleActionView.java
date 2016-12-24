@@ -31,13 +31,18 @@ import static spacemadness.com.lunarconsole.console.ConsoleNotifications.*;
 public class ConsoleActionView extends AbstractConsoleView implements
         LUActionRegistryFilter.Delegate, Destroyable
 {
+    private final View contentView; // contains the whole view hierarchy
+    private final View warningView; // contains "no actions" warning view
+
     private final LUActionRegistryFilter registryFilter;
-    private final ListView listView;
     private final ConsoleActionAdapter consoleActionAdapter;
 
     public ConsoleActionView(Activity activity, LUActionRegistry actionRegistry)
     {
         super(activity, R.layout.lunar_console_layout_console_action_view);
+
+        contentView = findViewById(R.id.lunar_console_actions_view);
+        warningView = findViewById(R.id.lunar_console_actions_warning_view);
 
         registryFilter = new LUActionRegistryFilter(actionRegistry);
         registryFilter.setDelegate(this);
@@ -49,7 +54,7 @@ public class ConsoleActionView extends AbstractConsoleView implements
         // this view would hold all the logs
         LinearLayout listViewContainer = findExistingViewById(R.id.lunar_console_list_view_container);
 
-        listView = new ConsoleListView(activity);
+        ListView listView = new ConsoleListView(activity);
         listView.setAdapter(consoleActionAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
@@ -90,6 +95,9 @@ public class ConsoleActionView extends AbstractConsoleView implements
 
         // fetch some data
         reloadData();
+
+        // update "no actions" warning
+        updateNoActionWarningView();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -141,6 +149,22 @@ public class ConsoleActionView extends AbstractConsoleView implements
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
+    // No actions warning
+
+    private void updateNoActionWarningView()
+    {
+        boolean hasContent = registryFilter.actions().size() > 0 ||
+                             registryFilter.variables().size() > 0;
+        setNoActionsWarningViewHidden(hasContent);
+    }
+
+    private void setNoActionsWarningViewHidden(boolean hidden)
+    {
+        warningView.setVisibility(hidden ? GONE : VISIBLE);
+        contentView.setVisibility(hidden ? VISIBLE : GONE);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     // Data
 
     private void reloadData()
@@ -169,18 +193,21 @@ public class ConsoleActionView extends AbstractConsoleView implements
     public void actionRegistryFilterDidAddAction(LUActionRegistryFilter registryFilter, LUAction action, int index)
     {
         notifyDataChanged();
+        updateNoActionWarningView();
     }
 
     @Override
     public void actionRegistryFilterDidRemoveAction(LUActionRegistryFilter registryFilter, LUAction action, int index)
     {
         notifyDataChanged();
+        updateNoActionWarningView();
     }
 
     @Override
     public void actionRegistryFilterDidRegisterVariable(LUActionRegistryFilter registryFilter, LUCVar variable, int index)
     {
         notifyDataChanged();
+        updateNoActionWarningView();
     }
 
     @Override
