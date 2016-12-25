@@ -12,9 +12,9 @@
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                   android:id="@+id/lunar_console_actions_view"
-                  android:layout_below="@id/lunar_console_fake_status_bar"
                   android:layout_width="match_parent"
                   android:layout_height="match_parent"
+                  android:layout_below="@id/lunar_console_fake_status_bar"
                   android:orientation="vertical">
 
         <!-- TODO: use styles -->
@@ -56,11 +56,13 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="16dp"
             android:src="@drawable/lunar_console_actions_empty_warning"/>
 
         <TextView
             style="@style/lunar_console_no_actions_style"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
             android:text="@string/lunar_console_no_actions_warning"/>
 
     </LinearLayout>

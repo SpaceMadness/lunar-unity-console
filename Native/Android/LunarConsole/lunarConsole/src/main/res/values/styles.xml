@@ -74,7 +74,6 @@
     </style>
 
     <style name="lunar_console_action_entry_style" parent="lunar_console_base_text_style">
-        <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">48dp</item>

@@ -329,6 +329,8 @@ namespace LunarConsolePlugin
             private readonly object m_logLock = new object();
 
             private readonly jvalue[] m_args0 = new jvalue[0];
+            private readonly jvalue[] m_args1 = new jvalue[1];
+            private readonly jvalue[] m_args2 = new jvalue[2];
             private readonly jvalue[] m_args3 = new jvalue[3];
 
             private static readonly string kPluginClassName = "spacemadness.com.lunarconsole.console.ConsolePlugin";
@@ -401,8 +403,9 @@ namespace LunarConsolePlugin
                     CallStaticVoidMethod(m_methodShowConsole, m_args0);
                     return true;
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                    Debug.LogError("Exception while calling 'LunarConsole.ShowConsole': " + e.Message);
                     return false;
                 }
             }
@@ -414,8 +417,9 @@ namespace LunarConsolePlugin
                     CallStaticVoidMethod(m_methodHideConsole, m_args0);
                     return true;
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                    Debug.LogError("Exception while calling 'LunarConsole.HideConsole': " + e.Message);
                     return false;
                 }
             }
@@ -426,21 +430,42 @@ namespace LunarConsolePlugin
                 {
                     CallStaticVoidMethod(m_methodClearConsole, m_args0);
                 }
-                catch (Exception)
+                catch (Exception e)
                 {
+                    Debug.LogError("Exception while calling 'LunarConsole.ClearConsole': " + e.Message);
                 }
             }
 
             public void OnActionRegistered(CRegistry registry, CAction action)
             {
+                try
+                {
+                    m_args2[0] = jval(action.Id);
+                    m_args2[1] = jval(action.Name);
+                    CallStaticVoidMethod(m_methodRegisterAction, m_args2);
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError("Exception while calling 'LunarConsole.OnActionRegistered': " + e.Message);
+                }
             }
 
             public void OnActionUnregistered(CRegistry registry, CAction action)
             {
+                try
+                {
+                    m_args1[0] = jval(action.Id);
+                    CallStaticVoidMethod(m_methodRegisterAction, m_args1);
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError("Exception while calling 'LunarConsole.OnActionUnregistered': " + e.Message);
+                }
             }
 
             public void OnVariableRegistered(CRegistry registry, CVar cvar)
             {
+                Debug.LogWarning("LunarConsole.OnVariableRegistered is not registered");
             }
 
             #endregion

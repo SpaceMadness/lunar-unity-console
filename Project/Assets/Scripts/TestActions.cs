@@ -10,15 +10,15 @@ public class TestActions : MonoBehaviour
     void Start()
     {
         LunarConsole.RegisterAction("Set Red Color", delegate() {
-            SetColor(Color.red);
+            StartCoroutine(SetColor(Color.red));
         });
 
         LunarConsole.RegisterAction("Set Green Color", delegate() {
-            SetColor(Color.green);
+            StartCoroutine(SetColor(Color.green));
         });
 
         LunarConsole.RegisterAction("Set Blue Color", delegate() {
-            SetColor(Color.blue);
+            StartCoroutine(SetColor(Color.blue));
         });
     }
 
@@ -27,8 +27,20 @@ public class TestActions : MonoBehaviour
         LunarConsole.UnregisterAllActions(this);
     }
 
-    void SetColor(Color color)
+    IEnumerator SetColor(Color color)
     {
+        var currentColor = Camera.main.backgroundColor;
+        float duration = 0.5f;
+        float elapsed = 0.0f;
+
+        while (elapsed < duration)
+        {
+            Camera.main.backgroundColor = Color.Lerp(currentColor, color, elapsed / duration);
+
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
         Camera.main.backgroundColor = color;
     }
 }
