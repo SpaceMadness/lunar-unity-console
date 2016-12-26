@@ -74,6 +74,7 @@ public class ConsolePlugin implements Destroyable
     private final ConsolePluginImp pluginImp;
     private final String version;
     private final PluginSettings settings;
+    private final ConsoleViewState consoleViewState;
 
     /** Parent container for console view (we need it to display additional overlays) */
     private FrameLayout consoleContentView;
@@ -532,6 +533,8 @@ public class ConsolePlugin implements Destroyable
         this.version = unitySettings.version;
         this.pluginImp = unitySettings.pluginImp;
 
+        consoleViewState = new ConsoleViewState(activity.getApplicationContext());
+
         Options options = new Options(unitySettings.capacity);
         options.setTrimCount(unitySettings.trim);
         console = new Console(options);
@@ -634,11 +637,10 @@ public class ConsolePlugin implements Destroyable
                 LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 
                 // set layout margins
-                final ConsoleViewState state = ConsoleViewState.instance();
-                params.topMargin = state.getTopMargin();
-                params.bottomMargin = state.getBottomMargin();
-                params.leftMargin = state.getLeftMargin();
-                params.rightMargin = state.getRightMargin();
+                params.topMargin = consoleViewState.getTopMargin();
+                params.bottomMargin = consoleViewState.getBottomMargin();
+                params.leftMargin = consoleViewState.getLeftMargin();
+                params.rightMargin = consoleViewState.getRightMargin();
 
                 // add view
                 consoleContentView.addView(consoleView, params);
@@ -1045,6 +1047,11 @@ public class ConsolePlugin implements Destroyable
     Console getConsole()
     {
         return console;
+    }
+
+    ConsoleViewState getConsoleViewState()
+    {
+        return consoleViewState;
     }
 
     LUActionRegistry getActionRegistry()

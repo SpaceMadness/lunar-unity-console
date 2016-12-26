@@ -28,9 +28,9 @@ import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 public class ConsoleView extends LinearLayout implements Destroyable
 {
     private final WeakReference<Activity> activityRef;
+    private final ConsoleViewState consoleViewState;
     private final ConsoleLogView consoleLogView;
     private final ConsoleActionView consoleActionView;
-    private final KeyboardManager keyboardManager;
 
     /** An overlay layout for move/resize operations */
     private MoveResizeView moveResizeView;
@@ -50,8 +50,7 @@ public class ConsoleView extends LinearLayout implements Destroyable
         }
 
         activityRef = new WeakReference<>(activity);
-
-        keyboardManager = new KeyboardManager();
+        consoleViewState = consolePlugin.getConsoleViewState();
 
         View rootView = LayoutInflater.from(activity).inflate(R.layout.lunar_console_layout_console_view, this, false);
         addView(rootView, new LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT));
@@ -145,7 +144,7 @@ public class ConsoleView extends LinearLayout implements Destroyable
             invalidate();
 
             // update state margins
-            ConsoleViewState.instance().setMargins(moveResizeView.getTopMargin(),
+            consoleViewState.setMargins(moveResizeView.getTopMargin(),
                     moveResizeView.getBottomMargin(),
                     moveResizeView.getLeftMargin(),
                     moveResizeView.getRightMargin());
@@ -204,7 +203,7 @@ public class ConsoleView extends LinearLayout implements Destroyable
     private void handleBackButton()
     {
         // TODO: maintain a proper stack
-        if (keyboardManager.hideSoftKeyboard(getActivity()))
+        if (KeyboardManager.hideSoftKeyboard(getActivity()))
         {
             // nothing to do here
         }
@@ -231,7 +230,7 @@ public class ConsoleView extends LinearLayout implements Destroyable
         else if (rootView instanceof EditText)
         {
             EditText editText = (EditText) rootView;
-            keyboardManager.setupEditText(editText);
+            KeyboardManager.setupEditText(editText);
         }
     }
 
