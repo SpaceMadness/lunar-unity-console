@@ -25,7 +25,7 @@
             android:orientation="horizontal">
 
             <EditText
-                android:id="@+id/lunar_console_text_edit_filter"
+                android:id="@+id/lunar_console_action_view_text_edit_filter"
                 style="@style/lunar_console_filter_edit_text_style"
                 android:hint="Filter"/>
 
@@ -37,7 +37,7 @@
          not be loaded correctly). As a workaround we need to create ListView programmatically
          -->
         <LinearLayout
-            android:id="@+id/lunar_console_list_view_container"
+            android:id="@+id/lunar_console_action_view_list_container"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"

@@ -105,9 +105,10 @@ public class ConsoleLogView extends AbstractConsoleView implements
         consoleLogAdapter = new ConsoleLogAdapter(console);
 
         // this view would hold all the logs
-        LinearLayout listViewContainer = findExistingViewById(R.id.lunar_console_list_view_container);
+        LinearLayout listViewContainer = findExistingViewById(R.id.lunar_console_log_view_list_container);
 
         listView = new ConsoleListView(activity);
+        listView.setContentDescription("Console Log List View");
         listView.setAdapter(consoleLogAdapter)  ;
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
@@ -332,7 +333,7 @@ public class ConsoleLogView extends AbstractConsoleView implements
     private EditText setupFilterTextEdit()
     {
         // TODO: make a custom class
-        EditText editText = findExistingViewById(R.id.lunar_console_text_edit_filter);
+        EditText editText = findExistingViewById(R.id.lunar_console_log_view_text_edit_filter);
         String filterText = console.entries().getFilterText();
         if (!StringUtils.IsNullOrEmpty(filterText))
         {

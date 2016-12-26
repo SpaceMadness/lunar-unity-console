@@ -64,27 +64,27 @@ public class ConsoleLogTest extends ApplicationBaseUITest
         pressButton(R.id.lunar_console_error_button);
         assertTable("Debug-1", "Debug-2", "Warning-1", "Warning-2", "Error-1", "Error-2");
 
-        clearText(R.id.lunar_console_text_edit_filter);
+        clearText(R.id.lunar_console_log_view_text_edit_filter);
 
-        appendText(R.id.lunar_console_text_edit_filter, "1");
+        appendText(R.id.lunar_console_log_view_text_edit_filter, "1");
         assertTable("Debug-1", "Warning-1", "Error-1");
 
-        appendText(R.id.lunar_console_text_edit_filter, "1");
+        appendText(R.id.lunar_console_log_view_text_edit_filter, "1");
         assertTable();
 
-        deleteLastChar(R.id.lunar_console_text_edit_filter);
+        deleteLastChar(R.id.lunar_console_log_view_text_edit_filter);
         assertTable("Debug-1", "Warning-1", "Error-1");
 
-        deleteLastChar(R.id.lunar_console_text_edit_filter);
+        deleteLastChar(R.id.lunar_console_log_view_text_edit_filter);
         assertTable("Debug-1", "Debug-2", "Warning-1", "Warning-2", "Error-1", "Error-2");
 
-        appendText(R.id.lunar_console_text_edit_filter, "2");
+        appendText(R.id.lunar_console_log_view_text_edit_filter, "2");
         assertTable("Debug-2", "Warning-2", "Error-2");
 
-        appendText(R.id.lunar_console_text_edit_filter, "2");
+        appendText(R.id.lunar_console_log_view_text_edit_filter, "2");
         assertTable();
 
-        clearText(R.id.lunar_console_text_edit_filter);
+        clearText(R.id.lunar_console_log_view_text_edit_filter);
         assertTable("Debug-1", "Debug-2", "Warning-1", "Warning-2", "Error-1", "Error-2");
     }
 

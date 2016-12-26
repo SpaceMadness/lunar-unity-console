@@ -533,7 +533,7 @@ public class ApplicationBaseUITest implements TestHelper.EventListener {
 
     protected void assertTable(String... expected)
     {
-        ViewInteraction listView = onView(withParent(withId(R.id.lunar_console_list_view_container)));
+        ViewInteraction listView = onView(withParent(withId(R.id.lunar_console_log_view_list_container)));
 
         // should be visible
         listView.check(matches(isDisplayed()));
@@ -566,6 +566,7 @@ public class ApplicationBaseUITest implements TestHelper.EventListener {
             {
                 // find entry view
                 DataInteraction entryView = onData(allOf(is(instanceOf(ConsoleLogEntry.class))))
+                        .inAdapterView(withContentDescription("Console Log List View"))
                         .atPosition(i);
 
                 // check message
@@ -581,6 +582,7 @@ public class ApplicationBaseUITest implements TestHelper.EventListener {
             {
                 // find entry view
                 DataInteraction entryView = onData(allOf(is(instanceOf(ConsoleCollapsedLogEntry.class))))
+                        .inAdapterView(withContentDescription("Console Log List View"))
                         .atPosition(i);
 
                 // check message

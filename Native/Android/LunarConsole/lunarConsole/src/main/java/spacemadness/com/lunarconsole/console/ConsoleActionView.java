@@ -52,7 +52,7 @@ public class ConsoleActionView extends AbstractConsoleView implements
         consoleActionAdapter = new ConsoleActionAdapter(dataSource);
 
         // this view would hold all the logs
-        LinearLayout listViewContainer = findExistingViewById(R.id.lunar_console_list_view_container);
+        LinearLayout listViewContainer = findExistingViewById(R.id.lunar_console_action_view_list_container);
 
         ListView listView = new ConsoleListView(activity);
         listView.setAdapter(consoleActionAdapter);
@@ -106,7 +106,7 @@ public class ConsoleActionView extends AbstractConsoleView implements
     private EditText setupFilterTextEdit()
     {
         // TODO: make a custom class
-        EditText editText = findExistingViewById(R.id.lunar_console_text_edit_filter);
+        EditText editText = findExistingViewById(R.id.lunar_console_action_view_text_edit_filter);
         String filterText = registryFilter.getFilterText();
         if (!StringUtils.IsNullOrEmpty(filterText))
         {
