@@ -120,6 +120,38 @@ public class ConsoleActionsViewTest extends ApplicationBaseUITest
     }
 
     @Test
+    public void testFilterAndAddRemoveActions()
+    {
+        registerAction(1, "Action-1");
+        registerAction(2, "Action-2");
+        registerAction(3, "Action-3");
+
+        openActions();
+        assertActions("Action-1", "Action-2", "Action-3");
+
+        setFilterText("Action-1");
+        assertActions("Action-1");
+
+        registerAction(4, "Action-12");
+        assertActions("Action-1", "Action-12");
+
+        unregisterActions(1);
+        assertActions("Action-12");
+
+        unregisterActions(4);
+        assertActions();
+
+        deleteLastFilterCharacter();
+        assertActions("Action-2", "Action-3");
+
+        unregisterActions(3);
+        assertActions("Action-2");
+
+        unregisterActions(2);
+        assertNoActions();
+    }
+
+    @Test
     public void testFilterPersistence()
     {
         registerAction(1, "Action-1");

@@ -59,8 +59,8 @@ public class LUActionRegistryFilter implements LUActionRegistry.Delegate // FIXM
     {
         if (length(_filterText) > 0)
         {
-            _filteredActions = filterEntries(_registry.actions());
-            _filteredVariables = filterEntries(_registry.variables());
+            _filteredActions = filterEntries(getAllActions());
+            _filteredVariables = filterEntries(getAllVariables());
             return true;
         }
 
@@ -207,12 +207,22 @@ public class LUActionRegistryFilter implements LUActionRegistry.Delegate // FIXM
 
     public List<LUAction> actions()
     {
-        return isFiltering() ? _filteredActions : _registry.actions();
+        return isFiltering() ? _filteredActions : getAllActions();
+    }
+
+    public List<LUAction> getAllActions()
+    {
+        return _registry.actions();
     }
 
     public List<LUCVar> variables()
     {
-        return isFiltering() ? _filteredVariables : _registry.variables();
+        return isFiltering() ? _filteredVariables : getAllVariables();
+    }
+
+    public List<LUCVar> getAllVariables()
+    {
+        return _registry.variables();
     }
 
     public boolean isFiltering()

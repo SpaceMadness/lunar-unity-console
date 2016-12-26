@@ -160,8 +160,8 @@ public class ConsoleActionView extends AbstractConsoleView implements
 
     private void updateNoActionWarningView()
     {
-        boolean hasContent = registryFilter.actions().size() > 0 ||
-                             registryFilter.variables().size() > 0;
+        boolean hasContent = registryFilter.getAllActions().size() > 0 ||
+                             registryFilter.getAllActions().size() > 0;
         setNoActionsWarningViewHidden(hasContent);
     }
 
