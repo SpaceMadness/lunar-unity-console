@@ -137,6 +137,7 @@ public class ConsoleActionView extends AbstractConsoleView implements
                 String filterText = s.toString();
                 filterByText(filterText);
                 consoleViewState.setActionFilterText(filterText);
+                updateNoActionWarningView();
             }
         });
 

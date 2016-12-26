@@ -125,9 +125,10 @@ public class ConsoleActionsViewTest extends ApplicationBaseUITest
         registerAction(1, "Action-1");
         registerAction(2, "Action-2");
         registerAction(3, "Action-3");
+        registerAction(5, "Foo");
 
         openActions();
-        assertActions("Action-1", "Action-2", "Action-3");
+        assertActions("Action-1", "Action-2", "Action-3", "Foo");
 
         setFilterText("Action-1");
         assertActions("Action-1");
@@ -148,6 +149,12 @@ public class ConsoleActionsViewTest extends ApplicationBaseUITest
         assertActions("Action-2");
 
         unregisterActions(2);
+        assertActions();
+
+        unregisterActions(5);
+        assertActions();
+
+        setFilterText("");
         assertNoActions();
     }
 
