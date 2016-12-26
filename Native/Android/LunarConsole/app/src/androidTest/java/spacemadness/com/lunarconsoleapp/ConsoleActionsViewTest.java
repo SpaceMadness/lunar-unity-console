@@ -75,6 +75,50 @@ public class ConsoleActionsViewTest extends ApplicationBaseUITest
         assertNoActions();
     }
 
+    @Test
+    public void testFilter()
+    {
+        registerAction(1, "Action-1");
+        registerAction(2, "Action-12");
+        registerAction(3, "Action-123");
+        registerAction(4, "Action-2");
+        registerAction(5, "Action-3");
+        registerAction(6, "Action-4");
+
+        openActions();
+        assertActions("Action-1", "Action-12", "Action-123", "Action-2", "Action-3", "Action-4");
+
+        setFilterText("Action");
+        assertActions("Action-1", "Action-12", "Action-123", "Action-2", "Action-3", "Action-4");
+
+        appendFilterText("-");
+        assertActions("Action-1", "Action-12", "Action-123", "Action-2", "Action-3", "Action-4");
+
+        appendFilterText("1");
+        assertActions("Action-1", "Action-12", "Action-123");
+
+        appendFilterText("2");
+        assertActions("Action-12", "Action-123");
+
+        appendFilterText("3");
+        assertActions("Action-123");
+
+        appendFilterText("4");
+        assertActions();
+
+        deleteLastFilterCharacter();
+        assertActions("Action-123");
+
+        deleteLastFilterCharacter();
+        assertActions("Action-12", "Action-123");
+
+        deleteLastFilterCharacter();
+        assertActions("Action-1", "Action-12", "Action-123");
+
+        deleteLastFilterCharacter();
+        assertActions("Action-1", "Action-12", "Action-123", "Action-2", "Action-3", "Action-4");
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Helpers
 
@@ -93,5 +137,20 @@ public class ConsoleActionsViewTest extends ApplicationBaseUITest
     private void closeActions()
     {
         closeConsole();
+    }
+
+    private void setFilterText(String filterText)
+    {
+        typeText(R.id.lunar_console_action_view_text_edit_filter, filterText);
+    }
+
+    private void appendFilterText(String filterText)
+    {
+        appendText(R.id.lunar_console_action_view_text_edit_filter, filterText);
+    }
+
+    private void deleteLastFilterCharacter()
+    {
+        deleteLastChar(R.id.lunar_console_action_view_text_edit_filter);
     }
 }

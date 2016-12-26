@@ -28,7 +28,7 @@ import java.lang.ref.WeakReference;
 
 import spacemadness.com.lunarconsole.debug.Log;
 
-class ConsoleViewState
+public class ConsoleViewState
 {
     private static final String KEY_LEFT_MARGIN         = "leftMargin";
     private static final String KEY_RIGHT_MARGIN        = "rightMargin";
@@ -157,12 +157,23 @@ class ConsoleViewState
 
     private SharedPreferences getSharedPreferences()
     {
-        String prefsName = getClass().getCanonicalName();
-        return getContext().getSharedPreferences(prefsName, Context.MODE_PRIVATE);
+        return getSharedPreferences(getContext());
+    }
+
+    private static SharedPreferences getSharedPreferences(Context context)
+    {
+        String prefsName = ConsoleViewState.class.getCanonicalName();
+        return context.getSharedPreferences(prefsName, Context.MODE_PRIVATE);
     }
 
     private Context getContext()
     {
         return contextRef.get();
+    }
+
+    // for testing
+    public static void clear(Context context)
+    {
+        getSharedPreferences(context).edit().clear().apply();
     }
 }
