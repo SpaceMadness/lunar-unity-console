@@ -119,6 +119,25 @@ public class ConsoleActionsViewTest extends ApplicationBaseUITest
         assertActions("Action-1", "Action-12", "Action-123", "Action-2", "Action-3", "Action-4");
     }
 
+    @Test
+    public void testFilterPersistence()
+    {
+        registerAction(1, "Action-1");
+        registerAction(2, "Action-12");
+        registerAction(3, "Action-123");
+        registerAction(4, "Action-2");
+        registerAction(5, "Action-3");
+        registerAction(6, "Action-4");
+
+        openActions();
+        setFilterText("Action-1");
+        assertActions("Action-1", "Action-12", "Action-123");
+        closeActions();
+
+        openActions();
+        assertActions("Action-1", "Action-12", "Action-123");
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Helpers
 
