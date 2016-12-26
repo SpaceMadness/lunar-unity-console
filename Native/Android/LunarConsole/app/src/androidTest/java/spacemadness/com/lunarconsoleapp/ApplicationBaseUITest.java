@@ -566,7 +566,7 @@ public class ApplicationBaseUITest implements TestHelper.EventListener {
             {
                 // find entry view
                 DataInteraction entryView = onData(allOf(is(instanceOf(ConsoleLogEntry.class))))
-                        .inAdapterView(withContentDescription("Console Log List View"))
+                        .inAdapterView(withParent(withId(R.id.lunar_console_log_view_list_container)))
                         .atPosition(i);
 
                 // check message
@@ -582,7 +582,7 @@ public class ApplicationBaseUITest implements TestHelper.EventListener {
             {
                 // find entry view
                 DataInteraction entryView = onData(allOf(is(instanceOf(ConsoleCollapsedLogEntry.class))))
-                        .inAdapterView(withContentDescription("Console Log List View"))
+                        .inAdapterView(withParent(withId(R.id.lunar_console_log_view_list_container)))
                         .atPosition(i);
 
                 // check message

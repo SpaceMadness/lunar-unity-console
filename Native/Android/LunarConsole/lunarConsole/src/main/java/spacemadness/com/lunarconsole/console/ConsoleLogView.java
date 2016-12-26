@@ -108,7 +108,6 @@ public class ConsoleLogView extends AbstractConsoleView implements
         LinearLayout listViewContainer = findExistingViewById(R.id.lunar_console_log_view_list_container);
 
         listView = new ConsoleListView(activity);
-        listView.setContentDescription("Console Log List View");
         listView.setAdapter(consoleLogAdapter)  ;
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
