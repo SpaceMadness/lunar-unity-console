@@ -60,7 +60,7 @@ public class ConsoleView extends LinearLayout implements Destroyable
         consoleLogView = new ConsoleLogView(activity, consolePlugin.getConsole());
         viewPager.addPageView(consoleLogView);
 
-        consoleActionView = new ConsoleActionView(activity, consolePlugin.getActionRegistry());
+        consoleActionView = new ConsoleActionView(activity, consolePlugin); // FIXME: these classes know too much about each other
         viewPager.addPageView(consoleActionView);
 
         consoleLogView.setOnMoveSizeListener(new ConsoleLogView.OnMoveSizeListener()

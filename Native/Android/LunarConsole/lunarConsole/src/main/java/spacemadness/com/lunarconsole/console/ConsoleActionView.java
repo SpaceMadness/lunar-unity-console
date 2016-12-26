@@ -37,14 +37,19 @@ public class ConsoleActionView extends AbstractConsoleView implements
     private final LUActionRegistryFilter registryFilter;
     private final ConsoleActionAdapter consoleActionAdapter;
 
-    public ConsoleActionView(Activity activity, LUActionRegistry actionRegistry)
+    private final ConsoleViewState consoleViewState;
+
+    public ConsoleActionView(Activity activity, ConsolePlugin consolePlugin)
     {
         super(activity, R.layout.lunar_console_layout_console_action_view);
 
         contentView = findViewById(R.id.lunar_console_actions_view);
         warningView = findViewById(R.id.lunar_console_actions_warning_view);
 
-        registryFilter = new LUActionRegistryFilter(actionRegistry);
+        consoleViewState = consolePlugin.getConsoleViewState();
+
+        registryFilter = new LUActionRegistryFilter(consolePlugin.getActionRegistry());
+        registryFilter.setFilterText(consoleViewState.getActionFilterText());
         registryFilter.setDelegate(this);
 
         // initialize adapter
@@ -129,7 +134,9 @@ public class ConsoleActionView extends AbstractConsoleView implements
             @Override
             public void afterTextChanged(Editable s)
             {
-                filterByText(s.toString());
+                String filterText = s.toString();
+                filterByText(filterText);
+                consoleViewState.setActionFilterText(filterText);
             }
         });
 
