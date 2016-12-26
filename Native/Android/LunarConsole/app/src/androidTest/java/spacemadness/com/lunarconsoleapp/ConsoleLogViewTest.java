@@ -44,48 +44,48 @@ public class ConsoleLogViewTest extends ApplicationBaseUITest
 
         openConsole();
 
-        assertTable("Debug-1", "Debug-2", "Warning-1", "Warning-2", "Error-1", "Error-2");
+        assertLogEntries("Debug-1", "Debug-2", "Warning-1", "Warning-2", "Error-1", "Error-2");
 
         pressButton(R.id.lunar_console_log_button);
-        assertTable("Warning-1", "Warning-2", "Error-1", "Error-2");
+        assertLogEntries("Warning-1", "Warning-2", "Error-1", "Error-2");
 
         pressButton(R.id.lunar_console_warning_button);
-        assertTable("Error-1", "Error-2");
+        assertLogEntries("Error-1", "Error-2");
 
         pressButton(R.id.lunar_console_error_button);
-        assertTable();
+        assertLogEntries();
 
         pressButton(R.id.lunar_console_log_button);
-        assertTable("Debug-1", "Debug-2");
+        assertLogEntries("Debug-1", "Debug-2");
 
         pressButton(R.id.lunar_console_warning_button);
-        assertTable("Debug-1", "Debug-2", "Warning-1", "Warning-2");
+        assertLogEntries("Debug-1", "Debug-2", "Warning-1", "Warning-2");
 
         pressButton(R.id.lunar_console_error_button);
-        assertTable("Debug-1", "Debug-2", "Warning-1", "Warning-2", "Error-1", "Error-2");
+        assertLogEntries("Debug-1", "Debug-2", "Warning-1", "Warning-2", "Error-1", "Error-2");
 
         clearText(R.id.lunar_console_log_view_text_edit_filter);
 
         appendText(R.id.lunar_console_log_view_text_edit_filter, "1");
-        assertTable("Debug-1", "Warning-1", "Error-1");
+        assertLogEntries("Debug-1", "Warning-1", "Error-1");
 
         appendText(R.id.lunar_console_log_view_text_edit_filter, "1");
-        assertTable();
+        assertLogEntries();
 
         deleteLastChar(R.id.lunar_console_log_view_text_edit_filter);
-        assertTable("Debug-1", "Warning-1", "Error-1");
+        assertLogEntries("Debug-1", "Warning-1", "Error-1");
 
         deleteLastChar(R.id.lunar_console_log_view_text_edit_filter);
-        assertTable("Debug-1", "Debug-2", "Warning-1", "Warning-2", "Error-1", "Error-2");
+        assertLogEntries("Debug-1", "Debug-2", "Warning-1", "Warning-2", "Error-1", "Error-2");
 
         appendText(R.id.lunar_console_log_view_text_edit_filter, "2");
-        assertTable("Debug-2", "Warning-2", "Error-2");
+        assertLogEntries("Debug-2", "Warning-2", "Error-2");
 
         appendText(R.id.lunar_console_log_view_text_edit_filter, "2");
-        assertTable();
+        assertLogEntries();
 
         clearText(R.id.lunar_console_log_view_text_edit_filter);
-        assertTable("Debug-1", "Debug-2", "Warning-1", "Warning-2", "Error-1", "Error-2");
+        assertLogEntries("Debug-1", "Debug-2", "Warning-1", "Warning-2", "Error-1", "Error-2");
     }
 
     @Test
@@ -106,7 +106,7 @@ public class ConsoleLogViewTest extends ApplicationBaseUITest
         openConsoleMenu();
         pressMenuButton(R.string.lunar_console_more_menu_collapse);
 
-        assertTable("Debug@2", "Warning@2", "Error@2");
+        assertLogEntries("Debug@2", "Warning@2", "Error@2");
 
         // close controller
         pressButton(R.id.lunar_console_button_close);
@@ -114,13 +114,13 @@ public class ConsoleLogViewTest extends ApplicationBaseUITest
         // re-open controller
         openConsole();
 
-        assertTable("Debug@2", "Warning@2", "Error@2");
+        assertLogEntries("Debug@2", "Warning@2", "Error@2");
 
         // expand elements
         openConsoleMenu();
         pressButton(getString(R.string.lunar_console_more_menu_collapse));
 
-        assertTable("Debug", "Warning", "Error", "Debug", "Warning", "Error");
+        assertLogEntries("Debug", "Warning", "Error", "Debug", "Warning", "Error");
     }
 
     @Test
@@ -145,7 +145,7 @@ public class ConsoleLogViewTest extends ApplicationBaseUITest
         openConsole();
 
         // check table
-        assertTable("Debug-1", "Warning-1", "Error-1", "Debug-2", "Warning-2");
+        assertLogEntries("Debug-1", "Warning-1", "Error-1", "Debug-2", "Warning-2");
 
         // overflow message should be invisible
         assertHidden(R.id.lunar_console_text_overflow);
@@ -160,7 +160,7 @@ public class ConsoleLogViewTest extends ApplicationBaseUITest
         openConsole();
 
         // check table
-        assertTable("Debug-2", "Warning-2", "Error-2");
+        assertLogEntries("Debug-2", "Warning-2", "Error-2");
 
         // overflow message should be visible
         assertVisible(R.id.lunar_console_text_overflow);

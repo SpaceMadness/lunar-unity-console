@@ -52,6 +52,7 @@ import spacemadness.com.lunarconsole.console.ConsoleCollapsedLogEntry;
 import spacemadness.com.lunarconsole.console.ConsoleLogEntry;
 import spacemadness.com.lunarconsole.console.ConsoleLogType;
 import spacemadness.com.lunarconsole.console.ConsolePlugin;
+import spacemadness.com.lunarconsole.console.actions.LUAction;
 import spacemadness.com.lunarconsole.debug.TestHelper;
 import spacemadness.com.lunarconsole.utils.StringUtils;
 
@@ -61,7 +62,8 @@ import static android.support.test.espresso.matcher.ViewMatchers.*;
 import static android.support.test.espresso.assertion.ViewAssertions.*;
 import static org.hamcrest.Matchers.*;
 
-public class ApplicationBaseUITest implements TestHelper.EventListener {
+public class ApplicationBaseUITest implements TestHelper.EventListener
+{
     @Rule
     public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<MainActivity>(MainActivity.class)
     {
@@ -97,6 +99,9 @@ public class ApplicationBaseUITest implements TestHelper.EventListener {
         MainActivity.shutdownPluginWhenDestroyed = false;
         TestHelper.init(this);
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // UI-helpers
 
     protected void pressButton(String title)
     {
@@ -270,13 +275,13 @@ public class ApplicationBaseUITest implements TestHelper.EventListener {
             @Override
             public void describeTo(Description description)
             {
-                description.appendText ("ListView should have " + size + " items");
+                description.appendText("ListView should have " + size + " items");
             }
 
             @Override
             protected boolean matchesSafely(View item)
             {
-                return ((ListView) item).getChildCount () == size;
+                return ((ListView) item).getChildCount() == size;
             }
         };
     }
@@ -288,7 +293,7 @@ public class ApplicationBaseUITest implements TestHelper.EventListener {
             @Override
             public void describeTo(Description description)
             {
-                description.appendText ("check box preference should be" + (checked ? "" : " not") + " checked");
+                description.appendText("check box preference should be" + (checked ? "" : " not") + " checked");
             }
 
             @Override
@@ -318,20 +323,24 @@ public class ApplicationBaseUITest implements TestHelper.EventListener {
         };
     }
 
-    private static ViewAction removeLastChar() {
+    private static ViewAction removeLastChar()
+    {
         return actionWithAssertions(new RemoveLastCharTextAction());
     }
 
-    private static class RemoveLastCharTextAction implements ViewAction {
+    private static class RemoveLastCharTextAction implements ViewAction
+    {
 
         @SuppressWarnings("unchecked")
         @Override
-        public Matcher<View> getConstraints() {
+        public Matcher<View> getConstraints()
+        {
             return allOf(isDisplayed(), isAssignableFrom(EditText.class));
         }
 
         @Override
-        public void perform(UiController uiController, View view) {
+        public void perform(UiController uiController, View view)
+        {
             EditText editText = (EditText) view;
             String oldText = editText.getText().toString();
             String newText = oldText.length() > 1 ? oldText.substring(0, oldText.length() - 1) : "";
@@ -339,7 +348,8 @@ public class ApplicationBaseUITest implements TestHelper.EventListener {
         }
 
         @Override
-        public String getDescription() {
+        public String getDescription()
+        {
             return "remove last character from text";
         }
     }
@@ -358,6 +368,7 @@ public class ApplicationBaseUITest implements TestHelper.EventListener {
             resultMutex.notifyAll();
         }
     }
+
     protected void clearResults()
     {
         results.clear();
@@ -474,6 +485,22 @@ public class ApplicationBaseUITest implements TestHelper.EventListener {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Action helpers
+
+    protected void registerAction(int actionId, String name)
+    {
+        ConsolePlugin.registerAction(actionId, name);
+    }
+
+    protected void unregisterActions(int... actionIds)
+    {
+        for (int actionId : actionIds)
+        {
+            ConsolePlugin.unregisterAction(actionId);
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     // Test events
 
     @Override
@@ -531,7 +558,7 @@ public class ApplicationBaseUITest implements TestHelper.EventListener {
         assertText(R.id.lunar_console_warning_text_message, expected);
     }
 
-    protected void assertTable(String... expected)
+    protected void assertLogEntries(String... expected)
     {
         ViewInteraction listView = onView(withParent(withId(R.id.lunar_console_log_view_list_container)));
 
@@ -577,8 +604,7 @@ public class ApplicationBaseUITest implements TestHelper.EventListener {
                 entryView
                         .onChildView(withId(R.id.lunar_console_log_collapsed_count))
                         .check(matches(withEffectiveVisibility(Visibility.GONE)));
-            }
-            else // 'collapsed' entries
+            } else // 'collapsed' entries
             {
                 // find entry view
                 DataInteraction entryView = onData(allOf(is(instanceOf(ConsoleCollapsedLogEntry.class))))
@@ -601,13 +627,40 @@ public class ApplicationBaseUITest implements TestHelper.EventListener {
         }
     }
 
+    protected void assertActions(String... expected)
+    {
+        ViewInteraction listView = onView(withParent(withId(R.id.lunar_console_action_view_list_container)));
+
+        // should be visible
+        listView.check(matches(isDisplayed()));
+
+        // should contains expected number of children
+        listView.check(matches(withListViewSize(expected.length)));
+
+        for (int i = 0; i < expected.length; ++i)
+        {
+            // find entry view
+            DataInteraction entryView = onData(allOf(is(instanceOf(LUAction.class))))
+                    .inAdapterView(withParent(withId(R.id.lunar_console_action_view_list_container)))
+                    .atPosition(i);
+
+            // check message
+            entryView
+                    .onChildView(withId(R.id.lunar_console_action_entry_name))
+                    .check(matches(withText(expected[i])));
+        }
+    }
+
     protected int getButtonId(byte logType)
     {
         switch (logType)
         {
-            case ConsoleLogType.LOG: return R.id.test_button_log_debug;
-            case ConsoleLogType.WARNING: return R.id.test_button_log_warning;
-            case ConsoleLogType.ERROR: return R.id.test_button_log_error;
+            case ConsoleLogType.LOG:
+                return R.id.test_button_log_debug;
+            case ConsoleLogType.WARNING:
+                return R.id.test_button_log_warning;
+            case ConsoleLogType.ERROR:
+                return R.id.test_button_log_error;
         }
 
         throw new IllegalArgumentException("Unexpected log type: " + logType);
