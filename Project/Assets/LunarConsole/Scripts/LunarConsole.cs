@@ -894,7 +894,7 @@ namespace LunarConsolePlugin
 
     #if UNITY_EDITOR
 
-    public static class Editor
+    public static class LunarConsolePluginEditorHelper
     {
         #if LUNAR_CONSOLE_ENABLED
         [UnityEditor.MenuItem("Window/Lunar Mobile Console/Disable")]

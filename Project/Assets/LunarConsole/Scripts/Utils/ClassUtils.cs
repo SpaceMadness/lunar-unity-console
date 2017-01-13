@@ -29,9 +29,9 @@ using UnityEngine;
 
 namespace LunarConsolePluginInternal
 {
-    delegate bool ListMethodsFilter(MethodInfo method);
+    public delegate bool ListMethodsFilter(MethodInfo method);
 
-    static class ClassUtils
+    public static class ClassUtils
     {
         public static T Cast<T>(object obj) where T : class
         {
