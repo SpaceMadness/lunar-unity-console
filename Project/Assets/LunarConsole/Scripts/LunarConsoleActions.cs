@@ -126,12 +126,28 @@ namespace LunarConsolePluginInternal
     public class LunarConsoleActions : MonoBehaviour
     {
         [SerializeField]
+        bool m_dontDestroyOnLoad;
+
+        [SerializeField]
         [HideInInspector]
         List<LunarConsoleAction> m_actions;
 
+        void Awake()
+        {
+            if (!actionsEnabled)
+            {
+                Destroy(this);
+            }
+
+            if (m_dontDestroyOnLoad)
+            {
+                DontDestroyOnLoad(gameObject);
+            }
+        }
+
         void Start()
         {
-            if (LunarConsoleSettings.consoleEnabled)
+            if (actionsEnabled)
             {
                 foreach (var action in m_actions)
                 {
@@ -146,7 +162,7 @@ namespace LunarConsolePluginInternal
 
         void OnDestroy()
         {
-            if (LunarConsoleSettings.consoleEnabled)
+            if (actionsEnabled)
             {
                 foreach (var action in m_actions)
                 {
@@ -157,7 +173,7 @@ namespace LunarConsolePluginInternal
 
         void OnValidate()
         {
-            if (LunarConsoleSettings.consoleEnabled)
+            if (actionsEnabled)
             {
                 foreach (var action in m_actions)
                 {
@@ -174,6 +190,11 @@ namespace LunarConsolePluginInternal
         public List<LunarConsoleAction> actions
         {
             get { return m_actions; }
+        }
+
+        bool actionsEnabled
+        {
+            get { return LunarConsoleSettings.actionsEnabled; }
         }
     }
 }

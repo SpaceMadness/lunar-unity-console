@@ -455,7 +455,7 @@ namespace LunarConsolePlugin
                 try
                 {
                     m_args1[0] = jval(action.Id);
-                    CallStaticVoidMethod(m_methodRegisterAction, m_args1);
+                    CallStaticVoidMethod(m_methodUnregisterAction, m_args1);
                 }
                 catch (Exception e)
                 {
@@ -465,7 +465,7 @@ namespace LunarConsolePlugin
 
             public void OnVariableRegistered(CRegistry registry, CVar cvar)
             {
-                Debug.LogWarning("LunarConsole.OnVariableRegistered is not registered");
+                Debug.LogWarning("LunarConsole.OnVariableRegistered is not implemented");
             }
 
             #endregion
@@ -662,12 +662,12 @@ namespace LunarConsolePlugin
         #region Public API
 
         /// <summary>
-        /// Shows Lunar console on top of everything. Does nothing if platform is not supported or if plugin is not initizlied.
+        /// Shows Lunar console on top of everything. Does nothing if current platform is not supported or if the plugin is not initizlied.
         /// </summary>
         public static void Show()
         {
-#if LUNAR_CONSOLE_PLATFORM_SUPPORTED
-        #if LUNAR_CONSOLE_ENABLED
+            #if LUNAR_CONSOLE_PLATFORM_SUPPORTED
+            #if LUNAR_CONSOLE_ENABLED
             if (s_instance != null)
             {
                 s_instance.ShowConsole();
@@ -676,12 +676,12 @@ namespace LunarConsolePlugin
             {
                 Debug.LogError("Can't show " + Constants.PluginName + ": instance is not initialized. Make sure you've installed it correctly");
             }
-        #else
+            #else
             Debug.LogWarning("Can't show " + Constants.PluginName + ": plugin is disabled");
-        #endif
-#else
+            #endif
+            #else
             Debug.LogWarning("Can't show " + Constants.PluginName + ": current platform is not supported");
-#endif
+            #endif
         }
 
         /// <summary>
@@ -689,8 +689,8 @@ namespace LunarConsolePlugin
         /// </summary>
         public static void Hide()
         {
-#if LUNAR_CONSOLE_PLATFORM_SUPPORTED
-        #if LUNAR_CONSOLE_ENABLED
+            #if LUNAR_CONSOLE_PLATFORM_SUPPORTED
+            #if LUNAR_CONSOLE_ENABLED
             if (s_instance != null)
             {
                 s_instance.HideConsole();
@@ -699,12 +699,12 @@ namespace LunarConsolePlugin
             {
                 Debug.LogError("Can't hide " + Constants.PluginName + ": instance is not initialized. Make sure you've installed it correctly");
             }
-        #else
+            #else
             Debug.LogWarning("Can't hide " + Constants.PluginName + ": plugin is disabled");
-        #endif
-#else
+            #endif
+            #else
             Debug.LogWarning("Can't hide " + Constants.PluginName + ": current platform is not supported");
-#endif
+            #endif
         }
 
         /// <summary>
@@ -712,8 +712,8 @@ namespace LunarConsolePlugin
         /// </summary>
         public static void Clear()
         {
-#if LUNAR_CONSOLE_PLATFORM_SUPPORTED
-        #if LUNAR_CONSOLE_ENABLED
+            #if LUNAR_CONSOLE_PLATFORM_SUPPORTED
+            #if LUNAR_CONSOLE_ENABLED
             if (s_instance != null)
             {
                 s_instance.ClearConsole();
@@ -722,18 +722,18 @@ namespace LunarConsolePlugin
             {
                 Debug.LogError("Can't clear " + Constants.PluginName + ": instance is not initialized. Make sure you've installed it correctly");
             }
-        #else
+            #else
             Debug.LogWarning("Can't clear " + Constants.PluginName + ": plugin is disabled");
-        #endif
-#else
+            #endif
+            #else
             Debug.LogWarning("Can't clear " + Constants.PluginName + ": current platform is not supported");
-#endif
+            #endif
         }
 
         public static void RegisterAction(string name, Action action)
         {
-#if LUNAR_CONSOLE_PLATFORM_SUPPORTED
-        #if LUNAR_CONSOLE_ENABLED
+            #if LUNAR_CONSOLE_PLATFORM_SUPPORTED
+            #if LUNAR_CONSOLE_ENABLED
             if (s_instance != null)
             {
                 s_instance.RegisterConsoleAction(name, action);
@@ -742,18 +742,16 @@ namespace LunarConsolePlugin
             {
                 Debug.LogError("Can't register action: instance is not initialized. Make sure you've installed it correctly");
             }
-        #else
+            #else
             Debug.LogWarning("Can't register action: plugin is disabled");
-        #endif
-#else
-            Debug.LogWarning("Can't register action: current platform is not supported");
-#endif // LUNAR_CONSOLE_PLATFORM_SUPPORTED
+            #endif
+            #endif
         }
 
         public static void UnregisterAction(Action action)
         {
-#if LUNAR_CONSOLE_PLATFORM_SUPPORTED
-        #if LUNAR_CONSOLE_ENABLED
+            #if LUNAR_CONSOLE_PLATFORM_SUPPORTED
+            #if LUNAR_CONSOLE_ENABLED
             if (s_instance != null)
             {
                 s_instance.UnregisterConsoleAction(action);
@@ -762,18 +760,16 @@ namespace LunarConsolePlugin
             {
                 Debug.LogError("Can't unregister action: instance is not initialized. Make sure you've installed it correctly");
             }
-        #else
+            #else
             Debug.LogWarning("Can't unregister action: plugin is disabled");
-        #endif
-#else
-            Debug.LogWarning("Can't unregister action: current platform is not supported");
-#endif // LUNAR_CONSOLE_PLATFORM_SUPPORTED
+            #endif
+            #endif
         }
 
         public static void UnregisterAction(string name)
         {
-#if LUNAR_CONSOLE_PLATFORM_SUPPORTED
-        #if LUNAR_CONSOLE_ENABLED
+            #if LUNAR_CONSOLE_PLATFORM_SUPPORTED
+            #if LUNAR_CONSOLE_ENABLED
             if (s_instance != null)
             {
                 s_instance.UnregisterConsoleAction(name);
@@ -782,32 +778,29 @@ namespace LunarConsolePlugin
             {
                 Debug.LogError("Can't unregister action: instance is not initialized. Make sure you've installed it correctly");
             }
-        #else
+            #else
             Debug.LogWarning("Can't unregister action: plugin is disabled");
-        #endif
-#else
-            Debug.LogWarning("Can't unregister action: current platform is not supported");
-#endif // LUNAR_CONSOLE_PLATFORM_SUPPORTED
+            #endif
+            #endif
         }
 
         public static void UnregisterAllActions(object target)
         {
-#if LUNAR_CONSOLE_PLATFORM_SUPPORTED
-        #if LUNAR_CONSOLE_ENABLED
-            if (s_instance != null)
+            #if LUNAR_CONSOLE_PLATFORM_SUPPORTED
+            #if LUNAR_CONSOLE_ENABLED
+            if (LunarConsoleSettings.actionsEnabled)
             {
-                s_instance.UnregisterAllConsoleActions(target);
+                if (s_instance != null)
+                {
+                    s_instance.UnregisterAllConsoleActions(target);
+                }
+                else
+                {
+                    Debug.LogWarning("Can't unregister actions: instance is not initialized. Make sure you've installed it correctly");
+                }
             }
-            else
-            {
-                Debug.LogError("Can't unregister actions: instance is not initialized. Make sure you've installed it correctly");
-            }
-        #else
-            Debug.LogWarning("Can't unregister actions: plugin is disabled");
-        #endif
-#else
-            Debug.LogWarning("Can't unregister actions: current platform is not supported");
-#endif // LUNAR_CONSOLE_PLATFORM_SUPPORTED
+            #endif // LUNAR_CONSOLE_ENABLED
+            #endif // LUNAR_CONSOLE_PLATFORM_SUPPORTED
         }
 
         /// <summary>
@@ -885,11 +878,40 @@ namespace LunarConsolePlugin
 
     public static class LunarConsoleSettings
     {
-        #if LUNAR_CONSOLE_ENABLED
-        public static readonly bool consoleEnabled = true;
-        #else
-        public static readonly bool consoleEnabled = false;
-        #endif // LUNAR_CONSOLE_ENABLED
+        public static readonly bool consoleEnabled;
+        public static readonly bool consoleSupported;
+
+        static LunarConsoleSettings()
+        {
+            #if LUNAR_CONSOLE_ENABLED
+            consoleEnabled = true;
+            #else
+            consoleEnabled = false;
+            #endif
+
+            #if LUNAR_CONSOLE_PLATFORM_SUPPORTED
+            consoleSupported = true;
+            #else
+            consoleSupported = false;
+            #endif
+        }
+
+        public static bool actionsEnabled
+        {
+            get
+            {
+                if (consoleSupported && consoleEnabled)
+                {
+                    #if UNITY_IOS || UNITY_IPHONE
+                    return Application.platform == RuntimePlatform.IPhonePlayer;
+                    #elif UNITY_ANDROID
+                    return Application.platform == RuntimePlatform.Android;
+                    #endif
+                }
+
+                return false;
+            }
+        }
     }
 
     #if UNITY_EDITOR
