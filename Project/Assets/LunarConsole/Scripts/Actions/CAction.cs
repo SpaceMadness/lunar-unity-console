@@ -44,17 +44,13 @@ namespace LunarConsolePluginInternal
             {
                 return ReflectionUtils.Invoke(ActionDelegate, kEmptyArgs); // TODO: remove it
             }
-            catch (ReflectionException e)
-            {
-                Log.e(e.Message);
-            }
             catch (TargetInvocationException e)
             {
-                Log.e(e.InnerException, "Error while executing command");
+                Debug.LogException(e.InnerException);
             }
             catch (Exception e)
             {
-                Log.e(e, "Error while executing command");
+                Debug.LogException(e);
             }
 
             return false;

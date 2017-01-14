@@ -415,7 +415,7 @@ namespace LunarConsolePlugin
                     }
                     catch (Exception e)
                     {
-                        Log.e(e);
+                        Debug.LogException(e);
                     }
                 }
             }

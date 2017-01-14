@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Reflection;
 
+using UnityEngine;
+
 using LunarConsolePlugin;
 
 namespace LunarConsolePluginInternal
@@ -44,7 +46,7 @@ namespace LunarConsolePluginInternal
             CAction action = m_actions.Find(name);
             if (action != null)
             {
-                Log.w("Overriding action: {0}", name);
+                Debug.LogWarningFormat("Overriding action: {0}", name);
                 action.ActionDelegate = actionDelegate;
             }
             else

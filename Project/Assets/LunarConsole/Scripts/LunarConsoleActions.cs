@@ -8,7 +8,9 @@ using UnityEngine.Events;
 
 using Object = UnityEngine.Object;
 
-namespace LunarConsolePlugin
+using LunarConsolePlugin;
+
+namespace LunarConsolePluginInternal
 {
     [Serializable]
     public class LunarConsoleAction
@@ -63,26 +65,61 @@ namespace LunarConsolePlugin
                 return;
             }
 
-            if (m_componentMethod == null || m_componentType == null)
+            if (m_componentType == null || m_componentMethod == null)
             {
-                ResolveInvocation();
+                if (!ResolveInvocation())
+                {
+                    return;
+                }
             }
 
             var component = m_target.GetComponent(m_componentType);
-            m_componentMethod.Invoke(component, kEmptyArgs);
+            if (component == null)
+            {
+                Debug.LogWarningFormat("Missing component {0}", m_componentType);
+                return;
+            }
+
+            try
+            {
+                m_componentMethod.Invoke(component, kEmptyArgs);
+            }
+            catch (Exception e)
+            {
+                Debug.LogException(e);
+            }
         }
 
-        void ResolveInvocation()
+        bool ResolveInvocation()
         {
             try
             {
                 m_componentType = Type.GetType(m_componentTypeName);
+                if (m_componentType == null)
+                {
+                    Debug.LogWarningFormat("Can't resolve type {0}", m_componentTypeName);
+                    return false;
+                }
+
                 m_componentMethod = m_componentType.GetMethod(m_componentMethodName, BindingFlags.Instance|BindingFlags.Public|BindingFlags.NonPublic);
+                if (m_componentMethod == null)
+                {
+                    Debug.LogWarningFormat("Can't resolve method {0} of type {1}", m_componentMethod, m_componentType);
+                    return false;
+                }
+
+                return true;
             }
             catch (Exception e)
             {
-                Debug.LogErrorFormat(e.Message); // TODO: better error log
+                Debug.LogException(e);
+                return false;
             }
+        }
+
+        public void Validate()
+        {
+            
         }
     }
 
@@ -114,6 +151,17 @@ namespace LunarConsolePlugin
                 foreach (var action in m_actions)
                 {
                     action.Unregister();
+                }
+            }
+        }
+
+        void OnValidate()
+        {
+            if (LunarConsoleSettings.consoleEnabled)
+            {
+                foreach (var action in m_actions)
+                {
+                    action.Validate();
                 }
             }
         }

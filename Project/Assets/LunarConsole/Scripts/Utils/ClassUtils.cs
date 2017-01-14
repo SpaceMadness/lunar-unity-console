@@ -51,7 +51,7 @@ namespace LunarConsolePluginInternal
             }
             catch (Exception e)
             {
-                Log.e(e, "Can't create instance of type: " + t);
+                Debug.LogException(e);
             }
 
             return null;
