@@ -13,4 +13,8 @@
         android:id="@+id/lunar_console_menu_settings"
         android:title="@string/lunar_console_more_menu_settings" />
 
+    <item
+        android:id="@+id/lunar_console_menu_help"
+        android:title="@string/lunar_console_more_menu_help" />
+
 </menu>

@@ -108,7 +108,7 @@ public class ConsoleLogView extends AbstractConsoleView implements
         LinearLayout listViewContainer = findExistingViewById(R.id.lunar_console_log_view_list_container);
 
         listView = new ConsoleListView(activity);
-        listView.setAdapter(consoleLogAdapter)  ;
+        listView.setAdapter(consoleLogAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             @Override
@@ -508,6 +508,12 @@ public class ConsoleLogView extends AbstractConsoleView implements
                     return true;
                 }
 
+                if (itemId == R.id.lunar_console_menu_help)
+                {
+                    openHelpPage();
+                    return true;
+                }
+
                 return false;
             }
         });
@@ -616,10 +622,18 @@ public class ConsoleLogView extends AbstractConsoleView implements
         }
         catch (Exception e)
         {
-            Log.e(e, "Error to copy text to clipboard");
+            Log.e(e, "Exception while trying to copy text to clipboard");
         }
 
         return false;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Help
+    
+    private void openHelpPage()
+    {
+        UIUtils.openURL(getContext(), "https://goo.gl/5Z8ovV");
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
