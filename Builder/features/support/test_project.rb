@@ -22,9 +22,9 @@ class TestProject
   def export_app(platform)
 
     if platform == 'iOS'
-      @unity_project.exec_unity_method 'LunarConsolePluginInternal.AppExporter.PerformiOSBuild'
+      @unity_project.exec_unity_method 'LunarConsoleEditorInternal.AppExporter.PerformiOSBuild'
     elsif platform == 'Android'
-      @unity_project.exec_unity_method 'LunarConsolePluginInternal.AppExporter.PerformAndroidBuild'
+      @unity_project.exec_unity_method 'LunarConsoleEditorInternal.AppExporter.PerformAndroidBuild'
     else
       raise ArgumentError.new("Unexpected platform: #{platform}")
     end
