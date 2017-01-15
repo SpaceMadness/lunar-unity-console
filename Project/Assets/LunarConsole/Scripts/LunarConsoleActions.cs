@@ -123,7 +123,20 @@ namespace LunarConsolePluginInternal
 
         public void Validate()
         {
-            
+            if (string.IsNullOrEmpty(m_name))
+            {
+                Log.w("Missing action name");
+            }
+
+            if (m_target == null)
+            {
+                Log.w("Missing action target");
+            }
+
+            if (m_componentType != null && m_componentMethodName != null)
+            {
+                ResolveInvocation();
+            }
         }
     }
 
@@ -171,17 +184,6 @@ namespace LunarConsolePluginInternal
                 foreach (var action in m_actions)
                 {
                     action.Unregister();
-                }
-            }
-        }
-
-        void OnValidate()
-        {
-            if (actionsEnabled)
-            {
-                foreach (var action in m_actions)
-                {
-                    action.Validate();
                 }
             }
         }
