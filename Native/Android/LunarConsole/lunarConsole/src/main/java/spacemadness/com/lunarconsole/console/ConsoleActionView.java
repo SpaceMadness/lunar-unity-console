@@ -23,6 +23,7 @@ import spacemadness.com.lunarconsole.debug.Log;
 import spacemadness.com.lunarconsole.ui.ConsoleListView;
 import spacemadness.com.lunarconsole.utils.StringUtils;
 import spacemadness.com.lunarconsole.utils.ThreadUtils;
+import spacemadness.com.lunarconsole.utils.UIUtils;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static spacemadness.com.lunarconsole.console.BaseConsoleAdapter.DataSource;
@@ -103,6 +104,16 @@ public class ConsoleActionView extends AbstractConsoleView implements
 
         // update "no actions" warning
         updateNoActionWarningView();
+
+        // "help" button
+        setOnClickListener(R.id.lunar_console_no_actions_button_help, new OnClickListener()
+        {
+            @Override
+            public void onClick(View view)
+            {
+                UIUtils.openURL(getContext(), "https://goo.gl/in0obv");
+            }
+        });
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

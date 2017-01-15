@@ -121,4 +121,15 @@
         <item name="android:gravity">center</item>
     </style>
 
+    <style name="lunar_console_hyperlink_button_style_base">
+        <item name="android:textColor">@color/lunar_console_color_hyperlink</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="lunar_console_hyperlink_button_style" parent="lunar_console_hyperlink_button_style_base">
+    </style>
+
 </resources>

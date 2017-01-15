@@ -17,4 +17,5 @@
         (File ▶ Build Settings...)</string>
     <string name="lunar_console_log_details_dialog_button_copy_to_clipboard">Copy to Clipboard</string>
     <string name="lunar_console_no_actions_warning">You don\'t have any actions yet</string>
+    <string name="lunar_console_no_actions_button_learn_more">Learn more…</string>
 </resources>
