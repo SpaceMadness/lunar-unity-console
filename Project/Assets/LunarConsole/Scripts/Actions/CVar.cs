@@ -415,7 +415,7 @@ namespace LunarConsolePlugin
                     }
                     catch (Exception e)
                     {
-                        Debug.LogException(e);
+                        Log.e(e, "Exception while calling value changed delegate for '{0}'", cvar.Name);
                     }
                 }
             }

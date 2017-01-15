@@ -84,9 +84,13 @@ namespace LunarConsolePluginInternal
             {
                 m_componentMethod.Invoke(component, kEmptyArgs);
             }
+            catch (TargetInvocationException e)
+            {
+                Log.e(e.InnerException, "Exception while invoking action '{0}'", m_name);
+            }
             catch (Exception e)
             {
-                Debug.LogException(e);
+                Log.e(e, "Exception while invoking action '{0}'", m_name);
             }
         }
 
@@ -112,7 +116,7 @@ namespace LunarConsolePluginInternal
             }
             catch (Exception e)
             {
-                Debug.LogException(e);
+                Log.e(e);
                 return false;
             }
         }

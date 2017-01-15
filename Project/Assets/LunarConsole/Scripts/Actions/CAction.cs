@@ -46,11 +46,11 @@ namespace LunarConsolePluginInternal
             }
             catch (TargetInvocationException e)
             {
-                Debug.LogException(e.InnerException);
+                Log.e(e.InnerException, "Exception while invoking action '{0}'", m_name);
             }
             catch (Exception e)
             {
-                Debug.LogException(e);
+                Log.e(e, "Exception while invoking action '{0}'", m_name);
             }
 
             return false;

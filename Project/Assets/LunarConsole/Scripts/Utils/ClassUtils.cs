@@ -51,7 +51,7 @@ namespace LunarConsolePluginInternal
             }
             catch (Exception e)
             {
-                Debug.LogException(e);
+                Log.e(e, "Exception while creating an instance of type '{0}'", t);
             }
 
             return null;
@@ -165,7 +165,7 @@ namespace LunarConsolePluginInternal
             }
             catch (Exception e)
             {
-                Debug.LogException(e);
+                Log.e(e, "Exception while resolving type for name '{0}'", typeName);
             }
 
             return null;
