@@ -48,7 +48,7 @@ using System.Collections.Generic;
 using System.Linq;
  
  
-namespace LunarConsolePluginInternal
+namespace LunarConsoleEditorInternal
 {
     public enum JSONBinaryTag
     {

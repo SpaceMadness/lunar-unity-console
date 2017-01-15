@@ -29,7 +29,9 @@ using System.Net;
 using System.Text;
 using System.Threading;
 
-namespace LunarConsolePluginInternal
+using LunarConsolePluginInternal;
+
+namespace LunarConsoleEditorInternal
 {
     static class Updater
     {

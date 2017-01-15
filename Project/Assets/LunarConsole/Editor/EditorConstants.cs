@@ -22,7 +22,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-namespace LunarConsolePluginInternal
+using LunarConsolePluginInternal;
+
+namespace LunarConsoleEditorInternal
 {
     static class EditorConstants
     {

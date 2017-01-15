@@ -29,7 +29,7 @@ using System.IO;
 
 using LunarConsolePlugin;
 
-namespace LunarConsolePluginInternal
+namespace LunarConsoleEditorInternal
 {
     static class BuildPostProcessor
     {

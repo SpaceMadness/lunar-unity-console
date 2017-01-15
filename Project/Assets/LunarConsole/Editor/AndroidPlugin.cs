@@ -27,8 +27,9 @@ using System.IO;
 using System.Collections.Generic;
 
 using LunarConsolePlugin;
+using LunarConsolePluginInternal;
 
-namespace LunarConsolePluginInternal
+namespace LunarConsoleEditorInternal
 {
     static class AndroidPlugin
     {
