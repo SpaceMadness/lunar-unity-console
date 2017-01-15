@@ -46,7 +46,7 @@ namespace LunarConsolePluginInternal
             CAction action = m_actions.Find(name);
             if (action != null)
             {
-                Debug.LogWarningFormat("Overriding action: {0}", name);
+                Log.w("Overriding action: {0}", name);
                 action.ActionDelegate = actionDelegate;
             }
             else

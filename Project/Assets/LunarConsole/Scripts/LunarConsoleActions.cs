@@ -49,19 +49,19 @@ namespace LunarConsolePluginInternal
         {
             if (m_target == null)
             {
-                Debug.LogErrorFormat("Can't invoke action '{0}': target is not set", m_name);
+                Log.e("Can't invoke action '{0}': target is not set", m_name);
                 return;
             }
 
             if (m_componentTypeName == null)
             {
-                Debug.LogErrorFormat("Can't invoke action '{0}': method is not set", m_name);
+                Log.e("Can't invoke action '{0}': method is not set", m_name);
                 return;
             }
 
             if (m_componentMethodName == null)
             {
-                Debug.LogErrorFormat("Can't invoke action '{0}': method is not set", m_name);
+                Log.e("Can't invoke action '{0}': method is not set", m_name);
                 return;
             }
 
@@ -76,7 +76,7 @@ namespace LunarConsolePluginInternal
             var component = m_target.GetComponent(m_componentType);
             if (component == null)
             {
-                Debug.LogWarningFormat("Missing component {0}", m_componentType);
+                Log.w("Missing component {0}", m_componentType);
                 return;
             }
 
@@ -97,14 +97,14 @@ namespace LunarConsolePluginInternal
                 m_componentType = Type.GetType(m_componentTypeName);
                 if (m_componentType == null)
                 {
-                    Debug.LogWarningFormat("Can't resolve type {0}", m_componentTypeName);
+                    Log.w("Can't resolve type {0}", m_componentTypeName);
                     return false;
                 }
 
                 m_componentMethod = m_componentType.GetMethod(m_componentMethodName, BindingFlags.Instance|BindingFlags.Public|BindingFlags.NonPublic);
                 if (m_componentMethod == null)
                 {
-                    Debug.LogWarningFormat("Can't resolve method {0} of type {1}", m_componentMethod, m_componentType);
+                    Log.w("Can't resolve method {0} of type {1}", m_componentMethod, m_componentType);
                     return false;
                 }
 
