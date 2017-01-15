@@ -294,6 +294,9 @@ static const CGFloat kMinWidthToResizeSearchBar = 480;
     // resize button
     [controller addButtonTitle:@"Move/Resize" target:self action:@selector(onResizeButton:)];
     
+    // help
+    [controller addButtonTitle:@"Help" target:self action:@selector(onHelpButton:)];
+    
     [controller setDelegate:self];
     
     // add as child view controller
@@ -598,6 +601,12 @@ static const CGFloat kMinWidthToResizeSearchBar = 480;
     {
         [_resizeDelegate consoleLogControllerDidRequestResize:self];
     }
+}
+
+- (void)onHelpButton:(id)sender
+{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://goo.gl/5Z8ovV"]];
+    
 }
 
 #pragma mark -
