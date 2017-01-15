@@ -247,7 +247,7 @@ namespace LunarConsolePluginInternal
             }
             catch (Exception e)
             {
-                Debug.LogError("Unable to list types: " + e.Message + "\n" + e.StackTrace);
+                Log.e(e, "Unable to list types");
             }
 
             return list;

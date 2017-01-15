@@ -674,13 +674,13 @@ namespace LunarConsolePlugin
             }
             else
             {
-                Debug.LogError("Can't show " + Constants.PluginName + ": instance is not initialized. Make sure you've installed it correctly");
+                Log.w("Can't show console: instance is not initialized. Make sure you've installed it correctly");
             }
             #else
-            Debug.LogWarning("Can't show " + Constants.PluginName + ": plugin is disabled");
+            Log.w("Can't show console: plugin is disabled");
             #endif
             #else
-            Debug.LogWarning("Can't show " + Constants.PluginName + ": current platform is not supported");
+            Log.w("Can't show console: current platform is not supported");
             #endif
         }
 
@@ -697,13 +697,13 @@ namespace LunarConsolePlugin
             }
             else
             {
-                Debug.LogError("Can't hide " + Constants.PluginName + ": instance is not initialized. Make sure you've installed it correctly");
+                Log.w("Can't hide console: instance is not initialized. Make sure you've installed it correctly");
             }
             #else
-            Debug.LogWarning("Can't hide " + Constants.PluginName + ": plugin is disabled");
+            Log.w("Can't hide console: plugin is disabled");
             #endif
             #else
-            Debug.LogWarning("Can't hide " + Constants.PluginName + ": current platform is not supported");
+            Log.w("Can't hide console: current platform is not supported");
             #endif
         }
 
@@ -720,13 +720,13 @@ namespace LunarConsolePlugin
             }
             else
             {
-                Debug.LogError("Can't clear " + Constants.PluginName + ": instance is not initialized. Make sure you've installed it correctly");
+                Log.w("Can't clear console: instance is not initialized. Make sure you've installed it correctly");
             }
             #else
-            Debug.LogWarning("Can't clear " + Constants.PluginName + ": plugin is disabled");
+            Log.w("Can't clear console: plugin is disabled");
             #endif
             #else
-            Debug.LogWarning("Can't clear " + Constants.PluginName + ": current platform is not supported");
+            Log.w("Can't clear console: current platform is not supported");
             #endif
         }
 
@@ -740,10 +740,10 @@ namespace LunarConsolePlugin
             }
             else
             {
-                Debug.LogError("Can't register action: instance is not initialized. Make sure you've installed it correctly");
+                Log.w("Can't register action: instance is not initialized. Make sure you've installed it correctly");
             }
             #else
-            Debug.LogWarning("Can't register action: plugin is disabled");
+            Log.w("Can't register action: plugin is disabled");
             #endif
             #endif
         }
@@ -758,10 +758,10 @@ namespace LunarConsolePlugin
             }
             else
             {
-                Debug.LogError("Can't unregister action: instance is not initialized. Make sure you've installed it correctly");
+                Log.w("Can't unregister action: instance is not initialized. Make sure you've installed it correctly");
             }
             #else
-            Debug.LogWarning("Can't unregister action: plugin is disabled");
+            Log.w("Can't unregister action: plugin is disabled");
             #endif
             #endif
         }
@@ -776,10 +776,10 @@ namespace LunarConsolePlugin
             }
             else
             {
-                Debug.LogError("Can't unregister action: instance is not initialized. Make sure you've installed it correctly");
+                Log.w("Can't unregister action: instance is not initialized. Make sure you've installed it correctly");
             }
             #else
-            Debug.LogWarning("Can't unregister action: plugin is disabled");
+            Log.w("Can't unregister action: plugin is disabled");
             #endif
             #endif
         }
@@ -796,7 +796,7 @@ namespace LunarConsolePlugin
                 }
                 else
                 {
-                    Debug.LogWarning("Can't unregister actions: instance is not initialized. Make sure you've installed it correctly");
+                    Log.w("Can't unregister actions: instance is not initialized. Make sure you've installed it correctly");
                 }
             }
             #endif // LUNAR_CONSOLE_ENABLED
