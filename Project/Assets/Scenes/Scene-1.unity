@@ -102,7 +102,6 @@ GameObject:
   - component: {fileID: 325927472}
   - component: {fileID: 325927471}
   - component: {fileID: 325927470}
-  - component: {fileID: 325927474}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -185,28 +184,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &325927474
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 325927469}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1297475563, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Padding:
-    m_Left: 0
-    m_Right: 0
-    m_Top: 0
-    m_Bottom: 0
-  m_ChildAlignment: 4
-  m_Spacing: 0
-  m_ChildForceExpandWidth: 0
-  m_ChildForceExpandHeight: 0
-  m_ChildControlWidth: 1
-  m_ChildControlHeight: 1
 --- !u!1 &1067209476
 GameObject:
   m_ObjectHideFlags: 0
@@ -483,6 +460,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9ca3326e330843bc825ea966b3d15c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_dontDestroyOnLoad: 0
   m_actions:
   - m_name: Scene 1 - Action - 1
     m_target: {fileID: 1598709498}
@@ -503,7 +481,6 @@ GameObject:
   - component: {fileID: 1697570394}
   - component: {fileID: 1697570393}
   - component: {fileID: 1697570392}
-  - component: {fileID: 1697570395}
   - component: {fileID: 1697570396}
   m_Layer: 5
   m_Name: Back Button
@@ -526,10 +503,10 @@ RectTransform:
   m_Father: {fileID: 325927473}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 0, y: 30}
+  m_SizeDelta: {x: 150, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1697570392
 MonoBehaviour:
@@ -605,24 +582,6 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1697570390}
---- !u!114 &1697570395
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1697570390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 1679637790, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_IgnoreLayout: 0
-  m_MinWidth: -1
-  m_MinHeight: -1
-  m_PreferredWidth: 150
-  m_PreferredHeight: 40
-  m_FlexibleWidth: -1
-  m_FlexibleHeight: -1
 --- !u!114 &1697570396
 MonoBehaviour:
   m_ObjectHideFlags: 0
