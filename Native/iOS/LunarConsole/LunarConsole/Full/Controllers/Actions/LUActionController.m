@@ -363,4 +363,12 @@ static const NSInteger kSectionCount = 2;
     _noActionsWarningView.hidden = hidden;
 }
 
+#pragma mark -
+#pragma Interface Builder actions
+
+- (IBAction)onInfoButton:(id)sender
+{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://goo.gl/in0obv"]];
+}
+
 @end
