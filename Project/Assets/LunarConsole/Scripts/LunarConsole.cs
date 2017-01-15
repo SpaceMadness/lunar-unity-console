@@ -174,7 +174,7 @@ namespace LunarConsolePlugin
             }
             catch (Exception e)
             {
-                Debug.LogError("Can't init " + Constants.PluginName + ": " + e.Message);
+                Log.e(e, "Can't init platform");
             }
 
             return false;
@@ -516,14 +516,14 @@ namespace LunarConsolePlugin
             string name = data["name"];
             if (string.IsNullOrEmpty(name))
             {
-                Debug.LogError("Can't handle native callback: 'name' is undefined");
+                Log.w("Can't handle native callback: 'name' is undefined");
                 return;
             }
 
             LunarConsoleNativeMessageHandler handler;
             if (!nativeHandlerLookup.TryGetValue(name, out handler))
             {
-                Debug.LogError("Can't handle native callback: handler not found '" + name + "'");
+                Log.w("Can't handle native callback: handler not found '" + name + "'");
                 return;
             }
 
@@ -533,7 +533,7 @@ namespace LunarConsolePlugin
             }
             catch (Exception e)
             {
-                Debug.LogError("Exception while handling native callback (" + name + "): " + e.Message);
+                Log.e(e, "Exception while handling native callback '{0}'", name);
             }
         }
 
@@ -574,28 +574,28 @@ namespace LunarConsolePlugin
         {
             if (m_registry == null)
             {
-                Debug.LogError("Can't run action: make sure plugin is properly initialized");
+                Log.w("Can't run action: make sure plugin is properly initialized");
                 return;
             }
 
             string actionIdStr;
             if (!data.TryGetValue("id", out actionIdStr))
             {
-                Debug.LogError("Can't run action: data is not properly formatted");
+                Log.w("Can't run action: data is not properly formatted");
                 return;
             }
 
             int actionId;
             if (!int.TryParse(actionIdStr, out actionId))
             {
-                Debug.LogError("Can't run action: invalid ID " + actionIdStr);
+                Log.w("Can't run action: invalid ID " + actionIdStr);
                 return;
             }
 
             var action = m_registry.FindAction(actionId);
             if (action == null)
             {
-                Debug.LogError("Can't run action: ID not found " + actionIdStr);
+                Log.w("Can't run action: ID not found " + actionIdStr);
                 return;
             }
 
@@ -605,7 +605,7 @@ namespace LunarConsolePlugin
             }
             catch (Exception e)
             {
-                Debug.LogError("Can't run action: " + e.Message);
+                Log.e(e, "Can't run action {0}", action.Name);
             }
         }
 
@@ -613,35 +613,35 @@ namespace LunarConsolePlugin
         {
             if (m_registry == null)
             {
-                Debug.LogError("Can't set variable: make sure plugin is properly initialized");
+                Log.w("Can't set variable: make sure plugin is properly initialized");
                 return;
             }
 
             string variableIdStr;
             if (!data.TryGetValue("id", out variableIdStr))
             {
-                Debug.LogError("Can't set variable: missing 'id' property");
+                Log.w("Can't set variable: missing 'id' property");
                 return;
             }
 
             string value;
             if (!data.TryGetValue("value", out value))
             {
-                Debug.LogError("Can't set variable: missing 'value' property");
+                Log.w("Can't set variable: missing 'value' property");
                 return;
             }
 
             int variableId;
             if (!int.TryParse(variableIdStr, out variableId))
             {
-                Debug.LogError("Can't set variable: invalid ID " + variableIdStr);
+                Log.w("Can't set variable: invalid ID " + variableIdStr);
                 return;
             }
 
             var variable = m_registry.FindVariable(variableId);
             if (variable == null)
             {
-                Debug.LogError("Can't set variable: ID not found " + variableIdStr);
+                Log.w("Can't set variable: ID not found " + variableIdStr);
                 return;
             }
 
@@ -651,7 +651,7 @@ namespace LunarConsolePlugin
             }
             catch (Exception e)
             {
-                Debug.LogError("Can't set variable: " + e.Message);
+                Log.e(e, "Exception while trying to set variable '{0}'", variable.Name);
             }
         }
 
