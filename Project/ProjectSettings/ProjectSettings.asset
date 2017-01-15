@@ -118,7 +118,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleIdentifier: com.spacemadness.LunarConsole
+  bundleIdentifier: com.spacemadness.LunarConsoleTest
   bundleVersion: 1.0
   preloadedAssets: []
   metroInputSource: 0

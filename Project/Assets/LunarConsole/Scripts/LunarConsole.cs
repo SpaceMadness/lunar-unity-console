@@ -166,7 +166,8 @@ namespace LunarConsolePlugin
                             }
                         };
 
-                        CVarResolver.ResolveVariables();
+                        // TODO: release it next time
+                        // CVarResolver.ResolveVariables();
 
                         return true;
                     }

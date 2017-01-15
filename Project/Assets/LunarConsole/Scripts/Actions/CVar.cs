@@ -375,7 +375,6 @@ namespace LunarConsolePlugin
     {
         public static void ResolveVariables()
         {
-            /*
             try
             {
                 var assembly = typeof(CVarResolver).Assembly;
@@ -389,7 +388,6 @@ namespace LunarConsolePlugin
             {
                 Debug.LogError("Unable to resolve variables: " + e.Message);
             }
-            */
         }
     }
 
