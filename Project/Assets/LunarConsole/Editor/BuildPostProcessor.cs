@@ -22,6 +22,7 @@
 ﻿using UnityEngine;
 using UnityEditor;
 using UnityEditor.Callbacks;
+using System;
 
 #if UNITY_IOS || UNITY_IPHONE
 using UnityEditor.iOS.Xcode;
@@ -59,23 +60,24 @@ namespace LunarConsoleEditorInternal
             string[] files = Directory.GetFiles(EditorConstants.EditorPathIOS, "*.projmods", System.IO.SearchOption.AllDirectories);
             foreach (string file in files)
             {
-                ApplyMod(project, file);
+                ApplyMod(project, file, buildPath);
             }
 
             project.WriteToFile(projectPath);
         }
 
-        static void ApplyMod(PBXProject project, string modFile)
+        static void ApplyMod(PBXProject project, string modFile, string buildPath)
         {
             var json = File.ReadAllText(modFile);
             var mod = JsonUtility.FromJson<ProjMod>(json);
             var sourceDir = Directory.GetParent(modFile).FullName;
-            var targetDir = "Libraries/" + mod.group;
+            var targetGroup = "Libraries/" + mod.group;
             var targetGuid = project.TargetGuidByName(PBXProject.GetUnityTargetName());
+            var dirProject = Directory.GetParent(PBXProject.GetPBXProjectPath(buildPath)).FullName;
             foreach (var file in mod.files)
             {
                 var filename = Path.GetFileName(file);
-                var fileGuid = project.AddFile(sourceDir + "/" + file, targetDir + "/" + filename, PBXSourceTree.Absolute);
+                var fileGuid = project.AddFile(MakeRelativePath(dirProject, sourceDir + "/" + file), targetGroup + "/" + filename, PBXSourceTree.Source);
                 if (filename.EndsWith(".h"))
                 {
                     continue;
@@ -88,6 +90,18 @@ namespace LunarConsoleEditorInternal
                 project.AddFrameworkToProject(targetGuid, framework, false);
             }
         }
+
+        #pragma warning disable 0612
+        #pragma warning disable 0618
+
+        static string MakeRelativePath(string parentPath, string filePath)
+        {
+            return Uri.UnescapeDataString(new Uri(parentPath, false).MakeRelative(new Uri(filePath)));
+        }
+
+        #pragma warning restore 0612
+        #pragma warning restore 0618
+
         #endif
     }
 
