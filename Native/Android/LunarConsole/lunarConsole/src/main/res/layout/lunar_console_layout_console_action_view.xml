@@ -46,11 +46,11 @@
     </LinearLayout>
 
     <RelativeLayout
+        android:id="@+id/lunar_console_actions_warning_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/lunar_console_actions_warning_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
@@ -72,8 +72,8 @@
         </LinearLayout>
 
         <Button
-            style="@style/lunar_console_hyperlink_button_style"
             android:id="@+id/lunar_console_no_actions_button_help"
+            style="@style/lunar_console_hyperlink_button_style"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="12dp"
