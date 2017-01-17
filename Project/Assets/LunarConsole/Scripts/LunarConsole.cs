@@ -361,14 +361,20 @@ namespace LunarConsolePlugin
                 m_pluginClassRaw = m_pluginClass.GetRawClass();
 
                 IntPtr methodInit = GetStaticMethod(m_pluginClassRaw, "init", "(Ljava.lang.String;Ljava.lang.String;Ljava.lang.String;IILjava.lang.String;)V");
-                CallStaticVoidMethod(methodInit, new jvalue[] {
+                var methodInitParams = new jvalue[] {
                     jval(targetName),
                     jval(methodName),
                     jval(version),
                     jval(capacity),
                     jval(trim),
                     jval(gesture)
-                });
+                };
+                CallStaticVoidMethod(methodInit, methodInitParams);
+
+                AndroidJNI.DeleteLocalRef(methodInitParams[0].l);
+                AndroidJNI.DeleteLocalRef(methodInitParams[1].l);
+                AndroidJNI.DeleteLocalRef(methodInitParams[2].l);
+                AndroidJNI.DeleteLocalRef(methodInitParams[5].l);
 
                 m_methodLogMessage = GetStaticMethod(m_pluginClassRaw, "logMessage", "(Ljava.lang.String;Ljava.lang.String;I)V");
                 m_methodShowConsole = GetStaticMethod(m_pluginClassRaw, "show", "()V");
@@ -394,6 +400,9 @@ namespace LunarConsolePlugin
                     m_args3[2] = jval((int)type);
 
                     CallStaticVoidMethod(m_methodLogMessage, m_args3);
+
+                    AndroidJNI.DeleteLocalRef(m_args3[0].l);
+                    AndroidJNI.DeleteLocalRef(m_args3[1].l);
                 }
             }
 
