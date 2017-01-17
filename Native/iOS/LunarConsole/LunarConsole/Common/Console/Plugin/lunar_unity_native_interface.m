@@ -89,24 +89,47 @@ void __lunar_console_log_message(const char * messageStr, const char * stackTrac
 {
     NSString *message = [[NSString alloc] initWithUTF8String:messageStr];
     NSString *stackTrace = [[NSString alloc] initWithUTF8String:stackTraceStr];
-
-    [_lunarConsolePlugin logMessage:message stackTrace:stackTrace type:type];
     
+    if ([NSThread isMainThread])
+    {
+        [_lunarConsolePlugin logMessage:message stackTrace:stackTrace type:type];
+    }
+    else
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_lunarConsolePlugin logMessage:message stackTrace:stackTrace type:type];
+        });
+    }
 }
 
 void __lunar_console_action_register(int actionId, const char *actionNameStr)
 {
     NSString *actionName = [[NSString alloc] initWithUTF8String:actionNameStr];
-    lunar_dispatch_main(^{
+    
+    if ([NSThread isMainThread])
+    {
         [_lunarConsolePlugin registerActionWithId:actionId name:actionName];
-    });
+    }
+    else
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_lunarConsolePlugin registerActionWithId:actionId name:actionName];
+        });
+    }
 }
 
 void __lunar_console_action_unregister(int actionId)
 {
-    lunar_dispatch_main(^{
+    if ([NSThread isMainThread])
+    {
         [_lunarConsolePlugin unregisterActionWithId:actionId];
-    });
+    }
+    else
+    {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_lunarConsolePlugin unregisterActionWithId:actionId];
+        });
+    }
 }
 
 void __lunar_console_cvar_register(int entryId, const char *nameStr, const char *typeStr, const char *valueStr, const char *defaultValueStr)
