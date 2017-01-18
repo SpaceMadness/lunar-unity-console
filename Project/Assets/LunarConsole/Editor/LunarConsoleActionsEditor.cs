@@ -131,7 +131,7 @@ namespace LunarConsoleEditorInternal
                         var componentTypeProperty = serializedObject.FindProperty("m_actions.Array.data[" + i + "].m_componentTypeName");
                         var componentMethodProperty = serializedObject.FindProperty("m_actions.Array.data[" + i + "].m_componentMethodName");
 
-                        EditorGUILayout.PropertyField(nameProperty);
+                        EditorGUILayout.PropertyField(nameProperty, new GUIContent("Display Name"));
 
                         EditorGUILayout.BeginHorizontal();
                         {
