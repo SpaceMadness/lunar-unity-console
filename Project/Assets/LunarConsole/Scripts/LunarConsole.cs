@@ -740,6 +740,11 @@ namespace LunarConsolePlugin
             #endif
         }
 
+        /// <summary>
+        /// Registers action delegate
+        /// </summary>
+        /// <param name="name">Display name</param>
+        /// <param name="action">Callback delegate</param>
         public static void RegisterAction(string name, Action action)
         {
             #if LUNAR_CONSOLE_PLATFORM_SUPPORTED
@@ -758,6 +763,9 @@ namespace LunarConsolePlugin
             #endif
         }
 
+        /// <summary>
+        /// Unregister action by delegate
+        /// </summary>
         public static void UnregisterAction(Action action)
         {
             #if LUNAR_CONSOLE_PLATFORM_SUPPORTED
@@ -776,6 +784,9 @@ namespace LunarConsolePlugin
             #endif
         }
 
+        /// <summary>
+        /// Unregister action by name
+        /// </summary>
         public static void UnregisterAction(string name)
         {
             #if LUNAR_CONSOLE_PLATFORM_SUPPORTED
@@ -794,6 +805,9 @@ namespace LunarConsolePlugin
             #endif
         }
 
+        /// <summary>
+        /// Unregister all actions from specific target
+        /// </summary>
         public static void UnregisterAllActions(object target)
         {
             #if LUNAR_CONSOLE_PLATFORM_SUPPORTED
