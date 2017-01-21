@@ -170,7 +170,7 @@ class TestProject
 
   def list_xcodeproj_plugin_files(file_proj, subpath)
     text = File.read file_proj
-    regex = Regexp.new("{isa = PBXFileReference; lastKnownFileType = .*?; name = .*?; path = ../../#{subpath}/(.*?); sourceTree = SOURCE_ROOT; };")
+    regex = Regexp.new(%({isa\s+=\s+PBXFileReference;\s+lastKnownFileType\s+=\s+.*?;\s+name\s+=\s+.*?;\s+path =\s+"?../../#{subpath}/(.*?)"?;\s+sourceTree\s+=\s+SOURCE_ROOT;\s+};))
     actual_files = []
     text.scan(regex).each { |capture|
       actual_files.push capture.first
