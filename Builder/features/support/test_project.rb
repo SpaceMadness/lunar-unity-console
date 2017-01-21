@@ -76,6 +76,7 @@ class TestProject
     # list resources included in plugin
     plugin_resources = list_android_plugin_resources resolve_path("#{dir_plugin}/res")
     plugin_resources.delete 'res/values/values.xml' # for some reason this file does not appear in the apk
+    plugin_resources.delete 'res/values-v14/values-v14.xml' # for some reason this file does not appear in the apk
 
     # check classes
     no_classes = true
