@@ -124,21 +124,22 @@ You can enable/disable the plugin while using Unity Cloud Build service.
 - To disable the plugin set ```Pre-Export Method Name:``` to ```LunarConsoleEditorInternal.Installer.DisablePlugin```:  
 <img width="576" src="https://cloud.githubusercontent.com/assets/786644/22178551/2d2ef692-dfee-11e6-9e47-ed78a4971cfd.png">
 - To enable the plugin set ```Pre-Export Method Name:``` to ```LunarConsoleEditorInternal.Installer.EnablePlugin``` check the ```Development Builds``` checkbox:  
-<img width="576" src="https://cloud.githubusercontent.com/assets/786644/22178552/2d40c8b8-dfee-11e6-8828-a0b1d87b1d49.png">  
+<img width="576" src="https://cloud.githubusercontent.com/assets/786644/22178592/8c03eafa-dfef-11e6-909d-3a712bff1afa.png">  
 **Note:** if you're using Lunar Mobile Console older than v0.7.2 (v0.0.1b-v0.7.1) you would need to use ```LunarConsolePluginInternal.Installer.DisablePlugin``` and ```LunarConsolePluginInternal.Installer.EnablePlugin``` instead.
 
 ### Build System Support
 You can enable/disable the plugin from the command line (and make it a part of your build process)
 
 - To disable:  
-  ```<UNITY_BIN_PATH>  -quit -batchmode  -executeMethod LunarConsolePluginInternal.Installer.DisablePlugin```
+  ```<UNITY_BIN_PATH>  -quit -batchmode  -executeMethod LunarConsoleEditorInternal.Installer.DisablePlugin```
 - To enable:  
-  ```<UNITY_BIN_PATH>  -quit -batchmode  -executeMethod LunarConsolePluginInternal.Installer.EnablePlugin```
+  ```<UNITY_BIN_PATH>  -quit -batchmode  -executeMethod LunarConsoleEditorInternal.Installer.EnablePlugin```
 
 ```<UNITY_BIN_PATH>``` locations:
 - Mac OS X: ```/Applications/Unity/Unity.app/Contents/MacOS/Unity```
 - Windows: ```c:\Program Files\Unity\Editor\Unity.exe```
-- Linux: _TBD_
+- Linux: _TBD_  
+**Note:** if you're using Lunar Mobile Console older than v0.7.2 (v0.0.1b-v0.7.1) you would need to use ```LunarConsolePluginInternal.Installer.DisablePlugin``` and ```LunarConsolePluginInternal.Installer.EnablePlugin``` instead.
  
 ## Troubleshooting
 Please, visit the [Troubleshooting](https://github.com/SpaceMadness/lunar-unity-console/wiki/Troubleshooting) Wiki page or post your question on the official forum [thread](http://forum.unity3d.com/threads/lunar-mobile-console-high-performance-unity-ios-android-logger-built-with-native-platform-ui.347650/).
