@@ -15,6 +15,7 @@ Requires Unity 5.0 or later.
 - [Installation](#installation)
 - [Usage](#usage)
   - [Configuration](#configuration)
+  - [Quick Actions](#quick-actions-preview)
   - [Stack Trace Frames](#stack-trace-frames)
   - [Enabling/Disabling Plugin](#enablingdisabling-plugin)
   - [Unity Cloud Build Support](#unity-cloud-build-support)
@@ -84,6 +85,9 @@ You can open the console with a multi touch gesture or using the API call from a
   - Set the trim amount (how many lines will be removed from the beginning of the log when console overflows).
   - Choose a gesture from the drop down list or select `None` to completely disable multi touch gestures (you would still be able to open the console from your scripts).
   - Check "Remove Rich Text Tags" to remove rich text tags from the output (may cause performance overhead).
+
+### Quick Actions (Preview)
+For more information on Quick Actions check the user [guide](https://github.com/SpaceMadness/lunar-unity-console/wiki/Actions-and-Variables).
 
 ### Stack Trace Frames
 Touch the log entry to view its stack trace.
