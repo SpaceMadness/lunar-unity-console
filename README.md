@@ -121,10 +121,11 @@ You can enable/disable the plugin while using Unity Cloud Build service.
 <img width="617" src="https://cloud.githubusercontent.com/assets/786644/18625225/f7ba1f80-7e01-11e6-80df-71b96938ca23.png">
 - Expand ```[+] Show Advanced Options``` and click ```Edit Advanced Options```:  
 <img width="492" src="https://cloud.githubusercontent.com/assets/786644/18625227/f7c20ca4-7e01-11e6-8b90-f256f70f87a6.png">
-- To disable the plugin set ```Pre-Export Method Name:``` to ```LunarConsolePluginInternal.Installer.DisablePlugin```:  
-<img width="576" src="https://cloud.githubusercontent.com/assets/786644/18625226/f7bc8298-7e01-11e6-8f5e-2bca066b35df.png">
-- To enable the plugin set ```Pre-Export Method Name:``` to ```LunarConsolePluginInternal.Installer.EnablePlugin``` check the ```Development Builds``` checkbox:  
-<img width="576" src="https://cloud.githubusercontent.com/assets/786644/18625491/d5af3aae-7e03-11e6-98bc-28b26f57d2d0.png">
+- To disable the plugin set ```Pre-Export Method Name:``` to ```LunarConsoleEditorInternal.Installer.DisablePlugin```:  
+<img width="576" src="https://cloud.githubusercontent.com/assets/786644/22178551/2d2ef692-dfee-11e6-9e47-ed78a4971cfd.png">
+- To enable the plugin set ```Pre-Export Method Name:``` to ```LunarConsoleEditorInternal.Installer.EnablePlugin``` check the ```Development Builds``` checkbox:  
+<img width="576" src="https://cloud.githubusercontent.com/assets/786644/22178552/2d40c8b8-dfee-11e6-8828-a0b1d87b1d49.png">  
+**Note:** if you're using Lunar Mobile Console older than v0.7.2 (v0.0.1b-v0.7.1) you would need to use ```LunarConsolePluginInternal.Installer.DisablePlugin``` and ```LunarConsolePluginInternal.Installer.EnablePlugin``` instead.
 
 ### Build System Support
 You can enable/disable the plugin from the command line (and make it a part of your build process)
