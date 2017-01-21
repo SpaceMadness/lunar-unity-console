@@ -43,7 +43,7 @@ namespace LunarConsoleEditorInternal
         {
             if (LunarConsoleSettings.consoleEnabled)
             {
-                if (target.ToString() == "iOS" || target.ToString() == "iPhone")
+                if (target == BuildTarget.iOS)
                 {
                     OnPostprocessIOS(buildPath);
                 }
