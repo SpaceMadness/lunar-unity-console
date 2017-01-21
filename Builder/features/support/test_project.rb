@@ -22,7 +22,8 @@ class TestProject
   def export_app(platform)
 
     if platform == 'iOS'
-      @unity_project.exec_unity_method 'LunarConsoleEditorInternal.AppExporter.PerformiOSBuild'
+      @unity_project.exec_unity_method 'LunarConsoleEditorInternal.AppExporter.SwitchToIOSBuildTarget'
+      @unity_project.exec_unity_method 'LunarConsoleEditorInternal.AppExporter.PerformIOSBuild'
     elsif platform == 'Android'
       @unity_project.exec_unity_method 'LunarConsoleEditorInternal.AppExporter.PerformAndroidBuild'
     else
