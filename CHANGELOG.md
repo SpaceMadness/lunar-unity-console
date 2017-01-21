@@ -1,6 +1,6 @@
 # Lunar Console Changelog
 
-## v.0.7.2 - 1/21/2017
+## v.0.8.0 - 1/21/2017
 
 **New:**
 
