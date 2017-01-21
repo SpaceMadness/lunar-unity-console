@@ -52,28 +52,50 @@ namespace LunarConsoleEditorInternal
 
         static void OnPostprocessIOS(string buildPath)
         {
-            var projectPath = PBXProject.GetPBXProjectPath(buildPath);
+            // Workaround for:
+            // FileNotFoundException: Could not load file or assembly 'UnityEditor.iOS.Extensions.Xcode, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null' or one of its dependencies.
+            // For more information see: http://answers.unity3d.com/questions/1016975/filenotfoundexception-when-using-xcode-api.html
+            var projectMod = new XcodeProjMod(buildPath);
+            projectMod.UpdateProject();
+        }
+        #endif //UNITY_IOS || UNITY_IPHONE
+    }
 
+    #if UNITY_IOS || UNITY_IPHONE
+    class XcodeProjMod
+    {
+        private readonly string m_buildPath;
+        private readonly string m_projectPath;
+
+
+        public XcodeProjMod(string buildPath)
+        {
+            m_buildPath = buildPath;
+            m_projectPath = PBXProject.GetPBXProjectPath(buildPath);
+        }
+
+        public void UpdateProject()
+        {
             var project = new PBXProject();
-            project.ReadFromFile(projectPath);
+            project.ReadFromFile(m_projectPath);
 
             string[] files = Directory.GetFiles(EditorConstants.EditorPathIOS, "*.projmods", System.IO.SearchOption.AllDirectories);
             foreach (string file in files)
             {
-                ApplyMod(project, file, buildPath);
+                ApplyMod(project, file);
             }
 
-            project.WriteToFile(projectPath);
+            project.WriteToFile(m_projectPath);
         }
 
-        static void ApplyMod(PBXProject project, string modFile, string buildPath)
+        void ApplyMod(PBXProject project, string modFile)
         {
             var json = File.ReadAllText(modFile);
             var mod = JsonUtility.FromJson<ProjMod>(json);
             var sourceDir = Directory.GetParent(modFile).FullName;
             var targetGroup = "Libraries/" + mod.group;
             var targetGuid = project.TargetGuidByName(PBXProject.GetUnityTargetName());
-            var dirProject = Directory.GetParent(PBXProject.GetPBXProjectPath(buildPath)).FullName;
+            var dirProject = Directory.GetParent(PBXProject.GetPBXProjectPath(m_buildPath)).FullName;
             foreach (var file in mod.files)
             {
                 var filename = Path.GetFileName(file);
@@ -101,8 +123,6 @@ namespace LunarConsoleEditorInternal
 
         #pragma warning restore 0612
         #pragma warning restore 0618
-
-        #endif
     }
 
     #pragma warning disable 0649
@@ -118,4 +138,6 @@ namespace LunarConsoleEditorInternal
 
     #pragma warning restore 0649
     #pragma warning restore 0414
+
+    #endif // UNITY_IOS || UNITY_IPHONE
 }
