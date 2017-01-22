@@ -1,10 +1,10 @@
 //
 //  ColorUtils.cs
 //
-//  Lunar Plugin for Unity: a command line solution for your game.
-//  https://github.com/SpaceMadness/lunar-unity-plugin
+//  Lunar Unity Mobile Console
+//  https://github.com/SpaceMadness/lunar-unity-console
 //
-//  Copyright 2016 Alex Lementuev, SpaceMadness.
+//  Copyright 2017 Alex Lementuev, SpaceMadness.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
