@@ -22,9 +22,10 @@ class TestProject
   def export_app(platform)
 
     if platform == 'iOS'
-      @unity_project.exec_unity_method 'LunarConsolePluginInternal.AppExporter.PerformiOSBuild'
+      @unity_project.exec_unity_method 'LunarConsoleEditorInternal.AppExporter.SwitchToIOSBuildTarget'
+      @unity_project.exec_unity_method 'LunarConsoleEditorInternal.AppExporter.PerformIOSBuild'
     elsif platform == 'Android'
-      @unity_project.exec_unity_method 'LunarConsolePluginInternal.AppExporter.PerformAndroidBuild'
+      @unity_project.exec_unity_method 'LunarConsoleEditorInternal.AppExporter.PerformAndroidBuild'
     else
       raise ArgumentError.new("Unexpected platform: #{platform}")
     end
@@ -75,6 +76,7 @@ class TestProject
     # list resources included in plugin
     plugin_resources = list_android_plugin_resources resolve_path("#{dir_plugin}/res")
     plugin_resources.delete 'res/values/values.xml' # for some reason this file does not appear in the apk
+    plugin_resources.delete 'res/values-v14/values-v14.xml' # for some reason this file does not appear in the apk
 
     # check classes
     no_classes = true
@@ -169,7 +171,7 @@ class TestProject
 
   def list_xcodeproj_plugin_files(file_proj, subpath)
     text = File.read file_proj
-    regex = Regexp.new(%r(path="../../#{subpath}/(.*?)";))
+    regex = Regexp.new(%({isa\s+=\s+PBXFileReference;\s+lastKnownFileType\s+=\s+.*?;\s+name\s+=\s+.*?;\s+path =\s+"?../../#{subpath}/(.*?)"?;\s+sourceTree\s+=\s+SOURCE_ROOT;\s+};))
     actual_files = []
     text.scan(regex).each { |capture|
       actual_files.push capture.first
@@ -179,7 +181,7 @@ class TestProject
 
   def build_ios_app
     file_xcodeproj = resolve_path "#{@unity_project.dir_project}/Build/iOS/Unity-iPhone.xcodeproj"
-    exec_shell %(xcodebuild -project "#{file_xcodeproj}" -target Unity-iPhone -configuration Debug DEVELOPMENT_TEAM=8QJMLCL693), "Can't build iOS app"
+    exec_shell %(xcodebuild -project "#{file_xcodeproj}" -target Unity-iPhone -configuration Debug DEVELOPMENT_TEAM=QKXHZM7Z5V), "Can't build iOS app"
   end
 
   def dir_project

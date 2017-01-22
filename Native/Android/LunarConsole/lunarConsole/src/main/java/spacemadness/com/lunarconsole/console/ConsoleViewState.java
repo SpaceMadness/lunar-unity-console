@@ -21,12 +21,35 @@
 
 package spacemadness.com.lunarconsole.console;
 
-class ConsoleViewState
+import android.content.Context;
+import android.content.SharedPreferences;
+
+import java.lang.ref.WeakReference;
+
+import spacemadness.com.lunarconsole.debug.Log;
+
+public class ConsoleViewState
 {
+    private static final String KEY_LEFT_MARGIN         = "leftMargin";
+    private static final String KEY_RIGHT_MARGIN        = "rightMargin";
+    private static final String KEY_TOP_MARGIN          = "topMargin";
+    private static final String KEY_BOTTOM_MARGIN       = "bottomMargin";
+    private static final String KEY_ACTION_FILTER_TEXT  = "actionFilterText";
+
+    private final WeakReference<Context> contextRef;
+
     private int leftMargin;
     private int rightMargin;
     private int topMargin;
     private int bottomMargin;
+
+    private String actionFilterText;
+
+    public ConsoleViewState(Context context)
+    {
+        contextRef = new WeakReference<>(context);
+        load();
+    }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Getters/Setters
@@ -57,18 +80,100 @@ class ConsoleViewState
         this.bottomMargin = bottomMargin;
         this.leftMargin = leftMargin;
         this.rightMargin = rightMargin;
+
+        saveMargins();
+    }
+
+    public String getActionFilterText()
+    {
+        return actionFilterText;
+    }
+
+    public void setActionFilterText(String actionFilterText)
+    {
+        this.actionFilterText = actionFilterText;
+
+        saveActionFilterText();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Thread safe singleton
+    // Persistent storage
 
-    public static ConsoleViewState instance()
+    private void load()
     {
-        return Holder.INSTANCE;
+        try
+        {
+            SharedPreferences preferences = getSharedPreferences();
+            int leftMargin = preferences.getInt(KEY_LEFT_MARGIN, 0);
+            int rightMargin = preferences.getInt(KEY_RIGHT_MARGIN, 0);
+            int topMargin = preferences.getInt(KEY_TOP_MARGIN, 0);
+            int bottomMargin = preferences.getInt(KEY_BOTTOM_MARGIN, 0);
+            String actionFilterText = preferences.getString(KEY_ACTION_FILTER_TEXT, null);
+
+            this.leftMargin = leftMargin;
+            this.rightMargin = rightMargin;
+            this.topMargin = topMargin;
+            this.bottomMargin = bottomMargin;
+            this.actionFilterText = actionFilterText;
+        }
+        catch (Exception e)
+        {
+            Log.e(e, "Exception while loading margins");
+        }
     }
 
-    private static final class Holder
+    private void saveMargins()
     {
-        static final ConsoleViewState INSTANCE = new ConsoleViewState();
+        try
+        {
+            SharedPreferences preferences = getSharedPreferences();
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putInt(KEY_LEFT_MARGIN, leftMargin);
+            editor.putInt(KEY_RIGHT_MARGIN, rightMargin);
+            editor.putInt(KEY_TOP_MARGIN, topMargin);
+            editor.putInt(KEY_BOTTOM_MARGIN, bottomMargin);
+            editor.apply();
+        }
+        catch (Exception e)
+        {
+            Log.e(e, "Exception while saving margins");
+        }
+    }
+
+    private void saveActionFilterText()
+    {
+        try
+        {
+            SharedPreferences preferences = getSharedPreferences();
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString(KEY_ACTION_FILTER_TEXT, actionFilterText);
+            editor.apply();
+        }
+        catch (Exception e)
+        {
+            Log.e(e, "Exception while saving margins");
+        }
+    }
+
+    private SharedPreferences getSharedPreferences()
+    {
+        return getSharedPreferences(getContext());
+    }
+
+    private static SharedPreferences getSharedPreferences(Context context)
+    {
+        String prefsName = ConsoleViewState.class.getCanonicalName();
+        return context.getSharedPreferences(prefsName, Context.MODE_PRIVATE);
+    }
+
+    private Context getContext()
+    {
+        return contextRef.get();
+    }
+
+    // for testing
+    public static void clear(Context context)
+    {
+        getSharedPreferences(context).edit().clear().apply();
     }
 }

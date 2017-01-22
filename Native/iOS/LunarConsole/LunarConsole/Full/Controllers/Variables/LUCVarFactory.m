@@ -30,7 +30,7 @@
 
 @implementation LUCVarFactory
 
-+ (LUCVar *)variableWithId:(int)entryId name:(NSString *)name value:(NSString *)value type:(LUCVarType)type
++ (LUCVar *)variableWithId:(int)entryId name:(NSString *)name value:(NSString *)value defaultValue:(NSString *)defaultValue type:(LUCVarType)type
 {
     Class cellClass = [self tableCellClassForVariableType:type];
     if (cellClass == NULL)
@@ -39,7 +39,12 @@
         return nil;
     }
     
-    return [LUCVar variableWithId:entryId name:name value:value type:type cellClass:cellClass];
+    return [LUCVar variableWithId:entryId
+                             name:name
+                            value:value
+                     defaultValue:defaultValue
+                             type:type
+                        cellClass:cellClass];
 }
 
 + (Class)tableCellClassForVariableType:(LUCVarType)type

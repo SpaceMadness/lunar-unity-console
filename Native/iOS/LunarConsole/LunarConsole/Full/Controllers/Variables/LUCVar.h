@@ -39,11 +39,15 @@ extern NSString * const LUCVarTypeNameUnknown;
 
 @property (nonatomic, readonly) LUCVarType type;
 @property (nonatomic, strong) NSString *value;
+@property (nonatomic, strong) NSString *defaultValue;
+@property (nonatomic, readonly) BOOL isDefaultValue;
 
-+ (instancetype)variableWithId:(int)entryId name:(NSString *)name value:(NSString *)value type:(LUCVarType)type cellClass:(Class)cellClass;
-- (instancetype)initWithId:(int)entryId name:(NSString *)name value:(NSString *)value type:(LUCVarType)type cellClass:(Class)cellClass;
++ (instancetype)variableWithId:(int)entryId name:(NSString *)name value:(NSString *)value defaultValue:(NSString *)defaultValue type:(LUCVarType)type cellClass:(Class)cellClass;
+- (instancetype)initWithId:(int)entryId name:(NSString *)name value:(NSString *)value defaultValue:(NSString *)defaultValue type:(LUCVarType)type cellClass:(Class)cellClass;
 
 + (LUCVarType)typeForName:(NSString *)type;
 + (NSString *)typeNameForType:(LUCVarType)type;
+
+- (void)resetToDefaultValue;
 
 @end

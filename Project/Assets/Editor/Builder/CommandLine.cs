@@ -23,7 +23,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace LunarConsolePluginInternal
+namespace LunarConsoleEditorInternal
 {
     static class CommandLine
     {

@@ -27,7 +27,7 @@ using LunarConsolePlugin;
 using System.IO;
 using System.Collections;
 
-namespace LunarConsolePluginInternal
+namespace LunarConsoleEditorInternal
 {
     [InitializeOnLoad]
     static class Autorun

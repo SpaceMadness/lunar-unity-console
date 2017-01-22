@@ -16,6 +16,9 @@
 # Unity3D Generated File On Crash Reports
 sysinfo.txt
 
+# Temp files
+RegisterIcalls.cpp
+
 # Ignore native part
 /Assets/LunarConsole/Editor/iOS
 /Assets/LunarConsole/Editor/iOS.meta

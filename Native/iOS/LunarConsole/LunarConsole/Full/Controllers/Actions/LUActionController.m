@@ -23,11 +23,14 @@
 
 #import "LUActionController.h"
 
+NSString * const LUActionControllerDidSelectAction = @"LUActionControllerDidSelectAction";
+NSString * const LUActionControllerDidSelectActionKeyAction = @"action";
+
 static const NSInteger kSectionIndexActions = 0;
 static const NSInteger kSectionIndexVariables = 1;
 static const NSInteger kSectionCount = 2;
 
-@interface LUActionController () <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, LUActionRegistryFilterDelegate, LUCVarTableViewCellDelegate>
+@interface LUActionController () <UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate, LUActionRegistryFilterDelegate>
 {
     LUActionRegistryFilter * _actionRegistryFilter;
 }
@@ -98,17 +101,6 @@ static const NSInteger kSectionCount = 2;
     
     // accessibility
     LU_SET_ACCESSIBILITY_IDENTIFIER(_noActionsWarningView, @"No Actions Warning View");
-    
-//    // "status bar" view
-//    UITapGestureRecognizer *statusBarTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self                                                                                                    action:@selector(onStatusBarTap:)];
-//    [_statusBarView addGestureRecognizer:statusBarTapGestureRecognizer];
-//    [statusBarTapGestureRecognizer release];
-//    
-//    _statusBarView.text = [NSString stringWithFormat:@"Lunar Console v%@", _version ? _version : @"?.?.?"];
-    
-    
-    // filter text
-    // _filterBar.text = _console.entries.filterText;
 }
 
 #pragma mark -
@@ -116,15 +108,15 @@ static const NSInteger kSectionCount = 2;
 
 - (void)registerNotifications
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(consoleControllerDidResizeNotification:)
-                                                 name:LUConsoleControllerDidResizeNotification
-                                               object:nil];
+    [LUNotificationCenter addObserver:self
+                             selector:@selector(consoleControllerDidResizeNotification:)
+                                 name:LUConsoleControllerDidResizeNotification
+                               object:nil];
 }
 
 - (void)unregisterNotifications
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [LUNotificationCenter removeObserver:self];
 }
 
 - (void)consoleControllerDidResizeNotification:(NSNotification *)notification
@@ -223,10 +215,11 @@ static const NSInteger kSectionCount = 2;
 {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     
-    if ([_delegate respondsToSelector:@selector(actionController:didSelectActionWithId:)])
+    if (indexPath.section == kSectionIndexActions)
     {
         LUAction *action = [self actionAtIndex:indexPath.row];
-        [_delegate actionController:self didSelectActionWithId:action.actionId];
+        NSDictionary *userInfo = @{ LUActionControllerDidSelectActionKeyAction : action };
+        [LUNotificationCenter postNotificationName:LUActionControllerDidSelectAction object:nil userInfo:userInfo];
     }
 }
 
@@ -302,16 +295,6 @@ static const NSInteger kSectionCount = 2;
 }
 
 #pragma mark -
-#pragma mark LUCVarTableViewCellDelegate
-
-- (void)consoleVariableTableViewCell:(LUCVarTableViewCell *)cell didChangeValue:(NSString *)value
-{
-    LUCVar *cvar = [_actionRegistryFilter.registry variableWithId:cell.variableId];
-    LUAssert(cvar);
-    cvar.value = value;
-}
-
-#pragma mark -
 #pragma mark Actions
 
 - (UITableViewCell *)tableView:(UITableView *)tableView actionCellForRowAtIndex:(NSInteger)index
@@ -350,7 +333,6 @@ static const NSInteger kSectionCount = 2;
     
     LUCVar *cvar = [self variableAtIndex:index];
     LUCVarTableViewCell *cell = (LUCVarTableViewCell *)[cvar tableView:tableView cellAtIndex:index];
-    cell.delegate = self;
     cell.contentView.backgroundColor = index % 2 == 0 ? theme.actionsBackgroundColorDark : theme.actionsBackgroundColorLight;
     return cell;
 }
@@ -379,6 +361,14 @@ static const NSInteger kSectionCount = 2;
     _tableView.hidden = !hidden;
     _filterBar.hidden = !hidden;
     _noActionsWarningView.hidden = hidden;
+}
+
+#pragma mark -
+#pragma Interface Builder actions
+
+- (IBAction)onInfoButton:(id)sender
+{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://goo.gl/in0obv"]];
 }
 
 @end

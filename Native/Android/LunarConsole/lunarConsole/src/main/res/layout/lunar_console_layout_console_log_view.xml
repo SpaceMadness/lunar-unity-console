@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/lunar_console_log_view"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/lunar_console_color_table_background"
+              android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/lunar_console_fake_status_bar"
+        style="@style/lunar_console_fake_status_bar_style"
+        android:text="@string/lunar_console_title_fake_status_bar"/>
+
+    <!-- TODO: use styles -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:background="@color/lunar_console_color_table_title_background"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/lunar_console_log_view_text_edit_filter"
+            style="@style/lunar_console_filter_edit_text_style"
+            android:hint="Filter"/>
+
+        <spacemadness.com.lunarconsole.ui.LogTypeButton
+            android:id="@+id/lunar_console_log_button"
+            style="@style/lunar_console_log_button_style"
+            android:drawableLeft="@drawable/lunar_console_icon_log"/>
+
+        <spacemadness.com.lunarconsole.ui.LogTypeButton
+            android:id="@+id/lunar_console_warning_button"
+            style="@style/lunar_console_log_button_style"
+            android:drawableLeft="@drawable/lunar_console_icon_log_warning"/>
+
+        <spacemadness.com.lunarconsole.ui.LogTypeButton
+            android:id="@+id/lunar_console_error_button"
+            style="@style/lunar_console_log_button_style"
+            android:drawableLeft="@drawable/lunar_console_icon_log_error"/>
+
+        <ImageButton
+            android:id="@+id/lunar_console_button_more"
+            style="@style/lunar_console_base_button_style"
+            android:src="@drawable/lunar_console_icon_button_more"/>
+
+    </LinearLayout>
+
+    <!--
+     This is a little hack: if we create a ListView in a layout file Unity will require
+     us to create a separate Android plugin with separate resources (otherwise ListView would
+     not be loaded correctly). As a workaround we need to create ListView programmatically
+     -->
+    <LinearLayout
+        android:id="@+id/lunar_console_log_view_list_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"/>
+
+    <TextView
+        android:id="@+id/lunar_console_text_overflow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/lunar_console_color_warning_background"
+        android:gravity="center"
+        android:text="@string/lunar_console_overflow_warning_text"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textColor="@color/lunar_console_color_warning_text"/>
+
+    <!-- TODO: better solution. Can't just use Space since it requires API Level 14 -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:id="@+id/lunar_console_button_clear"
+            style="@style/lunar_console_base_button_style"
+            android:src="@drawable/lunar_console_icon_button_clear"/>
+
+        <!-- TODO: better solution -->
+        <spacemadness.com.lunarconsole.ui.ToggleImageButton
+            android:id="@+id/lunar_console_button_lock"
+            style="@style/lunar_console_base_button_style"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/lunar_console_button_clear"
+            android:layout_toRightOf="@+id/lunar_console_button_clear"
+            android:src="@drawable/lunar_console_icon_button_lock"/>
+
+        <ImageButton
+            android:id="@+id/lunar_console_button_copy"
+            style="@style/lunar_console_base_button_style"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/lunar_console_button_lock"
+            android:layout_toRightOf="@+id/lunar_console_button_lock"
+            android:src="@drawable/lunar_console_icon_button_clipboard"/>
+
+        <ImageButton
+            android:id="@+id/lunar_console_button_email"
+            style="@style/lunar_console_base_button_style"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/lunar_console_button_copy"
+            android:layout_toRightOf="@+id/lunar_console_button_copy"
+            android:src="@drawable/lunar_console_icon_button_email"/>
+
+    </RelativeLayout>
+
+</LinearLayout>

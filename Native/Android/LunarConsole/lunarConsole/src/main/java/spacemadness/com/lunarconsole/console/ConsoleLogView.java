@@ -33,18 +33,13 @@ import android.os.Build;
 import android.text.ClipboardManager;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -54,39 +49,30 @@ import android.widget.TextView;
 import java.lang.ref.WeakReference;
 
 import spacemadness.com.lunarconsole.R;
-import spacemadness.com.lunarconsole.core.Destroyable;
-import spacemadness.com.lunarconsole.debug.Assert;
 import spacemadness.com.lunarconsole.debug.Log;
 import spacemadness.com.lunarconsole.settings.SettingsActivity;
+import spacemadness.com.lunarconsole.ui.ConsoleListView;
 import spacemadness.com.lunarconsole.ui.LogTypeButton;
-import spacemadness.com.lunarconsole.ui.MoveResizeView;
 import spacemadness.com.lunarconsole.ui.ToggleButton;
 import spacemadness.com.lunarconsole.ui.ToggleImageButton;
-import spacemadness.com.lunarconsole.utils.ObjectUtils;
 import spacemadness.com.lunarconsole.utils.StackTrace;
 import spacemadness.com.lunarconsole.utils.StringUtils;
 import spacemadness.com.lunarconsole.utils.ThreadUtils;
 import spacemadness.com.lunarconsole.utils.UIUtils;
 
-import static android.widget.LinearLayout.LayoutParams.*;
+import static android.widget.LinearLayout.LayoutParams.MATCH_PARENT;
 import static spacemadness.com.lunarconsole.console.ConsoleLogType.*;
 import static spacemadness.com.lunarconsole.debug.Tags.*;
 
-public class ConsoleLogView extends LinearLayout implements
-        Destroyable,
+public class ConsoleLogView extends AbstractConsoleView implements
         LunarConsoleListener,
         LogTypeButton.OnStateChangeListener
 {
     private final WeakReference<Activity> activityRef;
 
-    private final View rootView;
-
     private final Console console;
     private final ListView listView;
-    private final ConsoleAdapter consoleAdapter;
-
-    /** An overlay layout for move/resize operations */
-    private MoveResizeView moveResizeView;
+    private final ConsoleLogAdapter consoleLogAdapter;
 
     private final LogTypeButton logButton;
     private final LogTypeButton warningButton;
@@ -96,14 +82,13 @@ public class ConsoleLogView extends LinearLayout implements
 
     private ToggleImageButton scrollLockButton;
 
-    private Listener listener;
-
     private boolean scrollLocked;
-    private boolean softKeyboardVisible;
+
+    private OnMoveSizeListener onMoveSizeListener;
 
     public ConsoleLogView(Activity activity, final Console console)
     {
-        super(activity);
+        super(activity, R.layout.lunar_console_layout_console_log_view);
 
         if (console == null)
         {
@@ -116,40 +101,21 @@ public class ConsoleLogView extends LinearLayout implements
 
         scrollLocked = true; // scroll is locked by default
 
-        // disable touches
-        setOnTouchListener(new OnTouchListener()
-        {
-            @Override
-            public boolean onTouch(View v, MotionEvent event)
-            {
-                return true; // don't let touch events to pass through the view group
-            }
-        });
-
-        // might not be the most efficient way but we'll keep it for now
-        rootView = LayoutInflater.from(activity).inflate(R.layout.lunar_console_layout_console, this, false);
-        addView(rootView, new LayoutParams(MATCH_PARENT, MATCH_PARENT));
-
         // initialize adapter
-        consoleAdapter = new ConsoleAdapter(console);
+        consoleLogAdapter = new ConsoleLogAdapter(console);
 
         // this view would hold all the logs
-        LinearLayout consoleContainer = findExistingViewById(
-                R.id.lunar_console_list_view_container);
+        LinearLayout listViewContainer = findExistingViewById(R.id.lunar_console_log_view_list_container);
 
-        listView = new ListView(activity);
-        listView.setDivider(null);
-        listView.setDividerHeight(0);
-        listView.setAdapter(consoleAdapter);
-        listView.setOverScrollMode(ListView.OVER_SCROLL_NEVER);
-        listView.setScrollingCacheEnabled(false);
+        listView = new ConsoleListView(activity);
+        listView.setAdapter(consoleLogAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
         {
             @Override
-            public void onItemClick(AdapterView<?> parent, final View view, int position, long id)
+            public void onItemClick(AdapterView<?> parent, final View view, final int position, long id)
             {
                 final Context ctx = getContext();
-                final ConsoleEntry entry = console.getEntry(position);
+                final ConsoleLogEntry entry = console.getEntry(position);
 
                 // TODO: user color resource and animation
                 view.setBackgroundColor(0xff000000);
@@ -160,7 +126,7 @@ public class ConsoleLogView extends LinearLayout implements
                     {
                         try
                         {
-                            view.setBackgroundColor(entry.getBackgroundColor(ctx));
+                            view.setBackgroundColor(entry.getBackgroundColor(ctx, position));
                         }
                         catch (Exception e)
                         {
@@ -222,7 +188,7 @@ public class ConsoleLogView extends LinearLayout implements
             }
         });
 
-        consoleContainer.addView(listView, new LayoutParams(MATCH_PARENT, MATCH_PARENT));
+        listViewContainer.addView(listView, new LayoutParams(MATCH_PARENT, MATCH_PARENT));
 
         // setup filtering elements
         setupFilterTextEdit();
@@ -241,6 +207,7 @@ public class ConsoleLogView extends LinearLayout implements
         // setup overflow warning
         overflowText = findExistingViewById(R.id.lunar_console_text_overflow);
 
+        // fetch some data
         reloadData();
 
         // if scroll lock is on - we should scroll to bottom
@@ -256,7 +223,6 @@ public class ConsoleLogView extends LinearLayout implements
         {
             console.setConsoleListener(null);
         }
-        setListener(null);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -281,79 +247,11 @@ public class ConsoleLogView extends LinearLayout implements
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Back button
-
-    @Override
-    public boolean dispatchKeyEventPreIme(KeyEvent event)
-    {
-        /*
-        This part is a bit hacky: we want to hide console view on back button press and not finish
-        the current activity. We intercept the event and don't let the system to handle it.
-        Handling soft keyboard is a separate case: we set a boolean flag when user touches the filter
-        input field and hide the keyboard manually if the flag is set. Without this hack the console
-        view will be hidden when user dismisses the keyboard. The solution is quite ugly but I don't
-        know a better way.
-         */
-        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK)
-        {
-            if (event.getAction() == KeyEvent.ACTION_UP)
-            {
-                onBackButton();
-            }
-            return true;
-        }
-
-        return super.dispatchKeyEventPreIme(event);
-    }
-
-    private void onBackButton()
-    {
-        if (softKeyboardVisible)
-        {
-            hideSoftKeyboard();
-        }
-        else if (isMoveResizeViewVisible())
-        {
-            hideMoveResizeView();
-        }
-        else
-        {
-            notifyClose();
-        }
-    }
-
-    private void hideSoftKeyboard()
-    {
-        softKeyboardVisible = false;
-        InputMethodManager manager = (InputMethodManager) getContext().
-                getSystemService(Context.INPUT_METHOD_SERVICE);
-        manager.hideSoftInputFromWindow(getWindowToken(), 0);
-    }
-
-    void notifyOpen()
-    {
-        if (listener != null)
-        {
-            listener.onOpen(this);
-        }
-    }
-
-    private void notifyClose()
-    {
-        softKeyboardVisible = false;
-
-        if (listener != null)
-        {
-            listener.onClose(this);
-        }
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
     // Data
 
     private void reloadData()
     {
-        consoleAdapter.notifyDataSetChanged();
+        consoleLogAdapter.notifyDataSetChanged();
         updateOverflowText();
     }
 
@@ -434,7 +332,7 @@ public class ConsoleLogView extends LinearLayout implements
     private EditText setupFilterTextEdit()
     {
         // TODO: make a custom class
-        EditText editText = findExistingViewById(R.id.lunar_console_text_edit_filter);
+        EditText editText = findExistingViewById(R.id.lunar_console_log_view_text_edit_filter);
         String filterText = console.entries().getFilterText();
         if (!StringUtils.IsNullOrEmpty(filterText))
         {
@@ -458,27 +356,6 @@ public class ConsoleLogView extends LinearLayout implements
             public void afterTextChanged(Editable s)
             {
                 filterByText(s.toString());
-            }
-        });
-        editText.setOnClickListener(new OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                softKeyboardVisible = true;
-            }
-        });
-        editText.setOnEditorActionListener(new TextView.OnEditorActionListener()
-        {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
-            {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH)
-                {
-                    hideSoftKeyboard();
-                    return true;
-                }
-                return false;
             }
         });
 
@@ -511,8 +388,7 @@ public class ConsoleLogView extends LinearLayout implements
             }
         });
 
-        scrollLockButton = (ToggleImageButton) rootView.
-                findViewById(R.id.lunar_console_button_lock);
+        scrollLockButton = findExistingViewById(R.id.lunar_console_button_lock);
         final Resources resources = getContext().getResources();
         scrollLockButton.setOnDrawable(resources.getDrawable(R.drawable.lunar_console_icon_button_lock));
         scrollLockButton.setOffDrawable(resources.getDrawable(R.drawable.lunar_console_icon_button_unlock));
@@ -541,15 +417,6 @@ public class ConsoleLogView extends LinearLayout implements
             public void onClick(View v)
             {
                 sendConsoleOutputByEmail();
-            }
-        });
-
-        setOnClickListener(R.id.lunar_console_button_close, new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                notifyClose();
             }
         });
     }
@@ -586,7 +453,7 @@ public class ConsoleLogView extends LinearLayout implements
 
     private void updateLogButtons()
     {
-        final ConsoleEntryList entries = console.entries();
+        final ConsoleLogEntryList entries = console.entries();
         logButton.setCount(entries.getLogCount());
         warningButton.setCount(entries.getWarningCount());
         errorButton.setCount(entries.getErrorCount());
@@ -637,7 +504,13 @@ public class ConsoleLogView extends LinearLayout implements
 
                 if (itemId == R.id.lunar_console_menu_move_resize)
                 {
-                    showMoveResizeView(getContext());
+                    notifyMoveResize();
+                    return true;
+                }
+
+                if (itemId == R.id.lunar_console_menu_help)
+                {
+                    openHelpPage();
                     return true;
                 }
 
@@ -653,11 +526,11 @@ public class ConsoleLogView extends LinearLayout implements
     // LunarConsoleListener
 
     @Override
-    public void onAddEntry(Console console, ConsoleEntry entry, boolean filtered)
+    public void onAddEntry(Console console, ConsoleLogEntry entry, boolean filtered)
     {
         if (filtered)
         {
-            consoleAdapter.notifyDataSetChanged();
+            consoleLogAdapter.notifyDataSetChanged();
             scrollToBottom(console);
         }
 
@@ -667,7 +540,7 @@ public class ConsoleLogView extends LinearLayout implements
     @Override
     public void onRemoveEntries(Console console, int start, int length)
     {
-        consoleAdapter.notifyDataSetChanged();
+        consoleLogAdapter.notifyDataSetChanged();
         scrollToBottom(console);
         updateLogButtons();
         updateOverflowText();
@@ -676,7 +549,7 @@ public class ConsoleLogView extends LinearLayout implements
     @Override
     public void onChangeEntries(Console console)
     {
-        consoleAdapter.notifyDataSetChanged();
+        consoleLogAdapter.notifyDataSetChanged();
         scrollToBottom(console);
         updateLogButtons();
         updateOverflowText();
@@ -705,81 +578,6 @@ public class ConsoleLogView extends LinearLayout implements
         {
             overflowText.setVisibility(View.GONE);
         }
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Move/Resize
-
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    private void showMoveResizeView(Context context)
-    {
-        Assert.IsNull(moveResizeView);
-        if (moveResizeView == null)
-        {
-            final FrameLayout parentLayout = ObjectUtils.as(getParent(), FrameLayout.class);
-            Assert.IsNotNull(parentLayout);
-
-            if (parentLayout != null)
-            {
-                moveResizeView = new MoveResizeView(context);
-                FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT);
-                parentLayout.addView(moveResizeView, layoutParams);
-
-                final MarginLayoutParams p = (MarginLayoutParams) getLayoutParams();
-                moveResizeView.setMargins(p.leftMargin, p.topMargin, p.rightMargin, p.bottomMargin);
-
-                // hide the log view
-                // setVisibility(GONE); we can't use setVisibility here since it break back button handling
-                setAlpha(0);
-
-                // handle close button
-                moveResizeView.setOnCloseListener(new MoveResizeView.OnCloseListener()
-                {
-                    @Override
-                    public void onClose(MoveResizeView view)
-                    {
-                        hideMoveResizeView();
-                    }
-                });
-            }
-        }
-    }
-
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    private void hideMoveResizeView()
-    {
-        Assert.IsNotNull(moveResizeView);
-        if (moveResizeView != null)
-        {
-            final MarginLayoutParams parentLayoutParams = (MarginLayoutParams) getLayoutParams();
-
-            parentLayoutParams.topMargin = moveResizeView.getTopMargin();
-            parentLayoutParams.bottomMargin = moveResizeView.getBottomMargin();
-            parentLayoutParams.leftMargin = moveResizeView.getLeftMargin();
-            parentLayoutParams.rightMargin = moveResizeView.getRightMargin();
-            invalidate();
-
-            // update state margins
-            ConsoleViewState.instance().setMargins(moveResizeView.getTopMargin(),
-                    moveResizeView.getBottomMargin(),
-                    moveResizeView.getLeftMargin(),
-                    moveResizeView.getRightMargin());
-
-            final ViewGroup parent = (ViewGroup) moveResizeView.getParent();
-            parent.removeView(moveResizeView);
-
-            moveResizeView.destroy();
-            moveResizeView = null;
-
-            // show the log view
-            // setVisibility(VISIBLE); we can't use setVisibility here since it break back button handling
-            setAlpha(1);
-        }
-    }
-
-    private boolean isMoveResizeViewVisible()
-    {
-        return moveResizeView != null;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -824,58 +622,54 @@ public class ConsoleLogView extends LinearLayout implements
         }
         catch (Exception e)
         {
-            Log.e(e, "Error to copy text to clipboard");
+            Log.e(e, "Exception while trying to copy text to clipboard");
         }
 
         return false;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Help
+    
+    private void openHelpPage()
+    {
+        UIUtils.openURL(getContext(), "https://goo.gl/5Z8ovV");
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Listener notifications
+
+    private void notifyMoveResize()
+    {
+        if (onMoveSizeListener != null)
+        {
+            onMoveSizeListener.onMoveResize(this);
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     // Getters/Setters
-
-    public void setListener(Listener listener)
-    {
-        this.listener = listener;
-    }
-
-    public Listener getListener()
-    {
-        return listener;
-    }
 
     public Activity getActivity()
     {
         return activityRef.get();
     }
 
+    public OnMoveSizeListener getOnMoveSizeListener()
+    {
+        return onMoveSizeListener;
+    }
+
+    public void setOnMoveSizeListener(OnMoveSizeListener onMoveSizeListener)
+    {
+        this.onMoveSizeListener = onMoveSizeListener;
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Helpers
+    // Move resize listener
 
-    private <T extends View> T findExistingViewById(int id) throws ClassCastException
+    public interface OnMoveSizeListener
     {
-        return findExistingViewById(rootView, id);
-    }
-
-    private <T extends View> T findExistingViewById(View parent, int id) throws ClassCastException
-    {
-        View view = parent.findViewById(id);
-        if (view == null)
-        {
-            throw new IllegalArgumentException("View with id " + id + " not found");
-        }
-
-        return (T) view;
-    }
-
-    private void setOnClickListener(int viewId, View.OnClickListener listener)
-    {
-        View view = findExistingViewById(viewId);
-        view.setOnClickListener(listener);
-    }
-
-    public interface Listener
-    {
-        void onOpen(ConsoleLogView view);
-        void onClose(ConsoleLogView view);
+        void onMoveResize(ConsoleLogView consoleLogView);
     }
 }

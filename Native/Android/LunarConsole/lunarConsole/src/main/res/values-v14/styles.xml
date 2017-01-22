@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="lunar_console_hyperlink_button_style" parent="lunar_console_hyperlink_button_style_base">
+        <item name="android:textAllCaps">false</item>
+    </style>
+</resources>

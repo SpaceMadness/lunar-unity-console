@@ -25,14 +25,22 @@ using UnityEditor;
 using System.IO;
 using System.Collections;
 
-namespace LunarConsolePluginInternal
+namespace LunarConsoleEditorInternal
 {
     public class AppExporter
     {
         private static readonly string buildsDir = "Build";
         private static readonly BuildOptions buildOptions = BuildOptions.Development | BuildOptions.AllowDebugging;
 
-        internal static void PerformiOSBuild()
+        [MenuItem("Window/Lunar Mobile Console/Build/All")]
+        internal static void PerformAllBuilds()
+        {
+            PerformIOSBuild();
+            PerformAndroidBuild();
+        }
+
+        [MenuItem("Window/Lunar Mobile Console/Build/iOS")]
+        internal static void PerformIOSBuild()
         {
             string outDir = buildsDir + "/iOS";
             Cleanup(outDir);
@@ -48,6 +56,7 @@ namespace LunarConsolePluginInternal
             BuildPipeline.BuildPlayer(GetScenePaths(), outDir, target, buildOptions);
         }
 
+        [MenuItem("Window/Lunar Mobile Console/Build/Android")]
         internal static void PerformAndroidBuild()
         {
             string outDir = buildsDir + "/Android";
@@ -58,6 +67,12 @@ namespace LunarConsolePluginInternal
             EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTarget.Android);
             EditorUserBuildSettings.allowDebugging = true;
             BuildPipeline.BuildPlayer(GetScenePaths(), outDir + "/" + productName + ".apk", BuildTarget.Android, buildOptions);
+        }
+
+        internal static void SwitchToIOSBuildTarget()
+        {
+            EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTarget.iOS);
+            EditorUserBuildSettings.allowDebugging = true;
         }
 
         private static string[] GetScenePaths()

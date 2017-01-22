@@ -23,8 +23,8 @@ package spacemadness.com.lunarconsole.ui.gestures;
 
 import android.content.Context;
 
+import static spacemadness.com.lunarconsole.ui.gestures.TwoFingerSwipeGestureRecognizer.SwipeDirection;
 import static spacemadness.com.lunarconsole.utils.UIUtils.dpToPx;
-import static spacemadness.com.lunarconsole.ui.gestures.SwipeGestureRecognizer.SwipeDirection;
 
 public class GestureRecognizerFactory
 {
@@ -35,7 +35,7 @@ public class GestureRecognizerFactory
             case "SwipeDown": // TODO: add support for different swipe directions
             {
                 final float SWIPE_THRESHOLD = dpToPx(context, 100);
-                return new SwipeGestureRecognizer(SwipeDirection.Down, SWIPE_THRESHOLD);
+                return new TwoFingerSwipeGestureRecognizer(SwipeDirection.Down, SWIPE_THRESHOLD);
             }
         }
 

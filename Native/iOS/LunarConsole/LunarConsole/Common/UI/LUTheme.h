@@ -91,6 +91,10 @@
 @property (nonatomic, readonly) UIColor *contextMenuTextColor;
 @property (nonatomic, readonly) UIColor *contextMenuTextHighlightColor;
 
+@property (nonatomic, readonly) UIFont  *variableEditFont;
+@property (nonatomic, readonly) UIColor *variableEditTextColor;
+@property (nonatomic, readonly) UIColor *variableEditBackground;
+
 @property (nonatomic, readonly) UIColor *switchTintColor;
 
 @property (nonatomic, readonly) UIImage *settingsIconImage;

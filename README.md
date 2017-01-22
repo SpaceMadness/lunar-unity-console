@@ -15,6 +15,7 @@ Requires Unity 5.0 or later.
 - [Installation](#installation)
 - [Usage](#usage)
   - [Configuration](#configuration)
+  - [Quick Actions](#quick-actions-preview)
   - [Stack Trace Frames](#stack-trace-frames)
   - [Enabling/Disabling Plugin](#enablingdisabling-plugin)
   - [Unity Cloud Build Support](#unity-cloud-build-support)
@@ -51,6 +52,8 @@ The project goal is to build a high-performance and lightweight Unity native iOS
 ![guid-bfa239b6-b55a-4f88-82ea-744f01cd9d77-web](https://cloud.githubusercontent.com/assets/786644/9218257/bc8e64c6-4085-11e5-96f7-f07080f310b0.png)
 - Crystal clear font and a nice mobile-friendly interface:  
 <img src="https://cloud.githubusercontent.com/assets/786644/18074942/86cc426c-6e25-11e6-8544-0bbe21379af3.PNG" width=320/>
+- Quick Actions (currently in preview):  
+<img src="https://cloud.githubusercontent.com/assets/786644/22178599/0deb7aec-dff0-11e6-976f-c39749c3dcf7.png" width=320/>
 - Transparent log overlay view:  
 <img src="https://cloud.githubusercontent.com/assets/786644/18074881/07d43190-6e25-11e6-9c48-407adc9be102.png" width=320/>
 - Filter by text and log type:  
@@ -82,6 +85,9 @@ You can open the console with a multi touch gesture or using the API call from a
   - Set the trim amount (how many lines will be removed from the beginning of the log when console overflows).
   - Choose a gesture from the drop down list or select `None` to completely disable multi touch gestures (you would still be able to open the console from your scripts).
   - Check "Remove Rich Text Tags" to remove rich text tags from the output (may cause performance overhead).
+
+### Quick Actions (Preview)
+For more information on Quick Actions check the user [guide](https://github.com/SpaceMadness/lunar-unity-console/wiki/Actions-and-Variables).
 
 ### Stack Trace Frames
 Touch the log entry to view its stack trace.
@@ -121,23 +127,25 @@ You can enable/disable the plugin while using Unity Cloud Build service.
 <img width="617" src="https://cloud.githubusercontent.com/assets/786644/18625225/f7ba1f80-7e01-11e6-80df-71b96938ca23.png">
 - Expand ```[+] Show Advanced Options``` and click ```Edit Advanced Options```:  
 <img width="492" src="https://cloud.githubusercontent.com/assets/786644/18625227/f7c20ca4-7e01-11e6-8b90-f256f70f87a6.png">
-- To disable the plugin set ```Pre-Export Method Name:``` to ```LunarConsolePluginInternal.Installer.DisablePlugin```:  
-<img width="576" src="https://cloud.githubusercontent.com/assets/786644/18625226/f7bc8298-7e01-11e6-8f5e-2bca066b35df.png">
-- To enable the plugin set ```Pre-Export Method Name:``` to ```LunarConsolePluginInternal.Installer.EnablePlugin``` check the ```Development Builds``` checkbox:  
-<img width="576" src="https://cloud.githubusercontent.com/assets/786644/18625491/d5af3aae-7e03-11e6-98bc-28b26f57d2d0.png">
+- To disable the plugin set ```Pre-Export Method Name:``` to ```LunarConsoleEditorInternal.Installer.DisablePlugin```:  
+<img width="576" src="https://cloud.githubusercontent.com/assets/786644/22178551/2d2ef692-dfee-11e6-9e47-ed78a4971cfd.png">
+- To enable the plugin set ```Pre-Export Method Name:``` to ```LunarConsoleEditorInternal.Installer.EnablePlugin``` check the ```Development Builds``` checkbox:  
+<img width="576" src="https://cloud.githubusercontent.com/assets/786644/22178592/8c03eafa-dfef-11e6-909d-3a712bff1afa.png">  
+**Note:** if you're using Lunar Mobile Console older than v0.8.0 (v0.0.1b-v0.7.1) you would need to use ```LunarConsolePluginInternal.Installer.DisablePlugin``` and ```LunarConsolePluginInternal.Installer.EnablePlugin``` instead.
 
 ### Build System Support
 You can enable/disable the plugin from the command line (and make it a part of your build process)
 
 - To disable:  
-  ```<UNITY_BIN_PATH>  -quit -batchmode  -executeMethod LunarConsolePluginInternal.Installer.DisablePlugin```
+  ```<UNITY_BIN_PATH>  -quit -batchmode  -executeMethod LunarConsoleEditorInternal.Installer.DisablePlugin```
 - To enable:  
-  ```<UNITY_BIN_PATH>  -quit -batchmode  -executeMethod LunarConsolePluginInternal.Installer.EnablePlugin```
+  ```<UNITY_BIN_PATH>  -quit -batchmode  -executeMethod LunarConsoleEditorInternal.Installer.EnablePlugin```
 
 ```<UNITY_BIN_PATH>``` locations:
 - Mac OS X: ```/Applications/Unity/Unity.app/Contents/MacOS/Unity```
 - Windows: ```c:\Program Files\Unity\Editor\Unity.exe```
-- Linux: _TBD_
+- Linux: _TBD_  
+**Note:** if you're using Lunar Mobile Console older than v0.8.0 (v0.0.1b-v0.7.1) you would need to use ```LunarConsolePluginInternal.Installer.DisablePlugin``` and ```LunarConsolePluginInternal.Installer.EnablePlugin``` instead.
  
 ## Troubleshooting
 Please, visit the [Troubleshooting](https://github.com/SpaceMadness/lunar-unity-console/wiki/Troubleshooting) Wiki page or post your question on the official forum [thread](http://forum.unity3d.com/threads/lunar-mobile-console-high-performance-unity-ios-android-logger-built-with-native-platform-ui.347650/).

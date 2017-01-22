@@ -43,6 +43,7 @@ import java.util.List;
 
 import spacemadness.com.lunarconsole.console.ConsoleLogType;
 import spacemadness.com.lunarconsole.console.ConsolePlugin;
+import spacemadness.com.lunarconsole.console.ConsoleViewState;
 import spacemadness.com.lunarconsole.settings.PluginSettings;
 import spacemadness.com.lunarconsole.utils.StringUtils;
 
@@ -104,6 +105,15 @@ public class MainActivity extends Activity
                     ConsolePlugin.shutdown(); // kill any previous instance
                 }
                 ConsolePlugin.init(MainActivity.this, "0.0.0", capacity, trim, "SwipeDown");
+
+                /*
+                ConsolePlugin.registerAction(1, "Action - A1");
+                ConsolePlugin.registerAction(2, "Action - A2");
+                ConsolePlugin.registerAction(3, "Action - B1");
+                ConsolePlugin.registerAction(4, "Action - B2");
+                ConsolePlugin.registerAction(5, "Action - C1");
+                ConsolePlugin.registerAction(6, "Action - C2");
+                */
             }
         });
 
@@ -439,6 +449,7 @@ public class MainActivity extends Activity
         edit.apply();
 
         PluginSettings.clear(context);
+        ConsoleViewState.clear(context);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

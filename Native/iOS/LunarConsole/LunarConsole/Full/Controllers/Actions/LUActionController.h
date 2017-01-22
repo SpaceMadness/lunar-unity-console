@@ -26,16 +26,10 @@
 @class LUActionController;
 @class LUActionRegistry;
 
-@protocol LUActionControllerDelegate <NSObject>
-
-@required
-- (void)actionController:(LUActionController *)controller didSelectActionWithId:(int)actionId;
-
-@end
+extern NSString * const LUActionControllerDidSelectAction;
+extern NSString * const LUActionControllerDidSelectActionKeyAction;
 
 @interface LUActionController : LUViewController
-
-@property (nonatomic, weak) id<LUActionControllerDelegate> delegate;
 
 + (instancetype)controllerWithActionRegistry:(LUActionRegistry *)actionRegistry;
 - (instancetype)initWithActionRegistry:(LUActionRegistry *)actionRegistry;

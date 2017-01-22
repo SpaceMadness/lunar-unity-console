@@ -26,7 +26,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace LunarConsolePluginInternal
+namespace LunarConsoleEditorInternal
 {
     struct DialogButton
     {

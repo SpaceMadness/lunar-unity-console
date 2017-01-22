@@ -637,9 +637,47 @@ namespace LunarConsolePluginInternal
 
         #endregion
 
+        #region Display name
+
+        public static String ToDisplayName(string value)
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                return value;
+            }
+
+            StringBuilder result = new StringBuilder();
+
+            char prevChr = '\0';
+            for (int i = 0; i < value.Length; ++i)
+            {
+                var chr = value[i];
+
+                if (i == 0)
+                {
+                    chr = Char.ToUpper(chr);
+                }
+                else if (Char.IsUpper(chr) || Char.IsDigit(chr) && !Char.IsDigit(prevChr))
+                {
+                    if (result.Length > 0)
+                    {
+                        result.Append(' ');
+                    }
+                }
+
+                result.Append(chr);
+
+                prevChr = chr;
+            }
+
+            return result.ToString();
+        }
+
+        #endregion
+
         #region Serialization
 
-        internal static IDictionary<string, string> DeserializeString(string data)
+        public static IDictionary<string, string> DeserializeString(string data)
         {
             // can't use Json here since Unity doesn't support Json-to-Dictionary deserialization
             // don't want to use 3rd party so custom format it is

@@ -1,5 +1,19 @@
 # Lunar Console Changelog
 
+## v.0.8.0 - 1/21/2017
+
+**New:**
+
+* Added Actions support. For more information see: https://goo.gl/in0obv
+
+**Fixes:**
+
+* **iOS**: Fixed Unity Cloud Build error '[xcode] xcodebuild: error: Unable to read project Unity-iPhone.xcodeproj.
+* **Android**: Fixed 'JNI ERROR (app bug): local reference table overflow (max=512)'
+
+**Changes:**
+* Renamed Unity Cloud Build 'Pre-Export Method Name' from 'LunarConsolePluginInternal.Installer.*' to 'LunarConsoleEditorInternal.Installer.*'
+
 ## v.0.7.0 - 12/7/2016
 
 **New:**

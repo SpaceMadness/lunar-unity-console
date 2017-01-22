@@ -37,11 +37,18 @@ import java.util.List;
 import java.util.Map;
 
 import spacemadness.com.lunarconsole.R;
+import spacemadness.com.lunarconsole.console.actions.LUAction;
+import spacemadness.com.lunarconsole.console.actions.LUActionRegistry;
+import spacemadness.com.lunarconsole.console.actions.LUCVar;
 import spacemadness.com.lunarconsole.core.Destroyable;
+import spacemadness.com.lunarconsole.core.Notification;
+import spacemadness.com.lunarconsole.core.NotificationCenter;
+import spacemadness.com.lunarconsole.debug.Assert;
 import spacemadness.com.lunarconsole.debug.Log;
 import spacemadness.com.lunarconsole.settings.PluginSettings;
 import spacemadness.com.lunarconsole.ui.gestures.GestureRecognizer;
 import spacemadness.com.lunarconsole.ui.gestures.GestureRecognizerFactory;
+import spacemadness.com.lunarconsole.utils.DictionaryUtils;
 
 import static android.widget.FrameLayout.LayoutParams;
 import static spacemadness.com.lunarconsole.console.Console.Options;
@@ -50,27 +57,32 @@ import static spacemadness.com.lunarconsole.utils.ThreadUtils.*;
 import static spacemadness.com.lunarconsole.utils.UIUtils.*;
 import static spacemadness.com.lunarconsole.ui.gestures.GestureRecognizer.OnGestureListener;
 import static spacemadness.com.lunarconsole.debug.Tags.*;
+import static spacemadness.com.lunarconsole.console.ConsoleNotifications.*;
+import static spacemadness.com.lunarconsole.utils.ObjectUtils.*;
 
-public class ConsolePlugin implements
-        Destroyable,
-        ConsoleLogView.Listener,
-        WarningView.Listener
+public class ConsolePlugin implements Destroyable
 {
     private static final String SCRIPT_MESSAGE_CONSOLE_OPEN  = "console_open";
     private static final String SCRIPT_MESSAGE_CONSOLE_CLOSE = "console_close";
+    private static final String SCRIPT_MESSAGE_ACTION        = "console_action";
+    private static final String SCRIPT_MESSAGE_VARIABLE_SET  = "console_variable_set";
 
     private static ConsolePlugin instance;
 
     private Console console;
+    private final LUActionRegistry actionRegistry;
     private final ConsolePluginImp pluginImp;
     private final String version;
     private final PluginSettings settings;
+    private final ConsoleViewState consoleViewState;
 
-    /** Parent container for console log view */
+    /** Parent container for console view (we need it to display additional overlays) */
     private FrameLayout consoleContentView;
 
-    private ConsoleLogView consoleLogView;
-    private ConsoleLogOverlayView consoleLogOverlayView;
+    private ConsoleView consoleView;
+
+    // private ConsoleLogView consoleLogView;
+    private ConsoleOverlayLogView consoleOverlayLogView;
     private WarningView warningView;
 
     private final WeakReference<Activity> activityRef;
@@ -82,11 +94,11 @@ public class ConsolePlugin implements
     /* Since the game can log many console entries on the secondary thread, we need an efficient
      * way to batch them on the main thread
      */
-    private static final ConsoleEntryDispatcher entryDispatcher = new ConsoleEntryDispatcher(
-            new ConsoleEntryDispatcher.OnDispatchListener()
+    private static final ConsoleLogEntryDispatcher entryDispatcher = new ConsoleLogEntryDispatcher(
+            new ConsoleLogEntryDispatcher.OnDispatchListener()
     {
         @Override
-        public void onDispatchEntries(List<ConsoleEntry> entries)
+        public void onDispatchEntries(List<ConsoleLogEntry> entries)
         {
             if (instance != null)
             {
@@ -100,7 +112,7 @@ public class ConsolePlugin implements
     });
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Static interface
+    // Lifecycle
     
     /**
      * Data holder for plugin initialization
@@ -153,21 +165,6 @@ public class ConsolePlugin implements
             }
             return value;
         }
-    }    
-
-    /**
-     * This method is called by a Unity managed code. Do not rename or change params types of order
-     * @param targetName - the name of game object which would receive native callbacks
-     * @param methodName - the name of the method of the game object to be called
-     * @param version - the plugin version
-     * @param capacity - the console`s capacity (everything beyond that would be trimmed)
-     * @param trim - the trim amount upon console overflow (how many items would be trimmed when console overflows)
-     * @param gesture - the name of a touch gesture to open the console or "none" if disabled
-     */
-    public static void init(String targetName, String methodName, String version, int capacity, int trim, String gesture)
-    {
-        Activity activity = UnityPlayer.currentActivity;
-        init(activity, new UnitySettings(new UnityPluginImp(activity, targetName, methodName), version, capacity, trim, gesture));
     }
 
     public static void init(Activity activity, String version, int capacity, int trim, String gesture)
@@ -272,9 +269,27 @@ public class ConsolePlugin implements
         }
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Unity native methods
+
+    /**
+     * This method is called by a Unity managed code. Do not rename or change params types of order
+     * @param targetName - the name of game object which would receive native callbacks
+     * @param methodName - the name of the method of the game object to be called
+     * @param version - the plugin version
+     * @param capacity - the console`s capacity (everything beyond that would be trimmed)
+     * @param trim - the trim amount upon console overflow (how many items would be trimmed when console overflows)
+     * @param gesture - the name of a touch gesture to open the console or "none" if disabled
+     */
+    public static void init(String targetName, String methodName, String version, int capacity, int trim, String gesture)
+    {
+        Activity activity = UnityPlayer.currentActivity;
+        init(activity, new UnitySettings(new UnityPluginImp(activity, targetName, methodName), version, capacity, trim, gesture));
+    }
+
     public static void logMessage(String message, String stackTrace, int logType)
     {
-        entryDispatcher.add(new ConsoleEntry((byte) logType, message, stackTrace));
+        entryDispatcher.add(new ConsoleLogEntry((byte) logType, message, stackTrace));
     }
 
     public static void show()
@@ -293,18 +308,6 @@ public class ConsolePlugin implements
                     show0();
                 }
             });
-        }
-    }
-
-    private static void show0()
-    {
-        if (instance != null)
-        {
-            instance.showConsole();
-        }
-        else
-        {
-            Log.w("Can't show console: instance is not initialized");
         }
     }
 
@@ -327,6 +330,75 @@ public class ConsolePlugin implements
         }
     }
 
+    public static void clear()
+    {
+        if (isRunningOnMainThread())
+        {
+            clear0();
+        }
+        else
+        {
+            runOnUIThread(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    clear0();
+                }
+            });
+        }
+    }
+
+    public static void registerAction(final int actionId, final String actionName)
+    {
+        if (isRunningOnMainThread())
+        {
+            registerAction0(actionId, actionName);
+        }
+        else
+        {
+            runOnUIThread(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    registerAction0(actionId, actionName);
+                }
+            });
+        }
+    }
+
+    public static void unregisterAction(final int actionId)
+    {
+        if (isRunningOnMainThread())
+        {
+            unregisterAction0(actionId);
+        }
+        else
+        {
+            runOnUIThread(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    unregisterAction0(actionId);
+                }
+            });
+        }
+    }
+
+    private static void show0()
+    {
+        if (instance != null)
+        {
+            instance.showConsole();
+        }
+        else
+        {
+            Log.w("Can't show console: instance is not initialized");
+        }
+    }
+
     private static void hide0()
     {
         if (instance != null)
@@ -338,6 +410,46 @@ public class ConsolePlugin implements
             Log.w("Can't hide console: instance is not initialized");
         }
     }
+
+    private static void clear0()
+    {
+        if (instance != null)
+        {
+            instance.clearConsole();
+        }
+    }
+
+    private static void registerAction0(int actionId, String actionName)
+    {
+        if (instance != null)
+        {
+            instance.registerConsoleAction(actionId, actionName);
+        }
+    }
+
+    private static void unregisterAction0(int actionId)
+    {
+        if (instance != null)
+        {
+            instance.unregisterConsoleAction(actionId);
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Actions and variables
+
+    private void registerConsoleAction(int actionId, String actionName)
+    {
+        actionRegistry.registerAction(actionId, actionName);
+    }
+
+    private void unregisterConsoleAction(int actionId)
+    {
+        actionRegistry.unregisterAction(actionId);
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Overlay
 
     public static boolean isOverlayShown()
     {
@@ -406,33 +518,6 @@ public class ConsolePlugin implements
         }
     }
 
-    public static void clear()
-    {
-        if (isRunningOnMainThread())
-        {
-            clear0();
-        }
-        else
-        {
-            runOnUIThread(new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    clear0();
-                }
-            });
-        }
-    }
-
-    private static void clear0()
-    {
-        if (instance != null)
-        {
-            instance.clearConsole();
-        }
-    }
-
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Constructor
 
@@ -448,9 +533,13 @@ public class ConsolePlugin implements
         this.version = unitySettings.version;
         this.pluginImp = unitySettings.pluginImp;
 
+        consoleViewState = new ConsoleViewState(activity.getApplicationContext());
+
         Options options = new Options(unitySettings.capacity);
         options.setTrimCount(unitySettings.trim);
         console = new Console(options);
+        actionRegistry = new LUActionRegistry();
+
         activityRef = new WeakReference<>(activity);
 
         gestureDetector = GestureRecognizerFactory.create(activity, unitySettings.gesture);
@@ -462,6 +551,8 @@ public class ConsolePlugin implements
                 showConsole();
             }
         });
+
+        registerNotifications();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -471,6 +562,7 @@ public class ConsolePlugin implements
     public void destroy()
     {
         disableGestureRecognition();
+        unregisterNotifications();
 
         console.destroy();
         entryDispatcher.cancelAll();
@@ -481,11 +573,11 @@ public class ConsolePlugin implements
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Console
 
-    private void logEntries(List<ConsoleEntry> entries)
+    private void logEntries(List<ConsoleLogEntry> entries)
     {
         for (int i = 0; i < entries.size(); ++i)
         {
-            ConsoleEntry entry = entries.get(i);
+            ConsoleLogEntry entry = entries.get(i);
 
             // add to console
             console.logMessage(entry);
@@ -504,7 +596,7 @@ public class ConsolePlugin implements
 
         try
         {
-            if (consoleLogView == null)
+            if (consoleView == null)
             {
                 Log.d(CONSOLE, "Show console");
 
@@ -518,38 +610,53 @@ public class ConsolePlugin implements
                 // get root content layout
                 final FrameLayout rootLayout = getRootLayout(activity);
 
-                // we need to add an additional layout between console log view and content view
+                // we need to add an additional layout between console view and content view
                 // in order to be able to place additional overlay layouts on top of everything
                 consoleContentView = new FrameLayout(activity);
                 rootLayout.addView(consoleContentView, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 
-                // create console log view
-                consoleLogView = new ConsoleLogView(activity, console);
-                consoleLogView.setListener(this);
-                consoleLogView.requestFocus();
+                // create console view
+                consoleView = new ConsoleView(activity, this);
+                consoleView.setListener(new ConsoleView.Listener()
+                {
+                    @Override
+                    public void onOpen(ConsoleView view)
+                    {
+                        sendNativeCallback(SCRIPT_MESSAGE_CONSOLE_OPEN);
+                    }
+
+                    @Override
+                    public void onClose(ConsoleView view)
+                    {
+                        hideConsole();
+                        sendNativeCallback(SCRIPT_MESSAGE_CONSOLE_CLOSE);
+                    }
+                });
 
                 // place console log view into console layout
                 LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 
                 // set layout margins
-                final ConsoleViewState state = ConsoleViewState.instance();
-                params.topMargin = state.getTopMargin();
-                params.bottomMargin = state.getBottomMargin();
-                params.leftMargin = state.getLeftMargin();
-                params.rightMargin = state.getRightMargin();
+                params.topMargin = consoleViewState.getTopMargin();
+                params.bottomMargin = consoleViewState.getBottomMargin();
+                params.leftMargin = consoleViewState.getLeftMargin();
+                params.rightMargin = consoleViewState.getRightMargin();
 
                 // add view
-                consoleContentView.addView(consoleLogView, params);
+                consoleContentView.addView(consoleView, params);
 
                 // show animation
                 Animation animation = AnimationUtils.loadAnimation(activity, R.anim.lunar_console_slide_in_top);
-                consoleLogView.startAnimation(animation);
+                consoleView.startAnimation(animation);
 
                 // notify delegates
-                consoleLogView.notifyOpen();
+                consoleView.notifyOpen();
 
                 // don't handle gestures if console is shown
                 disableGestureRecognition();
+
+                // request focus
+                consoleView.requestFocus();
 
                 return true;
             }
@@ -568,7 +675,7 @@ public class ConsolePlugin implements
     {
         try
         {
-            if (consoleLogView != null)
+            if (consoleView != null)
             {
                 Log.d(CONSOLE, "Hide console");
 
@@ -600,7 +707,7 @@ public class ConsolePlugin implements
 
                         }
                     });
-                    consoleLogView.startAnimation(animation);
+                    consoleView.startAnimation(animation);
                 }
                 else
                 {
@@ -620,10 +727,10 @@ public class ConsolePlugin implements
 
     private void removeConsoleView()
     {
-        if (consoleLogView != null)
+        if (consoleView != null)
         {
             // remove console log view from console content view
-            consoleContentView.removeView(consoleLogView);
+            consoleContentView.removeView(consoleView);
 
             // remove console content view from the root content view
             ViewParent parent = consoleContentView.getParent();
@@ -637,8 +744,8 @@ public class ConsolePlugin implements
             }
             consoleContentView = null;
 
-            consoleLogView.destroy();
-            consoleLogView = null;
+            consoleView.destroy();
+            consoleView = null;
 
             // start listening for gestures
             enableGestureRecognition();
@@ -683,7 +790,21 @@ public class ConsolePlugin implements
                 final FrameLayout rootLayout = getRootLayout(activity);
 
                 warningView = new WarningView(activity);
-                warningView.setListener(this);
+                warningView.setListener(new WarningView.Listener()
+                {
+                    @Override
+                    public void onDismissClick(WarningView view)
+                    {
+                        hideWarning();
+                    }
+
+                    @Override
+                    public void onDetailsClick(WarningView view)
+                    {
+                        hideWarning();
+                        showConsole();
+                    }
+                });
 
                 rootLayout.addView(warningView);
             }
@@ -723,14 +844,14 @@ public class ConsolePlugin implements
 
     private boolean isOverlayViewShown()
     {
-        return consoleLogOverlayView != null;
+        return consoleOverlayLogView != null;
     }
 
     private boolean showLogOverlayView()
     {
         try
         {
-            if (consoleLogOverlayView == null)
+            if (consoleOverlayLogView == null)
             {
                 Log.d(OVERLAY_VIEW, "Show log overlay view");
 
@@ -741,13 +862,13 @@ public class ConsolePlugin implements
                     return false;
                 }
 
-                ConsoleLogOverlayView.Settings overlaySettings = new ConsoleLogOverlayView.Settings();
+                ConsoleOverlayLogView.Settings overlaySettings = new ConsoleOverlayLogView.Settings();
 
                 final FrameLayout rootLayout = getRootLayout(activity);
-                consoleLogOverlayView = new ConsoleLogOverlayView(activity, console, overlaySettings);
+                consoleOverlayLogView = new ConsoleOverlayLogView(activity, console, overlaySettings);
 
                 LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-                rootLayout.addView(consoleLogOverlayView, params);
+                rootLayout.addView(consoleOverlayLogView, params);
 
                 return true;
             }
@@ -764,7 +885,7 @@ public class ConsolePlugin implements
     {
         try
         {
-            if (consoleLogOverlayView != null)
+            if (consoleOverlayLogView != null)
             {
                 Log.d(CONSOLE, "Hide log overlay view");
 
@@ -775,10 +896,10 @@ public class ConsolePlugin implements
                     return false;
                 }
 
-                ViewParent parent = consoleLogOverlayView.getParent();
+                ViewParent parent = consoleOverlayLogView.getParent();
                 if (parent instanceof ViewGroup)
                 {
-                    ((ViewGroup) parent).removeView(consoleLogOverlayView);
+                    ((ViewGroup) parent).removeView(consoleOverlayLogView);
                 }
                 else
                 {
@@ -786,8 +907,8 @@ public class ConsolePlugin implements
                     return false;
                 }
 
-                consoleLogOverlayView.destroy();
-                consoleLogOverlayView = null;
+                consoleOverlayLogView.destroy();
+                consoleOverlayLogView = null;
 
                 return true;
             }
@@ -798,38 +919,6 @@ public class ConsolePlugin implements
         }
 
         return false;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // ConsoleView.Listener
-
-    @Override
-    public void onOpen(ConsoleLogView view)
-    {
-        sendNativeCallback(SCRIPT_MESSAGE_CONSOLE_OPEN);
-    }
-
-    @Override
-    public void onClose(ConsoleLogView view)
-    {
-        hideConsole();
-        sendNativeCallback(SCRIPT_MESSAGE_CONSOLE_CLOSE);
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // WarningView.Listener
-
-    @Override
-    public void onDismissClick(WarningView view)
-    {
-        hideWarning();
-    }
-
-    @Override
-    public void onDetailsClick(WarningView view)
-    {
-        hideWarning();
-        showConsole();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -891,7 +980,89 @@ public class ConsolePlugin implements
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Notifications
+
+    private NotificationCenter.OnNotificationListener actionSelectListener;
+    private NotificationCenter.OnNotificationListener variableSetListener;
+
+    private void registerNotifications()
+    {
+        actionSelectListener = new NotificationCenter.OnNotificationListener()
+        {
+            @Override
+            public void onNotification(Notification notification)
+            {
+                LUAction action = as(notification.getUserData(ACTION_SELECT_KEY_ACTION), LUAction.class);
+                Assert.IsNotNull(action);
+
+                if (action != null)
+                {
+                    sendNativeCallback(SCRIPT_MESSAGE_ACTION, DictionaryUtils.createMap("id", action.actionId()));
+                }
+            }
+        };
+
+        variableSetListener = new NotificationCenter.OnNotificationListener()
+        {
+            @Override
+            public void onNotification(Notification notification)
+            {
+                LUCVar variable = as(notification.getUserData(VARIABLE_SET_KEY_VARIABLE), LUCVar.class);
+                Assert.IsNotNull(variable);
+
+                if (variable != null)
+                {
+                    Map<String, Object> params = DictionaryUtils.createMap(
+                            "id", variable.actionId(),
+                            "value", variable.value()
+                    );
+
+                    sendNativeCallback(SCRIPT_MESSAGE_VARIABLE_SET, params);
+                }
+            }
+        };
+
+        NotificationCenter.defaultCenter().addListener(ACTION_SELECT, actionSelectListener);
+        NotificationCenter.defaultCenter().addListener(VARIABLE_SET, variableSetListener);
+    }
+
+    private void unregisterNotifications()
+    {
+        if (actionSelectListener != null)
+        {
+            NotificationCenter.defaultCenter().removeListener(actionSelectListener);
+            actionSelectListener = null;
+        }
+
+        if (variableSetListener != null)
+        {
+            NotificationCenter.defaultCenter().removeListener(variableSetListener);
+            variableSetListener = null;
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
     // Getters/Setters
+
+    Console getConsole()
+    {
+        return console;
+    }
+
+    ConsoleViewState getConsoleViewState()
+    {
+        return consoleViewState;
+    }
+
+    LUActionRegistry getActionRegistry()
+    {
+        return actionRegistry;
+    }
+
+    boolean isConsoleShown()
+    {
+        return consoleView != null;
+    }
 
     public static PluginSettings pluginSettings()
     {
@@ -903,12 +1074,7 @@ public class ConsolePlugin implements
         return instance != null ? instance.version : "?.?.?";
     }
 
-    private boolean isConsoleShown()
-    {
-        return consoleLogView != null;
-    }
-
-    private static Console getConsole()
+    private static Console getConsoleInstance()
     {
         return instance.console;
     }
@@ -916,13 +1082,13 @@ public class ConsolePlugin implements
     public static void setCapacity(int capacity)
     {
         Options options = new Options(capacity);
-        options.setTrimCount(getConsole().getTrimSize());
+        options.setTrimCount(getConsoleInstance().getTrimSize());
         instance.console = new Console(options);
     }
 
     public static void setTrimSize(int trimCount)
     {
-        Options options = new Options(getConsole().getCapacity());
+        Options options = new Options(getConsoleInstance().getCapacity());
         options.setTrimCount(trimCount);
         instance.console = new Console(options);
     }

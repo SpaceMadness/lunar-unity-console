@@ -26,8 +26,11 @@
 static const NSTimeInterval kWindowAnimationDuration = 0.4f;
 static const CGFloat kWarningHeight = 45.0f;
 
-static NSString * const kScriptMessageConsoleOpen  = @"console_open";
-static NSString * const kScriptMessageConsoleClose = @"console_close";
+static NSString * const kScriptMessageConsoleOpen    = @"console_open";
+static NSString * const kScriptMessageConsoleClose   = @"console_close";
+static NSString * const kScriptMessageSetVariable    = @"console_variable_set";
+static NSString * const kScriptMessageAction         = @"console_action";
+
 static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmobileconsole.settings.bin";
 
 @interface LUConsolePlugin () <LUConsoleControllerDelegate, LUExceptionWarningControllerDelegate>
@@ -214,7 +217,12 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
 
 - (void)registerVariableWithId:(int)entryId name:(NSString *)name type:(NSString *)type value:(NSString *)value
 {
-    [_actionRegistry registerVariableWithId:entryId name:name typeName:type value:value];
+    [self registerVariableWithId:entryId name:name type:type value:value defaultValue:value];
+}
+
+- (void)registerVariableWithId:(int)entryId name:(NSString *)name type:(NSString *)type value:(NSString *)value defaultValue:(NSString *)defaultValue
+{
+    [_actionRegistry registerVariableWithId:entryId name:name typeName:type value:value defaultValue:defaultValue];
 }
 
 - (void)setValue:(NSString *)value forVariableWithId:(int)variableId
@@ -262,13 +270,38 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
 
 - (void)registerNotifications
 {
-    [self registerNotificationName:UIDeviceOrientationDidChangeNotification
-                          selector:@selector(deviceOrientationDidChangeNotification:)];
+    [self registerNotificationName:LUActionControllerDidChangeVariable
+                          selector:@selector(actionControllerDidChangeVariableNotification:)];
+    
+    [self registerNotificationName:LUActionControllerDidSelectAction
+                          selector:@selector(actionControllerDidSelectActionNotification:)];
 }
 
-- (void)deviceOrientationDidChangeNotification:(NSNotification *)notification
+- (void)actionControllerDidChangeVariableNotification:(NSNotification *)notification
 {
-    // TODO: resize window
+    LUCVar *variable = [notification.userInfo objectForKey:LUActionControllerDidChangeVariableKeyVariable];
+    LUAssert(variable);
+    
+    if (variable)
+    {
+        NSDictionary *params = @{
+             @"id"    : [NSNumber numberWithInt:variable.actionId],
+             @"value" : variable.value
+        };
+        [_scriptMessenger sendMessageName:kScriptMessageSetVariable params:params];
+    }
+}
+
+- (void)actionControllerDidSelectActionNotification:(NSNotification *)notification
+{
+    LUAction *action = [notification.userInfo objectForKey:LUActionControllerDidSelectActionKeyAction];
+    LUAssert(action);
+    
+    if (action)
+    {
+        NSDictionary *params = @{ @"id" : [NSNumber numberWithInt:action.actionId] };
+        [_scriptMessenger sendMessageName:kScriptMessageAction params:params];
+    }
 }
 
 #pragma mark -

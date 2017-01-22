@@ -55,6 +55,7 @@ public class TestCaseEx extends TestCase
     protected void assertResult(String... expected)
     {
         assertResult(results, expected);
+        results.clear();
     }
 
     protected void assertResult(List<String> actual, String... expected)
@@ -126,6 +127,11 @@ public class TestCaseEx extends TestCase
 
     //////////////////////////////////////////////////////////////////////////////
     // Results
+
+    protected void addResult(String format, Object... args)
+    {
+        addResult(String.format(format, args));
+    }
 
     protected void addResult(String result)
     {

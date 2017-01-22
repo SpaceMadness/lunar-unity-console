@@ -26,6 +26,7 @@
 #import "LUImageUtils.h"
 #import "LULittleHelper.h"
 #import "LUMutableArray.h"
+#import "LUNotificationCenter.h"
 #import "LUObject.h"
 #import "LUSerializableObject.h"
 #import "LUSerializationUtils.h"

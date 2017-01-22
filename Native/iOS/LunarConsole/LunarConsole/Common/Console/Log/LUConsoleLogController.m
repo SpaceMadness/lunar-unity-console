@@ -177,15 +177,15 @@ static const CGFloat kMinWidthToResizeSearchBar = 480;
 
 - (void)registerNotifications
 {
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(consoleControllerDidResizeNotification:)
-                                                 name:LUConsoleControllerDidResizeNotification
-                                               object:nil];
+    [LUNotificationCenter addObserver:self
+                             selector:@selector(consoleControllerDidResizeNotification:)
+                                 name:LUConsoleControllerDidResizeNotification
+                               object:nil];
 }
 
 - (void)unregisterNotifications
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [LUNotificationCenter removeObserver:self];
 }
 
 - (void)consoleControllerDidResizeNotification:(NSNotification *)notification
@@ -293,6 +293,9 @@ static const CGFloat kMinWidthToResizeSearchBar = 480;
     
     // resize button
     [controller addButtonTitle:@"Move/Resize" target:self action:@selector(onResizeButton:)];
+    
+    // help
+    [controller addButtonTitle:@"Help" target:self action:@selector(onHelpButton:)];
     
     [controller setDelegate:self];
     
@@ -598,6 +601,12 @@ static const CGFloat kMinWidthToResizeSearchBar = 480;
     {
         [_resizeDelegate consoleLogControllerDidRequestResize:self];
     }
+}
+
+- (void)onHelpButton:(id)sender
+{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://goo.gl/5Z8ovV"]];
+    
 }
 
 #pragma mark -

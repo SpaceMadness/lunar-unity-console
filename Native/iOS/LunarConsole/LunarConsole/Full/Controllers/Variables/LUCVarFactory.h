@@ -25,6 +25,6 @@
 
 @interface LUCVarFactory : NSObject
 
-+ (LUCVar *)variableWithId:(int)entryId name:(NSString *)name value:(NSString *)value type:(LUCVarType)type;
++ (LUCVar *)variableWithId:(int)entryId name:(NSString *)name value:(NSString *)value defaultValue:(NSString *)defaultValue type:(LUCVarType)type;
 
 @end

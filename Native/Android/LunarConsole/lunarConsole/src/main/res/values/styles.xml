@@ -32,8 +32,9 @@
         <item name="android:imeOptions">actionSearch</item>
         <item name="android:lines">1</item>
         <item name="android:singleLine">true</item>
-        <item name="android:textColor">@color/lunar_console_color_cell_text</item>
-        <item name="android:textColorHighlight">@color/lunar_console_color_cell_text</item>
+        <item name="android:textColor">@color/lunar_console_color_filter_text</item>
+        <item name="android:textColorHighlight">@color/lunar_console_color_filter_text</item>
+        <item name="android:textColorHint">@color/lunar_console_color_filter_hint</item>
     </style>
 
     <style name="lunar_console_fake_status_bar_style">
@@ -72,6 +73,22 @@
         </item>
     </style>
 
+    <style name="lunar_console_action_entry_style" parent="lunar_console_base_text_style">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">48dp</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+    </style>
+
+    <style name="lunar_console_no_actions_style">
+        <item name="android:gravity">center</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/lunar_console_color_cell_text</item>
+        <item name="android:typeface">monospace</item>
+    </style>
+
     <style name="lunar_console_move_resize_view_style">
         <item name="android:background">@drawable/lunar_console_shape_move_resize</item>
     </style>
@@ -102,6 +119,17 @@
         <item name="android:textColor">#ffb1b1b1</item>
         <item name="android:typeface">monospace</item>
         <item name="android:gravity">center</item>
+    </style>
+
+    <style name="lunar_console_hyperlink_button_style_base">
+        <item name="android:textColor">@color/lunar_console_color_hyperlink</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <style name="lunar_console_hyperlink_button_style" parent="lunar_console_hyperlink_button_style_base">
     </style>
 
 </resources>

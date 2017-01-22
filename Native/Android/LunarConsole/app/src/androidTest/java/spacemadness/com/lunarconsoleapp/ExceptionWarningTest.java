@@ -64,7 +64,7 @@ public class ExceptionWarningTest extends ApplicationBaseUITest
         pressButton(R.id.lunar_console_warning_button_details);
         assertExceptionWarningInvisible();
 
-        assertTable("Error 1");
+        assertLogEntries("Error 1");
     }
 
     @Test
@@ -83,6 +83,6 @@ public class ExceptionWarningTest extends ApplicationBaseUITest
         pressButton(R.id.lunar_console_warning_button_details);
         assertExceptionWarningInvisible();
 
-        assertTable("Error 1", "Error 2");
+        assertLogEntries("Error 1", "Error 2");
     }
 }

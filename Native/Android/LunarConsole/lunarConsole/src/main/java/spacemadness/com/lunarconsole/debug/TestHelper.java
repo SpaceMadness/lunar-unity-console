@@ -23,8 +23,8 @@ package spacemadness.com.lunarconsole.debug;
 
 public class TestHelper // TODO: make a separate flavor for this class
 {
-    public static final String TEST_EVENT_OVERLAY_ADD_ITEM              = "TEST_EVENT_OVERLAY_ADD_ITEM"; // data: CycleArray<ConsoleEntry>
-    public static final String TEST_EVENT_OVERLAY_REMOVE_ITEM           = "TEST_EVENT_OVERLAY_REMOVE_ITEM"; // data: CycleArray<ConsoleEntry>
+    public static final String TEST_EVENT_OVERLAY_ADD_ITEM              = "TEST_EVENT_OVERLAY_ADD_ITEM"; // data: CycleArray<ConsoleLogEntry>
+    public static final String TEST_EVENT_OVERLAY_REMOVE_ITEM           = "TEST_EVENT_OVERLAY_REMOVE_ITEM"; // data: CycleArray<ConsoleLogEntry>
     public static final String TEST_EVENT_OVERLAY_SCHEDULE_ITEM_REMOVAL = "TEST_EVENT_OVERLAY_SCHEDULE_ITEM_REMOVAL";
 
     private static TestHelper instance;

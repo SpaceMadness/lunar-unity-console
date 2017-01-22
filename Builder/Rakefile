@@ -141,8 +141,8 @@ namespace :lunar do
   task :build_run_native_android => [:build_native_android] do
 
     project = UnityProject.new $dir_project
-    project.exec_unity_method 'LunarConsolePluginInternal.AndroidPlugin.ForceUpdateFiles'
-    project.exec_unity_method 'LunarConsolePluginInternal.AppExporter.PerformAndroidBuild'
+    project.exec_unity_method 'LunarConsoleEditorInternal.AndroidPlugin.ForceUpdateFiles'
+    project.exec_unity_method 'LunarConsoleEditorInternal.AppExporter.PerformAndroidBuild'
 
     file_app = resolve_path Dir["#{$dir_project}/Build/Android/*.apk"].first
 
@@ -153,7 +153,7 @@ namespace :lunar do
     exec_shell %(adb install -r "#{file_app}"), "Can't install app..."
 
     print_header 'Starting app...'
-    exec_shell 'adb shell am start -n com.spacemadness.LunarConsole/com.unity3d.player.UnityPlayerActivity', "Can't start app"
+    exec_shell 'adb shell am start -n com.spacemadness.LunarConsoleTest/com.unity3d.player.UnityPlayerActivity', "Can't start app"
 
   end
 

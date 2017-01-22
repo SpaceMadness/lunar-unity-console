@@ -21,9 +21,6 @@
 
 package spacemadness.com.lunarconsole.utils;
 
-/**
- * Created by alementuev on 8/20/15.
- */
 public class ObjectUtils
 {
     public static boolean areEqual(Object o1, Object o2)

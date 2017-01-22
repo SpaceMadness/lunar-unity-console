@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lunar_console_color_table_background">
+
+    <TextView
+        android:id="@+id/lunar_console_fake_status_bar"
+        style="@style/lunar_console_fake_status_bar_style"
+        android:layout_alignParentTop="true"
+        android:text="@string/lunar_console_title_actions_view" />
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/lunar_console_actions_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/lunar_console_fake_status_bar"
+        android:orientation="vertical">
+
+        <!-- TODO: use styles -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:background="@color/lunar_console_color_table_title_background"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/lunar_console_action_view_text_edit_filter"
+                style="@style/lunar_console_filter_edit_text_style"
+                android:hint="Filter" />
+
+        </LinearLayout>
+
+        <!--
+         This is a little hack: if we create a ListView in a layout file Unity will require
+         us to create a separate Android plugin with separate resources (otherwise ListView would
+         not be loaded correctly). As a workaround we need to create ListView programmatically
+         -->
+        <LinearLayout
+            android:id="@+id/lunar_console_action_view_list_container"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical" />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/lunar_console_actions_warning_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="16dp"
+                android:src="@drawable/lunar_console_actions_empty_warning" />
+
+            <TextView
+                style="@style/lunar_console_no_actions_style"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:text="@string/lunar_console_no_actions_warning" />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/lunar_console_no_actions_button_help"
+            style="@style/lunar_console_hyperlink_button_style"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="12dp"
+            android:text="@string/lunar_console_no_actions_button_learn_more" />
+
+    </RelativeLayout>
+
+</RelativeLayout>

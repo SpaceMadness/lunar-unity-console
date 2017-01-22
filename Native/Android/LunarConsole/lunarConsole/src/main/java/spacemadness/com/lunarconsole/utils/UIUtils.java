@@ -23,15 +23,33 @@ package spacemadness.com.lunarconsole.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import spacemadness.com.lunarconsole.debug.Assert;
+import spacemadness.com.lunarconsole.debug.Log;
 
 public class UIUtils
 {
+    public static boolean openURL(Context context, String url)
+    {
+        try
+        {
+            Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+            context.startActivity(browserIntent);
+            return true;
+        }
+        catch (Exception e)
+        {
+            Log.e(e, "Exception while opening URL '%s'", url);
+            return false;
+        }
+    }
+
     public static void showToast(Context context, String message)
     {
         Assert.IsNotNull(context);

@@ -26,12 +26,12 @@ import spacemadness.com.lunarconsole.debug.Log;
 
 public class Console implements
         Destroyable,
-        ConsoleAdapter.DataSource
+        ConsoleLogAdapter.DataSource
 {
     private static final LunarConsoleListener NULL_LISTENER = new LunarConsoleListener()
     {
         @Override
-        public void onAddEntry(Console console, ConsoleEntry entry, boolean filtered)
+        public void onAddEntry(Console console, ConsoleLogEntry entry, boolean filtered)
         {
         }
 
@@ -52,7 +52,7 @@ public class Console implements
     };
 
     private final Options options;
-    private final ConsoleEntryList entries;
+    private final ConsoleLogEntryList entries;
 
     private LunarConsoleListener consoleListener;
 
@@ -64,21 +64,21 @@ public class Console implements
         }
 
         this.options = options.clone();
-        this.entries = new ConsoleEntryList(options.getCapacity(), options.getTrimCount());
+        this.entries = new ConsoleLogEntryList(options.getCapacity(), options.getTrimCount());
         this.consoleListener = NULL_LISTENER;
     }
 
-    public ConsoleEntry entryAtIndex(int index)
+    public ConsoleLogEntry entryAtIndex(int index)
     {
         return entries.getEntry(index);
     }
 
     public void logMessage(String message, String stackTrace, byte type)
     {
-        logMessage(new ConsoleEntry(type, message, stackTrace));
+        logMessage(new ConsoleLogEntry(type, message, stackTrace));
     }
 
-    void logMessage(ConsoleEntry entry)
+    void logMessage(ConsoleLogEntry entry)
     {
         final int oldTrimmedCount = entries.trimmedCount(); // trimmed count before we added a new item
 
@@ -119,7 +119,7 @@ public class Console implements
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Listener notifications
 
-    private void notifyEntryAdded(ConsoleEntry entry, boolean filtered)
+    private void notifyEntryAdded(ConsoleLogEntry entry, boolean filtered)
     {
         try
         {
@@ -195,7 +195,7 @@ public class Console implements
         return entries.trimCount();
     }
 
-    public ConsoleEntryList entries()
+    public ConsoleLogEntryList entries()
     {
         return entries;
     }
@@ -227,10 +227,10 @@ public class Console implements
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    // ConsoleAdapter.DataSource
+    // ConsoleLogAdapter.DataSource
 
     @Override
-    public ConsoleEntry getEntry(int position)
+    public ConsoleLogEntry getEntry(int position)
     {
         return entries.getEntry(position);
     }
