@@ -54,13 +54,12 @@ public class LUCVar extends LUEntry
     }
 
     @Override
-    public long getItemId()
+    protected LUEntryType getEntryType()
     {
-        return 2; // FIXME: don't use magic number
+        return LUEntryType.Variable;
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Default value
+    //region Default value
 
     public void resetToDefaultValue()
     {
