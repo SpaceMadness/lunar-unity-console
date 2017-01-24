@@ -1,6 +1,6 @@
 {
   "status": "OK",
   "version": "0.8.0",
-  "message": "New:\n* Added Actions support. For more information see: https://goo.gl/in0obv\n\nFixes:\n* iOS: Fixed Unity Cloud Build error '[xcode] xcodebuild: error: Unable to read project Unity-iPhone.xcodeproj.\n* Android: Fixed 'JNI ERROR (app bug): local reference table overflow (max=512)'\n\nChanges:\n* Renamed Unity Cloud Build 'Pre-Export Method Name' from 'LunarConsolePluginInternal.Installer.\\*' to 'LunarConsoleEditorInternal.Installer.\\*'",
+  "message": "New:\n* Added Actions support. For more information see: https://goo.gl/in0obv\n\nFixes:\n* iOS: Fixed Unity Cloud Build error '[xcode] xcodebuild: error: Unable to read project Unity-iPhone.xcodeproj.\n* Android: Fixed 'JNI ERROR (app bug): local reference table overflow (max=512)'\n\nChanges:\n* Renamed Unity Cloud Build 'Pre-Export Method Name' from 'LunarConsolePluginInternal.Installer.*' to 'LunarConsoleEditorInternal.Installer.*'",
   "url": "https://goo.gl/S8QXav"
 }
