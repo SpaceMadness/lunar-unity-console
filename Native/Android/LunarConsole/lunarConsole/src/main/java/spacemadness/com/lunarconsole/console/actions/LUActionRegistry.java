@@ -106,7 +106,7 @@ public class LUActionRegistry // FIXME: rename
         if (index != -1)
         {
             LUCVar cvar = variables.objectAtIndex(index);
-            cvar.setValue(value);
+            cvar.value = value;
             notifyVariableChange(cvar, index);
         }
         else

@@ -69,8 +69,8 @@ abstract class BaseConsoleAdapter<T extends ConsoleEntry> extends BaseAdapter
         }
         else
         {
-            convertView = createConvertView(parent);
-            viewHolder = createViewHolder(convertView);
+            convertView = createConvertView(parent, position);
+            viewHolder = createViewHolder(convertView, position);
 
             convertView.setTag(viewHolder);
         }
@@ -93,9 +93,9 @@ abstract class BaseConsoleAdapter<T extends ConsoleEntry> extends BaseAdapter
     //////////////////////////////////////////////////////////////////////////////
     // View Holder
 
-    protected abstract ViewHolder createViewHolder(View convertView);
+    protected abstract ViewHolder createViewHolder(View convertView, int position);
 
-    protected abstract View createConvertView(ViewGroup parent);
+    protected abstract View createConvertView(ViewGroup parent, int position);
 
     public static abstract class ViewHolder<T extends ConsoleEntry>
     {

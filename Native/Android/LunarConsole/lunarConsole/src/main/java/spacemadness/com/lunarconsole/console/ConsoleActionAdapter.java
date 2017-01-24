@@ -27,24 +27,62 @@ import android.view.ViewGroup;
 
 import spacemadness.com.lunarconsole.R;
 import spacemadness.com.lunarconsole.console.actions.LUAction;
+import spacemadness.com.lunarconsole.console.actions.LUCVar;
+import spacemadness.com.lunarconsole.console.actions.LUEntry;
+import spacemadness.com.lunarconsole.console.actions.LUEntryType;
+import spacemadness.com.lunarconsole.console.actions.LUHeaderEntry;
 
-public class ConsoleActionAdapter extends BaseConsoleActionAdapter<LUAction>
+public class ConsoleActionAdapter extends BaseConsoleActionAdapter<LUEntry>
 {
-    public ConsoleActionAdapter(DataSource<LUAction> dataSource)
+    public ConsoleActionAdapter(DataSource<LUEntry> dataSource)
     {
         super(dataSource);
     }
 
     @Override
-    protected ViewHolder createViewHolder(View convertView)
+    protected ViewHolder createViewHolder(View convertView, int position)
     {
-        return new LUAction.ViewHolder(convertView);
+        LUEntryType type = getEntryType(position);
+        switch (type)
+        {
+            case Action:
+                return new LUAction.ViewHolder(convertView);
+            case Variable:
+                return new LUCVar.ViewHolder(convertView);
+            case Header:
+                return new LUHeaderEntry.ViewHolder(convertView);
+        }
+
+        throw new IllegalStateException("Unexpected entry type: " + type);
     }
 
     @Override
-    protected View createConvertView(ViewGroup parent)
+    protected View createConvertView(ViewGroup parent, int position)
     {
+        LUEntryType type = getEntryType(position);
+        int layoutId;
+        switch (type)
+        {
+            case Action:
+                layoutId = R.layout.lunar_console_layout_console_action_entry;
+                break;
+            case Variable:
+                layoutId = R.layout.lunar_console_layout_console_variable_entry;
+                break;
+            case Header:
+                layoutId = R.layout.lunar_console_layout_console_action_entry;
+                break;
+            default:
+                throw new IllegalStateException("Unexpected entry type: " + type);
+        }
+
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        return inflater.inflate(R.layout.lunar_console_layout_console_action_entry, parent, false);
+        return inflater.inflate(layoutId, parent, false);
+    }
+
+    private LUEntryType getEntryType(int position)
+    {
+        LUEntry entry = (LUEntry) getItem(position);
+        return entry.getEntryType();
     }
 }

@@ -423,7 +423,7 @@ public class ConsolePlugin implements Destroyable
     {
         if (instance != null)
         {
-            instance.registerConsoleAction(actionId, actionName);
+            instance.actionRegistry.registerAction(actionId, actionName);
         }
     }
 
@@ -431,21 +431,8 @@ public class ConsolePlugin implements Destroyable
     {
         if (instance != null)
         {
-            instance.unregisterConsoleAction(actionId);
+            instance.actionRegistry.unregisterAction(actionId);
         }
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Actions and variables
-
-    private void registerConsoleAction(int actionId, String actionName)
-    {
-        actionRegistry.registerAction(actionId, actionName);
-    }
-
-    private void unregisterConsoleAction(int actionId)
-    {
-        actionRegistry.unregisterAction(actionId);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1014,7 +1001,7 @@ public class ConsolePlugin implements Destroyable
                 {
                     Map<String, Object> params = DictionaryUtils.createMap(
                             "id", variable.actionId(),
-                            "value", variable.value()
+                            "value", variable.value
                     );
 
                     sendNativeCallback(SCRIPT_MESSAGE_VARIABLE_SET, params);

@@ -36,7 +36,7 @@ public class LUAction extends LUEntry
     }
 
     @Override
-    protected LUEntryType getEntryType()
+    public LUEntryType getEntryType()
     {
         return LUEntryType.Action;
     }

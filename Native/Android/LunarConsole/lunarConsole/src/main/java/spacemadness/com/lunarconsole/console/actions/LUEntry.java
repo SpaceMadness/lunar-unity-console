@@ -68,7 +68,7 @@ public abstract class LUEntry extends ConsoleEntry implements Comparable<LUEntry
         return name;
     }
 
-    protected abstract LUEntryType getEntryType();
+    public abstract LUEntryType getEntryType();
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Comparable

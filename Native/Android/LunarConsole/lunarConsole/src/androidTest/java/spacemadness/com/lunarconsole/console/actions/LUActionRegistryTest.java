@@ -144,7 +144,7 @@ public class LUActionRegistryTest extends TestCaseEx implements LUActionRegistry
     @Override
     public void didRegisterVariable(LUActionRegistry registry, LUCVar variable, int index)
     {
-        addResult(String.format("register variable: %s %s %s (%d)", variable.type(), variable.name(), variable.value(), index));
+        addResult(String.format("register variable: %s %s %s (%d)", variable.type, variable.name(), variable.value, index));
     }
 
     @Override

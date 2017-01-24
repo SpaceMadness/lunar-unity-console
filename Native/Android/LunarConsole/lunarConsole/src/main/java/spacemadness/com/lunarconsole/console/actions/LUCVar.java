@@ -21,13 +21,21 @@
 
 package spacemadness.com.lunarconsole.console.actions;
 
+import android.content.Context;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
+
+import spacemadness.com.lunarconsole.R;
+import spacemadness.com.lunarconsole.console.ConsoleActionAdapter;
+import spacemadness.com.lunarconsole.ui.Switch;
 import spacemadness.com.lunarconsole.utils.ObjectUtils;
 
 public class LUCVar extends LUEntry
 {
-    private final LUCVarType type;
-    private String value;
-    private String defaultValue;
+    public final LUCVarType type;
+    public final String defaultValue;
+    public String value;
 
     public LUCVar(int entryId, String name, String value, String defaultValue, LUCVarType type)
     {
@@ -38,23 +46,8 @@ public class LUCVar extends LUEntry
         this.type = type;
     }
 
-    public LUCVarType type()
-    {
-        return type;
-    }
-
-    public String value()
-    {
-        return value;
-    }
-
-    public void setValue(String value)
-    {
-        this.value = value;
-    }
-
     @Override
-    protected LUEntryType getEntryType()
+    public LUEntryType getEntryType()
     {
         return LUEntryType.Variable;
     }
@@ -70,4 +63,48 @@ public class LUCVar extends LUEntry
     {
         return ObjectUtils.areEqual(value, defaultValue);
     }
+
+    //endregion
+
+    //region ViewHolder
+
+    public static class ViewHolder extends ConsoleActionAdapter.ViewHolder<LUCVar>
+    {
+        private final View layout;
+        private final TextView nameView;
+        private final EditText valueView;
+        private final Switch switchView;
+
+        public ViewHolder(View itemView)
+        {
+            super(itemView);
+
+            layout = itemView.findViewById(R.id.lunar_console_action_entry_layout);
+            nameView = (TextView) itemView.findViewById(R.id.lunar_console_action_entry_name);
+            valueView = (EditText) itemView.findViewById(R.id.lunar_console_variable_value);
+            switchView = (Switch) itemView.findViewById(R.id.lunar_console_variable_switch);
+        }
+
+        @Override
+        public void onBindViewHolder(LUCVar cvar, int position)
+        {
+            Context context = getContext();
+            layout.setBackgroundColor(cvar.getBackgroundColor(context, position));
+            nameView.setText(cvar.name());
+
+            if (cvar.type == LUCVarType.Boolean)
+            {
+                valueView.setVisibility(View.GONE);
+                switchView.setVisibility(View.VISIBLE);
+            }
+            else
+            {
+                valueView.setVisibility(View.VISIBLE);
+                switchView.setVisibility(View.GONE);
+                valueView.setText(cvar.value);
+            }
+        }
+    }
+
+    //endregion
 }
