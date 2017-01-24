@@ -33,7 +33,7 @@ public class LUHeaderEntry extends LUEntry
         public ViewHolder(View itemView)
         {
             super(itemView);
-            nameView = (TextView) itemView.findViewById(R.id.lunar_console_action_entry_name);
+            nameView = (TextView) itemView.findViewById(R.id.lunar_console_header_entry_name);
         }
 
         @Override

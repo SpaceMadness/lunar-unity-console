@@ -113,6 +113,9 @@ public class MainActivity extends Activity
                 ConsolePlugin.registerAction(4, "Action - B2");
                 ConsolePlugin.registerAction(5, "Action - C1");
                 ConsolePlugin.registerAction(6, "Action - C2");
+
+                ConsolePlugin.registerVariable(0, "String variable", "String", "test-1", "test-1");
+                ConsolePlugin.registerVariable(1, "Toggle variable", "Boolean", "1", "1");
                 */
             }
         });

@@ -24,4 +24,6 @@
     <color name="lunar_console_color_overlay_entry_shadow">#adadad</color>
     <color name="lunar_console_color_border_color">#979797</color>
     <color name="lunar_console_color_hyperlink">#679BEF</color>
+    <color name="lunar_console_color_action_header">#262626</color>
+    <color name="lunar_console_color_action_text">#FFFFFF</color>
 </resources>

@@ -70,7 +70,7 @@ public class ConsoleActionAdapter extends BaseConsoleActionAdapter<LUEntry>
                 layoutId = R.layout.lunar_console_layout_console_variable_entry;
                 break;
             case Header:
-                layoutId = R.layout.lunar_console_layout_console_action_entry;
+                layoutId = R.layout.lunar_console_layout_console_header_entry;
                 break;
             default:
                 throw new IllegalStateException("Unexpected entry type: " + type);
