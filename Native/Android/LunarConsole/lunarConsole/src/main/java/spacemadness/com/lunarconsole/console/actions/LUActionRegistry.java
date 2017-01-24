@@ -100,7 +100,7 @@ public class LUActionRegistry // FIXME: rename
 
     }
 
-    public void setVariableValue(String value, int variableId)
+    public void updateVariable(int variableId, String value)
     {
         int index = indexOfVariable(variableId);
         if (index != -1)

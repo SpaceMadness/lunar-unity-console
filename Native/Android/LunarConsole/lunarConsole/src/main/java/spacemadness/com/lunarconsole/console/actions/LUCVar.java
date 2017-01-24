@@ -80,7 +80,7 @@ public class LUCVar extends LUEntry
             super(itemView);
 
             layout = itemView.findViewById(R.id.lunar_console_action_entry_layout);
-            nameView = (TextView) itemView.findViewById(R.id.lunar_console_action_entry_name);
+            nameView = (TextView) itemView.findViewById(R.id.lunar_console_variable_name);
             valueView = (EditText) itemView.findViewById(R.id.lunar_console_variable_value);
             switchView = (Switch) itemView.findViewById(R.id.lunar_console_variable_switch);
         }

@@ -40,6 +40,7 @@ import spacemadness.com.lunarconsole.R;
 import spacemadness.com.lunarconsole.console.actions.LUAction;
 import spacemadness.com.lunarconsole.console.actions.LUActionRegistry;
 import spacemadness.com.lunarconsole.console.actions.LUCVar;
+import spacemadness.com.lunarconsole.console.actions.LUCVarType;
 import spacemadness.com.lunarconsole.core.Destroyable;
 import spacemadness.com.lunarconsole.core.Notification;
 import spacemadness.com.lunarconsole.core.NotificationCenter;
@@ -76,7 +77,9 @@ public class ConsolePlugin implements Destroyable
     private final PluginSettings settings;
     private final ConsoleViewState consoleViewState;
 
-    /** Parent container for console view (we need it to display additional overlays) */
+    /**
+     * Parent container for console view (we need it to display additional overlays)
+     */
     private FrameLayout consoleContentView;
 
     private ConsoleView consoleView;
@@ -96,24 +99,24 @@ public class ConsolePlugin implements Destroyable
      */
     private static final ConsoleLogEntryDispatcher entryDispatcher = new ConsoleLogEntryDispatcher(
             new ConsoleLogEntryDispatcher.OnDispatchListener()
-    {
-        @Override
-        public void onDispatchEntries(List<ConsoleLogEntry> entries)
-        {
-            if (instance != null)
             {
-                instance.logEntries(entries);
-            }
-            else
-            {
-                Log.e("Can't log message: plugin instance is not initialized");
-            }
-        }
-    });
+                @Override
+                public void onDispatchEntries(List<ConsoleLogEntry> entries)
+                {
+                    if (instance != null)
+                    {
+                        instance.logEntries(entries);
+                    }
+                    else
+                    {
+                        Log.e("Can't log message: plugin instance is not initialized");
+                    }
+                }
+            });
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Lifecycle
-    
+
     /**
      * Data holder for plugin initialization
      */
@@ -274,12 +277,13 @@ public class ConsolePlugin implements Destroyable
 
     /**
      * This method is called by a Unity managed code. Do not rename or change params types of order
+     *
      * @param targetName - the name of game object which would receive native callbacks
      * @param methodName - the name of the method of the game object to be called
-     * @param version - the plugin version
-     * @param capacity - the console`s capacity (everything beyond that would be trimmed)
-     * @param trim - the trim amount upon console overflow (how many items would be trimmed when console overflows)
-     * @param gesture - the name of a touch gesture to open the console or "none" if disabled
+     * @param version    - the plugin version
+     * @param capacity   - the console`s capacity (everything beyond that would be trimmed)
+     * @param trim       - the trim amount upon console overflow (how many items would be trimmed when console overflows)
+     * @param gesture    - the name of a touch gesture to open the console or "none" if disabled
      */
     public static void init(String targetName, String methodName, String version, int capacity, int trim, String gesture)
     {
@@ -387,6 +391,44 @@ public class ConsolePlugin implements Destroyable
         }
     }
 
+    public static void registerVariable(final int variableId, final String name, final String type, final String value, final String defaultValue)
+    {
+        if (isRunningOnMainThread())
+        {
+            registerVariable0(variableId, name, type, value, defaultValue);
+        }
+        else
+        {
+            runOnUIThread(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    registerVariable0(variableId, name, type, value, defaultValue);
+                }
+            });
+        }
+    }
+
+    public static void updateVariable(final int variableId, final String value)
+    {
+        if (isRunningOnMainThread())
+        {
+            updateVariable0(variableId, value);
+        }
+        else
+        {
+            runOnUIThread(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    updateVariable0(variableId, value);
+                }
+            });
+        }
+    }
+
     private static void show0()
     {
         if (instance != null)
@@ -432,6 +474,29 @@ public class ConsolePlugin implements Destroyable
         if (instance != null)
         {
             instance.actionRegistry.unregisterAction(actionId);
+        }
+    }
+
+    private static void registerVariable0(int variableId, String name, String typeName, String value, String defaultValue)
+    {
+        if (instance != null)
+        {
+            LUCVarType type = LUCVarType.parse(typeName);
+            if (type == LUCVarType.Unknown)
+            {
+                Log.e("Unexpected variable type: %s", typeName);
+                return;
+            }
+
+            instance.actionRegistry.registerVariable(variableId, name, type, value, defaultValue);
+        }
+    }
+
+    private static void updateVariable0(int variableId, String value)
+    {
+        if (instance != null)
+        {
+            instance.actionRegistry.updateVariable(variableId, value);
         }
     }
 
