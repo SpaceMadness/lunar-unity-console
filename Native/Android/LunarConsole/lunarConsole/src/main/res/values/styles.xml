@@ -26,13 +26,8 @@
         <item name="android:paddingRight">5dp</item>
         <item name="android:layout_weight">1</item>
         <item name="android:layout_gravity">center</item>
-        <item name="android:background">@drawable/lunar_console_shape_filter_text</item>
-        <item name="android:imeOptions">actionSearch</item>
         <item name="android:lines">1</item>
         <item name="android:singleLine">true</item>
-        <item name="android:textColor">@color/lunar_console_color_filter_text</item>
-        <item name="android:textColorHighlight">@color/lunar_console_color_filter_text</item>
-        <item name="android:textColorHint">@color/lunar_console_color_filter_hint</item>
     </style>
 
     <style name="lunar_console_filter_edit_text_style" parent="lunar_console_edit_text_base_style">
@@ -42,6 +37,7 @@
         <item name="android:textColor">@color/lunar_console_color_filter_text</item>
         <item name="android:textColorHighlight">@color/lunar_console_color_filter_text</item>
         <item name="android:textColorHint">@color/lunar_console_color_filter_hint</item>
+        <item name="android:imeOptions">actionSearch</item>
     </style>
 
     <style name="lunar_console_fake_status_bar_style">
@@ -112,6 +108,8 @@
         </item>
         <item name="android:layout_width">60dp</item> <!-- TODO: use dimensions -->
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:inputType">text</item>
+        <item name="android:imeOptions">actionDone</item>
     </style>
 
     <style name="lunar_console_move_resize_view_style">
@@ -155,5 +153,15 @@
     </style>
 
     <style name="lunar_console_hyperlink_button_style" parent="lunar_console_hyperlink_button_style_base" />
+
+    <style name="lunar_console_switch_style_base">
+        <item name="android:textOn">""</item>
+        <item name="android:textOff">""</item>
+        <item name="android:thumb">@drawable/lunar_console_shape_switch_thumb</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+    </style>
+
+    <style name="lunar_console_switch_style" parent="lunar_console_switch_style_base" />
 
 </resources>

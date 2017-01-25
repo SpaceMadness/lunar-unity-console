@@ -22,7 +22,9 @@
 package spacemadness.com.lunarconsole.utils;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.view.View;
@@ -49,6 +51,23 @@ public class UIUtils
             return false;
         }
     }
+
+    public static void showDialog(Context context, String title, String message)
+    {
+        new AlertDialog.Builder(context)
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener()
+                {
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        // nothing here
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
 
     public static void showToast(Context context, String message)
     {

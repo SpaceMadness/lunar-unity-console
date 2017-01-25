@@ -3,4 +3,9 @@
     <dimen name="lunar_layout_console_stacktrace_margin">6dp</dimen>
     <dimen name="lunar_console_move_resize_min_width">320dp</dimen>
     <dimen name="lunar_console_move_resize_min_height">320dp</dimen>
+    <dimen name="lunar_console_dimen_switch_track_width">50dp</dimen>
+    <dimen name="lunar_console_dimen_switch_track_height">32dp</dimen>
+    <dimen name="lunar_console_dimen_switch_track_corner_radius">16dp</dimen>
+    <dimen name="lunar_console_dimen_switch_thumb_width">32dp</dimen>
+    <dimen name="lunar_console_dimen_switch_thumb_height">32dp</dimen>
 </resources>

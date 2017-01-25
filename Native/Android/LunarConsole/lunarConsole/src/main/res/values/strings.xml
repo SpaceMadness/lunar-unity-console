@@ -21,4 +21,8 @@
 
     <string name="lunar_console_header_actions">Actions</string>
     <string name="lunar_console_header_variables">Variables</string>
+
+    <string name="lunar_console_variable_value_error_title">Error</string>
+    <string name="lunar_console_variable_value_error_message_type_integer">Invalid integer value</string>
+    <string name="lunar_console_variable_value_error_message_type_float">Invalid float value</string>
 </resources>

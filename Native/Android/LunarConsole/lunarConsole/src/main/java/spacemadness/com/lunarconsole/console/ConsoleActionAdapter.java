@@ -80,6 +80,18 @@ public class ConsoleActionAdapter extends BaseConsoleActionAdapter<LUEntry>
         return inflater.inflate(layoutId, parent, false);
     }
 
+    @Override
+    public int getItemViewType(int position)
+    {
+        return getEntryType(position).ordinal();
+    }
+
+    @Override
+    public int getViewTypeCount()
+    {
+        return LUEntryType.values().length;
+    }
+
     private LUEntryType getEntryType(int position)
     {
         LUEntry entry = (LUEntry) getItem(position);
