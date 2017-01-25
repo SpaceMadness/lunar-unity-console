@@ -106,19 +106,11 @@ namespace LunarConsolePlugin
             m_name = name;
             m_type = type;
 
-            Register(this);
+            if (LunarConsoleSettings.consoleEnabled && LunarConsoleSettings.consoleSupported)
+            {
+                CRegistry.instance.Register(this);
+            }
         }
-
-        //////////////////////////////////////////////////////////////////////////////
-
-        #region Registry
-
-        private static void Register(CVar cvar)
-        {
-            throw new NotImplementedException();
-        }
-
-        #endregion
 
         //////////////////////////////////////////////////////////////////////////////
 
@@ -402,13 +394,30 @@ namespace LunarConsolePlugin
                 var containerTypes = ReflectionUtils.FindAttributeTypes<CVarContainerAttribute>(assembly);
                 foreach (var type in containerTypes)
                 {
-                    Debug.Log(type);
+                    ForceStaticInit(type);
                 }
             }
             catch (Exception e)
             {
                 Debug.LogError("Unable to resolve variables: " + e.Message);
             }
+        }
+
+        private static void ForceStaticInit(Type type)
+        {
+            try
+            {
+                FieldInfo[] fields = type.GetFields(BindingFlags.Static|BindingFlags.Public);
+                if (fields != null && fields.Length > 0)
+                {
+                    fields[0].GetValue(null);
+                }
+            }
+            catch (Exception e)
+            {
+                Log.e(e, "Unable to initialize cvar container: {0}", type);
+            }
+
         }
     }
 
