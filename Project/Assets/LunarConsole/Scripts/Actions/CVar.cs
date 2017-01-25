@@ -71,6 +71,7 @@ namespace LunarConsolePlugin
         {
             this.IntValue = defaultValue ? 1 : 0;
             m_defaultValue = m_value;
+            Register();
         }
 
         public CVar(string name, int defaultValue)
@@ -78,6 +79,7 @@ namespace LunarConsolePlugin
         {
             this.IntValue = defaultValue;
             m_defaultValue = m_value;
+            Register();
         }
 
         public CVar(string name, float defaultValue)
@@ -85,6 +87,7 @@ namespace LunarConsolePlugin
         {
             this.FloatValue = defaultValue;
             m_defaultValue = m_value;
+            Register();
         }
 
         public CVar(string name, string defaultValue)
@@ -92,6 +95,7 @@ namespace LunarConsolePlugin
         {
             this.Value = defaultValue;
             m_defaultValue = m_value;
+            Register();
         }
 
         private CVar(string name, CVarType type)
@@ -105,7 +109,10 @@ namespace LunarConsolePlugin
 
             m_name = name;
             m_type = type;
+        }
 
+        void Register()
+        {
             if (LunarConsoleSettings.consoleEnabled && LunarConsoleSettings.consoleSupported)
             {
                 CRegistry.instance.Register(this);
