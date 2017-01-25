@@ -329,6 +329,30 @@ namespace LunarConsolePlugin
         }
 
         #endregion
+
+        #region Operators
+
+        public static implicit operator string(CVar cvar)
+        {
+            return cvar.m_value.stringValue;
+        }
+
+        public static implicit operator int(CVar cvar)
+        {
+            return cvar.m_value.intValue;
+        }
+
+        public static implicit operator float(CVar cvar)
+        {
+            return cvar.m_value.floatValue;
+        }
+
+        public static implicit operator bool(CVar cvar)
+        {
+            return cvar.m_value.intValue != 0;
+        }
+
+        #endregion
     }
 
     public class CVarList : IEnumerable<CVar>
