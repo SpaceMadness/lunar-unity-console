@@ -21,10 +21,12 @@
 
 package spacemadness.com.lunarconsole.console.actions;
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Typeface;
+import android.os.Build;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -84,7 +86,7 @@ public class LUCVar extends LUEntry
     //region ViewHolder
 
     public static class ViewHolder extends ConsoleActionAdapter.ViewHolder<LUCVar> implements
-            CompoundButton.OnCheckedChangeListener, View.OnClickListener
+            CompoundButton.OnCheckedChangeListener, View.OnClickListener, DialogInterface.OnDismissListener
     {
         private final View layout;
         private final TextView nameTextView;
@@ -124,13 +126,11 @@ public class LUCVar extends LUEntry
                 {
                     valueEditButton.setVisibility(View.GONE);
                     toggleSwitch.setVisibility(View.VISIBLE);
-                    toggleSwitch.setChecked(variable.boolValue());
                 }
                 else
                 {
                     valueEditButton.setVisibility(View.VISIBLE);
                     toggleSwitch.setVisibility(View.GONE);
-                    valueEditButton.setText(cvar.value);
                 }
             }
             finally
@@ -232,7 +232,18 @@ public class LUCVar extends LUEntry
                         }
                     });
             AlertDialog dialog = builder.create();
+            dialog.setOnDismissListener(this);
             dialog.show();
+        }
+
+        //endregion
+
+        //region DialogInterface.OnDismissListener
+
+        @Override
+        public void onDismiss(DialogInterface dialog)
+        {
+            updateUI();
         }
 
         //endregion
@@ -243,9 +254,9 @@ public class LUCVar extends LUEntry
         {
             variable.value = value;
             NotificationCenter.defaultCenter().postNotification(VARIABLE_SET, VARIABLE_SET_KEY_VARIABLE, variable);
-            updateUI();
         }
 
+        @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
         void updateUI()
         {
             final int style = variable.isDefaultValue() ? Typeface.NORMAL : Typeface.BOLD;
@@ -253,10 +264,12 @@ public class LUCVar extends LUEntry
             if (variable.type == LUCVarType.Boolean)
             {
                 toggleSwitch.setTypeface(null, style);
+                toggleSwitch.setChecked(variable.boolValue());
             }
             else
             {
                 valueEditButton.setTypeface(null, style);
+                valueEditButton.setText(variable.value);
             }
         }
 

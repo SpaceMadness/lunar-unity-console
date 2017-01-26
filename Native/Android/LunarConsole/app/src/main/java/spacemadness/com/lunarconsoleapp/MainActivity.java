@@ -41,6 +41,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import spacemadness.com.lunarconsole.Config;
 import spacemadness.com.lunarconsole.console.ConsoleLogType;
 import spacemadness.com.lunarconsole.console.ConsolePlugin;
 import spacemadness.com.lunarconsole.console.ConsoleViewState;
@@ -80,6 +81,8 @@ public class MainActivity extends Activity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Config.DEBUG = true;
 
         mainQueue = new DispatchQueue(Looper.getMainLooper());
         backgroundQueue = BackgroundDispatchQueue.create("Background");
