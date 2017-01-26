@@ -376,6 +376,18 @@ public class ApplicationBaseUITest implements TestHelper.EventListener
         results.clear();
     }
 
+    protected void sleep(long time)
+    {
+        try
+        {
+            Thread.sleep(time);
+        }
+        catch (InterruptedException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
+
     private void waitForResults(int length)
     {
         synchronized (resultMutex)
@@ -504,7 +516,12 @@ public class ApplicationBaseUITest implements TestHelper.EventListener
 
     protected void registerVariable(int variableId, String name, String value)
     {
-        registerVariable(variableId, name, LUCVarType.String, value);
+        registerVariable(variableId, name, value, value);
+    }
+
+    protected void registerVariable(int variableId, String name, String value, String defaultValue)
+    {
+        registerVariable(variableId, name, LUCVarType.String, value, defaultValue);
     }
 
     protected void registerVariable(int variableId, String name, int value)

@@ -366,6 +366,30 @@ public class ConsoleActionsViewTest extends ApplicationBaseUITest
         });
     }
 
+    @Test
+    public void testUpdateVariables()
+    {
+        registerVariable(1, "string", "value", "default value");
+
+        openActions();
+
+        assertText(R.id.lunar_console_variable_entry_value, "value");
+        pressButton(R.id.lunar_console_variable_entry_value);
+
+        assertText(R.id.lunar_console_edit_variable_default_value, String.format(getString(R.string.lunar_console_edit_variable_title_default_value), "default value"));
+        assertText(R.id.lunar_console_edit_variable_value, "value");
+        typeText(R.id.lunar_console_edit_variable_value, "new value");
+        pressButton(R.id.lunar_console_edit_variable_button_ok);
+
+        assertText(R.id.lunar_console_variable_entry_value, "new value");
+        pressButton(R.id.lunar_console_variable_entry_value);
+
+        assertText(R.id.lunar_console_edit_variable_value, "new value");
+        pressButton(R.id.lunar_console_edit_variable_button_reset);
+
+        assertText(R.id.lunar_console_variable_entry_value, "value");
+    }
+
     //endregion
 
     //region Mixed
