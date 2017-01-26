@@ -376,6 +376,14 @@ public class ConsoleActionsViewTest extends ApplicationBaseUITest
         assertText(R.id.lunar_console_variable_entry_value, "value");
         pressButton(R.id.lunar_console_variable_entry_value);
 
+        // ugly hack: sometimes pressing the "edit" button does not work for this test
+        int attempts = 10;
+        while (!isVisible(R.id.lunar_console_edit_variable_default_value) && attempts > 0)
+        {
+            pressButton(R.id.lunar_console_variable_entry_value);
+            --attempts;
+        }
+
         assertText(R.id.lunar_console_edit_variable_default_value, String.format(getString(R.string.lunar_console_edit_variable_title_default_value), "default value"));
         assertText(R.id.lunar_console_edit_variable_value, "value");
         typeText(R.id.lunar_console_edit_variable_value, "new value");
@@ -387,7 +395,7 @@ public class ConsoleActionsViewTest extends ApplicationBaseUITest
         assertText(R.id.lunar_console_edit_variable_value, "new value");
         pressButton(R.id.lunar_console_edit_variable_button_reset);
 
-        assertText(R.id.lunar_console_variable_entry_value, "value");
+        assertText(R.id.lunar_console_variable_entry_value, "default value");
     }
 
     //endregion
