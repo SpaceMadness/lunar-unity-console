@@ -21,14 +21,11 @@
 
 package spacemadness.com.lunarconsoleapp;
 
-import android.support.test.espresso.core.deps.guava.primitives.Booleans;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-
-import spacemadness.com.lunarconsole.console.actions.LUCVarType;
 
 import static android.support.test.espresso.action.ViewActions.*;
 
@@ -220,10 +217,10 @@ public class ConsoleActionsViewTest extends ApplicationBaseUITest
 
         openActions();
         assertEntries(NO_ACTIONS, new var[]{
-                new var("string", "value"),
-                new var("integer", 10),
-                new var("float", 3.14f),
                 new var("boolean", false),
+                new var("float", 3.14f),
+                new var("integer", 10),
+                new var("string", "value")
         });
     }
 
@@ -237,18 +234,18 @@ public class ConsoleActionsViewTest extends ApplicationBaseUITest
         registerVariable(2, "integer", 10);
 
         assertEntries(NO_ACTIONS, new var[]{
-                new var("string", "value"),
-                new var("integer", 10)
+                new var("integer", 10),
+                new var("string", "value")
         });
 
         registerVariable(3, "float", 3.14f);
         registerVariable(4, "boolean", false);
 
         assertEntries(NO_ACTIONS, new var[]{
-                new var("string", "value"),
-                new var("integer", 10),
-                new var("float", 3.14f),
                 new var("boolean", false),
+                new var("float", 3.14f),
+                new var("integer", 10),
+                new var("string", "value")
         });
     }
 
@@ -363,6 +360,298 @@ public class ConsoleActionsViewTest extends ApplicationBaseUITest
 
         openActions();
         assertEntries(NO_ACTIONS, new var[]{
+                new var("Variable-1", "value-1"),
+                new var("Variable-12", "value-12"),
+                new var("Variable-123", "value-123")
+        });
+    }
+
+    //endregion
+
+    //region Mixed
+
+    @Test
+    public void testRegisterActionsAndVariables()
+    {
+        registerAction(1, "Action-1");
+        registerAction(2, "Action-2");
+        registerAction(3, "Action-3");
+        registerVariable(1, "string", "value");
+        registerVariable(2, "integer", 10);
+        registerVariable(3, "float", 3.14f);
+        registerVariable(4, "boolean", false);
+
+        openActions();
+        assertEntries(new String[]{"Action-1", "Action-2", "Action-3"}, new var[]{
+                new var("boolean", false),
+                new var("float", 3.14f),
+                new var("integer", 10),
+                new var("string", "value")
+        });
+        closeConsole();
+
+        unregisterActions(2);
+
+        openActions();
+        assertEntries(new String[]{"Action-1", "Action-3"}, new var[]{
+                new var("boolean", false),
+                new var("float", 3.14f),
+                new var("integer", 10),
+                new var("string", "value")
+        });
+        closeActions();
+
+        registerAction(4, "Action-4");
+        registerAction(5, "Action-2");
+
+        openActions();
+        assertEntries(new String[]{"Action-1", "Action-2", "Action-3", "Action-4"}, new var[]{
+                new var("boolean", false),
+                new var("float", 3.14f),
+                new var("integer", 10),
+                new var("string", "value")
+        });
+        closeActions();
+
+        unregisterActions(1, 3, 4, 5);
+
+        openActions();
+        assertEntries(NO_ACTIONS, new var[]{
+                new var("boolean", false),
+                new var("float", 3.14f),
+                new var("integer", 10),
+                new var("string", "value")
+        });
+    }
+
+    @Test
+    public void testRegisterActionsAndVariablesWhileConsoleOpen()
+    {
+        openActions();
+        assertNoActions();
+
+        registerAction(1, "Action-1");
+        registerAction(2, "Action-2");
+        registerAction(3, "Action-3");
+        registerVariable(1, "string", "value");
+        registerVariable(2, "integer", 10);
+
+        assertEntries(new String[]{"Action-1", "Action-2", "Action-3"}, new var[]{
+                new var("integer", 10),
+                new var("string", "value")
+        });
+
+        unregisterActions(2);
+
+        assertEntries(new String[]{"Action-1", "Action-3"}, new var[]{
+                new var("integer", 10),
+                new var("string", "value")
+        });
+
+        registerAction(4, "Action-4");
+        registerAction(5, "Action-2");
+        registerVariable(3, "float", 3.14f);
+        registerVariable(4, "boolean", false);
+
+        assertEntries(new String[]{"Action-1", "Action-2", "Action-3", "Action-4"}, new var[]{
+                new var("boolean", false),
+                new var("float", 3.14f),
+                new var("integer", 10),
+                new var("string", "value")
+        });
+
+        unregisterActions(1, 3, 4, 5);
+
+        assertEntries(NO_ACTIONS, new var[]{
+                new var("boolean", false),
+                new var("float", 3.14f),
+                new var("integer", 10),
+                new var("string", "value")
+        });
+    }
+
+    @Test
+    public void testActionsAndVariablesFilter()
+    {
+        registerAction(1, "Action-1");
+        registerAction(2, "Action-12");
+        registerAction(3, "Action-123");
+        registerAction(4, "Action-2");
+        registerAction(5, "Action-3");
+        registerAction(6, "Action-4");
+        registerVariable(1, "Variable-1", "value-1");
+        registerVariable(2, "Variable-12", "value-12");
+        registerVariable(3, "Variable-123", "value-123");
+        registerVariable(4, "Variable-2", "value-2");
+
+        openActions();
+        assertEntries(new String[]{"Action-1", "Action-12", "Action-123", "Action-2", "Action-3", "Action-4"}, new var[]{
+                new var("Variable-1", "value-1"),
+                new var("Variable-12", "value-12"),
+                new var("Variable-123", "value-123"),
+                new var("Variable-2", "value-2")
+        });
+
+        appendFilterText("-");
+        assertEntries(new String[]{"Action-1", "Action-12", "Action-123", "Action-2", "Action-3", "Action-4"}, new var[]{
+                new var("Variable-1", "value-1"),
+                new var("Variable-12", "value-12"),
+                new var("Variable-123", "value-123"),
+                new var("Variable-2", "value-2")
+        });
+
+        appendFilterText("1");
+        assertEntries(new String[]{"Action-1", "Action-12", "Action-123"}, new var[]{
+                new var("Variable-1", "value-1"),
+                new var("Variable-12", "value-12"),
+                new var("Variable-123", "value-123")
+        });
+
+        appendFilterText("2");
+        assertEntries(new String[]{"Action-12", "Action-123"}, new var[]{
+                new var("Variable-12", "value-12"),
+                new var("Variable-123", "value-123")
+        });
+
+        appendFilterText("3");
+        assertEntries(new String[]{"Action-123"}, new var[]{
+                new var("Variable-123", "value-123")
+        });
+
+        appendFilterText("4");
+        assertEntries(NO_ACTIONS, NO_VARIABLES);
+
+        deleteLastFilterCharacter();
+        assertEntries(new String[]{"Action-123"}, new var[]{
+                new var("Variable-123", "value-123")
+        });
+
+        deleteLastFilterCharacter();
+        assertEntries(new String[]{"Action-12", "Action-123"}, new var[]{
+                new var("Variable-12", "value-12"),
+                new var("Variable-123", "value-123")
+        });
+
+        deleteLastFilterCharacter();
+        assertEntries(new String[]{"Action-1", "Action-12", "Action-123"}, new var[]{
+                new var("Variable-1", "value-1"),
+                new var("Variable-12", "value-12"),
+                new var("Variable-123", "value-123")
+        });
+
+        deleteLastFilterCharacter();
+        assertEntries(new String[]{"Action-1", "Action-12", "Action-123", "Action-2", "Action-3", "Action-4"}, new var[]{
+                new var("Variable-1", "value-1"),
+                new var("Variable-12", "value-12"),
+                new var("Variable-123", "value-123"),
+                new var("Variable-2", "value-2")
+        });
+    }
+
+    @Test
+    public void testFilterAndAddRemoveActionsWithVariables()
+    {
+        registerAction(1, "Action-1");
+        registerAction(2, "Action-2");
+        registerAction(3, "Action-3");
+        registerAction(5, "Action5");
+        registerVariable(1, "Variable-1", "value-1");
+        registerVariable(2, "Variable-2", "value-2");
+        registerVariable(3, "Variable-3", "value-3");
+        registerVariable(5, "Variable5", "value5");
+
+        openActions();
+        assertEntries(new String[]{"Action-1", "Action-2", "Action-3", "Action5"}, new var[]{
+                new var("Variable-1", "value-1"),
+                new var("Variable-2", "value-2"),
+                new var("Variable-3", "value-3"),
+                new var("Variable5", "value5"),
+        });
+
+        setFilterText("-1");
+        assertEntries(new String[]{"Action-1"}, new var[]{
+                new var("Variable-1", "value-1")
+        });
+
+        registerAction(4, "Action-12");
+        assertEntries(new String[]{"Action-1", "Action-12"}, new var[]{
+                new var("Variable-1", "value-1")
+        });
+
+        unregisterActions(1);
+        assertEntries(new String[]{"Action-12"}, new var[]{
+                new var("Variable-1", "value-1")
+        });
+
+        unregisterActions(4);
+        assertEntries(NO_ACTIONS, new var[]{
+                new var("Variable-1", "value-1")
+        });
+
+        deleteLastFilterCharacter();
+        assertEntries(new String[]{"Action-2", "Action-3"}, new var[]{
+                new var("Variable-1", "value-1"),
+                new var("Variable-2", "value-2"),
+                new var("Variable-3", "value-3")
+        });
+
+        unregisterActions(3);
+        assertEntries(new String[]{"Action-2"}, new var[]{
+                new var("Variable-1", "value-1"),
+                new var("Variable-2", "value-2"),
+                new var("Variable-3", "value-3")
+        });
+
+        unregisterActions(2);
+        assertEntries(NO_ACTIONS, new var[]{
+                new var("Variable-1", "value-1"),
+                new var("Variable-2", "value-2"),
+                new var("Variable-3", "value-3")
+        });
+
+        unregisterActions(5);
+        assertEntries(NO_ACTIONS, new var[]{
+                new var("Variable-1", "value-1"),
+                new var("Variable-2", "value-2"),
+                new var("Variable-3", "value-3")
+        });
+
+        setFilterText("");
+        assertEntries(NO_ACTIONS, new var[]{
+                new var("Variable-1", "value-1"),
+                new var("Variable-2", "value-2"),
+                new var("Variable-3", "value-3"),
+                new var("Variable5", "value5")
+        });
+    }
+
+    @Test
+    public void testFilterPersistenceWithActionsAndVariables()
+    {
+        registerAction(1, "Action-1");
+        registerAction(2, "Action-12");
+        registerAction(3, "Action-123");
+        registerAction(4, "Action-2");
+        registerAction(5, "Action-3");
+        registerAction(6, "Action-4");
+        registerVariable(1, "Variable-1", "value-1");
+        registerVariable(2, "Variable-12", "value-12");
+        registerVariable(3, "Variable-123", "value-123");
+        registerVariable(4, "Variable-2", "value-2");
+        registerVariable(5, "Variable-3", "value-3");
+        registerVariable(6, "Variable-4", "value-4");
+
+        openActions();
+        setFilterText("-1");
+        assertEntries(new String[]{"Action-1", "Action-12", "Action-123"}, new var[]{
+                new var("Variable-1", "value-1"),
+                new var("Variable-12", "value-12"),
+                new var("Variable-123", "value-123")
+        });
+        closeActions();
+
+        openActions();
+        assertEntries(new String[]{"Action-1", "Action-12", "Action-123"}, new var[]{
                 new var("Variable-1", "value-1"),
                 new var("Variable-12", "value-12"),
                 new var("Variable-123", "value-123")

@@ -713,7 +713,7 @@ public class ApplicationBaseUITest implements TestHelper.EventListener
                     .onChildView(withId(R.id.lunar_console_header_entry_name))
                     .check(matches(withText(R.string.lunar_console_header_variables)));
 
-            for (int i = 0; i < actions.length; ++i)
+            for (int i = 0; i < variables.length; ++i)
             {
                 // find entry view
                 DataInteraction entryView = onData(allOf(is(instanceOf(LUEntry.class))))
