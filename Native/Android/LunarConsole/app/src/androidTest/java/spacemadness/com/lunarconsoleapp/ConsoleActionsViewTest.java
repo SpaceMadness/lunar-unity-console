@@ -21,11 +21,14 @@
 
 package spacemadness.com.lunarconsoleapp;
 
+import android.support.test.espresso.core.deps.guava.primitives.Booleans;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import spacemadness.com.lunarconsole.console.actions.LUCVarType;
 
 import static android.support.test.espresso.action.ViewActions.*;
 
@@ -33,12 +36,17 @@ import static android.support.test.espresso.action.ViewActions.*;
 @LargeTest
 public class ConsoleActionsViewTest extends ApplicationBaseUITest
 {
+    private static final String[] NO_ACTIONS = {};
+    private static final var[] NO_VARIABLES = {};
+
     @Test
     public void testNoActions()
     {
         openActions();
         assertNoActions();
     }
+
+    //region Actions
 
     @Test
     public void testRegisterActions()
@@ -48,20 +56,20 @@ public class ConsoleActionsViewTest extends ApplicationBaseUITest
         registerAction(3, "Action-3");
 
         openActions();
-        assertActions("Action-1", "Action-2", "Action-3");
+        assertEntries(new String[]{"Action-1", "Action-2", "Action-3"}, NO_VARIABLES);
         closeConsole();
 
         unregisterActions(2);
 
         openActions();
-        assertActions("Action-1", "Action-3");
+        assertEntries(new String[]{"Action-1", "Action-3"}, NO_VARIABLES);
         closeActions();
 
         registerAction(4, "Action-4");
         registerAction(5, "Action-2");
 
         openActions();
-        assertActions("Action-1", "Action-2", "Action-3", "Action-4");
+        assertEntries(new String[]{"Action-1", "Action-2", "Action-3", "Action-4"}, NO_VARIABLES);
         closeActions();
 
         unregisterActions(1, 3, 4, 5);
@@ -80,16 +88,16 @@ public class ConsoleActionsViewTest extends ApplicationBaseUITest
         registerAction(2, "Action-2");
         registerAction(3, "Action-3");
 
-        assertActions("Action-1", "Action-2", "Action-3");
+        assertEntries(new String[]{"Action-1", "Action-2", "Action-3"}, NO_VARIABLES);
 
         unregisterActions(2);
 
-        assertActions("Action-1", "Action-3");
+        assertEntries(new String[]{"Action-1", "Action-3"}, NO_VARIABLES);
 
         registerAction(4, "Action-4");
         registerAction(5, "Action-2");
 
-        assertActions("Action-1", "Action-2", "Action-3", "Action-4");
+        assertEntries(new String[]{"Action-1", "Action-2", "Action-3", "Action-4"}, NO_VARIABLES);
 
         unregisterActions(1, 3, 4, 5);
 
@@ -107,37 +115,37 @@ public class ConsoleActionsViewTest extends ApplicationBaseUITest
         registerAction(6, "Action-4");
 
         openActions();
-        assertActions("Action-1", "Action-12", "Action-123", "Action-2", "Action-3", "Action-4");
+        assertEntries(new String[]{"Action-1", "Action-12", "Action-123", "Action-2", "Action-3", "Action-4"}, NO_VARIABLES);
 
         setFilterText("Action");
-        assertActions("Action-1", "Action-12", "Action-123", "Action-2", "Action-3", "Action-4");
+        assertEntries(new String[]{"Action-1", "Action-12", "Action-123", "Action-2", "Action-3", "Action-4"}, NO_VARIABLES);
 
         appendFilterText("-");
-        assertActions("Action-1", "Action-12", "Action-123", "Action-2", "Action-3", "Action-4");
+        assertEntries(new String[]{"Action-1", "Action-12", "Action-123", "Action-2", "Action-3", "Action-4"}, NO_VARIABLES);
 
         appendFilterText("1");
-        assertActions("Action-1", "Action-12", "Action-123");
+        assertEntries(new String[]{"Action-1", "Action-12", "Action-123"}, NO_VARIABLES);
 
         appendFilterText("2");
-        assertActions("Action-12", "Action-123");
+        assertEntries(new String[]{"Action-12", "Action-123"}, NO_VARIABLES);
 
         appendFilterText("3");
-        assertActions("Action-123");
+        assertEntries(new String[]{"Action-123"}, NO_VARIABLES);
 
         appendFilterText("4");
-        assertActions();
+        assertEntries(new String[]{}, NO_VARIABLES);
 
         deleteLastFilterCharacter();
-        assertActions("Action-123");
+        assertEntries(new String[]{"Action-123"}, NO_VARIABLES);
 
         deleteLastFilterCharacter();
-        assertActions("Action-12", "Action-123");
+        assertEntries(new String[]{"Action-12", "Action-123"}, NO_VARIABLES);
 
         deleteLastFilterCharacter();
-        assertActions("Action-1", "Action-12", "Action-123");
+        assertEntries(new String[]{"Action-1", "Action-12", "Action-123"}, NO_VARIABLES);
 
         deleteLastFilterCharacter();
-        assertActions("Action-1", "Action-12", "Action-123", "Action-2", "Action-3", "Action-4");
+        assertEntries(new String[]{"Action-1", "Action-12", "Action-123", "Action-2", "Action-3", "Action-4"}, NO_VARIABLES);
     }
 
     @Test
@@ -149,31 +157,31 @@ public class ConsoleActionsViewTest extends ApplicationBaseUITest
         registerAction(5, "Foo");
 
         openActions();
-        assertActions("Action-1", "Action-2", "Action-3", "Foo");
+        assertEntries(new String[]{"Action-1", "Action-2", "Action-3", "Foo"}, NO_VARIABLES);
 
         setFilterText("Action-1");
-        assertActions("Action-1");
+        assertEntries(new String[]{"Action-1"}, NO_VARIABLES);
 
         registerAction(4, "Action-12");
-        assertActions("Action-1", "Action-12");
+        assertEntries(new String[]{"Action-1", "Action-12"}, NO_VARIABLES);
 
         unregisterActions(1);
-        assertActions("Action-12");
+        assertEntries(new String[]{"Action-12"}, NO_VARIABLES);
 
         unregisterActions(4);
-        assertActions();
+        assertEntries(new String[]{}, NO_VARIABLES);
 
         deleteLastFilterCharacter();
-        assertActions("Action-2", "Action-3");
+        assertEntries(new String[]{"Action-2", "Action-3"}, NO_VARIABLES);
 
         unregisterActions(3);
-        assertActions("Action-2");
+        assertEntries(new String[]{"Action-2"}, NO_VARIABLES);
 
         unregisterActions(2);
-        assertActions();
+        assertEntries(new String[]{}, NO_VARIABLES);
 
         unregisterActions(5);
-        assertActions();
+        assertEntries(new String[]{}, NO_VARIABLES);
 
         setFilterText("");
         assertNoActions();
@@ -191,12 +199,177 @@ public class ConsoleActionsViewTest extends ApplicationBaseUITest
 
         openActions();
         setFilterText("Action-1");
-        assertActions("Action-1", "Action-12", "Action-123");
+        assertEntries(new String[]{"Action-1", "Action-12", "Action-123"}, NO_VARIABLES);
         closeActions();
 
         openActions();
-        assertActions("Action-1", "Action-12", "Action-123");
+        assertEntries(new String[]{"Action-1", "Action-12", "Action-123"}, NO_VARIABLES);
     }
+
+    //endregion
+
+    //region Variables
+
+    @Test
+    public void testRegisterVariables()
+    {
+        registerVariable(1, "string", "value");
+        registerVariable(2, "integer", 10);
+        registerVariable(3, "float", 3.14f);
+        registerVariable(4, "boolean", false);
+
+        openActions();
+        assertEntries(NO_ACTIONS, new var[]{
+                new var("string", "value"),
+                new var("integer", 10),
+                new var("float", 3.14f),
+                new var("boolean", false),
+        });
+    }
+
+    @Test
+    public void testRegisterVariablesWhileConsoleOpen()
+    {
+        openActions();
+        assertNoActions();
+
+        registerVariable(1, "string", "value");
+        registerVariable(2, "integer", 10);
+
+        assertEntries(NO_ACTIONS, new var[]{
+                new var("string", "value"),
+                new var("integer", 10)
+        });
+
+        registerVariable(3, "float", 3.14f);
+        registerVariable(4, "boolean", false);
+
+        assertEntries(NO_ACTIONS, new var[]{
+                new var("string", "value"),
+                new var("integer", 10),
+                new var("float", 3.14f),
+                new var("boolean", false),
+        });
+    }
+
+    @Test
+    public void testVariablesFilter()
+    {
+        registerVariable(1, "Variable-1", "value-1");
+        registerVariable(2, "Variable-12", "value-12");
+        registerVariable(3, "Variable-123", "value-123");
+        registerVariable(4, "Variable-2", "value-2");
+        registerVariable(5, "Variable-3", "value-3");
+        registerVariable(6, "Variable-4", "value-4");
+
+        openActions();
+        assertEntries(NO_ACTIONS, new var[]{
+                new var("Variable-1", "value-1"),
+                new var("Variable-12", "value-12"),
+                new var("Variable-123", "value-123"),
+                new var("Variable-2", "value-2"),
+                new var("Variable-3", "value-3"),
+                new var("Variable-4", "value-4")
+        });
+
+        setFilterText("Variable");
+        assertEntries(NO_ACTIONS, new var[]{
+                new var("Variable-1", "value-1"),
+                new var("Variable-12", "value-12"),
+                new var("Variable-123", "value-123"),
+                new var("Variable-2", "value-2"),
+                new var("Variable-3", "value-3"),
+                new var("Variable-4", "value-4")
+        });
+
+        appendFilterText("-");
+        assertEntries(NO_ACTIONS, new var[]{
+                new var("Variable-1", "value-1"),
+                new var("Variable-12", "value-12"),
+                new var("Variable-123", "value-123"),
+                new var("Variable-2", "value-2"),
+                new var("Variable-3", "value-3"),
+                new var("Variable-4", "value-4")
+        });
+
+        appendFilterText("1");
+        assertEntries(NO_ACTIONS, new var[]{
+                new var("Variable-1", "value-1"),
+                new var("Variable-12", "value-12"),
+                new var("Variable-123", "value-123")
+        });
+
+        appendFilterText("2");
+        assertEntries(NO_ACTIONS, new var[]{
+                new var("Variable-12", "value-12"),
+                new var("Variable-123", "value-123")
+        });
+
+        appendFilterText("3");
+        assertEntries(NO_ACTIONS, new var[]{
+                new var("Variable-123", "value-123")
+        });
+
+        appendFilterText("4");
+        assertEntries(NO_ACTIONS, NO_VARIABLES);
+
+        deleteLastFilterCharacter();
+        assertEntries(NO_ACTIONS, new var[]{
+                new var("Variable-123", "value-123")
+        });
+
+        deleteLastFilterCharacter();
+        assertEntries(NO_ACTIONS, new var[]{
+                new var("Variable-12", "value-12"),
+                new var("Variable-123", "value-123")
+        });
+
+        deleteLastFilterCharacter();
+        assertEntries(NO_ACTIONS, new var[]{
+                new var("Variable-1", "value-1"),
+                new var("Variable-12", "value-12"),
+                new var("Variable-123", "value-123")
+        });
+
+        deleteLastFilterCharacter();
+        assertEntries(NO_ACTIONS, new var[]{
+                new var("Variable-1", "value-1"),
+                new var("Variable-12", "value-12"),
+                new var("Variable-123", "value-123"),
+                new var("Variable-2", "value-2"),
+                new var("Variable-3", "value-3"),
+                new var("Variable-4", "value-4")
+        });
+    }
+
+    @Test
+    public void testVariablesFilterPersistence()
+    {
+        registerVariable(1, "Variable-1", "value-1");
+        registerVariable(2, "Variable-12", "value-12");
+        registerVariable(3, "Variable-123", "value-123");
+        registerVariable(4, "Variable-2", "value-2");
+        registerVariable(5, "Variable-3", "value-3");
+        registerVariable(6, "Variable-4", "value-4");
+
+        openActions();
+        setFilterText("Variable-1");
+        assertEntries(NO_ACTIONS, new var[]{
+                new var("Variable-1", "value-1"),
+                new var("Variable-12", "value-12"),
+                new var("Variable-123", "value-123")
+        });
+        closeActions();
+
+        openActions();
+        assertEntries(NO_ACTIONS, new var[]{
+                new var("Variable-1", "value-1"),
+                new var("Variable-12", "value-12"),
+                new var("Variable-123", "value-123")
+        });
+    }
+
+    //endregion
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Helpers
