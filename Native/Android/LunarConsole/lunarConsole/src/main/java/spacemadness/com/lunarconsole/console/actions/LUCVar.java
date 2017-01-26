@@ -21,10 +21,12 @@
 
 package spacemadness.com.lunarconsole.console.actions;
 
+import android.app.AlertDialog;
 import android.content.Context;
-import android.view.KeyEvent;
+import android.content.DialogInterface;
+import android.graphics.Typeface;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -63,11 +65,6 @@ public class LUCVar extends LUEntry
 
     //region Default value
 
-    public void resetToDefaultValue()
-    {
-        value = defaultValue;
-    }
-
     public boolean isDefaultValue()
     {
         return ObjectUtils.areEqual(value, defaultValue);
@@ -75,14 +72,23 @@ public class LUCVar extends LUEntry
 
     //endregion
 
+    //region Getters/Setters
+
+    private boolean boolValue()
+    {
+        return value != null && value.length() > 0 && !value.equals("0");
+    }
+
+    //endregion
+
     //region ViewHolder
 
     public static class ViewHolder extends ConsoleActionAdapter.ViewHolder<LUCVar> implements
-            CompoundButton.OnCheckedChangeListener, TextView.OnEditorActionListener
+            CompoundButton.OnCheckedChangeListener, View.OnClickListener
     {
         private final View layout;
         private final TextView nameTextView;
-        private final EditText valueEditText;
+        private final Button valueEditButton;
         private final Switch toggleSwitch;
         private boolean ignoreListenerCallbacks;
         private LUCVar variable; // TODO: weak reference?
@@ -92,10 +98,10 @@ public class LUCVar extends LUEntry
             super(itemView);
 
             layout = itemView.findViewById(R.id.lunar_console_action_entry_layout);
-            nameTextView = (TextView) itemView.findViewById(R.id.lunar_console_variable_name);
-            valueEditText = (EditText) itemView.findViewById(R.id.lunar_console_variable_value);
-            toggleSwitch = (Switch) itemView.findViewById(R.id.lunar_console_variable_switch);
-            valueEditText.setOnEditorActionListener(this);
+            nameTextView = (TextView) itemView.findViewById(R.id.lunar_console_variable_entry_name);
+            valueEditButton = (Button) itemView.findViewById(R.id.lunar_console_variable_entry_value);
+            toggleSwitch = (Switch) itemView.findViewById(R.id.lunar_console_variable_entry_switch);
+            valueEditButton.setOnClickListener(this);
             toggleSwitch.setOnCheckedChangeListener(this);
         }
 
@@ -116,80 +122,23 @@ public class LUCVar extends LUEntry
 
                 if (cvar.type == LUCVarType.Boolean)
                 {
-                    valueEditText.setVisibility(View.GONE);
+                    valueEditButton.setVisibility(View.GONE);
                     toggleSwitch.setVisibility(View.VISIBLE);
+                    toggleSwitch.setChecked(variable.boolValue());
                 }
                 else
                 {
-                    valueEditText.setVisibility(View.VISIBLE);
+                    valueEditButton.setVisibility(View.VISIBLE);
                     toggleSwitch.setVisibility(View.GONE);
-                    valueEditText.setText(cvar.value);
+                    valueEditButton.setText(cvar.value);
                 }
             }
             finally
             {
                 ignoreListenerCallbacks = false;
             }
+            updateUI();
         }
-
-        //region TextView.OnEditorActionListener
-
-        @Override
-        public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
-        {
-            if (actionId == EditorInfo.IME_ACTION_DONE)
-            {
-                final String value = v.getText().toString();
-                final Context context = v.getContext();
-
-                switch (variable.type)
-                {
-                    case Integer:
-                    {
-                        if (!StringUtils.isValidInteger(value))
-                        {
-                            UIUtils.showDialog(layout.getContext(),
-                                    context.getString(R.string.lunar_console_variable_value_error_title),
-                                    context.getString(R.string.lunar_console_variable_value_error_message_type_integer));
-                            restoreValue(v);
-                            return true;
-                        }
-                        break;
-                    }
-
-                    case Float:
-                    {
-                        if (!StringUtils.isValidFloat(value))
-                        {
-                            UIUtils.showDialog(layout.getContext(),
-                                    context.getString(R.string.lunar_console_variable_value_error_title),
-                                    context.getString(R.string.lunar_console_variable_value_error_message_type_float));
-                            restoreValue(v);
-                            return true;
-                        }
-                        break;
-                    }
-
-                    case String:
-                    {
-                        // string is always valid
-                        break;
-                    }
-
-                    default:
-                    {
-                        Log.e("Unexpected variable type: %s", variable.type);
-                        return false;
-                    }
-                }
-
-                variable.value = value;
-                NotificationCenter.defaultCenter().postNotification(VARIABLE_SET, VARIABLE_SET_KEY_VARIABLE, variable);
-            }
-            return false;
-        }
-
-        //endregion
 
         //region OnCheckedChangeListener
 
@@ -201,21 +150,113 @@ public class LUCVar extends LUEntry
                 return;
             }
 
-            variable.value = isChecked ? "1" : "0";
-            NotificationCenter.defaultCenter().postNotification(VARIABLE_SET, VARIABLE_SET_KEY_VARIABLE, variable);
+            updateValue(isChecked ? "1" : "0");
+        }
+
+        //endregion
+
+        //region View.OnClickListener
+
+        @Override
+        public void onClick(View v)
+        {
+            final Context context = v.getContext();
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+
+            final EditText valueEditText = new EditText(context);
+            valueEditText.setText(variable.value);
+            valueEditText.setSelectAllOnFocus(true);
+            builder.setView(valueEditText);
+
+            builder.setMessage(variable.name())
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener()
+                    {
+                        public void onClick(DialogInterface dialog, int id)
+                        {
+                            final String value = valueEditText.getText().toString();
+
+                            switch (variable.type)
+                            {
+                                case Integer:
+                                {
+                                    if (!StringUtils.isValidInteger(value))
+                                    {
+                                        UIUtils.showDialog(layout.getContext(),
+                                                context.getString(R.string.lunar_console_variable_value_error_title),
+                                                context.getString(R.string.lunar_console_variable_value_error_message_type_integer));
+                                        return;
+                                    }
+                                    break;
+                                }
+
+                                case Float:
+                                {
+                                    if (!StringUtils.isValidFloat(value))
+                                    {
+                                        UIUtils.showDialog(layout.getContext(),
+                                                context.getString(R.string.lunar_console_variable_value_error_title),
+                                                context.getString(R.string.lunar_console_variable_value_error_message_type_float));
+                                        return;
+                                    }
+                                    break;
+                                }
+
+                                case String:
+                                {
+                                    // string is always valid
+                                    break;
+                                }
+
+                                default:
+                                {
+                                    Log.e("Unexpected variable type: %s", variable.type);
+                                    return;
+                                }
+                            }
+
+                            updateValue(value);
+                        }
+                    })
+                    .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener()
+                    {
+                        public void onClick(DialogInterface dialog, int id)
+                        {
+                        }
+                    })
+                    .setNeutralButton("Default", new DialogInterface.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which)
+                        {
+                            updateValue(variable.defaultValue);
+                        }
+                    });
+            AlertDialog dialog = builder.create();
+            dialog.show();
         }
 
         //endregion
 
         //region Helpers
 
-        private void restoreValue(TextView v)
+        void updateValue(String value)
         {
-            v.setText(variable.value);
-            EditText editText = ObjectUtils.as(v, EditText.class);
-            if (editText != null)
+            variable.value = value;
+            NotificationCenter.defaultCenter().postNotification(VARIABLE_SET, VARIABLE_SET_KEY_VARIABLE, variable);
+            updateUI();
+        }
+
+        void updateUI()
+        {
+            final int style = variable.isDefaultValue() ? Typeface.NORMAL : Typeface.BOLD;
+            nameTextView.setTypeface(null, style);
+            if (variable.type == LUCVarType.Boolean)
             {
-                editText.setSelection(variable.value.length());
+                toggleSwitch.setTypeface(null, style);
+            }
+            else
+            {
+                valueEditButton.setTypeface(null, style);
             }
         }
 

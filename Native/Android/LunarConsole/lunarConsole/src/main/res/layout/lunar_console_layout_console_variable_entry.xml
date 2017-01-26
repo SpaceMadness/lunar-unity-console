@@ -7,18 +7,18 @@
     android:gravity="center">
 
     <TextView
-        android:id="@+id/lunar_console_variable_name"
+        android:id="@+id/lunar_console_variable_entry_name"
         style="@style/lunar_console_action_entry_style"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:text="Variable name" />
 
-    <EditText
-        android:id="@+id/lunar_console_variable_value"
+    <Button
+        android:id="@+id/lunar_console_variable_entry_value"
         style="@style/lunar_console_variable_value_style" />
 
     <spacemadness.com.lunarconsole.ui.Switch
-        android:id="@+id/lunar_console_variable_switch"
+        android:id="@+id/lunar_console_variable_entry_switch"
         style="@style/lunar_console_switch_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
