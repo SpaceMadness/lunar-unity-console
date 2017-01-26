@@ -35,9 +35,19 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/lunar_console_shape_filter_text</item>
         <item name="android:textColor">@color/lunar_console_color_filter_text</item>
-        <item name="android:textColorHighlight">@color/lunar_console_color_filter_text</item>
+        <item name="android:textColorHighlight">@color/lunar_console_color_filter_text_highlight</item>
         <item name="android:textColorHint">@color/lunar_console_color_filter_hint</item>
         <item name="android:imeOptions">actionSearch</item>
+    </style>
+
+    <style name="lunar_console_variable_value_edit_text_style" parent="lunar_console_edit_text_base_style">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/lunar_console_shape_filter_text</item>
+        <item name="android:textColor">@color/lunar_console_color_filter_text</item>
+        <item name="android:textColorHighlight">@color/lunar_console_color_filter_text_highlight</item>
+        <item name="android:textColorHint">@color/lunar_console_color_filter_hint</item>
+        <item name="android:imeOptions">actionDone</item>
     </style>
 
     <style name="lunar_console_fake_status_bar_style">

@@ -25,4 +25,7 @@
     <string name="lunar_console_variable_value_error_title">Error</string>
     <string name="lunar_console_variable_value_error_message_type_integer">Invalid integer value</string>
     <string name="lunar_console_variable_value_error_message_type_float">Invalid float value</string>
+
+    <string name="lunar_console_edit_variable_title_default_value">Default value: %1$s</string>
+    <string name="lunar_console_edit_variable_dialog_reset_to_default">Reset</string>
 </resources>
