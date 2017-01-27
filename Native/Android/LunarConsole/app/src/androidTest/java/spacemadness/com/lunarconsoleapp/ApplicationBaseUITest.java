@@ -392,16 +392,15 @@ public class ApplicationBaseUITest implements TestHelper.EventListener
     {
         synchronized (resultMutex)
         {
-            long startTime = System.currentTimeMillis();
-            while (results.size() < length && System.currentTimeMillis() - startTime < 5000)
+            if (results.size() < length)
             {
                 try
                 {
-                    resultMutex.wait(1000);
+                    resultMutex.wait(5000);
                 }
                 catch (InterruptedException e)
                 {
-                    break;
+                    e.printStackTrace();
                 }
             }
         }
@@ -653,7 +652,8 @@ public class ApplicationBaseUITest implements TestHelper.EventListener
                 entryView
                         .onChildView(withId(R.id.lunar_console_log_collapsed_count))
                         .check(matches(withEffectiveVisibility(Visibility.GONE)));
-            } else // 'collapsed' entries
+            }
+            else // 'collapsed' entries
             {
                 // find entry view
                 DataInteraction entryView = onData(allOf(is(instanceOf(ConsoleCollapsedLogEntry.class))))
@@ -763,6 +763,18 @@ public class ApplicationBaseUITest implements TestHelper.EventListener
                 }
             }
         }
+    }
+
+    protected void clickAction(int index)
+    {
+        ViewInteraction listView = onView(withParent(withId(R.id.lunar_console_action_view_list_container)));
+
+        // should be visible
+        listView.check(matches(isDisplayed()));
+
+        onData(allOf(is(instanceOf(LUEntry.class))))
+                .inAdapterView(withParent(withId(R.id.lunar_console_action_view_list_container)))
+                .atPosition(1 + index).perform(click());
     }
 
     protected MainActivity getActivity()

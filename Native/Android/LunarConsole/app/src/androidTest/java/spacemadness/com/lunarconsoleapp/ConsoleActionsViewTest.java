@@ -27,7 +27,15 @@ import android.test.suitebuilder.annotation.LargeTest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.lang.reflect.Field;
+import java.util.Map;
+
+import spacemadness.com.lunarconsole.console.ConsolePlugin;
+import spacemadness.com.lunarconsole.core.NotificationCenter;
+import spacemadness.com.lunarconsoleapp.helpers.SyncDispatchQueue;
+
 import static android.support.test.espresso.action.ViewActions.*;
+import static spacemadness.com.lunarconsole.debug.TestHelper.TEST_EVENT_NATIVE_CALLBACK;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
@@ -201,6 +209,19 @@ public class ConsoleActionsViewTest extends ApplicationBaseUITest
 
         openActions();
         assertEntries(new String[]{"Action-1", "Action-12", "Action-123"}, NO_VARIABLES);
+    }
+
+    @Test
+    public void testTriggeringActions()
+    {
+        registerAction(1, "Action");
+
+        openActions();
+
+        makeNotificationCenterSync();
+        clickAction(0);
+
+        assertResult("console_open()", "console_action({id=1})");
     }
 
     //endregion
@@ -383,6 +404,55 @@ public class ConsoleActionsViewTest extends ApplicationBaseUITest
             pressButton(R.id.lunar_console_variable_entry_value);
             --attempts;
         }
+
+        assertText(R.id.lunar_console_edit_variable_default_value, String.format(getString(R.string.lunar_console_edit_variable_title_default_value), "default value"));
+        assertText(R.id.lunar_console_edit_variable_value, "value");
+        typeText(R.id.lunar_console_edit_variable_value, "new value");
+        pressButton(R.id.lunar_console_edit_variable_button_ok);
+
+        assertText(R.id.lunar_console_variable_entry_value, "new value");
+        pressButton(R.id.lunar_console_variable_entry_value);
+
+        assertText(R.id.lunar_console_edit_variable_value, "new value");
+        pressButton(R.id.lunar_console_edit_variable_button_reset);
+
+        assertText(R.id.lunar_console_variable_entry_value, "default value");
+    }
+
+    @Test
+    public void testUpdateVariablesFromThePlugin()
+    {
+        registerVariable(1, "string", "value", "default value");
+
+        openActions();
+
+        assertText(R.id.lunar_console_variable_entry_value, "value");
+        pressButton(R.id.lunar_console_variable_entry_value);
+
+        ConsolePlugin.updateVariable(1, "new value");
+
+        assertText(R.id.lunar_console_variable_entry_value, "new value");
+    }
+
+    @Test
+    public void testUpdateVariablesFromThePluginWhileEditing()
+    {
+        registerVariable(1, "string", "value", "default value");
+
+        openActions();
+
+        assertText(R.id.lunar_console_variable_entry_value, "value");
+        pressButton(R.id.lunar_console_variable_entry_value);
+
+        // ugly hack: sometimes pressing the "edit" button does not work for this test
+        int attempts = 10;
+        while (!isVisible(R.id.lunar_console_edit_variable_default_value) && attempts > 0)
+        {
+            pressButton(R.id.lunar_console_variable_entry_value);
+            --attempts;
+        }
+
+        ConsolePlugin.updateVariable(1, "another value");
 
         assertText(R.id.lunar_console_edit_variable_default_value, String.format(getString(R.string.lunar_console_edit_variable_title_default_value), "default value"));
         assertText(R.id.lunar_console_edit_variable_value, "value");
@@ -692,6 +762,22 @@ public class ConsoleActionsViewTest extends ApplicationBaseUITest
 
     //endregion
 
+    //region Test events
+
+    @Override
+    public void onTestEvent(String name, Object data)
+    {
+        if (name.equals(TEST_EVENT_NATIVE_CALLBACK))
+        {
+            Map<String, Object> payload = (Map<String, Object>) data;
+            String callback = (String) payload.get("name");
+            Map<String, Object> args = (Map<String, Object>) payload.get("arguments");
+            addResult(String.format("%s(%s)", callback, args != null ? args.toString() : ""));
+        }
+    }
+
+    //endregion
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Helpers
 
@@ -725,5 +811,19 @@ public class ConsoleActionsViewTest extends ApplicationBaseUITest
     private void deleteLastFilterCharacter()
     {
         deleteLastChar(R.id.lunar_console_action_view_text_edit_filter);
+    }
+
+    private static void makeNotificationCenterSync()
+    {
+        try
+        {
+            Field dispatchQueueField = NotificationCenter.class.getDeclaredField("dispatchQueue");
+            dispatchQueueField.setAccessible(true);
+            dispatchQueueField.set(NotificationCenter.defaultCenter(), new SyncDispatchQueue());
+        }
+        catch (Exception e)
+        {
+            throw new AssertionError(e);
+        }
     }
 }

@@ -25,12 +25,15 @@ import android.app.Activity;
 import android.view.View;
 
 import java.lang.ref.WeakReference;
+import java.util.HashMap;
 import java.util.Map;
 
 import spacemadness.com.lunarconsole.core.LunarConsoleException;
 import spacemadness.com.lunarconsole.debug.Log;
+import spacemadness.com.lunarconsole.debug.TestHelper;
 import spacemadness.com.lunarconsole.utils.UIUtils;
 import static spacemadness.com.lunarconsole.debug.Tags.*;
+import static spacemadness.com.lunarconsole.debug.TestHelper.TEST_EVENT_NATIVE_CALLBACK;
 
 class DefaultPluginImp implements ConsolePluginImp
 {
@@ -57,5 +60,6 @@ class DefaultPluginImp implements ConsolePluginImp
     public void sendUnityScriptMessage(String name, Map<String, Object> data)
     {
         Log.d(PLUGIN, "Send script message: %s(%s)", name, data);
+        TestHelper.testEvent(TEST_EVENT_NATIVE_CALLBACK, "name", name, "arguments", data);
     }
 }
