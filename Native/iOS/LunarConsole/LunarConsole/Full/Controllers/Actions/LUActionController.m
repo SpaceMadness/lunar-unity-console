@@ -164,12 +164,12 @@ static const NSInteger kSectionCount = 2;
 {
     if (section == kSectionIndexActions)
     {
-        return [self actionCount] > 0 ? @"Actions" : @"";
+        return [self filteredActionCount] > 0 ? @"Actions" : @"";
     }
     
     if (section == kSectionIndexVariables)
     {
-        return [self variableCount] > 0 ? @"Variables" : @"";
+        return [self filteredVariableCount] > 0 ? @"Variables" : @"";
     }
     
     LUAssertMsgv(section < kSectionCount, @"Unexpected section index: %ld", (long) section);
@@ -319,9 +319,14 @@ static const NSInteger kSectionCount = 2;
     return _actionRegistryFilter.actions[index];
 }
 
-- (NSInteger)actionCount
+- (NSInteger)filteredActionCount
 {
     return _actionRegistryFilter.actions.count;
+}
+
+- (NSInteger)actionCount
+{
+    return _actionRegistryFilter.registry.actions.count;
 }
 
 #pragma mark -
@@ -342,9 +347,14 @@ static const NSInteger kSectionCount = 2;
     return _actionRegistryFilter.variables[index];
 }
 
-- (NSInteger)variableCount
+- (NSInteger)filteredVariableCount
 {
     return _actionRegistryFilter.variables.count;
+}
+
+- (NSInteger)variableCount
+{
+    return _actionRegistryFilter.registry.variables.count;
 }
 
 #pragma mark -

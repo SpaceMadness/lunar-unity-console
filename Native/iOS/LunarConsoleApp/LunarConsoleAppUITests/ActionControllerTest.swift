@@ -13,10 +13,10 @@ class VarInfo {
     let type: LUCVarType
     let value: String
     
-    init(name: String, value: String) {
+    init(name: String, value: Any) {
         self.name = name
         self.type = VarInfo.getType(value: value)
-        self.value = value
+        self.value = "\(value)"
     }
     
     static func getType(value: Any) -> LUCVarType {
@@ -38,8 +38,8 @@ class VarInfo {
 }
 
 class ActionControllerTest: UITestCaseBase {
-    private static let NO_ACTIONS: [String] = []
-    private static let NO_VARIABLES: [Any] = []
+    private let NO_ACTIONS: [String] = []
+    private let NO_VARIABLES: [VarInfo] = []
     
     private var app: XCUIApplication!
         
@@ -72,28 +72,32 @@ class ActionControllerTest: UITestCaseBase {
     //region Actions
 
     func testRegisterActions() {
-        registerAction(1, "Action-1");
-        registerAction(2, "Action-2");
-        registerAction(3, "Action-3");
+        registerActions(actions:
+            Action(id: 1, name: "Action-1"),
+            Action(id: 2, name: "Action-2"),
+            Action(id: 3, name: "Action-3")
+        )
 
         openActions();
         assertEntries(actions: ["Action-1", "Action-2", "Action-3"], variables: NO_VARIABLES);
-        closeConsole();
+        closeActions();
 
-        unregisterActions(2);
+        unregisterActions(actionIds: 2)
 
         openActions();
         assertEntries(actions: ["Action-1", "Action-3"], variables: NO_VARIABLES);
         closeActions();
 
-        registerAction(4, "Action-4");
-        registerAction(5, "Action-2");
+        registerActions(actions:
+            Action(id: 4, name: "Action-4"),
+            Action(id: 5, name: "Action-2")
+        )
 
         openActions();
         assertEntries(actions: ["Action-1", "Action-2", "Action-3", "Action-4"], variables: NO_VARIABLES);
         closeActions();
 
-        unregisterActions(1, 3, 4, 5);
+        unregisterActions(actionIds: 1, 3, 4, 5)
 
         openActions();
         assertNoActions();
@@ -103,53 +107,53 @@ class ActionControllerTest: UITestCaseBase {
         openActions();
         assertNoActions();
 
-        registerAction(1, "Action-1");
-        registerAction(2, "Action-2");
-        registerAction(3, "Action-3");
+        registerAction(actionId: 1, name: "Action-1")
+        registerAction(actionId: 2, name: "Action-2")
+        registerAction(actionId: 3, name: "Action-3")
 
         assertEntries(actions: ["Action-1", "Action-2", "Action-3"], variables: NO_VARIABLES);
 
-        unregisterActions(2);
+        unregisterActions(actionIds: 2)
 
         assertEntries(actions: ["Action-1", "Action-3"], variables: NO_VARIABLES);
 
-        registerAction(4, "Action-4");
-        registerAction(5, "Action-2");
+        registerAction(actionId: 4, name: "Action-4")
+        registerAction(actionId: 5, name: "Action-2")
 
         assertEntries(actions: ["Action-1", "Action-2", "Action-3", "Action-4"], variables: NO_VARIABLES);
 
-        unregisterActions(1, 3, 4, 5);
+        unregisterActions(actionIds: 1, 3, 4, 5)
 
         assertNoActions();
     }
 
     func testFilter() {
-        registerAction(1, "Action-1");
-        registerAction(2, "Action-12");
-        registerAction(3, "Action-123");
-        registerAction(4, "Action-2");
-        registerAction(5, "Action-3");
-        registerAction(6, "Action-4");
+        registerAction(actionId: 1, name: "Action-1")
+        registerAction(actionId: 2, name: "Action-12")
+        registerAction(actionId: 3, name: "Action-123")
+        registerAction(actionId: 4, name: "Action-2")
+        registerAction(actionId: 5, name: "Action-3")
+        registerAction(actionId: 6, name: "Action-4")
 
         openActions();
         assertEntries(actions: ["Action-1", "Action-12", "Action-123", "Action-2", "Action-3", "Action-4"], variables: NO_VARIABLES);
 
-        setFilterText("Action");
+        setFilter(text: "Action")
         assertEntries(actions: ["Action-1", "Action-12", "Action-123", "Action-2", "Action-3", "Action-4"], variables: NO_VARIABLES);
 
-        appendFilterText("-");
+        appendFilter(text: "-")
         assertEntries(actions: ["Action-1", "Action-12", "Action-123", "Action-2", "Action-3", "Action-4"], variables: NO_VARIABLES);
 
-        appendFilterText("1");
+        appendFilter(text: "1")
         assertEntries(actions: ["Action-1", "Action-12", "Action-123"], variables: NO_VARIABLES);
 
-        appendFilterText("2");
+        appendFilter(text: "2")
         assertEntries(actions: ["Action-12", "Action-123"], variables: NO_VARIABLES);
 
-        appendFilterText("3");
+        appendFilter(text: "3")
         assertEntries(actions: ["Action-123"], variables: NO_VARIABLES);
 
-        appendFilterText("4");
+        appendFilter(text: "4")
         assertEntries(actions: [], variables: NO_VARIABLES);
 
         deleteLastFilterCharacter();
@@ -166,68 +170,67 @@ class ActionControllerTest: UITestCaseBase {
     }
 
     func testFilterAndAddRemoveActions() {
-        registerAction(1, "Action-1");
-        registerAction(2, "Action-2");
-        registerAction(3, "Action-3");
-        registerAction(5, "Foo");
+        registerActions(actions:
+            Action(id: 1, name: "Action-1"),
+            Action(id: 2, name: "Action-2"),
+            Action(id: 3, name: "Action-3"),
+            Action(id: 5, name: "Foo"))
 
         openActions();
         assertEntries(actions: ["Action-1", "Action-2", "Action-3", "Foo"], variables: NO_VARIABLES);
 
-        setFilterText("Action-1");
+        setFilter(text: "Action-1")
         assertEntries(actions: ["Action-1"], variables: NO_VARIABLES);
 
-        registerAction(4, "Action-12");
+        registerAction(actionId: 4, name: "Action-12")
         assertEntries(actions: ["Action-1", "Action-12"], variables: NO_VARIABLES);
 
-        unregisterActions(1);
+        unregisterActions(actionIds: 1)
         assertEntries(actions: ["Action-12"], variables: NO_VARIABLES);
 
-        unregisterActions(4);
-        assertEntries(actions: [], variables: NO_VARIABLES);
+        unregisterActions(actionIds: 4)
+        assertEntries(actions: NO_ACTIONS, variables: NO_VARIABLES);
 
         deleteLastFilterCharacter();
         assertEntries(actions: ["Action-2", "Action-3"], variables: NO_VARIABLES);
 
-        unregisterActions(3);
+        unregisterActions(actionIds: 3)
         assertEntries(actions: ["Action-2"], variables: NO_VARIABLES);
 
-        unregisterActions(2);
-        assertEntries(actions: [], variables: NO_VARIABLES);
+        unregisterActions(actionIds: 2)
+        assertEntries(actions: NO_ACTIONS, variables: NO_VARIABLES);
 
-        unregisterActions(5);
-        assertEntries(actions: [], variables: NO_VARIABLES);
+        unregisterActions(actionIds: 5)
+        assertEntries(actions: NO_ACTIONS, variables: NO_VARIABLES);
 
-        setFilterText("");
+        setFilter(text: "")
         assertNoActions();
     }
 
     func testFilterPersistence() {
-        registerAction(1, "Action-1");
-        registerAction(2, "Action-12");
-        registerAction(3, "Action-123");
-        registerAction(4, "Action-2");
-        registerAction(5, "Action-3");
-        registerAction(6, "Action-4");
+        registerAction(actionId: 1, name: "Action-1")
+        registerAction(actionId: 2, name: "Action-2")
 
         openActions();
-        setFilterText("Action-1");
-        assertEntries(actions: ["Action-1", "Action-12", "Action-123"], variables: NO_VARIABLES);
+        setFilter(text: "Action-1")
+        appSearchButton(app).tap()
+        assertEntries(actions: ["Action-1"], variables: NO_VARIABLES);
         closeActions();
 
         openActions();
-        assertEntries(actions: ["Action-1", "Action-12", "Action-123"], variables: NO_VARIABLES);
+        assertEntries(actions: ["Action-1"], variables: NO_VARIABLES);
     }
 
     func testTriggeringActions() {
-        registerAction(1, "Action");
+        registerAction(actionId: 1, name: "Action")
 
         openActions();
 
-        makeNotificationCenterSync();
-        clickAction(0);
-
-        assertResult("console_open()", "console_action({id=1})");
+//        makeNotificationCenterSync();
+//        clickAction(0);
+//
+//        assertResult("console_open()", "console_action({id=1})");
+        XCTFail("")
     }
 
     // MARK: Variables
@@ -289,7 +292,7 @@ class ActionControllerTest: UITestCaseBase {
             VarInfo(name: "Variable-4", value: "value-4")
         ]);
 
-        setFilterText("Variable");
+        setFilter(text: "Variable")
         assertEntries(actions: NO_ACTIONS, variables: [
             VarInfo(name: "Variable-1", value: "value-1"),
             VarInfo(name: "Variable-12", value: "value-12"),
@@ -299,7 +302,7 @@ class ActionControllerTest: UITestCaseBase {
             VarInfo(name: "Variable-4", value: "value-4")
         ]);
 
-        appendFilterText("-");
+        appendFilter(text: "-")
         assertEntries(actions: NO_ACTIONS, variables: [
             VarInfo(name: "Variable-1", value: "value-1"),
             VarInfo(name: "Variable-12", value: "value-12"),
@@ -309,25 +312,25 @@ class ActionControllerTest: UITestCaseBase {
             VarInfo(name: "Variable-4", value: "value-4")
         ]);
 
-        appendFilterText("1");
+        appendFilter(text: "1")
         assertEntries(actions: NO_ACTIONS, variables: [
             VarInfo(name: "Variable-1", value: "value-1"),
             VarInfo(name: "Variable-12", value: "value-12"),
             VarInfo(name: "Variable-123", value: "value-123")
         ]);
 
-        appendFilterText("2");
+        appendFilter(text: "2")
         assertEntries(actions: NO_ACTIONS, variables: [
             VarInfo(name: "Variable-12", value: "value-12"),
             VarInfo(name: "Variable-123", value: "value-123")
         ]);
 
-        appendFilterText("3");
+        appendFilter(text: "3")
         assertEntries(actions: NO_ACTIONS, variables: [
             VarInfo(name: "Variable-123", value: "value-123")
         ]);
 
-        appendFilterText("4");
+        appendFilter(text: "4")
         assertEntries(actions: NO_ACTIONS, variables: NO_VARIABLES);
 
         deleteLastFilterCharacter();
@@ -369,7 +372,7 @@ class ActionControllerTest: UITestCaseBase {
         registerVariable(6, "Variable-4", "value-4");
 
         openActions();
-        setFilterText("Variable-1");
+        setFilter(text: "Variable-1")
         assertEntries(actions: NO_ACTIONS, variables: [
             VarInfo(name: "Variable-1", value: "value-1"),
             VarInfo(name: "Variable-12", value: "value-12"),
@@ -391,29 +394,30 @@ class ActionControllerTest: UITestCaseBase {
 
         openActions();
 
-        assertText(R.id.lunar_console_variable_entry_value, "value");
-        pressButton(R.id.lunar_console_variable_entry_value);
-
-        // ugly hack: sometimes pressing the "edit" button does not work for this test
-        int attempts = 10;
-        while (!isVisible(R.id.lunar_console_edit_variable_default_value) && attempts > 0)
-        {
-            pressButton(R.id.lunar_console_variable_entry_value);
-            --attempts;
-        }
-
-        assertText(R.id.lunar_console_edit_variable_default_value, String.format(getString(R.string.lunar_console_edit_variable_title_default_value), "default value"));
-        assertText(R.id.lunar_console_edit_variable_value, "value");
-        typeText(R.id.lunar_console_edit_variable_value, "new value");
-        pressButton(R.id.lunar_console_edit_variable_button_ok);
-
-        assertText(R.id.lunar_console_variable_entry_value, "new value");
-        pressButton(R.id.lunar_console_variable_entry_value);
-
-        assertText(R.id.lunar_console_edit_variable_value, "new value");
-        pressButton(R.id.lunar_console_edit_variable_button_reset);
-
-        assertText(R.id.lunar_console_variable_entry_value, "default value");
+//        assertText(R.id.lunar_console_variable_entry_value, "value");
+//        pressButton(R.id.lunar_console_variable_entry_value);
+//
+//        // ugly hack: sometimes pressing the "edit" button does not work for this test
+//        int attempts = 10;
+//        while (!isVisible(R.id.lunar_console_edit_variable_default_value) && attempts > 0)
+//        {
+//            pressButton(R.id.lunar_console_variable_entry_value);
+//            --attempts;
+//        }
+//
+//        assertText(R.id.lunar_console_edit_variable_default_value, String.format(getString(R.string.lunar_console_edit_variable_title_default_value), "default value"));
+//        assertText(R.id.lunar_console_edit_variable_value, "value");
+//        typeText(R.id.lunar_console_edit_variable_value, "new value");
+//        pressButton(R.id.lunar_console_edit_variable_button_ok);
+//
+//        assertText(R.id.lunar_console_variable_entry_value, "new value");
+//        pressButton(R.id.lunar_console_variable_entry_value);
+//
+//        assertText(R.id.lunar_console_edit_variable_value, "new value");
+//        pressButton(R.id.lunar_console_edit_variable_button_reset);
+//
+//        assertText(R.id.lunar_console_variable_entry_value, "default value");
+        XCTFail("")
     }
 
     func testUpdateVariablesFromThePlugin()
@@ -422,12 +426,13 @@ class ActionControllerTest: UITestCaseBase {
 
         openActions();
 
-        assertText(R.id.lunar_console_variable_entry_value, "value");
-        pressButton(R.id.lunar_console_variable_entry_value);
-
-        ConsolePlugin.updateVariable(1, "new value");
-
-        assertText(R.id.lunar_console_variable_entry_value, "new value");
+//        assertText(R.id.lunar_console_variable_entry_value, "value");
+//        pressButton(R.id.lunar_console_variable_entry_value);
+//
+//        ConsolePlugin.updateVariable(1, "new value");
+//
+//        assertText(R.id.lunar_console_variable_entry_value, "new value");
+        XCTFail("")
     }
 
     func testUpdateVariablesFromThePluginWhileEditing()
@@ -436,31 +441,33 @@ class ActionControllerTest: UITestCaseBase {
 
         openActions();
 
-        assertText(R.id.lunar_console_variable_entry_value, "value");
-        pressButton(R.id.lunar_console_variable_entry_value);
-
-        // ugly hack: sometimes pressing the "edit" button does not work for this test
-        int attempts = 10;
-        while (!isVisible(R.id.lunar_console_edit_variable_default_value) && attempts > 0)
-        {
-            pressButton(R.id.lunar_console_variable_entry_value);
-            --attempts;
-        }
-
-        ConsolePlugin.updateVariable(1, "another value");
-
-        assertText(R.id.lunar_console_edit_variable_default_value, String.format(getString(R.string.lunar_console_edit_variable_title_default_value), "default value"));
-        assertText(R.id.lunar_console_edit_variable_value, "value");
-        typeText(R.id.lunar_console_edit_variable_value, "new value");
-        pressButton(R.id.lunar_console_edit_variable_button_ok);
-
-        assertText(R.id.lunar_console_variable_entry_value, "new value");
-        pressButton(R.id.lunar_console_variable_entry_value);
-
-        assertText(R.id.lunar_console_edit_variable_value, "new value");
-        pressButton(R.id.lunar_console_edit_variable_button_reset);
-
-        assertText(R.id.lunar_console_variable_entry_value, "default value");
+//        assertText(R.id.lunar_console_variable_entry_value, "value");
+//        pressButton(R.id.lunar_console_variable_entry_value);
+//
+//        // ugly hack: sometimes pressing the "edit" button does not work for this test
+//        int attempts = 10;
+//        while (!isVisible(R.id.lunar_console_edit_variable_default_value) && attempts > 0)
+//        {
+//            pressButton(R.id.lunar_console_variable_entry_value);
+//            --attempts;
+//        }
+//
+//        ConsolePlugin.updateVariable(1, "another value");
+//
+//        assertText(R.id.lunar_console_edit_variable_default_value, String.format(getString(R.string.lunar_console_edit_variable_title_default_value), "default value"));
+//        assertText(R.id.lunar_console_edit_variable_value, "value");
+//        typeText(R.id.lunar_console_edit_variable_value, "new value");
+//        pressButton(R.id.lunar_console_edit_variable_button_ok);
+//
+//        assertText(R.id.lunar_console_variable_entry_value, "new value");
+//        pressButton(R.id.lunar_console_variable_entry_value);
+//
+//        assertText(R.id.lunar_console_edit_variable_value, "new value");
+//        pressButton(R.id.lunar_console_edit_variable_button_reset);
+//
+//        assertText(R.id.lunar_console_variable_entry_value, "default value");
+        
+        XCTFail("")
     }
 
     //endregion
@@ -468,9 +475,9 @@ class ActionControllerTest: UITestCaseBase {
     //region Mixed
 
     func testRegisterActionsAndVariables() {
-        registerAction(1, "Action-1");
-        registerAction(2, "Action-2");
-        registerAction(3, "Action-3");
+        registerAction(actionId: 1, name: "Action-1")
+        registerAction(actionId: 2, name: "Action-2")
+        registerAction(actionId: 3, name: "Action-3")
         registerVariable(1, "string", "value");
         registerVariable(2, "integer", 10);
         registerVariable(3, "float", 3.14);
@@ -483,9 +490,9 @@ class ActionControllerTest: UITestCaseBase {
             VarInfo(name: "integer", value: 10),
             VarInfo(name: "string", value: "value")
         ]);
-        closeConsole();
+        closeActions();
 
-        unregisterActions(2);
+        unregisterActions(actionIds: 2)
 
         openActions();
         assertEntries(actions: ["Action-1", "Action-3"], variables: [
@@ -496,8 +503,8 @@ class ActionControllerTest: UITestCaseBase {
         ]);
         closeActions();
 
-        registerAction(4, "Action-4");
-        registerAction(5, "Action-2");
+        registerAction(actionId: 4, name: "Action-4")
+        registerAction(actionId: 5, name: "Action-2")
 
         openActions();
         assertEntries(actions: ["Action-1", "Action-2", "Action-3", "Action-4"], variables: [
@@ -508,7 +515,7 @@ class ActionControllerTest: UITestCaseBase {
         ]);
         closeActions();
 
-        unregisterActions(1, 3, 4, 5);
+        unregisterActions(actionIds: 1, 3, 4, 5)
 
         openActions();
         assertEntries(actions: NO_ACTIONS, variables: [
@@ -523,9 +530,9 @@ class ActionControllerTest: UITestCaseBase {
         openActions();
         assertNoActions();
 
-        registerAction(1, "Action-1");
-        registerAction(2, "Action-2");
-        registerAction(3, "Action-3");
+        registerAction(actionId: 1, name: "Action-1")
+        registerAction(actionId: 2, name: "Action-2")
+        registerAction(actionId: 3, name: "Action-3")
         registerVariable(1, "string", "value");
         registerVariable(2, "integer", 10);
 
@@ -534,15 +541,15 @@ class ActionControllerTest: UITestCaseBase {
             VarInfo(name: "string", value: "value")
         ]);
 
-        unregisterActions(2);
+        unregisterActions(actionIds: 2)
 
         assertEntries(actions: ["Action-1", "Action-3"], variables: [
             VarInfo(name: "integer", value: 10),
             VarInfo(name: "string", value: "value")
         ]);
 
-        registerAction(4, "Action-4");
-        registerAction(5, "Action-2");
+        registerAction(actionId: 4, name: "Action-4")
+        registerAction(actionId: 5, name: "Action-2")
         registerVariable(3, "float", 3.14);
         registerVariable(4, "boolean", false);
 
@@ -553,7 +560,7 @@ class ActionControllerTest: UITestCaseBase {
             VarInfo(name: "string", value: "value")
         ]);
 
-        unregisterActions(1, 3, 4, 5);
+        unregisterActions(actionIds: 1, 3, 4, 5)
 
         assertEntries(actions: NO_ACTIONS, variables: [
             VarInfo(name: "boolean", value: false),
@@ -564,12 +571,12 @@ class ActionControllerTest: UITestCaseBase {
     }
 
     func testActionsAndVariablesFilter() {
-        registerAction(1, "Action-1");
-        registerAction(2, "Action-12");
-        registerAction(3, "Action-123");
-        registerAction(4, "Action-2");
-        registerAction(5, "Action-3");
-        registerAction(6, "Action-4");
+        registerAction(actionId: 1, name: "Action-1")
+        registerAction(actionId: 2, name: "Action-12")
+        registerAction(actionId: 3, name: "Action-123")
+        registerAction(actionId: 4, name: "Action-2")
+        registerAction(actionId: 5, name: "Action-3")
+        registerAction(actionId: 6, name: "Action-4")
         registerVariable(1, "Variable-1", "value-1");
         registerVariable(2, "Variable-12", "value-12");
         registerVariable(3, "Variable-123", "value-123");
@@ -583,7 +590,7 @@ class ActionControllerTest: UITestCaseBase {
             VarInfo(name: "Variable-2", value: "value-2")
         ]);
 
-        appendFilterText("-");
+        appendFilter(text: "-")
         assertEntries(actions: ["Action-1", "Action-12", "Action-123", "Action-2", "Action-3", "Action-4"], variables: [
             VarInfo(name: "Variable-1", value: "value-1"),
             VarInfo(name: "Variable-12", value: "value-12"),
@@ -591,25 +598,25 @@ class ActionControllerTest: UITestCaseBase {
             VarInfo(name: "Variable-2", value: "value-2")
         ]);
 
-        appendFilterText("1");
+        appendFilter(text: "1")
         assertEntries(actions: ["Action-1", "Action-12", "Action-123"], variables: [
             VarInfo(name: "Variable-1", value: "value-1"),
             VarInfo(name: "Variable-12", value: "value-12"),
             VarInfo(name: "Variable-123", value: "value-123")
         ]);
 
-        appendFilterText("2");
+        appendFilter(text: "2")
         assertEntries(actions: ["Action-12", "Action-123"], variables: [
             VarInfo(name: "Variable-12", value: "value-12"),
             VarInfo(name: "Variable-123", value: "value-123")
         ]);
 
-        appendFilterText("3");
+        appendFilter(text: "3")
         assertEntries(actions: ["Action-123"], variables: [
             VarInfo(name: "Variable-123", value: "value-123")
         ]);
 
-        appendFilterText("4");
+        appendFilter(text: "4")
         assertEntries(actions: NO_ACTIONS, variables: NO_VARIABLES);
 
         deleteLastFilterCharacter();
@@ -640,10 +647,10 @@ class ActionControllerTest: UITestCaseBase {
     }
 
     func testFilterAndAddRemoveActionsWithVariables() {
-        registerAction(1, "Action-1");
-        registerAction(2, "Action-2");
-        registerAction(3, "Action-3");
-        registerAction(5, "Action5");
+        registerAction(actionId: 1, name: "Action-1")
+        registerAction(actionId: 2, name: "Action-2")
+        registerAction(actionId: 3, name: "Action-3")
+        registerAction(actionId: 5, name: "Action5")
         registerVariable(1, "Variable-1", "value-1");
         registerVariable(2, "Variable-2", "value-2");
         registerVariable(3, "Variable-3", "value-3");
@@ -657,22 +664,22 @@ class ActionControllerTest: UITestCaseBase {
             VarInfo(name: "Variable5", value: "value5"),
         ]);
 
-        setFilterText("-1");
+        setFilter(text: "-1")
         assertEntries(actions: ["Action-1"], variables: [
             VarInfo(name: "Variable-1", value: "value-1")
         ]);
 
-        registerAction(4, "Action-12");
+        registerAction(actionId: 4, name: "Action-12")
         assertEntries(actions: ["Action-1", "Action-12"], variables: [
             VarInfo(name: "Variable-1", value: "value-1")
         ]);
 
-        unregisterActions(1);
+        unregisterActions(actionIds: 1)
         assertEntries(actions: ["Action-12"], variables: [
             VarInfo(name: "Variable-1", value: "value-1")
         ]);
 
-        unregisterActions(4);
+        unregisterActions(actionIds: 4)
         assertEntries(actions: NO_ACTIONS, variables: [
             VarInfo(name: "Variable-1", value: "value-1")
         ]);
@@ -684,28 +691,28 @@ class ActionControllerTest: UITestCaseBase {
             VarInfo(name: "Variable-3", value: "value-3")
         ]);
 
-        unregisterActions(3);
+        unregisterActions(actionIds: 3)
         assertEntries(actions: ["Action-2"], variables: [
             VarInfo(name: "Variable-1", value: "value-1"),
             VarInfo(name: "Variable-2", value: "value-2"),
             VarInfo(name: "Variable-3", value: "value-3")
         ]);
 
-        unregisterActions(2);
+        unregisterActions(actionIds: 2)
         assertEntries(actions: NO_ACTIONS, variables: [
             VarInfo(name: "Variable-1", value: "value-1"),
             VarInfo(name: "Variable-2", value: "value-2"),
             VarInfo(name: "Variable-3", value: "value-3")
         ]);
 
-        unregisterActions(5);
+        unregisterActions(actionIds: 5)
         assertEntries(actions: NO_ACTIONS, variables: [
             VarInfo(name: "Variable-1", value: "value-1"),
             VarInfo(name: "Variable-2", value: "value-2"),
             VarInfo(name: "Variable-3", value: "value-3")
         ]);
 
-        setFilterText("");
+        setFilter(text: "")
         assertEntries(actions: NO_ACTIONS, variables: [
             VarInfo(name: "Variable-1", value: "value-1"),
             VarInfo(name: "Variable-2", value: "value-2"),
@@ -715,12 +722,12 @@ class ActionControllerTest: UITestCaseBase {
     }
 
     func testFilterPersistenceWithActionsAndVariables() {
-        registerAction(1, "Action-1");
-        registerAction(2, "Action-12");
-        registerAction(3, "Action-123");
-        registerAction(4, "Action-2");
-        registerAction(5, "Action-3");
-        registerAction(6, "Action-4");
+        registerAction(actionId: 1, name: "Action-1")
+        registerAction(actionId: 2, name: "Action-12")
+        registerAction(actionId: 3, name: "Action-123")
+        registerAction(actionId: 4, name: "Action-2")
+        registerAction(actionId: 5, name: "Action-3")
+        registerAction(actionId: 6, name: "Action-4")
         registerVariable(1, "Variable-1", "value-1");
         registerVariable(2, "Variable-12", "value-12");
         registerVariable(3, "Variable-123", "value-123");
@@ -729,7 +736,7 @@ class ActionControllerTest: UITestCaseBase {
         registerVariable(6, "Variable-4", "value-4");
 
         openActions();
-        setFilterText("-1");
+        setFilter(text: "-1")
         assertEntries(actions: ["Action-1", "Action-12", "Action-123"], variables: [
                 VarInfo(name: "Variable-1", value: "value-1"),
                 VarInfo(name: "Variable-12", value: "value-12"),
@@ -779,23 +786,31 @@ class ActionControllerTest: UITestCaseBase {
 //
 //    private void closeActions()
 //    {
-//        closeConsole();
+//        closeActions();
 //    }
 //
-//    private void setFilterText(String filterText)
-//    {
-//        typeText(R.id.lunar_console_action_view_text_edit_filter, filterText);
-//    }
-//
-//    private void appendFilterText(String filterText)
-//    {
-//        appendText(R.id.lunar_console_action_view_text_edit_filter, filterText);
-//    }
-//
-//    private void deleteLastFilterCharacter()
-//    {
-//        deleteLastChar(R.id.lunar_console_action_view_text_edit_filter);
-//    }
+    func setFilter(text: String) {
+        let filterSearchField = app.searchFields["Filter"];
+        XCTAssertTrue(filterSearchField.exists);
+        
+        filterSearchField.coordinate(withNormalizedOffset: CGVector(dx: 0.9, dy: 0.5)).tap();
+        appDeleteText(app)
+        filterSearchField.typeText(text)
+    }
+
+    func appendFilter(text: String) {
+        let filterSearchField = app.searchFields["Filter"];
+        XCTAssertTrue(filterSearchField.exists);
+        filterSearchField.coordinate(withNormalizedOffset: CGVector(dx: 0.9, dy: 0.5)).tap();
+        filterSearchField.typeText(text)
+    }
+
+    func deleteLastFilterCharacter() {
+        let filterSearchField = app.searchFields["Filter"];
+        XCTAssertTrue(filterSearchField.exists);
+        filterSearchField.coordinate(withNormalizedOffset: CGVector(dx: 0.9, dy: 0.5)).tap();
+        appDeleteChar(app)
+    }
 //
 //    private static void makeNotificationCenterSync()
 //    {
@@ -811,99 +826,6 @@ class ActionControllerTest: UITestCaseBase {
 //        }
 //    }
     
-    // MARK: - Tests
-    
-    func testNoAction() {
-        // open controller
-        openActionController()
-        
-        // should be no actions
-        assertNoActions()
-    }
-    
-    func testActionOperations() {
-        // add a few actions
-        addActions(actions: Action(id: 1, name: "Action 1"),
-                   Action(id: 2, name: "Action 2"),
-                   Action(id: 3, name: "Action 3"))
-        
-        // open controller
-        openActionController()
-        
-        // check actions
-        assertActions(actions: "Action 1", "Action 2", "Action 3")
-        
-        // close controller
-        closeActionController()
-        
-        // add more actions
-        addActions(actions: Action(id: 4, name: "Action 4"))
-        
-        // open controller
-        openActionController()
-        
-        // check actions
-        assertActions(actions: "Action 1", "Action 2", "Action 3", "Action 4")
-        
-        // close controller
-        closeActionController()
-        
-        // remove some actions
-        removeActions(actions: 2, 3)
-        
-        // open controller
-        openActionController()
-        
-        // check actions
-        assertActions(actions: "Action 1", "Action 4")
-        
-        // close controller
-        closeActionController()
-        
-        // remove some actions
-        removeActions(actions: 1, 4)
-        
-        // open controller
-        openActionController()
-        
-        // should be no actions
-        assertNoActions()
-    }
-    
-    func testActionOperationsWithConsoleOpen() {
-        
-        // open controller
-        openActionController()
-        
-        // add a few actions
-        addActions(actions: Action(id: 1, name: "Action 1"),
-                   Action(id: 2, name: "Action 2"),
-                   Action(id: 3, name: "Action 3"))
-        
-        
-        
-        // check actions
-        assertActions(actions: "Action 1", "Action 2", "Action 3")
-        
-        // add more actions
-        addActions(actions: Action(id: 4, name: "Action 4"))
-        
-        // check actions
-        assertActions(actions: "Action 1", "Action 2", "Action 3", "Action 4")
-        
-        // remove some actions
-        removeActions(actions: 2, 3)
-        
-        // check actions
-        assertActions(actions: "Action 1", "Action 4")
-        
-        // remove some actions
-        removeActions(actions: 1, 4)
-        
-        // should be no actions
-        assertNoActions()
-    }
-    
     // MARK: - Helpers
         
     func registerAction(actionId: Int, name: String) {
@@ -917,6 +839,17 @@ class ActionControllerTest: UITestCaseBase {
         
         app(app, runCommandName: "add_actions", payload: dict)
     }
+    
+    func registerActions(actions: Action...) {
+        var dict = Dictionary<String, Any>()
+        var data = Array<Any>()
+        for action in actions {
+            data.append(["id" : action.id, "name" : action.name])
+        }
+        dict["actions"] = data
+        
+        app(app, runCommandName: "add_actions", payload: dict)
+    }
         
     func unregisterActions(actionIds: Int...) {
         var dict = Dictionary<String, Any>()
@@ -924,11 +857,11 @@ class ActionControllerTest: UITestCaseBase {
         app(app, runCommandName: "remove_actions", payload: dict)
     }
         
-    func registerVariable(variableId: Int, name: String, value: Any) {
-        registerVariable(variableId: variableId, name: name, value: value, defaultValue: value);
+    func registerVariable(_ variableId: Int, _ name: String, _ value: Any) {
+        registerVariable(variableId, name, value, value);
     }
         
-    func registerVariable(variableId: Int, name: String, value: Any, defaultValue: Any) {
+    func registerVariable(_ variableId: Int, _ name: String, _ value: Any, _ defaultValue: Any) {
         var dict = Dictionary<String, Any>()
         var data = Array<Any>()
         data.append([
@@ -938,7 +871,7 @@ class ActionControllerTest: UITestCaseBase {
             "value" : "\(value)",
             "defaultValue": "\(defaultValue)"
         ])
-        dict["variable"] = data
+        dict["variables"] = data
         
         app(app, runCommandName: "register_variable", payload: dict)
     }
@@ -948,7 +881,19 @@ class ActionControllerTest: UITestCaseBase {
     }
     
     func assertEntries(actions: [String], variables: [VarInfo]) {
-        XCTFail("")
+        let table = app.tables.element;
+        var expected = [String]()
+        if actions.count > 0 {
+            expected.append("Actions")
+            expected.append(contentsOf: actions)
+        }
+        if variables.count > 0 {
+            expected.append("Variables")
+            for variable in variables {
+                expected.append(variable.name)
+            }
+        }
+        checkTable(table, items: expected)
     }
     
     func assertActions(actions: String...) {
@@ -980,12 +925,12 @@ class ActionControllerTest: UITestCaseBase {
         app(app, runCommandName: "remove_actions", payload: dict)
     }
     
-    func openActionController() {
+    func openActions() {
         app(app, tapButton: "Show Controller")
         app.swipeLeft()
     }
     
-    func closeActionController() {
+    func closeActions() {
         app(app, tapButton: "Console Close Button")
         app.swipeLeft()
     }

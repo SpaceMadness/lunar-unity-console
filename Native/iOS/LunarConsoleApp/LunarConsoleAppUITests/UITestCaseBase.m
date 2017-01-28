@@ -95,6 +95,15 @@
     return nil;
 }
 
+- (XCUIElement *)appSearchButton:(XCUIApplication *)app
+{
+    if (app.buttons[@"Search"].exists) return app.buttons[@"Search"];
+    if (app.buttons[@"search"].exists) return app.buttons[@"search"];
+    
+    XCTFail(@"Can't resolve 'search' button");
+    return nil;
+}
+
 - (void)app:(XCUIApplication *)app runCommandName:(NSString *)name payload:(NSDictionary *)payload
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:payload];

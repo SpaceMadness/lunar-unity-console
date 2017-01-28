@@ -35,6 +35,7 @@
 - (void)app:(XCUIApplication *)app textField:(NSString *)textField enterText:(NSString *)text;
 - (XCUIElement *)appDeleteKey:(XCUIApplication *)app;
 - (XCUIElement *)appReturnButton:(XCUIApplication *)app;
+- (XCUIElement *)appSearchButton:(XCUIApplication *)app;
 
 - (void)app:(XCUIApplication *)app runCommandName:(NSString *)name payload:(NSDictionary *)commandDict;
 
