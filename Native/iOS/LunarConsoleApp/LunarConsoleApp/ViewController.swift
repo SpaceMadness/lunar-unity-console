@@ -277,11 +277,12 @@ extension ViewController {
         var dict = Dictionary<String, (_ jsonObj: Dictionary<String, Any>) -> Void>()
         dict["add_actions"] = onAddActions
         dict["remove_actions"] = onRemoveActions
+        dict["register_variable"] = onRegisterVariable
+        dict["update_variable"] = onUpdateVariable
         return dict
     }
     
     func onAddActions(jsonDict: Dictionary<String, Any>) {
-        
         let actions = jsonDict["actions"] as! Array<Dictionary<String, Any>>
         for action in actions {
             let id = Int32((action["id"] as! NSNumber).intValue)
@@ -292,12 +293,34 @@ extension ViewController {
     }
     
     func onRemoveActions(jsonDict: Dictionary<String, Any>) {
-        
         let actions = jsonDict["actions"] as! Array<Any>
         for action in actions {
             let id = Int32((action as! NSNumber).intValue)
             
             plugin.unregisterAction(withId: id)
+        }
+    }
+    
+    func onRegisterVariable(jsonDict: Dictionary<String, Any>) {
+        let variables = jsonDict["variables"] as! Array<Dictionary<String, Any>>
+        for action in variables {
+            let id = Int32((action["id"] as! NSNumber).intValue)
+            let name = action["name"] as! String
+            let type = action["type"] as! String
+            let value = action["value"] as! String
+            let defaultValue = action["defaultValue"] as! String
+            
+            plugin.registerVariable(withId: id, name: name, type: type, value: value, defaultValue: defaultValue)
+        }
+    }
+    
+    func onUpdateVariable(jsonDict: Dictionary<String, Any>) {
+        let variables = jsonDict["variables"] as! Array<Dictionary<String, Any>>
+        for action in variables {
+            let id = Int32((action["id"] as! NSNumber).intValue)
+            let value = action["value"] as! String
+            
+            plugin.setValue(value, forVariableWithId: id)
         }
     }
 }

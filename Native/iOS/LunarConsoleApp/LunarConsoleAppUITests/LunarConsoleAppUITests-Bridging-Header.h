@@ -21,3 +21,4 @@
 
 #import "UITestCaseBase.h"
 #import "XCTestCase+Operations.h"
+#import "Lunar.h"
