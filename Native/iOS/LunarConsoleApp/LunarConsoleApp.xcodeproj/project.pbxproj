@@ -15,7 +15,7 @@
 		4DD4F9D01DFB8E5600032A29 /* ActionOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840F08AA1DEABA4500E9F13D /* ActionOverlayView.swift */; };
 		4DD4F9D11DFB8E5600032A29 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 844741ED1B719DA500F5ABD3 /* main.m */; };
 		4DD4F9D31DFB8E5600032A29 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF21AE1A1BF536FE0053D50B /* MessageUI.framework */; };
-		4DD4F9D41DFB8E5600032A29 /* libLunarConsole.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 844742171B719DB600F5ABD3 /* libLunarConsole.a */; };
+		4DD4F9D41DFB8E5600032A29 /* ReferenceProxy in Frameworks */ = {isa = PBXBuildFile; fileRef = 844742171B719DB600F5ABD3 /* libLunarConsole.a */; };
 		4DD4FA1F1DFB8E5600032A29 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 844741FA1B719DA500F5ABD3 /* LaunchScreen.xib */; };
 		4DD4FA201DFB8E5600032A29 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 844741F51B719DA500F5ABD3 /* Main.storyboard */; };
 		4DD4FA211DFB8E5600032A29 /* input.txt in Resources */ = {isa = PBXBuildFile; fileRef = EF64F8F11C03D86E008DCB8E /* input.txt */; };
@@ -96,6 +96,7 @@
 		4DE389F21DFCD4B2003A2B6B /* lunar_console_icon_button_variable_reset.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DE389EF1DFCD4B2003A2B6B /* lunar_console_icon_button_variable_reset.png */; };
 		4DE389F31DFCD4B2003A2B6B /* lunar_console_icon_button_variable_reset@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DE389F01DFCD4B2003A2B6B /* lunar_console_icon_button_variable_reset@2x.png */; };
 		4DE389F41DFCD4B2003A2B6B /* lunar_console_icon_button_variable_reset@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DE389F11DFCD4B2003A2B6B /* lunar_console_icon_button_variable_reset@3x.png */; };
+		51B144EA7E36C3550CCEC344 /* Pods_LunarConsoleAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ABF21795CAE69D20C71F843 /* Pods_LunarConsoleAppTests.framework */; };
 		840F07E71DE9001700E9F13D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840F07E61DE9001700E9F13D /* ViewController.swift */; };
 		840F07E91DE9105600E9F13D /* FakeLogEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840F07E81DE9105600E9F13D /* FakeLogEntry.swift */; };
 		840F08AB1DEABA4500E9F13D /* ActionOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840F08AA1DEABA4500E9F13D /* ActionOverlayView.swift */; };
@@ -105,12 +106,15 @@
 		844741EE1B719DA500F5ABD3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 844741ED1B719DA500F5ABD3 /* main.m */; };
 		844741F11B719DA500F5ABD3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 844741F01B719DA500F5ABD3 /* AppDelegate.m */; };
 		844741F91B719DA500F5ABD3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 844741F81B719DA500F5ABD3 /* Images.xcassets */; };
-		8447421C1B719F3A00F5ABD3 /* libLunarConsole.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 844742171B719DB600F5ABD3 /* libLunarConsole.a */; };
+		8447421C1B719F3A00F5ABD3 /* ReferenceProxy in Frameworks */ = {isa = PBXBuildFile; fileRef = 844742171B719DB600F5ABD3 /* libLunarConsole.a */; };
+		9BEC6F3D1F9B9B89C6781CD6 /* Pods_LunarConsoleAppFree.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E04BC23509F578BDFC1C6547 /* Pods_LunarConsoleAppFree.framework */; };
+		C93996763C98DE29EE74A563 /* Pods_LunarConsoleApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 196642A55653B48BF1B389F9 /* Pods_LunarConsoleApp.framework */; };
+		E6F740BE31A651A20991CAB6 /* Pods_LunarConsoleAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F1F69FE94F7692B28338C21 /* Pods_LunarConsoleAppUITests.framework */; };
 		EF0836B31B7ABD6D00DFB877 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 844741FA1B719DA500F5ABD3 /* LaunchScreen.xib */; };
 		EF0836B41B7ABD6D00DFB877 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 844741F51B719DA500F5ABD3 /* Main.storyboard */; };
 		EF21AE1B1BF536FE0053D50B /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF21AE1A1BF536FE0053D50B /* MessageUI.framework */; };
 		EF64F8F21C03D86E008DCB8E /* input.txt in Resources */ = {isa = PBXBuildFile; fileRef = EF64F8F11C03D86E008DCB8E /* input.txt */; };
-		EF81893C1BE16E58008FFCB9 /* libLunarConsole.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 844742171B719DB600F5ABD3 /* libLunarConsole.a */; };
+		EF81893C1BE16E58008FFCB9 /* ReferenceProxy in Frameworks */ = {isa = PBXBuildFile; fileRef = 844742171B719DB600F5ABD3 /* libLunarConsole.a */; };
 		EFAE76481D2486D70072CCBF /* LUConsoleLogControllerUITest.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAE76471D2486D70072CCBF /* LUConsoleLogControllerUITest.m */; };
 		EFAE764D1D24878B0072CCBF /* UITestCaseBase.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAE764A1D24878B0072CCBF /* UITestCaseBase.m */; };
 		EFAE764E1D24878B0072CCBF /* XCTestCase+Operations.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAE764C1D24878B0072CCBF /* XCTestCase+Operations.m */; };
@@ -176,6 +180,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		169FFACF0ADF72BBF3B95023 /* Pods-LunarConsoleAppUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LunarConsoleAppUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LunarConsoleAppUITests/Pods-LunarConsoleAppUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		196642A55653B48BF1B389F9 /* Pods_LunarConsoleApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LunarConsoleApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1FB3CA6156344729191554ED /* Pods-LunarConsoleAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LunarConsoleAppTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-LunarConsoleAppTests/Pods-LunarConsoleAppTests.release.xcconfig"; sourceTree = "<group>"; };
+		29F4782DA9C617256D8D7BA3 /* Pods-LunarConsoleApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LunarConsoleApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LunarConsoleApp/Pods-LunarConsoleApp.debug.xcconfig"; sourceTree = "<group>"; };
+		438BC1E4A24AFBB11E4BD7E0 /* Pods-LunarConsoleApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LunarConsoleApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-LunarConsoleApp/Pods-LunarConsoleApp.release.xcconfig"; sourceTree = "<group>"; };
 		4DD4FA261DFB8E5600032A29 /* LunarConsoleAppFree.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LunarConsoleAppFree.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DD4FA2A1DFB8EB100032A29 /* InfoFree.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = InfoFree.plist; sourceTree = "<group>"; };
 		4DD4FC621DFB93A000032A29 /* lunar_console_action_button_large_normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lunar_console_action_button_large_normal.png; path = ../../LunarConsole/LunarConsole/Full/Images/lunar_console_action_button_large_normal.png; sourceTree = "<group>"; };
@@ -254,6 +263,10 @@
 		4DE389EF1DFCD4B2003A2B6B /* lunar_console_icon_button_variable_reset.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lunar_console_icon_button_variable_reset.png; path = ../../LunarConsole/LunarConsole/Full/Images/lunar_console_icon_button_variable_reset.png; sourceTree = "<group>"; };
 		4DE389F01DFCD4B2003A2B6B /* lunar_console_icon_button_variable_reset@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lunar_console_icon_button_variable_reset@2x.png"; path = "../../LunarConsole/LunarConsole/Full/Images/lunar_console_icon_button_variable_reset@2x.png"; sourceTree = "<group>"; };
 		4DE389F11DFCD4B2003A2B6B /* lunar_console_icon_button_variable_reset@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lunar_console_icon_button_variable_reset@3x.png"; path = "../../LunarConsole/LunarConsole/Full/Images/lunar_console_icon_button_variable_reset@3x.png"; sourceTree = "<group>"; };
+		5ABF21795CAE69D20C71F843 /* Pods_LunarConsoleAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LunarConsoleAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		79131A9E2218221891E3312E /* Pods-LunarConsoleAppFree.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LunarConsoleAppFree.release.xcconfig"; path = "Pods/Target Support Files/Pods-LunarConsoleAppFree/Pods-LunarConsoleAppFree.release.xcconfig"; sourceTree = "<group>"; };
+		7F1F69FE94F7692B28338C21 /* Pods_LunarConsoleAppUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LunarConsoleAppUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		80DE6C9835A99DA9A5812CD3 /* Pods-LunarConsoleAppFree.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LunarConsoleAppFree.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LunarConsoleAppFree/Pods-LunarConsoleAppFree.debug.xcconfig"; sourceTree = "<group>"; };
 		840F07E51DE9001600E9F13D /* LunarConsoleApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LunarConsoleApp-Bridging-Header.h"; sourceTree = "<group>"; };
 		840F07E61DE9001700E9F13D /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		840F07E81DE9105600E9F13D /* FakeLogEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeLogEntry.swift; sourceTree = "<group>"; };
@@ -275,6 +288,9 @@
 		844742011B719DA500F5ABD3 /* LunarConsoleAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LunarConsoleAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		844742061B719DA500F5ABD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		844742111B719DB600F5ABD3 /* LunarConsole.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LunarConsole.xcodeproj; path = ../LunarConsole/LunarConsole.xcodeproj; sourceTree = "<group>"; };
+		BC423F2F7789F1813BD16F9D /* Pods-LunarConsoleAppUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LunarConsoleAppUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-LunarConsoleAppUITests/Pods-LunarConsoleAppUITests.release.xcconfig"; sourceTree = "<group>"; };
+		C37C6C912F6BE95BC660ACDD /* Pods-LunarConsoleAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LunarConsoleAppTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LunarConsoleAppTests/Pods-LunarConsoleAppTests.debug.xcconfig"; sourceTree = "<group>"; };
+		E04BC23509F578BDFC1C6547 /* Pods_LunarConsoleAppFree.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LunarConsoleAppFree.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF21AE1A1BF536FE0053D50B /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		EF64F8F11C03D86E008DCB8E /* input.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = input.txt; sourceTree = "<group>"; };
 		EF81892E1BE16844008FFCB9 /* LunarConsoleAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LunarConsoleAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -292,7 +308,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				4DD4F9D31DFB8E5600032A29 /* MessageUI.framework in Frameworks */,
-				4DD4F9D41DFB8E5600032A29 /* libLunarConsole.a in Frameworks */,
+				4DD4F9D41DFB8E5600032A29 /* ReferenceProxy in Frameworks */,
+				9BEC6F3D1F9B9B89C6781CD6 /* Pods_LunarConsoleAppFree.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -301,7 +318,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF21AE1B1BF536FE0053D50B /* MessageUI.framework in Frameworks */,
-				8447421C1B719F3A00F5ABD3 /* libLunarConsole.a in Frameworks */,
+				8447421C1B719F3A00F5ABD3 /* ReferenceProxy in Frameworks */,
+				C93996763C98DE29EE74A563 /* Pods_LunarConsoleApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -309,6 +327,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				51B144EA7E36C3550CCEC344 /* Pods_LunarConsoleAppTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -316,13 +335,29 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EF81893C1BE16E58008FFCB9 /* libLunarConsole.a in Frameworks */,
+				EF81893C1BE16E58008FFCB9 /* ReferenceProxy in Frameworks */,
+				E6F740BE31A651A20991CAB6 /* Pods_LunarConsoleAppUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0FE3FD82703EC7ADBF722702 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				29F4782DA9C617256D8D7BA3 /* Pods-LunarConsoleApp.debug.xcconfig */,
+				438BC1E4A24AFBB11E4BD7E0 /* Pods-LunarConsoleApp.release.xcconfig */,
+				80DE6C9835A99DA9A5812CD3 /* Pods-LunarConsoleAppFree.debug.xcconfig */,
+				79131A9E2218221891E3312E /* Pods-LunarConsoleAppFree.release.xcconfig */,
+				C37C6C912F6BE95BC660ACDD /* Pods-LunarConsoleAppTests.debug.xcconfig */,
+				1FB3CA6156344729191554ED /* Pods-LunarConsoleAppTests.release.xcconfig */,
+				169FFACF0ADF72BBF3B95023 /* Pods-LunarConsoleAppUITests.debug.xcconfig */,
+				BC423F2F7789F1813BD16F9D /* Pods-LunarConsoleAppUITests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		844741DF1B719DA500F5ABD3 = {
 			isa = PBXGroup;
 			children = (
@@ -332,6 +367,7 @@
 				EF81892F1BE16844008FFCB9 /* LunarConsoleAppUITests */,
 				EF21AE1D1BF537EB0053D50B /* Frameworks */,
 				844741E91B719DA500F5ABD3 /* Products */,
+				0FE3FD82703EC7ADBF722702 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -492,6 +528,10 @@
 			isa = PBXGroup;
 			children = (
 				EF21AE1A1BF536FE0053D50B /* MessageUI.framework */,
+				196642A55653B48BF1B389F9 /* Pods_LunarConsoleApp.framework */,
+				E04BC23509F578BDFC1C6547 /* Pods_LunarConsoleAppFree.framework */,
+				5ABF21795CAE69D20C71F843 /* Pods_LunarConsoleAppTests.framework */,
+				7F1F69FE94F7692B28338C21 /* Pods_LunarConsoleAppUITests.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -518,9 +558,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4DD4FA231DFB8E5600032A29 /* Build configuration list for PBXNativeTarget "LunarConsoleAppFree" */;
 			buildPhases = (
+				0991AD63BA7585EE5E272B73 /* [CP] Check Pods Manifest.lock */,
 				4DD4F9CA1DFB8E5600032A29 /* Sources */,
 				4DD4F9D21DFB8E5600032A29 /* Frameworks */,
 				4DD4F9D51DFB8E5600032A29 /* Resources */,
+				C60A1C534CE800E65DE2711B /* [CP] Embed Pods Frameworks */,
+				4A94B3ABA98D80318B1A4B3B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -536,9 +579,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8447420B1B719DA500F5ABD3 /* Build configuration list for PBXNativeTarget "LunarConsoleApp" */;
 			buildPhases = (
+				55D0A5CA33A0A655646BED75 /* [CP] Check Pods Manifest.lock */,
 				844741E41B719DA500F5ABD3 /* Sources */,
 				844741E51B719DA500F5ABD3 /* Frameworks */,
 				844741E61B719DA500F5ABD3 /* Resources */,
+				08DE520C8C2E970D96B23B03 /* [CP] Embed Pods Frameworks */,
+				7C6E3320038E23B7B0AB1DE7 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -554,9 +600,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8447420E1B719DA500F5ABD3 /* Build configuration list for PBXNativeTarget "LunarConsoleAppTests" */;
 			buildPhases = (
+				FF2AECBDBCF96461C5F616DB /* [CP] Check Pods Manifest.lock */,
 				844741FD1B719DA500F5ABD3 /* Sources */,
 				844741FE1B719DA500F5ABD3 /* Frameworks */,
 				844741FF1B719DA500F5ABD3 /* Resources */,
+				6FF5A76AEB697AFA689DD3C1 /* [CP] Embed Pods Frameworks */,
+				596B16D65996F1B59A229325 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -572,9 +621,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = EF8189351BE16844008FFCB9 /* Build configuration list for PBXNativeTarget "LunarConsoleAppUITests" */;
 			buildPhases = (
+				471CCBA117F58E75317FDE28 /* [CP] Check Pods Manifest.lock */,
 				EF81892A1BE16844008FFCB9 /* Sources */,
 				EF81892B1BE16844008FFCB9 /* Frameworks */,
 				EF81892C1BE16844008FFCB9 /* Resources */,
+				836355178F90CBB4FC0D8EB0 /* [CP] Embed Pods Frameworks */,
+				2BA9C0843954D1D452E7BE3E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -781,6 +833,189 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		08DE520C8C2E970D96B23B03 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LunarConsoleApp/Pods-LunarConsoleApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		0991AD63BA7585EE5E272B73 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		2BA9C0843954D1D452E7BE3E /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LunarConsoleAppUITests/Pods-LunarConsoleAppUITests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		471CCBA117F58E75317FDE28 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		4A94B3ABA98D80318B1A4B3B /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LunarConsoleAppFree/Pods-LunarConsoleAppFree-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		55D0A5CA33A0A655646BED75 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		596B16D65996F1B59A229325 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LunarConsoleAppTests/Pods-LunarConsoleAppTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		6FF5A76AEB697AFA689DD3C1 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LunarConsoleAppTests/Pods-LunarConsoleAppTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		7C6E3320038E23B7B0AB1DE7 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LunarConsoleApp/Pods-LunarConsoleApp-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		836355178F90CBB4FC0D8EB0 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LunarConsoleAppUITests/Pods-LunarConsoleAppUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C60A1C534CE800E65DE2711B /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LunarConsoleAppFree/Pods-LunarConsoleAppFree-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		FF2AECBDBCF96461C5F616DB /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		4DD4F9CA1DFB8E5600032A29 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -880,6 +1115,7 @@
 /* Begin XCBuildConfiguration section */
 		4DD4FA241DFB8E5600032A29 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 80DE6C9835A99DA9A5812CD3 /* Pods-LunarConsoleAppFree.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -898,6 +1134,7 @@
 		};
 		4DD4FA251DFB8E5600032A29 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 79131A9E2218221891E3312E /* Pods-LunarConsoleAppFree.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -1005,6 +1242,7 @@
 		};
 		8447420C1B719DA500F5ABD3 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 29F4782DA9C617256D8D7BA3 /* Pods-LunarConsoleApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -1023,6 +1261,7 @@
 		};
 		8447420D1B719DA500F5ABD3 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 438BC1E4A24AFBB11E4BD7E0 /* Pods-LunarConsoleApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -1040,6 +1279,7 @@
 		};
 		8447420F1B719DA500F5ABD3 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C37C6C912F6BE95BC660ACDD /* Pods-LunarConsoleAppTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1061,6 +1301,7 @@
 		};
 		844742101B719DA500F5ABD3 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1FB3CA6156344729191554ED /* Pods-LunarConsoleAppTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -1078,6 +1319,7 @@
 		};
 		EF8189361BE16844008FFCB9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 169FFACF0ADF72BBF3B95023 /* Pods-LunarConsoleAppUITests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
@@ -1099,6 +1341,7 @@
 		};
 		EF8189371BE16844008FFCB9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BC423F2F7789F1813BD16F9D /* Pods-LunarConsoleAppUITests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
