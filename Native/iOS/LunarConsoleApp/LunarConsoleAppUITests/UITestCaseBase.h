@@ -22,8 +22,15 @@
 #import <XCTest/XCTest.h>
 
 #import "XCTestCase+Operations.h"
+#import "NetPeer.h"
 
 @interface UITestCaseBase : XCTestCase
+
+- (void)assertResult:(NSArray *)expected;
+- (void)addResult:(NSString *)result;
+
+- (void)waitForClientToConnect;
+- (void)sendMessage:(NetPeerMessage *)message;
 
 - (void)app:(XCUIApplication *)app tapButton:(NSString *)title;
 - (void)app:(XCUIApplication *)app tapSwitch:(NSString *)title;

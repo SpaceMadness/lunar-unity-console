@@ -55,7 +55,9 @@ class ActionControllerTest: UITestCaseBase {
 
         // In UI tests it’s important to set the initial state - such as interface orientation - required for your tests before they run. The setUp method is a good place to do this.
         app = XCUIApplication()
-        app.switches["Action Overlay Switch"].tap()
+        
+        // Wait until the app is ready to receive commands
+        waitForClientToConnect();
     }
     
     override func tearDown() {
@@ -793,7 +795,7 @@ class ActionControllerTest: UITestCaseBase {
         let filterSearchField = app.searchFields["Filter"];
         XCTAssertTrue(filterSearchField.exists);
         
-        filterSearchField.coordinate(withNormalizedOffset: CGVector(dx: 0.9, dy: 0.5)).tap();
+        filterSearchField.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap();
         appDeleteText(app)
         filterSearchField.typeText(text)
     }
@@ -801,14 +803,16 @@ class ActionControllerTest: UITestCaseBase {
     func appendFilter(text: String) {
         let filterSearchField = app.searchFields["Filter"];
         XCTAssertTrue(filterSearchField.exists);
-        filterSearchField.coordinate(withNormalizedOffset: CGVector(dx: 0.9, dy: 0.5)).tap();
+        
+        filterSearchField.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap();
         filterSearchField.typeText(text)
     }
 
     func deleteLastFilterCharacter() {
         let filterSearchField = app.searchFields["Filter"];
         XCTAssertTrue(filterSearchField.exists);
-        filterSearchField.coordinate(withNormalizedOffset: CGVector(dx: 0.9, dy: 0.5)).tap();
+        
+        filterSearchField.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).tap();
         appDeleteChar(app)
     }
 //

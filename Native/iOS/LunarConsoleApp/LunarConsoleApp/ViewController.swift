@@ -22,6 +22,7 @@ class ViewController: LUViewController {
     
     var nextActionId: Int = 0
     var nextVariableId: Int = 0
+    var netPeer: NetPeer!
     
     static var pluginInstance: LUConsolePlugin?
     
@@ -60,6 +61,12 @@ class ViewController: LUViewController {
         plugin.registerVariable(withId: 7, name: "boolean", type: LUCVarTypeNameBoolean, value: "true")
         plugin.registerVariable(withId: 8, name: "int", type: LUCVarTypeNameInteger, value: "10")
         */
+        
+        UnityMessenger(delegate: self)
+        
+        netPeer = NetPeer()
+        netPeer.delegate = self
+        netPeer.connect(toHost: "localhost", port: 10500)
     }
     
     // MARK: - Actions
@@ -190,7 +197,7 @@ class ViewController: LUViewController {
         runCommand(jsonObj: json)
     }
     
-    private func runCommand(jsonObj: Any) {
+    func runCommand(jsonObj: Any) {
         if let jsonArray = jsonObj as? Array<Any> {
             for obj in jsonArray {
                 runCommand(jsonObj: obj)
@@ -273,7 +280,11 @@ extension ViewController: UITextFieldDelegate {
     }
 }
 
-extension ViewController {
+extension ViewController: NetPeerDelegate {
+    
+    func peer(_ peer: NetPeer!, didReceive message: NetPeerMessage!) {
+        runCommand(jsonObj: message.payload)
+    }
     
     func createCommandLookup() -> Dictionary<String, (_ jsonObj: Dictionary<String, Any>) -> Void> {
         var dict = Dictionary<String, (_ jsonObj: Dictionary<String, Any>) -> Void>()
@@ -330,5 +341,14 @@ extension ViewController {
 extension ViewController: LUConsolePluginDelegate {
     func consolePluginDidCloseController(_ plugin: LUConsolePlugin!) {
         tryAddOverlayView()
+    }
+}
+
+extension ViewController: UnityMessengerDelegate {
+    func onUnityMessage(_ message: String) {
+        
+        let msg = NetPeerMessage(name: "native_callback")!
+        msg["message"] = message
+        netPeer.send(msg)
     }
 }
