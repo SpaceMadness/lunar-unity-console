@@ -395,15 +395,19 @@ class ActionControllerTest: UITestCaseBase {
         registerVariable(1, "string", "value", "value");
 
         openActions();
+        assertResult(["name:console_open"])
 
         // value should match
         app(app, textField: "Variable Input Field", assertText: "value")
         
+        
         // change value
         app(app, textField: "Variable Input Field", enterText: "new value")
+        assertResult(["name:console_variable_set\nid:1\nvalue:new value"])
         
         // reset value
         app(app, tapButton: "Variable Reset Button")
+        assertResult(["name:console_variable_set\nid:1\nvalue:value"])
         
         // value should match default value
         app(app, textField: "Variable Input Field", assertText: "value")
