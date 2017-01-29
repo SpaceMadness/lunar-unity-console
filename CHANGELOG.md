@@ -1,5 +1,11 @@
 # Lunar Console Changelog
 
+## v.0.9.0 - 1/29/2017
+
+**New:**
+
+* Added Variables support. For more information see: https://goo.gl/in0obv
+
 ## v.0.8.0 - 1/21/2017
 
 **New:**
