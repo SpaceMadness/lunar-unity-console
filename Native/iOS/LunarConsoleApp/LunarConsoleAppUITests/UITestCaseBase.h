@@ -44,6 +44,8 @@
 - (XCUIElement *)appReturnButton:(XCUIApplication *)app;
 - (XCUIElement *)appSearchButton:(XCUIApplication *)app;
 
+- (void)app:(XCUIApplication *)app textField:(NSString *)textField assertText:(NSString *)text;
+
 - (void)app:(XCUIApplication *)app runCommandName:(NSString *)name payload:(NSDictionary *)commandDict;
 
 - (void)checkTable:(XCUIElement *)table items:(NSArray<NSString *> *)items;

@@ -392,34 +392,21 @@ class ActionControllerTest: UITestCaseBase {
 
     func testUpdateVariables()
     {
-        registerVariable(1, "string", "value", "default value");
+        registerVariable(1, "string", "value", "value");
 
         openActions();
 
-//        assertText(R.id.lunar_console_variable_entry_value, "value");
-//        pressButton(R.id.lunar_console_variable_entry_value);
-//
-//        // ugly hack: sometimes pressing the "edit" button does not work for this test
-//        int attempts = 10;
-//        while (!isVisible(R.id.lunar_console_edit_variable_default_value) && attempts > 0)
-//        {
-//            pressButton(R.id.lunar_console_variable_entry_value);
-//            --attempts;
-//        }
-//
-//        assertText(R.id.lunar_console_edit_variable_default_value, String.format(getString(R.string.lunar_console_edit_variable_title_default_value), "default value"));
-//        assertText(R.id.lunar_console_edit_variable_value, "value");
-//        typeText(R.id.lunar_console_edit_variable_value, "new value");
-//        pressButton(R.id.lunar_console_edit_variable_button_ok);
-//
-//        assertText(R.id.lunar_console_variable_entry_value, "new value");
-//        pressButton(R.id.lunar_console_variable_entry_value);
-//
-//        assertText(R.id.lunar_console_edit_variable_value, "new value");
-//        pressButton(R.id.lunar_console_edit_variable_button_reset);
-//
-//        assertText(R.id.lunar_console_variable_entry_value, "default value");
-        XCTFail("")
+        // value should match
+        app(app, textField: "Variable Input Field", assertText: "value")
+        
+        // change value
+        app(app, textField: "Variable Input Field", enterText: "new value")
+        
+        // reset value
+        app(app, tapButton: "Variable Reset Button")
+        
+        // value should match default value
+        app(app, textField: "Variable Input Field", assertText: "value")
     }
 
     func testUpdateVariablesFromThePlugin()
@@ -428,21 +415,27 @@ class ActionControllerTest: UITestCaseBase {
 
         openActions();
 
-//        assertText(R.id.lunar_console_variable_entry_value, "value");
-//        pressButton(R.id.lunar_console_variable_entry_value);
-//
-//        ConsolePlugin.updateVariable(1, "new value");
-//
-//        assertText(R.id.lunar_console_variable_entry_value, "new value");
-        XCTFail("")
+        // value should match
+        app(app, textField: "Variable Input Field", assertText: "value")
+        
+        // set new value
+        updateVariable(1, "new value")
+        
+        // value should match
+        app(app, textField: "Variable Input Field", assertText: "new value")
     }
 
     func testUpdateVariablesFromThePluginWhileEditing()
     {
-        registerVariable(1, "string", "value", "default value");
+        registerVariable(1, "string", "value", "value");
 
         openActions();
 
+        // value should match
+        app(app, textField: "Variable Input Field", assertText: "value")
+        
+        // update variable
+        
 //        assertText(R.id.lunar_console_variable_entry_value, "value");
 //        pressButton(R.id.lunar_console_variable_entry_value);
 //
@@ -878,6 +871,18 @@ class ActionControllerTest: UITestCaseBase {
         dict["variables"] = data
         
         app(app, runCommandName: "register_variable", payload: dict)
+    }
+    
+    func updateVariable(_ variableId: Int, _ value: String) {
+        var dict = Dictionary<String, Any>()
+        var data = Array<Any>()
+        data.append([
+            "id" : variableId,
+            "value" : value
+            ])
+        dict["variables"] = data
+        
+        app(app, runCommandName: "update_variable", payload: dict)
     }
         
     func assertNoActions() {

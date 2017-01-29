@@ -198,6 +198,15 @@
     return nil;
 }
 
+- (void)app:(XCUIApplication *)app textField:(NSString *)textField assertText:(NSString *)text
+{
+    // find element
+    XCUIElement *element = app.textFields[textField];
+    
+    // check value
+    XCTAssertEqualObjects(text, element.value);
+}
+
 - (void)app:(XCUIApplication *)app runCommandName:(NSString *)name payload:(NSDictionary *)payload
 {
     NetPeerMessage *msg = [[NetPeerMessage alloc] initWithName:name];

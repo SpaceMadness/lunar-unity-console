@@ -26,6 +26,7 @@
 @interface LUCVarInputTableViewCell () <UITextFieldDelegate>
 
 @property (nonatomic, weak) IBOutlet UITextField * inputField;
+@property (nonatomic, weak) IBOutlet UIButton * resetButton;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint * resetButtonWidthConstraint;
 
 @property (nonatomic, assign) CGFloat resetButtonInitialWidth;
@@ -48,6 +49,9 @@
     
     _inputField.text = variable.value;
     [self updateResetButton];
+    
+    LU_SET_ACCESSIBILITY_IDENTIFIER(_inputField, @"Variable Input Field");
+    LU_SET_ACCESSIBILITY_IDENTIFIER(_resetButton, @"Variable Reset Button");
 }
 
 - (BOOL)isValidInputText:(NSString *)text
