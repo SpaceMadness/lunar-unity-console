@@ -679,7 +679,58 @@ namespace LunarConsolePlugin
 
             try
             {
-                variable.Value = value;
+                switch(variable.Type)
+                {
+                    case CVarType.Boolean:
+                    {
+                        int intValue;
+                        if (int.TryParse(value, out intValue) && (intValue == 0 || intValue == 1))
+                        {
+                            variable.BoolValue = intValue == 1;
+                        }
+                        else
+                        {
+                            Log.e("Invalid boolean value: '{0}'", value);
+                        }
+                        break;
+                    }
+                    case CVarType.Integer:
+                    {
+                        int intValue;
+                        if (int.TryParse(value, out intValue))
+                        {
+                            variable.IntValue = intValue;
+                        }
+                        else
+                        {
+                            Log.e("Invalid integer value: '{0}'", value);
+                        }
+                        break;
+                    }
+                    case CVarType.Float:
+                    {
+                        float floatValue;
+                        if (float.TryParse(value, out floatValue))
+                        {
+                            variable.FloatValue = floatValue;
+                        }
+                        else
+                        {
+                            Log.e("Invalid float value: '{0}'", value);
+                        }
+                        break;
+                    }
+                    case CVarType.String:
+                    {
+                        variable.Value = value;
+                        break;
+                    }
+                    default:
+                    {
+                        Log.e("Unexpected variable type: {0}", variable.Type);
+                        break;
+                    }
+                }
             }
             catch (Exception e)
             {

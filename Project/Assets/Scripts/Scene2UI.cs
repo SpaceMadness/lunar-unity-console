@@ -31,6 +31,14 @@ public class Scene2UI : MonoBehaviour
         Variables.c_bool.AddDelegate(VariableChanged);
     }
 
+    void OnDestroy()
+    {
+        Variables.c_float.RemoveDelegate(VariableChanged);
+        Variables.c_int.RemoveDelegate(VariableChanged);
+        Variables.c_string.RemoveDelegate(VariableChanged);
+        Variables.c_bool.RemoveDelegate(VariableChanged);
+    }
+
     void VariableChanged(CVar variable)
     {
         if (variable == Variables.c_bool)
