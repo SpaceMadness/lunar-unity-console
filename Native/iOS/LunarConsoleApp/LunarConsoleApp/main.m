@@ -22,11 +22,6 @@
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"
 
-void UnitySendMessage(const char *objectName, const char *methodName, const char *message)
-{
-    NSLog(@"Send native message: %s.%s(%s)", objectName, methodName, message);
-}
-
 int main(int argc, char * argv[]) {
     @autoreleasepool {
         return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));

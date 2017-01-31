@@ -26,6 +26,32 @@ import java.util.Map;
 
 public class StringUtils
 {
+    public static boolean isValidInteger(String str)
+    {
+        try
+        {
+            Integer.parseInt(str);
+            return true;
+        }
+        catch (NumberFormatException e)
+        {
+            return false;
+        }
+    }
+
+    public static boolean isValidFloat(String str)
+    {
+        try
+        {
+            Float.parseFloat(str);
+            return true;
+        }
+        catch (NumberFormatException e)
+        {
+            return false;
+        }
+    }
+
     public static int parseInt(String str, int defaultValue)
     {
         try

@@ -21,7 +21,22 @@
 
 package spacemadness.com.lunarconsole.console.actions;
 
+import spacemadness.com.lunarconsole.debug.Log;
+
 public enum LUCVarType
 {
     Unknown, Boolean, Integer, Float, String;
+
+    public static LUCVarType parse(String name)
+    {
+        try
+        {
+            return Enum.valueOf(LUCVarType.class, name);
+        }
+        catch (Exception e)
+        {
+            Log.e(e, "Exception while parsing variable type: %s", name);
+            return LUCVarType.Unknown;
+        }
+    }
 }

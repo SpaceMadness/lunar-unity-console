@@ -71,6 +71,7 @@ namespace LunarConsolePlugin
         {
             this.IntValue = defaultValue ? 1 : 0;
             m_defaultValue = m_value;
+            Register();
         }
 
         public CVar(string name, int defaultValue)
@@ -78,6 +79,7 @@ namespace LunarConsolePlugin
         {
             this.IntValue = defaultValue;
             m_defaultValue = m_value;
+            Register();
         }
 
         public CVar(string name, float defaultValue)
@@ -85,6 +87,7 @@ namespace LunarConsolePlugin
         {
             this.FloatValue = defaultValue;
             m_defaultValue = m_value;
+            Register();
         }
 
         public CVar(string name, string defaultValue)
@@ -92,6 +95,7 @@ namespace LunarConsolePlugin
         {
             this.Value = defaultValue;
             m_defaultValue = m_value;
+            Register();
         }
 
         private CVar(string name, CVarType type)
@@ -105,20 +109,15 @@ namespace LunarConsolePlugin
 
             m_name = name;
             m_type = type;
-
-            Register(this);
         }
 
-        //////////////////////////////////////////////////////////////////////////////
-
-        #region Registry
-
-        private static void Register(CVar cvar)
+        void Register()
         {
-            throw new NotImplementedException();
+            if (LunarConsoleSettings.consoleEnabled && LunarConsoleSettings.consoleSupported)
+            {
+                CRegistry.instance.Register(this);
+            }
         }
-
-        #endregion
 
         //////////////////////////////////////////////////////////////////////////////
 
@@ -330,6 +329,30 @@ namespace LunarConsolePlugin
         }
 
         #endregion
+
+        #region Operators
+
+        public static implicit operator string(CVar cvar)
+        {
+            return cvar.m_value.stringValue;
+        }
+
+        public static implicit operator int(CVar cvar)
+        {
+            return cvar.m_value.intValue;
+        }
+
+        public static implicit operator float(CVar cvar)
+        {
+            return cvar.m_value.floatValue;
+        }
+
+        public static implicit operator bool(CVar cvar)
+        {
+            return cvar.m_value.intValue != 0;
+        }
+
+        #endregion
     }
 
     public class CVarList : IEnumerable<CVar>
@@ -402,13 +425,30 @@ namespace LunarConsolePlugin
                 var containerTypes = ReflectionUtils.FindAttributeTypes<CVarContainerAttribute>(assembly);
                 foreach (var type in containerTypes)
                 {
-                    Debug.Log(type);
+                    ForceStaticInit(type);
                 }
             }
             catch (Exception e)
             {
                 Debug.LogError("Unable to resolve variables: " + e.Message);
             }
+        }
+
+        private static void ForceStaticInit(Type type)
+        {
+            try
+            {
+                FieldInfo[] fields = type.GetFields(BindingFlags.Static|BindingFlags.Public);
+                if (fields != null && fields.Length > 0)
+                {
+                    fields[0].GetValue(null);
+                }
+            }
+            catch (Exception e)
+            {
+                Log.e(e, "Unable to initialize cvar container: {0}", type);
+            }
+
         }
     }
 

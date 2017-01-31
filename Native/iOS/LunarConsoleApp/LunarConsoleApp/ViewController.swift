@@ -22,6 +22,7 @@ class ViewController: LUViewController {
     
     var nextActionId: Int = 0
     var nextVariableId: Int = 0
+    var netPeer: NetPeer!
     
     static var pluginInstance: LUConsolePlugin?
     
@@ -60,6 +61,12 @@ class ViewController: LUViewController {
         plugin.registerVariable(withId: 7, name: "boolean", type: LUCVarTypeNameBoolean, value: "true")
         plugin.registerVariable(withId: 8, name: "int", type: LUCVarTypeNameInteger, value: "10")
         */
+        
+        UnityMessenger(delegate: self)
+        
+        netPeer = NetPeer()
+        netPeer.delegate = self
+        netPeer.connect(toHost: "localhost", port: 10500)
     }
     
     // MARK: - Actions
@@ -190,7 +197,7 @@ class ViewController: LUViewController {
         runCommand(jsonObj: json)
     }
     
-    private func runCommand(jsonObj: Any) {
+    func runCommand(jsonObj: Any) {
         if let jsonArray = jsonObj as? Array<Any> {
             for obj in jsonArray {
                 runCommand(jsonObj: obj)
@@ -273,17 +280,22 @@ extension ViewController: UITextFieldDelegate {
     }
 }
 
-extension ViewController {
+extension ViewController: NetPeerDelegate {
+    
+    func peer(_ peer: NetPeer!, didReceive message: NetPeerMessage!) {
+        runCommand(jsonObj: message.payload)
+    }
     
     func createCommandLookup() -> Dictionary<String, (_ jsonObj: Dictionary<String, Any>) -> Void> {
         var dict = Dictionary<String, (_ jsonObj: Dictionary<String, Any>) -> Void>()
         dict["add_actions"] = onAddActions
         dict["remove_actions"] = onRemoveActions
+        dict["register_variable"] = onRegisterVariable
+        dict["update_variable"] = onUpdateVariable
         return dict
     }
     
     func onAddActions(jsonDict: Dictionary<String, Any>) {
-        
         let actions = jsonDict["actions"] as! Array<Dictionary<String, Any>>
         for action in actions {
             let id = Int32((action["id"] as! NSNumber).intValue)
@@ -294,7 +306,6 @@ extension ViewController {
     }
     
     func onRemoveActions(jsonDict: Dictionary<String, Any>) {
-        
         let actions = jsonDict["actions"] as! Array<Any>
         for action in actions {
             let id = Int32((action as! NSNumber).intValue)
@@ -302,10 +313,42 @@ extension ViewController {
             plugin.unregisterAction(withId: id)
         }
     }
+    
+    func onRegisterVariable(jsonDict: Dictionary<String, Any>) {
+        let variables = jsonDict["variables"] as! Array<Dictionary<String, Any>>
+        for action in variables {
+            let id = Int32((action["id"] as! NSNumber).intValue)
+            let name = action["name"] as! String
+            let type = action["type"] as! String
+            let value = action["value"] as! String
+            let defaultValue = action["defaultValue"] as! String
+            
+            plugin.registerVariable(withId: id, name: name, type: type, value: value, defaultValue: defaultValue)
+        }
+    }
+    
+    func onUpdateVariable(jsonDict: Dictionary<String, Any>) {
+        let variables = jsonDict["variables"] as! Array<Dictionary<String, Any>>
+        for action in variables {
+            let id = Int32((action["id"] as! NSNumber).intValue)
+            let value = action["value"] as! String
+            
+            plugin.setValue(value, forVariableWithId: id)
+        }
+    }
 }
 
 extension ViewController: LUConsolePluginDelegate {
     func consolePluginDidCloseController(_ plugin: LUConsolePlugin!) {
         tryAddOverlayView()
+    }
+}
+
+extension ViewController: UnityMessengerDelegate {
+    func onUnityMessage(_ message: String) {
+        
+        let msg = NetPeerMessage(name: "native_callback")!
+        msg["message"] = message
+        netPeer.send(msg)
     }
 }

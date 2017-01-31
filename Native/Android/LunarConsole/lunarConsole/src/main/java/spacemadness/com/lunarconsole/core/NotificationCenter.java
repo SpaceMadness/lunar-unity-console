@@ -142,7 +142,7 @@ public class NotificationCenter // FIXME: cover with unit-tests
 
     private static class Holder
     {
-        private static NotificationCenter INSTANCE = new NotificationCenter(DispatchQueue.mainQueue());
+        private static final NotificationCenter INSTANCE = new NotificationCenter(DispatchQueue.mainQueue());
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

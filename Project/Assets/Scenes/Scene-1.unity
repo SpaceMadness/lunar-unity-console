@@ -1156,7 +1156,7 @@ GameObject:
   - component: {fileID: 1379314818}
   - component: {fileID: 1379314822}
   m_Layer: 5
-  m_Name: Next Scene Button
+  m_Name: Variables Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

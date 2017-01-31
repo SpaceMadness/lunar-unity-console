@@ -21,7 +21,101 @@
 
 #import "UITestCaseBase.h"
 
+@interface UITestCaseBase () <NetPeerDelegate>
+
+@end
+
 @implementation UITestCaseBase
+{
+    NetPeer * _peer;
+    NSCondition * _clientConnectCondition;
+    NSCondition * _clientAckCondition;
+    NSCondition * _resultCondition;
+    BOOL _clientConnected;
+    BOOL _messageAcknowledged;
+    NSMutableArray * _result;
+}
+
+- (void)setUp
+{
+    [super setUp];
+    
+    _result = [NSMutableArray new];
+    
+    _clientConnectCondition = [NSCondition new];
+    _clientAckCondition = [NSCondition new];
+    _resultCondition = [NSCondition new];
+    
+    _peer = [NetPeer new];
+    _peer.delegate = self;
+    [_peer startListeningOnPort:10500];
+}
+
+- (void)tearDown
+{
+    [_peer shutdown];
+    
+    [super tearDown];
+}
+
+#pragma mark -
+#pragma mark Result
+
+- (void)assertResult:(NSArray *)expected
+{
+    [_resultCondition lock];
+    if (expected.count != _result.count)
+    {
+        [_resultCondition waitUntilDate:[NSDate dateWithTimeIntervalSinceNow:5.0]];
+    }
+    NSString *message = [NSString stringWithFormat:@"Expected: '%@' but was '%@'", [expected componentsJoinedByString:@","], [_result componentsJoinedByString:@","]];
+    
+    XCTAssertEqual(expected.count, _result.count, @"%@", message);
+    for (int i = 0; i < expected.count; ++i)
+    {
+        XCTAssertEqualObjects([expected objectAtIndex:i], [_result objectAtIndex:i], @"%@", message);
+    }
+    
+    [_result removeAllObjects];
+    [_resultCondition unlock];
+}
+
+- (void)addResult:(NSString *)result
+{
+    [_resultCondition lock];
+    [_result addObject:result];
+    [_resultCondition signal];
+    [_resultCondition unlock];
+}
+
+#pragma mark -
+#pragma mark Network
+
+- (void)waitForClientToConnect
+{
+    [_clientConnectCondition lock];
+    while (!_clientConnected)
+    {
+        [_clientConnectCondition wait];
+    }
+    [_clientConnectCondition unlock];
+}
+
+- (void)sendMessage:(NetPeerMessage *)message
+{
+    [_clientAckCondition lock];
+    
+    _messageAcknowledged = NO;
+    [_peer sendMessage:message];
+    while (!_messageAcknowledged)
+    {
+        [_clientAckCondition wait];
+    }
+    [_clientAckCondition unlock];
+}
+
+#pragma mark -
+#pragma mark Helpers
 
 - (void)app:(XCUIApplication *)app tapButton:(NSString *)title
 {
@@ -95,24 +189,32 @@
     return nil;
 }
 
+- (XCUIElement *)appSearchButton:(XCUIApplication *)app
+{
+    if (app.buttons[@"Search"].exists) return app.buttons[@"Search"];
+    if (app.buttons[@"search"].exists) return app.buttons[@"search"];
+    
+    XCTFail(@"Can't resolve 'search' button");
+    return nil;
+}
+
+- (void)app:(XCUIApplication *)app textField:(NSString *)textField assertText:(NSString *)text
+{
+    // find element
+    XCUIElement *element = app.textFields[textField];
+    
+    // check value
+    XCTAssertEqualObjects(text, element.value);
+}
+
 - (void)app:(XCUIApplication *)app runCommandName:(NSString *)name payload:(NSDictionary *)payload
 {
-    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:payload];
-    dict[@"name"] = name;
-    
-    NSError *error = nil;
-    NSData *jsonData = [NSJSONSerialization dataWithJSONObject:dict options:0 error:&error];
-    if (error) {
-        NSLog(@"Unable to serialize command: %@", error);
-        return;
+    NetPeerMessage *msg = [[NetPeerMessage alloc] initWithName:name];
+    for (NSString *key in payload)
+    {
+        msg[key] = payload[key];
     }
-    NSString *json = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-    NSLog(@"Running command: %@", json);
-    
-    [self app:app tapButton:@"Test Run Command Button"];
-    XCUIElement *alert = app.alerts[@"Command"];
-    [alert.textFields[@"Text Input Field"] typeText:json];
-    [alert.buttons[@"Run"] tap];
+    [self sendMessage:msg];
 }
 
 - (void)checkTable:(XCUIElement *)table items:(NSArray<NSString *> *)items
@@ -124,6 +226,34 @@
         XCUIElement *element = [staticTexts elementBoundByIndex:i];
         XCTAssert([items[i] isEqualToString:element.label]);
     }
+}
+
+#pragma mark -
+#pragma mark NetPeerDelegate
+
+- (void)clientDidConnect
+{
+    [_clientConnectCondition lock];
+    _clientConnected = YES;
+    [_clientConnectCondition signal];
+    [_clientConnectCondition unlock];
+}
+
+- (void)peer:(NetPeer *)peer didReceiveMessage:(NetPeerMessage *)message
+{
+    NSString *name = message.name;
+    if ([name isEqualToString:@"native_callback"])
+    {
+        [self addResult:message[@"message"]];
+    }
+}
+
+- (void)peerDidReceiveAck:(NetPeer *)peer
+{
+    [_clientAckCondition lock];
+    _messageAcknowledged = YES;
+    [_clientAckCondition signal];
+    [_clientAckCondition unlock];
 }
 
 @end

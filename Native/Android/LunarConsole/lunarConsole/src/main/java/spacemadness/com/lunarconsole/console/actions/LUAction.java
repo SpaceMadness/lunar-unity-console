@@ -36,13 +36,12 @@ public class LUAction extends LUEntry
     }
 
     @Override
-    public long getItemId()
+    public LUEntryType getEntryType()
     {
-        return 1; // FIXME: don't use magic number
+        return LUEntryType.Action;
     }
 
-    //////////////////////////////////////////////////////////////////////////////
-    // View holder
+    //region ViewHolder
 
     public static class ViewHolder extends ConsoleActionAdapter.ViewHolder<LUAction>
     {
@@ -65,4 +64,6 @@ public class LUAction extends LUEntry
             nameView.setText(action.name());
         }
     }
+
+    //endregion
 }

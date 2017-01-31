@@ -14,6 +14,7 @@
     <color name="lunar_console_color_exception_bar_background">#3C2C2C</color>
     <color name="lunar_console_color_exception_bar_text">#A27374</color>
     <color name="lunar_console_color_filter_text">#b1b1b1</color>
+    <color name="lunar_console_color_filter_text_highlight">#ffffff</color>
     <color name="lunar_console_color_filter_hint">#3c3c3c</color>
     <color name="lunar_console_color_warning_background">#6F6E55</color>
     <color name="lunar_console_color_warning_text">#C7C7C7</color>
@@ -24,4 +25,8 @@
     <color name="lunar_console_color_overlay_entry_shadow">#adadad</color>
     <color name="lunar_console_color_border_color">#979797</color>
     <color name="lunar_console_color_hyperlink">#679BEF</color>
+    <color name="lunar_console_color_action_header">#262626</color>
+    <color name="lunar_console_color_action_text">#FFFFFF</color>
+    <color name="lunar_console_color_variable_value_background">#4D4D4D</color>
+    <color name="lunar_console_color_variable_value_text">#B4B4B4</color>
 </resources>

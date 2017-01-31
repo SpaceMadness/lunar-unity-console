@@ -53,6 +53,11 @@ namespace LunarConsolePluginInternal
             if (exception != null)
             {
                 Debug.LogError(TAG + " " + message + "\n" + exception.Message + "\n" + exception.StackTrace);
+                Exception innerException = exception;
+                while ((innerException = innerException.InnerException) != null)
+                {
+                    Debug.LogError(innerException.Message + "\n" + innerException.StackTrace);
+                }
             }
             else
             {

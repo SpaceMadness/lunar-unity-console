@@ -40,10 +40,12 @@ namespace LunarConsolePluginInternal
 
     public class CRegistry
     {
-        readonly CActionList m_actions = new CActionList();
-        readonly CVarList m_vars = new CVarList();
+        public static CRegistry instance = new CRegistry();
 
-        ICRegistryDelegate m_delegate;
+        private readonly CActionList m_actions = new CActionList();
+        private readonly CVarList m_vars = new CVarList();
+
+        private ICRegistryDelegate m_delegate;
 
         #region Commands registry
 

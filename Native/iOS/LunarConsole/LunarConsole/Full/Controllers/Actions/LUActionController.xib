@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2659" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -32,8 +32,8 @@
                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lunar_console_actions_empty_warning.png" translatesAutoresizingMaskIntoConstraints="NO" id="dGG-61-ZsJ" userLabel="No Actions Icon">
                                     <rect key="frame" x="164" y="63" width="48" height="48"/>
                                 </imageView>
-                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You don't have any actions yet" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b9E-cA-rdH">
-                                    <rect key="frame" x="72" y="116" width="232" height="21"/>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="You don't have any actions or variables yet" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b9E-cA-rdH">
+                                    <rect key="frame" x="8" y="116" width="359" height="21"/>
                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                     <nil key="highlightedColor"/>
@@ -45,11 +45,13 @@
                                 <constraint firstItem="dGG-61-ZsJ" firstAttribute="centerX" secondItem="aiV-SI-LFD" secondAttribute="centerX" id="B6l-5J-mie"/>
                                 <constraint firstItem="b9E-cA-rdH" firstAttribute="top" secondItem="dGG-61-ZsJ" secondAttribute="bottom" constant="4.5" id="COj-pd-A4H"/>
                                 <constraint firstItem="dGG-61-ZsJ" firstAttribute="top" secondItem="aiV-SI-LFD" secondAttribute="top" constant="63" id="Dhe-Xi-BY4"/>
+                                <constraint firstAttribute="trailing" secondItem="b9E-cA-rdH" secondAttribute="trailing" constant="8" id="QBh-II-aiG"/>
                                 <constraint firstItem="b9E-cA-rdH" firstAttribute="centerX" secondItem="dGG-61-ZsJ" secondAttribute="centerX" id="Ull-5X-mC5"/>
+                                <constraint firstItem="b9E-cA-rdH" firstAttribute="leading" secondItem="aiV-SI-LFD" secondAttribute="leading" constant="8" id="bDC-BA-mQr"/>
                             </constraints>
                         </view>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Aa5-oX-X6k">
-                            <rect key="frame" x="142.5" y="609" width="91" height="30"/>
+                            <rect key="frame" x="142" y="609" width="91" height="30"/>
                             <state key="normal" title="Learn More..."/>
                             <connections>
                                 <action selector="onInfoButton:" destination="-1" eventType="touchUpInside" id="g7M-tQ-K4H"/>
@@ -65,7 +67,7 @@
                         <constraint firstItem="Aa5-oX-X6k" firstAttribute="centerX" secondItem="Kwy-j4-dCD" secondAttribute="centerX" id="wh5-q4-vYw"/>
                     </constraints>
                 </view>
-                <label contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Quick Actions" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ouu-Ne-nFv" userLabel="Title Bar">
+                <label contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Actions &amp; Variables" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ouu-Ne-nFv" userLabel="Title Bar">
                     <rect key="frame" x="0.0" y="0.0" width="375" height="20"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="20" id="pgQ-Me-QmY"/>

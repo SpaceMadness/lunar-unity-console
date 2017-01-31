@@ -22,8 +22,15 @@
 #import <XCTest/XCTest.h>
 
 #import "XCTestCase+Operations.h"
+#import "NetPeer.h"
 
 @interface UITestCaseBase : XCTestCase
+
+- (void)assertResult:(NSArray *)expected;
+- (void)addResult:(NSString *)result;
+
+- (void)waitForClientToConnect;
+- (void)sendMessage:(NetPeerMessage *)message;
 
 - (void)app:(XCUIApplication *)app tapButton:(NSString *)title;
 - (void)app:(XCUIApplication *)app tapSwitch:(NSString *)title;
@@ -35,6 +42,9 @@
 - (void)app:(XCUIApplication *)app textField:(NSString *)textField enterText:(NSString *)text;
 - (XCUIElement *)appDeleteKey:(XCUIApplication *)app;
 - (XCUIElement *)appReturnButton:(XCUIApplication *)app;
+- (XCUIElement *)appSearchButton:(XCUIApplication *)app;
+
+- (void)app:(XCUIApplication *)app textField:(NSString *)textField assertText:(NSString *)text;
 
 - (void)app:(XCUIApplication *)app runCommandName:(NSString *)name payload:(NSDictionary *)commandDict;
 

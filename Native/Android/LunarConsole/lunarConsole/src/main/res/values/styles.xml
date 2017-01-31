@@ -19,22 +19,37 @@
         <item name="android:layout_height">30dp</item>
     </style>
 
-    <style name="lunar_console_filter_edit_text_style">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">wrap_content</item>
+    <style name="lunar_console_edit_text_base_style">
         <item name="android:layout_marginLeft">5dp</item>
         <item name="android:layout_marginRight">5dp</item>
         <item name="android:paddingLeft">5dp</item>
         <item name="android:paddingRight">5dp</item>
         <item name="android:layout_weight">1</item>
         <item name="android:layout_gravity">center</item>
-        <item name="android:background">@drawable/lunar_console_shape_edit_text</item>
-        <item name="android:imeOptions">actionSearch</item>
         <item name="android:lines">1</item>
         <item name="android:singleLine">true</item>
+    </style>
+
+    <style name="lunar_console_filter_edit_text_style" parent="lunar_console_edit_text_base_style">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/lunar_console_shape_filter_text</item>
         <item name="android:textColor">@color/lunar_console_color_filter_text</item>
-        <item name="android:textColorHighlight">@color/lunar_console_color_filter_text</item>
+        <item name="android:textColorHighlight">@color/lunar_console_color_filter_text_highlight
+        </item>
         <item name="android:textColorHint">@color/lunar_console_color_filter_hint</item>
+        <item name="android:imeOptions">actionSearch</item>
+    </style>
+
+    <style name="lunar_console_variable_value_edit_text_style" parent="lunar_console_edit_text_base_style">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/lunar_console_shape_filter_text</item>
+        <item name="android:textColor">@color/lunar_console_color_filter_text</item>
+        <item name="android:textColorHighlight">@color/lunar_console_color_filter_text_highlight
+        </item>
+        <item name="android:textColorHint">@color/lunar_console_color_filter_hint</item>
+        <item name="android:imeOptions">actionDone</item>
     </style>
 
     <style name="lunar_console_fake_status_bar_style">
@@ -81,6 +96,15 @@
         <item name="android:paddingRight">8dp</item>
     </style>
 
+    <style name="lunar_console_action_header_style">
+        <item name="android:background">@color/lunar_console_color_action_header</item>
+        <item name="android:textColor">@color/lunar_console_color_action_text</item>
+        <item name="android:typeface">monospace</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+    </style>
+
     <style name="lunar_console_no_actions_style">
         <item name="android:gravity">center</item>
         <item name="android:layout_width">match_parent</item>
@@ -88,6 +112,18 @@
         <item name="android:textColor">@color/lunar_console_color_cell_text</item>
         <item name="android:typeface">monospace</item>
     </style>
+
+    <style name="lunar_console_variable_value_style_base" parent="lunar_console_edit_text_base_style">
+        <item name="android:background">@drawable/lunar_console_shape_variable_value_text</item>
+        <item name="android:textColor">@color/lunar_console_color_variable_value_text</item>
+        <item name="android:textColorHighlight">@color/lunar_console_color_variable_value_text
+        </item>
+        <item name="android:layout_width">60dp</item> <!-- TODO: use dimensions -->
+        <item name="android:layout_height">30dp</item> <!-- TODO: use dimensions -->
+        <item name="android:gravity">left|center_vertical</item>
+    </style>
+
+    <style name="lunar_console_variable_value_style" parent="lunar_console_variable_value_style_base"/>
 
     <style name="lunar_console_move_resize_view_style">
         <item name="android:background">@drawable/lunar_console_shape_move_resize</item>
@@ -129,7 +165,16 @@
         <item name="android:background">@android:color/transparent</item>
     </style>
 
-    <style name="lunar_console_hyperlink_button_style" parent="lunar_console_hyperlink_button_style_base">
+    <style name="lunar_console_hyperlink_button_style" parent="lunar_console_hyperlink_button_style_base"/>
+
+    <style name="lunar_console_switch_style_base">
+        <item name="android:textOn">""</item>
+        <item name="android:textOff">""</item>
+        <item name="android:thumb">@drawable/lunar_console_shape_switch_thumb</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
     </style>
+
+    <style name="lunar_console_switch_style" parent="lunar_console_switch_style_base"/>
 
 </resources>

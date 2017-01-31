@@ -52,6 +52,12 @@ public abstract class LUEntry extends ConsoleEntry implements Comparable<LUEntry
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Getters/Setters
 
+    @Override
+    public long getItemId()
+    {
+        return getEntryType().ordinal();
+    }
+
     public int actionId() // FIXME: rename
     {
         return actionId;
@@ -61,6 +67,8 @@ public abstract class LUEntry extends ConsoleEntry implements Comparable<LUEntry
     {
         return name;
     }
+
+    public abstract LUEntryType getEntryType();
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Comparable

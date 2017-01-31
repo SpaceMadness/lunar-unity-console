@@ -21,11 +21,15 @@
 
 package spacemadness.com.lunarconsole.debug;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class TestHelper // TODO: make a separate flavor for this class
 {
     public static final String TEST_EVENT_OVERLAY_ADD_ITEM              = "TEST_EVENT_OVERLAY_ADD_ITEM"; // data: CycleArray<ConsoleLogEntry>
     public static final String TEST_EVENT_OVERLAY_REMOVE_ITEM           = "TEST_EVENT_OVERLAY_REMOVE_ITEM"; // data: CycleArray<ConsoleLogEntry>
     public static final String TEST_EVENT_OVERLAY_SCHEDULE_ITEM_REMOVAL = "TEST_EVENT_OVERLAY_SCHEDULE_ITEM_REMOVAL";
+    public static final String TEST_EVENT_NATIVE_CALLBACK               = "TEST_EVENT_NATIVE_CALLBACK"; // data: Map<String, Object>
 
     private static TestHelper instance;
     private final EventListener listener;
@@ -63,6 +67,17 @@ public class TestHelper // TODO: make a separate flavor for this class
     {
         if (instance != null)
         {
+            instance.event(name, data);
+        }
+    }
+
+    public static void testEvent(String name, String key1, Object value1, String key2, Object value2)
+    {
+        if (instance != null)
+        {
+            Map<String, Object> data = new HashMap<>();
+            data.put(key1, value1);
+            data.put(key2, value2);
             instance.event(name, data);
         }
     }

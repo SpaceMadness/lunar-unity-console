@@ -35,13 +35,13 @@ public class ConsoleLogAdapter extends BaseConsoleLogAdapter
     }
 
     @Override
-    protected ViewHolder createViewHolder(View convertView)
+    protected ViewHolder createViewHolder(View convertView, int position)
     {
         return new ConsoleLogEntry.ViewHolder(convertView);
     }
 
     @Override
-    protected View createConvertView(ViewGroup parent)
+    protected View createConvertView(ViewGroup parent, int position)
     {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         return inflater.inflate(R.layout.lunar_console_layout_console_log_entry, parent, false);

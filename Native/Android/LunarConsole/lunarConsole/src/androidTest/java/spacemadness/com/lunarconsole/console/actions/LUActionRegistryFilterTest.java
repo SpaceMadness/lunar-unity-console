@@ -405,7 +405,7 @@ public class LUActionRegistryFilterTest extends TestCaseEx implements LUActionRe
     @Override
     public void actionRegistryFilterDidRegisterVariable(LUActionRegistryFilter registryFilter, LUCVar variable, int index)
     {
-        addResult("register variable: %s %s %s (%d)", variable.type(), variable.name(), variable.value(), index);
+        addResult("register variable: %s %s %s (%d)", variable.type, variable.name(), variable.value, index);
     }
 
     @Override
@@ -591,8 +591,8 @@ public class LUActionRegistryFilterTest extends TestCaseEx implements LUActionRe
             LUCVar cvar = as(entry, LUCVar.class);
             return cvar != null &&
                     this.name.equals(cvar.name()) &&
-                    this.value.equals(cvar.value()) &&
-                    this.type.equals(cvar.type());
+                    this.value.equals(cvar.value) &&
+                    this.type.equals(cvar.type);
 
         }
     }

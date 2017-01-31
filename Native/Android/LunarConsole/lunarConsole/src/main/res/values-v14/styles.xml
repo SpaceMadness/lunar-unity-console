@@ -3,4 +3,12 @@
     <style name="lunar_console_hyperlink_button_style" parent="lunar_console_hyperlink_button_style_base">
         <item name="android:textAllCaps">false</item>
     </style>
+
+    <style name="lunar_console_switch_style" parent="lunar_console_switch_style_base">
+        <item name="android:track">@drawable/lunar_console_shape_switch_track</item>
+    </style>
+
+    <style name="lunar_console_variable_value_style" parent="lunar_console_variable_value_style_base">
+        <item name="android:textAllCaps">false</item>
+    </style>
 </resources>

@@ -89,7 +89,6 @@ namespace LunarConsolePlugin
         #if LUNAR_CONSOLE_ENABLED
 
         IPlatform m_platform;
-        CRegistry m_registry;
 
         IDictionary<string, LunarConsoleNativeMessageHandler> m_nativeHandlerLookup;
 
@@ -110,6 +109,11 @@ namespace LunarConsolePlugin
         void Update()
         {
             DispatchMessages();
+        }
+
+        void OnDestroy()
+        {
+            DestroyPlatform();
         }
 
         void InitInstance()
@@ -147,8 +151,7 @@ namespace LunarConsolePlugin
                     m_platform = CreatePlatform(capacity, trim);
                     if (m_platform != null)
                     {
-                        m_registry = new CRegistry();
-                        m_registry.registryDelegate = m_platform;
+                        registry.registryDelegate = m_platform;
 
                         m_queuedMessages = new Queue<MessageInfo>();
                         int mainThreadId = Thread.CurrentThread.ManagedThreadId;
@@ -166,8 +169,8 @@ namespace LunarConsolePlugin
                             }
                         };
 
-                        // TODO: release it next time
-                        // CVarResolver.ResolveVariables();
+                        // resolve variables
+                        CVarResolver.ResolveVariables();
 
                         return true;
                     }
@@ -198,6 +201,15 @@ namespace LunarConsolePlugin
             #endif
 
             return null;
+        }
+
+        void DestroyPlatform()
+        {
+            if (registry.registryDelegate == m_platform)
+            {
+                registry.registryDelegate = null;
+            }
+            s_instance = null;
         }
 
         static string GetGestureName(Gesture gesture)
@@ -333,6 +345,7 @@ namespace LunarConsolePlugin
             private readonly jvalue[] m_args1 = new jvalue[1];
             private readonly jvalue[] m_args2 = new jvalue[2];
             private readonly jvalue[] m_args3 = new jvalue[3];
+            private readonly jvalue[] m_args5 = new jvalue[5];
 
             private static readonly string kPluginClassName = "spacemadness.com.lunarconsole.console.ConsolePlugin";
 
@@ -345,6 +358,8 @@ namespace LunarConsolePlugin
             private readonly IntPtr m_methodClearConsole;
             private readonly IntPtr m_methodRegisterAction;
             private readonly IntPtr m_methodUnregisterAction;
+            private readonly IntPtr m_methodRegisterVariable;
+            private readonly IntPtr m_methodUpdateVariable;
 
             /// <summary>
             /// Initializes a new instance of the Android platform class.
@@ -382,6 +397,8 @@ namespace LunarConsolePlugin
                 m_methodClearConsole = GetStaticMethod(m_pluginClassRaw, "clear", "()V");
                 m_methodRegisterAction = GetStaticMethod(m_pluginClassRaw, "registerAction", "(ILjava.lang.String;)V");
                 m_methodUnregisterAction = GetStaticMethod(m_pluginClassRaw, "unregisterAction", "(I)V");
+                m_methodRegisterVariable = GetStaticMethod(m_pluginClassRaw, "registerVariable", "(ILjava.lang.String;Ljava.lang.String;Ljava.lang.String;Ljava.lang.String;)V");
+                m_methodUpdateVariable = GetStaticMethod(m_pluginClassRaw, "updateVariable", "(ILjava.lang.String;)V");
             }
 
             ~PlatformAndroid()
@@ -453,6 +470,7 @@ namespace LunarConsolePlugin
                     m_args2[0] = jval(action.Id);
                     m_args2[1] = jval(action.Name);
                     CallStaticVoidMethod(m_methodRegisterAction, m_args2);
+                    AndroidJNI.DeleteLocalRef(m_args2[1].l);
                 }
                 catch (Exception e)
                 {
@@ -475,7 +493,23 @@ namespace LunarConsolePlugin
 
             public void OnVariableRegistered(CRegistry registry, CVar cvar)
             {
-                Debug.LogWarning("LunarConsole.OnVariableRegistered is not implemented");
+                try
+                {
+                    m_args5[0] = jval(cvar.Id);
+                    m_args5[1] = jval(cvar.Name);
+                    m_args5[2] = jval(cvar.Type.ToString());
+                    m_args5[3] = jval(cvar.Value);
+                    m_args5[4] = jval(cvar.DefaultValue);
+                    CallStaticVoidMethod(m_methodRegisterVariable, m_args5);
+                    AndroidJNI.DeleteLocalRef(m_args5[1].l);
+                    AndroidJNI.DeleteLocalRef(m_args5[2].l);
+                    AndroidJNI.DeleteLocalRef(m_args5[3].l);
+                    AndroidJNI.DeleteLocalRef(m_args5[4].l);
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError("Exception while calling 'LunarConsole.OnVariableRegistered': " + e.Message);
+                }
             }
 
             #endregion
@@ -582,12 +616,6 @@ namespace LunarConsolePlugin
 
         void ConsoleActionHandler(IDictionary<string, string> data)
         {
-            if (m_registry == null)
-            {
-                Log.w("Can't run action: make sure plugin is properly initialized");
-                return;
-            }
-
             string actionIdStr;
             if (!data.TryGetValue("id", out actionIdStr))
             {
@@ -602,7 +630,7 @@ namespace LunarConsolePlugin
                 return;
             }
 
-            var action = m_registry.FindAction(actionId);
+            var action = registry.FindAction(actionId);
             if (action == null)
             {
                 Log.w("Can't run action: ID not found " + actionIdStr);
@@ -621,12 +649,6 @@ namespace LunarConsolePlugin
 
         void ConsoleVariableSetHandler(IDictionary<string, string> data)
         {
-            if (m_registry == null)
-            {
-                Log.w("Can't set variable: make sure plugin is properly initialized");
-                return;
-            }
-
             string variableIdStr;
             if (!data.TryGetValue("id", out variableIdStr))
             {
@@ -648,7 +670,7 @@ namespace LunarConsolePlugin
                 return;
             }
 
-            var variable = m_registry.FindVariable(variableId);
+            var variable = registry.FindVariable(variableId);
             if (variable == null)
             {
                 Log.w("Can't set variable: ID not found " + variableIdStr);
@@ -657,7 +679,58 @@ namespace LunarConsolePlugin
 
             try
             {
-                variable.Value = value;
+                switch(variable.Type)
+                {
+                    case CVarType.Boolean:
+                    {
+                        int intValue;
+                        if (int.TryParse(value, out intValue) && (intValue == 0 || intValue == 1))
+                        {
+                            variable.BoolValue = intValue == 1;
+                        }
+                        else
+                        {
+                            Log.e("Invalid boolean value: '{0}'", value);
+                        }
+                        break;
+                    }
+                    case CVarType.Integer:
+                    {
+                        int intValue;
+                        if (int.TryParse(value, out intValue))
+                        {
+                            variable.IntValue = intValue;
+                        }
+                        else
+                        {
+                            Log.e("Invalid integer value: '{0}'", value);
+                        }
+                        break;
+                    }
+                    case CVarType.Float:
+                    {
+                        float floatValue;
+                        if (float.TryParse(value, out floatValue))
+                        {
+                            variable.FloatValue = floatValue;
+                        }
+                        else
+                        {
+                            Log.e("Invalid float value: '{0}'", value);
+                        }
+                        break;
+                    }
+                    case CVarType.String:
+                    {
+                        variable.Value = value;
+                        break;
+                    }
+                    default:
+                    {
+                        Log.e("Unexpected variable type: {0}", variable.Type);
+                        break;
+                    }
+                }
             }
             catch (Exception e)
             {
@@ -666,6 +739,11 @@ namespace LunarConsolePlugin
         }
 
         #endregion
+
+        private CRegistry registry
+        {
+            get { return CRegistry.instance; }
+        }
 
         #endif // LUNAR_CONSOLE_ENABLED
 
@@ -865,34 +943,22 @@ namespace LunarConsolePlugin
 
         void RegisterConsoleAction(string name, Action actionDelegate)
         {
-            if (m_registry != null)
-            {
-                m_registry.RegisterAction(name, actionDelegate);
-            }
+            registry.RegisterAction(name, actionDelegate);
         }
 
         void UnregisterConsoleAction(Action actionDelegate)
         {
-            if (m_registry != null)
-            {
-                m_registry.Unregister(actionDelegate);
-            }
+            registry.Unregister(actionDelegate);
         }
 
         void UnregisterConsoleAction(string name)
         {
-            if (m_registry != null)
-            {
-                m_registry.Unregister(name);
-            }
+            registry.Unregister(name);
         }
 
         void UnregisterAllConsoleActions(object target)
         {
-            if (m_registry != null)
-            {
-                m_registry.UnregisterAll(target);
-            }
+            registry.UnregisterAll(target);
         }
 
         #endif // LUNAR_CONSOLE_ENABLED

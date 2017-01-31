@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="8dp"
+    android:layout_marginTop="8dp"
+    android:background="@color/lunar_console_color_table_background"
+    android:orientation="vertical"
+    android:paddingBottom="8dp">
+
+    <TextView
+        android:id="@+id/lunar_console_edit_variable_default_value"
+        android:textColor="@color/lunar_console_color_action_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp" />
+
+    <EditText
+        android:id="@+id/lunar_console_edit_variable_value"
+        style="@style/lunar_console_variable_value_edit_text_style"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:ems="10" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/lunar_console_edit_variable_button_reset"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="@string/lunar_console_edit_variable_dialog_reset_to_default" />
+
+        <Button
+            android:id="@+id/lunar_console_edit_variable_button_ok"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="@android:string/ok" />
+
+        <Button
+            android:id="@+id/lunar_console_edit_variable_button_cancel"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="@android:string/cancel" />
+    </LinearLayout>
+
+</LinearLayout>

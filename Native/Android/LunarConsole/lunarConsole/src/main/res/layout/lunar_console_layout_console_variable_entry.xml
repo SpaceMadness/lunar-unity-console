@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/lunar_console_action_entry_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/lunar_console_color_cell_background_dark"
+    android:gravity="center">
+
+    <TextView
+        android:id="@+id/lunar_console_variable_entry_name"
+        style="@style/lunar_console_action_entry_style"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:text="Variable name" />
+
+    <Button
+        android:id="@+id/lunar_console_variable_entry_value"
+        style="@style/lunar_console_variable_value_style" />
+
+    <spacemadness.com.lunarconsole.ui.Switch
+        android:id="@+id/lunar_console_variable_entry_switch"
+        style="@style/lunar_console_switch_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</LinearLayout>

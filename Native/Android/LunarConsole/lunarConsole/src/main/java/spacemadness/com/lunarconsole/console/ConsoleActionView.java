@@ -25,7 +25,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -35,9 +37,11 @@ import java.util.List;
 
 import spacemadness.com.lunarconsole.R;
 import spacemadness.com.lunarconsole.console.actions.LUAction;
-import spacemadness.com.lunarconsole.console.actions.LUActionRegistry;
 import spacemadness.com.lunarconsole.console.actions.LUActionRegistryFilter;
 import spacemadness.com.lunarconsole.console.actions.LUCVar;
+import spacemadness.com.lunarconsole.console.actions.LUEntry;
+import spacemadness.com.lunarconsole.console.actions.LUEntryType;
+import spacemadness.com.lunarconsole.console.actions.LUHeaderEntry;
 import spacemadness.com.lunarconsole.core.Destroyable;
 import spacemadness.com.lunarconsole.core.NotificationCenter;
 import spacemadness.com.lunarconsole.debug.Log;
@@ -49,6 +53,7 @@ import spacemadness.com.lunarconsole.utils.UIUtils;
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static spacemadness.com.lunarconsole.console.BaseConsoleAdapter.DataSource;
 import static spacemadness.com.lunarconsole.console.ConsoleNotifications.*;
+import static spacemadness.com.lunarconsole.utils.ObjectUtils.*;
 
 public class ConsoleActionView extends AbstractConsoleView implements
         LUActionRegistryFilter.Delegate, Destroyable
@@ -75,7 +80,7 @@ public class ConsoleActionView extends AbstractConsoleView implements
         registryFilter.setDelegate(this);
 
         // initialize adapter
-        final ActionDataSource dataSource = new ActionDataSource(registryFilter);
+        final ActionDataSource dataSource = new ActionDataSource(getContext(), registryFilter);
         consoleActionAdapter = new ConsoleActionAdapter(dataSource);
 
         // this view would hold all the logs
@@ -89,7 +94,11 @@ public class ConsoleActionView extends AbstractConsoleView implements
             public void onItemClick(AdapterView<?> parent, final View view, final int position, long id)
             {
                 final Context ctx = getContext();
-                final LUAction action = dataSource.getEntry(position);
+                final LUAction action = as(dataSource.getEntry(position), LUAction.class);
+                if (action == null)
+                {
+                    return;
+                }
 
                 // post notification
                 NotificationCenter.defaultCenter().postNotification(ACTION_SELECT, ACTION_SELECT_KEY_ACTION, action);
@@ -194,7 +203,7 @@ public class ConsoleActionView extends AbstractConsoleView implements
     private void updateNoActionWarningView()
     {
         boolean hasContent = registryFilter.getAllActions().size() > 0 ||
-                             registryFilter.getAllActions().size() > 0;
+                             registryFilter.getAllVariables().size() > 0;
         setNoActionsWarningViewHidden(hasContent);
     }
 
@@ -259,30 +268,60 @@ public class ConsoleActionView extends AbstractConsoleView implements
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Data Source
 
-    private static class ActionDataSource implements DataSource<LUAction>
+    private static class ActionDataSource implements DataSource<LUEntry>
     {
         private final LUActionRegistryFilter actionRegistryFilter;
+        private final LUEntry actionsHeader;
+        private final LUEntry variablesHeader;
 
-        private ActionDataSource(LUActionRegistryFilter actionRegistryFilter)
+        private ActionDataSource(Context context, LUActionRegistryFilter actionRegistryFilter)
         {
             this.actionRegistryFilter = actionRegistryFilter;
+            actionsHeader = new LUHeaderEntry(context.getString(R.string.lunar_console_header_actions));
+            variablesHeader = new LUHeaderEntry(context.getString(R.string.lunar_console_header_variables));
         }
 
         @Override
-        public LUAction getEntry(int position)
+        public LUEntry getEntry(int position)
         {
-            return getActions().get(position);
+            List<LUAction> actions = getActions();
+            if (actions.size() > 0)
+            {
+                if (position == 0) return actionsHeader;
+
+                int actionIndex = position - 1;
+                if (actionIndex < actions.size())
+                {
+                    return actions.get(actionIndex);
+                }
+
+                position -= actions.size() + 1;
+            }
+
+            return position == 0 ? variablesHeader : getVariables().get(position - 1);
         }
 
         @Override
         public int getEntryCount()
         {
-            return getActions().size();
+            int count = 0;
+
+            List<LUAction> actions = getActions();
+            count += actions.size() > 0 ? (actions.size() + 1) : 0;
+
+            List<LUCVar> variables = getVariables();
+            count += variables.size() > 0 ? (variables.size() + 1) : 0;
+
+            return count;
         }
 
         private List<LUAction> getActions()
         {
             return actionRegistryFilter.actions();
+        }
+        private List<LUCVar> getVariables()
+        {
+            return actionRegistryFilter.variables();
         }
     }
 }
