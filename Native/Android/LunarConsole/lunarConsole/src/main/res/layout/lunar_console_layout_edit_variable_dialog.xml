@@ -10,6 +10,7 @@
 
     <TextView
         android:id="@+id/lunar_console_edit_variable_default_value"
+        android:textColor="@color/lunar_console_color_action_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="8dp" />
