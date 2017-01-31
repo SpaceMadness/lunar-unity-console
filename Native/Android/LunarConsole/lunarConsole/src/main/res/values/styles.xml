@@ -35,7 +35,8 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/lunar_console_shape_filter_text</item>
         <item name="android:textColor">@color/lunar_console_color_filter_text</item>
-        <item name="android:textColorHighlight">@color/lunar_console_color_filter_text_highlight</item>
+        <item name="android:textColorHighlight">@color/lunar_console_color_filter_text_highlight
+        </item>
         <item name="android:textColorHint">@color/lunar_console_color_filter_hint</item>
         <item name="android:imeOptions">actionSearch</item>
     </style>
@@ -45,7 +46,8 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@drawable/lunar_console_shape_filter_text</item>
         <item name="android:textColor">@color/lunar_console_color_filter_text</item>
-        <item name="android:textColorHighlight">@color/lunar_console_color_filter_text_highlight</item>
+        <item name="android:textColorHighlight">@color/lunar_console_color_filter_text_highlight
+        </item>
         <item name="android:textColorHint">@color/lunar_console_color_filter_hint</item>
         <item name="android:imeOptions">actionDone</item>
     </style>
@@ -64,7 +66,7 @@
         <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
     </style>
 
-    <style name="lunar_console_log_entry_message_style" parent="lunar_console_base_text_style" />
+    <style name="lunar_console_log_entry_message_style" parent="lunar_console_base_text_style"/>
 
     <style name="lunar_console_log_entry_overlay_style" parent="lunar_console_base_text_style">
         <item name="android:shadowColor">@color/lunar_console_color_overlay_entry_shadow</item>
@@ -73,7 +75,7 @@
         <item name="android:shadowDy">1.0</item>
     </style>
 
-    <style name="lunar_console_log_details_message_style" parent="lunar_console_base_text_style" />
+    <style name="lunar_console_log_details_message_style" parent="lunar_console_base_text_style"/>
 
     <style name="lunar_console_log_details_stacktrace_style" parent="lunar_console_base_text_style">
         <item name="android:textSize">10sp</item>
@@ -111,15 +113,17 @@
         <item name="android:typeface">monospace</item>
     </style>
 
-    <style name="lunar_console_variable_value_style" parent="lunar_console_edit_text_base_style">
+    <style name="lunar_console_variable_value_style_base" parent="lunar_console_edit_text_base_style">
         <item name="android:background">@drawable/lunar_console_shape_variable_value_text</item>
         <item name="android:textColor">@color/lunar_console_color_variable_value_text</item>
         <item name="android:textColorHighlight">@color/lunar_console_color_variable_value_text
         </item>
         <item name="android:layout_width">60dp</item> <!-- TODO: use dimensions -->
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">30dp</item> <!-- TODO: use dimensions -->
         <item name="android:gravity">left|center_vertical</item>
     </style>
+
+    <style name="lunar_console_variable_value_style" parent="lunar_console_variable_value_style_base"/>
 
     <style name="lunar_console_move_resize_view_style">
         <item name="android:background">@drawable/lunar_console_shape_move_resize</item>
@@ -161,7 +165,7 @@
         <item name="android:background">@android:color/transparent</item>
     </style>
 
-    <style name="lunar_console_hyperlink_button_style" parent="lunar_console_hyperlink_button_style_base" />
+    <style name="lunar_console_hyperlink_button_style" parent="lunar_console_hyperlink_button_style_base"/>
 
     <style name="lunar_console_switch_style_base">
         <item name="android:textOn">""</item>
@@ -171,6 +175,6 @@
         <item name="android:paddingRight">8dp</item>
     </style>
 
-    <style name="lunar_console_switch_style" parent="lunar_console_switch_style_base" />
+    <style name="lunar_console_switch_style" parent="lunar_console_switch_style_base"/>
 
 </resources>
