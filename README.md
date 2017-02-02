@@ -15,7 +15,7 @@ Requires Unity 5.0 or later.
 - [Installation](#installation)
 - [Usage](#usage)
   - [Configuration](#configuration)
-  - [Quick Actions](#quick-actions-preview)
+  - [Actions & Variables](#actions--variables-preview)
   - [Stack Trace Frames](#stack-trace-frames)
   - [Enabling/Disabling Plugin](#enablingdisabling-plugin)
   - [Unity Cloud Build Support](#unity-cloud-build-support)
@@ -52,8 +52,8 @@ The project goal is to build a high-performance and lightweight Unity native iOS
 ![guid-bfa239b6-b55a-4f88-82ea-744f01cd9d77-web](https://cloud.githubusercontent.com/assets/786644/9218257/bc8e64c6-4085-11e5-96f7-f07080f310b0.png)
 - Crystal clear font and a nice mobile-friendly interface:  
 <img src="https://cloud.githubusercontent.com/assets/786644/18074942/86cc426c-6e25-11e6-8544-0bbe21379af3.PNG" width=320/>
-- Quick Actions (currently in preview):  
-<img src="https://cloud.githubusercontent.com/assets/786644/22178599/0deb7aec-dff0-11e6-976f-c39749c3dcf7.png" width=320/>
+- Custom Actions and Variables (currently in preview):  
+<img src="https://cloud.githubusercontent.com/assets/786644/22537135/99551f14-e8bc-11e6-8067-28bbdffe2336.PNG" width=320/>
 - Transparent log overlay view:  
 <img src="https://cloud.githubusercontent.com/assets/786644/18074881/07d43190-6e25-11e6-9c48-407adc9be102.png" width=320/>
 - Filter by text and log type:  
@@ -86,8 +86,8 @@ You can open the console with a multi touch gesture or using the API call from a
   - Choose a gesture from the drop down list or select `None` to completely disable multi touch gestures (you would still be able to open the console from your scripts).
   - Check "Remove Rich Text Tags" to remove rich text tags from the output (may cause performance overhead).
 
-### Quick Actions (Preview)
-For more information on Quick Actions check the user [guide](https://github.com/SpaceMadness/lunar-unity-console/wiki/Actions-and-Variables).
+### Actions & Variables (Preview)
+For more information on Actions and Variables check the user [guide](https://github.com/SpaceMadness/lunar-unity-console/wiki/Actions-and-Variables).
 
 ### Stack Trace Frames
 Touch the log entry to view its stack trace.
