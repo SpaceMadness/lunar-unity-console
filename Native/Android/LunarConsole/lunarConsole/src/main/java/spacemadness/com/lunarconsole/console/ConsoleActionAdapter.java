@@ -26,8 +26,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import spacemadness.com.lunarconsole.R;
+import spacemadness.com.lunarconsole.console.actions.ActionViewHolder;
 import spacemadness.com.lunarconsole.console.actions.BaseIdentityEntry;
-import spacemadness.com.lunarconsole.console.actions.Action;
 import spacemadness.com.lunarconsole.console.actions.EntryType;
 import spacemadness.com.lunarconsole.console.actions.Variable;
 import spacemadness.com.lunarconsole.console.actions.HeaderEntry;
@@ -46,7 +46,7 @@ public class ConsoleActionAdapter extends BaseConsoleActionAdapter<BaseIdentityE
         switch (type)
         {
             case Action:
-                return new Action.ViewHolder(convertView);
+                return new ActionViewHolder(convertView);
             case Variable:
                 return new Variable.ViewHolder(convertView);
             case Header:
