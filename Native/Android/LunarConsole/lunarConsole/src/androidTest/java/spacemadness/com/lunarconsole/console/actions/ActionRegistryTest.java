@@ -1,5 +1,5 @@
 //
-//  LUActionRegistryTest.java
+//  ActionRegistryTest.java
 //
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
@@ -23,7 +23,7 @@ package spacemadness.com.lunarconsole.console.actions;
 
 import spacemadness.com.lunarconsole.TestCaseEx;
 
-public class LUActionRegistryTest extends TestCaseEx implements LUActionRegistry.Delegate
+public class ActionRegistryTest extends TestCaseEx implements LUActionRegistry.Delegate
 {
     private LUActionRegistry actionRegistry;
     private int nextActionId;
@@ -130,13 +130,13 @@ public class LUActionRegistryTest extends TestCaseEx implements LUActionRegistry
     // Delegate
 
     @Override
-    public void didAddAction(LUActionRegistry registry, LUAction action, int index)
+    public void didAddAction(LUActionRegistry registry, Action action, int index)
     {
         addResult(String.format("added action: %s (%d)", action.name(), index));
     }
 
     @Override
-    public void didRemoveAction(LUActionRegistry registry, LUAction action, int index)
+    public void didRemoveAction(LUActionRegistry registry, Action action, int index)
     {
         addResult(String.format("removed action: %s (%d)", action.name(), index));
     }
@@ -156,7 +156,7 @@ public class LUActionRegistryTest extends TestCaseEx implements LUActionRegistry
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Helpers
 
-    private LUAction registerActionWithName(String name)
+    private Action registerActionWithName(String name)
     {
         return actionRegistry.registerAction(nextActionId++, name);
     }
@@ -183,7 +183,7 @@ public class LUActionRegistryTest extends TestCaseEx implements LUActionRegistry
 
     private boolean unregisterActionWithName(String name)
     {
-        for (LUAction action : actionRegistry.actions())
+        for (Action action : actionRegistry.actions())
         {
             if (action.name().equals(name))
             {
@@ -200,7 +200,7 @@ public class LUActionRegistryTest extends TestCaseEx implements LUActionRegistry
         assertEquals(expected.length, actionRegistry.actions().size());
 
         int index = 0;
-        for (LUAction action : actionRegistry.actions())
+        for (Action action : actionRegistry.actions())
         {
             assertEquals(expected[index], action.name());
             ++index;

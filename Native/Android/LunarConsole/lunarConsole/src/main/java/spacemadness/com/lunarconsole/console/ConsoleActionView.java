@@ -34,7 +34,7 @@ import android.widget.ListView;
 import java.util.List;
 
 import spacemadness.com.lunarconsole.R;
-import spacemadness.com.lunarconsole.console.actions.LUAction;
+import spacemadness.com.lunarconsole.console.actions.Action;
 import spacemadness.com.lunarconsole.console.actions.LUActionRegistryFilter;
 import spacemadness.com.lunarconsole.console.actions.LUCVar;
 import spacemadness.com.lunarconsole.console.actions.BaseIdentityEntry;
@@ -91,7 +91,7 @@ public class ConsoleActionView extends AbstractConsoleView implements
             public void onItemClick(AdapterView<?> parent, final View view, final int position, long id)
             {
                 final Context ctx = getContext();
-                final LUAction action = as(dataSource.getEntry(position), LUAction.class);
+                final Action action = as(dataSource.getEntry(position), Action.class);
                 if (action == null)
                 {
                     return;
@@ -236,14 +236,14 @@ public class ConsoleActionView extends AbstractConsoleView implements
     // LUActionRegistryFilter.Delegate
 
     @Override
-    public void actionRegistryFilterDidAddAction(LUActionRegistryFilter registryFilter, LUAction action, int index)
+    public void actionRegistryFilterDidAddAction(LUActionRegistryFilter registryFilter, Action action, int index)
     {
         notifyDataChanged();
         updateNoActionWarningView();
     }
 
     @Override
-    public void actionRegistryFilterDidRemoveAction(LUActionRegistryFilter registryFilter, LUAction action, int index)
+    public void actionRegistryFilterDidRemoveAction(LUActionRegistryFilter registryFilter, Action action, int index)
     {
         notifyDataChanged();
         updateNoActionWarningView();
@@ -281,7 +281,7 @@ public class ConsoleActionView extends AbstractConsoleView implements
         @Override
         public BaseIdentityEntry getEntry(int position)
         {
-            List<LUAction> actions = getActions();
+            List<Action> actions = getActions();
             if (actions.size() > 0)
             {
                 if (position == 0) return actionsHeader;
@@ -303,7 +303,7 @@ public class ConsoleActionView extends AbstractConsoleView implements
         {
             int count = 0;
 
-            List<LUAction> actions = getActions();
+            List<Action> actions = getActions();
             count += actions.size() > 0 ? (actions.size() + 1) : 0;
 
             List<LUCVar> variables = getVariables();
@@ -312,7 +312,7 @@ public class ConsoleActionView extends AbstractConsoleView implements
             return count;
         }
 
-        private List<LUAction> getActions()
+        private List<Action> getActions()
         {
             return actionRegistryFilter.actions();
         }

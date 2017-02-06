@@ -29,7 +29,7 @@ import spacemadness.com.lunarconsole.utils.ObjectUtils;
 
 public class LUActionRegistry // FIXME: rename
 {
-    private final LUSortedList<LUAction> actions;
+    private final LUSortedList<Action> actions;
     private final LUSortedList<LUCVar> variables;
     private Delegate delegate;
 
@@ -42,12 +42,12 @@ public class LUActionRegistry // FIXME: rename
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Actions
 
-    public LUAction registerAction(int actionId, String actionName)
+    public Action registerAction(int actionId, String actionName)
     {
         int actionIndex = indexOfAction(actionName);
         if (actionIndex == -1)
         {
-            LUAction action = new LUAction(actionId, actionName);
+            Action action = new Action(actionId, actionName);
             actionIndex = actions.addObject(action);
             notifyActionAdd(action, actionIndex);
         }
@@ -59,7 +59,7 @@ public class LUActionRegistry // FIXME: rename
     {
         for (int actionIndex = actions.count() - 1; actionIndex >= 0; --actionIndex)
         {
-            LUAction action = actions.objectAtIndex(actionIndex);
+            Action action = actions.objectAtIndex(actionIndex);
             if (action.actionId() == actionId)
             {
                 actions.removeObjectAtIndex(actionIndex);
@@ -77,7 +77,7 @@ public class LUActionRegistry // FIXME: rename
         // TODO: more optimized search
         for (int index = 0; index < actions.count(); ++index)
         {
-            LUAction action = actions.objectAtIndex(index);
+            Action action = actions.objectAtIndex(index);
             if (ObjectUtils.areEqual(action.name(), actionName))
             {
                 return index;
@@ -140,7 +140,7 @@ public class LUActionRegistry // FIXME: rename
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Delegate notifications
 
-    private void notifyActionAdd(LUAction action, int actionIndex)
+    private void notifyActionAdd(Action action, int actionIndex)
     {
         if (delegate != null)
         {
@@ -148,7 +148,7 @@ public class LUActionRegistry // FIXME: rename
         }
     }
 
-    private void notifyActionRemove(LUAction action, int actionIndex)
+    private void notifyActionRemove(Action action, int actionIndex)
     {
         if (delegate != null)
         {
@@ -175,7 +175,7 @@ public class LUActionRegistry // FIXME: rename
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Getters/Setters
 
-    public List<LUAction> actions() // FIXME: rename
+    public List<Action> actions() // FIXME: rename
     {
         return actions.list();
     }
@@ -200,8 +200,8 @@ public class LUActionRegistry // FIXME: rename
 
     public interface Delegate // FIXME: rename
     {
-        void didAddAction(LUActionRegistry registry, LUAction action, int index);
-        void didRemoveAction(LUActionRegistry registry, LUAction action, int index);
+        void didAddAction(LUActionRegistry registry, Action action, int index);
+        void didRemoveAction(LUActionRegistry registry, Action action, int index);
         void didRegisterVariable(LUActionRegistry registry, LUCVar variable, int index);
         void didDidChangeVariable(LUActionRegistry registry, LUCVar variable, int index);
     }

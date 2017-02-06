@@ -37,7 +37,7 @@ import java.util.List;
 import java.util.Map;
 
 import spacemadness.com.lunarconsole.R;
-import spacemadness.com.lunarconsole.console.actions.LUAction;
+import spacemadness.com.lunarconsole.console.actions.Action;
 import spacemadness.com.lunarconsole.console.actions.LUActionRegistry;
 import spacemadness.com.lunarconsole.console.actions.LUCVar;
 import spacemadness.com.lunarconsole.console.actions.LUCVarType;
@@ -1044,7 +1044,7 @@ public class ConsolePlugin implements Destroyable
             @Override
             public void onNotification(Notification notification)
             {
-                LUAction action = as(notification.getUserData(ACTION_SELECT_KEY_ACTION), LUAction.class);
+                Action action = as(notification.getUserData(ACTION_SELECT_KEY_ACTION), Action.class);
                 Assert.IsNotNull(action);
 
                 if (action != null)

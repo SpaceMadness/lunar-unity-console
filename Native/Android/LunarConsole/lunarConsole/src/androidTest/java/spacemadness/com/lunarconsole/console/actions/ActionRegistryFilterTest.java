@@ -1,5 +1,5 @@
 //
-//  LUActionRegistryFilterTest.java
+//  ActionRegistryFilterTest.java
 //
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
@@ -29,7 +29,7 @@ import spacemadness.com.lunarconsole.TestCaseEx;
 import static spacemadness.com.lunarconsole.utils.ObjectUtils.*;
 import static spacemadness.com.lunarconsole.utils.StringUtils.*;
 
-public class LUActionRegistryFilterTest extends TestCaseEx implements LUActionRegistryFilter.Delegate
+public class ActionRegistryFilterTest extends TestCaseEx implements LUActionRegistryFilter.Delegate
 {
     private int _nextActionId;
     private LUActionRegistry _actionRegistry;
@@ -391,13 +391,13 @@ public class LUActionRegistryFilterTest extends TestCaseEx implements LUActionRe
     // MARK: - LUActionRegistryFilterDelegate
 
     @Override
-    public void actionRegistryFilterDidAddAction(LUActionRegistryFilter registryFilter, LUAction action, int index)
+    public void actionRegistryFilterDidAddAction(LUActionRegistryFilter registryFilter, Action action, int index)
     {
         addResult("added action: %s (%d)", action.name(), index);
     }
 
     @Override
-    public void actionRegistryFilterDidRemoveAction(LUActionRegistryFilter registryFilter, LUAction action, int index)
+    public void actionRegistryFilterDidRemoveAction(LUActionRegistryFilter registryFilter, Action action, int index)
     {
         addResult("removed action: %s (%d)", action.name(), index);
     }
@@ -421,13 +421,13 @@ public class LUActionRegistryFilterTest extends TestCaseEx implements LUActionRe
         return _registryFilter.setFilterText(text);
     }
 
-    private LUAction registerAction(String name)
+    private Action registerAction(String name)
     {
         _nextActionId = _nextActionId + 1;
         return registerAction(_nextActionId, name);
     }
 
-    private LUAction registerAction(int id, String name)
+    private Action registerAction(int id, String name)
     {
         return _actionRegistry.registerAction(id, name);
     }
@@ -448,7 +448,7 @@ public class LUActionRegistryFilterTest extends TestCaseEx implements LUActionRe
     {
         for (int i = 0; i < _actionRegistry.actions().size(); ++i)
         {
-            LUAction action = as(_actionRegistry.actions().get(i), LUAction.class);
+            Action action = as(_actionRegistry.actions().get(i), Action.class);
             if (action != null && action.name().equals(name))
             {
                 _actionRegistry.unregisterAction(action.actionId());
@@ -502,7 +502,7 @@ public class LUActionRegistryFilterTest extends TestCaseEx implements LUActionRe
         List<String> actualNames = new ArrayList<>();
         for (int i = 0; i < _registryFilter.actions().size(); ++i)
         {
-            LUAction action = as(_registryFilter.actions().get(i), LUAction.class);
+            Action action = as(_registryFilter.actions().get(i), Action.class);
             actualNames.add(action.name());
         }
 
@@ -568,7 +568,7 @@ public class LUActionRegistryFilterTest extends TestCaseEx implements LUActionRe
         @Override
         public boolean isEqual(BaseIdentityEntry entry)
         {
-            LUAction action = as(entry, LUAction.class);
+            Action action = as(entry, Action.class);
             return action != null && action.name().equals(name);
         }
     }

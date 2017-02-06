@@ -31,7 +31,7 @@ public class LUActionRegistryFilter implements LUActionRegistry.Delegate // FIXM
 {
     private final LUActionRegistry _registry;
     private String _filterText;
-    private List<LUAction> _filteredActions;
+    private List<Action> _filteredActions;
     private List<LUCVar> _filteredVariables;
     private Delegate _delegate;
 
@@ -158,7 +158,7 @@ public class LUActionRegistryFilter implements LUActionRegistry.Delegate // FIXM
     // LUActionRegistryDelegate
 
     @Override
-    public void didAddAction(LUActionRegistry registry, LUAction action, int index)
+    public void didAddAction(LUActionRegistry registry, Action action, int index)
     {
         if (isFiltering())
         {
@@ -174,7 +174,7 @@ public class LUActionRegistryFilter implements LUActionRegistry.Delegate // FIXM
     }
 
     @Override
-    public void didRemoveAction(LUActionRegistry registry, LUAction action, int index)
+    public void didRemoveAction(LUActionRegistry registry, Action action, int index)
     {
         if (isFiltering())
         {
@@ -226,12 +226,12 @@ public class LUActionRegistryFilter implements LUActionRegistry.Delegate // FIXM
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Properties
 
-    public List<LUAction> actions()
+    public List<Action> actions()
     {
         return isFiltering() ? _filteredActions : getAllActions();
     }
 
-    public List<LUAction> getAllActions()
+    public List<Action> getAllActions()
     {
         return _registry.actions();
     }
@@ -271,8 +271,8 @@ public class LUActionRegistryFilter implements LUActionRegistry.Delegate // FIXM
 
     public interface Delegate
     {
-        void actionRegistryFilterDidAddAction(LUActionRegistryFilter registryFilter, LUAction action, int index);
-        void actionRegistryFilterDidRemoveAction(LUActionRegistryFilter registryFilter, LUAction action, int index);
+        void actionRegistryFilterDidAddAction(LUActionRegistryFilter registryFilter, Action action, int index);
+        void actionRegistryFilterDidRemoveAction(LUActionRegistryFilter registryFilter, Action action, int index);
         void actionRegistryFilterDidRegisterVariable(LUActionRegistryFilter registryFilter, LUCVar variable, int index);
         void actionRegistryFilterDidChangeVariable(LUActionRegistryFilter registryFilter, LUCVar variable, int index);
     }

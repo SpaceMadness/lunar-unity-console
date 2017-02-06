@@ -1,5 +1,5 @@
 //
-//  LUAction.java
+//  Action.java
 //
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
@@ -28,9 +28,9 @@ import android.widget.TextView;
 import spacemadness.com.lunarconsole.R;
 import spacemadness.com.lunarconsole.console.ConsoleActionAdapter;
 
-public class LUAction extends BaseIdentityEntry
+public class Action extends BaseIdentityEntry
 {
-    public LUAction(int actionId, String name)
+    public Action(int actionId, String name)
     {
         super(actionId, name);
     }
@@ -43,7 +43,7 @@ public class LUAction extends BaseIdentityEntry
 
     //region ViewHolder
 
-    public static class ViewHolder extends ConsoleActionAdapter.ViewHolder<LUAction>
+    public static class ViewHolder extends ConsoleActionAdapter.ViewHolder<Action>
     {
         private final View layout;
         private final TextView nameView;
@@ -57,7 +57,7 @@ public class LUAction extends BaseIdentityEntry
         }
 
         @Override
-        public void onBindViewHolder(LUAction action, int position)
+        public void onBindViewHolder(Action action, int position)
         {
             Context context = getContext();
             layout.setBackgroundColor(action.getBackgroundColor(context, position));
