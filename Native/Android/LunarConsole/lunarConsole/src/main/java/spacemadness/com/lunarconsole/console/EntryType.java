@@ -1,5 +1,5 @@
 //
-//  VariableType.java
+//  EntryType.java
 //
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
@@ -19,24 +19,15 @@
 //  limitations under the License.
 //
 
-package spacemadness.com.lunarconsole.console.actions;
+package spacemadness.com.lunarconsole.console;
 
-import spacemadness.com.lunarconsole.debug.Log;
+/**
+ * Created by alementuev on 1/23/17.
+ */
 
-public enum VariableType
+public enum EntryType
 {
-    Unknown, Boolean, Integer, Float, String;
-
-    public static VariableType parse(String name)
-    {
-        try
-        {
-            return Enum.valueOf(VariableType.class, name);
-        }
-        catch (Exception e)
-        {
-            Log.e(e, "Exception while parsing variable type: %s", name);
-            return VariableType.Unknown;
-        }
-    }
+    Action,
+    Variable,
+    Header
 }

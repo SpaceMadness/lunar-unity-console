@@ -51,8 +51,8 @@ import java.util.List;
 import spacemadness.com.lunarconsole.console.ConsoleCollapsedLogEntry;
 import spacemadness.com.lunarconsole.console.ConsoleLogEntry;
 import spacemadness.com.lunarconsole.console.ConsolePlugin;
-import spacemadness.com.lunarconsole.console.actions.IdentityEntry;
-import spacemadness.com.lunarconsole.console.actions.VariableType;
+import spacemadness.com.lunarconsole.console.IdentityEntry;
+import spacemadness.com.lunarconsole.console.VariableType;
 import spacemadness.com.lunarconsole.debug.TestHelper;
 import spacemadness.com.lunarconsole.utils.StringUtils;
 

@@ -25,6 +25,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import spacemadness.com.lunarconsole.TestCaseEx;
+import spacemadness.com.lunarconsole.console.Action;
+import spacemadness.com.lunarconsole.console.ActionRegistry;
+import spacemadness.com.lunarconsole.console.ActionRegistryFilter;
+import spacemadness.com.lunarconsole.console.IdentityEntry;
+import spacemadness.com.lunarconsole.console.Variable;
+import spacemadness.com.lunarconsole.console.VariableType;
 
 import static spacemadness.com.lunarconsole.utils.ObjectUtils.*;
 import static spacemadness.com.lunarconsole.utils.StringUtils.*;

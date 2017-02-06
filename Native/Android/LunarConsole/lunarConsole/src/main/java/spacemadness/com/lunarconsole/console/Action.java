@@ -1,5 +1,5 @@
 //
-//  HeaderEntry.java
+//  Action.java
 //
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
@@ -19,18 +19,18 @@
 //  limitations under the License.
 //
 
-package spacemadness.com.lunarconsole.console.actions;
+package spacemadness.com.lunarconsole.console;
 
-public class HeaderEntry extends IdentityEntry
+public class Action extends IdentityEntry
 {
-    public HeaderEntry(String name)
+    public Action(int actionId, String name)
     {
-        super(-1, name);
+        super(actionId, name);
     }
 
     @Override
     public EntryType getEntryType()
     {
-        return EntryType.Header;
+        return EntryType.Action;
     }
 }

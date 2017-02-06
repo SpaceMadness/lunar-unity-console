@@ -19,7 +19,7 @@
 //  limitations under the License.
 //
 
-package spacemadness.com.lunarconsole.console.actions;
+package spacemadness.com.lunarconsole.console;
 
 import spacemadness.com.lunarconsole.utils.ObjectUtils;
 

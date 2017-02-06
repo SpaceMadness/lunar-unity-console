@@ -37,10 +37,6 @@ import java.util.List;
 import java.util.Map;
 
 import spacemadness.com.lunarconsole.R;
-import spacemadness.com.lunarconsole.console.actions.Action;
-import spacemadness.com.lunarconsole.console.actions.ActionRegistry;
-import spacemadness.com.lunarconsole.console.actions.Variable;
-import spacemadness.com.lunarconsole.console.actions.VariableType;
 import spacemadness.com.lunarconsole.core.Destroyable;
 import spacemadness.com.lunarconsole.core.Notification;
 import spacemadness.com.lunarconsole.core.NotificationCenter;

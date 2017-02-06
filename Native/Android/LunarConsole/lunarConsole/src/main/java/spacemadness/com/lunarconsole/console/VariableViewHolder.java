@@ -1,4 +1,4 @@
-package spacemadness.com.lunarconsole.console.actions;
+package spacemadness.com.lunarconsole.console;
 
 import android.annotation.TargetApi;
 import android.app.Dialog;
@@ -12,7 +12,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import spacemadness.com.lunarconsole.R;
-import spacemadness.com.lunarconsole.console.ConsoleActionAdapter;
 import spacemadness.com.lunarconsole.core.NotificationCenter;
 import spacemadness.com.lunarconsole.debug.Log;
 import spacemadness.com.lunarconsole.ui.Switch;

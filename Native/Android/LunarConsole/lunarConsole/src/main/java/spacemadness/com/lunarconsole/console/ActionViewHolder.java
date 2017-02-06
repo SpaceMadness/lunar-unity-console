@@ -1,11 +1,10 @@
-package spacemadness.com.lunarconsole.console.actions;
+package spacemadness.com.lunarconsole.console;
 
 import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
 import spacemadness.com.lunarconsole.R;
-import spacemadness.com.lunarconsole.console.ConsoleActionAdapter;
 
 public class ActionViewHolder extends ConsoleActionAdapter.ViewHolder<Action>
 {

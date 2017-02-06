@@ -22,6 +22,10 @@
 package spacemadness.com.lunarconsole.console.actions;
 
 import spacemadness.com.lunarconsole.TestCaseEx;
+import spacemadness.com.lunarconsole.console.Action;
+import spacemadness.com.lunarconsole.console.ActionRegistry;
+import spacemadness.com.lunarconsole.console.Variable;
+import spacemadness.com.lunarconsole.console.VariableType;
 
 public class ActionRegistryTest extends TestCaseEx implements ActionRegistry.Delegate
 {

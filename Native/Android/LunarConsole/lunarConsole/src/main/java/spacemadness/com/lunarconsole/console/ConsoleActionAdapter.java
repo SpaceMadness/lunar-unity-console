@@ -26,11 +26,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import spacemadness.com.lunarconsole.R;
-import spacemadness.com.lunarconsole.console.actions.ActionViewHolder;
-import spacemadness.com.lunarconsole.console.actions.HeaderEntryViewHolder;
-import spacemadness.com.lunarconsole.console.actions.IdentityEntry;
-import spacemadness.com.lunarconsole.console.actions.EntryType;
-import spacemadness.com.lunarconsole.console.actions.VariableViewHolder;
 
 public class ConsoleActionAdapter extends BaseConsoleActionAdapter<IdentityEntry>
 {

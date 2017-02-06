@@ -19,12 +19,11 @@
 //  limitations under the License.
 //
 
-package spacemadness.com.lunarconsole.console.actions;
+package spacemadness.com.lunarconsole.console;
 
 import android.content.Context;
 
 import spacemadness.com.lunarconsole.R;
-import spacemadness.com.lunarconsole.console.BaseEntry;
 
 public abstract class IdentityEntry extends BaseEntry implements Comparable<IdentityEntry>
 {

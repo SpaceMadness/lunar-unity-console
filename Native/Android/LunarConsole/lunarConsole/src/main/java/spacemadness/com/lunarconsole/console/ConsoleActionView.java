@@ -34,11 +34,6 @@ import android.widget.ListView;
 import java.util.List;
 
 import spacemadness.com.lunarconsole.R;
-import spacemadness.com.lunarconsole.console.actions.Action;
-import spacemadness.com.lunarconsole.console.actions.ActionRegistryFilter;
-import spacemadness.com.lunarconsole.console.actions.HeaderEntry;
-import spacemadness.com.lunarconsole.console.actions.Variable;
-import spacemadness.com.lunarconsole.console.actions.IdentityEntry;
 import spacemadness.com.lunarconsole.core.Destroyable;
 import spacemadness.com.lunarconsole.core.NotificationCenter;
 import spacemadness.com.lunarconsole.debug.Log;
