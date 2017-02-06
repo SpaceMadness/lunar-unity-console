@@ -1,5 +1,5 @@
 //
-//  LUEntryType.java
+//  EntryType.java
 //
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
@@ -25,7 +25,7 @@ package spacemadness.com.lunarconsole.console.actions;
  * Created by alementuev on 1/23/17.
  */
 
-public enum LUEntryType
+public enum EntryType
 {
     Action,
     Variable,

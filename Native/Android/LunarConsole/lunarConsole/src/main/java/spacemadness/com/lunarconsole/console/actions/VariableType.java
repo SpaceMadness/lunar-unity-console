@@ -1,5 +1,5 @@
 //
-//  LUCVarType.java
+//  VariableType.java
 //
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
@@ -23,20 +23,20 @@ package spacemadness.com.lunarconsole.console.actions;
 
 import spacemadness.com.lunarconsole.debug.Log;
 
-public enum LUCVarType
+public enum VariableType
 {
     Unknown, Boolean, Integer, Float, String;
 
-    public static LUCVarType parse(String name)
+    public static VariableType parse(String name)
     {
         try
         {
-            return Enum.valueOf(LUCVarType.class, name);
+            return Enum.valueOf(VariableType.class, name);
         }
         catch (Exception e)
         {
             Log.e(e, "Exception while parsing variable type: %s", name);
-            return LUCVarType.Unknown;
+            return VariableType.Unknown;
         }
     }
 }

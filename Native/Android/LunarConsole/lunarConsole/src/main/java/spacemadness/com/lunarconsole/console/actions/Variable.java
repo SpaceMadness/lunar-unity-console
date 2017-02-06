@@ -1,5 +1,5 @@
 //
-//  LUCVar.java
+//  Variable.java
 //
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
@@ -43,13 +43,13 @@ import spacemadness.com.lunarconsole.utils.UIUtils;
 
 import static spacemadness.com.lunarconsole.console.ConsoleNotifications.*;
 
-public class LUCVar extends BaseIdentityEntry
+public class Variable extends BaseIdentityEntry
 {
-    public final LUCVarType type;
+    public final VariableType type;
     public final String defaultValue;
     public String value;
 
-    public LUCVar(int entryId, String name, String value, String defaultValue, LUCVarType type)
+    public Variable(int entryId, String name, String value, String defaultValue, VariableType type)
     {
         super(entryId, name);
 
@@ -59,9 +59,9 @@ public class LUCVar extends BaseIdentityEntry
     }
 
     @Override
-    public LUEntryType getEntryType()
+    public EntryType getEntryType()
     {
-        return LUEntryType.Variable;
+        return EntryType.Variable;
     }
 
     //region Default value
@@ -84,7 +84,7 @@ public class LUCVar extends BaseIdentityEntry
 
     //region ViewHolder
 
-    public static class ViewHolder extends ConsoleActionAdapter.ViewHolder<LUCVar> implements
+    public static class ViewHolder extends ConsoleActionAdapter.ViewHolder<Variable> implements
             CompoundButton.OnCheckedChangeListener, View.OnClickListener
     {
         private final View layout;
@@ -92,7 +92,7 @@ public class LUCVar extends BaseIdentityEntry
         private final Button valueEditButton;
         private final Switch toggleSwitch;
         private boolean ignoreListenerCallbacks;
-        private LUCVar variable; // TODO: weak reference?
+        private Variable variable; // TODO: weak reference?
 
         public ViewHolder(View itemView)
         {
@@ -107,7 +107,7 @@ public class LUCVar extends BaseIdentityEntry
         }
 
         @Override
-        public void onBindViewHolder(LUCVar cvar, int position)
+        public void onBindViewHolder(Variable cvar, int position)
         {
             this.variable = cvar;
 
@@ -121,7 +121,7 @@ public class LUCVar extends BaseIdentityEntry
 
                 nameTextView.setText(cvar.name());
 
-                if (cvar.type == LUCVarType.Boolean)
+                if (cvar.type == VariableType.Boolean)
                 {
                     valueEditButton.setVisibility(View.GONE);
                     toggleSwitch.setVisibility(View.VISIBLE);
@@ -258,7 +258,7 @@ public class LUCVar extends BaseIdentityEntry
         {
             final int style = variable.isDefaultValue() ? Typeface.NORMAL : Typeface.BOLD;
             nameTextView.setTypeface(null, style);
-            if (variable.type == LUCVarType.Boolean)
+            if (variable.type == VariableType.Boolean)
             {
                 toggleSwitch.setTypeface(null, style);
                 toggleSwitch.setChecked(variable.boolValue());

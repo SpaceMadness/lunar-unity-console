@@ -38,9 +38,9 @@ import java.util.Map;
 
 import spacemadness.com.lunarconsole.R;
 import spacemadness.com.lunarconsole.console.actions.Action;
-import spacemadness.com.lunarconsole.console.actions.LUActionRegistry;
-import spacemadness.com.lunarconsole.console.actions.LUCVar;
-import spacemadness.com.lunarconsole.console.actions.LUCVarType;
+import spacemadness.com.lunarconsole.console.actions.ActionRegistry;
+import spacemadness.com.lunarconsole.console.actions.Variable;
+import spacemadness.com.lunarconsole.console.actions.VariableType;
 import spacemadness.com.lunarconsole.core.Destroyable;
 import spacemadness.com.lunarconsole.core.Notification;
 import spacemadness.com.lunarconsole.core.NotificationCenter;
@@ -71,7 +71,7 @@ public class ConsolePlugin implements Destroyable
     private static ConsolePlugin instance;
 
     private Console console;
-    private final LUActionRegistry actionRegistry;
+    private final ActionRegistry actionRegistry;
     private final ConsolePluginImp pluginImp;
     private final String version;
     private final PluginSettings settings;
@@ -481,8 +481,8 @@ public class ConsolePlugin implements Destroyable
     {
         if (instance != null)
         {
-            LUCVarType type = LUCVarType.parse(typeName);
-            if (type == LUCVarType.Unknown)
+            VariableType type = VariableType.parse(typeName);
+            if (type == VariableType.Unknown)
             {
                 Log.e("Unexpected variable type: %s", typeName);
                 return;
@@ -590,7 +590,7 @@ public class ConsolePlugin implements Destroyable
         Options options = new Options(unitySettings.capacity);
         options.setTrimCount(unitySettings.trim);
         console = new Console(options);
-        actionRegistry = new LUActionRegistry();
+        actionRegistry = new ActionRegistry();
 
         activityRef = new WeakReference<>(activity);
 
@@ -1059,7 +1059,7 @@ public class ConsolePlugin implements Destroyable
             @Override
             public void onNotification(Notification notification)
             {
-                LUCVar variable = as(notification.getUserData(VARIABLE_SET_KEY_VARIABLE), LUCVar.class);
+                Variable variable = as(notification.getUserData(VARIABLE_SET_KEY_VARIABLE), Variable.class);
                 Assert.IsNotNull(variable);
 
                 if (variable != null)
@@ -1106,7 +1106,7 @@ public class ConsolePlugin implements Destroyable
         return consoleViewState;
     }
 
-    LUActionRegistry getActionRegistry()
+    ActionRegistry getActionRegistry()
     {
         return actionRegistry;
     }

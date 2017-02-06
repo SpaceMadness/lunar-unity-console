@@ -1,5 +1,5 @@
 //
-//  LUActionRegistryFilter.java
+//  ActionRegistryFilter.java
 //
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
@@ -27,15 +27,15 @@ import java.util.List;
 import static spacemadness.com.lunarconsole.utils.ObjectUtils.*;
 import static spacemadness.com.lunarconsole.utils.StringUtils.*;
 
-public class LUActionRegistryFilter implements LUActionRegistry.Delegate // FIXME: rename
+public class ActionRegistryFilter implements ActionRegistry.Delegate
 {
-    private final LUActionRegistry _registry;
+    private final ActionRegistry _registry;
     private String _filterText;
     private List<Action> _filteredActions;
-    private List<LUCVar> _filteredVariables;
+    private List<Variable> _filteredVariables;
     private Delegate _delegate;
 
-    public LUActionRegistryFilter(LUActionRegistry actionRegistry)
+    public ActionRegistryFilter(ActionRegistry actionRegistry)
     {
         _registry = actionRegistry;
         _registry.setDelegate(this);
@@ -158,7 +158,7 @@ public class LUActionRegistryFilter implements LUActionRegistry.Delegate // FIXM
     // LUActionRegistryDelegate
 
     @Override
-    public void didAddAction(LUActionRegistry registry, Action action, int index)
+    public void didAddAction(ActionRegistry registry, Action action, int index)
     {
         if (isFiltering())
         {
@@ -174,7 +174,7 @@ public class LUActionRegistryFilter implements LUActionRegistry.Delegate // FIXM
     }
 
     @Override
-    public void didRemoveAction(LUActionRegistry registry, Action action, int index)
+    public void didRemoveAction(ActionRegistry registry, Action action, int index)
     {
         if (isFiltering())
         {
@@ -192,7 +192,7 @@ public class LUActionRegistryFilter implements LUActionRegistry.Delegate // FIXM
     }
 
     @Override
-    public void didRegisterVariable(LUActionRegistry registry, LUCVar variable, int index)
+    public void didRegisterVariable(ActionRegistry registry, Variable variable, int index)
     {
         if (isFiltering())
         {
@@ -208,7 +208,7 @@ public class LUActionRegistryFilter implements LUActionRegistry.Delegate // FIXM
     }
 
     @Override
-    public void didDidChangeVariable(LUActionRegistry registry, LUCVar variable, int index)
+    public void didDidChangeVariable(ActionRegistry registry, Variable variable, int index)
     {
         if (isFiltering())
         {
@@ -236,12 +236,12 @@ public class LUActionRegistryFilter implements LUActionRegistry.Delegate // FIXM
         return _registry.actions();
     }
 
-    public List<LUCVar> variables()
+    public List<Variable> variables()
     {
         return isFiltering() ? _filteredVariables : getAllVariables();
     }
 
-    public List<LUCVar> getAllVariables()
+    public List<Variable> getAllVariables()
     {
         return _registry.variables();
     }
@@ -271,9 +271,9 @@ public class LUActionRegistryFilter implements LUActionRegistry.Delegate // FIXM
 
     public interface Delegate
     {
-        void actionRegistryFilterDidAddAction(LUActionRegistryFilter registryFilter, Action action, int index);
-        void actionRegistryFilterDidRemoveAction(LUActionRegistryFilter registryFilter, Action action, int index);
-        void actionRegistryFilterDidRegisterVariable(LUActionRegistryFilter registryFilter, LUCVar variable, int index);
-        void actionRegistryFilterDidChangeVariable(LUActionRegistryFilter registryFilter, LUCVar variable, int index);
+        void actionRegistryFilterDidAddAction(ActionRegistryFilter registryFilter, Action action, int index);
+        void actionRegistryFilterDidRemoveAction(ActionRegistryFilter registryFilter, Action action, int index);
+        void actionRegistryFilterDidRegisterVariable(ActionRegistryFilter registryFilter, Variable variable, int index);
+        void actionRegistryFilterDidChangeVariable(ActionRegistryFilter registryFilter, Variable variable, int index);
     }
 }

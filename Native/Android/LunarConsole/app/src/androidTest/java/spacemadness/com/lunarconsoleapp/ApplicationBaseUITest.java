@@ -52,7 +52,7 @@ import spacemadness.com.lunarconsole.console.ConsoleCollapsedLogEntry;
 import spacemadness.com.lunarconsole.console.ConsoleLogEntry;
 import spacemadness.com.lunarconsole.console.ConsolePlugin;
 import spacemadness.com.lunarconsole.console.actions.BaseIdentityEntry;
-import spacemadness.com.lunarconsole.console.actions.LUCVarType;
+import spacemadness.com.lunarconsole.console.actions.VariableType;
 import spacemadness.com.lunarconsole.debug.TestHelper;
 import spacemadness.com.lunarconsole.utils.StringUtils;
 
@@ -518,30 +518,30 @@ public class ApplicationBaseUITest implements TestHelper.EventListener
 
     protected void registerVariable(int variableId, String name, String value, String defaultValue)
     {
-        registerVariable(variableId, name, LUCVarType.String, value, defaultValue);
+        registerVariable(variableId, name, VariableType.String, value, defaultValue);
     }
 
     protected void registerVariable(int variableId, String name, int value)
     {
-        registerVariable(variableId, name, LUCVarType.Integer, Integer.toString(value));
+        registerVariable(variableId, name, VariableType.Integer, Integer.toString(value));
     }
 
     protected void registerVariable(int variableId, String name, float value)
     {
-        registerVariable(variableId, name, LUCVarType.Float, Float.toString(value));
+        registerVariable(variableId, name, VariableType.Float, Float.toString(value));
     }
 
     protected void registerVariable(int variableId, String name, boolean value)
     {
-        registerVariable(variableId, name, LUCVarType.Boolean, Boolean.toString(value));
+        registerVariable(variableId, name, VariableType.Boolean, Boolean.toString(value));
     }
 
-    protected void registerVariable(int variableId, String name, LUCVarType type, String value)
+    protected void registerVariable(int variableId, String name, VariableType type, String value)
     {
         registerVariable(variableId, name, type, value, value);
     }
 
-    protected void registerVariable(int variableId, String name, LUCVarType type, String value, String defaultValue)
+    protected void registerVariable(int variableId, String name, VariableType type, String value, String defaultValue)
     {
         ConsolePlugin.registerVariable(variableId, name, type.toString(), value, defaultValue);
     }
@@ -790,7 +790,7 @@ public class ApplicationBaseUITest implements TestHelper.EventListener
     protected static class var
     {
         final String name;
-        final LUCVarType type;
+        final VariableType type;
         final String value;
 
         var(String name, Object value)
@@ -800,12 +800,12 @@ public class ApplicationBaseUITest implements TestHelper.EventListener
             type = getType(value);
         }
 
-        private LUCVarType getType(Object value)
+        private VariableType getType(Object value)
         {
-            if (value instanceof String) return LUCVarType.String;
-            if (value instanceof Integer) return LUCVarType.Integer;
-            if (value instanceof Float) return LUCVarType.Float;
-            if (value instanceof Boolean) return LUCVarType.Boolean;
+            if (value instanceof String) return VariableType.String;
+            if (value instanceof Integer) return VariableType.Integer;
+            if (value instanceof Float) return VariableType.Float;
+            if (value instanceof Boolean) return VariableType.Boolean;
             throw new IllegalArgumentException("Unsupported type: " + value.getClass());
         }
     }

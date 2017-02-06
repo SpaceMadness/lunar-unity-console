@@ -68,7 +68,7 @@ public abstract class BaseIdentityEntry extends BaseEntry implements Comparable<
         return name;
     }
 
-    public abstract LUEntryType getEntryType();
+    public abstract EntryType getEntryType();
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Comparable

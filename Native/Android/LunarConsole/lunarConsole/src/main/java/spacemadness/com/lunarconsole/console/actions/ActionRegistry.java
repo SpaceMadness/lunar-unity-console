@@ -1,5 +1,5 @@
 //
-//  LUActionRegistry.java
+//  ActionRegistry.java
 //
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
@@ -27,13 +27,13 @@ import spacemadness.com.lunarconsole.debug.Log;
 import spacemadness.com.lunarconsole.utils.LUSortedList;
 import spacemadness.com.lunarconsole.utils.ObjectUtils;
 
-public class LUActionRegistry // FIXME: rename
+public class ActionRegistry
 {
     private final LUSortedList<Action> actions;
-    private final LUSortedList<LUCVar> variables;
+    private final LUSortedList<Variable> variables;
     private Delegate delegate;
 
-    public LUActionRegistry()
+    public ActionRegistry()
     {
         actions = new LUSortedList<>();
         variables = new LUSortedList<>();
@@ -90,9 +90,9 @@ public class LUActionRegistry // FIXME: rename
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Variables
 
-    public LUCVar registerVariable(int variableId, String name, LUCVarType type, String value, String defaultValue) // FIXME: rename
+    public Variable registerVariable(int variableId, String name, VariableType type, String value, String defaultValue) // FIXME: rename
     {
-        LUCVar variable = new LUCVar(variableId, name, value, defaultValue, type);
+        Variable variable = new Variable(variableId, name, value, defaultValue, type);
         int index = variables.addObject(variable);
         notifyVariableRegister(variable, index);
 
@@ -105,7 +105,7 @@ public class LUActionRegistry // FIXME: rename
         int index = indexOfVariable(variableId);
         if (index != -1)
         {
-            LUCVar cvar = variables.objectAtIndex(index);
+            Variable cvar = variables.objectAtIndex(index);
             cvar.value = value;
             notifyVariableChange(cvar, index);
         }
@@ -115,7 +115,7 @@ public class LUActionRegistry // FIXME: rename
         }
     }
 
-    public LUCVar findVariable(int variableId)
+    public Variable findVariable(int variableId)
     {
         int index = indexOfVariable(variableId);
         return index != -1 ? variables.objectAtIndex(index) : null;
@@ -124,7 +124,7 @@ public class LUActionRegistry // FIXME: rename
     private int indexOfVariable(int variableId) // FIXME: rename
     {
         int index = 0;
-        for (LUCVar cvar : variables)
+        for (Variable cvar : variables)
         {
             if (cvar.actionId() == variableId)
             {
@@ -156,7 +156,7 @@ public class LUActionRegistry // FIXME: rename
         }
     }
 
-    private void notifyVariableRegister(LUCVar variable, int index)
+    private void notifyVariableRegister(Variable variable, int index)
     {
         if (delegate != null)
         {
@@ -164,7 +164,7 @@ public class LUActionRegistry // FIXME: rename
         }
     }
 
-    private void notifyVariableChange(LUCVar cvar, int index)
+    private void notifyVariableChange(Variable cvar, int index)
     {
         if (delegate != null)
         {
@@ -180,7 +180,7 @@ public class LUActionRegistry // FIXME: rename
         return actions.list();
     }
 
-    public List<LUCVar> variables() // FIXME: rename
+    public List<Variable> variables() // FIXME: rename
     {
         return variables.list();
     }
@@ -200,9 +200,9 @@ public class LUActionRegistry // FIXME: rename
 
     public interface Delegate // FIXME: rename
     {
-        void didAddAction(LUActionRegistry registry, Action action, int index);
-        void didRemoveAction(LUActionRegistry registry, Action action, int index);
-        void didRegisterVariable(LUActionRegistry registry, LUCVar variable, int index);
-        void didDidChangeVariable(LUActionRegistry registry, LUCVar variable, int index);
+        void didAddAction(ActionRegistry registry, Action action, int index);
+        void didRemoveAction(ActionRegistry registry, Action action, int index);
+        void didRegisterVariable(ActionRegistry registry, Variable variable, int index);
+        void didDidChangeVariable(ActionRegistry registry, Variable variable, int index);
     }
 }

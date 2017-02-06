@@ -1,5 +1,5 @@
 //
-//  LUHeaderEntry.java
+//  HeaderEntry.java
 //
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
@@ -31,22 +31,22 @@ import spacemadness.com.lunarconsole.console.ConsoleActionAdapter;
  * Created by alementuev on 1/23/17.
  */
 
-public class LUHeaderEntry extends BaseIdentityEntry
+public class HeaderEntry extends BaseIdentityEntry
 {
-    public LUHeaderEntry(String name)
+    public HeaderEntry(String name)
     {
         super(-1, name);
     }
 
     @Override
-    public LUEntryType getEntryType()
+    public EntryType getEntryType()
     {
-        return LUEntryType.Header;
+        return EntryType.Header;
     }
 
     //region ViewHolder
 
-    public static class ViewHolder extends ConsoleActionAdapter.ViewHolder<LUHeaderEntry>
+    public static class ViewHolder extends ConsoleActionAdapter.ViewHolder<HeaderEntry>
     {
         private final TextView nameView;
 
@@ -57,7 +57,7 @@ public class LUHeaderEntry extends BaseIdentityEntry
         }
 
         @Override
-        public void onBindViewHolder(LUHeaderEntry header, int position)
+        public void onBindViewHolder(HeaderEntry header, int position)
         {
             nameView.setText(header.name());
         }

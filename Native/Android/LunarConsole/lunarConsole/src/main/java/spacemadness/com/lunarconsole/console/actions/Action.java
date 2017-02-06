@@ -36,9 +36,9 @@ public class Action extends BaseIdentityEntry
     }
 
     @Override
-    public LUEntryType getEntryType()
+    public EntryType getEntryType()
     {
-        return LUEntryType.Action;
+        return EntryType.Action;
     }
 
     //region ViewHolder

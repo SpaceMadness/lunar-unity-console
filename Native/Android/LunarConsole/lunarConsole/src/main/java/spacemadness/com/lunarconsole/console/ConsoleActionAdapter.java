@@ -28,9 +28,9 @@ import android.view.ViewGroup;
 import spacemadness.com.lunarconsole.R;
 import spacemadness.com.lunarconsole.console.actions.BaseIdentityEntry;
 import spacemadness.com.lunarconsole.console.actions.Action;
-import spacemadness.com.lunarconsole.console.actions.LUCVar;
-import spacemadness.com.lunarconsole.console.actions.LUEntryType;
-import spacemadness.com.lunarconsole.console.actions.LUHeaderEntry;
+import spacemadness.com.lunarconsole.console.actions.EntryType;
+import spacemadness.com.lunarconsole.console.actions.Variable;
+import spacemadness.com.lunarconsole.console.actions.HeaderEntry;
 
 public class ConsoleActionAdapter extends BaseConsoleActionAdapter<BaseIdentityEntry>
 {
@@ -42,15 +42,15 @@ public class ConsoleActionAdapter extends BaseConsoleActionAdapter<BaseIdentityE
     @Override
     protected ViewHolder createViewHolder(View convertView, int position)
     {
-        LUEntryType type = getEntryType(position);
+        EntryType type = getEntryType(position);
         switch (type)
         {
             case Action:
                 return new Action.ViewHolder(convertView);
             case Variable:
-                return new LUCVar.ViewHolder(convertView);
+                return new Variable.ViewHolder(convertView);
             case Header:
-                return new LUHeaderEntry.ViewHolder(convertView);
+                return new HeaderEntry.ViewHolder(convertView);
         }
 
         throw new IllegalStateException("Unexpected entry type: " + type);
@@ -59,7 +59,7 @@ public class ConsoleActionAdapter extends BaseConsoleActionAdapter<BaseIdentityE
     @Override
     protected View createConvertView(ViewGroup parent, int position)
     {
-        LUEntryType type = getEntryType(position);
+        EntryType type = getEntryType(position);
         int layoutId;
         switch (type)
         {
@@ -89,10 +89,10 @@ public class ConsoleActionAdapter extends BaseConsoleActionAdapter<BaseIdentityE
     @Override
     public int getViewTypeCount()
     {
-        return LUEntryType.values().length;
+        return EntryType.values().length;
     }
 
-    private LUEntryType getEntryType(int position)
+    private EntryType getEntryType(int position)
     {
         BaseIdentityEntry entry = (BaseIdentityEntry) getItem(position);
         return entry.getEntryType();

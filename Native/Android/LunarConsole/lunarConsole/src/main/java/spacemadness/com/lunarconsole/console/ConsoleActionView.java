@@ -35,10 +35,10 @@ import java.util.List;
 
 import spacemadness.com.lunarconsole.R;
 import spacemadness.com.lunarconsole.console.actions.Action;
-import spacemadness.com.lunarconsole.console.actions.LUActionRegistryFilter;
-import spacemadness.com.lunarconsole.console.actions.LUCVar;
+import spacemadness.com.lunarconsole.console.actions.ActionRegistryFilter;
+import spacemadness.com.lunarconsole.console.actions.HeaderEntry;
+import spacemadness.com.lunarconsole.console.actions.Variable;
 import spacemadness.com.lunarconsole.console.actions.BaseIdentityEntry;
-import spacemadness.com.lunarconsole.console.actions.LUHeaderEntry;
 import spacemadness.com.lunarconsole.core.Destroyable;
 import spacemadness.com.lunarconsole.core.NotificationCenter;
 import spacemadness.com.lunarconsole.debug.Log;
@@ -53,12 +53,12 @@ import static spacemadness.com.lunarconsole.console.ConsoleNotifications.*;
 import static spacemadness.com.lunarconsole.utils.ObjectUtils.*;
 
 public class ConsoleActionView extends AbstractConsoleView implements
-        LUActionRegistryFilter.Delegate, Destroyable
+        ActionRegistryFilter.Delegate, Destroyable
 {
     private final View contentView; // contains the whole view hierarchy
     private final View warningView; // contains "no actions" warning view
 
-    private final LUActionRegistryFilter registryFilter;
+    private final ActionRegistryFilter registryFilter;
     private final ConsoleActionAdapter consoleActionAdapter;
 
     private final ConsoleViewState consoleViewState;
@@ -72,7 +72,7 @@ public class ConsoleActionView extends AbstractConsoleView implements
 
         consoleViewState = consolePlugin.getConsoleViewState();
 
-        registryFilter = new LUActionRegistryFilter(consolePlugin.getActionRegistry());
+        registryFilter = new ActionRegistryFilter(consolePlugin.getActionRegistry());
         registryFilter.setFilterText(consoleViewState.getActionFilterText());
         registryFilter.setDelegate(this);
 
@@ -233,31 +233,31 @@ public class ConsoleActionView extends AbstractConsoleView implements
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    // LUActionRegistryFilter.Delegate
+    // ActionRegistryFilter.Delegate
 
     @Override
-    public void actionRegistryFilterDidAddAction(LUActionRegistryFilter registryFilter, Action action, int index)
+    public void actionRegistryFilterDidAddAction(ActionRegistryFilter registryFilter, Action action, int index)
     {
         notifyDataChanged();
         updateNoActionWarningView();
     }
 
     @Override
-    public void actionRegistryFilterDidRemoveAction(LUActionRegistryFilter registryFilter, Action action, int index)
+    public void actionRegistryFilterDidRemoveAction(ActionRegistryFilter registryFilter, Action action, int index)
     {
         notifyDataChanged();
         updateNoActionWarningView();
     }
 
     @Override
-    public void actionRegistryFilterDidRegisterVariable(LUActionRegistryFilter registryFilter, LUCVar variable, int index)
+    public void actionRegistryFilterDidRegisterVariable(ActionRegistryFilter registryFilter, Variable variable, int index)
     {
         notifyDataChanged();
         updateNoActionWarningView();
     }
 
     @Override
-    public void actionRegistryFilterDidChangeVariable(LUActionRegistryFilter registryFilter, LUCVar variable, int index)
+    public void actionRegistryFilterDidChangeVariable(ActionRegistryFilter registryFilter, Variable variable, int index)
     {
         notifyDataChanged();
     }
@@ -267,15 +267,15 @@ public class ConsoleActionView extends AbstractConsoleView implements
 
     private static class ActionDataSource implements DataSource<BaseIdentityEntry>
     {
-        private final LUActionRegistryFilter actionRegistryFilter;
+        private final ActionRegistryFilter actionRegistryFilter;
         private final BaseIdentityEntry actionsHeader;
         private final BaseIdentityEntry variablesHeader;
 
-        private ActionDataSource(Context context, LUActionRegistryFilter actionRegistryFilter)
+        private ActionDataSource(Context context, ActionRegistryFilter actionRegistryFilter)
         {
             this.actionRegistryFilter = actionRegistryFilter;
-            actionsHeader = new LUHeaderEntry(context.getString(R.string.lunar_console_header_actions));
-            variablesHeader = new LUHeaderEntry(context.getString(R.string.lunar_console_header_variables));
+            actionsHeader = new HeaderEntry(context.getString(R.string.lunar_console_header_actions));
+            variablesHeader = new HeaderEntry(context.getString(R.string.lunar_console_header_variables));
         }
 
         @Override
@@ -306,7 +306,7 @@ public class ConsoleActionView extends AbstractConsoleView implements
             List<Action> actions = getActions();
             count += actions.size() > 0 ? (actions.size() + 1) : 0;
 
-            List<LUCVar> variables = getVariables();
+            List<Variable> variables = getVariables();
             count += variables.size() > 0 ? (variables.size() + 1) : 0;
 
             return count;
@@ -316,7 +316,7 @@ public class ConsoleActionView extends AbstractConsoleView implements
         {
             return actionRegistryFilter.actions();
         }
-        private List<LUCVar> getVariables()
+        private List<Variable> getVariables()
         {
             return actionRegistryFilter.variables();
         }

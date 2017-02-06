@@ -29,11 +29,11 @@ import spacemadness.com.lunarconsole.TestCaseEx;
 import static spacemadness.com.lunarconsole.utils.ObjectUtils.*;
 import static spacemadness.com.lunarconsole.utils.StringUtils.*;
 
-public class ActionRegistryFilterTest extends TestCaseEx implements LUActionRegistryFilter.Delegate
+public class ActionRegistryFilterTest extends TestCaseEx implements ActionRegistryFilter.Delegate
 {
     private int _nextActionId;
-    private LUActionRegistry _actionRegistry;
-    private LUActionRegistryFilter _registryFilter;
+    private ActionRegistry _actionRegistry;
+    private ActionRegistryFilter _registryFilter;
 
     // MARK: - Setup
 
@@ -42,8 +42,8 @@ public class ActionRegistryFilterTest extends TestCaseEx implements LUActionRegi
     {
         super.setUp();
 
-        _actionRegistry = new LUActionRegistry();
-        _registryFilter = new LUActionRegistryFilter(_actionRegistry);
+        _actionRegistry = new ActionRegistry();
+        _registryFilter = new ActionRegistryFilter(_actionRegistry);
         _registryFilter.setDelegate(this);
         _nextActionId = 0;
     }
@@ -58,11 +58,11 @@ public class ActionRegistryFilterTest extends TestCaseEx implements LUActionRegi
                 new LUActionInfo("line111"),
                 new LUActionInfo("line1111"),
                 new LUActionInfo("foo"),
-                new LUCVarInfo("line1", "value", LUCVarType.String),
-                new LUCVarInfo("line11", "value", LUCVarType.String),
-                new LUCVarInfo("line111", "value", LUCVarType.String),
-                new LUCVarInfo("line1111", "value", LUCVarType.String),
-                new LUCVarInfo("foo", "value", LUCVarType.String)
+                new LUCVarInfo("line1", "value", VariableType.String),
+                new LUCVarInfo("line11", "value", VariableType.String),
+                new LUCVarInfo("line111", "value", VariableType.String),
+                new LUCVarInfo("line1111", "value", VariableType.String),
+                new LUCVarInfo("foo", "value", VariableType.String)
         );
 
         assertNotFiltering();
@@ -295,16 +295,16 @@ public class ActionRegistryFilterTest extends TestCaseEx implements LUActionRegi
         assertResult("added action: a3 (2)");
 
         // register variables
-        registerVariable("1.bool", LUCVarType.Boolean, "1");
+        registerVariable("1.bool", VariableType.Boolean, "1");
         assertResult("register variable: Boolean 1.bool 1 (0)");
 
-        registerVariable("2.int", LUCVarType.Integer, "10");
+        registerVariable("2.int", VariableType.Integer, "10");
         assertResult("register variable: Integer 2.int 10 (1)");
 
-        registerVariable("3.float", LUCVarType.Float, "3.14");
+        registerVariable("3.float", VariableType.Float, "3.14");
         assertResult("register variable: Float 3.float 3.14 (2)");
 
-        registerVariable("4.string", LUCVarType.String, "value");
+        registerVariable("4.string", VariableType.String, "value");
         assertResult("register variable: String 4.string value (3)");
 
         // unregister variables
@@ -333,15 +333,15 @@ public class ActionRegistryFilterTest extends TestCaseEx implements LUActionRegi
         assertResult("added action: a12 (1)");
 
         // register variables
-        registerVariable("a", LUCVarType.Boolean, "1");
+        registerVariable("a", VariableType.Boolean, "1");
 
-        registerVariable("a1", LUCVarType.Integer, "10");
+        registerVariable("a1", VariableType.Integer, "10");
         assertResult("register variable: Integer a1 10 (0)");
 
-        registerVariable("a12", LUCVarType.Float, "3.14");
+        registerVariable("a12", VariableType.Float, "3.14");
         assertResult("register variable: Float a12 3.14 (1)");
 
-        registerVariable("a13", LUCVarType.String, "value");
+        registerVariable("a13", VariableType.String, "value");
         assertResult("register variable: String a13 value (2)");
 
         // unregister variables
@@ -391,25 +391,25 @@ public class ActionRegistryFilterTest extends TestCaseEx implements LUActionRegi
     // MARK: - LUActionRegistryFilterDelegate
 
     @Override
-    public void actionRegistryFilterDidAddAction(LUActionRegistryFilter registryFilter, Action action, int index)
+    public void actionRegistryFilterDidAddAction(ActionRegistryFilter registryFilter, Action action, int index)
     {
         addResult("added action: %s (%d)", action.name(), index);
     }
 
     @Override
-    public void actionRegistryFilterDidRemoveAction(LUActionRegistryFilter registryFilter, Action action, int index)
+    public void actionRegistryFilterDidRemoveAction(ActionRegistryFilter registryFilter, Action action, int index)
     {
         addResult("removed action: %s (%d)", action.name(), index);
     }
 
     @Override
-    public void actionRegistryFilterDidRegisterVariable(LUActionRegistryFilter registryFilter, LUCVar variable, int index)
+    public void actionRegistryFilterDidRegisterVariable(ActionRegistryFilter registryFilter, Variable variable, int index)
     {
         addResult("register variable: %s %s %s (%d)", variable.type, variable.name(), variable.value, index);
     }
 
     @Override
-    public void actionRegistryFilterDidChangeVariable(LUActionRegistryFilter registryFilter, LUCVar variable, int index)
+    public void actionRegistryFilterDidChangeVariable(ActionRegistryFilter registryFilter, Variable variable, int index)
     {
         fail("Implement me");
     }
@@ -432,16 +432,16 @@ public class ActionRegistryFilterTest extends TestCaseEx implements LUActionRegi
         return _actionRegistry.registerAction(id, name);
     }
 
-    private LUCVar registerVariable(String name, LUCVarType type, String value)
+    private Variable registerVariable(String name, VariableType type, String value)
     {
         _nextActionId = _nextActionId + 1;
         return _actionRegistry.registerVariable(_nextActionId, name, type, value, value);
     }
 
-    private LUCVar registerVariable(String name)
+    private Variable registerVariable(String name)
     {
         _nextActionId = _nextActionId + 1;
-        return _actionRegistry.registerVariable(_nextActionId, name, LUCVarType.String, "value", "value");
+        return _actionRegistry.registerVariable(_nextActionId, name, VariableType.String, "value", "value");
     }
 
     private boolean unregisterAction(String name)
@@ -520,7 +520,7 @@ public class ActionRegistryFilterTest extends TestCaseEx implements LUActionRegi
         List<String> actualNames = new ArrayList<>();
         for (int i = 0; i < _registryFilter.variables().size(); ++i)
         {
-            LUCVar variable = as(_registryFilter.variables().get(i), LUCVar.class);
+            Variable variable = as(_registryFilter.variables().get(i), Variable.class);
             actualNames.add(variable.name());
         }
 
@@ -576,9 +576,9 @@ public class ActionRegistryFilterTest extends TestCaseEx implements LUActionRegi
     private static class LUCVarInfo extends LUEntryInfo
     {
         public final String value;
-        public final LUCVarType type;
+        public final VariableType type;
 
-        LUCVarInfo(String name, String value, LUCVarType type)
+        LUCVarInfo(String name, String value, VariableType type)
         {
             super(name);
             this.value = value;
@@ -588,7 +588,7 @@ public class ActionRegistryFilterTest extends TestCaseEx implements LUActionRegi
         @Override
         public boolean isEqual(BaseIdentityEntry entry)
         {
-            LUCVar cvar = as(entry, LUCVar.class);
+            Variable cvar = as(entry, Variable.class);
             return cvar != null &&
                     this.name.equals(cvar.name()) &&
                     this.value.equals(cvar.value) &&
