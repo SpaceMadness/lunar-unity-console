@@ -1,5 +1,5 @@
 //
-//  BaseIdentityEntry.java
+//  IdentityEntry.java
 //
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
@@ -26,12 +26,12 @@ import android.content.Context;
 import spacemadness.com.lunarconsole.R;
 import spacemadness.com.lunarconsole.console.BaseEntry;
 
-public abstract class BaseIdentityEntry extends BaseEntry implements Comparable<BaseIdentityEntry>
+public abstract class IdentityEntry extends BaseEntry implements Comparable<IdentityEntry>
 {
     private final int entryId;
     private final String name;
 
-    public BaseIdentityEntry(int entryId, String name)
+    public IdentityEntry(int entryId, String name)
     {
         this.entryId = entryId;
         this.name = name;
@@ -74,7 +74,7 @@ public abstract class BaseIdentityEntry extends BaseEntry implements Comparable<
     // Comparable
 
     @Override
-    public int compareTo(BaseIdentityEntry another)
+    public int compareTo(IdentityEntry another)
     {
         return name.compareTo(another.name);
     }

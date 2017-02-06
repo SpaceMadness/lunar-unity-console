@@ -31,7 +31,7 @@ import spacemadness.com.lunarconsole.console.ConsoleActionAdapter;
  * Created by alementuev on 1/23/17.
  */
 
-public class HeaderEntry extends BaseIdentityEntry
+public class HeaderEntry extends IdentityEntry
 {
     public HeaderEntry(String name)
     {

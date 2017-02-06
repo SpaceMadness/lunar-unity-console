@@ -21,9 +21,9 @@
 
 package spacemadness.com.lunarconsole.console;
 
-import spacemadness.com.lunarconsole.console.actions.BaseIdentityEntry;
+import spacemadness.com.lunarconsole.console.actions.IdentityEntry;
 
-public abstract class BaseConsoleActionAdapter<T extends BaseIdentityEntry> extends BaseConsoleAdapter<T>
+public abstract class BaseConsoleActionAdapter<T extends IdentityEntry> extends BaseConsoleAdapter<T>
 {
     public BaseConsoleActionAdapter(DataSource<T> dataSource)
     {

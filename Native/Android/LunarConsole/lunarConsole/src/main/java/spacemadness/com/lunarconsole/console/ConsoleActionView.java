@@ -38,7 +38,7 @@ import spacemadness.com.lunarconsole.console.actions.Action;
 import spacemadness.com.lunarconsole.console.actions.ActionRegistryFilter;
 import spacemadness.com.lunarconsole.console.actions.HeaderEntry;
 import spacemadness.com.lunarconsole.console.actions.Variable;
-import spacemadness.com.lunarconsole.console.actions.BaseIdentityEntry;
+import spacemadness.com.lunarconsole.console.actions.IdentityEntry;
 import spacemadness.com.lunarconsole.core.Destroyable;
 import spacemadness.com.lunarconsole.core.NotificationCenter;
 import spacemadness.com.lunarconsole.debug.Log;
@@ -265,11 +265,11 @@ public class ConsoleActionView extends AbstractConsoleView implements
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Data Source
 
-    private static class ActionDataSource implements DataSource<BaseIdentityEntry>
+    private static class ActionDataSource implements DataSource<IdentityEntry>
     {
         private final ActionRegistryFilter actionRegistryFilter;
-        private final BaseIdentityEntry actionsHeader;
-        private final BaseIdentityEntry variablesHeader;
+        private final IdentityEntry actionsHeader;
+        private final IdentityEntry variablesHeader;
 
         private ActionDataSource(Context context, ActionRegistryFilter actionRegistryFilter)
         {
@@ -279,7 +279,7 @@ public class ConsoleActionView extends AbstractConsoleView implements
         }
 
         @Override
-        public BaseIdentityEntry getEntry(int position)
+        public IdentityEntry getEntry(int position)
         {
             List<Action> actions = getActions();
             if (actions.size() > 0)

@@ -100,7 +100,7 @@ public class ActionRegistryFilter implements ActionRegistry.Delegate
         return false;
     }
 
-    private <T extends BaseIdentityEntry> List<T> filterEntries(List<T> entries)
+    private <T extends IdentityEntry> List<T> filterEntries(List<T> entries)
     {
         List<T> filteredEntries = new ArrayList<>();
         for (T entry : entries)
@@ -114,12 +114,12 @@ public class ActionRegistryFilter implements ActionRegistry.Delegate
         return filteredEntries;
     }
 
-    private boolean filterEntry(BaseIdentityEntry entry)
+    private boolean filterEntry(IdentityEntry entry)
     {
         return length(_filterText) == 0 || contains(entry.name(), _filterText);
     }
 
-    private <T extends BaseIdentityEntry> int filteredArrayAddEntry(List<T> array, T entry)
+    private <T extends IdentityEntry> int filteredArrayAddEntry(List<T> array, T entry)
     {
         // insert in the sorted order
         for (int index = 0; index < array.size(); ++index)
@@ -140,11 +140,11 @@ public class ActionRegistryFilter implements ActionRegistry.Delegate
         return array.size() - 1;
     }
 
-    private int filteredArrayIndexOfEntry(List<? extends BaseIdentityEntry> array, BaseIdentityEntry entry)
+    private int filteredArrayIndexOfEntry(List<? extends IdentityEntry> array, IdentityEntry entry)
     {
         for (int index = 0; index < array.size(); ++index)
         {
-            BaseIdentityEntry existing = array.get(index);
+            IdentityEntry existing = array.get(index);
             if (existing.actionId() == entry.actionId())
             {
                 return index;

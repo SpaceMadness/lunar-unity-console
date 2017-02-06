@@ -21,7 +21,7 @@
 
 package spacemadness.com.lunarconsole.console.actions;
 
-public class Action extends BaseIdentityEntry
+public class Action extends IdentityEntry
 {
     public Action(int actionId, String name)
     {

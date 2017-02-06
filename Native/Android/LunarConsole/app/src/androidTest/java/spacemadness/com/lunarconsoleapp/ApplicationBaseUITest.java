@@ -51,7 +51,7 @@ import java.util.List;
 import spacemadness.com.lunarconsole.console.ConsoleCollapsedLogEntry;
 import spacemadness.com.lunarconsole.console.ConsoleLogEntry;
 import spacemadness.com.lunarconsole.console.ConsolePlugin;
-import spacemadness.com.lunarconsole.console.actions.BaseIdentityEntry;
+import spacemadness.com.lunarconsole.console.actions.IdentityEntry;
 import spacemadness.com.lunarconsole.console.actions.VariableType;
 import spacemadness.com.lunarconsole.debug.TestHelper;
 import spacemadness.com.lunarconsole.utils.StringUtils;
@@ -691,7 +691,7 @@ public class ApplicationBaseUITest implements TestHelper.EventListener
         if (actions.length > 0)
         {
             // first entry is header
-            DataInteraction headerView = onData(allOf(is(instanceOf(BaseIdentityEntry.class))))
+            DataInteraction headerView = onData(allOf(is(instanceOf(IdentityEntry.class))))
                     .inAdapterView(withParent(withId(R.id.lunar_console_action_view_list_container)))
                     .atPosition(0);
 
@@ -703,7 +703,7 @@ public class ApplicationBaseUITest implements TestHelper.EventListener
             for (int i = 0; i < actions.length; ++i)
             {
                 // find entry view
-                DataInteraction entryView = onData(allOf(is(instanceOf(BaseIdentityEntry.class))))
+                DataInteraction entryView = onData(allOf(is(instanceOf(IdentityEntry.class))))
                         .inAdapterView(withParent(withId(R.id.lunar_console_action_view_list_container)))
                         .atPosition(i + 1);
 
@@ -719,7 +719,7 @@ public class ApplicationBaseUITest implements TestHelper.EventListener
             int offset = actions.length > 0 ? 1 + actions.length : 0;
 
             // first entry is header
-            DataInteraction headerView = onData(allOf(is(instanceOf(BaseIdentityEntry.class))))
+            DataInteraction headerView = onData(allOf(is(instanceOf(IdentityEntry.class))))
                     .inAdapterView(withParent(withId(R.id.lunar_console_action_view_list_container)))
                     .atPosition(offset);
 
@@ -731,7 +731,7 @@ public class ApplicationBaseUITest implements TestHelper.EventListener
             for (int i = 0; i < variables.length; ++i)
             {
                 // find entry view
-                DataInteraction entryView = onData(allOf(is(instanceOf(BaseIdentityEntry.class))))
+                DataInteraction entryView = onData(allOf(is(instanceOf(IdentityEntry.class))))
                         .inAdapterView(withParent(withId(R.id.lunar_console_action_view_list_container)))
                         .atPosition(offset + 1 + i);
 
@@ -770,7 +770,7 @@ public class ApplicationBaseUITest implements TestHelper.EventListener
         // should be visible
         listView.check(matches(isDisplayed()));
 
-        onData(allOf(is(instanceOf(BaseIdentityEntry.class))))
+        onData(allOf(is(instanceOf(IdentityEntry.class))))
                 .inAdapterView(withParent(withId(R.id.lunar_console_action_view_list_container)))
                 .atPosition(1 + index).perform(click());
     }

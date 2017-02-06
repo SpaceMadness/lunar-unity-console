@@ -552,7 +552,7 @@ public class ActionRegistryFilterTest extends TestCaseEx implements ActionRegist
             this.name = name;
         }
 
-        public boolean isEqual(BaseIdentityEntry entry)
+        public boolean isEqual(IdentityEntry entry)
         {
             return false;
         }
@@ -566,7 +566,7 @@ public class ActionRegistryFilterTest extends TestCaseEx implements ActionRegist
         }
 
         @Override
-        public boolean isEqual(BaseIdentityEntry entry)
+        public boolean isEqual(IdentityEntry entry)
         {
             Action action = as(entry, Action.class);
             return action != null && action.name().equals(name);
@@ -586,7 +586,7 @@ public class ActionRegistryFilterTest extends TestCaseEx implements ActionRegist
         }
 
         @Override
-        public boolean isEqual(BaseIdentityEntry entry)
+        public boolean isEqual(IdentityEntry entry)
         {
             Variable cvar = as(entry, Variable.class);
             return cvar != null &&

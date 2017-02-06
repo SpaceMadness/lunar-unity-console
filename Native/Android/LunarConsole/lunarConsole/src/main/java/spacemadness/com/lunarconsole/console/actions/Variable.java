@@ -43,7 +43,7 @@ import spacemadness.com.lunarconsole.utils.UIUtils;
 
 import static spacemadness.com.lunarconsole.console.ConsoleNotifications.*;
 
-public class Variable extends BaseIdentityEntry
+public class Variable extends IdentityEntry
 {
     public final VariableType type;
     public final String defaultValue;
