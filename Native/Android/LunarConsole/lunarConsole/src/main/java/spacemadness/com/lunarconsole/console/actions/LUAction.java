@@ -28,7 +28,7 @@ import android.widget.TextView;
 import spacemadness.com.lunarconsole.R;
 import spacemadness.com.lunarconsole.console.ConsoleActionAdapter;
 
-public class LUAction extends LUEntry
+public class LUAction extends BaseIdentityEntry
 {
     public LUAction(int actionId, String name)
     {

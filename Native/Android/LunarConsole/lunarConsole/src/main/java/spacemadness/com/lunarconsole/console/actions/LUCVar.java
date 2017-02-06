@@ -24,7 +24,6 @@ package spacemadness.com.lunarconsole.console.actions;
 import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.view.View;
@@ -44,7 +43,7 @@ import spacemadness.com.lunarconsole.utils.UIUtils;
 
 import static spacemadness.com.lunarconsole.console.ConsoleNotifications.*;
 
-public class LUCVar extends LUEntry
+public class LUCVar extends BaseIdentityEntry
 {
     public final LUCVarType type;
     public final String defaultValue;

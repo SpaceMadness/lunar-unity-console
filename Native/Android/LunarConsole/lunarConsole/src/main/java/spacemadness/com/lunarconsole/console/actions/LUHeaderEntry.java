@@ -21,7 +21,6 @@
 
 package spacemadness.com.lunarconsole.console.actions;
 
-import android.content.Context;
 import android.view.View;
 import android.widget.TextView;
 
@@ -32,7 +31,7 @@ import spacemadness.com.lunarconsole.console.ConsoleActionAdapter;
  * Created by alementuev on 1/23/17.
  */
 
-public class LUHeaderEntry extends LUEntry
+public class LUHeaderEntry extends BaseIdentityEntry
 {
     public LUHeaderEntry(String name)
     {

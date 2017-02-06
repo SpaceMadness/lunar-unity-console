@@ -100,7 +100,7 @@ public class LUActionRegistryFilter implements LUActionRegistry.Delegate // FIXM
         return false;
     }
 
-    private <T extends LUEntry> List<T> filterEntries(List<T> entries)
+    private <T extends BaseIdentityEntry> List<T> filterEntries(List<T> entries)
     {
         List<T> filteredEntries = new ArrayList<>();
         for (T entry : entries)
@@ -114,12 +114,12 @@ public class LUActionRegistryFilter implements LUActionRegistry.Delegate // FIXM
         return filteredEntries;
     }
 
-    private boolean filterEntry(LUEntry entry)
+    private boolean filterEntry(BaseIdentityEntry entry)
     {
         return length(_filterText) == 0 || contains(entry.name(), _filterText);
     }
 
-    private <T extends LUEntry> int filteredArrayAddEntry(List<T> array, T entry)
+    private <T extends BaseIdentityEntry> int filteredArrayAddEntry(List<T> array, T entry)
     {
         // insert in the sorted order
         for (int index = 0; index < array.size(); ++index)
@@ -140,11 +140,11 @@ public class LUActionRegistryFilter implements LUActionRegistry.Delegate // FIXM
         return array.size() - 1;
     }
 
-    private int filteredArrayIndexOfEntry(List<? extends LUEntry> array, LUEntry entry)
+    private int filteredArrayIndexOfEntry(List<? extends BaseIdentityEntry> array, BaseIdentityEntry entry)
     {
         for (int index = 0; index < array.size(); ++index)
         {
-            LUEntry existing = array.get(index);
+            BaseIdentityEntry existing = array.get(index);
             if (existing.actionId() == entry.actionId())
             {
                 return index;

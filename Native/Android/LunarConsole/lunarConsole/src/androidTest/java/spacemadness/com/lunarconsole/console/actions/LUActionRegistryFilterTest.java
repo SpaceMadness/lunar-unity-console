@@ -552,7 +552,7 @@ public class LUActionRegistryFilterTest extends TestCaseEx implements LUActionRe
             this.name = name;
         }
 
-        public boolean isEqual(LUEntry entry)
+        public boolean isEqual(BaseIdentityEntry entry)
         {
             return false;
         }
@@ -566,7 +566,7 @@ public class LUActionRegistryFilterTest extends TestCaseEx implements LUActionRe
         }
 
         @Override
-        public boolean isEqual(LUEntry entry)
+        public boolean isEqual(BaseIdentityEntry entry)
         {
             LUAction action = as(entry, LUAction.class);
             return action != null && action.name().equals(name);
@@ -586,7 +586,7 @@ public class LUActionRegistryFilterTest extends TestCaseEx implements LUActionRe
         }
 
         @Override
-        public boolean isEqual(LUEntry entry)
+        public boolean isEqual(BaseIdentityEntry entry)
         {
             LUCVar cvar = as(entry, LUCVar.class);
             return cvar != null &&

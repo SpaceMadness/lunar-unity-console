@@ -25,9 +25,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -39,8 +37,7 @@ import spacemadness.com.lunarconsole.R;
 import spacemadness.com.lunarconsole.console.actions.LUAction;
 import spacemadness.com.lunarconsole.console.actions.LUActionRegistryFilter;
 import spacemadness.com.lunarconsole.console.actions.LUCVar;
-import spacemadness.com.lunarconsole.console.actions.LUEntry;
-import spacemadness.com.lunarconsole.console.actions.LUEntryType;
+import spacemadness.com.lunarconsole.console.actions.BaseIdentityEntry;
 import spacemadness.com.lunarconsole.console.actions.LUHeaderEntry;
 import spacemadness.com.lunarconsole.core.Destroyable;
 import spacemadness.com.lunarconsole.core.NotificationCenter;
@@ -268,11 +265,11 @@ public class ConsoleActionView extends AbstractConsoleView implements
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Data Source
 
-    private static class ActionDataSource implements DataSource<LUEntry>
+    private static class ActionDataSource implements DataSource<BaseIdentityEntry>
     {
         private final LUActionRegistryFilter actionRegistryFilter;
-        private final LUEntry actionsHeader;
-        private final LUEntry variablesHeader;
+        private final BaseIdentityEntry actionsHeader;
+        private final BaseIdentityEntry variablesHeader;
 
         private ActionDataSource(Context context, LUActionRegistryFilter actionRegistryFilter)
         {
@@ -282,7 +279,7 @@ public class ConsoleActionView extends AbstractConsoleView implements
         }
 
         @Override
-        public LUEntry getEntry(int position)
+        public BaseIdentityEntry getEntry(int position)
         {
             List<LUAction> actions = getActions();
             if (actions.size() > 0)

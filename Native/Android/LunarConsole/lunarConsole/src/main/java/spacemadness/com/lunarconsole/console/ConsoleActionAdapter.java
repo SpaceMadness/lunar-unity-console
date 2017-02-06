@@ -26,15 +26,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import spacemadness.com.lunarconsole.R;
+import spacemadness.com.lunarconsole.console.actions.BaseIdentityEntry;
 import spacemadness.com.lunarconsole.console.actions.LUAction;
 import spacemadness.com.lunarconsole.console.actions.LUCVar;
-import spacemadness.com.lunarconsole.console.actions.LUEntry;
 import spacemadness.com.lunarconsole.console.actions.LUEntryType;
 import spacemadness.com.lunarconsole.console.actions.LUHeaderEntry;
 
-public class ConsoleActionAdapter extends BaseConsoleActionAdapter<LUEntry>
+public class ConsoleActionAdapter extends BaseConsoleActionAdapter<BaseIdentityEntry>
 {
-    public ConsoleActionAdapter(DataSource<LUEntry> dataSource)
+    public ConsoleActionAdapter(DataSource<BaseIdentityEntry> dataSource)
     {
         super(dataSource);
     }
@@ -94,7 +94,7 @@ public class ConsoleActionAdapter extends BaseConsoleActionAdapter<LUEntry>
 
     private LUEntryType getEntryType(int position)
     {
-        LUEntry entry = (LUEntry) getItem(position);
+        BaseIdentityEntry entry = (BaseIdentityEntry) getItem(position);
         return entry.getEntryType();
     }
 }
