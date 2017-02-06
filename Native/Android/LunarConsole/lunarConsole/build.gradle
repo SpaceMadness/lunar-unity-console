@@ -3,9 +3,8 @@ apply plugin: 'com.android.library'
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
-
     defaultConfig {
-        minSdkVersion 9 // it should be 11 but Unity build fails if it's more than 9
+        minSdkVersion 9 // it should be 14 but Unity build fails if it's more than 9
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
@@ -16,13 +15,18 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    publishNonDefault true
+    productFlavors {
+        full {
+        }
+        free {
+        }
+    }
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-
+    compile fileTree(include: ['*.jar'], dir: 'libs')
     // Unity 5.3.x and later
     compile files('/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Release/Classes/classes.jar')
-
     testCompile 'junit:junit:4.12'
 }

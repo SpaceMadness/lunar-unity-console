@@ -112,7 +112,7 @@ namespace :lunar do
     FileUtils.mkpath $dir_project_plugin_android
 
     # build android library
-    build_android_plugin $dir_native_android_src, 'lunarConsole', $dir_project_plugin_android
+    build_android_plugin $dir_native_android_src, 'lunarConsole', 'Full', $dir_project_plugin_android
 
   end
 
@@ -206,11 +206,11 @@ namespace :lunar do
   end
 
 
-  def build_android_plugin(dir_native_project, module_name, dir_android_plugin)
+  def build_android_plugin(dir_native_project, module_name, flavour, dir_android_plugin)
 
     # build library
     print_header 'Building Android library...'
-    aar_result = build_android dir_native_project, module_name
+    aar_result = build_android dir_native_project, module_name, flavour
 
     dir_aar = $dir_out_exploded_aar
 
@@ -279,11 +279,11 @@ namespace :lunar do
 
   end
 
-  def build_android(dir_project, module_name, config = 'Release')
+    def build_android(dir_project, module_name, flavour, config = 'Release')
 
     Dir.chdir dir_project do
-      exec_shell "./gradlew :#{module_name}:clean :#{module_name}:assemble#{config}", "Can't build Android aar"
-      file_aar = resolve_path_e "#{module_name}/build/outputs/aar/#{module_name}-#{config.downcase}.aar"
+      exec_shell "./gradlew :#{module_name}:clean :#{module_name}:assemble#{flavour}#{config}", "Can't build Android aar"
+      file_aar = resolve_path_e "#{module_name}/build/outputs/aar/#{module_name}-#{flavour.downcase}-#{config.downcase}.aar"
       return AndroidAARBuildResult.new file_aar
 
     end
