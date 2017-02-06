@@ -21,16 +21,6 @@
 
 package spacemadness.com.lunarconsole.console.actions;
 
-import android.view.View;
-import android.widget.TextView;
-
-import spacemadness.com.lunarconsole.R;
-import spacemadness.com.lunarconsole.console.ConsoleActionAdapter;
-
-/**
- * Created by alementuev on 1/23/17.
- */
-
 public class HeaderEntry extends IdentityEntry
 {
     public HeaderEntry(String name)
@@ -43,25 +33,4 @@ public class HeaderEntry extends IdentityEntry
     {
         return EntryType.Header;
     }
-
-    //region ViewHolder
-
-    public static class ViewHolder extends ConsoleActionAdapter.ViewHolder<HeaderEntry>
-    {
-        private final TextView nameView;
-
-        public ViewHolder(View itemView)
-        {
-            super(itemView);
-            nameView = (TextView) itemView.findViewById(R.id.lunar_console_header_entry_name);
-        }
-
-        @Override
-        public void onBindViewHolder(HeaderEntry header, int position)
-        {
-            nameView.setText(header.name());
-        }
-    }
-
-    //endregion
 }

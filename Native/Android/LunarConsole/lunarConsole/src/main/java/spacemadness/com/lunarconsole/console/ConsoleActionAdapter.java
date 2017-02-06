@@ -27,9 +27,9 @@ import android.view.ViewGroup;
 
 import spacemadness.com.lunarconsole.R;
 import spacemadness.com.lunarconsole.console.actions.ActionViewHolder;
+import spacemadness.com.lunarconsole.console.actions.HeaderEntryViewHolder;
 import spacemadness.com.lunarconsole.console.actions.IdentityEntry;
 import spacemadness.com.lunarconsole.console.actions.EntryType;
-import spacemadness.com.lunarconsole.console.actions.HeaderEntry;
 import spacemadness.com.lunarconsole.console.actions.VariableViewHolder;
 
 public class ConsoleActionAdapter extends BaseConsoleActionAdapter<IdentityEntry>
@@ -50,7 +50,7 @@ public class ConsoleActionAdapter extends BaseConsoleActionAdapter<IdentityEntry
             case Variable:
                 return new VariableViewHolder(convertView);
             case Header:
-                return new HeaderEntry.ViewHolder(convertView);
+                return new HeaderEntryViewHolder(convertView);
         }
 
         throw new IllegalStateException("Unexpected entry type: " + type);
