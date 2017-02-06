@@ -29,8 +29,8 @@ import spacemadness.com.lunarconsole.R;
 import spacemadness.com.lunarconsole.console.actions.ActionViewHolder;
 import spacemadness.com.lunarconsole.console.actions.IdentityEntry;
 import spacemadness.com.lunarconsole.console.actions.EntryType;
-import spacemadness.com.lunarconsole.console.actions.Variable;
 import spacemadness.com.lunarconsole.console.actions.HeaderEntry;
+import spacemadness.com.lunarconsole.console.actions.VariableViewHolder;
 
 public class ConsoleActionAdapter extends BaseConsoleActionAdapter<IdentityEntry>
 {
@@ -48,7 +48,7 @@ public class ConsoleActionAdapter extends BaseConsoleActionAdapter<IdentityEntry
             case Action:
                 return new ActionViewHolder(convertView);
             case Variable:
-                return new Variable.ViewHolder(convertView);
+                return new VariableViewHolder(convertView);
             case Header:
                 return new HeaderEntry.ViewHolder(convertView);
         }
