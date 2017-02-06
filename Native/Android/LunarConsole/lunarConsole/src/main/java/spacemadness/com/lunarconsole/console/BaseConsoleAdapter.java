@@ -27,7 +27,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-abstract class BaseConsoleAdapter<T extends ConsoleEntry> extends BaseAdapter
+abstract class BaseConsoleAdapter<T extends BaseEntry> extends BaseAdapter
 {
     private final DataSource<T> dataSource;
 
@@ -84,7 +84,7 @@ abstract class BaseConsoleAdapter<T extends ConsoleEntry> extends BaseAdapter
     //////////////////////////////////////////////////////////////////////////////
     // Data Source
 
-    public interface DataSource<E extends ConsoleEntry>
+    public interface DataSource<E extends BaseEntry>
     {
         E getEntry(int position);
         int getEntryCount();
@@ -97,7 +97,7 @@ abstract class BaseConsoleAdapter<T extends ConsoleEntry> extends BaseAdapter
 
     protected abstract View createConvertView(ViewGroup parent, int position);
 
-    public static abstract class ViewHolder<T extends ConsoleEntry>
+    public static abstract class ViewHolder<T extends BaseEntry>
     {
         protected final View itemView;
 

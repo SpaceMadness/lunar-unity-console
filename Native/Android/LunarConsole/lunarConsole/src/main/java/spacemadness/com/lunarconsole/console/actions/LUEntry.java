@@ -24,9 +24,9 @@ package spacemadness.com.lunarconsole.console.actions;
 import android.content.Context;
 
 import spacemadness.com.lunarconsole.R;
-import spacemadness.com.lunarconsole.console.ConsoleEntry;
+import spacemadness.com.lunarconsole.console.BaseEntry;
 
-public abstract class LUEntry extends ConsoleEntry implements Comparable<LUEntry> // FIXME: rename
+public abstract class LUEntry extends BaseEntry implements Comparable<LUEntry> // FIXME: rename
 {
     private final int actionId; // FIXME: rename
     private final String name;

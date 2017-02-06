@@ -35,7 +35,7 @@ import static spacemadness.com.lunarconsole.console.ConsoleLogType.*;
 /**
  * Class for representing console log messages
  */
-public class ConsoleLogEntry extends ConsoleEntry
+public class ConsoleLogEntry extends BaseEntry
 {
     private static final Appearance APPEARANCE_LOG          = new Appearance(R.drawable.lunar_console_icon_log, R.color.lunar_console_color_overlay_entry_log);
     private static final Appearance APPEARANCE_LOG_ERROR    = new Appearance(R.drawable.lunar_console_icon_log_error, R.color.lunar_console_color_overlay_entry_log_error);
