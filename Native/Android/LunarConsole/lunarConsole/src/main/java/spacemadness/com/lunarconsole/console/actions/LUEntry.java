@@ -28,12 +28,12 @@ import spacemadness.com.lunarconsole.console.BaseEntry;
 
 public abstract class LUEntry extends BaseEntry implements Comparable<LUEntry> // FIXME: rename
 {
-    private final int actionId; // FIXME: rename
+    private final int entryId;
     private final String name;
 
-    public LUEntry(int actionId, String name)
+    public LUEntry(int entryId, String name)
     {
-        this.actionId = actionId;
+        this.entryId = entryId;
         this.name = name;
     }
 
@@ -60,7 +60,7 @@ public abstract class LUEntry extends BaseEntry implements Comparable<LUEntry> /
 
     public int actionId() // FIXME: rename
     {
-        return actionId;
+        return entryId;
     }
 
     public String name() // FIXME: rename
