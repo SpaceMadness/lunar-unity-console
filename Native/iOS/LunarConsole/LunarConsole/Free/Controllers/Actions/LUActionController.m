@@ -1,5 +1,5 @@
 //
-//  LUActionController.h
+//  LUActionController.m
 //
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
@@ -19,19 +19,8 @@
 //  limitations under the License.
 //
 
-#import <UIKit/UIKit.h>
+#import "LUActionController.h"
 
-#import "LUViewController.h"
-
-@class LUActionController;
-@class LUActionRegistry;
-
-extern NSString * const LUActionControllerDidSelectAction;
-extern NSString * const LUActionControllerDidSelectActionKeyAction;
-
-@interface LUActionController : LUViewController
-
-+ (instancetype)controllerWithActionRegistry:(LUActionRegistry *)actionRegistry;
-- (instancetype)initWithActionRegistry:(LUActionRegistry *)actionRegistry;
+@implementation LUActionController
 
 @end
