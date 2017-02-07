@@ -20,6 +20,7 @@
 //
 
 #define LUNAR_CONSOLE_ENABLED
+#define LUNAR_CONSOLE_FULL
 
 #if UNITY_IOS || UNITY_IPHONE || UNITY_ANDROID
 #define LUNAR_CONSOLE_PLATFORM_SUPPORTED
@@ -818,6 +819,7 @@ namespace LunarConsolePlugin
             #endif
         }
 
+        #if LUNAR_CONSOLE_FULL
         /// <summary>
         /// Registers action delegate
         /// </summary>
@@ -840,7 +842,9 @@ namespace LunarConsolePlugin
             #endif
             #endif
         }
+        #endif // LUNAR_CONSOLE_FULL
 
+        #if LUNAR_CONSOLE_FULL
         /// <summary>
         /// Unregister action by delegate
         /// </summary>
@@ -861,7 +865,9 @@ namespace LunarConsolePlugin
             #endif
             #endif
         }
+        #endif // LUNAR_CONSOLE_FULL
 
+        #if LUNAR_CONSOLE_FULL
         /// <summary>
         /// Unregister action by name
         /// </summary>
@@ -882,7 +888,9 @@ namespace LunarConsolePlugin
             #endif
             #endif
         }
+        #endif // LUNAR_CONSOLE_FULL
 
+        #if LUNAR_CONSOLE_FULL
         /// <summary>
         /// Unregister all actions from specific target
         /// </summary>
@@ -904,6 +912,7 @@ namespace LunarConsolePlugin
             #endif // LUNAR_CONSOLE_ENABLED
             #endif // LUNAR_CONSOLE_PLATFORM_SUPPORTED
         }
+        #endif // LUNAR_CONSOLE_FULL
 
         /// <summary>
         /// Console opened callback
