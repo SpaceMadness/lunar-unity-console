@@ -13,6 +13,9 @@
 @class LUActionController;
 @class LUActionRegistry;
 
+extern NSString * const LUActionControllerDidChangeVariable;
+extern NSString * const LUActionControllerDidChangeVariableKeyVariable;
+
 extern NSString * const LUActionControllerDidSelectAction;
 extern NSString * const LUActionControllerDidSelectActionKeyAction;
 

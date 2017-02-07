@@ -21,9 +21,6 @@
 
 #import <UIKit/UIKit.h>
 
-extern NSString * const LUActionControllerDidChangeVariable;
-extern NSString * const LUActionControllerDidChangeVariableKeyVariable;
-
 @class LUCVar;
 
 @interface LUCVarTableViewCell : UITableViewCell

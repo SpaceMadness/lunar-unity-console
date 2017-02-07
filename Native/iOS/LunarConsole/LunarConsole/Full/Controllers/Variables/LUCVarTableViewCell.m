@@ -23,9 +23,6 @@
 
 #import "Lunar.h"
 
-NSString * const LUActionControllerDidChangeVariable = @"LUActionControllerDidChangeVariable";
-NSString * const LUActionControllerDidChangeVariableKeyVariable = @"variable";
-
 @interface LUCVarTableViewCell ()
 
 @property (nonatomic, weak) IBOutlet UILabel *titleLabel;

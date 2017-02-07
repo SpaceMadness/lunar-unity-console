@@ -10,6 +10,9 @@
 
 #import "LUActionControllerBase.h"
 
+NSString * const LUActionControllerDidChangeVariable = @"LUActionControllerDidChangeVariable";
+NSString * const LUActionControllerDidChangeVariableKeyVariable = @"variable";
+
 NSString * const LUActionControllerDidSelectAction = @"LUActionControllerDidSelectAction";
 NSString * const LUActionControllerDidSelectActionKeyAction = @"action";
 
