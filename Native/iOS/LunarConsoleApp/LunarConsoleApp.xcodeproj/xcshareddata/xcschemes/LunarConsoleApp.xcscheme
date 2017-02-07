@@ -15,8 +15,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "844741E71B719DA500F5ABD3"
-               BuildableName = "LunarConsoleApp.app"
-               BlueprintName = "LunarConsoleApp"
+               BuildableName = "LunarConsoleAppFull.app"
+               BlueprintName = "LunarConsoleAppFull"
                ReferencedContainer = "container:LunarConsoleApp.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -63,8 +63,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "844741E71B719DA500F5ABD3"
-            BuildableName = "LunarConsoleApp.app"
-            BlueprintName = "LunarConsoleApp"
+            BuildableName = "LunarConsoleAppFull.app"
+            BlueprintName = "LunarConsoleAppFull"
             ReferencedContainer = "container:LunarConsoleApp.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -86,8 +86,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "844741E71B719DA500F5ABD3"
-            BuildableName = "LunarConsoleApp.app"
-            BlueprintName = "LunarConsoleApp"
+            BuildableName = "LunarConsoleAppFull.app"
+            BlueprintName = "LunarConsoleAppFull"
             ReferencedContainer = "container:LunarConsoleApp.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
@@ -105,8 +105,8 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "844741E71B719DA500F5ABD3"
-            BuildableName = "LunarConsoleApp.app"
-            BlueprintName = "LunarConsoleApp"
+            BuildableName = "LunarConsoleAppFull.app"
+            BlueprintName = "LunarConsoleAppFull"
             ReferencedContainer = "container:LunarConsoleApp.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>

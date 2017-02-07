@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4D02A6251E495B07009F4998 /* libLunarConsoleFree.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DD4F6991DFB80C100032A29 /* libLunarConsoleFree.a */; };
 		4D9C35C71E3D840F003E0001 /* NetPeer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D9C35C61E3D840F003E0001 /* NetPeer.m */; };
 		4D9C35C81E3D840F003E0001 /* NetPeer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D9C35C61E3D840F003E0001 /* NetPeer.m */; };
 		4D9C35C91E3D840F003E0001 /* NetPeer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D9C35C61E3D840F003E0001 /* NetPeer.m */; };
@@ -20,7 +21,6 @@
 		4DD4F9D01DFB8E5600032A29 /* ActionOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840F08AA1DEABA4500E9F13D /* ActionOverlayView.swift */; };
 		4DD4F9D11DFB8E5600032A29 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 844741ED1B719DA500F5ABD3 /* main.m */; };
 		4DD4F9D31DFB8E5600032A29 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF21AE1A1BF536FE0053D50B /* MessageUI.framework */; };
-		4DD4F9D41DFB8E5600032A29 /* libLunarConsole.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 844742171B719DB600F5ABD3 /* libLunarConsole.a */; };
 		4DD4FA1F1DFB8E5600032A29 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 844741FA1B719DA500F5ABD3 /* LaunchScreen.xib */; };
 		4DD4FA201DFB8E5600032A29 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 844741F51B719DA500F5ABD3 /* Main.storyboard */; };
 		4DD4FA211DFB8E5600032A29 /* input.txt in Resources */ = {isa = PBXBuildFile; fileRef = EF64F8F11C03D86E008DCB8E /* input.txt */; };
@@ -126,19 +126,19 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		4D02A6231E495B00009F4998 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 844742111B719DB600F5ABD3 /* LunarConsole.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 4DD4F5111DFB7F4B00032A29;
+			remoteInfo = LunarConsoleFree;
+		};
 		4DD4F6981DFB80C100032A29 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 844742111B719DB600F5ABD3 /* LunarConsole.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 4DD4F5511DFB7F4B00032A29;
 			remoteInfo = LunarConsoleFree;
-		};
-		4DD4F9C91DFB8E5600032A29 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 844742111B719DB600F5ABD3 /* LunarConsole.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 844741A81B719C3100F5ABD3;
-			remoteInfo = LunarConsole;
 		};
 		844742021B719DA500F5ABD3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -286,7 +286,7 @@
 		840F08B41DEB8F6E00E9F13D /* TextInputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextInputView.m; sourceTree = "<group>"; };
 		840F08B61DEB934000E9F13D /* UIView+Accessibility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Accessibility.h"; sourceTree = "<group>"; };
 		840F08B71DEB934000E9F13D /* UIView+Accessibility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Accessibility.m"; sourceTree = "<group>"; };
-		844741E81B719DA500F5ABD3 /* LunarConsoleApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LunarConsoleApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		844741E81B719DA500F5ABD3 /* LunarConsoleAppFull.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LunarConsoleAppFull.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		844741EC1B719DA500F5ABD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		844741ED1B719DA500F5ABD3 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		844741EF1B719DA500F5ABD3 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -316,8 +316,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4D02A6251E495B07009F4998 /* libLunarConsoleFree.a in Frameworks */,
 				4DD4F9D31DFB8E5600032A29 /* MessageUI.framework in Frameworks */,
-				4DD4F9D41DFB8E5600032A29 /* libLunarConsole.a in Frameworks */,
 				9BEC6F3D1F9B9B89C6781CD6 /* Pods_LunarConsoleAppFree.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -383,7 +383,7 @@
 		844741E91B719DA500F5ABD3 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				844741E81B719DA500F5ABD3 /* LunarConsoleApp.app */,
+				844741E81B719DA500F5ABD3 /* LunarConsoleAppFull.app */,
 				844742011B719DA500F5ABD3 /* LunarConsoleAppTests.xctest */,
 				EF81892E1BE16844008FFCB9 /* LunarConsoleAppUITests.xctest */,
 				4DD4FA261DFB8E5600032A29 /* LunarConsoleAppFree.app */,
@@ -581,16 +581,16 @@
 			buildRules = (
 			);
 			dependencies = (
-				4DD4F9C81DFB8E5600032A29 /* PBXTargetDependency */,
+				4D02A6241E495B00009F4998 /* PBXTargetDependency */,
 			);
 			name = LunarConsoleAppFree;
 			productName = LunarConsoleApp;
 			productReference = 4DD4FA261DFB8E5600032A29 /* LunarConsoleAppFree.app */;
 			productType = "com.apple.product-type.application";
 		};
-		844741E71B719DA500F5ABD3 /* LunarConsoleApp */ = {
+		844741E71B719DA500F5ABD3 /* LunarConsoleAppFull */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8447420B1B719DA500F5ABD3 /* Build configuration list for PBXNativeTarget "LunarConsoleApp" */;
+			buildConfigurationList = 8447420B1B719DA500F5ABD3 /* Build configuration list for PBXNativeTarget "LunarConsoleAppFull" */;
 			buildPhases = (
 				55D0A5CA33A0A655646BED75 /* [CP] Check Pods Manifest.lock */,
 				844741E41B719DA500F5ABD3 /* Sources */,
@@ -604,9 +604,9 @@
 			dependencies = (
 				8447421B1B719DC700F5ABD3 /* PBXTargetDependency */,
 			);
-			name = LunarConsoleApp;
+			name = LunarConsoleAppFull;
 			productName = LunarConsoleApp;
-			productReference = 844741E81B719DA500F5ABD3 /* LunarConsoleApp.app */;
+			productReference = 844741E81B719DA500F5ABD3 /* LunarConsoleAppFull.app */;
 			productType = "com.apple.product-type.application";
 		};
 		844742001B719DA500F5ABD3 /* LunarConsoleAppTests */ = {
@@ -699,7 +699,7 @@
 			);
 			projectRoot = "";
 			targets = (
-				844741E71B719DA500F5ABD3 /* LunarConsoleApp */,
+				844741E71B719DA500F5ABD3 /* LunarConsoleAppFull */,
 				4DD4F9C71DFB8E5600032A29 /* LunarConsoleAppFree */,
 				844742001B719DA500F5ABD3 /* LunarConsoleAppTests */,
 				EF81892D1BE16844008FFCB9 /* LunarConsoleAppUITests */,
@@ -1084,14 +1084,14 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		4DD4F9C81DFB8E5600032A29 /* PBXTargetDependency */ = {
+		4D02A6241E495B00009F4998 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = LunarConsole;
-			targetProxy = 4DD4F9C91DFB8E5600032A29 /* PBXContainerItemProxy */;
+			name = LunarConsoleFree;
+			targetProxy = 4D02A6231E495B00009F4998 /* PBXContainerItemProxy */;
 		};
 		844742031B719DA500F5ABD3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 844741E71B719DA500F5ABD3 /* LunarConsoleApp */;
+			target = 844741E71B719DA500F5ABD3 /* LunarConsoleAppFull */;
 			targetProxy = 844742021B719DA500F5ABD3 /* PBXContainerItemProxy */;
 		};
 		8447421B1B719DC700F5ABD3 /* PBXTargetDependency */ = {
@@ -1101,7 +1101,7 @@
 		};
 		EF8189341BE16844008FFCB9 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 844741E71B719DA500F5ABD3 /* LunarConsoleApp */;
+			target = 844741E71B719DA500F5ABD3 /* LunarConsoleAppFull */;
 			targetProxy = EF8189331BE16844008FFCB9 /* PBXContainerItemProxy */;
 		};
 		EF81893B1BE16E52008FFCB9 /* PBXTargetDependency */ = {
@@ -1397,7 +1397,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8447420B1B719DA500F5ABD3 /* Build configuration list for PBXNativeTarget "LunarConsoleApp" */ = {
+		8447420B1B719DA500F5ABD3 /* Build configuration list for PBXNativeTarget "LunarConsoleAppFull" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8447420C1B719DA500F5ABD3 /* Debug */,

@@ -118,7 +118,7 @@
 		840F08861DEA6B7400E9F13D /* LUSortedListTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F087C1DEA6B7400E9F13D /* LUSortedListTest.m */; };
 		840F08871DEA6B7400E9F13D /* LUStacktraceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F087D1DEA6B7400E9F13D /* LUStacktraceTest.m */; };
 		840F08881DEA6B7400E9F13D /* LUStringUtilsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F087E1DEA6B7400E9F13D /* LUStringUtilsTest.m */; };
-		844741B51B719C3100F5ABD3 /* libLunarConsole.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 844741A91B719C3100F5ABD3 /* libLunarConsole.a */; };
+		844741B51B719C3100F5ABD3 /* libLunarConsoleFull.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 844741A91B719C3100F5ABD3 /* libLunarConsoleFull.a */; };
 		EF1D47A81E04A60B005BEC07 /* LUActionRegistryFilterTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1D47A71E04A60B005BEC07 /* LUActionRegistryFilterTest.swift */; };
 /* End PBXBuildFile section */
 
@@ -362,7 +362,7 @@
 		840F087C1DEA6B7400E9F13D /* LUSortedListTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUSortedListTest.m; sourceTree = "<group>"; };
 		840F087D1DEA6B7400E9F13D /* LUStacktraceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUStacktraceTest.m; sourceTree = "<group>"; };
 		840F087E1DEA6B7400E9F13D /* LUStringUtilsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUStringUtilsTest.m; sourceTree = "<group>"; };
-		844741A91B719C3100F5ABD3 /* libLunarConsole.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libLunarConsole.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		844741A91B719C3100F5ABD3 /* libLunarConsoleFull.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libLunarConsoleFull.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		844741B41B719C3100F5ABD3 /* LunarConsoleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LunarConsoleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		844741BA1B719C3100F5ABD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EF1D47A61E04A60A005BEC07 /* LunarConsoleTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LunarConsoleTests-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -388,13 +388,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				844741B51B719C3100F5ABD3 /* libLunarConsole.a in Frameworks */,
+				844741B51B719C3100F5ABD3 /* libLunarConsoleFull.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4D02A6201E495878009F4998 /* Free */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Free;
+			path = LunarConsole/Free;
+			sourceTree = "<group>";
+		};
 		4DD4FB281DFB932B00032A29 /* Common */ = {
 			isa = PBXGroup;
 			children = (
@@ -656,19 +664,11 @@
 		4DD4FC231DFB933700032A29 /* Full */ = {
 			isa = PBXGroup;
 			children = (
-				4DD4FC241DFB933700032A29 /* Console */,
 				4DD4FC251DFB933700032A29 /* Controllers */,
 				4DD4FC4B1DFB933700032A29 /* Images */,
 			);
 			name = Full;
 			path = LunarConsole/Full;
-			sourceTree = "<group>";
-		};
-		4DD4FC241DFB933700032A29 /* Console */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Console;
 			sourceTree = "<group>";
 		};
 		4DD4FC251DFB933700032A29 /* Controllers */ = {
@@ -766,6 +766,7 @@
 			children = (
 				4DD4FB281DFB932B00032A29 /* Common */,
 				4DD4FC231DFB933700032A29 /* Full */,
+				4D02A6201E495878009F4998 /* Free */,
 				844741B81B719C3100F5ABD3 /* LunarConsoleTests */,
 				844741AA1B719C3100F5ABD3 /* Products */,
 			);
@@ -774,7 +775,7 @@
 		844741AA1B719C3100F5ABD3 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				844741A91B719C3100F5ABD3 /* libLunarConsole.a */,
+				844741A91B719C3100F5ABD3 /* libLunarConsoleFull.a */,
 				844741B41B719C3100F5ABD3 /* LunarConsoleTests.xctest */,
 				4DD4F5511DFB7F4B00032A29 /* libLunarConsoleFree.a */,
 			);
@@ -828,9 +829,9 @@
 			productReference = 4DD4F5511DFB7F4B00032A29 /* libLunarConsoleFree.a */;
 			productType = "com.apple.product-type.library.static";
 		};
-		844741A81B719C3100F5ABD3 /* LunarConsole */ = {
+		844741A81B719C3100F5ABD3 /* LunarConsoleFull */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 844741BD1B719C3100F5ABD3 /* Build configuration list for PBXNativeTarget "LunarConsole" */;
+			buildConfigurationList = 844741BD1B719C3100F5ABD3 /* Build configuration list for PBXNativeTarget "LunarConsoleFull" */;
 			buildPhases = (
 				844741A51B719C3100F5ABD3 /* Sources */,
 				844741A61B719C3100F5ABD3 /* Frameworks */,
@@ -840,9 +841,9 @@
 			);
 			dependencies = (
 			);
-			name = LunarConsole;
+			name = LunarConsoleFull;
 			productName = LunarConsole;
-			productReference = 844741A91B719C3100F5ABD3 /* libLunarConsole.a */;
+			productReference = 844741A91B719C3100F5ABD3 /* libLunarConsoleFull.a */;
 			productType = "com.apple.product-type.library.static";
 		};
 		844741B31B719C3100F5ABD3 /* LunarConsoleTests */ = {
@@ -893,7 +894,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				844741A81B719C3100F5ABD3 /* LunarConsole */,
+				844741A81B719C3100F5ABD3 /* LunarConsoleFull */,
 				4DD4F5111DFB7F4B00032A29 /* LunarConsoleFree */,
 				844741B31B719C3100F5ABD3 /* LunarConsoleTests */,
 			);
@@ -1049,7 +1050,7 @@
 /* Begin PBXTargetDependency section */
 		844741B71B719C3100F5ABD3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 844741A81B719C3100F5ABD3 /* LunarConsole */;
+			target = 844741A81B719C3100F5ABD3 /* LunarConsoleFull */;
 			targetProxy = 844741B61B719C3100F5ABD3 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -1244,7 +1245,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		844741BD1B719C3100F5ABD3 /* Build configuration list for PBXNativeTarget "LunarConsole" */ = {
+		844741BD1B719C3100F5ABD3 /* Build configuration list for PBXNativeTarget "LunarConsoleFull" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				844741BE1B719C3100F5ABD3 /* Debug */,
