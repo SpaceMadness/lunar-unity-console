@@ -1,9 +1,12 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16B2659" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <development version="7000" identifier="xcode"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LUConsolePopupController">
@@ -14,6 +17,7 @@
                 <outlet property="contentView" destination="Ort-TP-8p1" id="7dI-K2-ShD"/>
                 <outlet property="contentWidthConstraint" destination="znM-wb-Tu5" id="xnF-W7-Col"/>
                 <outlet property="iconImageView" destination="hNP-k5-Mxh" id="Hxi-H1-JV2"/>
+                <outlet property="learnMoreButton" destination="vui-Uw-Vi3" id="0wN-CO-Qj0"/>
                 <outlet property="popupView" destination="2RZ-ZB-4xW" id="y83-by-RLA"/>
                 <outlet property="titleLabel" destination="BZ1-uP-fU6" id="bhe-U7-dA1"/>
                 <outlet property="view" destination="Ec6-mJ-fiZ" id="u9B-AZ-PcU"/>
@@ -21,29 +25,33 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="Ec6-mJ-fiZ">
-            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2RZ-ZB-4xW" userLabel="Popup View">
-                    <rect key="frame" x="160" y="80" width="280" height="440"/>
+                    <rect key="frame" x="48" y="114" width="280" height="440"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" image="lunar_console_icon_button_settings.png" translatesAutoresizingMaskIntoConstraints="NO" id="hNP-k5-Mxh" userLabel="Icon">
                             <rect key="frame" x="8" y="8" width="24" height="24"/>
                         </imageView>
                         <label userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BZ1-uP-fU6" userLabel="Title">
                             <rect key="frame" x="40" y="11" width="232" height="17"/>
-                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="calibratedRGB"/>
+                            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.0" colorSpace="custom" customColorSpace="sRGB"/>
                             <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="14"/>
-                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ort-TP-8p1" userLabel="Content View">
                             <rect key="frame" x="0.0" y="40" width="280" height="354"/>
-                            <color key="backgroundColor" red="0.40781933069229126" green="0.40781933069229126" blue="0.40781933069229126" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="backgroundColor" red="0.40781933069229126" green="0.40781933069229126" blue="0.40781933069229126" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="awe-OZ-TP0" userLabel="Bottom Bar View">
                             <rect key="frame" x="0.0" y="394" width="280" height="46"/>
                             <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vui-Uw-Vi3" userLabel="&quot;Learn More...&quot; Button">
+                                    <rect key="frame" x="94" y="8" width="91" height="30"/>
+                                    <state key="normal" title="Learn More..."/>
+                                </button>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bEE-li-Unh" userLabel="Button Close">
                                     <rect key="frame" x="234" y="8" width="46" height="30"/>
                                     <constraints>
@@ -51,23 +59,26 @@
                                         <constraint firstAttribute="height" constant="30" id="Q8G-fw-a6P"/>
                                     </constraints>
                                     <state key="normal" image="lunar_console_icon_button_close.png">
-                                        <color key="titleColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="calibratedRGB"/>
-                                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
+                                        <color key="titleColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                     </state>
                                     <connections>
                                         <action selector="onClose:" destination="-1" eventType="touchUpInside" id="F7j-Pr-jsn"/>
                                     </connections>
                                 </button>
                             </subviews>
-                            <color key="backgroundColor" red="0.72336632013320923" green="0.72336632013320923" blue="0.72336632013320923" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="backgroundColor" red="0.72336632013320923" green="0.72336632013320923" blue="0.72336632013320923" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <constraints>
+                                <constraint firstItem="vui-Uw-Vi3" firstAttribute="centerX" secondItem="awe-OZ-TP0" secondAttribute="centerX" priority="999" id="1c4-BI-ore"/>
                                 <constraint firstItem="bEE-li-Unh" firstAttribute="centerY" secondItem="awe-OZ-TP0" secondAttribute="centerY" id="Dpd-hp-Ubq"/>
+                                <constraint firstItem="vui-Uw-Vi3" firstAttribute="centerY" secondItem="awe-OZ-TP0" secondAttribute="centerY" id="PS0-Wg-9Sy"/>
                                 <constraint firstAttribute="height" constant="46" id="RNB-I6-FZq"/>
+                                <constraint firstItem="bEE-li-Unh" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="vui-Uw-Vi3" secondAttribute="trailing" constant="8" id="p3x-EY-5Z3"/>
                                 <constraint firstAttribute="trailing" secondItem="bEE-li-Unh" secondAttribute="trailing" id="wVU-1c-hNH"/>
                             </constraints>
                         </view>
                     </subviews>
-                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstItem="BZ1-uP-fU6" firstAttribute="top" secondItem="2RZ-ZB-4xW" secondAttribute="top" constant="11" id="DLT-oh-ea6"/>
                         <constraint firstAttribute="height" constant="440" id="GDa-xq-kX0"/>
@@ -86,7 +97,7 @@
                     </constraints>
                 </view>
             </subviews>
-            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+            <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="2RZ-ZB-4xW" firstAttribute="centerX" secondItem="Ec6-mJ-fiZ" secondAttribute="centerX" id="NGm-x4-Fvo"/>
                 <constraint firstItem="2RZ-ZB-4xW" firstAttribute="centerY" secondItem="Ec6-mJ-fiZ" secondAttribute="centerY" id="afF-P5-hqd"/>

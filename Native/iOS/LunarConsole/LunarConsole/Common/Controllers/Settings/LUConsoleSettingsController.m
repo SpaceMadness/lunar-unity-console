@@ -31,6 +31,7 @@ static const NSInteger kTagControl = 2;
 static NSString * const kSettingsEntryTypeBool = @"Bool";
 
 static NSDictionary * _propertyTypeLookup;
+static NSArray * _proOnlyFeaturesLookup;
 
 @interface LUConsoleSettingsController () <UITableViewDataSource>
 {
@@ -96,8 +97,10 @@ static NSDictionary * _propertyTypeLookup;
     UILabel *nameLabel = [cell.contentView viewWithTag:kTagName];
     LUAssert(nameLabel);
     
+    BOOL available = LUConsoleIsFullVersion || !entry.proOnly;
+    
     nameLabel.font = theme.font;
-    nameLabel.textColor = theme.cellLog.textColor;
+    nameLabel.textColor = available ? theme.cellLog.textColor : theme.settingsTextColorUnavailable;
     nameLabel.text = entry.title;
     
     if (entry.type == kSettingsEntryTypeBool)
@@ -108,6 +111,7 @@ static NSDictionary * _propertyTypeLookup;
         swtch.on = [entry.value boolValue];
         swtch.userData = entry;
         [swtch addTarget:self action:@selector(onToggleBoolean:) forControlEvents:UIControlEventValueChanged];
+        swtch.enabled = available;
     }
     
     return cell;
@@ -217,6 +221,10 @@ static NSDictionary * _propertyTypeLookup;
     unsigned int propertyCount;
     objc_property_t *properties = class_copyPropertyList([settings class], &propertyCount);
     
+    if (_proOnlyFeaturesLookup == nil) {
+        _proOnlyFeaturesLookup = @[ @"enableTransparentLogOverlay" ];
+    }
+    
     NSMutableArray *entries = [NSMutableArray arrayWithCapacity:propertyCount];
     for (int i = 0; i < propertyCount; i++)
     {
@@ -241,6 +249,8 @@ static NSDictionary * _propertyTypeLookup;
                 NSLog(@"LunarMobileConsole: unable to create setting entry '%@'", name);
                 continue;
             }
+            
+            entry.proOnly = [_proOnlyFeaturesLookup indexOfObject:name] != NSNotFound;
             
             [entries addObject:entry];
         }

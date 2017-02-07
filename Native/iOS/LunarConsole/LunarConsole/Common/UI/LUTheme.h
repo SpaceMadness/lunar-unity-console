@@ -100,6 +100,7 @@
 @property (nonatomic, readonly) UIColor *switchTintColor;
 
 @property (nonatomic, readonly) UIImage *settingsIconImage;
+@property (nonatomic, readonly) UIColor *settingsTextColorUnavailable;
 
 + (LUTheme *)mainTheme;
 
