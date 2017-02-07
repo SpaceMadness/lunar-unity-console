@@ -1,7 +1,7 @@
 # Uncomment the next line to define a global platform for your project
 # platform :ios, '9.0'
 
-target 'LunarConsoleApp' do
+target 'LunarConsoleAppFull' do
   # Comment the next line if you're not using Swift and don't want to use dynamic frameworks
   use_frameworks!
 
@@ -26,5 +26,5 @@ target 'LunarConsoleAppFree' do
   use_frameworks!
 
   # Pods for LunarConsoleAppFree
-
+  pod 'CocoaAsyncSocket'
 end

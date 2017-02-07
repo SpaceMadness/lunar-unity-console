@@ -1,6 +1,0 @@
-framework module Pods_LunarConsoleApp {
-  umbrella header "Pods-LunarConsoleApp-umbrella.h"
-
-  export *
-  module * { export * }
-}

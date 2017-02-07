@@ -11,6 +11,6 @@
 #endif
 
 
-FOUNDATION_EXPORT double Pods_LunarConsoleAppTestsVersionNumber;
-FOUNDATION_EXPORT const unsigned char Pods_LunarConsoleAppTestsVersionString[];
+FOUNDATION_EXPORT double Pods_LunarConsoleAppFullVersionNumber;
+FOUNDATION_EXPORT const unsigned char Pods_LunarConsoleAppFullVersionString[];
 
