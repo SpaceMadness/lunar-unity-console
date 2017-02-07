@@ -297,6 +297,14 @@ static const CGFloat kMinWidthToResizeSearchBar = 480;
     // help
     [controller addButtonTitle:@"Help" target:self action:@selector(onHelpButton:)];
     
+    // PRO version
+    if (LUConsoleIsFreeVersion)
+    {
+        LUConsoleLogMenuControllerButton *button = [controller addButtonTitle:@"Get PRO Version" target:self action:@selector(onGetProButton:)];
+        button.textColor = [LUTheme mainTheme].contextMenuTextProColor;
+        button.textHighlightedColor = [LUTheme mainTheme].contextMenuTextProHighlightColor;
+    }
+    
     [controller setDelegate:self];
     
     // add as child view controller
@@ -607,6 +615,11 @@ static const CGFloat kMinWidthToResizeSearchBar = 480;
 {
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://goo.gl/5Z8ovV"]];
     
+}
+
+- (void)onGetProButton:(id)sender
+{
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://goo.gl/wLx2MR"]];
 }
 
 #pragma mark -

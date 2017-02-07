@@ -80,7 +80,8 @@ NSString * const LUActionControllerDidSelectActionKeyAction = @"action";
 
 - (IBAction)onInfoButton:(id)sender
 {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://goo.gl/in0obv"]];
+    NSString *URLString = LUConsoleIsFreeVersion ? @"https://goo.gl/wLx2MR" : @"https://goo.gl/in0obv";
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:URLString]];
 }
 
 @end

@@ -43,6 +43,9 @@ typedef enum : NSUInteger {
 
 @end
 
+extern BOOL LUConsoleIsFreeVersion;
+extern BOOL LUConsoleIsFullVersion;
+
 @interface LUConsolePlugin : LUObject
 
 @property (nonatomic, readonly) LUWindow         * consoleWindow;

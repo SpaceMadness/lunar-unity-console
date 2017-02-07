@@ -90,6 +90,8 @@
 @property (nonatomic, readonly) UIColor *contextMenuBackgroundColor;
 @property (nonatomic, readonly) UIColor *contextMenuTextColor;
 @property (nonatomic, readonly) UIColor *contextMenuTextHighlightColor;
+@property (nonatomic, readonly) UIColor *contextMenuTextProColor;
+@property (nonatomic, readonly) UIColor *contextMenuTextProHighlightColor;
 
 @property (nonatomic, readonly) UIFont  *variableEditFont;
 @property (nonatomic, readonly) UIColor *variableEditTextColor;

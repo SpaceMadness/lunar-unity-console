@@ -27,6 +27,9 @@
 
 @interface LUConsoleLogMenuControllerButton : NSObject
 
+@property (nonatomic, strong) UIColor *textColor;
+@property (nonatomic, strong) UIColor *textHighlightedColor;
+
 + (instancetype)buttonWithTitle:(NSString *)title target:(id)target action:(SEL)action;
 - (instancetype)initWithTitle:(NSString *)title target:(id)target action:(SEL)action;
 
@@ -43,6 +46,6 @@
 
 @property (nonatomic, weak) id<LUConsoleLogMenuControllerDelegate> delegate;
 
-- (void)addButtonTitle:(NSString *)title target:(id)target action:(SEL)action;
+- (LUConsoleLogMenuControllerButton *)addButtonTitle:(NSString *)title target:(id)target action:(SEL)action;
 
 @end

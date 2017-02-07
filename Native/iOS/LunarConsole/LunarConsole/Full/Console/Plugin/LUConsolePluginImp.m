@@ -9,6 +9,9 @@
 #import "LUConsolePluginImp.h"
 #import "Lunar.h"
 
+BOOL LUConsoleIsFreeVersion = NO;
+BOOL LUConsoleIsFullVersion = YES;
+
 @interface LUConsolePluginImp ()
 {
     __weak LUConsolePlugin * _plugin;

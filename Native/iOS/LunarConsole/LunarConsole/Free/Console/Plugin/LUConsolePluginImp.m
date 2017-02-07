@@ -7,6 +7,10 @@
 //
 
 #import "LUConsolePluginImp.h"
+
+BOOL LUConsoleIsFreeVersion = YES;
+BOOL LUConsoleIsFullVersion = NO;
+
 @implementation LUConsolePluginImp
 
 - (instancetype)initWithPlugin:(LUConsolePlugin *)plugin
