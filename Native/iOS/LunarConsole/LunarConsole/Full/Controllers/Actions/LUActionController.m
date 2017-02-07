@@ -66,6 +66,11 @@ static const NSInteger kSectionCount = 2;
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
+    self.filterBar.delegate = self;
+    self.noActionsWarningLabel.text = @"You don't have any actions or variables yet";
 }
 
 #pragma mark -

@@ -7,7 +7,83 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4D02A6251E495B07009F4998 /* ReferenceProxy in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DD4F6991DFB80C100032A29 /* libLunarConsoleFree.a */; };
+		4D02A6251E495B07009F4998 /* libLunarConsoleFree.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DD4F6991DFB80C100032A29 /* libLunarConsoleFree.a */; };
+		4D02A7D11E4979C7009F4998 /* LUActionController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FCDA1DFB93C600032A29 /* LUActionController.xib */; };
+		4D02A7D21E4979C7009F4998 /* LUConsoleController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FCDB1DFB93C600032A29 /* LUConsoleController.xib */; };
+		4D02A7D31E4979C7009F4998 /* LUConsoleLogController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FCDC1DFB93C600032A29 /* LUConsoleLogController.xib */; };
+		4D02A7D41E4979C7009F4998 /* LUConsoleLogDetailsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FCDD1DFB93C600032A29 /* LUConsoleLogDetailsController.xib */; };
+		4D02A7D51E4979C7009F4998 /* LUConsoleLogMenuController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FCDE1DFB93C600032A29 /* LUConsoleLogMenuController.xib */; };
+		4D02A7D61E4979C7009F4998 /* LUConsoleOverlayController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FCDF1DFB93C600032A29 /* LUConsoleOverlayController.xib */; };
+		4D02A7D71E4979C7009F4998 /* LUConsolePopupController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FCE01DFB93C600032A29 /* LUConsolePopupController.xib */; };
+		4D02A7D81E4979C7009F4998 /* LUConsoleResizeController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FCE11DFB93C600032A29 /* LUConsoleResizeController.xib */; };
+		4D02A7D91E4979C7009F4998 /* LUConsoleSettingsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FCE21DFB93C600032A29 /* LUConsoleSettingsController.xib */; };
+		4D02A7DA1E4979C7009F4998 /* LUCVarBooleanTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FCE31DFB93C600032A29 /* LUCVarBooleanTableViewCell.xib */; };
+		4D02A7DB1E4979C7009F4998 /* LUCVarInputTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FCE41DFB93C600032A29 /* LUCVarInputTableViewCell.xib */; };
+		4D02A7DC1E4979C7009F4998 /* LUExceptionWarningController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FCE51DFB93C600032A29 /* LUExceptionWarningController.xib */; };
+		4D02A7DD1E4979C7009F4998 /* lunar_console_action_button_large_normal.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC621DFB93A000032A29 /* lunar_console_action_button_large_normal.png */; };
+		4D02A7DE1E4979C7009F4998 /* lunar_console_action_button_large_normal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC901DFB93A100032A29 /* lunar_console_action_button_large_normal@2x.png */; };
+		4D02A7DF1E4979C7009F4998 /* lunar_console_action_button_large_normal@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC911DFB93A100032A29 /* lunar_console_action_button_large_normal@3x.png */; };
+		4D02A7E01E4979C7009F4998 /* lunar_console_action_button_large_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC921DFB93A100032A29 /* lunar_console_action_button_large_selected.png */; };
+		4D02A7E11E4979C7009F4998 /* lunar_console_action_button_large_selected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC931DFB93A100032A29 /* lunar_console_action_button_large_selected@2x.png */; };
+		4D02A7E21E4979C7009F4998 /* lunar_console_action_button_large_selected@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC941DFB93A100032A29 /* lunar_console_action_button_large_selected@3x.png */; };
+		4D02A7E31E4979C7009F4998 /* lunar_console_actions_empty_warning.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC951DFB93A100032A29 /* lunar_console_actions_empty_warning.png */; };
+		4D02A7E41E4979C7009F4998 /* lunar_console_actions_empty_warning@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC961DFB93A100032A29 /* lunar_console_actions_empty_warning@2x.png */; };
+		4D02A7E51E4979C7009F4998 /* lunar_console_actions_empty_warning@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC971DFB93A100032A29 /* lunar_console_actions_empty_warning@3x.png */; };
+		4D02A7E61E4979C7009F4998 /* lunar_console_collapse_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC981DFB93A100032A29 /* lunar_console_collapse_background.png */; };
+		4D02A7E71E4979C7009F4998 /* lunar_console_collapse_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC991DFB93A100032A29 /* lunar_console_collapse_background@2x.png */; };
+		4D02A7E81E4979C7009F4998 /* lunar_console_collapse_background@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC9A1DFB93A100032A29 /* lunar_console_collapse_background@3x.png */; };
+		4D02A7E91E4979C7009F4998 /* lunar_console_icon_button_clear.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC631DFB93A000032A29 /* lunar_console_icon_button_clear.png */; };
+		4D02A7EA1E4979C7009F4998 /* lunar_console_icon_button_clear@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC641DFB93A000032A29 /* lunar_console_icon_button_clear@2x.png */; };
+		4D02A7EB1E4979C7009F4998 /* lunar_console_icon_button_clear@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC651DFB93A000032A29 /* lunar_console_icon_button_clear@3x.png */; };
+		4D02A7EC1E4979C7009F4998 /* lunar_console_icon_button_clipboard.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC661DFB93A000032A29 /* lunar_console_icon_button_clipboard.png */; };
+		4D02A7ED1E4979C7009F4998 /* lunar_console_icon_button_clipboard@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC671DFB93A000032A29 /* lunar_console_icon_button_clipboard@2x.png */; };
+		4D02A7EE1E4979C7009F4998 /* lunar_console_icon_button_clipboard@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC681DFB93A000032A29 /* lunar_console_icon_button_clipboard@3x.png */; };
+		4D02A7EF1E4979C7009F4998 /* lunar_console_icon_button_close.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC691DFB93A000032A29 /* lunar_console_icon_button_close.png */; };
+		4D02A7F01E4979C7009F4998 /* lunar_console_icon_button_close@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC6A1DFB93A000032A29 /* lunar_console_icon_button_close@2x.png */; };
+		4D02A7F11E4979C7009F4998 /* lunar_console_icon_button_close@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC6B1DFB93A000032A29 /* lunar_console_icon_button_close@3x.png */; };
+		4D02A7F21E4979C7009F4998 /* lunar_console_icon_button_console.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC9B1DFB93A100032A29 /* lunar_console_icon_button_console.png */; };
+		4D02A7F31E4979C7009F4998 /* lunar_console_icon_button_console@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC9C1DFB93A100032A29 /* lunar_console_icon_button_console@2x.png */; };
+		4D02A7F41E4979C7009F4998 /* lunar_console_icon_button_console@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC9D1DFB93A100032A29 /* lunar_console_icon_button_console@3x.png */; };
+		4D02A7F51E4979C7009F4998 /* lunar_console_icon_button_email.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC6C1DFB93A000032A29 /* lunar_console_icon_button_email.png */; };
+		4D02A7F61E4979C7009F4998 /* lunar_console_icon_button_email@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC6D1DFB93A000032A29 /* lunar_console_icon_button_email@2x.png */; };
+		4D02A7F71E4979C7009F4998 /* lunar_console_icon_button_email@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC6E1DFB93A000032A29 /* lunar_console_icon_button_email@3x.png */; };
+		4D02A7F81E4979C7009F4998 /* lunar_console_icon_button_lock.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC6F1DFB93A000032A29 /* lunar_console_icon_button_lock.png */; };
+		4D02A7F91E4979C7009F4998 /* lunar_console_icon_button_lock@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC701DFB93A000032A29 /* lunar_console_icon_button_lock@2x.png */; };
+		4D02A7FA1E4979C7009F4998 /* lunar_console_icon_button_lock@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC711DFB93A000032A29 /* lunar_console_icon_button_lock@3x.png */; };
+		4D02A7FB1E4979C7009F4998 /* lunar_console_icon_button_more.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC721DFB93A000032A29 /* lunar_console_icon_button_more.png */; };
+		4D02A7FC1E4979C7009F4998 /* lunar_console_icon_button_more@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC731DFB93A000032A29 /* lunar_console_icon_button_more@2x.png */; };
+		4D02A7FD1E4979C7009F4998 /* lunar_console_icon_button_more@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC741DFB93A000032A29 /* lunar_console_icon_button_more@3x.png */; };
+		4D02A7FE1E4979C7009F4998 /* lunar_console_icon_button_settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC751DFB93A000032A29 /* lunar_console_icon_button_settings.png */; };
+		4D02A7FF1E4979C7009F4998 /* lunar_console_icon_button_settings@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC761DFB93A000032A29 /* lunar_console_icon_button_settings@2x.png */; };
+		4D02A8001E4979C7009F4998 /* lunar_console_icon_button_settings@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC771DFB93A000032A29 /* lunar_console_icon_button_settings@3x.png */; };
+		4D02A8011E4979C7009F4998 /* lunar_console_icon_button_unlock.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC781DFB93A000032A29 /* lunar_console_icon_button_unlock.png */; };
+		4D02A8021E4979C7009F4998 /* lunar_console_icon_button_unlock@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC791DFB93A000032A29 /* lunar_console_icon_button_unlock@2x.png */; };
+		4D02A8031E4979C7009F4998 /* lunar_console_icon_button_unlock@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC7A1DFB93A000032A29 /* lunar_console_icon_button_unlock@3x.png */; };
+		4D02A8041E4979C7009F4998 /* lunar_console_icon_button_variable_reset.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DE389EF1DFCD4B2003A2B6B /* lunar_console_icon_button_variable_reset.png */; };
+		4D02A8051E4979C7009F4998 /* lunar_console_icon_button_variable_reset@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DE389F01DFCD4B2003A2B6B /* lunar_console_icon_button_variable_reset@2x.png */; };
+		4D02A8061E4979C7009F4998 /* lunar_console_icon_button_variable_reset@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DE389F11DFCD4B2003A2B6B /* lunar_console_icon_button_variable_reset@3x.png */; };
+		4D02A8071E4979C7009F4998 /* lunar_console_icon_log_error.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC7B1DFB93A000032A29 /* lunar_console_icon_log_error.png */; };
+		4D02A8081E4979C7009F4998 /* lunar_console_icon_log_error@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC7C1DFB93A000032A29 /* lunar_console_icon_log_error@2x.png */; };
+		4D02A8091E4979C7009F4998 /* lunar_console_icon_log_error@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC7D1DFB93A000032A29 /* lunar_console_icon_log_error@3x.png */; };
+		4D02A80A1E4979C7009F4998 /* lunar_console_icon_log_warning.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC7E1DFB93A000032A29 /* lunar_console_icon_log_warning.png */; };
+		4D02A80B1E4979C7009F4998 /* lunar_console_icon_log_warning@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC7F1DFB93A000032A29 /* lunar_console_icon_log_warning@2x.png */; };
+		4D02A80C1E4979C7009F4998 /* lunar_console_icon_log_warning@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC801DFB93A000032A29 /* lunar_console_icon_log_warning@3x.png */; };
+		4D02A80D1E4979C7009F4998 /* lunar_console_icon_log.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC811DFB93A100032A29 /* lunar_console_icon_log.png */; };
+		4D02A80E1E4979C7009F4998 /* lunar_console_icon_log@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC821DFB93A100032A29 /* lunar_console_icon_log@2x.png */; };
+		4D02A80F1E4979C7009F4998 /* lunar_console_icon_log@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC831DFB93A100032A29 /* lunar_console_icon_log@3x.png */; };
+		4D02A8101E4979C7009F4998 /* lunar_console_icon_settings.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC841DFB93A100032A29 /* lunar_console_icon_settings.png */; };
+		4D02A8111E4979C7009F4998 /* lunar_console_icon_settings@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC851DFB93A100032A29 /* lunar_console_icon_settings@2x.png */; };
+		4D02A8121E4979C7009F4998 /* lunar_console_icon_settings@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC861DFB93A100032A29 /* lunar_console_icon_settings@3x.png */; };
+		4D02A8131E4979C7009F4998 /* lunar_console_log_button_background.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC871DFB93A100032A29 /* lunar_console_log_button_background.png */; };
+		4D02A8141E4979C7009F4998 /* lunar_console_log_button_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC881DFB93A100032A29 /* lunar_console_log_button_background@2x.png */; };
+		4D02A8151E4979C7009F4998 /* lunar_console_log_button_background@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC891DFB93A100032A29 /* lunar_console_log_button_background@3x.png */; };
+		4D02A8161E4979C7009F4998 /* lunar_console_resize_handle_horizontal.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC8A1DFB93A100032A29 /* lunar_console_resize_handle_horizontal.png */; };
+		4D02A8171E4979C7009F4998 /* lunar_console_resize_handle_horizontal@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC8B1DFB93A100032A29 /* lunar_console_resize_handle_horizontal@2x.png */; };
+		4D02A8181E4979C7009F4998 /* lunar_console_resize_handle_horizontal@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC8C1DFB93A100032A29 /* lunar_console_resize_handle_horizontal@3x.png */; };
+		4D02A8191E4979C7009F4998 /* lunar_console_resize_handle_vertical.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC8D1DFB93A100032A29 /* lunar_console_resize_handle_vertical.png */; };
+		4D02A81A1E4979C7009F4998 /* lunar_console_resize_handle_vertical@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC8E1DFB93A100032A29 /* lunar_console_resize_handle_vertical@2x.png */; };
+		4D02A81B1E4979C7009F4998 /* lunar_console_resize_handle_vertical@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC8F1DFB93A100032A29 /* lunar_console_resize_handle_vertical@3x.png */; };
+		4D02A81C1E4979C7009F4998 /* LUSettingsTableCellBool.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FCE61DFB93C600032A29 /* LUSettingsTableCellBool.xib */; };
 		4D9C35C71E3D840F003E0001 /* NetPeer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D9C35C61E3D840F003E0001 /* NetPeer.m */; };
 		4D9C35C81E3D840F003E0001 /* NetPeer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D9C35C61E3D840F003E0001 /* NetPeer.m */; };
 		4D9C35C91E3D840F003E0001 /* NetPeer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D9C35C61E3D840F003E0001 /* NetPeer.m */; };
@@ -112,7 +188,7 @@
 		844741EE1B719DA500F5ABD3 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 844741ED1B719DA500F5ABD3 /* main.m */; };
 		844741F11B719DA500F5ABD3 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 844741F01B719DA500F5ABD3 /* AppDelegate.m */; };
 		844741F91B719DA500F5ABD3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 844741F81B719DA500F5ABD3 /* Images.xcassets */; };
-		8447421C1B719F3A00F5ABD3 /* ReferenceProxy in Frameworks */ = {isa = PBXBuildFile; fileRef = 844742171B719DB600F5ABD3 /* libLunarConsole.a */; };
+		8447421C1B719F3A00F5ABD3 /* libLunarConsoleFull.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 844742171B719DB600F5ABD3 /* libLunarConsoleFull.a */; };
 		9BEC6F3D1F9B9B89C6781CD6 /* Pods_LunarConsoleAppFree.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E04BC23509F578BDFC1C6547 /* Pods_LunarConsoleAppFree.framework */; };
 		C93996763C98DE29EE74A563 /* Pods_LunarConsoleApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 196642A55653B48BF1B389F9 /* Pods_LunarConsoleApp.framework */; };
 		E6F740BE31A651A20991CAB6 /* Pods_LunarConsoleAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F1F69FE94F7692B28338C21 /* Pods_LunarConsoleAppUITests.framework */; };
@@ -120,7 +196,7 @@
 		EF0836B41B7ABD6D00DFB877 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 844741F51B719DA500F5ABD3 /* Main.storyboard */; };
 		EF21AE1B1BF536FE0053D50B /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF21AE1A1BF536FE0053D50B /* MessageUI.framework */; };
 		EF64F8F21C03D86E008DCB8E /* input.txt in Resources */ = {isa = PBXBuildFile; fileRef = EF64F8F11C03D86E008DCB8E /* input.txt */; };
-		EF81893C1BE16E58008FFCB9 /* ReferenceProxy in Frameworks */ = {isa = PBXBuildFile; fileRef = 844742171B719DB600F5ABD3 /* libLunarConsole.a */; };
+		EF81893C1BE16E58008FFCB9 /* libLunarConsoleFull.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 844742171B719DB600F5ABD3 /* libLunarConsoleFull.a */; };
 		EFAE76481D2486D70072CCBF /* LUConsoleLogControllerUITest.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAE76471D2486D70072CCBF /* LUConsoleLogControllerUITest.m */; };
 		EFAE764D1D24878B0072CCBF /* UITestCaseBase.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAE764A1D24878B0072CCBF /* UITestCaseBase.m */; };
 		EFAE764E1D24878B0072CCBF /* XCTestCase+Operations.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAE764C1D24878B0072CCBF /* XCTestCase+Operations.m */; };
@@ -320,7 +396,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4D02A6251E495B07009F4998 /* ReferenceProxy in Frameworks */,
+				4D02A6251E495B07009F4998 /* libLunarConsoleFree.a in Frameworks */,
 				4DD4F9D31DFB8E5600032A29 /* MessageUI.framework in Frameworks */,
 				9BEC6F3D1F9B9B89C6781CD6 /* Pods_LunarConsoleAppFree.framework in Frameworks */,
 			);
@@ -331,7 +407,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF21AE1B1BF536FE0053D50B /* MessageUI.framework in Frameworks */,
-				8447421C1B719F3A00F5ABD3 /* ReferenceProxy in Frameworks */,
+				8447421C1B719F3A00F5ABD3 /* libLunarConsoleFull.a in Frameworks */,
 				C93996763C98DE29EE74A563 /* Pods_LunarConsoleApp.framework in Frameworks */,
 				5606C47D4C94359A3336A8B5 /* Pods_LunarConsoleAppFull.framework in Frameworks */,
 			);
@@ -349,7 +425,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EF81893C1BE16E58008FFCB9 /* ReferenceProxy in Frameworks */,
+				EF81893C1BE16E58008FFCB9 /* libLunarConsoleFull.a in Frameworks */,
 				E6F740BE31A651A20991CAB6 /* Pods_LunarConsoleAppUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -454,7 +530,7 @@
 		844742121B719DB600F5ABD3 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				844742171B719DB600F5ABD3 /* libLunarConsole.a */,
+				844742171B719DB600F5ABD3 /* libLunarConsoleFull.a */,
 				4DD4F6991DFB80C100032A29 /* libLunarConsoleFree.a */,
 				844742191B719DB600F5ABD3 /* LunarConsoleTests.xctest */,
 			);
@@ -723,10 +799,10 @@
 			remoteRef = 4DD4F6981DFB80C100032A29 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		844742171B719DB600F5ABD3 /* libLunarConsole.a */ = {
+		844742171B719DB600F5ABD3 /* libLunarConsoleFull.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
-			path = libLunarConsole.a;
+			path = libLunarConsoleFull.a;
 			remoteRef = 844742161B719DB600F5ABD3 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
@@ -744,6 +820,82 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4D02A7D11E4979C7009F4998 /* LUActionController.xib in Resources */,
+				4D02A7D21E4979C7009F4998 /* LUConsoleController.xib in Resources */,
+				4D02A7D31E4979C7009F4998 /* LUConsoleLogController.xib in Resources */,
+				4D02A7D41E4979C7009F4998 /* LUConsoleLogDetailsController.xib in Resources */,
+				4D02A7D51E4979C7009F4998 /* LUConsoleLogMenuController.xib in Resources */,
+				4D02A7D61E4979C7009F4998 /* LUConsoleOverlayController.xib in Resources */,
+				4D02A7D71E4979C7009F4998 /* LUConsolePopupController.xib in Resources */,
+				4D02A7D81E4979C7009F4998 /* LUConsoleResizeController.xib in Resources */,
+				4D02A7D91E4979C7009F4998 /* LUConsoleSettingsController.xib in Resources */,
+				4D02A7DA1E4979C7009F4998 /* LUCVarBooleanTableViewCell.xib in Resources */,
+				4D02A7DB1E4979C7009F4998 /* LUCVarInputTableViewCell.xib in Resources */,
+				4D02A7DC1E4979C7009F4998 /* LUExceptionWarningController.xib in Resources */,
+				4D02A7DD1E4979C7009F4998 /* lunar_console_action_button_large_normal.png in Resources */,
+				4D02A7DE1E4979C7009F4998 /* lunar_console_action_button_large_normal@2x.png in Resources */,
+				4D02A7DF1E4979C7009F4998 /* lunar_console_action_button_large_normal@3x.png in Resources */,
+				4D02A7E01E4979C7009F4998 /* lunar_console_action_button_large_selected.png in Resources */,
+				4D02A7E11E4979C7009F4998 /* lunar_console_action_button_large_selected@2x.png in Resources */,
+				4D02A7E21E4979C7009F4998 /* lunar_console_action_button_large_selected@3x.png in Resources */,
+				4D02A7E31E4979C7009F4998 /* lunar_console_actions_empty_warning.png in Resources */,
+				4D02A7E41E4979C7009F4998 /* lunar_console_actions_empty_warning@2x.png in Resources */,
+				4D02A7E51E4979C7009F4998 /* lunar_console_actions_empty_warning@3x.png in Resources */,
+				4D02A7E61E4979C7009F4998 /* lunar_console_collapse_background.png in Resources */,
+				4D02A7E71E4979C7009F4998 /* lunar_console_collapse_background@2x.png in Resources */,
+				4D02A7E81E4979C7009F4998 /* lunar_console_collapse_background@3x.png in Resources */,
+				4D02A7E91E4979C7009F4998 /* lunar_console_icon_button_clear.png in Resources */,
+				4D02A7EA1E4979C7009F4998 /* lunar_console_icon_button_clear@2x.png in Resources */,
+				4D02A7EB1E4979C7009F4998 /* lunar_console_icon_button_clear@3x.png in Resources */,
+				4D02A7EC1E4979C7009F4998 /* lunar_console_icon_button_clipboard.png in Resources */,
+				4D02A7ED1E4979C7009F4998 /* lunar_console_icon_button_clipboard@2x.png in Resources */,
+				4D02A7EE1E4979C7009F4998 /* lunar_console_icon_button_clipboard@3x.png in Resources */,
+				4D02A7EF1E4979C7009F4998 /* lunar_console_icon_button_close.png in Resources */,
+				4D02A7F01E4979C7009F4998 /* lunar_console_icon_button_close@2x.png in Resources */,
+				4D02A7F11E4979C7009F4998 /* lunar_console_icon_button_close@3x.png in Resources */,
+				4D02A7F21E4979C7009F4998 /* lunar_console_icon_button_console.png in Resources */,
+				4D02A7F31E4979C7009F4998 /* lunar_console_icon_button_console@2x.png in Resources */,
+				4D02A7F41E4979C7009F4998 /* lunar_console_icon_button_console@3x.png in Resources */,
+				4D02A7F51E4979C7009F4998 /* lunar_console_icon_button_email.png in Resources */,
+				4D02A7F61E4979C7009F4998 /* lunar_console_icon_button_email@2x.png in Resources */,
+				4D02A7F71E4979C7009F4998 /* lunar_console_icon_button_email@3x.png in Resources */,
+				4D02A7F81E4979C7009F4998 /* lunar_console_icon_button_lock.png in Resources */,
+				4D02A7F91E4979C7009F4998 /* lunar_console_icon_button_lock@2x.png in Resources */,
+				4D02A7FA1E4979C7009F4998 /* lunar_console_icon_button_lock@3x.png in Resources */,
+				4D02A7FB1E4979C7009F4998 /* lunar_console_icon_button_more.png in Resources */,
+				4D02A7FC1E4979C7009F4998 /* lunar_console_icon_button_more@2x.png in Resources */,
+				4D02A7FD1E4979C7009F4998 /* lunar_console_icon_button_more@3x.png in Resources */,
+				4D02A7FE1E4979C7009F4998 /* lunar_console_icon_button_settings.png in Resources */,
+				4D02A7FF1E4979C7009F4998 /* lunar_console_icon_button_settings@2x.png in Resources */,
+				4D02A8001E4979C7009F4998 /* lunar_console_icon_button_settings@3x.png in Resources */,
+				4D02A8011E4979C7009F4998 /* lunar_console_icon_button_unlock.png in Resources */,
+				4D02A8021E4979C7009F4998 /* lunar_console_icon_button_unlock@2x.png in Resources */,
+				4D02A8031E4979C7009F4998 /* lunar_console_icon_button_unlock@3x.png in Resources */,
+				4D02A8041E4979C7009F4998 /* lunar_console_icon_button_variable_reset.png in Resources */,
+				4D02A8051E4979C7009F4998 /* lunar_console_icon_button_variable_reset@2x.png in Resources */,
+				4D02A8061E4979C7009F4998 /* lunar_console_icon_button_variable_reset@3x.png in Resources */,
+				4D02A8071E4979C7009F4998 /* lunar_console_icon_log_error.png in Resources */,
+				4D02A8081E4979C7009F4998 /* lunar_console_icon_log_error@2x.png in Resources */,
+				4D02A8091E4979C7009F4998 /* lunar_console_icon_log_error@3x.png in Resources */,
+				4D02A80A1E4979C7009F4998 /* lunar_console_icon_log_warning.png in Resources */,
+				4D02A80B1E4979C7009F4998 /* lunar_console_icon_log_warning@2x.png in Resources */,
+				4D02A80C1E4979C7009F4998 /* lunar_console_icon_log_warning@3x.png in Resources */,
+				4D02A80D1E4979C7009F4998 /* lunar_console_icon_log.png in Resources */,
+				4D02A80E1E4979C7009F4998 /* lunar_console_icon_log@2x.png in Resources */,
+				4D02A80F1E4979C7009F4998 /* lunar_console_icon_log@3x.png in Resources */,
+				4D02A8101E4979C7009F4998 /* lunar_console_icon_settings.png in Resources */,
+				4D02A8111E4979C7009F4998 /* lunar_console_icon_settings@2x.png in Resources */,
+				4D02A8121E4979C7009F4998 /* lunar_console_icon_settings@3x.png in Resources */,
+				4D02A8131E4979C7009F4998 /* lunar_console_log_button_background.png in Resources */,
+				4D02A8141E4979C7009F4998 /* lunar_console_log_button_background@2x.png in Resources */,
+				4D02A8151E4979C7009F4998 /* lunar_console_log_button_background@3x.png in Resources */,
+				4D02A8161E4979C7009F4998 /* lunar_console_resize_handle_horizontal.png in Resources */,
+				4D02A8171E4979C7009F4998 /* lunar_console_resize_handle_horizontal@2x.png in Resources */,
+				4D02A8181E4979C7009F4998 /* lunar_console_resize_handle_horizontal@3x.png in Resources */,
+				4D02A8191E4979C7009F4998 /* lunar_console_resize_handle_vertical.png in Resources */,
+				4D02A81A1E4979C7009F4998 /* lunar_console_resize_handle_vertical@2x.png in Resources */,
+				4D02A81B1E4979C7009F4998 /* lunar_console_resize_handle_vertical@3x.png in Resources */,
+				4D02A81C1E4979C7009F4998 /* LUSettingsTableCellBool.xib in Resources */,
 				4DD4FA1F1DFB8E5600032A29 /* LaunchScreen.xib in Resources */,
 				4DD4FA201DFB8E5600032A29 /* Main.storyboard in Resources */,
 				4DD4FA211DFB8E5600032A29 /* input.txt in Resources */,

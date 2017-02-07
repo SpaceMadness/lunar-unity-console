@@ -20,7 +20,16 @@
 //
 
 #import "LUActionController.h"
+#import "LUActionControllerBase_Inheritance.h"
 
 @implementation LUActionController
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    self.noActionsWarningLabel.text = @"Not available in free version";
+    [self.learnMoreButton setTitle:@"Learn about PRO version..." forState:UIControlStateNormal];
+}
 
 @end
