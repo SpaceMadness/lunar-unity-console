@@ -22,6 +22,7 @@
 #import "LUConsolePlugin.h"
 
 #import "Lunar.h"
+#import "LUConsolePluginImp.h"
 
 static const NSTimeInterval kWindowAnimationDuration = 0.4f;
 static const CGFloat kWarningHeight = 45.0f;
@@ -35,6 +36,7 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
 
 @interface LUConsolePlugin () <LUConsoleControllerDelegate, LUExceptionWarningControllerDelegate>
 {
+    LUConsolePluginImp      * _pluginImp;
     LUUnityScriptMessenger  * _scriptMessenger;
     UIGestureRecognizer     * _gestureRecognizer;
     LUConsoleGesture          _gesture;
@@ -62,6 +64,7 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
             return nil;
         }
         
+        _pluginImp = [LUConsolePluginImp new];
         _scriptMessenger = [[LUUnityScriptMessenger alloc] initWithTargetName:targetName methodName:methodName];
         _version = version;
         _console = [[LUConsole alloc] initWithCapacity:capacity trimCount:trimCount];
@@ -149,39 +152,12 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
 
 - (void)showOverlay
 {
-    if (_overlayWindow == nil)
-    {
-        LUConsoleOverlayControllerSettings *settings = [LUConsoleOverlayControllerSettings settings];
-        LUConsoleOverlayController *controller = [LUConsoleOverlayController controllerWithConsole:_console
-                                                                                          settings:settings];
-        
-        CGRect windowFrame = LUGetScreenBounds();
-        _overlayWindow = [[LUWindow alloc] initWithFrame:windowFrame];
-        _overlayWindow.userInteractionEnabled = NO;
-        _overlayWindow.rootViewController = controller;
-        _overlayWindow.opaque = YES;
-        _overlayWindow.hidden = NO;
-    }
+    [_pluginImp showOverlay];
 }
 
 - (void)hideOverlay
 {
-    if (_overlayWindow != nil)
-    {
-        _overlayWindow.rootViewController = nil;
-        _overlayWindow.hidden = YES;
-        _overlayWindow = nil;
-    }
-}
-
-- (void)showActionOverlay
-{
-    
-}
-
-- (void)hideActionOverlay
-{
-    
+    [_pluginImp hideOverlay];
 }
 
 - (void)logMessage:(NSString *)message stackTrace:(NSString *)stackTrace type:(LUConsoleLogType)type

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4D02A76F1E496990009F4998 /* LUConsolePluginImp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D02A76E1E496990009F4998 /* LUConsolePluginImp.m */; };
+		4D02A7701E496990009F4998 /* LUConsolePluginImp.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D02A76E1E496990009F4998 /* LUConsolePluginImp.m */; };
 		4DD4FBCD1DFB932B00032A29 /* LUEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DD4FB2C1DFB932B00032A29 /* LUEntry.m */; };
 		4DD4FBCE1DFB932B00032A29 /* LUEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DD4FB2C1DFB932B00032A29 /* LUEntry.m */; };
 		4DD4FBCF1DFB932B00032A29 /* LUEntryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DD4FB2E1DFB932B00032A29 /* LUEntryTableViewCell.m */; };
@@ -154,6 +156,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4D02A76D1E496990009F4998 /* LUConsolePluginImp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUConsolePluginImp.h; sourceTree = "<group>"; };
+		4D02A76E1E496990009F4998 /* LUConsolePluginImp.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUConsolePluginImp.m; sourceTree = "<group>"; };
 		4DD4F5511DFB7F4B00032A29 /* libLunarConsoleFree.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libLunarConsoleFree.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DD4FB2B1DFB932B00032A29 /* LUEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUEntry.h; sourceTree = "<group>"; };
 		4DD4FB2C1DFB932B00032A29 /* LUEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUEntry.m; sourceTree = "<group>"; };
@@ -474,6 +478,8 @@
 			children = (
 				4DD4FB491DFB932B00032A29 /* LUConsolePlugin.h */,
 				4DD4FB4A1DFB932B00032A29 /* LUConsolePlugin.m */,
+				4D02A76D1E496990009F4998 /* LUConsolePluginImp.h */,
+				4D02A76E1E496990009F4998 /* LUConsolePluginImp.m */,
 				4DD4FB4B1DFB932B00032A29 /* LUConsolePluginSettings.h */,
 				4DD4FB4C1DFB932B00032A29 /* LUConsolePluginSettings.m */,
 				4DD4FB4D1DFB932B00032A29 /* lunar_unity_native_interface.h */,
@@ -958,6 +964,7 @@
 				4DD4FBF01DFB932C00032A29 /* LUConsoleResizeController.m in Sources */,
 				4DD4FBD61DFB932B00032A29 /* LUConsoleLogEntry.m in Sources */,
 				4DD4FBE61DFB932C00032A29 /* LUConsolePlugin.m in Sources */,
+				4D02A7701E496990009F4998 /* LUConsolePluginImp.m in Sources */,
 				4DD4FC101DFB932C00032A29 /* LUImageUtils.m in Sources */,
 				4DD4FBD21DFB932B00032A29 /* LUConsoleLogController.m in Sources */,
 			);
@@ -979,6 +986,7 @@
 				4DD4FC1B1DFB932C00032A29 /* LUSortedList.m in Sources */,
 				4DD4FBF31DFB932C00032A29 /* LUExceptionWarningController.m in Sources */,
 				4DD4FC551DFB933700032A29 /* LUActionRegistryFilter.m in Sources */,
+				4D02A76F1E496990009F4998 /* LUConsolePluginImp.m in Sources */,
 				4DD4FC191DFB932C00032A29 /* LUSerializationUtils.m in Sources */,
 				4DD4FC0B1DFB932C00032A29 /* LUAvailability.m in Sources */,
 				4DD4FC031DFB932C00032A29 /* LUToggleButton.m in Sources */,
