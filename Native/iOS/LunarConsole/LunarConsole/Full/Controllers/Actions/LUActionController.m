@@ -22,6 +22,7 @@
 #import "Lunar.h"
 
 #import "LUActionController.h"
+#import "LUActionControllerBase_Inheritance.h"
 
 static const NSInteger kSectionIndexActions = 0;
 static const NSInteger kSectionIndexVariables = 1;
@@ -85,7 +86,7 @@ static const NSInteger kSectionCount = 2;
 
 - (void)consoleControllerDidResizeNotification:(NSNotification *)notification
 {
-    [_tableView reloadRowsAtIndexPaths:_tableView.indexPathsForVisibleRows withRowAnimation:UITableViewRowAnimationNone];
+    [self.tableView reloadRowsAtIndexPaths:self.tableView.indexPathsForVisibleRows withRowAnimation:UITableViewRowAnimationNone];
 }
 
 #pragma mark -
@@ -96,7 +97,7 @@ static const NSInteger kSectionCount = 2;
     BOOL changed = [_actionRegistryFilter setFilterText:text];
     if (changed)
     {
-        [_tableView reloadData];
+        [self.tableView reloadData];
     }
 }
 
@@ -231,7 +232,7 @@ static const NSInteger kSectionCount = 2;
 - (void)actionRegistryFilter:(LUActionRegistryFilter *)registryFilter didAddAction:(LUAction *)action atIndex:(NSUInteger)index
 {
     NSArray *array = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:index inSection:kSectionIndexActions]];
-    [_tableView insertRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationNone];
+    [self.tableView insertRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationNone];
     
     [self updateNoActionWarningView];
 }
@@ -239,7 +240,7 @@ static const NSInteger kSectionCount = 2;
 - (void)actionRegistryFilter:(LUActionRegistryFilter *)registryFilter didRemoveAction:(LUAction *)action atIndex:(NSUInteger)index
 {
     NSArray *array = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:index inSection:kSectionIndexActions]];
-    [_tableView deleteRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationNone];
+    [self.tableView deleteRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationNone];
     
     [self updateNoActionWarningView];
 }
@@ -247,7 +248,7 @@ static const NSInteger kSectionCount = 2;
 - (void)actionRegistryFilter:(LUActionRegistryFilter *)registry didRegisterVariable:(LUCVar *)variable atIndex:(NSUInteger)index
 {
     NSArray *array = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:index inSection:kSectionIndexVariables]];
-    [_tableView insertRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationNone];
+    [self.tableView insertRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationNone];
     
     [self updateNoActionWarningView];
 }
@@ -255,7 +256,7 @@ static const NSInteger kSectionCount = 2;
 - (void)actionRegistryFilter:(LUActionRegistryFilter *)registry didChangeVariable:(LUCVar *)variable atIndex:(NSUInteger)index
 {
     NSArray *array = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:index inSection:kSectionIndexVariables]];
-    [_tableView reloadRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationNone];
+    [self.tableView reloadRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationNone];
 }
 
 #pragma mark -
@@ -332,9 +333,9 @@ static const NSInteger kSectionCount = 2;
 
 - (void)setNoActionsWarningViewHidden:(BOOL)hidden
 {
-    _tableView.hidden = !hidden;
-    _filterBar.hidden = !hidden;
-    _noActionsWarningView.hidden = hidden;
+    self.tableView.hidden = !hidden;
+    self.filterBar.hidden = !hidden;
+    self.noActionsWarningView.hidden = hidden;
 }
 
 @end

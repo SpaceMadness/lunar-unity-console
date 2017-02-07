@@ -24,7 +24,4 @@ extern NSString * const LUActionControllerDidSelectActionKeyAction;
 + (instancetype)controllerWithActionRegistry:(LUActionRegistry *)actionRegistry;
 - (instancetype)initWithActionRegistry:(LUActionRegistry *)actionRegistry;
 
-- (void)updateNoActionWarningView;
-- (void)setNoActionsWarningViewHidden:(BOOL)hidden;
-
 @end

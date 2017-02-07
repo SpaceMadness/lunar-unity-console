@@ -8,22 +8,13 @@
 
 #import "Lunar.h"
 
-#import "LUActionControllerBase.h"
+#import "LUActionControllerBase_Inheritance.h"
 
 NSString * const LUActionControllerDidChangeVariable = @"LUActionControllerDidChangeVariable";
 NSString * const LUActionControllerDidChangeVariableKeyVariable = @"variable";
 
 NSString * const LUActionControllerDidSelectAction = @"LUActionControllerDidSelectAction";
 NSString * const LUActionControllerDidSelectActionKeyAction = @"action";
-
-@interface LUActionControllerBase ()
-
-@property (nonatomic, weak) IBOutlet UIView       * noActionsWarningView;
-@property (nonatomic, weak) IBOutlet UILabel      * noActionsWarningLabel;
-@property (nonatomic, weak) IBOutlet UITableView  * tableView;
-@property (nonatomic, weak) IBOutlet UISearchBar  * filterBar;
-
-@end
 
 @implementation LUActionControllerBase
 
