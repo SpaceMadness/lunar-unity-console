@@ -102,7 +102,7 @@ public class ConsoleLogEntry extends BaseEntry
         return stackTrace != null && stackTrace.length() > 0;
     }
 
-    private static Appearance getAppearance(int type)
+    static Appearance getAppearance(int type)
     {
         return type >= 0 && type < LOG_ENTRY_ICON_RES_LOOKUP.length ?
                 LOG_ENTRY_ICON_RES_LOOKUP[type] : APPEARANCE_LOG;
@@ -111,7 +111,7 @@ public class ConsoleLogEntry extends BaseEntry
     //////////////////////////////////////////////////////////////////////////////
     // Entry appearance
 
-    private static class Appearance
+    static class Appearance
     {
         public final int iconId;
         public final int overlayColorId;
@@ -164,23 +164,4 @@ public class ConsoleLogEntry extends BaseEntry
         }
     }
 
-    public static class OverlayViewHolder extends ConsoleLogAdapter.ViewHolder<ConsoleLogEntry>
-    {
-        private final TextView messageView;
-
-        public OverlayViewHolder(View itemView)
-        {
-            super(itemView);
-            messageView = (TextView) itemView.findViewById(R.id.lunar_console_overlay_log_entry_message);
-        }
-
-        @Override
-        public void onBindViewHolder(ConsoleLogEntry entry, int position)
-        {
-            final int colorId = getAppearance(entry.type).overlayColorId;
-
-            messageView.setText(entry.message);
-            messageView.setTextColor(getColor(colorId));
-        }
-    }
 }

@@ -1,5 +1,5 @@
 //
-//  ConsoleOverlayLogAdapter.java
+//  ConsoleOverlayLogView.java
 //
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
@@ -21,29 +21,38 @@
 
 package spacemadness.com.lunarconsole.console;
 
-import android.view.LayoutInflater;
+import android.content.Context;
 import android.view.View;
-import android.view.ViewGroup;
 
-import spacemadness.com.lunarconsole.R;
+import spacemadness.com.lunarconsole.core.Destroyable;
 
-public class ConsoleOverlayLogAdapter extends BaseConsoleLogAdapter
+public class ConsoleOverlayLogView extends View implements Destroyable
 {
-    public ConsoleOverlayLogAdapter(DataSource dataSource)
+    public ConsoleOverlayLogView(Context context, Console console, Settings settings)
     {
-        super(dataSource);
+        super(context);
     }
 
     @Override
-    protected ViewHolder createViewHolder(View convertView, int position)
+    public void destroy()
     {
-        return new ConsoleLogEntry.OverlayViewHolder(convertView);
     }
 
-    @Override
-    protected View createConvertView(ViewGroup parent, int position)
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Settings
+
+    public static class Settings
     {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        return inflater.inflate(R.layout.lunar_console_layout_overlay_log_entry, parent, false);
+        /** How many entries can be visible at the same time */
+        public int maxVisibleEntries;
+
+        /** How much time each row would be displayed on the screen */
+        public long entryDisplayTimeMillis;
+
+        public Settings()
+        {
+            maxVisibleEntries = 3;
+            entryDisplayTimeMillis = 1000;
+        }
     }
 }
