@@ -897,6 +897,11 @@ public class ConsolePlugin implements Destroyable
 
     private boolean showLogOverlayView()
     {
+        if (LunarConsoleConfig.isFree)
+        {
+            return false;
+        }
+
         try
         {
             if (consoleOverlayLogView == null)
