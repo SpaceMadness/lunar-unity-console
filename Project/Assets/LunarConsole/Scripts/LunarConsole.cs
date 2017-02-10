@@ -40,6 +40,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Text;
 
 using LunarConsolePlugin;
 using LunarConsolePluginInternal;
@@ -1103,3 +1104,65 @@ namespace LunarConsolePlugin
 
     #endif // LUNAR_CONSOLE_ENABLED
 }
+
+#if LUNAR_CONSOLE_ENABLED
+
+namespace LunarConsolePluginInternal
+{
+    /// <summary>
+    /// Class for collecting anonymous usage statistics
+    /// </summary>
+    static class LunarConsoleAnalytics
+    {
+        private static readonly string serverURL = "http://www.google-analytics.com";
+        private static readonly string defaultPayload;
+
+        static LunarConsoleAnalytics()
+        {
+            // tracking id
+            #if LUNAR_CONSOLE_FULL
+            var trackingId = "UA-91768505-1";
+            #else
+            var trackingId = "UA-91747018-1";
+            #endif
+
+            defaultPayload = String.Format("v=1&tid={0}&cid={1}&dos={2}", 
+                trackingId, 
+                WWW.EscapeURL(SystemInfo.deviceUniqueIdentifier), 
+                WWW.EscapeURL(SystemInfo.operatingSystem)
+            );
+        }
+
+        public static IEnumerator trackEvent(String name, IDictionary<string, object> payload = null)
+        {
+            var payloadStr = createPayloadStr(name, payload);
+            var request = new WWW(serverURL, System.Text.Encoding.UTF8.GetBytes(payloadStr));
+            Log.dev("Event track payload: " + payloadStr);
+
+            yield return null;
+
+            Log.dev("Event track result: " + request.text);
+        }
+
+        static string createPayloadStr(string name, IDictionary<string, object> payload)
+        {
+            var buffer = new StringBuilder();
+            buffer.AppendFormat("{0}&t={1}", defaultPayload, WWW.EscapeURL(name));
+            if (payload != null && payload.Count > 0)
+            {
+                foreach (var entry in payload)
+                {
+                    if (entry.Value == null)
+                    {
+                        continue;
+                    }
+
+                    buffer.AppendFormat("&{0}={1}", WWW.EscapeURL(entry.Key), WWW.EscapeURL(entry.Value.ToString()));
+                }
+            }
+            return buffer.ToString();
+        }
+    }
+}
+
+#endif // LUNAR_CONSOLE_ENABLED

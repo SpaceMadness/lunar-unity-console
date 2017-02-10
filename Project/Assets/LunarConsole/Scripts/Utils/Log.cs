@@ -31,6 +31,12 @@ namespace LunarConsolePluginInternal
     {
         static readonly string TAG = "[" + Constants.PluginDisplayName + "]";
 
+        [System.Diagnostics.Conditional("LUNAR_DEVELOPMENT")]
+        public static void dev(string format, params object[] args)
+        {
+            Debug.Log(TAG + " " + StringUtils.TryFormat(format, args));
+        }
+
         public static void e(Exception exception)
         {
             if (exception != null)
