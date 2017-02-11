@@ -179,15 +179,15 @@ namespace LunarConsoleEditorInternal
                             new DialogButton("Details...", delegate(string obj)
                             {
                                 Application.OpenURL(info.url);
-                                LunarConsoleEditorAnalytics.TrackEvent("updater_details");
+                                LunarConsoleEditorAnalytics.TrackEvent("Version", "updater_details", "Updater Details");
                             }),
                             new DialogButton("Remind me later", delegate(string obj) {
-                                LunarConsoleEditorAnalytics.TrackEvent("updater_later");
+                                LunarConsoleEditorAnalytics.TrackEvent("Version", "updater_later", "Updater Declined");
                             }),
                             new DialogButton("Skip this version", delegate(string obj)
                             {
                                 SetShouldSkipVersion(info.version);
-                                LunarConsoleEditorAnalytics.TrackEvent("updater_skip");
+                                LunarConsoleEditorAnalytics.TrackEvent("Version", "updater_skip", "Updater Skipped");
                             })
                         );
                     }

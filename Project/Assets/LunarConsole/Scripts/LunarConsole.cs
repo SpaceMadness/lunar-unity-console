@@ -1115,7 +1115,8 @@ namespace LunarConsolePluginInternal
     public static class LunarConsoleAnalytics
     {
         public static readonly string TrackingURL = "http://www.google-analytics.com";
-        private static readonly string defaultPayload;
+        public const int kUndefinedValue = int.MinValue;
+        private static readonly string DefaultPayload;
 
         static LunarConsoleAnalytics()
         {
@@ -1126,42 +1127,68 @@ namespace LunarConsolePluginInternal
             var trackingId = "UA-91747018-1";
             #endif
 
-            defaultPayload = String.Format("v=1&t=event&tid={0}&cid={1}&ua={2}&av={3}", 
-                trackingId, 
-                WWW.EscapeURL(SystemInfo.deviceUniqueIdentifier), 
-                WWW.EscapeURL(SystemInfo.operatingSystem),
-                WWW.EscapeURL(Constants.Version)
-            );
+            StringBuilder payload = new StringBuilder("v=1&t=event");
+            payload.AppendFormat("&tid={0}", trackingId);
+            payload.AppendFormat("&cid={0}", WWW.EscapeURL(SystemInfo.deviceUniqueIdentifier));
+            payload.AppendFormat("&ua={0}", WWW.EscapeURL(SystemInfo.operatingSystem));
+            payload.AppendFormat("&av={0}", WWW.EscapeURL(Constants.Version));
+            #if UNITY_EDITOR
+            payload.AppendFormat("&ds={0}", "editor");
+            #else
+            payload.AppendFormat("&ds={0}", "player");
+            #endif
+            
+            if (!string.IsNullOrEmpty(Application.productName))
+            {
+                var productName = WWW.EscapeURL(Application.productName);
+                if (productName.Length <= 100)
+                {
+                    payload.AppendFormat("&an={0}", productName);
+                }
+            }
+            if (!string.IsNullOrEmpty(Application.bundleIdentifier))
+            {
+                var bundleIdentifier = WWW.EscapeURL(Application.bundleIdentifier);
+                if (bundleIdentifier.Length <= 150)
+                {
+                    payload.AppendFormat("&aid={0}", bundleIdentifier);
+                }
+            }
+            if (!string.IsNullOrEmpty(Application.companyName))
+            {
+                var companyName = WWW.EscapeURL(Application.companyName);
+                if (companyName.Length <= 150)
+                {
+                    payload.AppendFormat("&aiid={0}", companyName);
+                }
+            }
+
+            DefaultPayload = payload.ToString();
         }
 
-        internal static IEnumerator TrackEvent(String name, IDictionary<string, object> payload = null)
+        internal static IEnumerator TrackEvent(string category, string action, string label, int value = kUndefinedValue)
         {
-            var payloadStr = CreatePayload(name, payload);
-            var request = new WWW(TrackingURL, System.Text.Encoding.UTF8.GetBytes(payloadStr));
-            Log.dev("Event track payload: " + payloadStr);
+            var payload = CreatePayload(category, action, label, value);
+            var request = new WWW(TrackingURL, System.Text.Encoding.UTF8.GetBytes(payload));
+            Log.dev("Event track payload: " + payload);
 
             yield return null;
 
             Log.dev("Event track result: " + request.text);
         }
 
-        public static string CreatePayload(string name, IDictionary<string, object> payload)
+        public static string CreatePayload(string category, string action, string label, int value)
         {
-            var buffer = new StringBuilder();
-            buffer.AppendFormat("{0}&t={1}", defaultPayload, WWW.EscapeURL(name));
-            if (payload != null && payload.Count > 0)
+            var payload = new StringBuilder(DefaultPayload);
+            payload.AppendFormat("&ec={0}", WWW.EscapeURL(category));
+            payload.AppendFormat("&ea={0}", WWW.EscapeURL(action));
+            payload.AppendFormat("&el={0}", WWW.EscapeURL(label));
+            if (value != kUndefinedValue)
             {
-                foreach (var entry in payload)
-                {
-                    if (entry.Value == null)
-                    {
-                        continue;
-                    }
-
-                    buffer.AppendFormat("&{0}={1}", WWW.EscapeURL(entry.Key), WWW.EscapeURL(entry.Value.ToString()));
-                }
+                payload.AppendFormat("&ev={0}", value.ToString());
             }
-            return buffer.ToString();
+
+            return payload.ToString();
         }
     }
 }
