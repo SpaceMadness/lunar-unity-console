@@ -33,5 +33,6 @@ namespace LunarConsolePluginInternal
         public static readonly string PluginDisplayName = "Lunar Mobile Console";
 
         public static readonly string PluginScriptPath = "Assets/" + PluginName + "/Scripts/" + PluginName + ".cs";
+        public static readonly string EditorPrefsKeyBase = "com.spacemadness.lunar.console";
     }
 }

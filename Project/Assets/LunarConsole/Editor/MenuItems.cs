@@ -23,6 +23,8 @@ using UnityEngine;
 using UnityEditor;
 using UnityEditorInternal;
 
+using LunarConsolePluginInternal;
+
 namespace LunarConsoleEditorInternal
 {
     static class MenuItems
@@ -42,6 +44,7 @@ namespace LunarConsoleEditorInternal
         [MenuItem("Window/Lunar Mobile Console/Check for updates...")]
         static void CheckForUpdates()
         {
+            LunarConsoleEditorAnalytics.TrackEvent("updater_check");
             Updater.CheckForUpdates(false);
         }
 
