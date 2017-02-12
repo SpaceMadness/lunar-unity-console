@@ -24,6 +24,9 @@
 #import "Lunar.h"
 #import "LUConsolePluginImp.h"
 
+NSString * const LUConsoleCheckFullVersionNotification = @"LUConsoleCheckFullVersionNotification";
+NSString * const LUConsoleCheckFullVersionNotificationSource = @"source";
+
 static const NSTimeInterval kWindowAnimationDuration = 0.4f;
 static const CGFloat kWarningHeight = 45.0f;
 
@@ -252,6 +255,9 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
     
     [self registerNotificationName:LUActionControllerDidSelectAction
                           selector:@selector(actionControllerDidSelectActionNotification:)];
+    
+    [self registerNotificationName:LUConsoleCheckFullVersionNotification
+                          selector:@selector(checkFullVersionNotification:)]
 }
 
 - (void)actionControllerDidChangeVariableNotification:(NSNotification *)notification
@@ -278,6 +284,21 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
     {
         NSDictionary *params = @{ @"id" : [NSNumber numberWithInt:action.actionId] };
         [_scriptMessenger sendMessageName:kScriptMessageAction params:params];
+    }
+}
+
+- (void)checkFullVersionNotification:(NSNotification *)notification
+{
+    NSString *source = [notification.userInfo objectForKey:LUConsoleCheckFullVersionNotificationSource];
+    LUAssert(source);
+    
+    if (source)
+    {
+        NSDictionary *params = @{
+            @"category" : @"Full Version",
+            @"action"   : [NSString stringWithFormat:@"full_version_%@", source]
+        };
+        [_scriptMessenger sendMessageName:kScriptMessageTrackEvent params:params];
     }
 }
 

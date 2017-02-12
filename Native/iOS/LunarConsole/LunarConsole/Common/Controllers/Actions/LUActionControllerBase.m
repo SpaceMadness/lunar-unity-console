@@ -80,8 +80,16 @@ NSString * const LUActionControllerDidSelectActionKeyAction = @"action";
 
 - (IBAction)onInfoButton:(id)sender
 {
-    NSString *URLString = LUConsoleIsFreeVersion ? @"https://goo.gl/wLx2MR" : @"https://goo.gl/in0obv";
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:URLString]];
+    if (LUConsoleIsFreeVersion)
+    {
+        [[NSNotificationCenter defaultCenter] postNotificationName:LUConsoleCheckFullVersionNotification object:nil userInfo:@{ LUConsoleCheckFullVersionNotificationSource : @"actions" }];
+        
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://goo.gl/TMnxBe"]];
+    }
+    else
+    {
+        [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://goo.gl/in0obv"]];
+    }
 }
 
 @end

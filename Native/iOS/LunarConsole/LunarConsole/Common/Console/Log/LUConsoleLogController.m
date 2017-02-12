@@ -272,7 +272,7 @@ static const CGFloat kMinWidthToResizeSearchBar = 480;
     {
         [popupController setLearnMoreTitle:@"Learn about PRO version..."
                                     target:self
-                                    action:@selector(onGetProButton:)];
+                                    action:@selector(onLearnAboutProButton:)];
     }
     
     [popupController presentFromController:self.parentViewController animated:YES];
@@ -624,9 +624,22 @@ static const CGFloat kMinWidthToResizeSearchBar = 480;
     
 }
 
+- (void)onLearnAboutProButton:(id)sender
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:LUConsoleCheckFullVersionNotification
+                                                        object:nil
+                                                      userInfo:@{ LUConsoleCheckFullVersionNotificationSource : @"settings" }];
+    
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://goo.gl/TMnxBe"]];
+}
+
 - (void)onGetProButton:(id)sender
 {
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://goo.gl/wLx2MR"]];
+    [[NSNotificationCenter defaultCenter] postNotificationName:LUConsoleCheckFullVersionNotification
+                                                        object:nil
+                                                      userInfo:@{ LUConsoleCheckFullVersionNotificationSource : @"menu" }];
+    
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://goo.gl/TMnxBe"]];
 }
 
 #pragma mark -
