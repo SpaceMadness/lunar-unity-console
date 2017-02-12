@@ -44,7 +44,7 @@ namespace LunarConsoleEditorInternal
         [MenuItem("Window/Lunar Mobile Console/Check for updates...")]
         static void CheckForUpdates()
         {
-            LunarConsoleEditorAnalytics.TrackEvent("Version", "updater_check", "Updater Checked");
+            LunarConsoleEditorAnalytics.TrackEvent("Version", "updater_check");
             Updater.CheckForUpdates(false);
         }
 

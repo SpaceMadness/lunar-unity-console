@@ -22,13 +22,13 @@ namespace LunarConsoleEditorInternal
             if (lastKnownVersion != Constants.Version)
             {
                 EditorPrefs.SetString(kPrefsLastKnownVersion, Constants.Version);
-                TrackEvent("Version", "updated_version", "Updated plugin version");
+                TrackEvent("Version", "updated_version");
             }
         }
 
-        public static void TrackEvent(string category, string action, string label, int value = LunarConsoleAnalytics.kUndefinedValue)
+        public static void TrackEvent(string category, string action, int value = LunarConsoleAnalytics.kUndefinedValue)
         {
-            var payloadStr = LunarConsoleAnalytics.CreatePayload(category, action, label, value);
+            var payloadStr = LunarConsoleAnalytics.CreatePayload(category, action, value);
             Log.d("Event track payload: " + payloadStr);
 
             LunarConsoleHttpClient downloader = new LunarConsoleHttpClient(LunarConsoleAnalytics.TrackingURL);

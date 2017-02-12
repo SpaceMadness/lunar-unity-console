@@ -594,6 +594,7 @@ namespace LunarConsolePlugin
                     m_nativeHandlerLookup["console_close"] = ConsoleCloseHandler;
                     m_nativeHandlerLookup["console_action"] = ConsoleActionHandler;
                     m_nativeHandlerLookup["console_variable_set"] = ConsoleVariableSetHandler;
+                    m_nativeHandlerLookup["track_event"] = TrackEventHandler;
                 }
 
                 return m_nativeHandlerLookup;
@@ -738,6 +739,39 @@ namespace LunarConsolePlugin
             {
                 Log.e(e, "Exception while trying to set variable '{0}'", variable.Name);
             }
+        }
+
+        void TrackEventHandler(IDictionary<string, string> data)
+        {
+            string category;
+            if (!data.TryGetValue("category", out category) || category.Length == 0)
+            {
+                Log.w("Can't track event: missing 'category' parameter");
+                return;
+            }
+
+            string action;
+            if (!data.TryGetValue("action", out action) || action.Length == 0)
+            {
+                Log.w("Can't track event: missing 'action' parameter");
+                return;
+            }
+
+            string valueStr;
+            if (!data.TryGetValue("value", out valueStr))
+            {
+                Log.w("Can't track event: missing 'value' parameter");
+                return;
+            }
+
+            int value;
+            if (!int.TryParse(valueStr, out value))
+            {
+                Log.w("Can't track event: invalid 'value' parameter: {0}", valueStr);
+                return;
+            }
+
+            LunarConsoleAnalytics.TrackEvent(category, action, value);
         }
 
         #endregion
@@ -1166,9 +1200,9 @@ namespace LunarConsolePluginInternal
             DefaultPayload = payload.ToString();
         }
 
-        internal static IEnumerator TrackEvent(string category, string action, string label, int value = kUndefinedValue)
+        internal static IEnumerator TrackEvent(string category, string action, int value = kUndefinedValue)
         {
-            var payload = CreatePayload(category, action, label, value);
+            var payload = CreatePayload(category, action, value);
             var request = new WWW(TrackingURL, System.Text.Encoding.UTF8.GetBytes(payload));
             Log.dev("Event track payload: " + payload);
 
@@ -1177,12 +1211,11 @@ namespace LunarConsolePluginInternal
             Log.dev("Event track result: " + request.text);
         }
 
-        public static string CreatePayload(string category, string action, string label, int value)
+        public static string CreatePayload(string category, string action, int value)
         {
             var payload = new StringBuilder(DefaultPayload);
             payload.AppendFormat("&ec={0}", WWW.EscapeURL(category));
             payload.AppendFormat("&ea={0}", WWW.EscapeURL(action));
-            payload.AppendFormat("&el={0}", WWW.EscapeURL(label));
             if (value != kUndefinedValue)
             {
                 payload.AppendFormat("&ev={0}", value.ToString());
