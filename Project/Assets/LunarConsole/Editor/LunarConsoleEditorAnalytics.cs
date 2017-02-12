@@ -31,8 +31,8 @@ namespace LunarConsoleEditorInternal
             var payloadStr = LunarConsoleAnalytics.CreatePayload(category, action, label, value);
             Log.d("Event track payload: " + payloadStr);
 
-            LunarConsoleHttpDownloader downloader = new LunarConsoleHttpDownloader(LunarConsoleAnalytics.TrackingURL);
-            downloader.UploadData(payloadStr, "POST", delegate(string result, Exception error) {
+            LunarConsoleHttpClient downloader = new LunarConsoleHttpClient(LunarConsoleAnalytics.TrackingURL);
+            downloader.UploadData(payloadStr, delegate(string result, Exception error) {
                 if (error != null) {
                     Log.e("Event track failed: " + error);
                 } else {

@@ -143,7 +143,7 @@ namespace LunarConsoleEditorInternal
         
         public static void CheckForUpdates(bool silent = true)
         {
-            LunarConsoleHttpDownloader downloader = new LunarConsoleHttpDownloader(Constants.UpdateJsonURL);
+            LunarConsoleHttpClient downloader = new LunarConsoleHttpClient(Constants.UpdateJsonURL);
             downloader.DownloadString(delegate(string response, Exception error)
             {
                 if (error != null)

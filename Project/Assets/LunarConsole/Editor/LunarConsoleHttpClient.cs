@@ -10,17 +10,17 @@ namespace LunarConsoleEditorInternal
 {
     delegate void LunarConsoleHttpDownloaderCallback(string result, Exception error);
 
-    class LunarConsoleHttpDownloader
+    class LunarConsoleHttpClient
     {
         private Uri m_uri;
         private WebClient m_client;
 
-        public LunarConsoleHttpDownloader(string uri)
+        public LunarConsoleHttpClient(string uri)
             : this(new Uri(uri))
         {
         }
 
-        public LunarConsoleHttpDownloader(Uri uri)
+        public LunarConsoleHttpClient(Uri uri)
         {
             if (uri == null)
             {
@@ -31,7 +31,7 @@ namespace LunarConsoleEditorInternal
             m_client = new WebClient();
         }
 
-        public void UploadData(string data, string method, LunarConsoleHttpDownloaderCallback callback)
+        public void UploadData(string data, LunarConsoleHttpDownloaderCallback callback)
         {
             if (callback == null)
             {
@@ -64,7 +64,7 @@ namespace LunarConsoleEditorInternal
                 Cancel();
             }
 
-            m_client.UploadDataAsync(m_uri, method, System.Text.Encoding.UTF8.GetBytes(data));
+            m_client.UploadDataAsync(m_uri, System.Text.Encoding.UTF8.GetBytes(data));
         }
 
         public void DownloadString(LunarConsoleHttpDownloaderCallback callback)
