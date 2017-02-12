@@ -607,6 +607,8 @@ namespace LunarConsolePlugin
             {
                 onConsoleOpened();
             }
+
+            TrackEvent("Console", "console_open");
         }
 
         void ConsoleCloseHandler(IDictionary<string, string> data)
@@ -615,6 +617,8 @@ namespace LunarConsolePlugin
             {
                 onConsoleClosed();
             }
+
+            TrackEvent("Console", "console_close");
         }
 
         void ConsoleActionHandler(IDictionary<string, string> data)
@@ -773,6 +777,15 @@ namespace LunarConsolePlugin
 
             LunarConsoleAnalytics.TrackEvent(category, action, value);
         }
+
+        #region Analytics
+
+        void TrackEvent(string category, string action, int value = LunarConsoleAnalytics.kUndefinedValue)
+        {
+            StartCoroutine(LunarConsoleAnalytics.TrackEvent(category, action, value));
+        }
+
+        #endregion
 
         #endregion
 
@@ -1203,12 +1216,8 @@ namespace LunarConsolePluginInternal
         internal static IEnumerator TrackEvent(string category, string action, int value = kUndefinedValue)
         {
             var payload = CreatePayload(category, action, value);
-            var request = new WWW(TrackingURL, System.Text.Encoding.UTF8.GetBytes(payload));
-            Log.dev("Event track payload: " + payload);
-
-            yield return null;
-
-            Log.dev("Event track result: " + request.text);
+            var www = new WWW(TrackingURL, System.Text.Encoding.UTF8.GetBytes(payload));
+            yield return www;
         }
 
         public static string CreatePayload(string category, string action, int value)

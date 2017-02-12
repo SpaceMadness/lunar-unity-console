@@ -76,8 +76,12 @@ namespace :lunar do
     $package_config = 'Free'
   end
 
-  desc 'Build native part of the plugin'
-  task :build_native => [:build_native_ios, :build_native_android] do
+  desc 'Build native part of full the plugin'
+  task :build_native_full => [:full, :build_native_ios, :build_native_android] do
+  end
+
+  desc 'Build native part of free the plugin'
+  task :build_native_free => [:free, :build_native_ios, :build_native_android] do
   end
 
   desc 'Build native iOS part of the plugin'
@@ -302,7 +306,7 @@ namespace :lunar do
 
   end
 
-    def build_android(dir_project, module_name, flavour, config = 'Release')
+  def build_android(dir_project, module_name, flavour, config = 'Release')
 
     Dir.chdir dir_project do
       exec_shell "./gradlew :#{module_name}:clean :#{module_name}:assemble#{flavour}#{config}", "Can't build Android aar"

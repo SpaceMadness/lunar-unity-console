@@ -31,6 +31,7 @@ static NSString * const kScriptMessageConsoleOpen    = @"console_open";
 static NSString * const kScriptMessageConsoleClose   = @"console_close";
 static NSString * const kScriptMessageSetVariable    = @"console_variable_set";
 static NSString * const kScriptMessageAction         = @"console_action";
+static NSString * const kScriptMessageTrackEvent     = @"track_event";
 
 static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmobileconsole.settings.bin";
 
