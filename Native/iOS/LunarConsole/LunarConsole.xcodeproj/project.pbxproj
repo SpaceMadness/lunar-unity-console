@@ -166,7 +166,6 @@
 		4D02A7821E496C93009F4998 /* LUAction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUAction.h; sourceTree = "<group>"; };
 		4D02A7831E496C93009F4998 /* LUAction.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUAction.m; sourceTree = "<group>"; };
 		4D02A7851E496C93009F4998 /* LUActionController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUActionController.m; sourceTree = "<group>"; };
-		4D02A7861E496C93009F4998 /* LUActionController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LUActionController.xib; sourceTree = "<group>"; };
 		4D02A7881E496C93009F4998 /* LUActionRegistry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUActionRegistry.m; sourceTree = "<group>"; };
 		4D02A7891E496C93009F4998 /* LUActionRegistryFilter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUActionRegistryFilter.h; sourceTree = "<group>"; };
 		4D02A78A1E496C93009F4998 /* LUActionRegistryFilter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUActionRegistryFilter.m; sourceTree = "<group>"; };
@@ -478,7 +477,6 @@
 				4D02A7821E496C93009F4998 /* LUAction.h */,
 				4D02A7831E496C93009F4998 /* LUAction.m */,
 				4D02A7851E496C93009F4998 /* LUActionController.m */,
-				4D02A7861E496C93009F4998 /* LUActionController.xib */,
 				4D02A7881E496C93009F4998 /* LUActionRegistry.m */,
 				4D02A7891E496C93009F4998 /* LUActionRegistryFilter.h */,
 				4D02A78A1E496C93009F4998 /* LUActionRegistryFilter.m */,

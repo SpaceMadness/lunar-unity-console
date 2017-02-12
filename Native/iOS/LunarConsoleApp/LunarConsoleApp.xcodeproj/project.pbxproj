@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		4D02A6251E495B07009F4998 /* libLunarConsoleFree.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4DD4F6991DFB80C100032A29 /* libLunarConsoleFree.a */; };
-		4D02A7D11E4979C7009F4998 /* LUActionController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FCDA1DFB93C600032A29 /* LUActionController.xib */; };
 		4D02A7D21E4979C7009F4998 /* LUConsoleController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FCDB1DFB93C600032A29 /* LUConsoleController.xib */; };
 		4D02A7D31E4979C7009F4998 /* LUConsoleLogController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FCDC1DFB93C600032A29 /* LUConsoleLogController.xib */; };
 		4D02A7D41E4979C7009F4998 /* LUConsoleLogDetailsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FCDD1DFB93C600032A29 /* LUConsoleLogDetailsController.xib */; };
@@ -84,6 +83,8 @@
 		4D02A81A1E4979C7009F4998 /* lunar_console_resize_handle_vertical@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC8E1DFB93A100032A29 /* lunar_console_resize_handle_vertical@2x.png */; };
 		4D02A81B1E4979C7009F4998 /* lunar_console_resize_handle_vertical@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC8F1DFB93A100032A29 /* lunar_console_resize_handle_vertical@3x.png */; };
 		4D02A81C1E4979C7009F4998 /* LUSettingsTableCellBool.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FCE61DFB93C600032A29 /* LUSettingsTableCellBool.xib */; };
+		4D02A8231E511680009F4998 /* LUActionController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D02A8221E511680009F4998 /* LUActionController.xib */; };
+		4D02A8241E511692009F4998 /* LUActionController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D02A8221E511680009F4998 /* LUActionController.xib */; };
 		4D9C35C71E3D840F003E0001 /* NetPeer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D9C35C61E3D840F003E0001 /* NetPeer.m */; };
 		4D9C35C81E3D840F003E0001 /* NetPeer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D9C35C61E3D840F003E0001 /* NetPeer.m */; };
 		4D9C35C91E3D840F003E0001 /* NetPeer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D9C35C61E3D840F003E0001 /* NetPeer.m */; };
@@ -161,7 +162,6 @@
 		4DD4FCD71DFB93A100032A29 /* lunar_console_icon_button_console.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC9B1DFB93A100032A29 /* lunar_console_icon_button_console.png */; };
 		4DD4FCD81DFB93A100032A29 /* lunar_console_icon_button_console@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC9C1DFB93A100032A29 /* lunar_console_icon_button_console@2x.png */; };
 		4DD4FCD91DFB93A100032A29 /* lunar_console_icon_button_console@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FC9D1DFB93A100032A29 /* lunar_console_icon_button_console@3x.png */; };
-		4DD4FCE71DFB93C600032A29 /* LUActionController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FCDA1DFB93C600032A29 /* LUActionController.xib */; };
 		4DD4FCE81DFB93C600032A29 /* LUConsoleController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FCDB1DFB93C600032A29 /* LUConsoleController.xib */; };
 		4DD4FCE91DFB93C600032A29 /* LUConsoleLogController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FCDC1DFB93C600032A29 /* LUConsoleLogController.xib */; };
 		4DD4FCEA1DFB93C600032A29 /* LUConsoleLogDetailsController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FCDD1DFB93C600032A29 /* LUConsoleLogDetailsController.xib */; };
@@ -269,6 +269,7 @@
 		1FB3CA6156344729191554ED /* Pods-LunarConsoleAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LunarConsoleAppTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-LunarConsoleAppTests/Pods-LunarConsoleAppTests.release.xcconfig"; sourceTree = "<group>"; };
 		29F4782DA9C617256D8D7BA3 /* Pods-LunarConsoleApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LunarConsoleApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LunarConsoleApp/Pods-LunarConsoleApp.debug.xcconfig"; sourceTree = "<group>"; };
 		438BC1E4A24AFBB11E4BD7E0 /* Pods-LunarConsoleApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LunarConsoleApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-LunarConsoleApp/Pods-LunarConsoleApp.release.xcconfig"; sourceTree = "<group>"; };
+		4D02A8221E511680009F4998 /* LUActionController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LUActionController.xib; path = ../../LunarConsole/LunarConsole/Common/Controllers/Actions/LUActionController.xib; sourceTree = "<group>"; };
 		4D9C35C51E3D840F003E0001 /* NetPeer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetPeer.h; sourceTree = "<group>"; };
 		4D9C35C61E3D840F003E0001 /* NetPeer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetPeer.m; sourceTree = "<group>"; };
 		4D9C35CC1E3D97A0003E0001 /* UnityMessenger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnityMessenger.h; sourceTree = "<group>"; };
@@ -335,7 +336,6 @@
 		4DD4FC9B1DFB93A100032A29 /* lunar_console_icon_button_console.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = lunar_console_icon_button_console.png; path = ../../LunarConsole/LunarConsole/Common/Images/lunar_console_icon_button_console.png; sourceTree = "<group>"; };
 		4DD4FC9C1DFB93A100032A29 /* lunar_console_icon_button_console@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lunar_console_icon_button_console@2x.png"; path = "../../LunarConsole/LunarConsole/Common/Images/lunar_console_icon_button_console@2x.png"; sourceTree = "<group>"; };
 		4DD4FC9D1DFB93A100032A29 /* lunar_console_icon_button_console@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "lunar_console_icon_button_console@3x.png"; path = "../../LunarConsole/LunarConsole/Common/Images/lunar_console_icon_button_console@3x.png"; sourceTree = "<group>"; };
-		4DD4FCDA1DFB93C600032A29 /* LUActionController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LUActionController.xib; path = ../../LunarConsole/LunarConsole/Full/Controllers/Actions/LUActionController.xib; sourceTree = "<group>"; };
 		4DD4FCDB1DFB93C600032A29 /* LUConsoleController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LUConsoleController.xib; path = ../../LunarConsole/LunarConsole/Common/Console/LUConsoleController.xib; sourceTree = "<group>"; };
 		4DD4FCDC1DFB93C600032A29 /* LUConsoleLogController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LUConsoleLogController.xib; path = ../../LunarConsole/LunarConsole/Common/Console/Log/LUConsoleLogController.xib; sourceTree = "<group>"; };
 		4DD4FCDD1DFB93C600032A29 /* LUConsoleLogDetailsController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LUConsoleLogDetailsController.xib; path = ../../LunarConsole/LunarConsole/Common/Console/Log/LUConsoleLogDetailsController.xib; sourceTree = "<group>"; };
@@ -540,7 +540,7 @@
 		84E5B80D1B77011900315599 /* Assets */ = {
 			isa = PBXGroup;
 			children = (
-				4DD4FCDA1DFB93C600032A29 /* LUActionController.xib */,
+				4D02A8221E511680009F4998 /* LUActionController.xib */,
 				4DD4FCDB1DFB93C600032A29 /* LUConsoleController.xib */,
 				4DD4FCDC1DFB93C600032A29 /* LUConsoleLogController.xib */,
 				4DD4FCDD1DFB93C600032A29 /* LUConsoleLogDetailsController.xib */,
@@ -820,7 +820,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4D02A7D11E4979C7009F4998 /* LUActionController.xib in Resources */,
+				4D02A8241E511692009F4998 /* LUActionController.xib in Resources */,
 				4D02A7D21E4979C7009F4998 /* LUConsoleController.xib in Resources */,
 				4D02A7D31E4979C7009F4998 /* LUConsoleLogController.xib in Resources */,
 				4D02A7D41E4979C7009F4998 /* LUConsoleLogDetailsController.xib in Resources */,
@@ -907,10 +907,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4D02A8231E511680009F4998 /* LUActionController.xib in Resources */,
 				4DE389F21DFCD4B2003A2B6B /* lunar_console_icon_button_variable_reset.png in Resources */,
 				4DE389F31DFCD4B2003A2B6B /* lunar_console_icon_button_variable_reset@2x.png in Resources */,
 				4DE389F41DFCD4B2003A2B6B /* lunar_console_icon_button_variable_reset@3x.png in Resources */,
-				4DD4FCE71DFB93C600032A29 /* LUActionController.xib in Resources */,
 				4DD4FCE81DFB93C600032A29 /* LUConsoleController.xib in Resources */,
 				4DD4FCE91DFB93C600032A29 /* LUConsoleLogController.xib in Resources */,
 				4DD4FCEA1DFB93C600032A29 /* LUConsoleLogDetailsController.xib in Resources */,

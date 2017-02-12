@@ -38,9 +38,6 @@ NSString * const LUActionControllerDidSelectActionKeyAction = @"action";
     
     LUTheme *theme = [LUTheme mainTheme];
     
-    // title
-    self.title = @"Actions";
-    
     // background
     self.view.opaque = YES;
     self.view.backgroundColor = theme.tableColor;
