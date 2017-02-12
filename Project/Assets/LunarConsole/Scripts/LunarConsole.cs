@@ -761,18 +761,15 @@ namespace LunarConsolePlugin
                 return;
             }
 
+            int value = LunarConsoleAnalytics.kUndefinedValue;;
             string valueStr;
-            if (!data.TryGetValue("value", out valueStr))
+            if (data.TryGetValue("value", out valueStr))
             {
-                Log.w("Can't track event: missing 'value' parameter");
-                return;
-            }
-
-            int value;
-            if (!int.TryParse(valueStr, out value))
-            {
-                Log.w("Can't track event: invalid 'value' parameter: {0}", valueStr);
-                return;
+                if (!int.TryParse(valueStr, out value))
+                {
+                    Log.w("Can't track event: invalid 'value' parameter: {0}", valueStr);
+                    return;
+                }
             }
 
             LunarConsoleAnalytics.TrackEvent(category, action, value);
