@@ -6,6 +6,11 @@ using System.Net;
 using UnityEngine;
 using UnityEditor;
 
+#if UNITY_EDITOR_WIN
+using System.Security.Cryptography.X509Certificates;
+using System.Net.Security;
+#endif
+
 namespace LunarConsoleEditorInternal
 {
     delegate void LunarConsoleHttpDownloaderCallback(string result, Exception error);
@@ -14,6 +19,38 @@ namespace LunarConsoleEditorInternal
     {
         private Uri m_uri;
         private WebClient m_client;
+
+        #if UNITY_EDITOR_WIN
+
+        static LunarConsoleHttpClient()
+        {
+            ServicePointManager.ServerCertificateValidationCallback = MyRemoteCertificateValidationCallback;
+        }
+
+        private static bool MyRemoteCertificateValidationCallback(System.Object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
+        {
+            if (sslPolicyErrors != SslPolicyErrors.None)
+            {
+                for (int i = 0; i < chain.ChainStatus.Length; i++)
+                {
+                    if (chain.ChainStatus[i].Status != X509ChainStatusFlags.RevocationStatusUnknown)
+                    {
+                        chain.ChainPolicy.RevocationFlag = X509RevocationFlag.EntireChain;
+                        chain.ChainPolicy.RevocationMode = X509RevocationMode.Online;
+                        chain.ChainPolicy.UrlRetrievalTimeout = new TimeSpan(0, 1, 0);
+                        chain.ChainPolicy.VerificationFlags = X509VerificationFlags.AllFlags;
+                        bool chainIsValid = chain.Build((X509Certificate2)certificate);
+                        if (!chainIsValid)
+                        {
+                            return false;
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+
+        #endif // UNITY_EDITOR_WIN
 
         public LunarConsoleHttpClient(string uri)
             : this(new Uri(uri))
@@ -43,7 +80,7 @@ namespace LunarConsoleEditorInternal
                 throw new InvalidOperationException("Already downloading something");
             }
 
-            m_client.UploadDataCompleted += delegate(object sender, UploadDataCompletedEventArgs e)
+            m_client.UploadStringCompleted += delegate(object sender, UploadStringCompletedEventArgs e)
             {
                 Utils.DispatchOnMainThread(delegate()
                 {
@@ -54,7 +91,7 @@ namespace LunarConsoleEditorInternal
 
                     if (!e.Cancelled)
                     {
-                        callback(e.Result != null ? System.Text.Encoding.UTF8.GetString(e.Result) : null, e.Error);
+                        callback(e.Result, e.Error);
                     }
                 });
             };
@@ -64,7 +101,7 @@ namespace LunarConsoleEditorInternal
                 Cancel();
             }
 
-            m_client.UploadDataAsync(m_uri, System.Text.Encoding.UTF8.GetBytes(data));
+            m_client.UploadStringAsync(m_uri, data);
         }
 
         public void DownloadString(LunarConsoleHttpDownloaderCallback callback)

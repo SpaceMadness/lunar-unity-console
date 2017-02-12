@@ -1114,7 +1114,7 @@ namespace LunarConsolePluginInternal
     /// </summary>
     public static class LunarConsoleAnalytics
     {
-        public static readonly string TrackingURL = "http://www.google-analytics.com";
+        public static readonly string TrackingURL = "http://www.google-analytics.com/collect";
         public const int kUndefinedValue = int.MinValue;
         private static readonly string DefaultPayload;
 
