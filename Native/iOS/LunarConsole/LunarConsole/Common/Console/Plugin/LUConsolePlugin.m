@@ -257,7 +257,7 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
                           selector:@selector(actionControllerDidSelectActionNotification:)];
     
     [self registerNotificationName:LUConsoleCheckFullVersionNotification
-                          selector:@selector(checkFullVersionNotification:)]
+                          selector:@selector(checkFullVersionNotification:)];
 }
 
 - (void)actionControllerDidChangeVariableNotification:(NSNotification *)notification
