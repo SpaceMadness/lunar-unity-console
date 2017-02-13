@@ -77,11 +77,15 @@ namespace :lunar do
   end
 
   desc 'Build native part of full the plugin'
-  task :build_native_full => [:full, :build_native_ios, :build_native_android] do
+  task :build_native_full => [:full, :build_native] do
   end
 
   desc 'Build native part of free the plugin'
-  task :build_native_free => [:free, :build_native_ios, :build_native_android] do
+  task :build_native_free => [:free, :build_native] do
+  end
+
+  desc 'Build native part of full the plugin'
+  task :build_native => [:build_native_ios, :build_native_android] do
   end
 
   desc 'Build native iOS part of the plugin'
@@ -152,6 +156,8 @@ namespace :lunar do
 
     file_package = "#{$dir_out_packages}/lunar-console-#{$package_config.downcase}-#{$package_version}.unitypackage"
     print_header "Exporting package: #{file_package}..."
+
+    override_configuration_define resolve_path("#{$dir_project_plugin}/Scripts/LunarConsole.cs"), $package_config
 
     package_files = not_nil $package_files
 
@@ -323,6 +329,19 @@ namespace :lunar do
         f.puts "#{name}=#{value}"
       }
     }
+  end
+
+  def override_configuration_define(file_script, configuration)
+    source = File.read file_script
+    if configuration == 'Full'
+      source.gsub! '#define LUNAR_CONSOLE_FREE', '#define LUNAR_CONSOLE_FULL'
+    elsif configuration == 'Free'
+      source.gsub! '#define LUNAR_CONSOLE_FULL', '#define LUNAR_CONSOLE_FREE'
+    else
+      fail_script "Unexpected configuration: #{configuration}"
+    end
+
+    File.open(file_script, 'w') { |f| f.write source }
   end
 
 end

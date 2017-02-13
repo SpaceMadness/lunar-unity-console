@@ -864,7 +864,6 @@ namespace LunarConsolePlugin
             #endif
         }
 
-        #if LUNAR_CONSOLE_FULL
         /// <summary>
         /// Registers action delegate
         /// </summary>
@@ -873,91 +872,75 @@ namespace LunarConsolePlugin
         public static void RegisterAction(string name, Action action)
         {
             #if LUNAR_CONSOLE_PLATFORM_SUPPORTED
-            #if LUNAR_CONSOLE_ENABLED
-            if (s_instance != null)
-            {
-                s_instance.RegisterConsoleAction(name, action);
-            }
-            else
-            {
-                Log.w("Can't register action: instance is not initialized. Make sure you've installed it correctly");
-            }
-            #else
-            Log.w("Can't register action: plugin is disabled");
-            #endif
-            #endif
+                #if LUNAR_CONSOLE_FULL
+                    #if LUNAR_CONSOLE_ENABLED
+                    if (s_instance != null)
+                    {
+                        s_instance.RegisterConsoleAction(name, action);
+                    }
+                    else
+                    {
+                        Log.w("Can't register action: instance is not initialized. Make sure you've installed it correctly");
+                    }
+                    #else  // LUNAR_CONSOLE_ENABLED
+                    Log.w("Can't register action: plugin is disabled");
+                    #endif // LUNAR_CONSOLE_ENABLED
+                #else  // LUNAR_CONSOLE_FULL
+                Log.w("Can't register action: feature is not available in FREE version. Learn more about PRO version: https://goo.gl/TLInmD");
+                #endif // LUNAR_CONSOLE_FULL
+            #endif // LUNAR_CONSOLE_PLATFORM_SUPPORTED
         }
-        #endif // LUNAR_CONSOLE_FULL
 
-        #if LUNAR_CONSOLE_FULL
         /// <summary>
         /// Unregister action by delegate
         /// </summary>
         public static void UnregisterAction(Action action)
         {
             #if LUNAR_CONSOLE_PLATFORM_SUPPORTED
-            #if LUNAR_CONSOLE_ENABLED
-            if (s_instance != null)
-            {
-                s_instance.UnregisterConsoleAction(action);
-            }
-            else
-            {
-                Log.w("Can't unregister action: instance is not initialized. Make sure you've installed it correctly");
-            }
-            #else
-            Log.w("Can't unregister action: plugin is disabled");
-            #endif
-            #endif
+                #if LUNAR_CONSOLE_FULL
+                    #if LUNAR_CONSOLE_ENABLED
+                    if (s_instance != null)
+                    {
+                        s_instance.UnregisterConsoleAction(action);
+                    }
+                    #endif // LUNAR_CONSOLE_ENABLED
+                #endif // LUNAR_CONSOLE_FULL
+            #endif // LUNAR_CONSOLE_PLATFORM_SUPPORTED
         }
-        #endif // LUNAR_CONSOLE_FULL
 
-        #if LUNAR_CONSOLE_FULL
         /// <summary>
         /// Unregister action by name
         /// </summary>
         public static void UnregisterAction(string name)
         {
             #if LUNAR_CONSOLE_PLATFORM_SUPPORTED
-            #if LUNAR_CONSOLE_ENABLED
-            if (s_instance != null)
-            {
-                s_instance.UnregisterConsoleAction(name);
-            }
-            else
-            {
-                Log.w("Can't unregister action: instance is not initialized. Make sure you've installed it correctly");
-            }
-            #else
-            Log.w("Can't unregister action: plugin is disabled");
-            #endif
-            #endif
+                #if LUNAR_CONSOLE_FULL
+                    #if LUNAR_CONSOLE_ENABLED
+                    if (s_instance != null)
+                    {
+                        s_instance.UnregisterConsoleAction(name);
+                    }
+                    #endif // LUNAR_CONSOLE_ENABLED
+                #endif // LUNAR_CONSOLE_FULL
+            #endif // LUNAR_CONSOLE_PLATFORM_SUPPORTED
         }
-        #endif // LUNAR_CONSOLE_FULL
 
-        #if LUNAR_CONSOLE_FULL
         /// <summary>
         /// Unregister all actions from specific target
         /// </summary>
         public static void UnregisterAllActions(object target)
         {
             #if LUNAR_CONSOLE_PLATFORM_SUPPORTED
-            #if LUNAR_CONSOLE_ENABLED
-            if (LunarConsoleSettings.actionsEnabled)
-            {
-                if (s_instance != null)
-                {
-                    s_instance.UnregisterAllConsoleActions(target);
-                }
-                else
-                {
-                    Log.w("Can't unregister actions: instance is not initialized. Make sure you've installed it correctly");
-                }
-            }
-            #endif // LUNAR_CONSOLE_ENABLED
+                #if LUNAR_CONSOLE_FULL
+                    #if LUNAR_CONSOLE_ENABLED
+                    if (s_instance != null)
+                    {
+                        s_instance.UnregisterAllConsoleActions(target);
+                    }
+                    #endif // LUNAR_CONSOLE_ENABLED
+                #endif // LUNAR_CONSOLE_FULL
             #endif // LUNAR_CONSOLE_PLATFORM_SUPPORTED
         }
-        #endif // LUNAR_CONSOLE_FULL
 
         /// <summary>
         /// Console opened callback
@@ -1158,7 +1141,7 @@ namespace LunarConsolePluginInternal
     /// </summary>
     public static class LunarConsoleAnalytics
     {
-        public static readonly string TrackingURL = "http://www.google-analytics.com/collect";
+        public static readonly string TrackingURL = "https://www.google-analytics.com/collect";
         public const int kUndefinedValue = int.MinValue;
         private static readonly string DefaultPayload;
 
