@@ -19,7 +19,7 @@
 //  limitations under the License.
 //
 
-#import "Lunar.h"
+#import "Lunar-Full.h"
 
 #import "LUAction.h"
 

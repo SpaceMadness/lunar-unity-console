@@ -210,6 +210,7 @@
 		4D02A7CA1E4973E4009F4998 /* LUActionRegistry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUActionRegistry.h; sourceTree = "<group>"; };
 		4D02A7CB1E4973FA009F4998 /* LUActionRegistry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUActionRegistry.m; sourceTree = "<group>"; };
 		4D02A7D01E4975CF009F4998 /* LUActionControllerBase_Inheritance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUActionControllerBase_Inheritance.h; sourceTree = "<group>"; };
+		4D02A8251E5119D9009F4998 /* Lunar-Full.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Lunar-Full.h"; sourceTree = "<group>"; };
 		4DD4F5511DFB7F4B00032A29 /* libLunarConsoleFree.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libLunarConsoleFree.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DD4FB2B1DFB932B00032A29 /* LUEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUEntry.h; sourceTree = "<group>"; };
 		4DD4FB2C1DFB932B00032A29 /* LUEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUEntry.m; sourceTree = "<group>"; };
@@ -440,6 +441,7 @@
 				4D02A77D1E496C93009F4998 /* Console */,
 				4D02A7801E496C93009F4998 /* Controllers */,
 				4D02A7A61E496C93009F4998 /* Images */,
+				4D02A8251E5119D9009F4998 /* Lunar-Full.h */,
 			);
 			name = Full;
 			path = LunarConsole/Full;

@@ -92,4 +92,7 @@ extern NSString * const LUConsoleCheckFullVersionNotificationSource;
 - (void)enableGestureRecognition;
 - (void)disableGestureRecognition;
 
+- (void)sendScriptMessageName:(NSString *)name;
+- (void)sendScriptMessageName:(NSString *)name params:(NSDictionary *)params;
+
 @end

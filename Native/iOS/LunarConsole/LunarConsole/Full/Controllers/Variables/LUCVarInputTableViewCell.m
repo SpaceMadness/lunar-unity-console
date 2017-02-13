@@ -21,7 +21,7 @@
 
 #import "LUCVarInputTableViewCell.h"
 
-#import "Lunar.h"
+#import "Lunar-Full.h"
 
 @interface LUCVarInputTableViewCell () <UITextFieldDelegate>
 

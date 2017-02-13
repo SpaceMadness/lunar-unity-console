@@ -19,11 +19,11 @@
 //  limitations under the License.
 //
 
-#import "LUActions.h"
-#import "LUVariables.h"
 #import "LUUtils.h"
 
 #import "LUActionButton.h"
+#import "LUActionController.h"
+#import "LUActionRegistry.h"
 #import "LUConsole.h"
 #import "LUConsoleController.h"
 #import "LUConsoleLogController.h"
@@ -34,7 +34,6 @@
 #import "LUConsoleLogEntryTableViewCell.h"
 #import "LUConsoleLogMenuController.h"
 #import "LUConsoleLogTypeButton.h"
-#import "LUConsoleOverlayController.h"
 #import "LUConsolePlugin.h"
 #import "LUConsolePluginSettings.h"
 #import "LUConsolePopupController.h"

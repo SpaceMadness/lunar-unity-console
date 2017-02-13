@@ -21,7 +21,7 @@
 
 #import "LUCVar.h"
 
-#import "Lunar.h"
+#import "Lunar-Full.h"
 
 NSString * const LUCVarTypeNameBoolean = @"Boolean";
 NSString * const LUCVarTypeNameInteger = @"Integer";

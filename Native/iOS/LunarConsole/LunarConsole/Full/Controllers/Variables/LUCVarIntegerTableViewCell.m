@@ -21,7 +21,7 @@
 
 #import "LUCVarIntegerTableViewCell.h"
 
-#import "Lunar.h"
+#import "Lunar-Full.h"
 
 @implementation LUCVarIntegerTableViewCell
 

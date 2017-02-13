@@ -7,10 +7,13 @@
 //
 
 #import "LUConsolePluginImp.h"
-#import "Lunar.h"
+#import "Lunar-Full.h"
 
 BOOL LUConsoleIsFreeVersion = NO;
 BOOL LUConsoleIsFullVersion = YES;
+
+static NSString * const kScriptMessageSetVariable    = @"console_variable_set";
+static NSString * const kScriptMessageAction         = @"console_action";
 
 @interface LUConsolePluginImp ()
 {
@@ -28,8 +31,48 @@ BOOL LUConsoleIsFullVersion = YES;
     if (self)
     {
         _plugin = plugin;
+        [self registerNotifications];
     }
     return self;
+}
+
+#pragma mark -
+#pragma mark Notifications
+
+- (void)registerNotifications
+{
+    [self registerNotificationName:LUActionControllerDidChangeVariable
+                          selector:@selector(actionControllerDidChangeVariableNotification:)];
+    
+    [self registerNotificationName:LUActionControllerDidSelectAction
+                          selector:@selector(actionControllerDidSelectActionNotification:)];
+}
+
+- (void)actionControllerDidChangeVariableNotification:(NSNotification *)notification
+{
+    LUCVar *variable = [notification.userInfo objectForKey:LUActionControllerDidChangeVariableKeyVariable];
+    LUAssert(variable);
+    
+    if (variable)
+    {
+        NSDictionary *params = @{
+            @"id"    : [NSNumber numberWithInt:variable.actionId],
+            @"value" : variable.value
+        };
+        [_plugin sendScriptMessageName:kScriptMessageSetVariable params:params];
+    }
+}
+
+- (void)actionControllerDidSelectActionNotification:(NSNotification *)notification
+{
+    LUAction *action = [notification.userInfo objectForKey:LUActionControllerDidSelectActionKeyAction];
+    LUAssert(action);
+    
+    if (action)
+    {
+        NSDictionary *params = @{ @"id" : [NSNumber numberWithInt:action.actionId] };
+        [_plugin sendScriptMessageName:kScriptMessageAction params:params];
+    }
 }
 
 - (void)showOverlay
