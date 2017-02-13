@@ -15,9 +15,11 @@
 
 ## Features
 ### Native Platform User Interface
-// TBD
-### Instant Error Notifications		
-// TBD
+Lunar Mobile Console is built with a native platform UI (using Objective-C for iOS and Java for Android) and does not depend on Unity UI system.  
+<img width="455" alt="Native Interface Breakdown" src="https://cloud.githubusercontent.com/assets/786644/22875152/036ac262-f17f-11e6-93db-9ba3844f75dd.png">
+### Instant Error Notifications
+Lunar Mobile Console will display a notification bar at the bottom of the screen if any exception is thrown.  
+<img src="https://cloud.githubusercontent.com/assets/786644/12805825/799b00e8-cab4-11e5-97ac-c90c50f0a9d2.PNG" width=320/>
 ### Multi Touch Gesture Access		
 // TBD
 ### Stack Trace Frames		
