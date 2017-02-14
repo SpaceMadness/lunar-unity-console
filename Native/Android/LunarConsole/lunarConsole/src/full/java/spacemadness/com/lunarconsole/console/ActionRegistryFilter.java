@@ -116,7 +116,7 @@ public class ActionRegistryFilter implements ActionRegistry.Delegate
 
     private boolean filterEntry(IdentityEntry entry)
     {
-        return length(_filterText) == 0 || contains(entry.name(), _filterText);
+        return length(_filterText) == 0 || containsIgnoreCase(entry.name(), _filterText);
     }
 
     private <T extends IdentityEntry> int filteredArrayAddEntry(List<T> array, T entry)
