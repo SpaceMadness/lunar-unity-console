@@ -31,7 +31,7 @@ using UnityEditor.iOS.Xcode;
 using System.Collections;
 using System.IO;
 
-using LunarConsolePlugin;
+using LunarConsolePluginInternal;
 
 namespace LunarConsoleEditorInternal
 {

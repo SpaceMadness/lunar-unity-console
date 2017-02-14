@@ -18,27 +18,37 @@ namespace LunarConsoleEditorInternal
         /// </summary>
         public static void TrackPluginVersionUpdate()
         {
-            var lastKnownVersion = EditorPrefs.GetString(kPrefsLastKnownVersion);
-            if (lastKnownVersion != Constants.Version)
+            if (LunarConsoleSettings.consoleEnabled && LunarConsoleSettings.consoleSupported)
             {
-                EditorPrefs.SetString(kPrefsLastKnownVersion, Constants.Version);
-                TrackEvent("Version", "updated_version");
+                var lastKnownVersion = EditorPrefs.GetString(kPrefsLastKnownVersion);
+                if (lastKnownVersion != Constants.Version)
+                {
+                    EditorPrefs.SetString(kPrefsLastKnownVersion, Constants.Version);
+                    TrackEvent("Version", "updated_version");
+                }
             }
         }
 
         public static void TrackEvent(string category, string action, int value = LunarConsoleAnalytics.kUndefinedValue)
         {
-            var payloadStr = LunarConsoleAnalytics.CreatePayload(category, action, value);
-            Log.d("Event track payload: " + payloadStr);
+            if (LunarConsoleSettings.consoleEnabled && LunarConsoleSettings.consoleSupported)
+            {
+                var payloadStr = LunarConsoleAnalytics.CreatePayload(category, action, value);
+                Log.d("Event track payload: " + payloadStr);
 
-            LunarConsoleHttpClient downloader = new LunarConsoleHttpClient(LunarConsoleAnalytics.TrackingURL);
-            downloader.UploadData(payloadStr, delegate(string result, Exception error) {
-                if (error != null) {
-                    Log.e("Event track failed: " + error);
-                } else {
-                    Log.d("Event track result: " + result);
-                }
-            });
+                LunarConsoleHttpClient downloader = new LunarConsoleHttpClient(LunarConsoleAnalytics.TrackingURL);
+                downloader.UploadData(payloadStr, delegate(string result, Exception error)
+                {
+                    if (error != null)
+                    {
+                        Log.e("Event track failed: " + error);
+                    }
+                    else
+                    {
+                        Log.d("Event track result: " + result);
+                    }
+                });
+            }
         }
     }
 }

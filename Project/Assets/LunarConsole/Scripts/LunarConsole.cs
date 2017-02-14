@@ -1002,7 +1002,10 @@ namespace LunarConsolePlugin
 
         #endregion
     }
+}
 
+namespace LunarConsolePluginInternal
+{
     public static class LunarConsoleSettings
     {
         public static readonly bool consoleEnabled;
@@ -1130,19 +1133,18 @@ namespace LunarConsolePlugin
     }
 
     #endif // LUNAR_CONSOLE_ENABLED
-}
 
-#if LUNAR_CONSOLE_ENABLED
-
-namespace LunarConsolePluginInternal
-{
     /// <summary>
     /// Class for collecting anonymous usage statistics
     /// </summary>
     public static class LunarConsoleAnalytics
     {
         public static readonly string TrackingURL = "https://www.google-analytics.com/collect";
+
         public const int kUndefinedValue = int.MinValue;
+
+        #if LUNAR_CONSOLE_ENABLED
+
         private static readonly string DefaultPayload;
 
         static LunarConsoleAnalytics()
@@ -1200,8 +1202,11 @@ namespace LunarConsolePluginInternal
             yield return www;
         }
 
+        #endif // LUNAR_CONSOLE_ENABLED
+
         public static string CreatePayload(string category, string action, int value)
         {
+            #if LUNAR_CONSOLE_ENABLED
             var payload = new StringBuilder(DefaultPayload);
             payload.AppendFormat("&ec={0}", WWW.EscapeURL(category));
             payload.AppendFormat("&ea={0}", WWW.EscapeURL(action));
@@ -1211,8 +1216,9 @@ namespace LunarConsolePluginInternal
             }
 
             return payload.ToString();
+            #else
+            return null;
+            #endif // LUNAR_CONSOLE_ENABLED
         }
     }
 }
-
-#endif // LUNAR_CONSOLE_ENABLED
