@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Lunar Console Full</string>
+    <string name="lunar_console_no_actions_button_learn_more">Learn more…</string>
     <string name="lunar_console_no_actions_warning">You don\'t have any actions or variables yet</string>
 </resources>

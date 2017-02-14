@@ -34,6 +34,7 @@ import android.text.ClipboardManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -467,7 +468,8 @@ public class ConsoleLogView extends AbstractConsoleView implements
     {
         PopupMenu popup = new PopupMenu(getContext(), v);
         MenuInflater inflater = popup.getMenuInflater();
-        inflater.inflate(R.menu.lunar_console_more_options_menu, popup.getMenu());
+        Menu menu = popup.getMenu();
+        inflater.inflate(R.menu.lunar_console_more_options_menu, menu);
         popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
         {
             @Override
@@ -517,8 +519,23 @@ public class ConsoleLogView extends AbstractConsoleView implements
                 return false;
             }
         });
-        MenuItem collapseItem = popup.getMenu().findItem(R.id.lunar_console_menu_toggle_collapse);
+        MenuItem collapseItem = menu.findItem(R.id.lunar_console_menu_toggle_collapse);
         collapseItem.setChecked(console.isCollapsed());
+
+        if (LunarConsoleConfig.isFree)
+        {
+            MenuItem menuItem = menu.add(R.string.lunar_console_more_menu_get_pro);
+            menuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener()
+            {
+                @Override
+                public boolean onMenuItemClick(MenuItem item)
+                {
+                    Context context = getContext();
+                    return UIUtils.openURL(context, context.getString(R.string.lunar_console_url_menu_get_pro_version));
+                }
+            });
+        }
+
         popup.show();
     }
 
@@ -653,11 +670,6 @@ public class ConsoleLogView extends AbstractConsoleView implements
     public Activity getActivity()
     {
         return activityRef.get();
-    }
-
-    public OnMoveSizeListener getOnMoveSizeListener()
-    {
-        return onMoveSizeListener;
     }
 
     public void setOnMoveSizeListener(OnMoveSizeListener onMoveSizeListener)
