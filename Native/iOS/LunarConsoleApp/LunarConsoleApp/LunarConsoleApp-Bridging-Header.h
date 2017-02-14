@@ -20,6 +20,10 @@
 //
 
 #import "Lunar.h"
+#if LUNAR_FULL
+#import "Lunar-Full.h"
+#endif
+
 #import "TextInputView.h"
 #import "UIView+Accessibility.h"
 #import "NetPeer.h"
