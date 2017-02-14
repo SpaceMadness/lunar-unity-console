@@ -270,7 +270,7 @@ static const CGFloat kMinWidthToResizeSearchBar = 480;
     
     if (LUConsoleIsFreeVersion)
     {
-        [popupController setLearnMoreTitle:@"Learn about PRO version..."
+        [popupController setLearnMoreTitle:@"Get PRO version..."
                                     target:self
                                     action:@selector(onLearnAboutProButton:)];
     }
