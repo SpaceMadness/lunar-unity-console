@@ -51,9 +51,9 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
 - (instancetype)initWithTargetName:(NSString *)targetName
                         methodName:(NSString *)methodName
                            version:(NSString *)version
-                       capacity:(NSUInteger)capacity
-                      trimCount:(NSUInteger)trimCount
-                    gestureName:(NSString *)gestureName
+                          capacity:(NSUInteger)capacity
+                         trimCount:(NSUInteger)trimCount
+                       gestureName:(NSString *)gestureName
 {
     self = [super init];
     if (self)
@@ -66,7 +66,7 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
             return nil;
         }
         
-        _pluginImp = [LUConsolePluginImp new];
+        _pluginImp = [[LUConsolePluginImp alloc] initWithPlugin:self];
         _scriptMessenger = [[LUUnityScriptMessenger alloc] initWithTargetName:targetName methodName:methodName];
         _version = version;
         _console = [[LUConsole alloc] initWithCapacity:capacity trimCount:trimCount];
