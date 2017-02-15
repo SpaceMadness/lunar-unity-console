@@ -41,7 +41,7 @@ namespace LunarConsoleEditorInternal
         [PostProcessBuild(1000)]
         static void OnPostprocessBuild(BuildTarget target, string buildPath)
         {
-            if (LunarConsoleSettings.consoleEnabled)
+            if (LunarConsoleConfig.consoleEnabled)
             {
                 if (target == BuildTarget.iOS)
                 {
