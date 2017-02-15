@@ -49,4 +49,6 @@ typedef void(^LUConsolePopupButtonCallback)(LUConsolePopupButton *button);
 - (void)presentFromController:(UIViewController *)controller animated:(BOOL)animated;
 - (void)dismissAnimated:(BOOL)animated;
 
+- (void)setLearnMoreTitle:(NSString *)title target:(id)target action:(SEL)action;
+
 @end

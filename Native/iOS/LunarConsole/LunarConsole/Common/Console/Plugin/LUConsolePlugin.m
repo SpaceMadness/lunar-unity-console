@@ -22,19 +22,23 @@
 #import "LUConsolePlugin.h"
 
 #import "Lunar.h"
+#import "LUConsolePluginImp.h"
+
+NSString * const LUConsoleCheckFullVersionNotification = @"LUConsoleCheckFullVersionNotification";
+NSString * const LUConsoleCheckFullVersionNotificationSource = @"source";
 
 static const NSTimeInterval kWindowAnimationDuration = 0.4f;
 static const CGFloat kWarningHeight = 45.0f;
 
 static NSString * const kScriptMessageConsoleOpen    = @"console_open";
 static NSString * const kScriptMessageConsoleClose   = @"console_close";
-static NSString * const kScriptMessageSetVariable    = @"console_variable_set";
-static NSString * const kScriptMessageAction         = @"console_action";
+static NSString * const kScriptMessageTrackEvent     = @"track_event";
 
 static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmobileconsole.settings.bin";
 
 @interface LUConsolePlugin () <LUConsoleControllerDelegate, LUExceptionWarningControllerDelegate>
 {
+    LUConsolePluginImp      * _pluginImp;
     LUUnityScriptMessenger  * _scriptMessenger;
     UIGestureRecognizer     * _gestureRecognizer;
     LUConsoleGesture          _gesture;
@@ -47,9 +51,9 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
 - (instancetype)initWithTargetName:(NSString *)targetName
                         methodName:(NSString *)methodName
                            version:(NSString *)version
-                       capacity:(NSUInteger)capacity
-                      trimCount:(NSUInteger)trimCount
-                    gestureName:(NSString *)gestureName
+                          capacity:(NSUInteger)capacity
+                         trimCount:(NSUInteger)trimCount
+                       gestureName:(NSString *)gestureName
 {
     self = [super init];
     if (self)
@@ -62,6 +66,7 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
             return nil;
         }
         
+        _pluginImp = [[LUConsolePluginImp alloc] initWithPlugin:self];
         _scriptMessenger = [[LUUnityScriptMessenger alloc] initWithTargetName:targetName methodName:methodName];
         _version = version;
         _console = [[LUConsole alloc] initWithCapacity:capacity trimCount:trimCount];
@@ -149,39 +154,12 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
 
 - (void)showOverlay
 {
-    if (_overlayWindow == nil)
-    {
-        LUConsoleOverlayControllerSettings *settings = [LUConsoleOverlayControllerSettings settings];
-        LUConsoleOverlayController *controller = [LUConsoleOverlayController controllerWithConsole:_console
-                                                                                          settings:settings];
-        
-        CGRect windowFrame = LUGetScreenBounds();
-        _overlayWindow = [[LUWindow alloc] initWithFrame:windowFrame];
-        _overlayWindow.userInteractionEnabled = NO;
-        _overlayWindow.rootViewController = controller;
-        _overlayWindow.opaque = YES;
-        _overlayWindow.hidden = NO;
-    }
+    [_pluginImp showOverlay];
 }
 
 - (void)hideOverlay
 {
-    if (_overlayWindow != nil)
-    {
-        _overlayWindow.rootViewController = nil;
-        _overlayWindow.hidden = YES;
-        _overlayWindow = nil;
-    }
-}
-
-- (void)showActionOverlay
-{
-    
-}
-
-- (void)hideActionOverlay
-{
-    
+    [_pluginImp hideOverlay];
 }
 
 - (void)logMessage:(NSString *)message stackTrace:(NSString *)stackTrace type:(LUConsoleLogType)type
@@ -270,37 +248,22 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
 
 - (void)registerNotifications
 {
-    [self registerNotificationName:LUActionControllerDidChangeVariable
-                          selector:@selector(actionControllerDidChangeVariableNotification:)];
-    
-    [self registerNotificationName:LUActionControllerDidSelectAction
-                          selector:@selector(actionControllerDidSelectActionNotification:)];
+    [self registerNotificationName:LUConsoleCheckFullVersionNotification
+                          selector:@selector(checkFullVersionNotification:)];
 }
 
-- (void)actionControllerDidChangeVariableNotification:(NSNotification *)notification
+- (void)checkFullVersionNotification:(NSNotification *)notification
 {
-    LUCVar *variable = [notification.userInfo objectForKey:LUActionControllerDidChangeVariableKeyVariable];
-    LUAssert(variable);
+    NSString *source = [notification.userInfo objectForKey:LUConsoleCheckFullVersionNotificationSource];
+    LUAssert(source);
     
-    if (variable)
+    if (source)
     {
         NSDictionary *params = @{
-             @"id"    : [NSNumber numberWithInt:variable.actionId],
-             @"value" : variable.value
+            @"category" : @"Full Version",
+            @"action"   : [NSString stringWithFormat:@"full_version_%@", source]
         };
-        [_scriptMessenger sendMessageName:kScriptMessageSetVariable params:params];
-    }
-}
-
-- (void)actionControllerDidSelectActionNotification:(NSNotification *)notification
-{
-    LUAction *action = [notification.userInfo objectForKey:LUActionControllerDidSelectActionKeyAction];
-    LUAssert(action);
-    
-    if (action)
-    {
-        NSDictionary *params = @{ @"id" : [NSNumber numberWithInt:action.actionId] };
-        [_scriptMessenger sendMessageName:kScriptMessageAction params:params];
+        [_scriptMessenger sendMessageName:kScriptMessageTrackEvent params:params];
     }
 }
 
@@ -398,6 +361,19 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
     }
     
     return LUConsoleGestureNone;
+}
+
+#pragma mark -
+#pragma mark Script Messanger
+
+- (void)sendScriptMessageName:(NSString *)name
+{
+    [_scriptMessenger sendMessageName:name];
+}
+
+- (void)sendScriptMessageName:(NSString *)name params:(NSDictionary *)params
+{
+    [_scriptMessenger sendMessageName:name params:params];
 }
 
 #pragma mark -

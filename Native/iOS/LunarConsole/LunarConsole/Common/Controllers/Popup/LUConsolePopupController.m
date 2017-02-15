@@ -66,6 +66,7 @@
 @property (nonatomic, weak) IBOutlet UIView *contentView;
 @property (nonatomic, weak) IBOutlet UIView *bottomBarView;
 @property (nonatomic, weak) IBOutlet UIButton *closeButton;
+@property (nonatomic, weak) IBOutlet UIButton *learnMoreButton;
 
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *contentWidthConstraint;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *contentHeightConstraint;
@@ -111,6 +112,9 @@
     
     // popup buttons
     [self addPopupButtons];
+    
+    // "Learn more..." button
+    _learnMoreButton.hidden = YES;
 }
 
 - (void)viewDidLayoutSubviews
@@ -306,6 +310,18 @@
         [self.view removeFromSuperview];
         [self removeFromParentViewController];
     }
+}
+
+- (void)setLearnMoreTitle:(NSString *)title target:(id)target action:(SEL)action
+{
+    // FIXME: store button details and set params in viewDidLoad
+    dispatch_async(dispatch_get_main_queue(), ^{
+        _learnMoreButton.hidden = NO;
+        [_learnMoreButton setTitle:title forState:UIControlStateNormal];
+        [_learnMoreButton addTarget:target
+                             action:action
+                   forControlEvents:UIControlEventTouchUpInside];
+    });
 }
 
 @end

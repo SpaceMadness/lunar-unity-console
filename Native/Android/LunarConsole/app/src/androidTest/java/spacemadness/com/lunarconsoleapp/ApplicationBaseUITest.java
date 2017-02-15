@@ -50,11 +50,8 @@ import java.util.List;
 
 import spacemadness.com.lunarconsole.console.ConsoleCollapsedLogEntry;
 import spacemadness.com.lunarconsole.console.ConsoleLogEntry;
-import spacemadness.com.lunarconsole.console.ConsoleLogType;
 import spacemadness.com.lunarconsole.console.ConsolePlugin;
-import spacemadness.com.lunarconsole.console.actions.LUAction;
-import spacemadness.com.lunarconsole.console.actions.LUCVarType;
-import spacemadness.com.lunarconsole.console.actions.LUEntry;
+import spacemadness.com.lunarconsole.console.VariableType;
 import spacemadness.com.lunarconsole.debug.TestHelper;
 import spacemadness.com.lunarconsole.utils.StringUtils;
 
@@ -520,30 +517,30 @@ public class ApplicationBaseUITest implements TestHelper.EventListener
 
     protected void registerVariable(int variableId, String name, String value, String defaultValue)
     {
-        registerVariable(variableId, name, LUCVarType.String, value, defaultValue);
+        registerVariable(variableId, name, VariableType.String, value, defaultValue);
     }
 
     protected void registerVariable(int variableId, String name, int value)
     {
-        registerVariable(variableId, name, LUCVarType.Integer, Integer.toString(value));
+        registerVariable(variableId, name, VariableType.Integer, Integer.toString(value));
     }
 
     protected void registerVariable(int variableId, String name, float value)
     {
-        registerVariable(variableId, name, LUCVarType.Float, Float.toString(value));
+        registerVariable(variableId, name, VariableType.Float, Float.toString(value));
     }
 
     protected void registerVariable(int variableId, String name, boolean value)
     {
-        registerVariable(variableId, name, LUCVarType.Boolean, Boolean.toString(value));
+        registerVariable(variableId, name, VariableType.Boolean, Boolean.toString(value));
     }
 
-    protected void registerVariable(int variableId, String name, LUCVarType type, String value)
+    protected void registerVariable(int variableId, String name, VariableType type, String value)
     {
         registerVariable(variableId, name, type, value, value);
     }
 
-    protected void registerVariable(int variableId, String name, LUCVarType type, String value, String defaultValue)
+    protected void registerVariable(int variableId, String name, VariableType type, String value, String defaultValue)
     {
         ConsolePlugin.registerVariable(variableId, name, type.toString(), value, defaultValue);
     }
@@ -676,107 +673,6 @@ public class ApplicationBaseUITest implements TestHelper.EventListener
         }
     }
 
-    protected void assertEntries(String[] actions, var[] variables)
-    {
-        int expectedCount = 0;
-        if (actions.length > 0) expectedCount += 1 + actions.length;
-        if (variables.length > 0) expectedCount += 1 + variables.length;
-
-        ViewInteraction listView = onView(withParent(withId(R.id.lunar_console_action_view_list_container)));
-
-        // should be visible
-        listView.check(matches(isDisplayed()));
-
-        // should contains expected number of children
-        listView.check(matches(withListViewSize(expectedCount)));
-
-        if (actions.length > 0)
-        {
-            // first entry is header
-            DataInteraction headerView = onData(allOf(is(instanceOf(LUEntry.class))))
-                    .inAdapterView(withParent(withId(R.id.lunar_console_action_view_list_container)))
-                    .atPosition(0);
-
-            // check title
-            headerView
-                    .onChildView(withId(R.id.lunar_console_header_entry_name))
-                    .check(matches(withText(R.string.lunar_console_header_actions)));
-
-            for (int i = 0; i < actions.length; ++i)
-            {
-                // find entry view
-                DataInteraction entryView = onData(allOf(is(instanceOf(LUEntry.class))))
-                        .inAdapterView(withParent(withId(R.id.lunar_console_action_view_list_container)))
-                        .atPosition(i + 1);
-
-                // check message
-                entryView
-                        .onChildView(withId(R.id.lunar_console_action_entry_name))
-                        .check(matches(withText(actions[i])));
-            }
-        }
-
-        if (variables.length > 0)
-        {
-            int offset = actions.length > 0 ? 1 + actions.length : 0;
-
-            // first entry is header
-            DataInteraction headerView = onData(allOf(is(instanceOf(LUEntry.class))))
-                    .inAdapterView(withParent(withId(R.id.lunar_console_action_view_list_container)))
-                    .atPosition(offset);
-
-            // check title
-            headerView
-                    .onChildView(withId(R.id.lunar_console_header_entry_name))
-                    .check(matches(withText(R.string.lunar_console_header_variables)));
-
-            for (int i = 0; i < variables.length; ++i)
-            {
-                // find entry view
-                DataInteraction entryView = onData(allOf(is(instanceOf(LUEntry.class))))
-                        .inAdapterView(withParent(withId(R.id.lunar_console_action_view_list_container)))
-                        .atPosition(offset + 1 + i);
-
-                // check name
-                entryView
-                        .onChildView(withId(R.id.lunar_console_variable_entry_name))
-                        .check(matches(withText(variables[i].name)));
-
-                switch (variables[i].type)
-                {
-                    case String:
-                    case Integer:
-                    case Float:
-                        // check value
-                        entryView
-                                .onChildView(withId(R.id.lunar_console_variable_entry_value))
-                                .check(matches(withText(variables[i].value)));
-                        break;
-                    case Boolean:
-                        // check flag
-                        entryView
-                                .onChildView(withId(R.id.lunar_console_variable_entry_switch))
-                                .check(matches(variables[i].value.equals("0") ? isNotChecked() : isChecked()));
-                        break;
-                    default:
-                        throw new AssertionError("Unexpected type: " + variables[i].type);
-                }
-            }
-        }
-    }
-
-    protected void clickAction(int index)
-    {
-        ViewInteraction listView = onView(withParent(withId(R.id.lunar_console_action_view_list_container)));
-
-        // should be visible
-        listView.check(matches(isDisplayed()));
-
-        onData(allOf(is(instanceOf(LUEntry.class))))
-                .inAdapterView(withParent(withId(R.id.lunar_console_action_view_list_container)))
-                .atPosition(1 + index).perform(click());
-    }
-
     protected MainActivity getActivity()
     {
         return mActivityRule.getActivity();
@@ -792,7 +688,7 @@ public class ApplicationBaseUITest implements TestHelper.EventListener
     protected static class var
     {
         final String name;
-        final LUCVarType type;
+        final VariableType type;
         final String value;
 
         var(String name, Object value)
@@ -802,12 +698,12 @@ public class ApplicationBaseUITest implements TestHelper.EventListener
             type = getType(value);
         }
 
-        private LUCVarType getType(Object value)
+        private VariableType getType(Object value)
         {
-            if (value instanceof String) return LUCVarType.String;
-            if (value instanceof Integer) return LUCVarType.Integer;
-            if (value instanceof Float) return LUCVarType.Float;
-            if (value instanceof Boolean) return LUCVarType.Boolean;
+            if (value instanceof String) return VariableType.String;
+            if (value instanceof Integer) return VariableType.Integer;
+            if (value instanceof Float) return VariableType.Float;
+            if (value instanceof Boolean) return VariableType.Boolean;
             throw new IllegalArgumentException("Unsupported type: " + value.getClass());
         }
     }

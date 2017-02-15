@@ -19,12 +19,10 @@
 //  limitations under the License.
 //
 
-#import "Lunar.h"
+#import "Lunar-Full.h"
 
 #import "LUActionController.h"
-
-NSString * const LUActionControllerDidSelectAction = @"LUActionControllerDidSelectAction";
-NSString * const LUActionControllerDidSelectActionKeyAction = @"action";
+#import "LUActionControllerBase_Inheritance.h"
 
 static const NSInteger kSectionIndexActions = 0;
 static const NSInteger kSectionIndexVariables = 1;
@@ -35,23 +33,13 @@ static const NSInteger kSectionCount = 2;
     LUActionRegistryFilter * _actionRegistryFilter;
 }
 
-@property (nonatomic, weak) IBOutlet UIView       * noActionsWarningView;
-@property (nonatomic, weak) IBOutlet UILabel      * noActionsWarningLabel;
-@property (nonatomic, weak) IBOutlet UITableView  * tableView;
-@property (nonatomic, weak) IBOutlet UISearchBar  * filterBar;
-
 @end
 
 @implementation LUActionController
 
-+ (instancetype)controllerWithActionRegistry:(LUActionRegistry *)actionRegistry
-{
-    return [[self alloc] initWithActionRegistry:actionRegistry];
-}
-
 - (instancetype)initWithActionRegistry:(LUActionRegistry *)actionRegistry
 {
-    self = [super initWithNibName:NSStringFromClass([self class]) bundle:nil];
+    self = [super initWithActionRegistry:actionRegistry];
     if (self)
     {
         if (actionRegistry == nil)
@@ -79,28 +67,10 @@ static const NSInteger kSectionCount = 2;
 {
     [super viewDidLoad];
     
-    LUTheme *theme = [LUTheme mainTheme];
-    
-    // title
-    self.title = @"Actions";
-    
-    // background
-    self.view.opaque = YES;
-    self.view.backgroundColor = theme.tableColor;
-    
-    // table view
-    _tableView.backgroundColor = theme.tableColor;
-    
-    // no actions warning
-    _noActionsWarningView.backgroundColor = theme.tableColor;
-    _noActionsWarningView.opaque = YES;
-    _noActionsWarningLabel.font = theme.actionsWarningFont;
-    _noActionsWarningLabel.textColor = theme.actionsWarningTextColor;
-    
-    [self updateNoActionWarningView];
-    
-    // accessibility
-    LU_SET_ACCESSIBILITY_IDENTIFIER(_noActionsWarningView, @"No Actions Warning View");
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
+    self.filterBar.delegate = self;
+    self.noActionsWarningLabel.text = @"You don't have any actions or variables yet";
 }
 
 #pragma mark -
@@ -121,7 +91,7 @@ static const NSInteger kSectionCount = 2;
 
 - (void)consoleControllerDidResizeNotification:(NSNotification *)notification
 {
-    [_tableView reloadRowsAtIndexPaths:_tableView.indexPathsForVisibleRows withRowAnimation:UITableViewRowAnimationNone];
+    [self.tableView reloadRowsAtIndexPaths:self.tableView.indexPathsForVisibleRows withRowAnimation:UITableViewRowAnimationNone];
 }
 
 #pragma mark -
@@ -132,7 +102,7 @@ static const NSInteger kSectionCount = 2;
     BOOL changed = [_actionRegistryFilter setFilterText:text];
     if (changed)
     {
-        [_tableView reloadData];
+        [self.tableView reloadData];
     }
 }
 
@@ -267,7 +237,7 @@ static const NSInteger kSectionCount = 2;
 - (void)actionRegistryFilter:(LUActionRegistryFilter *)registryFilter didAddAction:(LUAction *)action atIndex:(NSUInteger)index
 {
     NSArray *array = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:index inSection:kSectionIndexActions]];
-    [_tableView insertRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationNone];
+    [self.tableView insertRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationNone];
     
     [self updateNoActionWarningView];
 }
@@ -275,7 +245,7 @@ static const NSInteger kSectionCount = 2;
 - (void)actionRegistryFilter:(LUActionRegistryFilter *)registryFilter didRemoveAction:(LUAction *)action atIndex:(NSUInteger)index
 {
     NSArray *array = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:index inSection:kSectionIndexActions]];
-    [_tableView deleteRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationNone];
+    [self.tableView deleteRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationNone];
     
     [self updateNoActionWarningView];
 }
@@ -283,7 +253,7 @@ static const NSInteger kSectionCount = 2;
 - (void)actionRegistryFilter:(LUActionRegistryFilter *)registry didRegisterVariable:(LUCVar *)variable atIndex:(NSUInteger)index
 {
     NSArray *array = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:index inSection:kSectionIndexVariables]];
-    [_tableView insertRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationNone];
+    [self.tableView insertRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationNone];
     
     [self updateNoActionWarningView];
 }
@@ -291,7 +261,7 @@ static const NSInteger kSectionCount = 2;
 - (void)actionRegistryFilter:(LUActionRegistryFilter *)registry didChangeVariable:(LUCVar *)variable atIndex:(NSUInteger)index
 {
     NSArray *array = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:index inSection:kSectionIndexVariables]];
-    [_tableView reloadRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationNone];
+    [self.tableView reloadRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationNone];
 }
 
 #pragma mark -
@@ -368,17 +338,9 @@ static const NSInteger kSectionCount = 2;
 
 - (void)setNoActionsWarningViewHidden:(BOOL)hidden
 {
-    _tableView.hidden = !hidden;
-    _filterBar.hidden = !hidden;
-    _noActionsWarningView.hidden = hidden;
-}
-
-#pragma mark -
-#pragma Interface Builder actions
-
-- (IBAction)onInfoButton:(id)sender
-{
-    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://goo.gl/in0obv"]];
+    self.tableView.hidden = !hidden;
+    self.filterBar.hidden = !hidden;
+    self.noActionsWarningView.hidden = hidden;
 }
 
 @end

@@ -71,6 +71,8 @@ static LUTheme * _mainTheme;
 @property (nonatomic, strong) UIColor *contextMenuBackgroundColor;
 @property (nonatomic, strong) UIColor *contextMenuTextColor;
 @property (nonatomic, strong) UIColor *contextMenuTextHighlightColor;
+@property (nonatomic, strong) UIColor *contextMenuTextProColor;
+@property (nonatomic, strong) UIColor *contextMenuTextProHighlightColor;
 
 @property (nonatomic, strong) UIFont  *variableEditFont;
 @property (nonatomic, strong) UIColor *variableEditTextColor;
@@ -78,6 +80,7 @@ static LUTheme * _mainTheme;
 
 @property (nonatomic, strong) UIColor *switchTintColor;
 @property (nonatomic, strong) UIImage *settingsIconImage;
+@property (nonatomic, strong) UIColor *settingsTextColorUnavailable;
 
 @end
 
@@ -191,8 +194,11 @@ static UIImage * CreateCollapseBackgroundImage()
         _mainTheme.contextMenuBackgroundColor = LUColorMake(0x3c3c3c);
         _mainTheme.contextMenuTextColor = cellLog.textColor;
         _mainTheme.contextMenuTextHighlightColor = [UIColor whiteColor];
+        _mainTheme.contextMenuTextProColor = LUColorMake(0xfed900);
+        _mainTheme.contextMenuTextProHighlightColor = [UIColor whiteColor];
         _mainTheme.switchTintColor = LUColorMake(0xfed900);
         _mainTheme.settingsIconImage = LUGetImage(@"lunar_console_icon_settings");
+        _mainTheme.settingsTextColorUnavailable = LUColorMake(0x565656);
         _mainTheme.variableEditFont = _mainTheme.actionsFont;
         _mainTheme.variableEditTextColor = LUColorMake(0xb4b4b4);
         _mainTheme.variableEditBackground = LUColorMake(0x4d4d4d);

@@ -221,7 +221,7 @@ namespace LunarConsolePluginInternal
 
         bool actionsEnabled
         {
-            get { return LunarConsoleSettings.actionsEnabled; }
+            get { return LunarConsoleConfig.actionsEnabled; }
         }
     }
 }

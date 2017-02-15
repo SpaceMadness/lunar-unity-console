@@ -43,6 +43,7 @@ import static spacemadness.com.lunarconsole.utils.ClassUtils.FieldFilter;
 @interface PluginSettingsEntry
 {
     String defaultValue();
+    boolean proOnly() default false;
 }
 
 public class PluginSettings
@@ -63,7 +64,7 @@ public class PluginSettings
     @PluginSettingsEntry(defaultValue = "true")
     private boolean enableExceptionWarning;
 
-    @PluginSettingsEntry(defaultValue = "false")
+    @PluginSettingsEntry(defaultValue = "false", proOnly = true)
     private boolean enableTransparentLogOverlay;
 
     public PluginSettings(Context context)

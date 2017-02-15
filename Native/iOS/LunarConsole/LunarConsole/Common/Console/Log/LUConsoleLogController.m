@@ -268,6 +268,13 @@ static const CGFloat kMinWidthToResizeSearchBar = 480;
     LUConsolePopupController *popupController = [[LUConsolePopupController alloc] initWithContentController:controller];
     popupController.popupDelegate = self;
     
+    if (LUConsoleIsFreeVersion)
+    {
+        [popupController setLearnMoreTitle:@"Get PRO version..."
+                                    target:self
+                                    action:@selector(onLearnAboutProButton:)];
+    }
+    
     [popupController presentFromController:self.parentViewController animated:YES];
 }
 
@@ -296,6 +303,14 @@ static const CGFloat kMinWidthToResizeSearchBar = 480;
     
     // help
     [controller addButtonTitle:@"Help" target:self action:@selector(onHelpButton:)];
+    
+    // PRO version
+    if (LUConsoleIsFreeVersion)
+    {
+        LUConsoleLogMenuControllerButton *button = [controller addButtonTitle:@"Get PRO Version" target:self action:@selector(onGetProButton:)];
+        button.textColor = [LUTheme mainTheme].contextMenuTextProColor;
+        button.textHighlightedColor = [LUTheme mainTheme].contextMenuTextProHighlightColor;
+    }
     
     [controller setDelegate:self];
     
@@ -607,6 +622,24 @@ static const CGFloat kMinWidthToResizeSearchBar = 480;
 {
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://goo.gl/5Z8ovV"]];
     
+}
+
+- (void)onLearnAboutProButton:(id)sender
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:LUConsoleCheckFullVersionNotification
+                                                        object:nil
+                                                      userInfo:@{ LUConsoleCheckFullVersionNotificationSource : @"settings" }];
+    
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://goo.gl/TMnxBe"]];
+}
+
+- (void)onGetProButton:(id)sender
+{
+    [[NSNotificationCenter defaultCenter] postNotificationName:LUConsoleCheckFullVersionNotification
+                                                        object:nil
+                                                      userInfo:@{ LUConsoleCheckFullVersionNotificationSource : @"menu" }];
+    
+    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://goo.gl/TMnxBe"]];
 }
 
 #pragma mark -

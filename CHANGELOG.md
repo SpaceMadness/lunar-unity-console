@@ -1,5 +1,15 @@
 # Lunar Console Changelog
 
+## v.1.0.0 - 2/15/2017
+
+**New:**
+
+* Added FREE version!
+
+**Fixes:**
+
+* **Android**: Fixed filtering case-sensitive actions and variables.
+
 ## v.0.9.0 - 1/30/2017
 
 **New:**

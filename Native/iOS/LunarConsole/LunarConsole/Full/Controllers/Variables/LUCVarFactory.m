@@ -21,7 +21,7 @@
 
 #import "LUCVarFactory.h"
 
-#import "Lunar.h"
+#import "Lunar-Full.h"
 
 #import "LUCVarBooleanTableViewCell.h"
 #import "LUCVarFloatTableViewCell.h"

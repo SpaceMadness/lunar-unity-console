@@ -34,6 +34,7 @@
 @property (nonatomic, strong)   id value;
 @property (nonatomic, readonly) NSString * initialValue;
 @property (nonatomic, readonly, getter=isChanged) BOOL changed;
+@property (nonatomic, assign, getter=isProOnly) BOOL proOnly;
 
 - (instancetype)initWithName:(NSString *)name value:(id)value type:(NSString *)type title:(NSString *)title;
 

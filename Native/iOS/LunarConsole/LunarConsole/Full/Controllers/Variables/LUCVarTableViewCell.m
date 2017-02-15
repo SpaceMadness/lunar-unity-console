@@ -21,10 +21,7 @@
 
 #import "LUCVarTableViewCell.h"
 
-#import "Lunar.h"
-
-NSString * const LUActionControllerDidChangeVariable = @"LUActionControllerDidChangeVariable";
-NSString * const LUActionControllerDidChangeVariableKeyVariable = @"variable";
+#import "Lunar-Full.h"
 
 @interface LUCVarTableViewCell ()
 

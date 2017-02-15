@@ -39,6 +39,8 @@ namespace LunarConsoleEditorInternal
             #if UNITY_ANDROID
             AndroidPlugin.UpdateFiles();
             #endif
+
+            LunarConsoleEditorAnalytics.TrackPluginVersionUpdate();
         }
     }
 }

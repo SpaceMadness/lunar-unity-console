@@ -68,7 +68,23 @@ namespace :lunar do
     FileUtils.makedirs $dir_out
   end
 
-  desc 'Build native part of the plugin'
+  task :full => [:init] do
+    $package_config = 'Full'
+  end
+
+  task :free => [:init] do
+    $package_config = 'Free'
+  end
+
+  desc 'Build native part of full the plugin'
+  task :build_native_full => [:full, :build_native] do
+  end
+
+  desc 'Build native part of free the plugin'
+  task :build_native_free => [:free, :build_native] do
+  end
+
+  desc 'Build native part of full the plugin'
   task :build_native => [:build_native_ios, :build_native_android] do
   end
 
@@ -76,7 +92,7 @@ namespace :lunar do
   task :build_native_ios => [:init] do
 
     # list ios project files
-    ios_files = list_ios_files $dir_native_ios_src, :use_relative_path => true
+    ios_files = list_ios_files $dir_native_ios_src, :configuration => $package_config, :use_relative_path => true
 
     # cleanup old files
     FileUtils.rm_rf $dir_project_plugin_ios
@@ -112,7 +128,7 @@ namespace :lunar do
     FileUtils.mkpath $dir_project_plugin_android
 
     # build android library
-    build_android_plugin $dir_native_android_src, 'lunarConsole', $dir_project_plugin_android
+    build_android_plugin $dir_native_android_src, 'lunarConsole', $package_config, $dir_project_plugin_android
 
   end
 
@@ -124,11 +140,24 @@ namespace :lunar do
     # TODO: add readme file
   end
 
-  desc 'Exports Unity package for standalone distribution (outside Asset Store)'
-  task :export_unity_package => [:init, :build_native, :list_package_files] do
+  desc 'Export unity packages'
+  task :export_unity_packages => [:clean, :export_unity_package_free, :export_unity_package_full] do
+  end
 
-    file_package = "#{$dir_out_packages}/lunar-console-#{$package_version}.unitypackage"
+  desc 'Export full package'
+  task :export_unity_package_full => [:full, :export_package] do
+  end
+
+  desc 'Export free package'
+  task :export_unity_package_free => [:free, :export_package] do
+  end
+
+  task :export_package => [:init, :build_native, :list_package_files] do
+
+    file_package = "#{$dir_out_packages}/lunar-console-#{$package_config.downcase}-#{$package_version}.unitypackage"
     print_header "Exporting package: #{file_package}..."
+
+    override_configuration_define resolve_path("#{$dir_project_plugin}/Scripts/LunarConsole.cs"), $package_config
 
     package_files = not_nil $package_files
 
@@ -191,9 +220,13 @@ namespace :lunar do
 
   def list_ios_files(dir_project, options = {})
     extensions = %w(.h .m .mm .xib .nib .c .cpp .png .bundle)
+    configuration = options[:configuration]
 
     files = list_files dir_project, &->(file) {
       return false if File.directory? file
+
+      return false if file.include?('/Full/') and configuration == 'Free'
+      return false if file.include?('/Free/') and configuration == 'Full'
 
       extension = File.extname file
       return extensions.include? extension
@@ -206,11 +239,11 @@ namespace :lunar do
   end
 
 
-  def build_android_plugin(dir_native_project, module_name, dir_android_plugin)
+  def build_android_plugin(dir_native_project, module_name, flavour, dir_android_plugin)
 
     # build library
     print_header 'Building Android library...'
-    aar_result = build_android dir_native_project, module_name
+    aar_result = build_android dir_native_project, module_name, flavour
 
     dir_aar = $dir_out_exploded_aar
 
@@ -279,11 +312,11 @@ namespace :lunar do
 
   end
 
-  def build_android(dir_project, module_name, config = 'Release')
+  def build_android(dir_project, module_name, flavour, config = 'Release')
 
     Dir.chdir dir_project do
-      exec_shell "./gradlew :#{module_name}:clean :#{module_name}:assemble#{config}", "Can't build Android aar"
-      file_aar = resolve_path_e "#{module_name}/build/outputs/aar/#{module_name}-#{config.downcase}.aar"
+      exec_shell "./gradlew :#{module_name}:clean :#{module_name}:assemble#{flavour}#{config}", "Can't build Android aar"
+      file_aar = resolve_path_e "#{module_name}/build/outputs/aar/#{module_name}-#{flavour.downcase}-#{config.downcase}.aar"
       return AndroidAARBuildResult.new file_aar
 
     end
@@ -296,6 +329,19 @@ namespace :lunar do
         f.puts "#{name}=#{value}"
       }
     }
+  end
+
+  def override_configuration_define(file_script, configuration)
+    source = File.read file_script
+    if configuration == 'Full'
+      source.gsub! '#define LUNAR_CONSOLE_FREE', '#define LUNAR_CONSOLE_FULL'
+    elsif configuration == 'Free'
+      source.gsub! '#define LUNAR_CONSOLE_FULL', '#define LUNAR_CONSOLE_FREE'
+    else
+      fail_script "Unexpected configuration: #{configuration}"
+    end
+
+    File.open(file_script, 'w') { |f| f.write source }
   end
 
 end

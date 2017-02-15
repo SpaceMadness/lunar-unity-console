@@ -59,13 +59,17 @@
 - (UIButton *)UIButton
 {
     LUTheme *theme = [LUTheme mainTheme];
+    UIColor *textColor = _textColor ?
+        _textColor : theme.contextMenuTextColor;
+    UIColor *textHighlightedColor = _textHighlightedColor ?
+        _textHighlightedColor : theme.contextMenuTextHighlightColor;
     
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button setTitle:_title forState:UIControlStateNormal];
     [button addTarget:_target action:_action forControlEvents:UIControlEventTouchUpInside];
     [button setBackgroundColor:theme.contextMenuBackgroundColor];
-    [button setTitleColor:theme.contextMenuTextColor forState:UIControlStateNormal];
-    [button setTitleColor:theme.contextMenuTextHighlightColor forState:UIControlStateHighlighted];
+    [button setTitleColor:textColor forState:UIControlStateNormal];
+    [button setTitleColor:textHighlightedColor forState:UIControlStateHighlighted];
     [button setTranslatesAutoresizingMaskIntoConstraints:NO];
     [button setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
     [button setContentEdgeInsets:UIEdgeInsetsMake(0, 15, 0, 0)];
@@ -131,10 +135,11 @@
 #pragma mark -
 #pragma mark Buttons
 
-- (void)addButtonTitle:(NSString *)title target:(id)target action:(SEL)action
+- (LUConsoleLogMenuControllerButton *)addButtonTitle:(NSString *)title target:(id)target action:(SEL)action
 {
     LUConsoleLogMenuControllerButton *button = [[LUConsoleLogMenuControllerButton alloc] initWithTitle:title target:target action:action];
     [_buttons addObject:button];
+    return button;
 }
 
 - (void)addButtonsToView:(UIView *)view

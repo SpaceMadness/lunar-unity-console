@@ -32,6 +32,7 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 import spacemadness.com.lunarconsole.console.ConsolePlugin;
+import spacemadness.com.lunarconsole.console.LunarConsoleConfig;
 import spacemadness.com.lunarconsole.debug.Log;
 import spacemadness.com.lunarconsole.utils.StringUtils;
 
@@ -85,9 +86,13 @@ public class SettingsActivity extends PreferenceActivity
         field.setAccessible(true);
         final Object value = field.get(settings);
 
+        PluginSettingsEntry annotation = field.getAnnotation(PluginSettingsEntry.class);
+        boolean proOnly = annotation != null && annotation.proOnly();
+
         Preference preference = createPreference(type, value);
         if (preference != null)
         {
+            preference.setEnabled(LunarConsoleConfig.isFull || !proOnly);
             preference.setKey(field.getName());
             preference.setTitle(StringUtils.camelCaseToWords(field.getName()));
             preference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener()
