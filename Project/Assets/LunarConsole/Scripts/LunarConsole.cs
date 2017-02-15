@@ -1072,6 +1072,14 @@ namespace LunarConsolePluginInternal
         }
         #endif // LUNAR_CONSOLE_ENABLED
 
+        #if LUNAR_CONSOLE_FREE
+        [UnityEditor.MenuItem("Window/Lunar Mobile Console/Get PRO version...")]
+        static void GetProVersion()
+        {
+            Application.OpenURL("https://goo.gl/aJbTsx");
+        }
+        #endif
+
         public static void SetLunarConsoleEnabled(bool enabled)
         {
             string pluginFile = ResolvePluginFile();
