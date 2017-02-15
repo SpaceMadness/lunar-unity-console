@@ -18,7 +18,7 @@ namespace LunarConsoleEditorInternal
         /// </summary>
         public static void TrackPluginVersionUpdate()
         {
-            if (LunarConsoleSettings.consoleEnabled && LunarConsoleSettings.consoleSupported)
+            if (LunarConsoleConfig.consoleEnabled && LunarConsoleConfig.consoleSupported)
             {
                 var lastKnownVersion = EditorPrefs.GetString(kPrefsLastKnownVersion);
                 if (lastKnownVersion != Constants.Version)
@@ -31,7 +31,7 @@ namespace LunarConsoleEditorInternal
 
         public static void TrackEvent(string category, string action, int value = LunarConsoleAnalytics.kUndefinedValue)
         {
-            if (LunarConsoleSettings.consoleEnabled && LunarConsoleSettings.consoleSupported)
+            if (LunarConsoleConfig.consoleEnabled && LunarConsoleConfig.consoleSupported)
             {
                 var payloadStr = LunarConsoleAnalytics.CreatePayload(category, action, value);
                 Log.d("Event track payload: " + payloadStr);

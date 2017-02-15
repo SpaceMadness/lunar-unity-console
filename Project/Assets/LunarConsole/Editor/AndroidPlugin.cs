@@ -41,7 +41,7 @@ namespace LunarConsoleEditorInternal
 
         internal static void UpdateFiles()
         {
-            UpdateFiles(LunarConsoleSettings.consoleEnabled);
+            UpdateFiles(LunarConsoleConfig.consoleEnabled);
         }
 
         internal static void UpdateFiles(bool pluginEnabled)

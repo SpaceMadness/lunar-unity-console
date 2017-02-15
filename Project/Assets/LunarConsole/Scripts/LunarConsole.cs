@@ -1006,12 +1006,14 @@ namespace LunarConsolePlugin
 
 namespace LunarConsolePluginInternal
 {
-    public static class LunarConsoleSettings
+    public static class LunarConsoleConfig
     {
         public static readonly bool consoleEnabled;
         public static readonly bool consoleSupported;
+        public static readonly bool freeVersion;
+        public static readonly bool fullVersion;
 
-        static LunarConsoleSettings()
+        static LunarConsoleConfig()
         {
             #if LUNAR_CONSOLE_ENABLED
             consoleEnabled = true;
@@ -1023,6 +1025,14 @@ namespace LunarConsolePluginInternal
             consoleSupported = true;
             #else
             consoleSupported = false;
+            #endif
+
+            #if LUNAR_CONSOLE_FULL
+            freeVersion = false;
+            fullVersion = true;
+            #else
+            freeVersion = true;
+            fullVersion = false;
             #endif
         }
 

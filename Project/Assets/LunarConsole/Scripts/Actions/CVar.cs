@@ -113,7 +113,7 @@ namespace LunarConsolePlugin
 
         void Register()
         {
-            if (LunarConsoleSettings.consoleEnabled && LunarConsoleSettings.consoleSupported)
+            if (LunarConsoleConfig.consoleEnabled && LunarConsoleConfig.consoleSupported)
             {
                 CRegistry.instance.Register(this);
             }
