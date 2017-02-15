@@ -361,7 +361,6 @@ namespace LunarConsolePlugin
             private readonly IntPtr m_methodRegisterAction;
             private readonly IntPtr m_methodUnregisterAction;
             private readonly IntPtr m_methodRegisterVariable;
-            private readonly IntPtr m_methodUpdateVariable;
 
             /// <summary>
             /// Initializes a new instance of the Android platform class.
@@ -400,7 +399,6 @@ namespace LunarConsolePlugin
                 m_methodRegisterAction = GetStaticMethod(m_pluginClassRaw, "registerAction", "(ILjava.lang.String;)V");
                 m_methodUnregisterAction = GetStaticMethod(m_pluginClassRaw, "unregisterAction", "(I)V");
                 m_methodRegisterVariable = GetStaticMethod(m_pluginClassRaw, "registerVariable", "(ILjava.lang.String;Ljava.lang.String;Ljava.lang.String;Ljava.lang.String;)V");
-                m_methodUpdateVariable = GetStaticMethod(m_pluginClassRaw, "updateVariable", "(ILjava.lang.String;)V");
             }
 
             ~PlatformAndroid()
