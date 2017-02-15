@@ -39,6 +39,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Text.RegularExpressions;
 
 using LunarConsolePlugin;
 using LunarConsolePluginInternal;
@@ -1043,12 +1044,29 @@ namespace LunarConsolePlugin
                 return;
             }
 
+            SetScriptingDefineSymbols(enabled);
+
             File.WriteAllText(pluginFile, newSourceCode);
 
             // TODO: write a better implementation
             string assetsPath = Directory.GetParent(Application.dataPath).FullName;
             string relativePath = pluginFile.Substring(assetsPath.Length + 1);
             AssetDatabase.ImportAsset(relativePath);
+        }
+
+
+        private static void SetScriptingDefineSymbols(bool enabled)
+        {
+            var scriptingDefineSymbolsForGroup = PlayerSettings.GetScriptingDefineSymbolsForGroup(BuildTargetGroup.Android);
+
+            var regex = new Regex("(LUNAR_CONSOLE_ENABLED;?|LUNAR_CONSOLE_DISABLED;?)");
+            scriptingDefineSymbolsForGroup = regex.Replace(scriptingDefineSymbolsForGroup, "");
+
+            var hasSemicolom = scriptingDefineSymbolsForGroup.LastIndexOf(";", StringComparison.Ordinal) + 1 == scriptingDefineSymbolsForGroup.Length;
+            string def = (hasSemicolom ? "" : ";") + (enabled ? "LUNAR_CONSOLE_ENABLED" : "LUNAR_CONSOLE_DISABLED");
+            scriptingDefineSymbolsForGroup += def;
+
+            PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Android, scriptingDefineSymbolsForGroup);
         }
 
         static string ResolvePluginFile()
