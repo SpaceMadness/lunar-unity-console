@@ -1,8 +1,7 @@
 //
 //  LUActionController.m
 //
-//  Lunar Unity Mobile Console
-//  https://github.com/SpaceMadness/lunar-unity-console
+//  Lunar Network
 //
 //  Copyright 2017 Alex Lementuev, SpaceMadness.
 //
