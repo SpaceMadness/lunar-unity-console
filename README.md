@@ -49,7 +49,7 @@ The project goal is to build a high-performance and lightweight Unity native iOS
 - Instant error notification (never miss an unhandled exception again):  
 <img src="https://cloud.githubusercontent.com/assets/786644/12805825/799b00e8-cab4-11e5-97ac-c90c50f0a9d2.PNG" width=320/>
 - Quick logger output access with a multi touch gesture:  
-![guid-bfa239b6-b55a-4f88-82ea-744f01cd9d77-web](https://cloud.githubusercontent.com/assets/786644/9218257/bc8e64c6-4085-11e5-96f7-f07080f310b0.png)
+<img src="https://cloud.githubusercontent.com/assets/786644/23056940/a94b79ee-f4a2-11e6-93bb-ee5817bff6fa.png" width=320/>
 - Crystal clear font and a nice mobile-friendly interface:  
 <img src="https://cloud.githubusercontent.com/assets/786644/18074942/86cc426c-6e25-11e6-8544-0bbe21379af3.PNG" width=320/>
 - Custom Actions and Variables (currently in preview):  
