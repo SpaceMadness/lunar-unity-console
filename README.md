@@ -122,16 +122,9 @@ To
 For more detailed information check Wiki page: [Enabling and Disabling Lunar Mobile Console](https://github.com/SpaceMadness/lunar-unity-console/wiki/Enabling-and-Disabling-Lunar-Mobile-Console).
 
 ### Unity Cloud Build Support
-You can enable/disable the plugin while using Unity Cloud Build service.
-- Open the project's configuration page:  
-<img width="617" src="https://cloud.githubusercontent.com/assets/786644/18625225/f7ba1f80-7e01-11e6-80df-71b96938ca23.png">
-- Expand ```[+] Show Advanced Options``` and click ```Edit Advanced Options```:  
-<img width="492" src="https://cloud.githubusercontent.com/assets/786644/18625227/f7c20ca4-7e01-11e6-8b90-f256f70f87a6.png">
-- To disable the plugin set ```Pre-Export Method Name:``` to ```LunarConsoleEditorInternal.Installer.DisablePlugin```:  
-<img width="576" src="https://cloud.githubusercontent.com/assets/786644/22178551/2d2ef692-dfee-11e6-9e47-ed78a4971cfd.png">
-- To enable the plugin set ```Pre-Export Method Name:``` to ```LunarConsoleEditorInternal.Installer.EnablePlugin``` check the ```Development Builds``` checkbox:  
-<img width="576" src="https://cloud.githubusercontent.com/assets/786644/22178592/8c03eafa-dfef-11e6-909d-3a712bff1afa.png">  
-**Note:** if you're using Lunar Mobile Console older than v0.8.0 (v0.0.1b-v0.7.1) you would need to use ```LunarConsolePluginInternal.Installer.DisablePlugin``` and ```LunarConsolePluginInternal.Installer.EnablePlugin``` instead.
+Lunar Mobile Console is fully compatible with Unity Cloud Build.  
+- For more information check the user [guide](https://github.com/SpaceMadness/lunar-unity-console/wiki/Unity-Cloud-Build-Support)
+- For Cloud Build related issues check the troubleshooting [guide](https://github.com/SpaceMadness/lunar-unity-console/wiki/Troubleshooting#unity-cloud-build)
 
 ### Build System Support
 You can enable/disable the plugin from the command line (and make it a part of your build process)
