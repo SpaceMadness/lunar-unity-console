@@ -52,8 +52,8 @@ The project goal is to build a high-performance and lightweight Unity native iOS
 <img src="https://cloud.githubusercontent.com/assets/786644/23056940/a94b79ee-f4a2-11e6-93bb-ee5817bff6fa.png" width=320/>
 - Crystal clear font and a nice mobile-friendly interface:  
 <img src="https://cloud.githubusercontent.com/assets/786644/18074942/86cc426c-6e25-11e6-8544-0bbe21379af3.PNG" width=320/>
-- Custom Actions and Variables (currently in preview):  
-<img src="https://cloud.githubusercontent.com/assets/786644/22537135/99551f14-e8bc-11e6-8067-28bbdffe2336.PNG" width=320/>
+- User-Defined Actions & Variables (currently in preview):  
+<img src="https://cloud.githubusercontent.com/assets/786644/23057311/651d8cba-f4a4-11e6-9ad4-4cfe49967942.png" width=320/>
 - Transparent log overlay view:  
 <img src="https://cloud.githubusercontent.com/assets/786644/18074881/07d43190-6e25-11e6-9c48-407adc9be102.png" width=320/>
 - Filter by text and log type:  
