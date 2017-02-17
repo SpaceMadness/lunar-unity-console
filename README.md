@@ -15,7 +15,7 @@ Requires Unity 5.0 or later.
 - [Installation](#installation)
 - [Usage](#usage)
   - [Configuration](#configuration)
-  - [Actions & Variables](#actions--variables-preview)
+  - [User-Defined Actions & Variables](#user-defined-actions-and-variables-only-available-in-pro-version)
   - [Stack Trace Frames](#stack-trace-frames)
   - [Enabling/Disabling Plugin](#enablingdisabling-plugin)
   - [Unity Cloud Build Support](#unity-cloud-build-support)
@@ -86,7 +86,7 @@ You can open the console with a multi touch gesture or using the API call from a
   - Choose a gesture from the drop down list or select `None` to completely disable multi touch gestures (you would still be able to open the console from your scripts).
   - Check "Remove Rich Text Tags" to remove rich text tags from the output (may cause performance overhead).
 
-### Actions & Variables (Preview)
+### User-Defined Actions and Variables (only available in PRO version)
 For more information on Actions and Variables check the user [guide](https://github.com/SpaceMadness/lunar-unity-console/wiki/Actions-and-Variables).
 
 ### Stack Trace Frames
