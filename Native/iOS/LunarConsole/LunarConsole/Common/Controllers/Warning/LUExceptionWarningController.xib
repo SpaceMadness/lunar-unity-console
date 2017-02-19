@@ -22,7 +22,7 @@
                     <constraints>
                         <constraint firstAttribute="width" constant="46" id="aTP-bg-WL0"/>
                     </constraints>
-                    <state key="normal" image="lunar_console_icon_button_close.png">
+                    <state key="normal" image="lunar_console_icon_button_close">
                         <color key="titleColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
@@ -30,7 +30,7 @@
                         <action selector="onDismissButton:" destination="-1" eventType="touchUpInside" id="67Q-EL-eNF"/>
                     </connections>
                 </button>
-                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lunar_console_icon_log_error.png" translatesAutoresizingMaskIntoConstraints="NO" id="SWg-mO-f9d" userLabel="Error icon">
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lunar_console_icon_log_error" translatesAutoresizingMaskIntoConstraints="NO" id="SWg-mO-f9d" userLabel="Error icon">
                     <rect key="frame" x="8" y="11" width="24" height="24"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="24" id="C2h-Iq-HeU"/>
@@ -49,7 +49,7 @@
                         <constraint firstAttribute="height" constant="30" id="3OR-7R-Glx"/>
                         <constraint firstAttribute="width" constant="46" id="qX2-ZL-pNc"/>
                     </constraints>
-                    <state key="normal" image="lunar_console_icon_button_console.png">
+                    <state key="normal" image="lunar_console_icon_button_console">
                         <color key="titleColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="calibratedRGB"/>
                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
                     </state>
@@ -78,8 +78,8 @@
         </view>
     </objects>
     <resources>
-        <image name="lunar_console_icon_button_close.png" width="24" height="24"/>
-        <image name="lunar_console_icon_button_console.png" width="24" height="24"/>
-        <image name="lunar_console_icon_log_error.png" width="24" height="24"/>
+        <image name="lunar_console_icon_button_close" width="24" height="24"/>
+        <image name="lunar_console_icon_button_console" width="24" height="24"/>
+        <image name="lunar_console_icon_log_error" width="24" height="24"/>
     </resources>
 </document>

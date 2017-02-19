@@ -58,6 +58,7 @@ NSString * const LUConsoleControllerDidResizeNotification = @"LUConsoleControlle
         // force linker to add these classes for Interface Builder
         [LUConsoleLogTypeButton class];
         [LUSwitch class];
+        [LUSlider class];
         [LUTableView class];
         [LUPassTouchView class];
     }

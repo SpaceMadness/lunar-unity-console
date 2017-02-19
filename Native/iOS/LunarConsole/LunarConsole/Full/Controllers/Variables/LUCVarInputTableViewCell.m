@@ -97,6 +97,11 @@
 #pragma mark -
 #pragma mark UITextFieldDelegate
 
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
+    return YES;
+}
+
 - (void)textFieldDidEndEditing:(UITextField *)textField
 {
     NSString *value = textField.text;

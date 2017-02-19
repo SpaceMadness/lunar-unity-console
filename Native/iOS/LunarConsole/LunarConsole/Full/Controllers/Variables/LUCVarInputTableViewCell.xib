@@ -48,7 +48,7 @@
                             <constraint firstAttribute="height" constant="30" id="Rst-7Y-Bby"/>
                             <constraint firstAttribute="width" constant="46" id="hi4-id-hkZ"/>
                         </constraints>
-                        <state key="normal" image="lunar_console_icon_button_variable_reset.png">
+                        <state key="normal" image="lunar_console_icon_button_variable_reset">
                             <color key="titleColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </state>
@@ -74,6 +74,6 @@
         </tableViewCell>
     </objects>
     <resources>
-        <image name="lunar_console_icon_button_variable_reset.png" width="24" height="24"/>
+        <image name="lunar_console_icon_button_variable_reset" width="24" height="24"/>
     </resources>
 </document>

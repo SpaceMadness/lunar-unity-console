@@ -1,13 +1,13 @@
 //
-//  LUCVarRangeTableViewCell.h
+//  LUSlider.h
 //  LunarConsole
 //
 //  Created by Alex Lementuev on 2/18/17.
 //  Copyright © 2017 Space Madness. All rights reserved.
 //
 
-#import "LUCVarTableViewCell.h"
+#import <UIKit/UIKit.h>
 
-@interface LUCVarRangeTableViewCell : LUCVarTableViewCell
+@interface LUSlider : UISlider
 
 @end

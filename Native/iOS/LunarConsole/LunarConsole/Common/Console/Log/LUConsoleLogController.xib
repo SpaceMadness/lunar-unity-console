@@ -57,7 +57,7 @@
                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                     <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
                     <inset key="imageEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
-                    <state key="normal" title="999+" image="lunar_console_icon_log.png" backgroundImage="lunar_console_log_button_background.png">
+                    <state key="normal" title="999+" image="lunar_console_icon_log" backgroundImage="lunar_console_log_button_background">
                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                 </button>
@@ -68,7 +68,7 @@
                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                     <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
                     <inset key="imageEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
-                    <state key="normal" title="999+" image="lunar_console_icon_log_warning.png" backgroundImage="lunar_console_log_button_background.png">
+                    <state key="normal" title="999+" image="lunar_console_icon_log_warning" backgroundImage="lunar_console_log_button_background">
                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                 </button>
@@ -79,14 +79,14 @@
                     <fontDescription key="fontDescription" type="system" pointSize="10"/>
                     <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
                     <inset key="imageEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
-                    <state key="normal" title="999+" image="lunar_console_icon_log_error.png" backgroundImage="lunar_console_log_button_background.png">
+                    <state key="normal" title="999+" image="lunar_console_icon_log_error" backgroundImage="lunar_console_log_button_background">
                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Gl-60-1dT" userLabel="Button More">
                     <rect key="frame" x="351" y="20" width="24" height="44"/>
                     <accessibility key="accessibilityConfiguration" label="Console Button More"/>
-                    <state key="normal" image="lunar_console_icon_button_more.png" backgroundImage="lunar_console_log_button_background.png"/>
+                    <state key="normal" image="lunar_console_icon_button_more" backgroundImage="lunar_console_log_button_background"/>
                     <connections>
                         <action selector="onMoreButton:" destination="-1" eventType="touchUpInside" id="C9h-VG-7yE"/>
                     </connections>
@@ -108,7 +108,7 @@
                         <constraint firstAttribute="width" constant="46" id="eww-nr-ZJm"/>
                         <constraint firstAttribute="height" constant="30" id="hqP-BL-NQf"/>
                     </constraints>
-                    <state key="normal" image="lunar_console_icon_button_clear.png">
+                    <state key="normal" image="lunar_console_icon_button_clear">
                         <color key="titleColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
@@ -118,15 +118,15 @@
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yxu-k1-Kpx" userLabel="Button Lock/Unlock" customClass="LUToggleButton">
                     <rect key="frame" x="62" y="629" width="46" height="30"/>
-                    <state key="normal" image="lunar_console_icon_button_unlock.png">
+                    <state key="normal" image="lunar_console_icon_button_unlock">
                         <color key="titleColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
-                    <state key="selected" image="lunar_console_icon_button_lock.png"/>
+                    <state key="selected" image="lunar_console_icon_button_lock"/>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WdV-vA-4jI" userLabel="Button Copy">
                     <rect key="frame" x="116" y="629" width="46" height="30"/>
-                    <state key="normal" image="lunar_console_icon_button_clipboard.png">
+                    <state key="normal" image="lunar_console_icon_button_clipboard">
                         <color key="titleColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
@@ -136,7 +136,7 @@
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uTu-w2-mXe" userLabel="Button E-mail">
                     <rect key="frame" x="170" y="629" width="46" height="30"/>
-                    <state key="normal" image="lunar_console_icon_button_email.png">
+                    <state key="normal" image="lunar_console_icon_button_email">
                         <color key="titleColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
@@ -161,7 +161,7 @@
                         <constraint firstAttribute="width" constant="46" id="DyS-x4-Au6"/>
                         <constraint firstAttribute="height" constant="30" id="PTT-PP-pBa"/>
                     </constraints>
-                    <state key="normal" image="lunar_console_icon_button_settings.png">
+                    <state key="normal" image="lunar_console_icon_button_settings">
                         <color key="titleColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </state>
@@ -218,16 +218,16 @@
         </view>
     </objects>
     <resources>
-        <image name="lunar_console_icon_button_clear.png" width="24" height="24"/>
-        <image name="lunar_console_icon_button_clipboard.png" width="24" height="24"/>
-        <image name="lunar_console_icon_button_email.png" width="24" height="24"/>
-        <image name="lunar_console_icon_button_lock.png" width="24" height="24"/>
-        <image name="lunar_console_icon_button_more.png" width="24" height="24"/>
-        <image name="lunar_console_icon_button_settings.png" width="24" height="24"/>
-        <image name="lunar_console_icon_button_unlock.png" width="24" height="24"/>
-        <image name="lunar_console_icon_log.png" width="24" height="24"/>
-        <image name="lunar_console_icon_log_error.png" width="24" height="24"/>
-        <image name="lunar_console_icon_log_warning.png" width="24" height="24"/>
-        <image name="lunar_console_log_button_background.png" width="1" height="44"/>
+        <image name="lunar_console_icon_button_clear" width="24" height="24"/>
+        <image name="lunar_console_icon_button_clipboard" width="24" height="24"/>
+        <image name="lunar_console_icon_button_email" width="24" height="24"/>
+        <image name="lunar_console_icon_button_lock" width="24" height="24"/>
+        <image name="lunar_console_icon_button_more" width="24" height="24"/>
+        <image name="lunar_console_icon_button_settings" width="24" height="24"/>
+        <image name="lunar_console_icon_button_unlock" width="24" height="24"/>
+        <image name="lunar_console_icon_log" width="24" height="24"/>
+        <image name="lunar_console_icon_log_error" width="24" height="24"/>
+        <image name="lunar_console_icon_log_warning" width="24" height="24"/>
+        <image name="lunar_console_log_button_background" width="1" height="44"/>
     </resources>
 </document>

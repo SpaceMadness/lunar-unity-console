@@ -44,6 +44,7 @@
 #import "LUPanViewGestureRecognizer.h"
 #import "LUPassTouchView.h"
 #import "LUSwitch.h"
+#import "LUSlider.h"
 #import "LUTableView.h"
 #import "LUTheme.h"
 #import "LUToggleButton.h"

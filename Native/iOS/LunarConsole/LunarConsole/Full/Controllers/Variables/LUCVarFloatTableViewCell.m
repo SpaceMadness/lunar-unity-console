@@ -32,4 +32,17 @@
     return LUStringTryParseFloat(text, NULL);
 }
 
+#pragma mark -
+#pragma mark UITextFieldDelegate
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
+    if (self.variable.hasRange)
+    {
+        return NO;
+    }
+    
+    return YES;
+}
+
 @end
