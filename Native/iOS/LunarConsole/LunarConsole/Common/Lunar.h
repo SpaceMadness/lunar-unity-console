@@ -46,6 +46,7 @@
 #import "LUSwitch.h"
 #import "LUSlider.h"
 #import "LUTableView.h"
+#import "LUTextField.h"
 #import "LUTheme.h"
 #import "LUToggleButton.h"
 #import "LUUnityScriptMessenger.h"

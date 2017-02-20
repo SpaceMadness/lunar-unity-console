@@ -42,10 +42,6 @@
     [super setupVariable:variable];
     
     _resetButtonInitialWidth = _resetButtonWidthConstraint.constant;
-    
-    _inputField.backgroundColor = [LUTheme mainTheme].variableEditBackground;
-    _inputField.textColor = [LUTheme mainTheme].variableEditTextColor;
-    
     _inputField.text = variable.value;
     [self updateResetButton];
     

@@ -61,6 +61,7 @@ NSString * const LUConsoleControllerDidResizeNotification = @"LUConsoleControlle
         [LUSlider class];
         [LUTableView class];
         [LUPassTouchView class];
+        [LUTextField class];
     }
 }
 
