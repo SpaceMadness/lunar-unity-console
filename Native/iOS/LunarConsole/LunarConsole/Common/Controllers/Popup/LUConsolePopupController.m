@@ -134,6 +134,10 @@
         contentWidth = 1.5 * contentHeight;
     }
     
+    CGSize preferredSize = [_contentController preferredPopupSize];
+    if (preferredSize.width > 0) contentWidth = preferredSize.width;
+    if (preferredSize.height > 0) contentHeight = preferredSize.height;
+    
     self.contentWidthConstraint.constant = contentWidth;
     self.contentHeightConstraint.constant = contentHeight;
 }

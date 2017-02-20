@@ -46,6 +46,8 @@
         
         LUConsolePopupController *popupController = [[LUConsolePopupController alloc] initWithContentController:controller];
         popupController.popupDelegate = self;
+        popupController.popupTitle = self.variable.name;
+        popupController.popupIcon = LUGetImage(@"lunar_console_icon_settings");
         
         [popupController presentFromController:self.presentingController animated:YES];
         

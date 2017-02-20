@@ -13,9 +13,9 @@
             <connections>
                 <outlet property="bottomBarView" destination="awe-OZ-TP0" id="D9i-i3-Qg4"/>
                 <outlet property="closeButton" destination="bEE-li-Unh" id="9dI-dY-JwJ"/>
-                <outlet property="contentHeightConstraint" destination="GDa-xq-kX0" id="eyj-YJ-Ras"/>
+                <outlet property="contentHeightConstraint" destination="9mx-Ho-NaP" id="4YG-AY-66v"/>
                 <outlet property="contentView" destination="Ort-TP-8p1" id="7dI-K2-ShD"/>
-                <outlet property="contentWidthConstraint" destination="znM-wb-Tu5" id="xnF-W7-Col"/>
+                <outlet property="contentWidthConstraint" destination="PWT-Hu-MEa" id="mf0-ZL-jMe"/>
                 <outlet property="iconImageView" destination="hNP-k5-Mxh" id="Hxi-H1-JV2"/>
                 <outlet property="learnMoreButton" destination="vui-Uw-Vi3" id="0wN-CO-Qj0"/>
                 <outlet property="popupView" destination="2RZ-ZB-4xW" id="y83-by-RLA"/>
@@ -44,6 +44,10 @@
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Ort-TP-8p1" userLabel="Content View">
                             <rect key="frame" x="0.0" y="40" width="280" height="354"/>
                             <color key="backgroundColor" red="0.40781933069229126" green="0.40781933069229126" blue="0.40781933069229126" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="354" id="9mx-Ho-NaP"/>
+                                <constraint firstAttribute="width" constant="280" id="PWT-Hu-MEa"/>
+                            </constraints>
                         </view>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="awe-OZ-TP0" userLabel="Bottom Bar View">
                             <rect key="frame" x="0.0" y="394" width="280" height="46"/>
@@ -96,7 +100,6 @@
                     <constraints>
                         <constraint firstAttribute="trailing" secondItem="Spy-s4-qGJ" secondAttribute="trailing" id="2t0-ne-ChA"/>
                         <constraint firstItem="BZ1-uP-fU6" firstAttribute="top" secondItem="2RZ-ZB-4xW" secondAttribute="top" constant="11" id="DLT-oh-ea6"/>
-                        <constraint firstAttribute="height" constant="440" id="GDa-xq-kX0"/>
                         <constraint firstAttribute="bottom" secondItem="awe-OZ-TP0" secondAttribute="bottom" id="KiM-gF-ou0"/>
                         <constraint firstItem="Ort-TP-8p1" firstAttribute="leading" secondItem="2RZ-ZB-4xW" secondAttribute="leading" id="UWj-lq-XhT"/>
                         <constraint firstItem="hNP-k5-Mxh" firstAttribute="centerY" secondItem="BZ1-uP-fU6" secondAttribute="centerY" id="age-8l-BUk"/>
@@ -109,7 +112,6 @@
                         <constraint firstAttribute="trailing" secondItem="awe-OZ-TP0" secondAttribute="trailing" id="vjC-gp-HpA"/>
                         <constraint firstItem="hNP-k5-Mxh" firstAttribute="leading" secondItem="2RZ-ZB-4xW" secondAttribute="leading" constant="8" id="voi-5f-rNe"/>
                         <constraint firstItem="awe-OZ-TP0" firstAttribute="top" secondItem="Ort-TP-8p1" secondAttribute="bottom" id="yvx-Ch-K02"/>
-                        <constraint firstAttribute="width" constant="280" id="znM-wb-Tu5"/>
                     </constraints>
                 </view>
             </subviews>

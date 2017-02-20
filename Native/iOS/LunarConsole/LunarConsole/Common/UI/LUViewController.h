@@ -33,4 +33,6 @@
 - (void)addChildController:(UIViewController *)childController withFrame:(CGRect)frame;
 - (void)removeChildController:(UIViewController *)childController;
 
+- (CGSize)preferredPopupSize;
+
 @end
