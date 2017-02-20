@@ -308,6 +308,7 @@ static const NSInteger kSectionCount = 2;
     LUCVar *cvar = [self variableAtIndex:index];
     LUCVarTableViewCell *cell = (LUCVarTableViewCell *)[cvar tableView:tableView cellAtIndex:index];
     cell.contentView.backgroundColor = index % 2 == 0 ? theme.actionsBackgroundColorDark : theme.actionsBackgroundColorLight;
+    cell.presentingController = self;
     return cell;
 }
 

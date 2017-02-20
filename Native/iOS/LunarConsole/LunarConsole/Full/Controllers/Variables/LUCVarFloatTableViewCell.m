@@ -22,6 +22,9 @@
 
 #import "Lunar-Full.h"
 
+@interface LUCVarFloatTableViewCell() <LUConsolePopupControllerDelegate>
+@end
+
 @implementation LUCVarFloatTableViewCell
 
 #pragma mark -
@@ -39,10 +42,25 @@
 {
     if (self.variable.hasRange)
     {
+        LUCVarRangeController *controller = [[LUCVarRangeController alloc] initWithVariable:self.variable];
+        
+        LUConsolePopupController *popupController = [[LUConsolePopupController alloc] initWithContentController:controller];
+        popupController.popupDelegate = self;
+        
+        [popupController presentFromController:self.presentingController animated:YES];
+        
         return NO;
     }
     
     return YES;
+}
+
+#pragma mark -
+#pragma mark LUConsolePopupControllerDelegate
+
+- (void)popupControllerDidDismiss:(LUConsolePopupController *)controller
+{
+    [controller dismissAnimated:YES];
 }
 
 @end

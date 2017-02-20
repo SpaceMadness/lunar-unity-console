@@ -9,10 +9,25 @@
 #import "LUCVarRangeController.h"
 
 @interface LUCVarRangeController ()
+{
+    __weak LUCVar * _variable;
+}
+
+@property (nonatomic, weak) IBOutlet UISlider * slider;
+@property (nonatomic, weak) IBOutlet UITextField * textField;
 
 @end
 
 @implementation LUCVarRangeController
+
+- (instancetype)initWithVariable:(LUCVar *)variable
+{
+    self = [super initWithNibName:NSStringFromClass([self class]) bundle:nil];
+    if (self) {
+        _variable = variable;
+    }
+    return self;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];

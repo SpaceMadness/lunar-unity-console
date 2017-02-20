@@ -8,6 +8,10 @@
 
 #import "LUViewController.h"
 
+@class LUCVar;
+
 @interface LUCVarRangeController : LUViewController
+
+- (instancetype)initWithVariable:(LUCVar *)variable;
 
 @end
