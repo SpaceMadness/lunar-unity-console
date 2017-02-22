@@ -23,6 +23,9 @@
 @class LUConsolePopupButton;
 @class LUConsolePopupController;
 
+extern NSString * const LUConsolePopupControllerWillAppearNotification;
+extern NSString * const LUConsolePopupControllerWillDisappearNotification;
+
 @protocol LUConsolePopupControllerDelegate <NSObject>
 
 - (void)popupControllerDidDismiss:(LUConsolePopupController *)controller;

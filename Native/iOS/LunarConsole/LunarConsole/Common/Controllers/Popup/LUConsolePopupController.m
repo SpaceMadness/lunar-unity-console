@@ -21,6 +21,9 @@
 #import "LUConsolePopupController.h"
 #import "Lunar.h"
 
+NSString * const LUConsolePopupControllerWillAppearNotification = @"LUConsolePopupControllerWillAppearNotification";
+NSString * const LUConsolePopupControllerWillDisappearNotification = @"LUConsolePopupControllerWillDisappearNotification";
+
 @interface LUViewController (PopupController)
 
 - (void)setPopupController:(LUConsolePopupController *)controller;
@@ -114,6 +117,20 @@
     
     // "Learn more..." button
     _learnMoreButton.hidden = YES;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [LUNotificationCenter postNotificationName:LUConsolePopupControllerWillAppearNotification object:nil];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [LUNotificationCenter postNotificationName:LUConsolePopupControllerWillDisappearNotification object:nil];
 }
 
 - (void)viewDidLayoutSubviews

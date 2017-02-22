@@ -43,6 +43,7 @@ extern NSString * const LUConsoleControllerDidResizeNotification;
 
 @interface LUConsoleController : LUViewController
 
+@property (nonatomic, assign) BOOL scrollEnabled;
 @property (nonatomic, weak) id<LUConsoleControllerDelegate> delegate;
 
 + (instancetype)controllerWithPlugin:(LUConsolePlugin *)plugin;
