@@ -74,7 +74,7 @@ The project goal is to build a high-performance and lightweight Unity native iOS
   Drag'n'Drop `LunarConsol.prefab` (Assets/LunarConsole/Scripts/LunarConsole.prefab) into your current scene hierarchy and save your changes. You only need to do it once for your startup scene.
 
 ## Usage
-You can open the console with a multi touch gesture or using the API call from a script (see [API Calls](#api-calls) for details).
+You can open the console with a multi touch gesture or using the API call from a script (see [API Guide](https://github.com/SpaceMadness/lunar-unity-console/wiki/API-Guide) for details).
 
 ### Configuration
 - Select `LunarConsole` game object in the `Hierarchy` window.  
