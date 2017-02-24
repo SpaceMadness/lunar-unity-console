@@ -410,8 +410,16 @@ namespace LunarConsolePlugin
         #endregion
     }
 
+    [AttributeUsage(AttributeTargets.Class)]
     public class CVarContainerAttribute : Attribute
     {
+    }
+
+    [AttributeUsage(AttributeTargets.Field)]
+    public class CVarRangeAttribute : Attribute
+    {
+        public CVarRangeAttribute(float min, float max) {
+        }
     }
 
     static class CVarResolver
