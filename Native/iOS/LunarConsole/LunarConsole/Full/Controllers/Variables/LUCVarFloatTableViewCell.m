@@ -60,6 +60,7 @@
 - (void)popupControllerDidDismiss:(LUConsolePopupController *)controller
 {
     [controller dismissAnimated:YES];
+    self.inputText = self.variable.value;
 }
 
 @end

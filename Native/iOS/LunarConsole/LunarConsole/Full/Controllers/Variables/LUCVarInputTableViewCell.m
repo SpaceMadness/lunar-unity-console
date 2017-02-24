@@ -118,4 +118,17 @@
     return NO;
 }
 
+#pragma mark -
+#pragma mark Properties
+
+- (NSString *)inputText
+{
+    return _inputField.text;
+}
+
+- (void)setInputText:(NSString *)inputText
+{
+    _inputField.text = inputText;
+}
+
 @end
