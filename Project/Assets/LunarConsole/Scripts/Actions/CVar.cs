@@ -52,7 +52,7 @@ namespace LunarConsolePlugin
         }
     }
 
-    struct CVarValueRange
+    public struct CVarValueRange
     {
         public static readonly CVarValueRange Undefined = new CVarValueRange(float.NaN, float.NaN);
 
@@ -323,7 +323,7 @@ namespace LunarConsolePlugin
 
         public bool HasRange
         {
-            get { return m_range == CVarValueRange.Undefined; }
+            get { return float.IsNaN(m_range.min) || float.IsNaN(m_range.max); }
         }
 
         public bool IsInt
