@@ -52,6 +52,20 @@ namespace LunarConsolePlugin
         }
     }
 
+    struct CVarValueRange
+    {
+        public static readonly CVarValueRange Undefined = new CVarValueRange(float.NaN, float.NaN);
+
+        public readonly float min;
+        public readonly float max;
+
+        public CVarValueRange(float min, float max)
+        {
+            this.min = min;
+            this.max = max;
+        }
+    }
+
     public class CVar : IEquatable<CVar>, IComparable<CVar>
     {
         private static int s_nextId;
@@ -59,6 +73,7 @@ namespace LunarConsolePlugin
         private readonly int m_id;
         private readonly string m_name;
         private readonly CVarType m_type;
+        private readonly CVarValueRange m_range;
 
         private CValue m_value;
         private CValue m_defaultValue;
@@ -70,6 +85,7 @@ namespace LunarConsolePlugin
         {
             this.IntValue = defaultValue ? 1 : 0;
             m_defaultValue = m_value;
+            m_range = ResolveRange();
             Register();
         }
 
@@ -78,6 +94,7 @@ namespace LunarConsolePlugin
         {
             this.IntValue = defaultValue;
             m_defaultValue = m_value;
+            m_range = ResolveRange();
             Register();
         }
 
@@ -86,6 +103,7 @@ namespace LunarConsolePlugin
         {
             this.FloatValue = defaultValue;
             m_defaultValue = m_value;
+            m_range = ResolveRange();
             Register();
         }
 
@@ -94,6 +112,7 @@ namespace LunarConsolePlugin
         {
             this.Value = defaultValue;
             m_defaultValue = m_value;
+            m_range = ResolveRange();
             Register();
         }
 
@@ -210,6 +229,48 @@ namespace LunarConsolePlugin
 
         //////////////////////////////////////////////////////////////////////////////
 
+        #region Range
+
+        CVarValueRange ResolveRange()
+        {
+            if (m_type != CVarType.Float)
+            {
+                Log.w("'{0}' attribute is only available with 'float' variables", typeof(CVarRangeAttribute).Name);
+                return CVarValueRange.Undefined;
+            }
+
+            try
+            {
+                var attributes = GetType().GetCustomAttributes(typeof(CVarRangeAttribute), true);
+                if (attributes != null && attributes.Length > 0)
+                {
+                    var rangeAttribute = attributes[0] as CVarRangeAttribute;
+                    if (rangeAttribute != null)
+                    {
+                        var min = rangeAttribute.min;
+                        var max = rangeAttribute.max;
+                        if (max - min < 0.00001f)
+                        {
+                            Log.w("Invalid range [{0}, {1}] for variable '{2}'", min.ToString(), max.ToString(), m_name);
+                            return CVarValueRange.Undefined;
+                        }
+
+                        return new CVarValueRange(min, max);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Log.e(e, "Exception while resolving variable's range: {0}", m_name);
+            }
+
+            return CVarValueRange.Undefined;
+        }
+
+        #endregion
+
+        //////////////////////////////////////////////////////////////////////////////
+
         #region Properties
 
         public int Id
@@ -253,6 +314,16 @@ namespace LunarConsolePlugin
                     NotifyValueChanged();
                 }
             }
+        }
+
+        public CVarValueRange Range
+        {
+            get { return m_range; }
+        }
+
+        public bool HasRange
+        {
+            get { return m_range == CVarValueRange.Undefined; }
         }
 
         public bool IsInt
@@ -410,16 +481,23 @@ namespace LunarConsolePlugin
         #endregion
     }
 
+    [AttributeUsage (AttributeTargets.Field, Inherited = true, AllowMultiple = false)]
+    public sealed class CVarRangeAttribute : Attribute
+    {
+        public readonly float min;
+
+        public readonly float max;
+
+        public CVarRangeAttribute(float min, float max)
+        {
+            this.min = min;
+            this.max = max;
+        }
+    }
+
     [AttributeUsage(AttributeTargets.Class)]
     public class CVarContainerAttribute : Attribute
     {
-    }
-
-    [AttributeUsage(AttributeTargets.Field)]
-    public class CVarRangeAttribute : Attribute
-    {
-        public CVarRangeAttribute(float min, float max) {
-        }
     }
 
     static class CVarResolver

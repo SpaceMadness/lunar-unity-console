@@ -38,6 +38,7 @@
 #import "LUConsolePopupController.h"
 #import "LUConsoleResizeController.h"
 #import "LUConsoleSettingsController.h"
+#import "LUCVar.h"
 #import "LUEntry.h"
 #import "LUEntryTableViewCell.h"
 #import "LUExceptionWarningController.h"

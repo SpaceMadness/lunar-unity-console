@@ -27,6 +27,7 @@
 @class LUConsole;
 @class LUConsolePlugin;
 @class LUConsolePluginSettings;
+@class LUCVar;
 @class LUWindow;
 
 typedef enum : NSUInteger {
@@ -84,8 +85,8 @@ extern NSString * const LUConsoleCheckFullVersionNotificationSource;
 - (void)registerActionWithId:(int)actionId name:(NSString *)name;
 - (void)unregisterActionWithId:(int)actionId;
 
-- (void)registerVariableWithId:(int)entryId name:(NSString *)name type:(NSString *)type value:(NSString *)value;
-- (void)registerVariableWithId:(int)entryId name:(NSString *)name type:(NSString *)type value:(NSString *)value defaultValue:(NSString *)defaultValue;
+- (LUCVar *)registerVariableWithId:(int)entryId name:(NSString *)name type:(NSString *)type value:(NSString *)value;
+- (LUCVar *)registerVariableWithId:(int)entryId name:(NSString *)name type:(NSString *)type value:(NSString *)value defaultValue:(NSString *)defaultValue;
 - (void)setValue:(NSString *)value forVariableWithId:(int)variableId;
 
 - (void)enableGestureRecognition;

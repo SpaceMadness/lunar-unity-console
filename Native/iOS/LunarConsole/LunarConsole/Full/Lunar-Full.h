@@ -25,7 +25,6 @@
 #import "LUActionTableViewCell.h"
 
 #import "LUConsoleOverlayController.h"
-#import "LUCVar.h"
 #import "LUCVarBooleanTableViewCell.h"
 #import "LUCVarFactory.h"
 #import "LUCVarFloatTableViewCell.h"

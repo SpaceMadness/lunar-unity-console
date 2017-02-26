@@ -192,14 +192,14 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
     [_actionRegistry unregisterActionWithId:actionId];
 }
 
-- (void)registerVariableWithId:(int)entryId name:(NSString *)name type:(NSString *)type value:(NSString *)value
+- (LUCVar *)registerVariableWithId:(int)entryId name:(NSString *)name type:(NSString *)type value:(NSString *)value
 {
-    [self registerVariableWithId:entryId name:name type:type value:value defaultValue:value];
+    return [self registerVariableWithId:entryId name:name type:type value:value defaultValue:value];
 }
 
-- (void)registerVariableWithId:(int)entryId name:(NSString *)name type:(NSString *)type value:(NSString *)value defaultValue:(NSString *)defaultValue
+- (LUCVar *)registerVariableWithId:(int)entryId name:(NSString *)name type:(NSString *)type value:(NSString *)value defaultValue:(NSString *)defaultValue
 {
-    [_actionRegistry registerVariableWithId:entryId name:name typeName:type value:value defaultValue:defaultValue];
+    return [_actionRegistry registerVariableWithId:entryId name:name typeName:type value:value defaultValue:defaultValue];
 }
 
 - (void)setValue:(NSString *)value forVariableWithId:(int)variableId

@@ -279,7 +279,7 @@ namespace LunarConsolePlugin
             private static extern void __lunar_console_action_unregister(int actionId);
 
             [DllImport("__Internal")]
-            private static extern void __lunar_console_cvar_register(int variableId, string name, string type, string value, string defaultValue);
+            private static extern void __lunar_console_cvar_register(int variableId, string name, string type, string value, string defaultValue, bool hasRange, float min, float max);
 
             [DllImport("__Internal")]
             private static extern void __lunar_console_cvar_update(int variableId, string value);
@@ -332,7 +332,7 @@ namespace LunarConsolePlugin
 
             public void OnVariableRegistered(CRegistry registry, CVar cvar)
             {
-                __lunar_console_cvar_register(cvar.Id, cvar.Name, cvar.Type.ToString(), cvar.Value, cvar.DefaultValue);
+                __lunar_console_cvar_register(cvar.Id, cvar.Name, cvar.Type.ToString(), cvar.Value, cvar.DefaultValue, cvar.HasRange, cvar.Range.min, cvar.Range.max);
             }
         }
 
