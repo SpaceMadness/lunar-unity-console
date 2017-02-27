@@ -27,6 +27,8 @@ public class Variable extends IdentityEntry
     public final VariableType type;
     public final String defaultValue;
     public String value;
+    private float min;
+    private float max;
 
     public Variable(int entryId, String name, String value, String defaultValue, VariableType type)
     {
@@ -35,6 +37,7 @@ public class Variable extends IdentityEntry
         this.value = value;
         this.defaultValue = defaultValue;
         this.type = type;
+        min = max = Float.NaN;
     }
 
     @Override
@@ -57,6 +60,27 @@ public class Variable extends IdentityEntry
     boolean boolValue()
     {
         return value != null && value.length() > 0 && !value.equals("0");
+    }
+
+    public boolean hasRange()
+    {
+        return !Float.isNaN(min) && !Float.isNaN(max);
+    }
+
+    public void setRange(float min, float max)
+    {
+        this.min = min;
+        this.max = max;
+    }
+
+    public float getMin()
+    {
+        return min;
+    }
+
+    public float getMax()
+    {
+        return max;
     }
 
     //endregion

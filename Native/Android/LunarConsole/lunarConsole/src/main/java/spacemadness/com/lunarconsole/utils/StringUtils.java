@@ -21,6 +21,7 @@
 package spacemadness.com.lunarconsole.utils;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class StringUtils
@@ -141,6 +142,11 @@ public class StringUtils
     public static String toString(Object value)
     {
         return value != null ? value.toString() : "null";
+    }
+
+    public static String toString(float value)
+    {
+        return String.format(Locale.US, "%.2f", value);
     }
 
     public static <T> String Join(List<T> list)

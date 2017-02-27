@@ -768,6 +768,23 @@ public class ConsoleActionsViewTest extends ApplicationBaseUITest
 
     //endregion
 
+    //region Range variables
+
+    @Test
+    public void testRangeVariable()
+    {
+        registerVariable(1, "range", 6.5f, 1.5f, 11.5f);
+
+        openActions();
+
+        assertText(R.id.lunar_console_variable_entry_value, "6.5");
+        pressButton(R.id.lunar_console_variable_entry_value);
+
+        assertSeekProgress(R.id.lunar_console_edit_variable_seek_bar, 50);
+    }
+
+    //endregion
+
     //region Test events
 
     @Override

@@ -113,10 +113,11 @@ public class MainActivity extends Activity
                 ConsolePlugin.registerAction(3, "Action - B");
                 ConsolePlugin.registerAction(5, "Action - C");
 
-                ConsolePlugin.registerVariable(0, "String variable", "String", "test-1", "test-1");
-                ConsolePlugin.registerVariable(1, "Integer variable", "Integer", "10", "10");
-                ConsolePlugin.registerVariable(2, "Float variable", "Float", "3.14", "3.14");
-                ConsolePlugin.registerVariable(3, "Toggle variable", "Boolean", "1", "1");
+                ConsolePlugin.registerVariable(0, "String variable", "String", "test-1", "test-1", false, 0, 0);
+                ConsolePlugin.registerVariable(1, "Integer variable", "Integer", "10", "10", false, 0, 0);
+                ConsolePlugin.registerVariable(2, "Float variable", "Float", "3.14", "3.14", false, 0, 0);
+                ConsolePlugin.registerVariable(3, "Toggle variable", "Boolean", "1", "1", false, 0, 0);
+                ConsolePlugin.registerVariable(4, "Range", "Float", "6.28", "6.28", true, 1.0f, 10.0f);
                 */
             }
         });

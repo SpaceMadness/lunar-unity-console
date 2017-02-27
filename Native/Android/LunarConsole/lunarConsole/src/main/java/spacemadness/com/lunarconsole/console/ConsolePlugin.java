@@ -386,11 +386,11 @@ public class ConsolePlugin implements Destroyable
         }
     }
 
-    public static void registerVariable(final int variableId, final String name, final String type, final String value, final String defaultValue)
+    public static void registerVariable(final int variableId, final String name, final String type, final String value, final String defaultValue, final boolean hasRange, final float rangeMin, final float rangeMax)
     {
         if (isRunningOnMainThread())
         {
-            registerVariable0(variableId, name, type, value, defaultValue);
+            registerVariable0(variableId, name, type, value, defaultValue, hasRange, rangeMin, rangeMax);
         }
         else
         {
@@ -399,7 +399,7 @@ public class ConsolePlugin implements Destroyable
                 @Override
                 public void run()
                 {
-                    registerVariable0(variableId, name, type, value, defaultValue);
+                    registerVariable0(variableId, name, type, value, defaultValue, hasRange, rangeMin, rangeMax);
                 }
             });
         }
@@ -472,7 +472,7 @@ public class ConsolePlugin implements Destroyable
         }
     }
 
-    private static void registerVariable0(int variableId, String name, String typeName, String value, String defaultValue)
+    private static void registerVariable0(int variableId, String name, String typeName, String value, String defaultValue, boolean hasRange, float rangeMin, float rangeMax)
     {
         if (instance != null)
         {
@@ -483,7 +483,11 @@ public class ConsolePlugin implements Destroyable
                 return;
             }
 
-            instance.actionRegistry.registerVariable(variableId, name, type, value, defaultValue);
+            Variable variable = instance.actionRegistry.registerVariable(variableId, name, type, value, defaultValue);
+            if (hasRange)
+            {
+                variable.setRange(rangeMin, rangeMax);
+            }
         }
     }
 

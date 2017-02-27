@@ -36,6 +36,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import static junit.framework.Assert.*;
+import android.widget.SeekBar;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -174,6 +175,11 @@ public class ApplicationBaseUITest implements TestHelper.EventListener
     protected void assertPreferenceChecked(String title, boolean checked)
     {
         findView(title).check(matches(withCheckBoxPreference(checked)));
+    }
+
+    protected void assertSeekProgress(int id, int progress)
+    {
+        findView(id).check(matches(withSeekBarProgress(progress)));
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -317,6 +323,24 @@ public class ApplicationBaseUITest implements TestHelper.EventListener
                 }
 
                 return null;
+            }
+        };
+    }
+
+    protected Matcher<View> withSeekBarProgress(final int progress)
+    {
+        return new TypeSafeMatcher<View>()
+        {
+            @Override
+            public void describeTo(Description description)
+            {
+                description.appendText("seek bar progress should be " + progress);
+            }
+
+            @Override
+            protected boolean matchesSafely(View view)
+            {
+                return ((SeekBar) view).getProgress() == progress;
             }
         };
     }
@@ -529,6 +553,11 @@ public class ApplicationBaseUITest implements TestHelper.EventListener
         registerVariable(variableId, name, VariableType.Float, Float.toString(value));
     }
 
+    protected void registerVariable(int variableId, String name, float value, float min, float max)
+    {
+        registerVariable(variableId, name, VariableType.Float, Float.toString(value), Float.toString(value), min, max);
+    }
+
     protected void registerVariable(int variableId, String name, boolean value)
     {
         registerVariable(variableId, name, VariableType.Boolean, Boolean.toString(value));
@@ -541,7 +570,12 @@ public class ApplicationBaseUITest implements TestHelper.EventListener
 
     protected void registerVariable(int variableId, String name, VariableType type, String value, String defaultValue)
     {
-        ConsolePlugin.registerVariable(variableId, name, type.toString(), value, defaultValue);
+        ConsolePlugin.registerVariable(variableId, name, type.toString(), value, defaultValue, false, 0, 0);
+    }
+
+    protected void registerVariable(int variableId, String name, VariableType type, String value, String defaultValue, float min, float max)
+    {
+        ConsolePlugin.registerVariable(variableId, name, type.toString(), value, defaultValue, true, min, max);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
