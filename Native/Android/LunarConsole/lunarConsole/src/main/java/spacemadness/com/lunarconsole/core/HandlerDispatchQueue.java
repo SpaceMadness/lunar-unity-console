@@ -37,4 +37,10 @@ public class HandlerDispatchQueue extends DispatchQueue
     {
         handler.post(runnable);
     }
+
+    @Override
+    public void dispatchAsync(Runnable runnable, long delay)
+    {
+        handler.postDelayed(runnable, delay);
+    }
 }

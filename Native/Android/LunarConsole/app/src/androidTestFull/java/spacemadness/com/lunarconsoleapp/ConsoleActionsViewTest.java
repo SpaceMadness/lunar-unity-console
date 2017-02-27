@@ -34,6 +34,7 @@ import java.util.Map;
 import spacemadness.com.lunarconsole.console.ConsolePlugin;
 import spacemadness.com.lunarconsole.console.IdentityEntry;
 import spacemadness.com.lunarconsole.core.NotificationCenter;
+import spacemadness.com.lunarconsole.debug.TestHelper;
 import spacemadness.com.lunarconsoleapp.helpers.SyncDispatchQueue;
 
 import static android.support.test.espresso.Espresso.*;
@@ -128,7 +129,7 @@ public class ConsoleActionsViewTest extends ApplicationBaseUITest
         openActions();
         assertEntries(new String[]{"Action-1", "Action-12", "Action-123", "Action-2", "Action-3", "Action-4"}, NO_VARIABLES);
 
-        setFilterText("Action");
+        setFilterText("action");
         assertEntries(new String[]{"Action-1", "Action-12", "Action-123", "Action-2", "Action-3", "Action-4"}, NO_VARIABLES);
 
         appendFilterText("-");
@@ -170,7 +171,7 @@ public class ConsoleActionsViewTest extends ApplicationBaseUITest
         openActions();
         assertEntries(new String[]{"Action-1", "Action-2", "Action-3", "Foo"}, NO_VARIABLES);
 
-        setFilterText("Action-1");
+        setFilterText("action-1");
         assertEntries(new String[]{"Action-1"}, NO_VARIABLES);
 
         registerAction(4, "Action-12");
@@ -209,7 +210,7 @@ public class ConsoleActionsViewTest extends ApplicationBaseUITest
         registerAction(6, "Action-4");
 
         openActions();
-        setFilterText("Action-1");
+        setFilterText("action-1");
         assertEntries(new String[]{"Action-1", "Action-12", "Action-123"}, NO_VARIABLES);
         closeActions();
 
@@ -223,11 +224,12 @@ public class ConsoleActionsViewTest extends ApplicationBaseUITest
         registerAction(1, "Action");
 
         openActions();
+        assertResult("console_open()");
 
         makeNotificationCenterSync();
         clickAction(0);
 
-        assertResult("console_open()", "console_action({id=1})");
+        assertResult("console_action({id=1})");
     }
 
     //endregion
@@ -296,7 +298,7 @@ public class ConsoleActionsViewTest extends ApplicationBaseUITest
                 new var("Variable-4", "value-4")
         });
 
-        setFilterText("Variable");
+        setFilterText("variable");
         assertEntries(NO_ACTIONS, new var[]{
                 new var("Variable-1", "value-1"),
                 new var("Variable-12", "value-12"),
@@ -377,7 +379,7 @@ public class ConsoleActionsViewTest extends ApplicationBaseUITest
         registerVariable(6, "Variable-4", "value-4");
 
         openActions();
-        setFilterText("Variable-1");
+        setFilterText("variable-1");
         assertEntries(NO_ACTIONS, new var[]{
                 new var("Variable-1", "value-1"),
                 new var("Variable-12", "value-12"),
@@ -451,11 +453,9 @@ public class ConsoleActionsViewTest extends ApplicationBaseUITest
         pressButton(R.id.lunar_console_variable_entry_value);
 
         // ugly hack: sometimes pressing the "edit" button does not work for this test
-        int attempts = 10;
-        while (!isVisible(R.id.lunar_console_edit_variable_default_value) && attempts > 0)
+        while (!isVisible(R.id.lunar_console_edit_variable_default_value))
         {
             pressButton(R.id.lunar_console_variable_entry_value);
-            --attempts;
         }
 
         ConsolePlugin.updateVariable(1, "another value");
@@ -773,14 +773,49 @@ public class ConsoleActionsViewTest extends ApplicationBaseUITest
     @Test
     public void testRangeVariable()
     {
+        TestHelper.forceSeekBarChangeDelegate = true;
+        makeNotificationCenterSync();
+
         registerVariable(1, "range", 6.5f, 1.5f, 11.5f);
 
         openActions();
+        assertResult("console_open()");
 
         assertText(R.id.lunar_console_variable_entry_value, "6.5");
-        pressButton(R.id.lunar_console_variable_entry_value);
+
+        while (!isVisible(R.id.lunar_console_edit_variable_seek_bar))
+        {
+            pressButton(R.id.lunar_console_variable_entry_value);
+        }
 
         assertSeekProgress(R.id.lunar_console_edit_variable_seek_bar, 50);
+        assertText(R.id.lunar_console_edit_variable_value, "6.5");
+
+        setSeekBarProgress(R.id.lunar_console_edit_variable_seek_bar, 0);
+        assertText(R.id.lunar_console_edit_variable_value, "1.5");
+
+        setSeekBarProgress(R.id.lunar_console_edit_variable_seek_bar, 100);
+        assertText(R.id.lunar_console_edit_variable_value, "11.5");
+
+        typeText(R.id.lunar_console_edit_variable_value, "10.5");
+        assertSeekProgress(R.id.lunar_console_edit_variable_seek_bar, 90);
+
+        pressButton(R.id.lunar_console_edit_variable_button_ok);
+        assertResult("console_variable_set({id=1, value=10.5})");
+
+        assertText(R.id.lunar_console_variable_entry_value, "10.5");
+
+        while (!isVisible(R.id.lunar_console_edit_variable_seek_bar))
+        {
+            pressButton(R.id.lunar_console_variable_entry_value);
+        }
+
+        assertText(R.id.lunar_console_edit_variable_value, "10.5");
+
+        pressButton(R.id.lunar_console_edit_variable_button_reset);
+
+        assertText(R.id.lunar_console_variable_entry_value, "6.5");
+        assertResult("console_variable_set({id=1, value=6.5})");
     }
 
     //endregion

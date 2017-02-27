@@ -36,6 +36,7 @@ import android.widget.TextView;
 import spacemadness.com.lunarconsole.R;
 import spacemadness.com.lunarconsole.core.NotificationCenter;
 import spacemadness.com.lunarconsole.debug.Log;
+import spacemadness.com.lunarconsole.debug.TestHelper;
 import spacemadness.com.lunarconsole.ui.Switch;
 import spacemadness.com.lunarconsole.utils.StringUtils;
 import spacemadness.com.lunarconsole.utils.UIUtils;
@@ -152,7 +153,7 @@ public class VariableViewHolder extends ConsoleActionAdapter.ViewHolder<Variable
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
                 {
-                    if (fromUser)
+                    if (fromUser || TestHelper.forceSeekBarChangeDelegate)
                     {
                         valueEditText.setText(getValue(progress));
                     }

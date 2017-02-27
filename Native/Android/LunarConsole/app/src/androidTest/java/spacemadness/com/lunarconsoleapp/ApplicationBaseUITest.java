@@ -54,6 +54,7 @@ import spacemadness.com.lunarconsole.console.ConsolePlugin;
 import spacemadness.com.lunarconsole.console.VariableType;
 import spacemadness.com.lunarconsole.debug.TestHelper;
 import spacemadness.com.lunarconsole.utils.StringUtils;
+import spacemadness.com.lunarconsoleapp.helpers.ViewActionsEx;
 
 import static android.support.test.espresso.Espresso.*;
 import static android.support.test.espresso.action.ViewActions.*;
@@ -126,13 +127,13 @@ public class ApplicationBaseUITest implements TestHelper.EventListener
     protected void typeText(int id, String text)
     {
         assertVisible(id);
-        findView(id).perform(ViewActions.replaceText(text), ViewActions.closeSoftKeyboard());
+        findView(id).perform(ViewActions.replaceText(text), ViewActions.pressImeActionButton());
     }
 
     protected void appendText(int id, String text)
     {
         assertVisible(id);
-        findView(id).perform(ViewActions.typeText(text), ViewActions.closeSoftKeyboard());
+        findView(id).perform(ViewActions.typeText(text), ViewActions.pressImeActionButton());
     }
 
     protected void deleteLastChar(int id)
@@ -145,6 +146,12 @@ public class ApplicationBaseUITest implements TestHelper.EventListener
     {
         assertVisible(id);
         findView(id).perform(ViewActions.clearText(), ViewActions.closeSoftKeyboard());
+    }
+
+    protected void setSeekBarProgress(int viewId, int progress)
+    {
+        assertVisible(viewId);
+        findView(viewId).perform(ViewActionsEx.setSeekBarProgress(progress));
     }
 
     protected ViewInteraction findView(Class<? extends View> cls)

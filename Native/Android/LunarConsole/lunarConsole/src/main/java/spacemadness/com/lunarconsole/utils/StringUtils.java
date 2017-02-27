@@ -20,12 +20,16 @@
 
 package spacemadness.com.lunarconsole.utils;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 public class StringUtils
 {
+    private static final NumberFormat FLOATING_POINT_FORMAT = new DecimalFormat("0.#");
+
     public static boolean isValidInteger(String str)
     {
         try
@@ -146,7 +150,12 @@ public class StringUtils
 
     public static String toString(float value)
     {
-        return String.format(Locale.US, "%.2f", value);
+        return FLOATING_POINT_FORMAT.format(value);
+    }
+
+    public static String toString(double value)
+    {
+        return FLOATING_POINT_FORMAT.format(value);
     }
 
     public static <T> String Join(List<T> list)
