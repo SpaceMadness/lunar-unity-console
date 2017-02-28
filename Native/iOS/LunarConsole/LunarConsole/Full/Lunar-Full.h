@@ -30,6 +30,6 @@
 #import "LUCVarFloatTableViewCell.h"
 #import "LUCVarInputTableViewCell.h"
 #import "LUCVarIntegerTableViewCell.h"
-#import "LUCVarRangeController.h"
+#import "LUCVarEditController.h"
 #import "LUCVarStringTableViewCell.h"
 #import "LUCVarTableViewCell.h"

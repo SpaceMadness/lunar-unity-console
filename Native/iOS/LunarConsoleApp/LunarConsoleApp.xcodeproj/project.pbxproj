@@ -22,7 +22,7 @@
 		4D02A81C1E4979C7009F4998 /* LUSettingsTableCellBool.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FCE61DFB93C600032A29 /* LUSettingsTableCellBool.xib */; };
 		4D02A8231E511680009F4998 /* LUActionController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D02A8221E511680009F4998 /* LUActionController.xib */; };
 		4D02A8241E511692009F4998 /* LUActionController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D02A8221E511680009F4998 /* LUActionController.xib */; };
-		4D02A84B1E5A9658009F4998 /* LUCVarRangeController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D02A84A1E5A9658009F4998 /* LUCVarRangeController.xib */; };
+		4D02A84B1E5A9658009F4998 /* LUCVarEditController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D02A84A1E5A9658009F4998 /* LUCVarEditController.xib */; };
 		4D9C35C71E3D840F003E0001 /* NetPeer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D9C35C61E3D840F003E0001 /* NetPeer.m */; };
 		4D9C35C81E3D840F003E0001 /* NetPeer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D9C35C61E3D840F003E0001 /* NetPeer.m */; };
 		4D9C35C91E3D840F003E0001 /* NetPeer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D9C35C61E3D840F003E0001 /* NetPeer.m */; };
@@ -268,7 +268,7 @@
 		29F4782DA9C617256D8D7BA3 /* Pods-LunarConsoleApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LunarConsoleApp.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LunarConsoleApp/Pods-LunarConsoleApp.debug.xcconfig"; sourceTree = "<group>"; };
 		438BC1E4A24AFBB11E4BD7E0 /* Pods-LunarConsoleApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LunarConsoleApp.release.xcconfig"; path = "Pods/Target Support Files/Pods-LunarConsoleApp/Pods-LunarConsoleApp.release.xcconfig"; sourceTree = "<group>"; };
 		4D02A8221E511680009F4998 /* LUActionController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LUActionController.xib; path = ../../LunarConsole/LunarConsole/Common/Controllers/Actions/LUActionController.xib; sourceTree = "<group>"; };
-		4D02A84A1E5A9658009F4998 /* LUCVarRangeController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LUCVarRangeController.xib; path = ../../LunarConsole/LunarConsole/Full/Controllers/Variables/LUCVarRangeController.xib; sourceTree = "<group>"; };
+		4D02A84A1E5A9658009F4998 /* LUCVarEditController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LUCVarEditController.xib; path = ../../LunarConsole/LunarConsole/Full/Controllers/Variables/LUCVarEditController.xib; sourceTree = "<group>"; };
 		4D9C35C51E3D840F003E0001 /* NetPeer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NetPeer.h; sourceTree = "<group>"; };
 		4D9C35C61E3D840F003E0001 /* NetPeer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NetPeer.m; sourceTree = "<group>"; };
 		4D9C35CC1E3D97A0003E0001 /* UnityMessenger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UnityMessenger.h; sourceTree = "<group>"; };
@@ -635,7 +635,7 @@
 				4DD4FCE21DFB93C600032A29 /* LUConsoleSettingsController.xib */,
 				4DD4FCE31DFB93C600032A29 /* LUCVarBooleanTableViewCell.xib */,
 				4DD4FCE41DFB93C600032A29 /* LUCVarInputTableViewCell.xib */,
-				4D02A84A1E5A9658009F4998 /* LUCVarRangeController.xib */,
+				4D02A84A1E5A9658009F4998 /* LUCVarEditController.xib */,
 				4DD4FCE51DFB93C600032A29 /* LUExceptionWarningController.xib */,
 				4DD4FCE61DFB93C600032A29 /* LUSettingsTableCellBool.xib */,
 			);
@@ -985,7 +985,7 @@
 				4DBF29EC1E6542D7006E2C8A /* lunar_console_resize_handle_vertical.png in Resources */,
 				4DBF29ED1E6542D7006E2C8A /* lunar_console_resize_handle_vertical@2x.png in Resources */,
 				4DBF29EE1E6542D7006E2C8A /* lunar_console_resize_handle_vertical@3x.png in Resources */,
-				4D02A84B1E5A9658009F4998 /* LUCVarRangeController.xib in Resources */,
+				4D02A84B1E5A9658009F4998 /* LUCVarEditController.xib in Resources */,
 				4DBF2A371E65434A006E2C8A /* lunar_console_action_button_large_selected@2x.png in Resources */,
 				4D02A8231E511680009F4998 /* LUActionController.xib in Resources */,
 				4DD4FCE81DFB93C600032A29 /* LUConsoleController.xib in Resources */,

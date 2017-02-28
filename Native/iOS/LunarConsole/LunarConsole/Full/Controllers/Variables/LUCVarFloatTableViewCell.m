@@ -42,7 +42,7 @@
 {
     if (self.variable.hasRange)
     {
-        LUCVarRangeController *controller = [[LUCVarRangeController alloc] initWithVariable:self.variable];
+        LUCVarEditController *controller = [[LUCVarEditController alloc] initWithVariable:self.variable];
         LUConsolePopupController *popupController = [[LUConsolePopupController alloc] initWithContentController:controller];
         popupController.popupDelegate = self;
         

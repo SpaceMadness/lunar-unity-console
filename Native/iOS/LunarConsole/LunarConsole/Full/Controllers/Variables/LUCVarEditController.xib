@@ -9,7 +9,7 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LUCVarRangeController">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LUCVarEditController">
             <connections>
                 <outlet property="errorLabel" destination="U1t-W9-x4f" id="Wn3-Yl-HyK"/>
                 <outlet property="errorLabelHeightConstraint" destination="Imo-0Z-48e" id="7OY-QD-mG8"/>

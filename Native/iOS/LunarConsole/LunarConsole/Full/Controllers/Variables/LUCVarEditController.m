@@ -1,16 +1,16 @@
 //
-//  LUCVarRangeController.m
+//  LUCVarEditController.m
 //  LunarConsole
 //
 //  Created by Alex Lementuev on 2/18/17.
 //  Copyright © 2017 Space Madness. All rights reserved.
 //
 
-#import "LUCVarRangeController.h"
+#import "LUCVarEditController.h"
 
 #import "Lunar-Full.h"
 
-@interface LUCVarRangeController () <UITextFieldDelegate>
+@interface LUCVarEditController () <UITextFieldDelegate>
 {
     __weak LUCVar * _variable;
 }
@@ -22,7 +22,7 @@
 
 @end
 
-@implementation LUCVarRangeController
+@implementation LUCVarEditController
 
 - (instancetype)initWithVariable:(LUCVar *)variable
 {

@@ -1,5 +1,5 @@
 //
-//  LUCVarRangeController.h
+//  LUCVarEditController.h
 //  LunarConsole
 //
 //  Created by Alex Lementuev on 2/18/17.
@@ -10,7 +10,7 @@
 
 @class LUCVar;
 
-@interface LUCVarRangeController : LUViewController
+@interface LUCVarEditController : LUViewController
 
 - (instancetype)initWithVariable:(LUCVar *)variable;
 
