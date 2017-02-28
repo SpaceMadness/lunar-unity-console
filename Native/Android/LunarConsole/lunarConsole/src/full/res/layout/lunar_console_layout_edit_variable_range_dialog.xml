@@ -24,14 +24,15 @@
 
         <SeekBar
             android:id="@+id/lunar_console_edit_variable_seek_bar"
+            android:layout_gravity="center_vertical"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"/>
+            android:layout_weight="2"/>
 
         <EditText
             android:id="@+id/lunar_console_edit_variable_value"
             style="@style/lunar_console_variable_value_edit_text_style"
-            android:layout_width="30dp"
+            android:layout_width="10dp"
             android:layout_height="wrap_content"
             android:ems="10"/>
     </LinearLayout>

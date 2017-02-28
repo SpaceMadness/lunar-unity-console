@@ -64,6 +64,11 @@ namespace LunarConsolePlugin
             this.min = min;
             this.max = max;
         }
+
+        public bool IsValid
+        {
+            get { return !float.IsNaN(min) && !float.IsNaN(max); }
+        }
     }
 
     public class CVar : IEquatable<CVar>, IComparable<CVar>
@@ -73,10 +78,10 @@ namespace LunarConsolePlugin
         private readonly int m_id;
         private readonly string m_name;
         private readonly CVarType m_type;
-        private readonly CVarValueRange m_range;
 
         private CValue m_value;
         private CValue m_defaultValue;
+        private CVarValueRange m_range = CVarValueRange.Undefined;
 
         private CVarChangedDelegateList m_delegateList;
 
@@ -85,8 +90,6 @@ namespace LunarConsolePlugin
         {
             this.IntValue = defaultValue ? 1 : 0;
             m_defaultValue = m_value;
-            m_range = ResolveRange();
-            Register();
         }
 
         public CVar(string name, int defaultValue)
@@ -94,8 +97,6 @@ namespace LunarConsolePlugin
         {
             this.IntValue = defaultValue;
             m_defaultValue = m_value;
-            m_range = ResolveRange();
-            Register();
         }
 
         public CVar(string name, float defaultValue)
@@ -103,8 +104,6 @@ namespace LunarConsolePlugin
         {
             this.FloatValue = defaultValue;
             m_defaultValue = m_value;
-            m_range = ResolveRange();
-            Register();
         }
 
         public CVar(string name, string defaultValue)
@@ -112,8 +111,6 @@ namespace LunarConsolePlugin
         {
             this.Value = defaultValue;
             m_defaultValue = m_value;
-            m_range = ResolveRange();
-            Register();
         }
 
         private CVar(string name, CVarType type)
@@ -127,14 +124,6 @@ namespace LunarConsolePlugin
 
             m_name = name;
             m_type = type;
-        }
-
-        void Register()
-        {
-            if (LunarConsoleConfig.consoleEnabled && LunarConsoleConfig.consoleSupported)
-            {
-                CRegistry.instance.Register(this);
-            }
         }
 
         //////////////////////////////////////////////////////////////////////////////
@@ -229,48 +218,6 @@ namespace LunarConsolePlugin
 
         //////////////////////////////////////////////////////////////////////////////
 
-        #region Range
-
-        CVarValueRange ResolveRange()
-        {
-            if (m_type != CVarType.Float)
-            {
-                Log.w("'{0}' attribute is only available with 'float' variables", typeof(CVarRangeAttribute).Name);
-                return CVarValueRange.Undefined;
-            }
-
-            try
-            {
-                var attributes = GetType().GetCustomAttributes(typeof(CVarRangeAttribute), true);
-                if (attributes != null && attributes.Length > 0)
-                {
-                    var rangeAttribute = attributes[0] as CVarRangeAttribute;
-                    if (rangeAttribute != null)
-                    {
-                        var min = rangeAttribute.min;
-                        var max = rangeAttribute.max;
-                        if (max - min < 0.00001f)
-                        {
-                            Log.w("Invalid range [{0}, {1}] for variable '{2}'", min.ToString(), max.ToString(), m_name);
-                            return CVarValueRange.Undefined;
-                        }
-
-                        return new CVarValueRange(min, max);
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Log.e(e, "Exception while resolving variable's range: {0}", m_name);
-            }
-
-            return CVarValueRange.Undefined;
-        }
-
-        #endregion
-
-        //////////////////////////////////////////////////////////////////////////////
-
         #region Properties
 
         public int Id
@@ -319,11 +266,12 @@ namespace LunarConsolePlugin
         public CVarValueRange Range
         {
             get { return m_range; }
+            set { m_range = value; }
         }
 
         public bool HasRange
         {
-            get { return float.IsNaN(m_range.min) || float.IsNaN(m_range.max); }
+            get { return m_range.IsValid; }
         }
 
         public bool IsInt
@@ -510,7 +458,7 @@ namespace LunarConsolePlugin
                 var containerTypes = ReflectionUtils.FindAttributeTypes<CVarContainerAttribute>(assembly);
                 foreach (var type in containerTypes)
                 {
-                    ForceStaticInit(type);
+                    RegisterVariables(type);
                 }
             }
             catch (Exception e)
@@ -519,21 +467,78 @@ namespace LunarConsolePlugin
             }
         }
 
-        private static void ForceStaticInit(Type type)
+        private static void RegisterVariables(Type type)
         {
             try
             {
-                FieldInfo[] fields = type.GetFields(BindingFlags.Static|BindingFlags.Public);
+                var fields = type.GetFields(BindingFlags.Static|BindingFlags.Public|BindingFlags.NonPublic);
                 if (fields != null && fields.Length > 0)
                 {
-                    fields[0].GetValue(null);
+                    foreach (var field in fields)
+                    {
+                        if (!field.FieldType.IsAssignableFrom(typeof(CVar)))
+                        {
+                            continue;
+                        }
+
+                        var cvar = field.GetValue(null) as CVar;
+                        if (cvar == null)
+                        {
+                            Log.w("Unable to register variable {0}.{0}", type.Name, field.Name);
+                            continue;
+                        }
+
+                        var variableRange = ResolveVariableRange(field);
+                        if (variableRange.IsValid)
+                        {
+                            if (cvar.Type == CVarType.Float)
+                            {
+                                cvar.Range = variableRange;
+                            }
+                            else
+                            {
+                                Log.w("'{0}' attribute is only available with 'float' variables", typeof(CVarRangeAttribute).Name);
+                            }
+                        }
+
+                        CRegistry.instance.Register(cvar);
+                    }
                 }
             }
             catch (Exception e)
             {
                 Log.e(e, "Unable to initialize cvar container: {0}", type);
             }
+        }
 
+        static CVarValueRange ResolveVariableRange(FieldInfo field)
+        {
+            try
+            {
+                var attributes = field.GetCustomAttributes(typeof(CVarRangeAttribute), true);
+                if (attributes != null && attributes.Length > 0)
+                {
+                    var rangeAttribute = attributes[0] as CVarRangeAttribute;
+                    if (rangeAttribute != null)
+                    {
+                        var min = rangeAttribute.min;
+                        var max = rangeAttribute.max;
+                        if (max - min < 0.00001f)
+                        {
+                            Log.w("Invalid range [{0}, {1}] for variable '{2}'", min.ToString(), max.ToString(), field.Name);
+                            return CVarValueRange.Undefined;
+                        }
+
+                        return new CVarValueRange(min, max);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Log.e(e, "Exception while resolving variable's range: {0}", field.Name);
+            }
+
+            return CVarValueRange.Undefined;
         }
     }
 

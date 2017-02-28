@@ -346,7 +346,7 @@ namespace LunarConsolePlugin
             private readonly jvalue[] m_args1 = new jvalue[1];
             private readonly jvalue[] m_args2 = new jvalue[2];
             private readonly jvalue[] m_args3 = new jvalue[3];
-            private readonly jvalue[] m_args5 = new jvalue[5];
+            private readonly jvalue[] m_args8 = new jvalue[8];
 
             private static readonly string kPluginClassName = "spacemadness.com.lunarconsole.console.ConsolePlugin";
 
@@ -397,7 +397,7 @@ namespace LunarConsolePlugin
                 m_methodClearConsole = GetStaticMethod(m_pluginClassRaw, "clear", "()V");
                 m_methodRegisterAction = GetStaticMethod(m_pluginClassRaw, "registerAction", "(ILjava.lang.String;)V");
                 m_methodUnregisterAction = GetStaticMethod(m_pluginClassRaw, "unregisterAction", "(I)V");
-                m_methodRegisterVariable = GetStaticMethod(m_pluginClassRaw, "registerVariable", "(ILjava.lang.String;Ljava.lang.String;Ljava.lang.String;Ljava.lang.String;)V");
+                m_methodRegisterVariable = GetStaticMethod(m_pluginClassRaw, "registerVariable", "(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZFF)V");
             }
 
             ~PlatformAndroid()
@@ -494,16 +494,19 @@ namespace LunarConsolePlugin
             {
                 try
                 {
-                    m_args5[0] = jval(cvar.Id);
-                    m_args5[1] = jval(cvar.Name);
-                    m_args5[2] = jval(cvar.Type.ToString());
-                    m_args5[3] = jval(cvar.Value);
-                    m_args5[4] = jval(cvar.DefaultValue);
-                    CallStaticVoidMethod(m_methodRegisterVariable, m_args5);
-                    AndroidJNI.DeleteLocalRef(m_args5[1].l);
-                    AndroidJNI.DeleteLocalRef(m_args5[2].l);
-                    AndroidJNI.DeleteLocalRef(m_args5[3].l);
-                    AndroidJNI.DeleteLocalRef(m_args5[4].l);
+                    m_args8[0] = jval(cvar.Id);
+                    m_args8[1] = jval(cvar.Name);
+                    m_args8[2] = jval(cvar.Type.ToString());
+                    m_args8[3] = jval(cvar.Value);
+                    m_args8[4] = jval(cvar.DefaultValue);
+                    m_args8[5] = jval(cvar.HasRange);
+                    m_args8[6] = jval(cvar.Range.min);
+                    m_args8[7] = jval(cvar.Range.max);
+                    CallStaticVoidMethod(m_methodRegisterVariable, m_args8);
+                    AndroidJNI.DeleteLocalRef(m_args8[1].l);
+                    AndroidJNI.DeleteLocalRef(m_args8[2].l);
+                    AndroidJNI.DeleteLocalRef(m_args8[3].l);
+                    AndroidJNI.DeleteLocalRef(m_args8[4].l);
                 }
                 catch (Exception e)
                 {
@@ -537,10 +540,24 @@ namespace LunarConsolePlugin
                 return val;
             }
 
+            private jvalue jval(bool value)
+            {
+                jvalue val = new jvalue();
+                val.z = value;
+                return val;
+            }
+
             private jvalue jval(int value)
             {
                 jvalue val = new jvalue();
                 val.i = value;
+                return val;
+            }
+
+            private jvalue jval(float value)
+            {
+                jvalue val = new jvalue();
+                val.f = value;
                 return val;
             }
 
