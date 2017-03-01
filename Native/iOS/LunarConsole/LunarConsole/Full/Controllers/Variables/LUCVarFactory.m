@@ -23,8 +23,7 @@
 #import "Lunar-Full.h"
 
 #import "LUCVarBooleanTableViewCell.h"
-#import "LUCVarFloatTableViewCell.h"
-#import "LUCVarIntegerTableViewCell.h"
+#import "LUCVarInputTableViewCell.h"
 #import "LUCVarStringTableViewCell.h"
 
 @implementation LUCVarFactory
@@ -51,8 +50,8 @@
     switch (type)
     {
         case LUCVarTypeBoolean: return [LUCVarBooleanTableViewCell class];
-        case LUCVarTypeInteger: return [LUCVarIntegerTableViewCell class];
-        case LUCVarTypeFloat:   return [LUCVarFloatTableViewCell class];
+        case LUCVarTypeInteger: return [LUCVarInputTableViewCell class];
+        case LUCVarTypeFloat:   return [LUCVarInputTableViewCell class];
         case LUCVarTypeString:  return [LUCVarStringTableViewCell class];
         case LUCVarTypeUnknown: return NULL;
     }

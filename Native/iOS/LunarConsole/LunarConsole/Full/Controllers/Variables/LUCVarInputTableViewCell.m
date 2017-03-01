@@ -22,7 +22,7 @@
 
 #import "Lunar-Full.h"
 
-@interface LUCVarInputTableViewCell () <UITextFieldDelegate>
+@interface LUCVarInputTableViewCell () <LUConsolePopupControllerDelegate, LUCVarEditControllerDelegate>
 
 @property (nonatomic, weak) IBOutlet UITextField * inputField;
 @property (nonatomic, weak) IBOutlet UIButton * resetButton;
@@ -95,40 +95,31 @@
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
-    return YES;
-}
-
-- (void)textFieldDidEndEditing:(UITextField *)textField
-{
-    NSString *value = textField.text;
+    LUCVarEditController *controller = [[LUCVarEditController alloc] initWithVariable:self.variable];
+    controller.delegate = self;
     
-    if ([self isValidInputText:value])
-    {
-        [self setVariableValue:value];
-    }
-    else
-    {
-        LUDisplayAlertView(@"Input Error", [NSString stringWithFormat:@"Invalid value: '%@'", value]);
-    }
-}
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
-{
-    [textField resignFirstResponder];
+    LUConsolePopupController *popupController = [[LUConsolePopupController alloc] initWithContentController:controller];
+    popupController.popupDelegate = self;
+    [popupController presentFromController:self.presentingController animated:YES];
+    
     return NO;
 }
 
 #pragma mark -
-#pragma mark Properties
+#pragma mark LUConsolePopupControllerDelegate
 
-- (NSString *)inputText
+- (void)popupControllerDidDismiss:(LUConsolePopupController *)controller
 {
-    return _inputField.text;
+    [controller dismissAnimated:YES];
 }
 
-- (void)setInputText:(NSString *)inputText
+#pragma mark -
+#pragma mark LUCVarEditControllerDelegate
+
+- (void)editController:(LUCVarEditController *)controller didChangeValue:(NSString *)value
 {
-    _inputField.text = inputText;
+    _inputField.text = value;
+    [self setVariableValue:value];
 }
 
 @end

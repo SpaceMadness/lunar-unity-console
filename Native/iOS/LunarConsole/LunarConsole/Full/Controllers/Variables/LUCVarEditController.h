@@ -9,8 +9,17 @@
 #import "LUViewController.h"
 
 @class LUCVar;
+@class LUCVarEditController;
+
+@protocol LUCVarEditControllerDelegate <NSObject>
+
+- (void)editController:(LUCVarEditController *)controller didChangeValue:(NSString *)value;
+
+@end
 
 @interface LUCVarEditController : LUViewController
+
+@property (nonatomic, weak) id<LUCVarEditControllerDelegate> delegate;
 
 - (instancetype)initWithVariable:(LUCVar *)variable;
 

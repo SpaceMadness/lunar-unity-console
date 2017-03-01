@@ -18,9 +18,7 @@
 		4D02A7B71E496C93009F4998 /* LUCVar.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D02A7941E496C93009F4998 /* LUCVar.m */; };
 		4D02A7B81E496C93009F4998 /* LUCVarBooleanTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D02A7961E496C93009F4998 /* LUCVarBooleanTableViewCell.m */; };
 		4D02A7B91E496C93009F4998 /* LUCVarFactory.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D02A7991E496C93009F4998 /* LUCVarFactory.m */; };
-		4D02A7BA1E496C93009F4998 /* LUCVarFloatTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D02A79B1E496C93009F4998 /* LUCVarFloatTableViewCell.m */; };
 		4D02A7BB1E496C93009F4998 /* LUCVarInputTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D02A79D1E496C93009F4998 /* LUCVarInputTableViewCell.m */; };
-		4D02A7BC1E496C93009F4998 /* LUCVarIntegerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D02A7A01E496C93009F4998 /* LUCVarIntegerTableViewCell.m */; };
 		4D02A7BD1E496C93009F4998 /* LUCVarStringTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D02A7A21E496C93009F4998 /* LUCVarStringTableViewCell.m */; };
 		4D02A7BE1E496C93009F4998 /* LUCVarTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D02A7A41E496C93009F4998 /* LUCVarTableViewCell.m */; };
 		4D02A7C31E496DF7009F4998 /* LUActionController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D02A7C21E496DF7009F4998 /* LUActionController.m */; };
@@ -187,13 +185,9 @@
 		4D02A7971E496C93009F4998 /* LUCVarBooleanTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LUCVarBooleanTableViewCell.xib; sourceTree = "<group>"; };
 		4D02A7981E496C93009F4998 /* LUCVarFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUCVarFactory.h; sourceTree = "<group>"; };
 		4D02A7991E496C93009F4998 /* LUCVarFactory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUCVarFactory.m; sourceTree = "<group>"; };
-		4D02A79A1E496C93009F4998 /* LUCVarFloatTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUCVarFloatTableViewCell.h; sourceTree = "<group>"; };
-		4D02A79B1E496C93009F4998 /* LUCVarFloatTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUCVarFloatTableViewCell.m; sourceTree = "<group>"; };
 		4D02A79C1E496C93009F4998 /* LUCVarInputTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUCVarInputTableViewCell.h; sourceTree = "<group>"; };
 		4D02A79D1E496C93009F4998 /* LUCVarInputTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUCVarInputTableViewCell.m; sourceTree = "<group>"; };
 		4D02A79E1E496C93009F4998 /* LUCVarInputTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LUCVarInputTableViewCell.xib; sourceTree = "<group>"; };
-		4D02A79F1E496C93009F4998 /* LUCVarIntegerTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUCVarIntegerTableViewCell.h; sourceTree = "<group>"; };
-		4D02A7A01E496C93009F4998 /* LUCVarIntegerTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUCVarIntegerTableViewCell.m; sourceTree = "<group>"; };
 		4D02A7A11E496C93009F4998 /* LUCVarStringTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUCVarStringTableViewCell.h; sourceTree = "<group>"; };
 		4D02A7A21E496C93009F4998 /* LUCVarStringTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUCVarStringTableViewCell.m; sourceTree = "<group>"; };
 		4D02A7A31E496C93009F4998 /* LUCVarTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUCVarTableViewCell.h; sourceTree = "<group>"; };
@@ -528,13 +522,9 @@
 				4D02A8451E5A8E2B009F4998 /* LUCVarEditController.xib */,
 				4D02A7981E496C93009F4998 /* LUCVarFactory.h */,
 				4D02A7991E496C93009F4998 /* LUCVarFactory.m */,
-				4D02A79A1E496C93009F4998 /* LUCVarFloatTableViewCell.h */,
-				4D02A79B1E496C93009F4998 /* LUCVarFloatTableViewCell.m */,
 				4D02A79C1E496C93009F4998 /* LUCVarInputTableViewCell.h */,
 				4D02A79D1E496C93009F4998 /* LUCVarInputTableViewCell.m */,
 				4D02A79E1E496C93009F4998 /* LUCVarInputTableViewCell.xib */,
-				4D02A79F1E496C93009F4998 /* LUCVarIntegerTableViewCell.h */,
-				4D02A7A01E496C93009F4998 /* LUCVarIntegerTableViewCell.m */,
 				4D02A7A11E496C93009F4998 /* LUCVarStringTableViewCell.h */,
 				4D02A7A21E496C93009F4998 /* LUCVarStringTableViewCell.m */,
 				4D02A7A31E496C93009F4998 /* LUCVarTableViewCell.h */,
@@ -1127,7 +1117,6 @@
 				4D02A7C71E496FCA009F4998 /* LUActionControllerBase.m in Sources */,
 				4DD4FC211DFB932C00032A29 /* LUThreading.m in Sources */,
 				4D02A7B31E496C93009F4998 /* LUActionRegistry.m in Sources */,
-				4D02A7BA1E496C93009F4998 /* LUCVarFloatTableViewCell.m in Sources */,
 				4DD4FC071DFB932C00032A29 /* LUWindow.m in Sources */,
 				4DD4FBF91DFB932C00032A29 /* LUPanViewGestureRecognizer.m in Sources */,
 				4DD4FBE11DFB932C00032A29 /* LUConsole.m in Sources */,
@@ -1137,7 +1126,6 @@
 				4DD4FBD71DFB932B00032A29 /* LUConsoleLogEntryList.m in Sources */,
 				4DD4FBDD1DFB932C00032A29 /* LUConsoleLogMenuController.m in Sources */,
 				4DD4FC051DFB932C00032A29 /* LUViewController.m in Sources */,
-				4D02A7BC1E496C93009F4998 /* LUCVarIntegerTableViewCell.m in Sources */,
 				4DD4FBDB1DFB932B00032A29 /* LUConsoleLogEntryTableViewCell.m in Sources */,
 				4D02A8481E5A8EA4009F4998 /* LUTextField.m in Sources */,
 				4DD4FBEB1DFB932C00032A29 /* LUUnityScriptMessenger.m in Sources */,
