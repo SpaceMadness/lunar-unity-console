@@ -40,7 +40,8 @@
                         <constraint firstAttribute="width" constant="183" id="OGz-hc-vVY"/>
                     </constraints>
                     <connections>
-                        <action selector="sliderEditingFinished:" destination="-1" eventType="touchUpInside" id="0V1-uK-iZ8"/>
+                        <action selector="sliderEditingFinished:" destination="-1" eventType="touchUpInside" id="3Lp-Bj-W5Y"/>
+                        <action selector="sliderEditingFinished:" destination="-1" eventType="touchUpOutside" id="zRV-AZ-GpL"/>
                         <action selector="sliderValueChanged:" destination="-1" eventType="valueChanged" id="WgU-36-ncf"/>
                     </connections>
                 </slider>

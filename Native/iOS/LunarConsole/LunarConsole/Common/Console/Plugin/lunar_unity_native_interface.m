@@ -138,8 +138,9 @@ void __lunar_console_cvar_register(int entryId, const char *nameStr, const char 
         NSString *type = [[NSString alloc] initWithUTF8String:typeStr];
         NSString *value = [[NSString alloc] initWithUTF8String:valueStr];
         NSString *defaultValue = [[NSString alloc] initWithUTF8String:defaultValueStr];
+        
         LUCVar *cvar = [_lunarConsolePlugin registerVariableWithId:entryId name:name type:type value:value defaultValue:defaultValue];
-        if (cvar.hasRange)
+        if (!isnan(min) && !isnan(max))
         {
             cvar.range = LUMakeCVarRange(min, max);
         }
