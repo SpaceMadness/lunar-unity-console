@@ -25,19 +25,23 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.os.Build;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import spacemadness.com.lunarconsole.R;
 import spacemadness.com.lunarconsole.core.NotificationCenter;
 import spacemadness.com.lunarconsole.debug.Log;
+import spacemadness.com.lunarconsole.debug.TestHelper;
 import spacemadness.com.lunarconsole.ui.Switch;
 import spacemadness.com.lunarconsole.utils.StringUtils;
 import spacemadness.com.lunarconsole.utils.UIUtils;
 
+import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
 import static spacemadness.com.lunarconsole.console.ConsoleNotifications.VARIABLE_SET;
 import static spacemadness.com.lunarconsole.console.ConsoleNotifications.VARIABLE_SET_KEY_VARIABLE;
 
@@ -119,7 +123,7 @@ public class VariableViewHolder extends ConsoleActionAdapter.ViewHolder<Variable
         final Context context = v.getContext();
         final Dialog dialog = new Dialog(context);
         dialog.setTitle(variable.name());
-        dialog.setContentView(R.layout.lunar_console_layout_edit_variable_dialog);
+        dialog.setContentView(variable.hasRange() ? R.layout.lunar_console_layout_edit_variable_range_dialog : R.layout.lunar_console_layout_edit_variable_dialog);
 
         final TextView defaultText = (TextView) dialog.findViewById(R.id.lunar_console_edit_variable_default_value);
         defaultText.setText(String.format(getString(R.string.lunar_console_edit_variable_title_default_value), variable.defaultValue));
@@ -127,6 +131,90 @@ public class VariableViewHolder extends ConsoleActionAdapter.ViewHolder<Variable
         final EditText valueEditText = (EditText) dialog.findViewById(R.id.lunar_console_edit_variable_value);
         valueEditText.setText(variable.value);
         valueEditText.setSelectAllOnFocus(true);
+
+        final SeekBar seekBar = (SeekBar) dialog.findViewById(R.id.lunar_console_edit_variable_seek_bar);
+        if (seekBar != null)
+        {
+            float floatValue = StringUtils.parseFloat(variable.value, Float.NaN);
+            if (Float.isNaN(floatValue))
+            {
+                seekBar.setEnabled(false);
+                seekBar.setProgress(50);
+                UIUtils.showDialog(layout.getContext(),
+                        context.getString(R.string.lunar_console_variable_value_error_title),
+                        context.getString(R.string.lunar_console_variable_value_error_message_type_float));
+            }
+            else
+            {
+                seekBar.setProgress((int) (100 * (floatValue - variable.getMin()) / (variable.getMax() - variable.getMin())));
+            }
+            seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
+            {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
+                {
+                    if (fromUser || TestHelper.forceSeekBarChangeDelegate)
+                    {
+                        valueEditText.setText(getValue(progress));
+                    }
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar)
+                {
+
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar)
+                {
+                    String value = getValue(seekBar.getProgress());
+                    valueEditText.setText(value);
+                    updateValue(value);
+                }
+
+                private String getValue(int progress)
+                {
+                    return StringUtils.toString(variable.getMin() + 0.01f * (variable.getMax() - variable.getMin()) * progress);
+                }
+            });
+
+            valueEditText.setOnEditorActionListener(new TextView.OnEditorActionListener()
+            {
+                @Override
+                public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
+                {
+                    if (actionId == IME_ACTION_DONE || event != null &&
+                            event.getAction() == KeyEvent.ACTION_DOWN &&
+                            event.getKeyCode() == KeyEvent.KEYCODE_ENTER)
+                    {
+                        float floatValue = StringUtils.parseFloat(v.getText().toString(), Float.NaN);
+                        if (Float.isNaN(floatValue))
+                        {
+                            UIUtils.showDialog(layout.getContext(),
+                                    context.getString(R.string.lunar_console_variable_value_error_title),
+                                    context.getString(R.string.lunar_console_variable_value_error_message_type_float));
+                            return true;
+                        }
+
+                        if (floatValue < variable.getMin())
+                        {
+                            floatValue = variable.getMin();
+                            v.setText(StringUtils.toString(floatValue));
+                        }
+                        else if (floatValue > variable.getMax())
+                        {
+                            floatValue = variable.getMax();
+                            v.setText(StringUtils.toString(floatValue));
+                        }
+
+                        seekBar.setProgress((int) (100 * (floatValue - variable.getMin()) / (variable.getMax() - variable.getMin())));
+                    }
+
+                    return false;
+                }
+            });
+        }
 
         dialog.findViewById(R.id.lunar_console_edit_variable_button_ok).setOnClickListener(new View.OnClickListener()
         {

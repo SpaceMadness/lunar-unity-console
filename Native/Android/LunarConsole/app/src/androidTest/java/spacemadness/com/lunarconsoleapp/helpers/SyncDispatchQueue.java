@@ -33,4 +33,10 @@ public class SyncDispatchQueue extends DispatchQueue
     {
         runnable.run();
     }
+
+    @Override
+    public void dispatchAsync(Runnable runnable, long delay)
+    {
+        runnable.run();
+    }
 }

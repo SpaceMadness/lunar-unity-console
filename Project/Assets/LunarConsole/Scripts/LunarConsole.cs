@@ -94,6 +94,7 @@ namespace LunarConsolePlugin
         IDictionary<string, LunarConsoleNativeMessageHandler> m_nativeHandlerLookup;
 
         Queue<MessageInfo> m_queuedMessages;
+        CRegistry m_registry;
 
         #region Life cycle
 
@@ -152,7 +153,8 @@ namespace LunarConsolePlugin
                     m_platform = CreatePlatform(capacity, trim);
                     if (m_platform != null)
                     {
-                        registry.registryDelegate = m_platform;
+                        m_registry = new CRegistry();
+                        m_registry.registryDelegate = m_platform;
 
                         m_queuedMessages = new Queue<MessageInfo>();
                         int mainThreadId = Thread.CurrentThread.ManagedThreadId;
@@ -171,7 +173,7 @@ namespace LunarConsolePlugin
                         };
 
                         // resolve variables
-                        CVarResolver.ResolveVariables();
+                        ResolveVariables();
 
                         return true;
                     }
@@ -206,11 +208,10 @@ namespace LunarConsolePlugin
 
         void DestroyPlatform()
         {
-            if (registry.registryDelegate == m_platform)
+            if (s_instance == this)
             {
-                registry.registryDelegate = null;
+                s_instance = null;
             }
-            s_instance = null;
         }
 
         static string GetGestureName(Gesture gesture)
@@ -225,6 +226,101 @@ namespace LunarConsolePlugin
             bool HideConsole();
             void ClearConsole();
         }
+
+        #region CVar resolver
+
+        private void ResolveVariables()
+        {
+            try
+            {
+                var assembly = GetType().Assembly;
+                var containerTypes = ReflectionUtils.FindAttributeTypes<CVarContainerAttribute>(assembly);
+                foreach (var type in containerTypes)
+                {
+                    RegisterVariables(type);
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("Unable to resolve variables: " + e.Message);
+            }
+        }
+
+        private void RegisterVariables(Type type)
+        {
+            try
+            {
+                var fields = type.GetFields(BindingFlags.Static|BindingFlags.Public|BindingFlags.NonPublic);
+                if (fields != null && fields.Length > 0)
+                {
+                    foreach (var field in fields)
+                    {
+                        if (!field.FieldType.IsAssignableFrom(typeof(CVar)))
+                        {
+                            continue;
+                        }
+
+                        var cvar = field.GetValue(null) as CVar;
+                        if (cvar == null)
+                        {
+                            Log.w("Unable to register variable {0}.{0}", type.Name, field.Name);
+                            continue;
+                        }
+
+                        var variableRange = ResolveVariableRange(field);
+                        if (variableRange.IsValid)
+                        {
+                            if (cvar.Type == CVarType.Float)
+                            {
+                                cvar.Range = variableRange;
+                            }
+                            else
+                            {
+                                Log.w("'{0}' attribute is only available with 'float' variables", typeof(CVarRangeAttribute).Name);
+                            }
+                        }
+
+                        m_registry.Register(cvar);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Log.e(e, "Unable to initialize cvar container: {0}", type);
+            }
+        }
+
+        static CVarValueRange ResolveVariableRange(FieldInfo field)
+        {
+            try
+            {
+                var attributes = field.GetCustomAttributes(typeof(CVarRangeAttribute), true);
+                if (attributes != null && attributes.Length > 0)
+                {
+                    var rangeAttribute = attributes[0] as CVarRangeAttribute;
+                    if (rangeAttribute != null)
+                    {
+                        var min = rangeAttribute.min;
+                        var max = rangeAttribute.max;
+                        if (max - min < 0.00001f)
+                        {
+                            Log.w("Invalid range [{0}, {1}] for variable '{2}'", min.ToString(), max.ToString(), field.Name);
+                            return CVarValueRange.Undefined;
+                        }
+
+                        return new CVarValueRange(min, max);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Log.e(e, "Exception while resolving variable's range: {0}", field.Name);
+            }
+
+            return CVarValueRange.Undefined;
+        }
+
+        #endregion
 
         #region Threading
 
@@ -279,7 +375,7 @@ namespace LunarConsolePlugin
             private static extern void __lunar_console_action_unregister(int actionId);
 
             [DllImport("__Internal")]
-            private static extern void __lunar_console_cvar_register(int variableId, string name, string type, string value, string defaultValue);
+            private static extern void __lunar_console_cvar_register(int variableId, string name, string type, string value, string defaultValue, bool hasRange, float min, float max);
 
             [DllImport("__Internal")]
             private static extern void __lunar_console_cvar_update(int variableId, string value);
@@ -332,7 +428,7 @@ namespace LunarConsolePlugin
 
             public void OnVariableRegistered(CRegistry registry, CVar cvar)
             {
-                __lunar_console_cvar_register(cvar.Id, cvar.Name, cvar.Type.ToString(), cvar.Value, cvar.DefaultValue);
+                __lunar_console_cvar_register(cvar.Id, cvar.Name, cvar.Type.ToString(), cvar.Value, cvar.DefaultValue, cvar.HasRange, cvar.Range.min, cvar.Range.max);
             }
         }
 
@@ -346,7 +442,7 @@ namespace LunarConsolePlugin
             private readonly jvalue[] m_args1 = new jvalue[1];
             private readonly jvalue[] m_args2 = new jvalue[2];
             private readonly jvalue[] m_args3 = new jvalue[3];
-            private readonly jvalue[] m_args5 = new jvalue[5];
+            private readonly jvalue[] m_args8 = new jvalue[8];
 
             private static readonly string kPluginClassName = "spacemadness.com.lunarconsole.console.ConsolePlugin";
 
@@ -397,7 +493,7 @@ namespace LunarConsolePlugin
                 m_methodClearConsole = GetStaticMethod(m_pluginClassRaw, "clear", "()V");
                 m_methodRegisterAction = GetStaticMethod(m_pluginClassRaw, "registerAction", "(ILjava.lang.String;)V");
                 m_methodUnregisterAction = GetStaticMethod(m_pluginClassRaw, "unregisterAction", "(I)V");
-                m_methodRegisterVariable = GetStaticMethod(m_pluginClassRaw, "registerVariable", "(ILjava.lang.String;Ljava.lang.String;Ljava.lang.String;Ljava.lang.String;)V");
+                m_methodRegisterVariable = GetStaticMethod(m_pluginClassRaw, "registerVariable", "(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZFF)V");
             }
 
             ~PlatformAndroid()
@@ -494,16 +590,19 @@ namespace LunarConsolePlugin
             {
                 try
                 {
-                    m_args5[0] = jval(cvar.Id);
-                    m_args5[1] = jval(cvar.Name);
-                    m_args5[2] = jval(cvar.Type.ToString());
-                    m_args5[3] = jval(cvar.Value);
-                    m_args5[4] = jval(cvar.DefaultValue);
-                    CallStaticVoidMethod(m_methodRegisterVariable, m_args5);
-                    AndroidJNI.DeleteLocalRef(m_args5[1].l);
-                    AndroidJNI.DeleteLocalRef(m_args5[2].l);
-                    AndroidJNI.DeleteLocalRef(m_args5[3].l);
-                    AndroidJNI.DeleteLocalRef(m_args5[4].l);
+                    m_args8[0] = jval(cvar.Id);
+                    m_args8[1] = jval(cvar.Name);
+                    m_args8[2] = jval(cvar.Type.ToString());
+                    m_args8[3] = jval(cvar.Value);
+                    m_args8[4] = jval(cvar.DefaultValue);
+                    m_args8[5] = jval(cvar.HasRange);
+                    m_args8[6] = jval(cvar.Range.min);
+                    m_args8[7] = jval(cvar.Range.max);
+                    CallStaticVoidMethod(m_methodRegisterVariable, m_args8);
+                    AndroidJNI.DeleteLocalRef(m_args8[1].l);
+                    AndroidJNI.DeleteLocalRef(m_args8[2].l);
+                    AndroidJNI.DeleteLocalRef(m_args8[3].l);
+                    AndroidJNI.DeleteLocalRef(m_args8[4].l);
                 }
                 catch (Exception e)
                 {
@@ -537,10 +636,24 @@ namespace LunarConsolePlugin
                 return val;
             }
 
+            private jvalue jval(bool value)
+            {
+                jvalue val = new jvalue();
+                val.z = value;
+                return val;
+            }
+
             private jvalue jval(int value)
             {
                 jvalue val = new jvalue();
                 val.i = value;
+                return val;
+            }
+
+            private jvalue jval(float value)
+            {
+                jvalue val = new jvalue();
+                val.f = value;
                 return val;
             }
 
@@ -634,7 +747,13 @@ namespace LunarConsolePlugin
                 return;
             }
 
-            var action = registry.FindAction(actionId);
+            if (m_registry == null)
+            {
+                Log.w("Can't run action: registry is not property initialized");
+                return;
+            }
+
+            var action = m_registry.FindAction(actionId);
             if (action == null)
             {
                 Log.w("Can't run action: ID not found " + actionIdStr);
@@ -674,7 +793,13 @@ namespace LunarConsolePlugin
                 return;
             }
 
-            var variable = registry.FindVariable(variableId);
+            if (m_registry == null)
+            {
+                Log.w("Can't set variable: registry is not property initialized");
+                return;
+            }
+
+            var variable = m_registry.FindVariable(variableId);
             if (variable == null)
             {
                 Log.w("Can't set variable: ID not found " + variableIdStr);
@@ -782,11 +907,6 @@ namespace LunarConsolePlugin
         #endregion
 
         #endregion
-
-        private CRegistry registry
-        {
-            get { return CRegistry.instance; }
-        }
 
         #endif // LUNAR_CONSOLE_ENABLED
 
@@ -977,22 +1097,50 @@ namespace LunarConsolePlugin
 
         void RegisterConsoleAction(string name, Action actionDelegate)
         {
-            registry.RegisterAction(name, actionDelegate);
+            if (m_registry != null)
+            {
+                m_registry.RegisterAction(name, actionDelegate);
+            }
+            else
+            {
+                Log.w("Can't register action '{0}': registry is not property initialized", name);
+            }
         }
 
         void UnregisterConsoleAction(Action actionDelegate)
         {
-            registry.Unregister(actionDelegate);
+            if (m_registry != null)
+            {
+                m_registry.Unregister(actionDelegate);
+            }
+            else
+            {
+                Log.w("Can't unregister action '{0}': registry is not property initialized", actionDelegate);
+            }
         }
 
         void UnregisterConsoleAction(string name)
         {
-            registry.Unregister(name);
+            if (m_registry != null)
+            {
+                m_registry.Unregister(name);
+            }
+            else
+            {
+                Log.w("Can't unregister action '{0}': registry is not property initialized", name);
+            }
         }
 
         void UnregisterAllConsoleActions(object target)
         {
-            registry.UnregisterAll(target);
+            if (m_registry != null)
+            {
+                m_registry.UnregisterAll(target);
+            }
+            else
+            {
+                Log.w("Can't unregister actions for target '{0}': registry is not property initialized", target);
+            }
         }
 
         #endif // LUNAR_CONSOLE_ENABLED

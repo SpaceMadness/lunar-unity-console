@@ -28,6 +28,18 @@ typedef enum : NSUInteger {
     LUCVarTypeString
 } LUCVarType;
 
+typedef struct _LUCVarRange {
+    CGFloat min;
+    CGFloat max;
+} LUCVarRange;
+
+NS_INLINE LUCVarRange LUMakeCVarRange(CGFloat min, CGFloat max) {
+    LUCVarRange r;
+    r.min = min;
+    r.max = max;
+    return r;
+}
+
 extern NSString * const LUCVarTypeNameBoolean;
 extern NSString * const LUCVarTypeNameInteger;
 extern NSString * const LUCVarTypeNameFloat;
@@ -40,6 +52,8 @@ extern NSString * const LUCVarTypeNameUnknown;
 @property (nonatomic, strong) NSString *value;
 @property (nonatomic, strong) NSString *defaultValue;
 @property (nonatomic, readonly) BOOL isDefaultValue;
+@property (nonatomic, assign) LUCVarRange range;
+@property (nonatomic, readonly) BOOL hasRange;
 
 + (instancetype)variableWithId:(int)entryId name:(NSString *)name value:(NSString *)value defaultValue:(NSString *)defaultValue type:(LUCVarType)type cellClass:(Class)cellClass;
 - (instancetype)initWithId:(int)entryId name:(NSString *)name value:(NSString *)value defaultValue:(NSString *)defaultValue type:(LUCVarType)type cellClass:(Class)cellClass;

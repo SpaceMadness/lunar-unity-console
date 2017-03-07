@@ -41,6 +41,11 @@
 #pragma mark -
 #pragma mark Popup controller
 
+- (CGSize)preferredPopupSize
+{
+    return CGSizeZero;
+}
+
 - (void)setPopupController:(LUConsolePopupController *)controller
 {
     _popupController = controller;

@@ -24,8 +24,4 @@
 
 @interface LUCVarInputTableViewCell : LUCVarTableViewCell
 
-@property (nonatomic, strong) NSString *inputText;
-
-- (BOOL)isValidInputText:(NSString *)text;
-
 @end

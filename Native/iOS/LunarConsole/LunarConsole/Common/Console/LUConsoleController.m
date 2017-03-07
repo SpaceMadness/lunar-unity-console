@@ -58,8 +58,10 @@ NSString * const LUConsoleControllerDidResizeNotification = @"LUConsoleControlle
         // force linker to add these classes for Interface Builder
         [LUConsoleLogTypeButton class];
         [LUSwitch class];
+        [LUSlider class];
         [LUTableView class];
         [LUPassTouchView class];
+        [LUTextField class];
     }
 }
 
@@ -77,6 +79,11 @@ NSString * const LUConsoleControllerDidResizeNotification = @"LUConsoleControlle
         _state = [LUConsoleControllerState loadFromFile:kStateFilename];
     }
     return self;
+}
+
+- (void)dealloc
+{
+    [self unregisterNotifications];
 }
 
 - (void)viewDidLoad
@@ -100,6 +107,8 @@ NSString * const LUConsoleControllerDidResizeNotification = @"LUConsoleControlle
     
     self.contentView.translatesAutoresizingMaskIntoConstraints = NO;
     self.scrollView.translatesAutoresizingMaskIntoConstraints = NO;
+    
+    [self registerNotifications];
 }
 
 - (void)viewDidLayoutSubviews
@@ -213,6 +222,37 @@ NSString * const LUConsoleControllerDidResizeNotification = @"LUConsoleControlle
 }
 
 #pragma mark -
+#pragma mark Notifications
+
+- (void)registerNotifications
+{
+    [LUNotificationCenter addObserver:self
+                             selector:@selector(consolePopupControllerWillAppearNotification:)
+                                 name:LUConsolePopupControllerWillAppearNotification
+                               object:nil];
+    
+    [LUNotificationCenter addObserver:self
+                             selector:@selector(consolePopupControllerWillDisappearNotification:)
+                                 name:LUConsolePopupControllerWillDisappearNotification
+                               object:nil];
+}
+
+- (void)unregisterNotifications
+{
+    [LUNotificationCenter removeObserver:self];
+}
+
+- (void)consolePopupControllerWillAppearNotification:(NSNotification *)notification
+{
+    self.scrollEnabled = NO;
+}
+
+- (void)consolePopupControllerWillDisappearNotification:(NSNotification *)notification
+{
+    self.scrollEnabled = YES;
+}
+
+#pragma mark -
 #pragma mark Helpers
 
 - (void)setContentHidden:(BOOL)hidden
@@ -274,6 +314,19 @@ NSString * const LUConsoleControllerDidResizeNotification = @"LUConsoleControlle
     [LUNotificationCenter postNotificationName:LUConsoleControllerDidResizeNotification object:nil];
 }
 
+#pragma mark -
+#pragma mark Properties
+
+- (BOOL)scrollEnabled
+{
+    return _scrollView.scrollEnabled;
+}
+
+- (void)setScrollEnabled:(BOOL)scrollEnabled
+{
+    _scrollView.scrollEnabled = scrollEnabled;
+}
+
 @end
 
 @implementation LUConsoleControllerState
@@ -325,7 +378,7 @@ NSString * const LUConsoleControllerDidResizeNotification = @"LUConsoleControlle
 }
 
 #pragma mark -
-#pragma mark Getters/Setters
+#pragma mark Properties
 
 - (void)setControllerFrame:(CGRect)controllerFrame
 {

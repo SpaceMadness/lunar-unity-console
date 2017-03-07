@@ -21,6 +21,9 @@
 #import "LUConsolePopupController.h"
 #import "Lunar.h"
 
+NSString * const LUConsolePopupControllerWillAppearNotification = @"LUConsolePopupControllerWillAppearNotification";
+NSString * const LUConsolePopupControllerWillDisappearNotification = @"LUConsolePopupControllerWillDisappearNotification";
+
 @interface LUViewController (PopupController)
 
 - (void)setPopupController:(LUConsolePopupController *)controller;
@@ -116,6 +119,20 @@
     _learnMoreButton.hidden = YES;
 }
 
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [LUNotificationCenter postNotificationName:LUConsolePopupControllerWillAppearNotification object:nil];
+}
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    [LUNotificationCenter postNotificationName:LUConsolePopupControllerWillDisappearNotification object:nil];
+}
+
 - (void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
@@ -133,6 +150,10 @@
         contentHeight = MAX(320, 2 * fullSize.height / 3) - 2 * 20;
         contentWidth = 1.5 * contentHeight;
     }
+    
+    CGSize preferredSize = [_contentController preferredPopupSize];
+    if (preferredSize.width > 0) contentWidth = preferredSize.width;
+    if (preferredSize.height > 0) contentHeight = preferredSize.height;
     
     self.contentWidthConstraint.constant = contentWidth;
     self.contentHeightConstraint.constant = contentHeight;

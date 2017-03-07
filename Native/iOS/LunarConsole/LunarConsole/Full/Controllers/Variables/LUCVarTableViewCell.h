@@ -27,6 +27,7 @@
 @property (nonatomic, readonly) NSString * cellNibName;
 @property (nonatomic, readonly, weak) LUCVar *variable;
 @property (nonatomic, readonly) int variableId;
+@property (nonatomic, weak) UIViewController * presentingController;
 
 - (instancetype)initWithReuseIdentifier:(NSString *)reuseIdentifier;
 

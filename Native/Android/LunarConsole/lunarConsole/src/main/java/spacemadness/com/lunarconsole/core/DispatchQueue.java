@@ -26,6 +26,8 @@ public abstract class DispatchQueue implements Destroyable
 {
     public abstract void dispatchAsync(Runnable runnable);
 
+    public abstract void dispatchAsync(Runnable runnable, long delay);
+
     @Override
     public void destroy()
     {

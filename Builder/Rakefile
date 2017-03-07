@@ -166,7 +166,14 @@ namespace :lunar do
 
   end
 
-  desc 'Build and run native Android part'
+  desc 'Build and run full native Android part'
+  task :build_run_native_android_full => [:full, :build_run_native_android] do
+  end
+
+  desc 'Build and run free native Android part'
+  task :build_run_native_android_free => [:free, :build_run_native_android] do
+  end
+
   task :build_run_native_android => [:build_native_android] do
 
     project = UnityProject.new $dir_project

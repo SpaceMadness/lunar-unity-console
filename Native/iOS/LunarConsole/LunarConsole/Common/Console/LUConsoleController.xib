@@ -36,7 +36,7 @@
                                 <constraint firstAttribute="width" constant="46" id="a3s-Vn-MPB"/>
                                 <constraint firstAttribute="height" constant="30" id="zVr-kS-ipi"/>
                             </constraints>
-                            <state key="normal" image="lunar_console_icon_button_close.png">
+                            <state key="normal" image="lunar_console_icon_button_close">
                                 <color key="titleColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="calibratedRGB"/>
                                 <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="calibratedRGB"/>
                             </state>
@@ -65,6 +65,6 @@
         </view>
     </objects>
     <resources>
-        <image name="lunar_console_icon_button_close.png" width="24" height="24"/>
+        <image name="lunar_console_icon_button_close" width="24" height="24"/>
     </resources>
 </document>

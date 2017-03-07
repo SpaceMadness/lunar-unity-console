@@ -36,6 +36,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import static junit.framework.Assert.*;
+import android.widget.SeekBar;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -53,6 +54,7 @@ import spacemadness.com.lunarconsole.console.ConsolePlugin;
 import spacemadness.com.lunarconsole.console.VariableType;
 import spacemadness.com.lunarconsole.debug.TestHelper;
 import spacemadness.com.lunarconsole.utils.StringUtils;
+import spacemadness.com.lunarconsoleapp.helpers.ViewActionsEx;
 
 import static android.support.test.espresso.Espresso.*;
 import static android.support.test.espresso.action.ViewActions.*;
@@ -125,13 +127,13 @@ public class ApplicationBaseUITest implements TestHelper.EventListener
     protected void typeText(int id, String text)
     {
         assertVisible(id);
-        findView(id).perform(ViewActions.replaceText(text), ViewActions.closeSoftKeyboard());
+        findView(id).perform(ViewActions.replaceText(text), ViewActions.pressImeActionButton());
     }
 
     protected void appendText(int id, String text)
     {
         assertVisible(id);
-        findView(id).perform(ViewActions.typeText(text), ViewActions.closeSoftKeyboard());
+        findView(id).perform(ViewActions.typeText(text), ViewActions.pressImeActionButton());
     }
 
     protected void deleteLastChar(int id)
@@ -144,6 +146,12 @@ public class ApplicationBaseUITest implements TestHelper.EventListener
     {
         assertVisible(id);
         findView(id).perform(ViewActions.clearText(), ViewActions.closeSoftKeyboard());
+    }
+
+    protected void setSeekBarProgress(int viewId, int progress)
+    {
+        assertVisible(viewId);
+        findView(viewId).perform(ViewActionsEx.setSeekBarProgress(progress));
     }
 
     protected ViewInteraction findView(Class<? extends View> cls)
@@ -174,6 +182,11 @@ public class ApplicationBaseUITest implements TestHelper.EventListener
     protected void assertPreferenceChecked(String title, boolean checked)
     {
         findView(title).check(matches(withCheckBoxPreference(checked)));
+    }
+
+    protected void assertSeekProgress(int id, int progress)
+    {
+        findView(id).check(matches(withSeekBarProgress(progress)));
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -317,6 +330,24 @@ public class ApplicationBaseUITest implements TestHelper.EventListener
                 }
 
                 return null;
+            }
+        };
+    }
+
+    protected Matcher<View> withSeekBarProgress(final int progress)
+    {
+        return new TypeSafeMatcher<View>()
+        {
+            @Override
+            public void describeTo(Description description)
+            {
+                description.appendText("seek bar progress should be " + progress);
+            }
+
+            @Override
+            protected boolean matchesSafely(View view)
+            {
+                return ((SeekBar) view).getProgress() == progress;
             }
         };
     }
@@ -529,6 +560,11 @@ public class ApplicationBaseUITest implements TestHelper.EventListener
         registerVariable(variableId, name, VariableType.Float, Float.toString(value));
     }
 
+    protected void registerVariable(int variableId, String name, float value, float min, float max)
+    {
+        registerVariable(variableId, name, VariableType.Float, Float.toString(value), Float.toString(value), min, max);
+    }
+
     protected void registerVariable(int variableId, String name, boolean value)
     {
         registerVariable(variableId, name, VariableType.Boolean, Boolean.toString(value));
@@ -541,7 +577,12 @@ public class ApplicationBaseUITest implements TestHelper.EventListener
 
     protected void registerVariable(int variableId, String name, VariableType type, String value, String defaultValue)
     {
-        ConsolePlugin.registerVariable(variableId, name, type.toString(), value, defaultValue);
+        ConsolePlugin.registerVariable(variableId, name, type.toString(), value, defaultValue, false, 0, 0);
+    }
+
+    protected void registerVariable(int variableId, String name, VariableType type, String value, String defaultValue, float min, float max)
+    {
+        ConsolePlugin.registerVariable(variableId, name, type.toString(), value, defaultValue, true, min, max);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

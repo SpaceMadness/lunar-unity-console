@@ -27,7 +27,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="18B-uW-y5W" userLabel="Resize Top Bar">
                     <rect key="frame" x="44" y="0.0" width="512" height="44"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lunar_console_resize_handle_horizontal.png" translatesAutoresizingMaskIntoConstraints="NO" id="etl-o5-XsQ" userLabel="Handle Image">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lunar_console_resize_handle_horizontal" translatesAutoresizingMaskIntoConstraints="NO" id="etl-o5-XsQ" userLabel="Handle Image">
                             <rect key="frame" x="244" y="10" width="24" height="24"/>
                         </imageView>
                     </subviews>
@@ -41,7 +41,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Z5w-JX-OEd" userLabel="Resize Bottom Bar">
                     <rect key="frame" x="44" y="556" width="502" height="44"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lunar_console_resize_handle_horizontal.png" translatesAutoresizingMaskIntoConstraints="NO" id="QpC-1x-KHk" userLabel="Handle Image">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lunar_console_resize_handle_horizontal" translatesAutoresizingMaskIntoConstraints="NO" id="QpC-1x-KHk" userLabel="Handle Image">
                             <rect key="frame" x="239" y="10" width="24" height="24"/>
                         </imageView>
                     </subviews>
@@ -55,7 +55,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xPr-BS-0Cx" userLabel="Resize Left Bar">
                     <rect key="frame" x="0.0" y="44" width="44" height="512"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lunar_console_resize_handle_vertical.png" translatesAutoresizingMaskIntoConstraints="NO" id="qRS-IQ-mcT" userLabel="Handle Image">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lunar_console_resize_handle_vertical" translatesAutoresizingMaskIntoConstraints="NO" id="qRS-IQ-mcT" userLabel="Handle Image">
                             <rect key="frame" x="10" y="244" width="24" height="24"/>
                         </imageView>
                     </subviews>
@@ -69,7 +69,7 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="yUz-VB-ayv" userLabel="Resize Right Bar">
                     <rect key="frame" x="556" y="44" width="44" height="518"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lunar_console_resize_handle_vertical.png" translatesAutoresizingMaskIntoConstraints="NO" id="Uz5-MG-psH" userLabel="Handle Image">
+                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lunar_console_resize_handle_vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Uz5-MG-psH" userLabel="Handle Image">
                             <rect key="frame" x="10" y="247" width="24" height="24"/>
                         </imageView>
                     </subviews>
@@ -117,7 +117,7 @@ Drag View To Move</string>
                         <constraint firstAttribute="width" constant="46" id="TN6-Qt-Bor"/>
                         <constraint firstAttribute="height" constant="30" id="X0w-g2-xfO"/>
                     </constraints>
-                    <state key="normal" image="lunar_console_icon_button_close.png"/>
+                    <state key="normal" image="lunar_console_icon_button_close"/>
                     <connections>
                         <action selector="onClose:" destination="-1" eventType="touchUpInside" id="Scq-ta-6HP"/>
                     </connections>
@@ -154,8 +154,8 @@ Drag View To Move</string>
         </view>
     </objects>
     <resources>
-        <image name="lunar_console_icon_button_close.png" width="24" height="24"/>
-        <image name="lunar_console_resize_handle_horizontal.png" width="24" height="24"/>
-        <image name="lunar_console_resize_handle_vertical.png" width="24" height="24"/>
+        <image name="lunar_console_icon_button_close" width="24" height="24"/>
+        <image name="lunar_console_resize_handle_horizontal" width="24" height="24"/>
+        <image name="lunar_console_resize_handle_vertical" width="24" height="24"/>
     </resources>
 </document>

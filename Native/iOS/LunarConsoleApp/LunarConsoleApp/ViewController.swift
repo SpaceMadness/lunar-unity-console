@@ -60,6 +60,8 @@ class ViewController: LUViewController {
         plugin.registerVariable(withId: 6, name: "float", type: LUCVarTypeNameFloat, value: "3.14")
         plugin.registerVariable(withId: 7, name: "boolean", type: LUCVarTypeNameBoolean, value: "true")
         plugin.registerVariable(withId: 8, name: "int", type: LUCVarTypeNameInteger, value: "10")
+        let variable = plugin.registerVariable(withId: 9, name: "range", type: LUCVarTypeNameFloat, value: "3.0")
+        variable?.range = LUMakeCVarRange(1.0, 5.0)
         */
         
         UnityMessenger(delegate: self)

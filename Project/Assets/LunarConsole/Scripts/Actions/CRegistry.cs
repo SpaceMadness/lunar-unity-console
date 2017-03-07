@@ -39,8 +39,6 @@ namespace LunarConsolePluginInternal
 
     public class CRegistry
     {
-        public static CRegistry instance = new CRegistry();
-
         private readonly CActionList m_actions = new CActionList();
         private readonly CVarList m_vars = new CVarList();
 

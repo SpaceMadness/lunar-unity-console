@@ -22,7 +22,7 @@
 
 #import "Lunar-Full.h"
 
-@interface LUCVarInputTableViewCell () <UITextFieldDelegate>
+@interface LUCVarInputTableViewCell () <LUConsolePopupControllerDelegate, LUCVarEditControllerDelegate>
 
 @property (nonatomic, weak) IBOutlet UITextField * inputField;
 @property (nonatomic, weak) IBOutlet UIButton * resetButton;
@@ -42,10 +42,6 @@
     [super setupVariable:variable];
     
     _resetButtonInitialWidth = _resetButtonWidthConstraint.constant;
-    
-    _inputField.backgroundColor = [LUTheme mainTheme].variableEditBackground;
-    _inputField.textColor = [LUTheme mainTheme].variableEditTextColor;
-    
     _inputField.text = variable.value;
     [self updateResetButton];
     
@@ -97,24 +93,33 @@
 #pragma mark -
 #pragma mark UITextFieldDelegate
 
-- (void)textFieldDidEndEditing:(UITextField *)textField
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
-    NSString *value = textField.text;
+    LUCVarEditController *controller = [[LUCVarEditController alloc] initWithVariable:self.variable];
+    controller.delegate = self;
     
-    if ([self isValidInputText:value])
-    {
-        [self setVariableValue:value];
-    }
-    else
-    {
-        LUDisplayAlertView(@"Input Error", [NSString stringWithFormat:@"Invalid value: '%@'", value]);
-    }
+    LUConsolePopupController *popupController = [[LUConsolePopupController alloc] initWithContentController:controller];
+    popupController.popupDelegate = self;
+    [popupController presentFromController:self.presentingController animated:YES];
+    
+    return NO;
 }
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField
+#pragma mark -
+#pragma mark LUConsolePopupControllerDelegate
+
+- (void)popupControllerDidDismiss:(LUConsolePopupController *)controller
 {
-    [textField resignFirstResponder];
-    return NO;
+    [controller dismissAnimated:YES];
+}
+
+#pragma mark -
+#pragma mark LUCVarEditControllerDelegate
+
+- (void)editController:(LUCVarEditController *)controller didChangeValue:(NSString *)value
+{
+    _inputField.text = value;
+    [self setVariableValue:value];
 }
 
 @end

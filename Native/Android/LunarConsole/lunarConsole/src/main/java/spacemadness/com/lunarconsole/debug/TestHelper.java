@@ -30,6 +30,8 @@ public class TestHelper // TODO: make a separate flavor for this class
     public static final String TEST_EVENT_OVERLAY_SCHEDULE_ITEM_REMOVAL = "TEST_EVENT_OVERLAY_SCHEDULE_ITEM_REMOVAL";
     public static final String TEST_EVENT_NATIVE_CALLBACK               = "TEST_EVENT_NATIVE_CALLBACK"; // data: Map<String, Object>
 
+    public static boolean forceSeekBarChangeDelegate;
+
     private static TestHelper instance;
     private final EventListener listener;
 
