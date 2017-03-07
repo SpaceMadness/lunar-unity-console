@@ -170,6 +170,28 @@ public class ConsolePlugin implements Destroyable
         init(activity, new UnitySettings(new DefaultPluginImp(activity), version, capacity, trim, gesture));
     }
 
+    public static void destroyInstance()
+    {
+        if (isRunningOnMainThread())
+        {
+            destroyInstance0();
+        }
+        else
+        {
+            Log.d(PLUGIN,
+                    "Tried to destroy plugin on the secondary thread. Scheduling on UI-thread...");
+
+            runOnUIThread(new Runnable()
+            {
+                @Override
+                public void run()
+                {
+                    destroyInstance0();
+                }
+            });
+        }
+    }
+
     private static void init(final Activity activity, final UnitySettings unitySettings)
     {
         if (isRunningOnMainThread())
@@ -210,6 +232,15 @@ public class ConsolePlugin implements Destroyable
         catch (Exception e)
         {
             Log.e(e, "Can't initialize plugin instance");
+        }
+    }
+
+    private static void destroyInstance0()
+    {
+        if (instance != null)
+        {
+            instance.destroy();
+            instance = null;
         }
     }
 
@@ -561,7 +592,7 @@ public class ConsolePlugin implements Destroyable
     {
         if (instance != null)
         {
-            instance.hideLogOverlayView();
+            instance.removeLogOverlayView();
         }
         else
         {
@@ -612,6 +643,9 @@ public class ConsolePlugin implements Destroyable
     @Override
     public void destroy()
     {
+        removeConsoleView();
+        removeLogOverlayView();
+
         disableGestureRecognition();
         unregisterNotifications();
 
@@ -643,7 +677,7 @@ public class ConsolePlugin implements Destroyable
 
     private boolean showConsole()
     {
-        hideLogOverlayView();
+        removeLogOverlayView();
 
         try
         {
@@ -750,6 +784,9 @@ public class ConsolePlugin implements Destroyable
                             {
                                 showLogOverlayView();
                             }
+
+                            // start listening for gestures
+                            enableGestureRecognition();
                         }
 
                         @Override
@@ -762,6 +799,7 @@ public class ConsolePlugin implements Destroyable
                 }
                 else
                 {
+                    Log.w("Can't properly hide console: activity reference is lost");
                     removeConsoleView();
                 }
 
@@ -797,9 +835,6 @@ public class ConsolePlugin implements Destroyable
 
             consoleView.destroy();
             consoleView = null;
-
-            // start listening for gestures
-            enableGestureRecognition();
         }
     }
 
@@ -937,7 +972,7 @@ public class ConsolePlugin implements Destroyable
         return false;
     }
 
-    private boolean hideLogOverlayView()
+    private boolean removeLogOverlayView()
     {
         try
         {

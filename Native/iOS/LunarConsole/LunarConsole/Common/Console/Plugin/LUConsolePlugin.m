@@ -96,6 +96,15 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
     }
 }
 
+- (void)stop
+{
+    [self removeConsole];
+    [self hideOverlay];
+    [self hideWarning];
+    [self disableGestureRecognition];
+    [self unregisterNotifications];
+}
+
 - (void)showConsole
 {
     [self hideOverlay];
@@ -149,6 +158,12 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
     {
         [self showOverlay];
     }
+}
+
+- (void)removeConsole
+{
+    _consoleWindow.hidden = YES;
+    _consoleWindow = nil;
 }
 
 - (void)showOverlay

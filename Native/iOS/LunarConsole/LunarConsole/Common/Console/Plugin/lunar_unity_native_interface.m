@@ -27,7 +27,6 @@
 
 static LUConsolePlugin * _lunarConsolePlugin;
 
-OBJC_EXTERN // see: https://github.com/SpaceMadness/lunar-unity-console/pull/18
 void __lunar_console_initialize(const char *targetNameStr, const char *methodNameStr, const char * versionStr, int capacity, int trimCount, const char *gestureStr)
 {
     lunar_dispatch_main(^{
@@ -49,14 +48,13 @@ void __lunar_console_initialize(const char *targetNameStr, const char *methodNam
     });
 }
 
-OBJC_EXTERN // see: https://github.com/SpaceMadness/lunar-unity-console/pull/18
 void __lunar_console_destroy() {
     lunar_dispatch_main(^{
+        [_lunarConsolePlugin stop];
         _lunarConsolePlugin = nil;
     });
 }
 
-OBJC_EXTERN // see: https://github.com/SpaceMadness/lunar-unity-console/pull/18
 void __lunar_console_show()
 {
     lunar_dispatch_main(^{
@@ -65,7 +63,6 @@ void __lunar_console_show()
     });
 }
 
-OBJC_EXTERN // see: https://github.com/SpaceMadness/lunar-unity-console/pull/18
 void __lunar_console_hide()
 {
     lunar_dispatch_main(^{
@@ -74,7 +71,6 @@ void __lunar_console_hide()
     });
 }
 
-OBJC_EXTERN // see: https://github.com/SpaceMadness/lunar-unity-console/pull/18
 void __lunar_console_clear()
 {
     lunar_dispatch_main(^{
@@ -83,7 +79,6 @@ void __lunar_console_clear()
     });
 }
 
-OBJC_EXTERN // see: https://github.com/SpaceMadness/lunar-unity-console/pull/18
 void __lunar_console_log_message(const char * messageStr, const char * stackTraceStr, int type)
 {
     NSString *message = [[NSString alloc] initWithUTF8String:messageStr];

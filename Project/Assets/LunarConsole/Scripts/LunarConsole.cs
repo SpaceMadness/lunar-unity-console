@@ -210,6 +210,11 @@ namespace LunarConsolePlugin
         {
             if (s_instance == this)
             {
+                if (m_platform != null)
+                {
+                    m_platform.Destroy();
+                    m_platform = null;
+                }
                 s_instance = null;
             }
         }
@@ -225,6 +230,7 @@ namespace LunarConsolePlugin
             bool ShowConsole();
             bool HideConsole();
             void ClearConsole();
+            void Destroy();
         }
 
         #region CVar resolver
@@ -380,6 +386,9 @@ namespace LunarConsolePlugin
             [DllImport("__Internal")]
             private static extern void __lunar_console_cvar_update(int variableId, string value);
 
+            [DllImport("__Internal")]
+            private static extern void __lunar_console_destroy();
+
             /// <summary>
             /// Initializes a new instance of the iOS platform class.
             /// </summary>
@@ -430,6 +439,11 @@ namespace LunarConsolePlugin
             {
                 __lunar_console_cvar_register(cvar.Id, cvar.Name, cvar.Type.ToString(), cvar.Value, cvar.DefaultValue, cvar.HasRange, cvar.Range.min, cvar.Range.max);
             }
+
+            public void Destroy()
+            {
+                __lunar_console_destroy();
+            }
         }
 
         #elif UNITY_ANDROID
@@ -456,6 +470,7 @@ namespace LunarConsolePlugin
             private readonly IntPtr m_methodRegisterAction;
             private readonly IntPtr m_methodUnregisterAction;
             private readonly IntPtr m_methodRegisterVariable;
+            private readonly IntPtr m_methodDestroy;
 
             /// <summary>
             /// Initializes a new instance of the Android platform class.
@@ -494,6 +509,7 @@ namespace LunarConsolePlugin
                 m_methodRegisterAction = GetStaticMethod(m_pluginClassRaw, "registerAction", "(ILjava.lang.String;)V");
                 m_methodUnregisterAction = GetStaticMethod(m_pluginClassRaw, "unregisterAction", "(I)V");
                 m_methodRegisterVariable = GetStaticMethod(m_pluginClassRaw, "registerVariable", "(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZFF)V");
+                m_methodDestroy = GetStaticMethod(m_pluginClassRaw, "destroyInstance", "()V");
             }
 
             ~PlatformAndroid()
@@ -555,6 +571,18 @@ namespace LunarConsolePlugin
                 catch (Exception e)
                 {
                     Debug.LogError("Exception while calling 'LunarConsole.ClearConsole': " + e.Message);
+                }
+            }
+
+            public void Destroy()
+            {
+                try
+                {
+                    CallStaticVoidMethod(m_methodDestroy, m_args0);
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError("Exception while destroying platform: " + e.Message);
                 }
             }
 
