@@ -410,6 +410,12 @@ namespace LunarConsolePlugin
             return m_lookupById.TryGetValue(id, out variable) ? variable : null;
         }
 
+        public void Clear()
+        {
+            m_variables.Clear();
+            m_lookupById.Clear();
+        }
+
         #region IEnumerable implementation
 
         public IEnumerator<CVar> GetEnumerator()

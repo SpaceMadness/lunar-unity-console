@@ -90,6 +90,7 @@ namespace LunarConsolePlugin
         #if LUNAR_CONSOLE_ENABLED
 
         IPlatform m_platform;
+        int m_mainThreadId;
 
         IDictionary<string, LunarConsoleNativeMessageHandler> m_nativeHandlerLookup;
 
@@ -108,6 +109,11 @@ namespace LunarConsolePlugin
             InitInstance();
         }
 
+        void OnDisable()
+        {
+            DestroyInstance();
+        }
+
         void Update()
         {
             DispatchMessages();
@@ -115,7 +121,7 @@ namespace LunarConsolePlugin
 
         void OnDestroy()
         {
-            DestroyPlatform();
+            DestroyInstance();
         }
 
         void InitInstance()
@@ -157,20 +163,9 @@ namespace LunarConsolePlugin
                         m_registry.registryDelegate = m_platform;
 
                         m_queuedMessages = new Queue<MessageInfo>();
-                        int mainThreadId = Thread.CurrentThread.ManagedThreadId;
+                        m_mainThreadId = Thread.CurrentThread.ManagedThreadId;
 
-                        Application.logMessageReceivedThreaded += delegate(string message, string stackTrace, LogType type)
-                        {
-                            message = m_removeRichTextTags ? StringUtils.RemoveRichTextTags(message) : message;
-                            if (Thread.CurrentThread.ManagedThreadId == mainThreadId)
-                            {
-                                m_platform.OnLogMessageReceived(message, stackTrace, type);
-                            }
-                            else
-                            {
-                                QueueMessage(message, stackTrace, type);
-                            }
-                        };
+                        Application.logMessageReceivedThreaded += OnLogMessageReceived;
 
                         // resolve variables
                         ResolveVariables();
@@ -206,12 +201,28 @@ namespace LunarConsolePlugin
             return null;
         }
 
-        void DestroyPlatform()
+        void DestroyInstance()
         {
             if (s_instance == this)
             {
                 if (m_platform != null)
                 {
+                    if (m_queuedMessages != null)
+                    {
+                        lock (m_queuedMessages)
+                        {
+                            m_queuedMessages = null;
+                        }
+                    }
+
+                    Application.logMessageReceivedThreaded -= OnLogMessageReceived;
+
+                    if (m_registry != null)
+                    {
+                        m_registry.Destroy();
+                        m_registry = null;
+                    }
+
                     m_platform.Destroy();
                     m_platform = null;
                 }
@@ -328,13 +339,33 @@ namespace LunarConsolePlugin
 
         #endregion
 
+        #region Messages
+
+        void OnLogMessageReceived(string message, string stackTrace, LogType type)
+        {
+            message = m_removeRichTextTags ? StringUtils.RemoveRichTextTags(message) : message;
+            if (Thread.CurrentThread.ManagedThreadId == m_mainThreadId)
+            {
+                m_platform.OnLogMessageReceived(message, stackTrace, type);
+            }
+            else
+            {
+                QueueMessage(message, stackTrace, type);
+            }
+        }
+
+        #endregion
+
         #region Threading
 
         void QueueMessage(string message, string stackTrace, LogType type)
         {
-            lock (m_queuedMessages)
+            if (m_queuedMessages != null)
             {
-                m_queuedMessages.Enqueue(new MessageInfo(message, stackTrace, type));
+                lock (m_queuedMessages)
+                {
+                    m_queuedMessages.Enqueue(new MessageInfo(message, stackTrace, type));
+                }
             }
         }
 
@@ -941,7 +972,7 @@ namespace LunarConsolePlugin
         #region Public API
 
         /// <summary>
-        /// Shows Lunar console on top of everything. Does nothing if current platform is not supported or if the plugin is not initizlied.
+        /// Shows the console on top of everything. Does nothing if current platform is not supported or if the plugin is not initialized.
         /// </summary>
         public static void Show()
         {
@@ -964,7 +995,7 @@ namespace LunarConsolePlugin
         }
 
         /// <summary>
-        /// Hides Lunar console. Does nothing if platform is not supported or if plugin is not initizlied.
+        /// Hides the console. Does nothing if platform is not supported or if plugin is not initialized.
         /// </summary>
         public static void Hide()
         {
@@ -987,7 +1018,7 @@ namespace LunarConsolePlugin
         }
 
         /// <summary>
-        /// Clears Lunar console. Does nothing if platform is not supported or if plugin is not initizlied.
+        /// Clears log messages. Does nothing if platform is not supported or if plugin is not initialized.
         /// </summary>
         public static void Clear()
         {
@@ -1010,7 +1041,8 @@ namespace LunarConsolePlugin
         }
 
         /// <summary>
-        /// Registers action delegate
+        /// Registers a user-defined action with a specific name and callback. 
+        /// Does nothing if platform is not supported or if plugin is not initialized.
         /// </summary>
         /// <param name="name">Display name</param>
         /// <param name="action">Callback delegate</param>
@@ -1037,7 +1069,8 @@ namespace LunarConsolePlugin
         }
 
         /// <summary>
-        /// Unregister action by delegate
+        /// Un-registers a user-defined action with a specific callback. 
+        /// Does nothing if platform is not supported or if plugin is not initialized.
         /// </summary>
         public static void UnregisterAction(Action action)
         {
@@ -1054,7 +1087,8 @@ namespace LunarConsolePlugin
         }
 
         /// <summary>
-        /// Unregister action by name
+        /// Un-registers a user-defined action with a specific name.
+        /// Does nothing if platform is not supported or if plugin is not initialized.
         /// </summary>
         public static void UnregisterAction(string name)
         {
@@ -1071,7 +1105,9 @@ namespace LunarConsolePlugin
         }
 
         /// <summary>
-        /// Unregister all actions from specific target
+        /// Un-registers all user-defined actions with a specific target
+        /// (the object of the class which contains callback methods).
+        /// Does nothing if platform is not supported or if plugin is not initialized.
         /// </summary>
         public static void UnregisterAllActions(object target)
         {
@@ -1088,12 +1124,12 @@ namespace LunarConsolePlugin
         }
 
         /// <summary>
-        /// Console opened callback
+        /// Callback method to be called when the console is opened. You can pause your game here.
         /// </summary>
         public static Action onConsoleOpened { get; set; }
 
         /// <summary>
-        /// Console closed callback
+        /// Callback method to be called when the console is closed. You can un-pause your game here.
         /// </summary>
         public static Action onConsoleClosed { get; set; }
 

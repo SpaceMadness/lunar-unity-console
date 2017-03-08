@@ -43,15 +43,7 @@ public class Logger : MonoBehaviour
     };
 
     readonly LogDelegate[] logDelegates = {
-        Logger1.LogDebug,
-        Logger1.LogWarning,
-        Logger1.LogError,
-        Logger2.LogDebug,
-        Logger2.LogWarning,
-        Logger2.LogError,
-        Logger3.LogDebug,
-        Logger3.LogWarning,
-        Logger3.LogError
+        
     };
 
     public float delay = 0.5f;
