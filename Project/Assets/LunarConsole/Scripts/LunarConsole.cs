@@ -168,8 +168,9 @@ namespace LunarConsolePlugin
             return Application.platform == RuntimePlatform.IPhonePlayer;
             #elif UNITY_ANDROID
             return Application.platform == RuntimePlatform.Android;
-            #endif
+            #else
             return false;
+            #endif
         }
 
         #endregion
