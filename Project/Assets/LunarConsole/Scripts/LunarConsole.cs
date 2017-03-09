@@ -112,6 +112,14 @@ namespace LunarConsolePlugin
             DisablePlatform();
         }
 
+        void Update()
+        {
+            if (m_platform != null)
+            {
+                m_platform.Update();
+            }
+        }
+
         void OnDestroy()
         {
             DestroyInstance();
@@ -264,6 +272,7 @@ namespace LunarConsolePlugin
 
         interface IPlatform : ICRegistryDelegate
         {
+            void Update();
             void OnLogMessageReceived(string message, string stackTrace, LogType type);
             bool ShowConsole();
             bool HideConsole();
@@ -471,7 +480,7 @@ namespace LunarConsolePlugin
 
         class PlatformAndroid : IPlatform
         {
-            private readonly object m_logLock = new object();
+            private readonly int m_mainThreadId;
 
             private readonly jvalue[] m_args0 = new jvalue[0];
             private readonly jvalue[] m_args1 = new jvalue[1];
@@ -493,6 +502,8 @@ namespace LunarConsolePlugin
             private readonly IntPtr m_methodRegisterVariable;
             private readonly IntPtr m_methodDestroy;
 
+            private readonly Queue<LogMessageEntry> m_messageQueue;
+
             /// <summary>
             /// Initializes a new instance of the Android platform class.
             /// </summary>
@@ -504,6 +515,7 @@ namespace LunarConsolePlugin
             /// <param name="gesture">Gesture name to activate the console</param>
             public PlatformAndroid(string targetName, string methodName, string version, int capacity, int trim, string gesture)
             {
+                m_mainThreadId = Thread.CurrentThread.ManagedThreadId;
                 m_pluginClass = new AndroidJavaClass(kPluginClassName);
                 m_pluginClassRaw = m_pluginClass.GetRawClass();
 
@@ -531,6 +543,8 @@ namespace LunarConsolePlugin
                 m_methodUnregisterAction = GetStaticMethod(m_pluginClassRaw, "unregisterAction", "(I)V");
                 m_methodRegisterVariable = GetStaticMethod(m_pluginClassRaw, "registerVariable", "(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZFF)V");
                 m_methodDestroy = GetStaticMethod(m_pluginClassRaw, "destroyInstance", "()V");
+
+                m_messageQueue = new Queue<LogMessageEntry>();
             }
 
             ~PlatformAndroid()
@@ -539,10 +553,22 @@ namespace LunarConsolePlugin
             }
 
             #region IPlatform implementation
+
+            public void Update()
+            {
+                lock (m_messageQueue)
+                {
+                    while (m_messageQueue.Count > 0)
+                    {
+                        var entry = m_messageQueue.Dequeue();
+                        OnLogMessageReceived(entry.message, entry.stackTrace, entry.type);
+                    }
+                }
+            }
             
             public void OnLogMessageReceived(string message, string stackTrace, LogType type)
             {
-                lock (m_logLock)
+                if (Thread.CurrentThread.ManagedThreadId == m_mainThreadId)
                 {
                     m_args3[0] = jval(message);
                     m_args3[1] = jval(stackTrace);
@@ -552,6 +578,13 @@ namespace LunarConsolePlugin
 
                     AndroidJNI.DeleteLocalRef(m_args3[0].l);
                     AndroidJNI.DeleteLocalRef(m_args3[1].l);
+                }
+                else
+                {
+                    lock (m_messageQueue)
+                    {
+                        m_messageQueue.Enqueue(new LogMessageEntry(message, stackTrace, type));
+                    }
                 }
             }
 
@@ -707,6 +740,20 @@ namespace LunarConsolePlugin
             }
 
             #endregion
+        }
+
+        struct LogMessageEntry
+        {
+            public readonly string message;
+            public readonly string stackTrace;
+            public readonly LogType type;
+
+            public LogMessageEntry(string message, string stackTrace, LogType type)
+            {
+                this.message = message;
+                this.stackTrace = stackTrace;
+                this.type = type;
+            }
         }
 
         #endif // UNITY_ANDROID

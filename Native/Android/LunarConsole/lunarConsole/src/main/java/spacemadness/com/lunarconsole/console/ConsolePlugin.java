@@ -645,6 +645,7 @@ public class ConsolePlugin implements Destroyable
     {
         removeConsoleView();
         removeLogOverlayView();
+        hideWarning();
 
         disableGestureRecognition();
         unregisterNotifications();

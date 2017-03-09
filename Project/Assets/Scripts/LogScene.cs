@@ -57,6 +57,9 @@ public class LogScene : MonoBehaviour
         "W WifiMode: , Invalid SupportedRates!!!"
     };
 
+    [SerializeField]
+    private float m_logDelay = 0.25f;
+
     private Thread m_logThread;
     private Random m_random;
 
@@ -82,7 +85,7 @@ public class LogScene : MonoBehaviour
         while (true)
         {
             LogRandomMessage(messages);
-            yield return new WaitForSeconds(0.25f);
+            yield return new WaitForSeconds(m_logDelay);
         }
     }
 
@@ -140,7 +143,7 @@ public class LogScene : MonoBehaviour
                 while (true)
                 {
                     LogRandomMessage(messages);
-                    Thread.Sleep(250);
+                    Thread.Sleep((int) (1000 * m_logDelay));
                 }
             }
             catch (ThreadInterruptedException)
