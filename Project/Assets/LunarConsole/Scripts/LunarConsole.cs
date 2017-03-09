@@ -432,6 +432,10 @@ namespace LunarConsolePlugin
             {
                 __lunar_console_initialize(targetName, methodName, version, capacity, trim, gesture);
             }
+
+            public void Update()
+            {
+            }
             
             public void OnLogMessageReceived(string message, string stackTrace, LogType type)
             {
