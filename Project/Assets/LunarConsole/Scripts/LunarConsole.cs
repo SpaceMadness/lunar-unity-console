@@ -90,11 +90,9 @@ namespace LunarConsolePlugin
         #if LUNAR_CONSOLE_ENABLED
 
         IPlatform m_platform;
-        int m_mainThreadId;
 
         IDictionary<string, LunarConsoleNativeMessageHandler> m_nativeHandlerLookup;
 
-        Queue<MessageInfo> m_queuedMessages;
         CRegistry m_registry;
 
         #region Life cycle
@@ -106,17 +104,12 @@ namespace LunarConsolePlugin
 
         void OnEnable()
         {
-            InitInstance();
+            EnablePlatform();
         }
 
         void OnDisable()
         {
-            DestroyInstance();
-        }
-
-        void Update()
-        {
-            DispatchMessages();
+            DisablePlatform();
         }
 
         void OnDestroy()
@@ -124,24 +117,59 @@ namespace LunarConsolePlugin
             DestroyInstance();
         }
 
+        #endregion
+
+        #region Plugin Lifecycle
+
         void InitInstance()
         {
             if (s_instance == null)
             {
-                if (InitPlatform(m_capacity, m_trim))
+                if (IsPlatformSupported())
                 {
                     s_instance = this;
                     DontDestroyOnLoad(gameObject);
+                    Log.dev("Instance created...");
                 }
                 else
                 {
                     Destroy(gameObject);
+                    Log.dev("Platform not supported. Destroying object...");
                 }
             }
             else if (s_instance != this)
             {
                 Destroy(gameObject);
+                Log.dev("Another instance exists. Destroying object...");
             }
+        }
+
+        void EnablePlatform()
+        {
+            if (s_instance != null)
+            {
+                bool succeed = InitPlatform(m_capacity, m_trim);
+                Log.dev("Platform initialized successfully: {0}", succeed.ToString());
+            }
+        }
+
+        void DisablePlatform()
+        {
+            if (s_instance != null)
+            {
+                bool succeed = DestroyPlatform();
+                Log.dev("Platform destroyed successfully: {0}", succeed.ToString());
+            }
+        }
+
+        static bool IsPlatformSupported()
+        {
+            #if UNITY_IOS || UNITY_IPHONE
+            return Application.platform == RuntimePlatform.IPhonePlayer;
+            #elif UNITY_ANDROID
+            return Application.platform == RuntimePlatform.Android;
+            #endif
+            return false;
         }
 
         #endregion
@@ -162,9 +190,6 @@ namespace LunarConsolePlugin
                         m_registry = new CRegistry();
                         m_registry.registryDelegate = m_platform;
 
-                        m_queuedMessages = new Queue<MessageInfo>();
-                        m_mainThreadId = Thread.CurrentThread.ManagedThreadId;
-
                         Application.logMessageReceivedThreaded += OnLogMessageReceived;
 
                         // resolve variables
@@ -177,6 +202,27 @@ namespace LunarConsolePlugin
             catch (Exception e)
             {
                 Log.e(e, "Can't init platform");
+            }
+
+            return false;
+        }
+
+        bool DestroyPlatform()
+        {
+            if (m_platform != null)
+            {
+                Application.logMessageReceivedThreaded -= OnLogMessageReceived;
+
+                if (m_registry != null)
+                {
+                    m_registry.Destroy();
+                    m_registry = null;
+                }
+
+                m_platform.Destroy();
+                m_platform = null;
+
+                return true;
             }
 
             return false;
@@ -205,27 +251,7 @@ namespace LunarConsolePlugin
         {
             if (s_instance == this)
             {
-                if (m_platform != null)
-                {
-                    if (m_queuedMessages != null)
-                    {
-                        lock (m_queuedMessages)
-                        {
-                            m_queuedMessages = null;
-                        }
-                    }
-
-                    Application.logMessageReceivedThreaded -= OnLogMessageReceived;
-
-                    if (m_registry != null)
-                    {
-                        m_registry.Destroy();
-                        m_registry = null;
-                    }
-
-                    m_platform.Destroy();
-                    m_platform = null;
-                }
+                DestroyPlatform();
                 s_instance = null;
             }
         }
@@ -344,44 +370,7 @@ namespace LunarConsolePlugin
         void OnLogMessageReceived(string message, string stackTrace, LogType type)
         {
             message = m_removeRichTextTags ? StringUtils.RemoveRichTextTags(message) : message;
-            if (Thread.CurrentThread.ManagedThreadId == m_mainThreadId)
-            {
-                m_platform.OnLogMessageReceived(message, stackTrace, type);
-            }
-            else
-            {
-                QueueMessage(message, stackTrace, type);
-            }
-        }
-
-        #endregion
-
-        #region Threading
-
-        void QueueMessage(string message, string stackTrace, LogType type)
-        {
-            if (m_queuedMessages != null)
-            {
-                lock (m_queuedMessages)
-                {
-                    m_queuedMessages.Enqueue(new MessageInfo(message, stackTrace, type));
-                }
-            }
-        }
-
-        void DispatchMessages()
-        {
-            if (m_queuedMessages != null)
-            {
-                lock (m_queuedMessages)
-                {
-                    while (m_queuedMessages.Count > 0)
-                    {
-                        var info = m_queuedMessages.Dequeue();
-                        m_platform.OnLogMessageReceived(info.message, info.stackTrace, info.type);
-                    }
-                }
-            }
+            m_platform.OnLogMessageReceived(message, stackTrace, type);
         }
 
         #endregion
@@ -1049,22 +1038,22 @@ namespace LunarConsolePlugin
         public static void RegisterAction(string name, Action action)
         {
             #if LUNAR_CONSOLE_PLATFORM_SUPPORTED
-                #if LUNAR_CONSOLE_FULL
-                    #if LUNAR_CONSOLE_ENABLED
-                    if (s_instance != null)
-                    {
-                        s_instance.RegisterConsoleAction(name, action);
-                    }
-                    else
-                    {
-                        Log.w("Can't register action: instance is not initialized. Make sure you've installed it correctly");
-                    }
-                    #else  // LUNAR_CONSOLE_ENABLED
-                    Log.w("Can't register action: plugin is disabled");
-                    #endif // LUNAR_CONSOLE_ENABLED
-                #else  // LUNAR_CONSOLE_FULL
-                Log.w("Can't register action: feature is not available in FREE version. Learn more about PRO version: https://goo.gl/TLInmD");
-                #endif // LUNAR_CONSOLE_FULL
+            #if LUNAR_CONSOLE_FULL
+            #if LUNAR_CONSOLE_ENABLED
+            if (s_instance != null)
+            {
+                s_instance.RegisterConsoleAction(name, action);
+            }
+            else
+            {
+                Log.w("Can't register action: instance is not initialized. Make sure you've installed it correctly");
+            }
+            #else  // LUNAR_CONSOLE_ENABLED
+            Log.w("Can't register action: plugin is disabled");
+            #endif // LUNAR_CONSOLE_ENABLED
+            #else  // LUNAR_CONSOLE_FULL
+            Log.w("Can't register action: feature is not available in FREE version. Learn more about PRO version: https://goo.gl/TLInmD");
+            #endif // LUNAR_CONSOLE_FULL
             #endif // LUNAR_CONSOLE_PLATFORM_SUPPORTED
         }
 
@@ -1075,14 +1064,14 @@ namespace LunarConsolePlugin
         public static void UnregisterAction(Action action)
         {
             #if LUNAR_CONSOLE_PLATFORM_SUPPORTED
-                #if LUNAR_CONSOLE_FULL
-                    #if LUNAR_CONSOLE_ENABLED
-                    if (s_instance != null)
-                    {
-                        s_instance.UnregisterConsoleAction(action);
-                    }
-                    #endif // LUNAR_CONSOLE_ENABLED
-                #endif // LUNAR_CONSOLE_FULL
+            #if LUNAR_CONSOLE_FULL
+            #if LUNAR_CONSOLE_ENABLED
+            if (s_instance != null)
+            {
+                s_instance.UnregisterConsoleAction(action);
+            }
+            #endif // LUNAR_CONSOLE_ENABLED
+            #endif // LUNAR_CONSOLE_FULL
             #endif // LUNAR_CONSOLE_PLATFORM_SUPPORTED
         }
 
@@ -1093,14 +1082,14 @@ namespace LunarConsolePlugin
         public static void UnregisterAction(string name)
         {
             #if LUNAR_CONSOLE_PLATFORM_SUPPORTED
-                #if LUNAR_CONSOLE_FULL
-                    #if LUNAR_CONSOLE_ENABLED
-                    if (s_instance != null)
-                    {
-                        s_instance.UnregisterConsoleAction(name);
-                    }
-                    #endif // LUNAR_CONSOLE_ENABLED
-                #endif // LUNAR_CONSOLE_FULL
+            #if LUNAR_CONSOLE_FULL
+            #if LUNAR_CONSOLE_ENABLED
+            if (s_instance != null)
+            {
+                s_instance.UnregisterConsoleAction(name);
+            }
+            #endif // LUNAR_CONSOLE_ENABLED
+            #endif // LUNAR_CONSOLE_FULL
             #endif // LUNAR_CONSOLE_PLATFORM_SUPPORTED
         }
 
@@ -1112,14 +1101,33 @@ namespace LunarConsolePlugin
         public static void UnregisterAllActions(object target)
         {
             #if LUNAR_CONSOLE_PLATFORM_SUPPORTED
-                #if LUNAR_CONSOLE_FULL
-                    #if LUNAR_CONSOLE_ENABLED
-                    if (s_instance != null)
-                    {
-                        s_instance.UnregisterAllConsoleActions(target);
-                    }
-                    #endif // LUNAR_CONSOLE_ENABLED
-                #endif // LUNAR_CONSOLE_FULL
+            #if LUNAR_CONSOLE_FULL
+            #if LUNAR_CONSOLE_ENABLED
+            if (s_instance != null)
+            {
+                s_instance.UnregisterAllConsoleActions(target);
+            }
+            #endif // LUNAR_CONSOLE_ENABLED
+            #endif // LUNAR_CONSOLE_FULL
+            #endif // LUNAR_CONSOLE_PLATFORM_SUPPORTED
+        }
+
+        /// <summary>
+        /// Sets console enabled or disabled.
+        /// (the object of the class which contains callback methods).
+        /// Does nothing if platform is not supported or if plugin is not initialized.
+        /// </summary>
+        public static void SetConsoleEnabled(bool enabled)
+        {
+            #if LUNAR_CONSOLE_PLATFORM_SUPPORTED
+            #if LUNAR_CONSOLE_FULL
+            #if LUNAR_CONSOLE_ENABLED
+            if (s_instance != null)
+            {
+                s_instance.SetConsoleInstanceEnabled(enabled);
+            }
+            #endif // LUNAR_CONSOLE_ENABLED
+            #endif // LUNAR_CONSOLE_FULL
             #endif // LUNAR_CONSOLE_PLATFORM_SUPPORTED
         }
 
@@ -1205,6 +1213,11 @@ namespace LunarConsolePlugin
             {
                 Log.w("Can't unregister actions for target '{0}': registry is not property initialized", target);
             }
+        }
+
+        void SetConsoleInstanceEnabled(bool enabled)
+        {
+            this.enabled = enabled;
         }
 
         #endif // LUNAR_CONSOLE_ENABLED
@@ -1342,24 +1355,6 @@ namespace LunarConsolePluginInternal
     }
 
     #endif // UNITY_EDITOR
-
-    #if LUNAR_CONSOLE_ENABLED
-
-    struct MessageInfo
-    {
-        public readonly string message;
-        public readonly string stackTrace;
-        public readonly LogType type;
-
-        public MessageInfo(string message, string stackTrace, LogType type)
-        {
-            this.message = message;
-            this.stackTrace = stackTrace;
-            this.type = type;
-        }
-    }
-
-    #endif // LUNAR_CONSOLE_ENABLED
 
     /// <summary>
     /// Class for collecting anonymous usage statistics

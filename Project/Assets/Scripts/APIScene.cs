@@ -10,12 +10,16 @@ public class APIScene : MonoBehaviour
     {
         LunarConsole.onConsoleOpened += OnConsoleOpened;
         LunarConsole.onConsoleClosed += OnConsoleClosed;
+
+        LunarConsole.RegisterAction("Disabled Console", DisableConsole);
     }
 
     void OnDestroy()
     {
         LunarConsole.onConsoleOpened -= OnConsoleOpened;
         LunarConsole.onConsoleClosed -= OnConsoleClosed;
+
+        LunarConsole.UnregisterAction(DisableConsole);
     }
 
     public void OpenConsole()
@@ -31,6 +35,16 @@ public class APIScene : MonoBehaviour
     public void ClearConsole()
     {
         LunarConsole.Clear();
+    }
+
+    public void EnableConsole()
+    {
+        LunarConsole.SetConsoleEnabled(true);
+    }
+
+    public void DisableConsole()
+    {
+        LunarConsole.SetConsoleEnabled(false);
     }
 
     private void OnConsoleOpened()
