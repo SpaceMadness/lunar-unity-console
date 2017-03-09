@@ -201,9 +201,7 @@ namespace LunarConsolePlugin
 
                         Application.logMessageReceivedThreaded += OnLogMessageReceived;
 
-                        // resolve variables
                         ResolveVariables();
-
                         return true;
                     }
                 }

@@ -293,7 +293,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 574130191}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56cfb71d1d681478b80a96a12a3cde1a, type: 3}
+  m_Script: {fileID: 11500000, guid: c9cff20987b134fe59be219f72e096b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &752064637
@@ -346,7 +346,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 482030dba6cde4c1cb186c03ce99ce88, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_sceneName: LogScene
+  m_sceneName: VariablesScene
 --- !u!114 &752064640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1046,7 +1046,7 @@ Camera:
   m_GameObject: {fileID: 1825270968}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
+  m_ClearFlags: 2
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
   m_NormalizedViewPortRect:
     serializedVersion: 2
@@ -1344,3 +1344,55 @@ Prefab:
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6d0acc00cc82d436b9d11446d2ddfef6, type: 2}
   m_IsPrefabParent: 0
+--- !u!1 &2076922823
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 2076922825}
+  - component: {fileID: 2076922824}
+  m_Layer: 0
+  m_Name: Actions
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2076922824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2076922823}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9ca3326e330843bc825ea966b3d15c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_dontDestroyOnLoad: 1
+  m_actions:
+  - m_name: Enable Console
+    m_target: {fileID: 574130191}
+    m_componentTypeName: MainScene, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    m_componentMethodName: EnableConsole
+  - m_name: Disable Console
+    m_target: {fileID: 574130191}
+    m_componentTypeName: MainScene, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    m_componentMethodName: DisableConsole
+--- !u!4 &2076922825
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2076922823}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
