@@ -265,12 +265,17 @@ namespace :lunar do
     print_header 'Preparing Android plugin'
 
     # copy libs
-    file_jar = resolve_path "#{dir_aar}/classes.jar"
-
     dir_libs = "#{dir_android_plugin}/libs"
     FileUtils.mkpath dir_libs
-    FileUtils.cp file_jar, "#{dir_libs}/#{module_name}.jar"
+    
+    file_src_jar = resolve_path "#{dir_aar}/classes.jar"
+    file_dst_jar = "#{dir_libs}/#{module_name}.jar"
+    
+    FileUtils.cp file_src_jar, file_dst_jar
 
+    # fixed build for Gradle
+    fix_jar file_dst_jar
+    
     # copy resources
     dir_res = resolve_path "#{dir_aar}/res"
     FileUtils.cp_r dir_res, dir_android_plugin
@@ -286,6 +291,10 @@ namespace :lunar do
 
     file_project_properties = "#{dir_android_plugin}/project.properties"
     write_project_properties(file_project_properties, project_properties)
+  end
+
+  def fix_jar(file_jar)
+    exec_shell %(zip -d "#{file_jar}" spacemadness/com/lunarconsole/BuildConfig.class), "Can't fix jar: #{file_jar}"
   end
 
   def copy_artifact(dir_dest, artifact, options = {})
