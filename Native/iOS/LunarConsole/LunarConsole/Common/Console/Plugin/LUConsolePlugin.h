@@ -72,6 +72,7 @@ extern NSString * const LUConsoleCheckFullVersionNotificationSource;
                        gestureName:(NSString *)gestureName;
 
 - (void)start;
+- (void)stop;
 
 - (void)showConsole;
 - (void)hideConsole;

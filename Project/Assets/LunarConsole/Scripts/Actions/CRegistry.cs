@@ -180,6 +180,17 @@ namespace LunarConsolePluginInternal
 
         #endregion
 
+        #region Destroyable
+
+        public void Destroy()
+        {
+            m_actions.Clear();
+            m_vars.Clear();
+            m_delegate = null;
+        }
+
+        #endregion
+
         #region Properties
 
         public ICRegistryDelegate registryDelegate

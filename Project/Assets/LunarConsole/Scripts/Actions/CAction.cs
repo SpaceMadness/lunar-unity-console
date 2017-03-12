@@ -178,6 +178,13 @@ namespace LunarConsolePluginInternal
             return m_actionLookupById.TryGetValue(id, out action) ? action : null;
         }
 
+        public void Clear()
+        {
+            m_actions.Clear();
+            m_actionLookupById.Clear();
+            m_actionLookupByName.Clear();
+        }
+
         #region IEnumerable implementation
 
         public IEnumerator<CAction> GetEnumerator()
