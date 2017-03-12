@@ -1164,7 +1164,7 @@ namespace LunarConsolePlugin
 
         /// <summary>
         /// Sets console enabled or disabled.
-        /// (the object of the class which contains callback methods).
+        /// Disabled console cannot be opened by user or API calls and does not collect logs.
         /// Does nothing if platform is not supported or if plugin is not initialized.
         /// </summary>
         public static void SetConsoleEnabled(bool enabled)
