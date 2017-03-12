@@ -1,5 +1,19 @@
 # Lunar Console Changelog
 
+## v.1.1.0 - 3/12/2017
+
+**New:**
+
+* Added Range Variables!
+* Added ability to enable/disable the console programmatically.
+
+**Fixes:**
+
+* User-defined variables UI bug.
+* Button icons colors and compression.
+* **Android**: Fixed `Gradle (New)` build system.
+* **iOS**: Fixed popup controllers bug.
+
 ## v.1.0.0 - 2/15/2017
 
 **New:**
