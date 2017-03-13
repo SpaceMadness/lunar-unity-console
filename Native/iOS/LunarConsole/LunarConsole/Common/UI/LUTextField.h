@@ -1,7 +1,8 @@
 //
 //  LUTextField.h
 //
-//  Lunar Network
+//  Lunar Unity Mobile Console
+//  https://github.com/SpaceMadness/lunar-unity-console
 //
 //  Copyright 2017 Alex Lementuev, SpaceMadness.
 //
