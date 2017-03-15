@@ -1,6 +1,6 @@
 {
   "status": "OK",
-  "version": "0.9.0",
-  "message": "New:\n* Added Variables support. For more information see: https://goo.gl/in0obv\n\nFixes:\n* Fixed UI-layout",
+  "version": "1.1.0",
+  "message": "New:\n* Added Range Variables!\n* Added ability to enable/disable the console programmatically.\n\nFixes:\n* User-defined variables UI bug.\n* Button icons colors and compression.\n* Android: Fixed Gradle (New) build system.\n* iOS: Fixed popup controllers bug.",
   "url": "https://goo.gl/S8QXav"
 }
