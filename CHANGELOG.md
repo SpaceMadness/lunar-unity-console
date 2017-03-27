@@ -1,5 +1,11 @@
 # Lunar Console Changelog
 
+## v.1.1.1 - 3/27/2017
+
+**Fixes:**
+
+* **iOS**: Fixed gesture recognizer after editing a Cvar.
+
 ## v.1.1.0 - 3/12/2017
 
 **New:**
