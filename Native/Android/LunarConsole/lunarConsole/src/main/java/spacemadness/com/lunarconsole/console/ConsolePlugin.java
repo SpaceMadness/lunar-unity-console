@@ -21,11 +21,18 @@
 
 package spacemadness.com.lunarconsole.console;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
@@ -77,6 +84,7 @@ public class ConsolePlugin implements Destroyable
      * Parent container for console view (we need it to display additional overlays)
      */
     private FrameLayout consoleContentView;
+    private Dialog contentDialog;
 
     private ConsoleView consoleView;
 
@@ -677,6 +685,7 @@ public class ConsolePlugin implements Destroyable
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private boolean showConsole()
     {
         removeLogOverlayView();
@@ -694,13 +703,27 @@ public class ConsolePlugin implements Destroyable
                     return false;
                 }
 
-                // get root content layout
-                final FrameLayout rootLayout = getRootLayout(activity);
-
                 // we need to add an additional layout between console view and content view
                 // in order to be able to place additional overlay layouts on top of everything
                 consoleContentView = new FrameLayout(activity);
-                rootLayout.addView(consoleContentView, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+
+                contentDialog = new Dialog(activity, R.style.lunar_console_dialog_style);
+                Window dialogWindow = contentDialog.getWindow();
+                dialogWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialogWindow.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+                dialogWindow.requestFeature(Window.FEATURE_NO_TITLE);
+                View decorView = dialogWindow.getDecorView();
+                // Hide both the navigation bar and the status bar.
+                // SYSTEM_UI_FLAG_FULLSCREEN is only available on Android 4.1 and higher, but as
+                // a general rule, you should design your app to hide the status bar whenever you
+                // hide the navigation bar.
+                int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION //
+                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN;
+                decorView.setSystemUiVisibility(uiOptions);
+
+                contentDialog.setContentView(consoleContentView, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+                contentDialog.show();
 
                 // create console view
                 consoleView = new ConsoleView(activity, this);
@@ -818,6 +841,15 @@ public class ConsolePlugin implements Destroyable
 
     private void removeConsoleView()
     {
+        if (contentDialog != null)
+        {
+            consoleView.destroy();
+            consoleView = null;
+
+            contentDialog.dismiss();
+            contentDialog = null;
+        }
+
         if (consoleView != null)
         {
             // remove console log view from console content view
