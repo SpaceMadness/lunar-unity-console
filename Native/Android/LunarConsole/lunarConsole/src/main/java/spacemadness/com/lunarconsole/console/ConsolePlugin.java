@@ -75,7 +75,7 @@ public class ConsolePlugin implements Destroyable
     private final ConsoleViewState consoleViewState;
 
     // Dialog for holding console related UI (starting Unity 5.6b we can use overlay views)
-    private Dialog consoleDialog;
+    private OverlayDialog consoleDialog;
 
     private ConsoleView consoleView;
 
@@ -726,6 +726,7 @@ public class ConsolePlugin implements Destroyable
 
                 consoleDialog = new OverlayDialog(activity, R.style.lunar_console_dialog_style);
                 consoleDialog.setContentView(consoleView, params);
+                consoleDialog.setBackButtonListener(consoleView);
                 consoleDialog.show();
 
                 // show animation

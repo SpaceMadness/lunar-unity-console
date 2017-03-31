@@ -15,6 +15,7 @@ class OverlayDialog extends Dialog
 {
     private final int systemUIVisibilityFlags;
     private final Activity activity;
+    private BackButtonListener backButtonListener;
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public OverlayDialog(Activity activity, int themeResId)
@@ -35,6 +36,19 @@ class OverlayDialog extends Dialog
     }
 
     @Override
+    public void onBackPressed()
+    {
+        if (backButtonListener != null && backButtonListener.onBackPressed())
+        {
+            // back button was handled - don't dismiss dialog
+        }
+        else
+        {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
     public boolean onTouchEvent(MotionEvent event)
     {
         return activity.onTouchEvent(event); // pass touch events to the host activity
@@ -49,5 +63,10 @@ class OverlayDialog extends Dialog
         {
             getWindow().getDecorView().setSystemUiVisibility(systemUIVisibilityFlags);
         }
+    }
+
+    public void setBackButtonListener(BackButtonListener backButtonListener)
+    {
+        this.backButtonListener = backButtonListener;
     }
 }

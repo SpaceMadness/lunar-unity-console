@@ -25,20 +25,15 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
-import java.lang.ref.WeakReference;
-
 import spacemadness.com.lunarconsole.R;
 import spacemadness.com.lunarconsole.core.Destroyable;
-import spacemadness.com.lunarconsole.core.KeyboardManager;
 import spacemadness.com.lunarconsole.debug.Assert;
 import spacemadness.com.lunarconsole.ui.MoveResizeView;
 import spacemadness.com.lunarconsole.ui.ViewPager;
@@ -46,9 +41,8 @@ import spacemadness.com.lunarconsole.utils.ObjectUtils;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
-public class ConsoleView extends LinearLayout implements Destroyable
+public class ConsoleView extends LinearLayout implements BackButtonListener, Destroyable
 {
-    private final WeakReference<Activity> activityRef;
     private final ConsoleViewState consoleViewState;
     private final ConsoleLogView consoleLogView;
     private final ConsoleActionView consoleActionView;
@@ -70,7 +64,6 @@ public class ConsoleView extends LinearLayout implements Destroyable
             throw new NullPointerException("Console plugin is null");
         }
 
-        activityRef = new WeakReference<>(activity);
         consoleViewState = consolePlugin.getConsoleViewState();
 
         View rootView = LayoutInflater.from(activity).inflate(R.layout.lunar_console_layout_console_view, this, false);
@@ -96,10 +89,6 @@ public class ConsoleView extends LinearLayout implements Destroyable
         // focus
         setFocusable(true);
         setFocusableInTouchMode(true);
-
-        // setup all edit text view to properly handle virtual keyboard
-        setupVirtualKeyboardOnEditTextViews(consoleLogView);
-        setupVirtualKeyboardOnEditTextViews(consoleActionView);
 
         // setup close button
         ImageButton closeButton = (ImageButton) rootView.findViewById(R.id.lunar_console_button_close);
@@ -199,36 +188,9 @@ public class ConsoleView extends LinearLayout implements Destroyable
     // Back button
 
     @Override
-    public boolean dispatchKeyEventPreIme(KeyEvent event)
+    public boolean onBackPressed()
     {
-        /*
-        This part is a bit hacky: we want to hide console view on back button press and not finish
-        the current activity. We intercept the event and don't let the system to handle it.
-        Handling soft keyboard is a separate case: we set a boolean flag when user touches the filter
-        input field and hide the keyboard manually if the flag is set. Without this hack the console
-        view will be hidden when user dismisses the keyboard. The solution is quite ugly but I don't
-        know a better way.
-         */
-        if (event.getKeyCode() == KeyEvent.KEYCODE_BACK)
-        {
-            if (event.getAction() == KeyEvent.ACTION_UP)
-            {
-                handleBackButton();
-            }
-            return true;
-        }
-
-        return super.dispatchKeyEventPreIme(event);
-    }
-
-    private void handleBackButton()
-    {
-        // TODO: maintain a proper stack
-        if (KeyboardManager.hideSoftKeyboard(getActivity()))
-        {
-            // nothing to do here
-        }
-        else if (isMoveResizeViewVisible())
+        if (isMoveResizeViewVisible())
         {
             hideMoveResizeView();
         }
@@ -236,23 +198,8 @@ public class ConsoleView extends LinearLayout implements Destroyable
         {
             notifyClose();
         }
-    }
 
-    private void setupVirtualKeyboardOnEditTextViews(View rootView)
-    {
-        if (rootView instanceof ViewGroup)
-        {
-            ViewGroup group = (ViewGroup) rootView;
-            for (int childIndex = 0; childIndex < group.getChildCount(); ++childIndex)
-            {
-                setupVirtualKeyboardOnEditTextViews(group.getChildAt(childIndex));
-            }
-        }
-        else if (rootView instanceof EditText)
-        {
-            EditText editText = (EditText) rootView;
-            KeyboardManager.setupEditText(editText);
-        }
+        return true;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -295,11 +242,6 @@ public class ConsoleView extends LinearLayout implements Destroyable
     public void setListener(Listener listener)
     {
         this.listener = listener;
-    }
-
-    public Activity getActivity()
-    {
-        return activityRef.get();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
