@@ -78,15 +78,6 @@ public class UIUtils
         }
     }
 
-    // TODO: return more generic super type (like ViewGroup)
-    public static FrameLayout getRootLayout(Activity activity)
-    {
-        final ViewGroup viewGroup = getRootViewGroup(activity);
-        Assert.IsTrue(viewGroup instanceof FrameLayout);
-
-        return ObjectUtils.as(viewGroup, FrameLayout.class);
-    }
-
     public static ViewGroup getRootViewGroup(Activity activity)
     {
         if (activity == null)

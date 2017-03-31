@@ -22,7 +22,6 @@
 package spacemadness.com.lunarconsole.console;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,7 +78,9 @@ public class ConsolePlugin implements Destroyable
 
     private ConsoleView consoleView;
 
-    private ConsoleOverlayLogView consoleOverlayLogView;
+    private OverlayDialog consoleOverlayLogDialog;
+
+    private OverlayDialog warningDialog;
     private WarningView warningView;
 
     private final WeakReference<Activity> activityRef;
@@ -850,7 +851,7 @@ public class ConsolePlugin implements Destroyable
                 return;
             }
 
-            if (warningView == null)
+            if (warningDialog == null)
             {
                 Log.d(WARNING_VIEW, "Show warning");
 
@@ -860,8 +861,6 @@ public class ConsolePlugin implements Destroyable
                     Log.e("Can't show warning: activity reference is lost");
                     return;
                 }
-
-                final FrameLayout rootLayout = getRootLayout(activity);
 
                 warningView = new WarningView(activity);
                 warningView.setListener(new WarningView.Listener()
@@ -880,7 +879,9 @@ public class ConsolePlugin implements Destroyable
                     }
                 });
 
-                rootLayout.addView(warningView);
+                warningDialog = new OverlayDialog(activity, R.style.lunar_console_dialog_style);
+                warningDialog.setContentView(warningView);
+                warningDialog.show();
             }
 
             warningView.setMessage(message);
@@ -893,20 +894,12 @@ public class ConsolePlugin implements Destroyable
 
     private void hideWarning()
     {
-        if (warningView != null)
+        if (warningDialog != null)
         {
             Log.d(WARNING_VIEW, "Hide warning");
 
-            ViewParent parent = warningView.getParent();
-            if (parent instanceof ViewGroup)
-            {
-                ViewGroup parentGroup = (ViewGroup) parent;
-                parentGroup.removeView(warningView);
-            }
-            else
-            {
-                Log.e("Can't hide warning view: unexpected parent view " + parent);
-            }
+            warningDialog.dismiss();
+            warningDialog = null;
 
             warningView.destroy();
             warningView = null;
@@ -919,7 +912,7 @@ public class ConsolePlugin implements Destroyable
 
     private boolean isOverlayViewShown()
     {
-        return consoleOverlayLogView != null;
+        return consoleOverlayLogDialog != null && consoleOverlayLogDialog.isShowing();
     }
 
     private boolean showLogOverlayView()
@@ -931,7 +924,7 @@ public class ConsolePlugin implements Destroyable
 
         try
         {
-            if (consoleOverlayLogView == null)
+            if (consoleOverlayLogDialog == null)
             {
                 Log.d(OVERLAY_VIEW, "Show log overlay view");
 
@@ -943,12 +936,12 @@ public class ConsolePlugin implements Destroyable
                 }
 
                 ConsoleOverlayLogView.Settings overlaySettings = new ConsoleOverlayLogView.Settings();
-
-                final FrameLayout rootLayout = getRootLayout(activity);
-                consoleOverlayLogView = new ConsoleOverlayLogView(activity, console, overlaySettings);
+                ConsoleOverlayLogView consoleOverlayLogView = new ConsoleOverlayLogView(activity, console, overlaySettings);
 
                 LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-                rootLayout.addView(consoleOverlayLogView, params);
+                consoleOverlayLogDialog = new OverlayDialog(activity, R.style.lunar_console_dialog_style);
+                consoleOverlayLogDialog.setContentView(consoleOverlayLogView, params);
+                consoleOverlayLogDialog.show();
 
                 return true;
             }
@@ -965,30 +958,12 @@ public class ConsolePlugin implements Destroyable
     {
         try
         {
-            if (consoleOverlayLogView != null)
+            if (consoleOverlayLogDialog != null)
             {
                 Log.d(CONSOLE, "Hide log overlay view");
 
-                Activity activity = getActivity();
-                if (activity == null)
-                {
-                    Log.e("Can't hide log overlay view: activity reference is lost");
-                    return false;
-                }
-
-                ViewParent parent = consoleOverlayLogView.getParent();
-                if (parent instanceof ViewGroup)
-                {
-                    ((ViewGroup) parent).removeView(consoleOverlayLogView);
-                }
-                else
-                {
-                    Log.e("Can't remove overlay view: unexpected parent " + parent);
-                    return false;
-                }
-
-                consoleOverlayLogView.destroy();
-                consoleOverlayLogView = null;
+                consoleOverlayLogDialog.dismiss();
+                consoleOverlayLogDialog = null;
 
                 return true;
             }
@@ -1140,7 +1115,7 @@ public class ConsolePlugin implements Destroyable
 
     boolean isConsoleShown()
     {
-        return consoleDialog != null;
+        return consoleDialog != null && consoleDialog.isShowing();
     }
 
     public static PluginSettings pluginSettings()
