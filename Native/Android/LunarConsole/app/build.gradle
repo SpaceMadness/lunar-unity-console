@@ -26,8 +26,8 @@ android {
 }
 
 dependencies {
-    fullCompile project(path: ':lunarConsole', configuration: 'fullRelease')
-    freeCompile project(path: ':lunarConsole', configuration: 'freeRelease')
+    fullCompile project(path: ':lunarConsole', configuration: 'fullDebug')
+    freeCompile project(path: ':lunarConsole', configuration: 'freeDebug')
 
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'

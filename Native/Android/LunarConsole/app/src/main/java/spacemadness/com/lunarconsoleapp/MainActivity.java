@@ -257,14 +257,7 @@ public class MainActivity extends Activity
             @Override
             public void onClick(View v)
             {
-                dispatchOnSelectedQueue(new Runnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        ConsolePlugin.show();
-                    }
-                });
+                openConsole();
             }
         });
 
@@ -485,6 +478,18 @@ public class MainActivity extends Activity
     private void setOnClickListener(int id, View.OnClickListener listener)
     {
         findViewById(id).setOnClickListener(listener);
+    }
+
+    public void openConsole()
+    {
+        dispatchOnSelectedQueue(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                ConsolePlugin.show();
+            }
+        });
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
