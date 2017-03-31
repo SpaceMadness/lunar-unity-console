@@ -188,7 +188,7 @@ public class ConsoleView extends LinearLayout implements BackButtonListener, Des
     // Back button
 
     @Override
-    public boolean onBackPressed()
+    public void onBackPressed()
     {
         if (isMoveResizeViewVisible())
         {
@@ -198,8 +198,6 @@ public class ConsoleView extends LinearLayout implements BackButtonListener, Des
         {
             notifyClose();
         }
-
-        return true;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

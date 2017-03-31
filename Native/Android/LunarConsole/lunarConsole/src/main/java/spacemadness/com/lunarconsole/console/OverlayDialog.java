@@ -24,6 +24,8 @@ class OverlayDialog extends Dialog
 
         this.activity = activity;
 
+        setCancelable(false);
+
         Window window = getWindow();
         window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
@@ -38,13 +40,9 @@ class OverlayDialog extends Dialog
     @Override
     public void onBackPressed()
     {
-        if (backButtonListener != null && backButtonListener.onBackPressed())
+        if (backButtonListener != null)
         {
-            // back button was handled - don't dismiss dialog
-        }
-        else
-        {
-            super.onBackPressed();
+            backButtonListener.onBackPressed();
         }
     }
 
