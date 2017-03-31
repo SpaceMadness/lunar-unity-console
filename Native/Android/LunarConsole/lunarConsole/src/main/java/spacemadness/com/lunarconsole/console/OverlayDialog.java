@@ -10,11 +10,15 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
+
+import static android.widget.FrameLayout.LayoutParams.*;
 
 class OverlayDialog extends Dialog
 {
     private final int systemUIVisibilityFlags;
     private final Activity activity;
+    private final FrameLayout contentView;
     private BackButtonListener backButtonListener;
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
@@ -35,6 +39,30 @@ class OverlayDialog extends Dialog
         View decorView = activity.getWindow().getDecorView();
         systemUIVisibilityFlags = decorView.getSystemUiVisibility();
         window.getDecorView().setSystemUiVisibility(systemUIVisibilityFlags);
+
+        // set content view
+        contentView = new FrameLayout(activity);
+        setContentView(contentView, new FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT));
+    }
+
+    public void addView(View view)
+    {
+        contentView.addView(view);
+    }
+
+    public void addView(View view, FrameLayout.LayoutParams params)
+    {
+        contentView.addView(view, params);
+    }
+
+    public void removeView(View view)
+    {
+        contentView.removeView(view);
+    }
+
+    public int getChildCount()
+    {
+        return contentView.getChildCount();
     }
 
     @Override
@@ -66,5 +94,10 @@ class OverlayDialog extends Dialog
     public void setBackButtonListener(BackButtonListener backButtonListener)
     {
         this.backButtonListener = backButtonListener;
+    }
+
+    public void setOnTouchListener(View.OnTouchListener onTouchListener)
+    {
+        getWindow().getDecorView().setOnTouchListener(onTouchListener);
     }
 }
