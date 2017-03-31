@@ -1,5 +1,11 @@
 # Lunar Console Changelog
 
+## v.1.2.0 - 3/31/2017
+
+**Fixes:**
+
+* **Android**: Fixed Unity 5.6 incompatibility bugs.
+
 ## v.1.1.1 - 3/27/2017
 
 **Fixes:**
