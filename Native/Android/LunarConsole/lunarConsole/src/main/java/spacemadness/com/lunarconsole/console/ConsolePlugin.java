@@ -913,8 +913,8 @@ public class ConsolePlugin implements Destroyable
                     @Override
                     public void onDetailsClick(WarningView view)
                     {
-                        hideWarning();
                         showConsole();
+                        hideWarning();
                     }
                 });
 
