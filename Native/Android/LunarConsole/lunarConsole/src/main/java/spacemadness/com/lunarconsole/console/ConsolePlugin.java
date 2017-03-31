@@ -21,18 +21,12 @@
 
 package spacemadness.com.lunarconsole.console;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Dialog;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Build;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewParent;
-import android.view.Window;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
@@ -80,23 +74,18 @@ public class ConsolePlugin implements Destroyable
     private final PluginSettings settings;
     private final ConsoleViewState consoleViewState;
 
-    /**
-     * Parent container for console view (we need it to display additional overlays)
-     */
-    private FrameLayout consoleContentView;
-    private Dialog contentDialog;
+    // Dialog for holding console related UI (starting Unity 5.6b we can use overlay views)
+    private Dialog consoleDialog;
 
     private ConsoleView consoleView;
 
-    // private ConsoleLogView consoleLogView;
     private ConsoleOverlayLogView consoleOverlayLogView;
     private WarningView warningView;
 
     private final WeakReference<Activity> activityRef;
     private final GestureRecognizer gestureDetector;
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Static initialization
+    //region Static initialization
 
     /* Since the game can log many console entries on the secondary thread, we need an efficient
      * way to batch them on the main thread
@@ -118,8 +107,9 @@ public class ConsolePlugin implements Destroyable
                 }
             });
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Lifecycle
+    //endregion
+
+    //region Lifecycle
 
     /**
      * Data holder for plugin initialization
@@ -307,8 +297,9 @@ public class ConsolePlugin implements Destroyable
         }
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Unity native methods
+    //endregion
+
+    //region Unity native methods
 
     /**
      * This method is called by a Unity managed code. Do not rename or change params types of order
@@ -539,8 +530,9 @@ public class ConsolePlugin implements Destroyable
         }
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Overlay
+    //endregion
+
+    //region Overlay
 
     public static boolean isOverlayShown()
     {
@@ -609,8 +601,9 @@ public class ConsolePlugin implements Destroyable
         }
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Constructor
+    //endregion
+
+    //region Constructor
 
     private ConsolePlugin(Activity activity, UnitySettings unitySettings)
     {
@@ -646,8 +639,9 @@ public class ConsolePlugin implements Destroyable
         registerNotifications();
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Destroyable
+    //endregion
+
+    //region Destroyable
 
     @Override
     public void destroy()
@@ -665,8 +659,9 @@ public class ConsolePlugin implements Destroyable
         Log.d(PLUGIN, "Plugin destroyed");
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Console
+    //endregion
+
+    //region Console
 
     private void logEntries(List<ConsoleLogEntry> entries)
     {
@@ -685,14 +680,13 @@ public class ConsolePlugin implements Destroyable
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private boolean showConsole()
     {
         removeLogOverlayView();
 
         try
         {
-            if (consoleView == null)
+            if (consoleDialog == null)
             {
                 Log.d(CONSOLE, "Show console");
 
@@ -702,28 +696,6 @@ public class ConsolePlugin implements Destroyable
                     Log.e("Can't show console: activity reference is lost");
                     return false;
                 }
-
-                // we need to add an additional layout between console view and content view
-                // in order to be able to place additional overlay layouts on top of everything
-                consoleContentView = new FrameLayout(activity);
-
-                contentDialog = new Dialog(activity, R.style.lunar_console_dialog_style);
-                Window dialogWindow = contentDialog.getWindow();
-                dialogWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialogWindow.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
-                dialogWindow.requestFeature(Window.FEATURE_NO_TITLE);
-                View decorView = dialogWindow.getDecorView();
-                // Hide both the navigation bar and the status bar.
-                // SYSTEM_UI_FLAG_FULLSCREEN is only available on Android 4.1 and higher, but as
-                // a general rule, you should design your app to hide the status bar whenever you
-                // hide the navigation bar.
-                int uiOptions = View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION //
-                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_FULLSCREEN;
-                decorView.setSystemUiVisibility(uiOptions);
-
-                contentDialog.setContentView(consoleContentView, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
-                contentDialog.show();
 
                 // create console view
                 consoleView = new ConsoleView(activity, this);
@@ -752,8 +724,9 @@ public class ConsolePlugin implements Destroyable
                 params.leftMargin = consoleViewState.getLeftMargin();
                 params.rightMargin = consoleViewState.getRightMargin();
 
-                // add view
-                consoleContentView.addView(consoleView, params);
+                consoleDialog = new OverlayDialog(activity, R.style.lunar_console_dialog_style);
+                consoleDialog.setContentView(consoleView, params);
+                consoleDialog.show();
 
                 // show animation
                 Animation animation = AnimationUtils.loadAnimation(activity, R.anim.lunar_console_slide_in_top);
@@ -785,7 +758,7 @@ public class ConsolePlugin implements Destroyable
     {
         try
         {
-            if (consoleView != null)
+            if (consoleDialog != null)
             {
                 Log.d(CONSOLE, "Hide console");
 
@@ -841,34 +814,13 @@ public class ConsolePlugin implements Destroyable
 
     private void removeConsoleView()
     {
-        if (contentDialog != null)
+        if (consoleDialog != null)
         {
             consoleView.destroy();
             consoleView = null;
 
-            contentDialog.dismiss();
-            contentDialog = null;
-        }
-
-        if (consoleView != null)
-        {
-            // remove console log view from console content view
-            consoleContentView.removeView(consoleView);
-
-            // remove console content view from the root content view
-            ViewParent parent = consoleContentView.getParent();
-            if (parent instanceof ViewGroup)
-            {
-                ((ViewGroup) parent).removeView(consoleContentView);
-            }
-            else
-            {
-                Log.e("Can't remove console view: unexpected parent " + parent);
-            }
-            consoleContentView = null;
-
-            consoleView.destroy();
-            consoleView = null;
+            consoleDialog.dismiss();
+            consoleDialog = null;
         }
     }
 
@@ -884,8 +836,9 @@ public class ConsolePlugin implements Destroyable
         }
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Error warning
+    //endregion
+
+    //region Error warning
 
     private void showWarning(final String message)
     {
@@ -959,8 +912,9 @@ public class ConsolePlugin implements Destroyable
         }
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Overlay view
+    //endregion
+
+    //region Overlay view
 
     private boolean isOverlayViewShown()
     {
@@ -1046,8 +1000,9 @@ public class ConsolePlugin implements Destroyable
         return false;
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Gesture recognition
+    //endregion
+
+    //region Gesture recognition
 
     private void enableGestureRecognition()
     {
@@ -1086,13 +1041,9 @@ public class ConsolePlugin implements Destroyable
         }
     }
 
-    private Activity getActivity()
-    {
-        return activityRef.get();
-    }
+    //endregion
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Native callbacks
+    //region Native callbacks
 
     private void sendNativeCallback(String name)
     {
@@ -1104,8 +1055,9 @@ public class ConsolePlugin implements Destroyable
         pluginImp.sendUnityScriptMessage(name, data);
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Notifications
+    //endregion
+
+    //region Notifications
 
     private NotificationCenter.OnNotificationListener actionSelectListener;
     private NotificationCenter.OnNotificationListener variableSetListener;
@@ -1166,8 +1118,9 @@ public class ConsolePlugin implements Destroyable
         }
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Getters/Setters
+    //endregion
+
+    //region Getters/Setters
 
     Console getConsole()
     {
@@ -1186,7 +1139,7 @@ public class ConsolePlugin implements Destroyable
 
     boolean isConsoleShown()
     {
-        return consoleView != null;
+        return consoleDialog != null;
     }
 
     public static PluginSettings pluginSettings()
@@ -1217,4 +1170,11 @@ public class ConsolePlugin implements Destroyable
         options.setTrimCount(trimCount);
         instance.console = new Console(options);
     }
+
+    private Activity getActivity()
+    {
+        return activityRef.get();
+    }
+
+    //endregion
 }
