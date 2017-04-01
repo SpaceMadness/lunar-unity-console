@@ -602,7 +602,7 @@ public class ApplicationBaseUITest implements TestHelper.EventListener
     {
         if (isNotExist(R.id.lunar_console_log_view))
         {
-            pressButton(R.id.test_button_show_console);
+            getActivity().openConsole();
         }
     }
 
