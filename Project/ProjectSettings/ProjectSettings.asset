@@ -10,8 +10,8 @@ PlayerSettings:
   targetDevice: 2
   useOnDemandResources: 0
   accelerometerFrequency: 60
-  companyName: DefaultCompany
-  productName: Project
+  companyName: Space Madness
+  productName: Lunar Console
   defaultCursor: {fileID: 0}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenBackgroundColor: {r: 0.13333334, g: 0.17254902, b: 0.21176471, a: 1}
@@ -142,6 +142,7 @@ PlayerSettings:
     iOS: com.spacemadness.LunarConsoleTest
     tvOS: com.spacemadness.LunarConsoleTest
   buildNumber:
+    Standalone: com.spacemadness.LunarConsoleTest
     iOS: 0
   AndroidBundleVersionCode: 1
   AndroidMinSdkVersion: 16
