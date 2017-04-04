@@ -44,7 +44,7 @@
         _entry = entry;
         
         self.popupIcon = _entry.icon;
-        self.popupTitle = @"Log Details";
+        self.popupTitle = @"Message Details";
         self.popupButtons = @[
             [LUConsolePopupButton buttonWithIcon:LUGetImage(@"lunar_console_icon_button_clipboard") target:self action:@selector(onCopyToClipboard:)]
         ];
