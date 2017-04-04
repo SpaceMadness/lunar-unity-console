@@ -1,5 +1,11 @@
 # Lunar Console Changelog
 
+## v.1.2.1 - 3/3/2017
+
+**Fixes:**
+
+* **iOS**: Wrong layout with large log message.
+
 ## v.1.2.0 - 3/31/2017
 
 **Fixes:**
