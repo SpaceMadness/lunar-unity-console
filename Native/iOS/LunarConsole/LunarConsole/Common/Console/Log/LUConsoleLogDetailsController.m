@@ -44,7 +44,7 @@
         _entry = entry;
         
         self.popupIcon = _entry.icon;
-        self.popupTitle = _entry.message;
+        self.popupTitle = @"Message Details";
         self.popupButtons = @[
             [LUConsolePopupButton buttonWithIcon:LUGetImage(@"lunar_console_icon_button_clipboard") target:self action:@selector(onCopyToClipboard:)]
         ];
@@ -61,10 +61,21 @@
     NSString *stackTrace = [_entry hasStackTrace] ?
         [LUStacktrace optimizeStacktrace:_entry.stackTrace] : NO_STACK_TRACE_WARNING;
     
-    _stackTraceView.text = stackTrace;
-    _stackTraceView.font = theme.fontSmall;
-    _stackTraceView.textColor = theme.cellLog.textColor;
+    NSDictionary *attributes = @{
+        NSFontAttributeName : theme.fontSmall,
+        NSForegroundColorAttributeName : theme.logMessageStacktraceColor
+    };
+    
+    NSString *text = [NSString stringWithFormat:@"%@\n\n%@", _entry.message, stackTrace];
+    NSMutableAttributedString *attributedText = [[NSMutableAttributedString alloc] initWithString:text attributes:attributes];
+    [attributedText addAttribute:NSFontAttributeName
+                           value:theme.logMessageDetailFont
+                           range:NSMakeRange(0, _entry.message.length)];
+    [attributedText addAttribute:NSForegroundColorAttributeName
+                           value:theme.cellLog.textColor
+                           range:NSMakeRange(0, _entry.message.length)];
     _stackTraceView.backgroundColor = theme.tableColor;
+    _stackTraceView.attributedText = attributedText;
     self.view.backgroundColor = theme.tableColor;
     
     // update layout
