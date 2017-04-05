@@ -1,6 +1,13 @@
 # Lunar Console Changelog
 
-## v.1.2.1 - 3/3/2017
+## v.1.2.2 - 4/4/2017
+
+**Fixes:**
+
+* Fixed auto updater.
+* **Android**: Wrong layout with large log message.
+
+## v.1.2.1 - 4/3/2017
 
 **Fixes:**
 
@@ -147,13 +154,13 @@
 
 **Improvements:**
 
-* **Android**: collapse similar entries option. 
+* **Android**: collapse similar entries option.
 
 ## v.0.1.0b - 2/3/2016
 
 **Improvements:**
 
-* **iOS**: collapse similar entries option. 
+* **iOS**: collapse similar entries option.
 
 ## v.0.0.10b - 1/24/2016
 
