@@ -26,8 +26,9 @@ namespace LunarConsolePluginInternal
 {
     public static class Constants
     {
-        public static readonly string Version = "1.2.1";
-        public static readonly string UpdateJsonURL = "https://raw.githubusercontent.com/SpaceMadness/lunar-unity-console/master/Builder/updater.json";
+        public static readonly string Version = "1.2.2";
+        public static readonly string UpdateJsonURLFull = "https://raw.githubusercontent.com/SpaceMadness/lunar-unity-console/master/Builder/updater-full.json";
+        public static readonly string UpdateJsonURLFree = "https://raw.githubusercontent.com/SpaceMadness/lunar-unity-console/master/Builder/updater-free.json";
 
         public static readonly string PluginName = "LunarConsole";
         public static readonly string PluginDisplayName = "Lunar Mobile Console";
