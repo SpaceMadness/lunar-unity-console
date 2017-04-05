@@ -21,26 +21,40 @@
             android:src="@drawable/lunar_console_icon_log"/>
 
         <TextView
-            android:id="@+id/lunar_console_log_details_message"
             style="@style/lunar_console_log_details_message_style"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Message"/>
+            android:text="Message Details"/>
 
     </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_margin="@dimen/lunar_layout_console_stacktrace_margin"
         android:layout_height="0dp"
+        android:layout_margin="@dimen/lunar_layout_console_stacktrace_margin"
         android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/lunar_console_log_details_stacktrace"
-            style="@style/lunar_console_log_details_stacktrace_style"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/lunar_console_log_details_message"
+                style="@style/lunar_console_log_details_message_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Message"/>
+
+            <TextView
+                android:id="@+id/lunar_console_log_details_stacktrace"
+                style="@style/lunar_console_log_details_stacktrace_style"
+                android:layout_marginTop="@dimen/lunar_layout_console_stacktrace_margin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
 
     </ScrollView>
 
