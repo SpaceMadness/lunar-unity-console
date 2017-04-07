@@ -620,8 +620,6 @@ public class ConsolePlugin implements Destroyable
         settings = new PluginSettings(activity.getApplicationContext());
         settings.setEnableExceptionWarning(unitySettings.editorSettings.enableExceptionWarning);
         settings.setEnableTransparentLogOverlay(unitySettings.editorSettings.enableTransparentLogOverlay);
-        settings.setSortActions(unitySettings.editorSettings.sortActions);
-        settings.setSortVariables(unitySettings.editorSettings.sortVariables);
         settings.load();
 
         this.version = unitySettings.version;
@@ -633,6 +631,8 @@ public class ConsolePlugin implements Destroyable
         options.setTrimCount(unitySettings.trim);
         console = new Console(options);
         actionRegistry = new ActionRegistry();
+        actionRegistry.setActionSortingEnabled(unitySettings.editorSettings.sortActions);
+        actionRegistry.setVariableSortingEnabled(unitySettings.editorSettings.sortVariables);
 
         activityRef = new WeakReference<>(activity);
 

@@ -228,16 +228,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_dontDestroyOnLoad: 0
   m_actions:
-  - m_name: Action 1
-    m_target: {fileID: 325927469}
-    m_componentTypeName: ActionScene, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-    m_componentMethodName: Action1
   - m_name: Action 2
     m_target: {fileID: 325927469}
     m_componentTypeName: ActionScene, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
     m_componentMethodName: Action2
+  - m_name: Action 1
+    m_target: {fileID: 325927469}
+    m_componentTypeName: ActionScene, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+    m_componentMethodName: Action1
 --- !u!1 &747812300
 GameObject:
   m_ObjectHideFlags: 0

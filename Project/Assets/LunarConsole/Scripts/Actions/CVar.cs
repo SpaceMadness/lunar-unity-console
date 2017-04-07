@@ -376,12 +376,12 @@ namespace LunarConsolePlugin
 
     public class CVarList : IEnumerable<CVar>
     {
-        private readonly SortedList<CVar> m_variables;
+        private readonly List<CVar> m_variables;
         private readonly Dictionary<int, CVar> m_lookupById;
 
         public CVarList()
         {
-            m_variables = new SortedList<CVar>();
+            m_variables = new List<CVar>();
             m_lookupById = new Dictionary<int, CVar>();
         }
 

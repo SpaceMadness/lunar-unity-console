@@ -66,12 +66,6 @@ public class PluginSettings
     @PluginSettingsEntry(proOnly = true)
     private boolean enableTransparentLogOverlay;
 
-    @PluginSettingsEntry(proOnly = true)
-    private boolean sortActions;
-
-    @PluginSettingsEntry(proOnly = true)
-    private boolean sortVariables;
-
     public PluginSettings(Context context)
     {
         if (context == null)
@@ -224,26 +218,6 @@ public class PluginSettings
     public void setEnableTransparentLogOverlay(boolean enableTransparentLogOverlay)
     {
         this.enableTransparentLogOverlay = enableTransparentLogOverlay;
-    }
-
-    public boolean isSortActions()
-    {
-        return sortActions;
-    }
-
-    public void setSortActions(boolean sortActions)
-    {
-        this.sortActions = sortActions;
-    }
-
-    public boolean isSortVariables()
-    {
-        return sortVariables;
-    }
-
-    public void setSortVariables(boolean sortVariables)
-    {
-        this.sortVariables = sortVariables;
     }
 
     private Context getContext()

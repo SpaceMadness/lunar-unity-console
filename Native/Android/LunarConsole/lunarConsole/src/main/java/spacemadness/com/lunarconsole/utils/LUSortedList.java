@@ -25,13 +25,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * Created by weeebox on 12/13/16.
- */
-
 public class LUSortedList<T extends Comparable> implements Iterable<T>
 {
     private final List<T> list;
+    private boolean sortingEnabled = true;
 
     public LUSortedList()
     {
@@ -45,19 +42,22 @@ public class LUSortedList<T extends Comparable> implements Iterable<T>
 
     public int addObject(T object)
     {
-        // TODO: use binary search to insert in a sorted order
-        for (int i = 0; i < list.size(); ++i)
+        if (sortingEnabled)
         {
-            int comparisonResult = object.compareTo(list.get(i));
-            if (comparisonResult < 0)
+            // TODO: use binary search to insert in a sorted order
+            for (int i = 0; i < list.size(); ++i)
             {
-                list.add(i, object);
-                return i;
-            }
-            else if (comparisonResult == 0)
-            {
-                list.set(i, object);
-                return i;
+                int comparisonResult = object.compareTo(list.get(i));
+                if (comparisonResult < 0)
+                {
+                    list.add(i, object);
+                    return i;
+                }
+                else if (comparisonResult == 0)
+                {
+                    list.set(i, object);
+                    return i;
+                }
             }
         }
 
@@ -95,12 +95,23 @@ public class LUSortedList<T extends Comparable> implements Iterable<T>
         return list;
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Iterable
+    public boolean isSortingEnabled()
+    {
+        return sortingEnabled;
+    }
+
+    public void setSortingEnabled(boolean sortingEnabled)
+    {
+        this.sortingEnabled = sortingEnabled;
+    }
+
+    //region Iterable
 
     @Override
     public Iterator<T> iterator()
     {
         return list.iterator();
     }
+
+    //endregion
 }
