@@ -38,6 +38,7 @@
     if (self)
     {
         _array = [NSMutableArray new];
+        _sortingEnabled = YES;
     }
     return self;
 }
@@ -61,21 +62,24 @@
     LUAssertMsgv([object respondsToSelector:@selector(compare:)],
                  @"Can't add non-comparable object to a sorted list: %@", [object class]);
     
-    if (object != nil && [object respondsToSelector:@selector(compare:)])
+    if (object != nil)
     {
-        // TODO: use binary search to insert in a sorted order
-        for (NSUInteger i = 0; i < _array.count; ++i)
+        if (_sortingEnabled && [object respondsToSelector:@selector(compare:)])
         {
-            NSComparisonResult comparisonResult = [object compare:_array[i]];
-            if (comparisonResult == NSOrderedAscending)
+            // TODO: use binary search to insert in a sorted order
+            for (NSUInteger i = 0; i < _array.count; ++i)
             {
-                [_array insertObject:object atIndex:i];
-                return i;
-            }
-            else if (comparisonResult == NSOrderedSame)
-            {
-                _array[i] = object;
-                return i;
+                NSComparisonResult comparisonResult = [object compare:_array[i]];
+                if (comparisonResult == NSOrderedAscending)
+                {
+                    [_array insertObject:object atIndex:i];
+                    return i;
+                }
+                else if (comparisonResult == NSOrderedSame)
+                {
+                    _array[i] = object;
+                    return i;
+                }
             }
         }
         

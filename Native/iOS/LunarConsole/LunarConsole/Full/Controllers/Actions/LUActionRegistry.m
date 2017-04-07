@@ -165,4 +165,27 @@
     return _variables.innerArray;
 }
 
+#pragma mark -
+#pragma mark Properties
+
+- (BOOL)actionSortingEnabled
+{
+    return _actions.isSortingEnabled;
+}
+
+- (void)setActionSortingEnabled:(BOOL)actionSortingEnabled
+{
+    _actions.sortingEnabled = actionSortingEnabled;
+}
+
+- (BOOL)variableSortingEnabled
+{
+    return _variables.isSortingEnabled;
+}
+
+- (void)setVariableSortingEnabled:(BOOL)variableSortingEnabled
+{
+    _variables.sortingEnabled = variableSortingEnabled;
+}
+
 @end

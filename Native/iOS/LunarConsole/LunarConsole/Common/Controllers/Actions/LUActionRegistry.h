@@ -41,6 +41,9 @@
 
 @property (nonatomic, weak) id<LUActionRegistryDelegate> delegate;
 
+@property (nonatomic, assign) BOOL actionSortingEnabled;
+@property (nonatomic, assign) BOOL variableSortingEnabled;
+
 + (instancetype)registry;
 
 - (LUAction *)registerActionWithId:(int)actionId name:(NSString *)name;

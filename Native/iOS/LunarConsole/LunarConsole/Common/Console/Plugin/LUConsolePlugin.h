@@ -70,7 +70,8 @@ extern NSString * const LUConsoleCheckFullVersionNotificationSource;
                            version:(NSString *)version
                           capacity:(NSUInteger)capacity
                          trimCount:(NSUInteger)trimCount
-                       gestureName:(NSString *)gestureName;
+                       gestureName:(NSString *)gestureName
+                      settingsJson:(NSString *)settingsJson;
 
 - (void)start;
 - (void)stop;

@@ -31,6 +31,8 @@
 		4D02A8481E5A8EA4009F4998 /* LUTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D02A8471E5A8EA4009F4998 /* LUTextField.m */; };
 		4D02A8491E5A8EA4009F4998 /* LUTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D02A8471E5A8EA4009F4998 /* LUTextField.m */; };
 		4DBF29331E624EDA006E2C8A /* LUCVar.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DBF29321E624EDA006E2C8A /* LUCVar.m */; };
+		4DD4267D1E976121005F3181 /* LUConsoleEditorSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DD4267C1E976121005F3181 /* LUConsoleEditorSettings.m */; };
+		4DD4267E1E976121005F3181 /* LUConsoleEditorSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DD4267C1E976121005F3181 /* LUConsoleEditorSettings.m */; };
 		4DD4FBCD1DFB932B00032A29 /* LUEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DD4FB2C1DFB932B00032A29 /* LUEntry.m */; };
 		4DD4FBCE1DFB932B00032A29 /* LUEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DD4FB2C1DFB932B00032A29 /* LUEntry.m */; };
 		4DD4FBCF1DFB932B00032A29 /* LUEntryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DD4FB2E1DFB932B00032A29 /* LUEntryTableViewCell.m */; };
@@ -276,6 +278,8 @@
 		4DBF29771E654065006E2C8A /* lunar_console_icon_button_variable_reset.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lunar_console_icon_button_variable_reset.png; sourceTree = "<group>"; };
 		4DBF29781E654065006E2C8A /* lunar_console_icon_button_variable_reset@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lunar_console_icon_button_variable_reset@2x.png"; sourceTree = "<group>"; };
 		4DBF29791E654065006E2C8A /* lunar_console_icon_button_variable_reset@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lunar_console_icon_button_variable_reset@3x.png"; sourceTree = "<group>"; };
+		4DD4267B1E976121005F3181 /* LUConsoleEditorSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUConsoleEditorSettings.h; sourceTree = "<group>"; };
+		4DD4267C1E976121005F3181 /* LUConsoleEditorSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUConsoleEditorSettings.m; sourceTree = "<group>"; };
 		4DD4F5511DFB7F4B00032A29 /* libLunarConsoleFree.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libLunarConsoleFree.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DD4FB2B1DFB932B00032A29 /* LUEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUEntry.h; sourceTree = "<group>"; };
 		4DD4FB2C1DFB932B00032A29 /* LUEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUEntry.m; sourceTree = "<group>"; };
@@ -730,6 +734,8 @@
 		4DD4FB481DFB932B00032A29 /* Plugin */ = {
 			isa = PBXGroup;
 			children = (
+				4DD4267B1E976121005F3181 /* LUConsoleEditorSettings.h */,
+				4DD4267C1E976121005F3181 /* LUConsoleEditorSettings.m */,
 				4DD4FB491DFB932B00032A29 /* LUConsolePlugin.h */,
 				4DD4FB4A1DFB932B00032A29 /* LUConsolePlugin.m */,
 				4D02A76D1E496990009F4998 /* LUConsolePluginImp.h */,
@@ -1049,6 +1055,7 @@
 				4DD4FBF61DFB932C00032A29 /* LUActionButton.m in Sources */,
 				4DD4FBDA1DFB932B00032A29 /* LUConsoleLogEntryLookupTable.m in Sources */,
 				4DD4FBE41DFB932C00032A29 /* LUConsoleController.m in Sources */,
+				4DD4267E1E976121005F3181 /* LUConsoleEditorSettings.m in Sources */,
 				4DD4FC221DFB932C00032A29 /* LUThreading.m in Sources */,
 				4D02A7CD1E4973FA009F4998 /* LUActionRegistry.m in Sources */,
 				4DD4FC081DFB932C00032A29 /* LUWindow.m in Sources */,
@@ -1145,6 +1152,7 @@
 				4DD4FBD51DFB932B00032A29 /* LUConsoleLogEntry.m in Sources */,
 				4DD4FBE51DFB932C00032A29 /* LUConsolePlugin.m in Sources */,
 				4D02A7B01E496C93009F4998 /* LUConsolePluginImp.m in Sources */,
+				4DD4267D1E976121005F3181 /* LUConsoleEditorSettings.m in Sources */,
 				4DD4FC0F1DFB932C00032A29 /* LUImageUtils.m in Sources */,
 				4D02A7B81E496C93009F4998 /* LUCVarBooleanTableViewCell.m in Sources */,
 				4DD4FBD11DFB932B00032A29 /* LUConsoleLogController.m in Sources */,

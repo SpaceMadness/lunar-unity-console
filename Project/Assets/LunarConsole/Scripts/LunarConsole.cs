@@ -266,7 +266,7 @@ namespace LunarConsolePlugin
             if (Application.platform == RuntimePlatform.IPhonePlayer)
             {
                 LunarConsoleNativeMessageCallback callback = NativeMessageCallback;
-                return new PlatformIOS(gameObject.name, callback.Method.Name, Constants.Version, capacity, trim, GetGestureName(m_gesture));
+                return new PlatformIOS(gameObject.name, callback.Method.Name, Constants.Version, capacity, trim, GetGestureName(m_gesture), settings);
             }
             #elif UNITY_ANDROID
             if (Application.platform == RuntimePlatform.Android)
@@ -413,7 +413,7 @@ namespace LunarConsolePlugin
         class PlatformIOS : IPlatform
         {
             [DllImport("__Internal")]
-            private static extern void __lunar_console_initialize(string targetName, string methodName, string version, int capacity, int trim, string gesture);
+            private static extern void __lunar_console_initialize(string targetName, string methodName, string version, int capacity, int trim, string gesture, string settingsJson);
             
             [DllImport("__Internal")]
             private static extern void __lunar_console_log_message(string message, string stackTrace, int type);
@@ -451,9 +451,10 @@ namespace LunarConsolePlugin
             /// <param name="capacity">Console capacity (elements over this amount will be trimmed)</param>
             /// <param name="trim">Console trim amount (how many elements will be trimmed on the overflow)</param>
             /// <param name="gesture">Gesture name to activate the console</param>
-            public PlatformIOS(string targetName, string methodName, string version, int capacity, int trim, string gesture)
+            public PlatformIOS(string targetName, string methodName, string version, int capacity, int trim, string gesture, LunarConsoleSettings settings)
             {
-                __lunar_console_initialize(targetName, methodName, version, capacity, trim, gesture);
+                var settingsData = JsonUtility.ToJson(settings);
+                __lunar_console_initialize(targetName, methodName, version, capacity, trim, gesture, settingsData);
             }
 
             public void Update()
