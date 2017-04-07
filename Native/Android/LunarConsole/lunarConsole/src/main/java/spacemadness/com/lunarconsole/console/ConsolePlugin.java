@@ -124,14 +124,16 @@ public class ConsolePlugin implements Destroyable
         public final int capacity;
         public final int trim;
         public final String gesture;
+        public final EditorSettings editorSettings;
 
-        UnitySettings(ConsolePluginImp pluginImp, String version, int capacity, int trim, String gesture)
+        UnitySettings(ConsolePluginImp pluginImp, String version, int capacity, int trim, String gesture, String settingsJson)
         {
             this.pluginImp = notNull(pluginImp, "Plugin implementation");
             this.gesture = notNullAndNotEmpty(gesture, "Gesture");
             this.version = notNullAndNotEmpty(version, "Version");
             this.capacity = positive(capacity, "Capacity");
             this.trim = positive(trim, "Trim");
+            this.editorSettings = settingsJson != null ? EditorSettings.fromJson(settingsJson) : new EditorSettings();
         }
 
         private static <T> T notNull(T reference, String name)
@@ -169,7 +171,7 @@ public class ConsolePlugin implements Destroyable
 
     public static void init(Activity activity, String version, int capacity, int trim, String gesture)
     {
-        init(activity, new UnitySettings(new DefaultPluginImp(activity), version, capacity, trim, gesture));
+        init(activity, new UnitySettings(new DefaultPluginImp(activity), version, capacity, trim, gesture, null));
     }
 
     public static void destroyInstance()
@@ -314,10 +316,10 @@ public class ConsolePlugin implements Destroyable
      * @param trim       - the trim amount upon console overflow (how many items would be trimmed when console overflows)
      * @param gesture    - the name of a touch gesture to open the console or "none" if disabled
      */
-    public static void init(String targetName, String methodName, String version, int capacity, int trim, String gesture)
+    public static void init(String targetName, String methodName, String version, int capacity, int trim, String gesture, String settings)
     {
         Activity activity = UnityPlayer.currentActivity;
-        init(activity, new UnitySettings(new UnityPluginImp(activity, targetName, methodName), version, capacity, trim, gesture));
+        init(activity, new UnitySettings(new UnityPluginImp(activity, targetName, methodName), version, capacity, trim, gesture, settings));
     }
 
     public static void logMessage(String message, String stackTrace, int logType)
@@ -616,6 +618,11 @@ public class ConsolePlugin implements Destroyable
         }
 
         settings = new PluginSettings(activity.getApplicationContext());
+        settings.setEnableExceptionWarning(unitySettings.editorSettings.enableExceptionWarning);
+        settings.setEnableTransparentLogOverlay(unitySettings.editorSettings.enableTransparentLogOverlay);
+        settings.setSortActions(unitySettings.editorSettings.sortActions);
+        settings.setSortVariables(unitySettings.editorSettings.sortVariables);
+        settings.load();
 
         this.version = unitySettings.version;
         this.pluginImp = unitySettings.pluginImp;

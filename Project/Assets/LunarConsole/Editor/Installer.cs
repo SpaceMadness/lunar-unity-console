@@ -84,7 +84,6 @@ namespace LunarConsoleEditorInternal
 
         static void SetLunarConsoleEnabled(bool enabled)
         {
-            AndroidPlugin.UpdateFiles(enabled); // we need to update plugin files first
             LunarConsolePluginEditorHelper.SetLunarConsoleEnabled(enabled); // then modify preprocessor's define
         }
     }

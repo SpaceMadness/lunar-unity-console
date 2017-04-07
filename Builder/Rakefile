@@ -20,7 +20,6 @@ namespace :lunar do
 
     $dir_out = File.expand_path 'temp'
     $dir_out_packages = "#{$dir_out}/packages"
-    $dir_out_exploded_aar = "#{$dir_out}/exploded_aar"
 
     $dir_builder = File.expand_path '.'
     $dir_utils = resolve_path "#{$dir_builder}/utils"
@@ -242,98 +241,25 @@ namespace :lunar do
     return files.map { |file| make_relative_path file, dir_project } if options[:use_relative_path]
 
     return files
-
   end
-
 
   def build_android_plugin(dir_native_project, module_name, flavour, dir_android_plugin)
 
     # build library
     print_header 'Building Android library...'
-    aar_result = build_android dir_native_project, module_name, flavour
-
-    dir_aar = $dir_out_exploded_aar
-
-    print_header 'Extracting Android library...'
-    # explode library file
-    FileUtils.rm_rf dir_aar
-    FileUtils.mkpath dir_aar
-
-    exec_shell %(unzip "#{aar_result.file_aar}" -d "#{dir_aar}"), "Can't extract library"
+    file_aar = build_android dir_native_project, module_name, flavour
 
     # prepare plugin
     print_header 'Preparing Android plugin'
 
-    # copy libs
-    dir_libs = "#{dir_android_plugin}/libs"
-    FileUtils.mkpath dir_libs
-    
-    file_src_jar = resolve_path "#{dir_aar}/classes.jar"
-    file_dst_jar = "#{dir_libs}/#{module_name}.jar"
-    
-    FileUtils.cp file_src_jar, file_dst_jar
-
-    # fixed build for Gradle
-    fix_jar file_dst_jar
-    
-    # copy resources
-    dir_res = resolve_path "#{dir_aar}/res"
-    FileUtils.cp_r dir_res, dir_android_plugin
-
-    # copy manifest
-    file_manifest = resolve_path "#{dir_aar}/AndroidManifest.xml"
-    FileUtils.cp file_manifest, dir_android_plugin
-
-    # generate project.properties
-    project_properties = {
-        'android.library' => true
-    }
-
-    file_project_properties = "#{dir_android_plugin}/project.properties"
-    write_project_properties(file_project_properties, project_properties)
-  end
-
-  def fix_jar(file_jar)
-    exec_shell %(zip -d "#{file_jar}" spacemadness/com/lunarconsole/BuildConfig.class), "Can't fix jar: #{file_jar}"
-  end
-
-  def copy_artifact(dir_dest, artifact, options = {})
-
-    # manifest
-    unless options[:skip_manifest]
-      FileUtils.cp artifact.file_manifest, "#{dir_dest}/"
-    end
-
-    dir_libs = "#{dir_dest}/libs"
-
-    # libs
-    unless options[:skip_libs]
-      FileUtils.mkpath dir_libs unless File.directory? dir_libs
-      FileUtils.cp artifact.file_jar , "#{dir_libs}/#{artifact.name}-#{artifact.version}.jar"
-    end
-
-    # dependencies
-    unless options[:skip_dependencies]
-      FileUtils.mkpath dir_libs unless File.directory? dir_libs
-      artifact.dependencies.each { |jar|
-        FileUtils.cp jar, dir_libs
-      }
-    end
-
-    # resources
-    unless options[:skip_resources]
-      dir_res = "#{dir_dest}/res"
-      FileUtils.cp_r artifact.dir_res, dir_res
-    end
-
+    FileUtils.cp file_aar, "#{dir_android_plugin}/lunar-console.aar"
   end
 
   def build_android(dir_project, module_name, flavour, config = 'Release')
 
     Dir.chdir dir_project do
       exec_shell "./gradlew :#{module_name}:clean :#{module_name}:assemble#{flavour}#{config}", "Can't build Android aar"
-      file_aar = resolve_path_e "#{module_name}/build/outputs/aar/#{module_name}-#{flavour.downcase}-#{config.downcase}.aar"
-      return AndroidAARBuildResult.new file_aar
+      return resolve_path_e "#{module_name}/build/outputs/aar/#{module_name}-#{flavour.downcase}-#{config.downcase}.aar"
 
     end
 

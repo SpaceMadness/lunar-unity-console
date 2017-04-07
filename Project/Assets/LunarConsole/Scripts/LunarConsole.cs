@@ -60,10 +60,34 @@ namespace LunarConsolePlugin
     delegate void LunarConsoleNativeMessageCallback(string message);
     delegate void LunarConsoleNativeMessageHandler(IDictionary<string, string> data);
 
+    [Serializable]
+    public class LunarConsoleSettings
+    {
+        public bool exceptionWarning = true;
+
+        #if LUNAR_CONSOLE_FREE
+        [HideInInspector]
+        #endif
+        public bool transparentLogOverlay = false;
+
+        #if LUNAR_CONSOLE_FREE
+        [HideInInspector]
+        #endif
+        public bool sortActions = true;
+
+        #if LUNAR_CONSOLE_FREE
+        [HideInInspector]
+        #endif
+        public bool sortVariables = true;
+    }
+
     public sealed class LunarConsole : MonoBehaviour
     {
         #pragma warning disable 0649
         #pragma warning disable 0414
+
+        [SerializeField]
+        LunarConsoleSettings m_settings;
 
         [Range(128, 65536)]
         [Tooltip("Logs will be trimmed to the capacity")]
@@ -157,7 +181,7 @@ namespace LunarConsolePlugin
         {
             if (s_instance != null)
             {
-                bool succeed = InitPlatform(m_capacity, m_trim);
+                bool succeed = InitPlatform(m_capacity, m_trim, m_settings);
                 Log.dev("Platform initialized successfully: {0}", succeed.ToString());
             }
         }
@@ -186,7 +210,7 @@ namespace LunarConsolePlugin
 
         #region Platforms
 
-        bool InitPlatform(int capacity, int trim)
+        bool InitPlatform(int capacity, int trim, LunarConsoleSettings settings)
         {
             try
             {
@@ -194,7 +218,7 @@ namespace LunarConsolePlugin
                 {
                     trim = Math.Min(trim, capacity); // can't trim more that we have
 
-                    m_platform = CreatePlatform(capacity, trim);
+                    m_platform = CreatePlatform(capacity, trim, settings);
                     if (m_platform != null)
                     {
                         m_registry = new CRegistry();
@@ -236,7 +260,7 @@ namespace LunarConsolePlugin
             return false;
         }
 
-        IPlatform CreatePlatform(int capacity, int trim)
+        IPlatform CreatePlatform(int capacity, int trim, LunarConsoleSettings settings)
         {
             #if UNITY_IOS || UNITY_IPHONE
             if (Application.platform == RuntimePlatform.IPhonePlayer)
@@ -248,7 +272,7 @@ namespace LunarConsolePlugin
             if (Application.platform == RuntimePlatform.Android)
             {
                 LunarConsoleNativeMessageCallback callback = NativeMessageCallback;
-                return new PlatformAndroid(gameObject.name, callback.Method.Name, Constants.Version, capacity, trim, GetGestureName(m_gesture));
+                return new PlatformAndroid(gameObject.name, callback.Method.Name, Constants.Version, capacity, trim, GetGestureName(m_gesture), settings);
             }
             #endif
 
@@ -516,20 +540,23 @@ namespace LunarConsolePlugin
             /// <param name="capacity">Console capacity (elements over this amount will be trimmed)</param>
             /// <param name="trim">Console trim amount (how many elements will be trimmed on the overflow)</param>
             /// <param name="gesture">Gesture name to activate the console</param>
-            public PlatformAndroid(string targetName, string methodName, string version, int capacity, int trim, string gesture)
+            public PlatformAndroid(string targetName, string methodName, string version, int capacity, int trim, string gesture, LunarConsoleSettings settings)
             {
+                var settingsData = JsonUtility.ToJson(settings);
+
                 m_mainThreadId = Thread.CurrentThread.ManagedThreadId;
                 m_pluginClass = new AndroidJavaClass(kPluginClassName);
                 m_pluginClassRaw = m_pluginClass.GetRawClass();
 
-                IntPtr methodInit = GetStaticMethod(m_pluginClassRaw, "init", "(Ljava.lang.String;Ljava.lang.String;Ljava.lang.String;IILjava.lang.String;)V");
+                IntPtr methodInit = GetStaticMethod(m_pluginClassRaw, "init", "(Ljava.lang.String;Ljava.lang.String;Ljava.lang.String;IILjava.lang.String;Ljava.lang.String;)V");
                 var methodInitParams = new jvalue[] {
                     jval(targetName),
                     jval(methodName),
                     jval(version),
                     jval(capacity),
                     jval(trim),
-                    jval(gesture)
+                    jval(gesture),
+                    jval(settingsData)
                 };
                 CallStaticVoidMethod(methodInit, methodInitParams);
 

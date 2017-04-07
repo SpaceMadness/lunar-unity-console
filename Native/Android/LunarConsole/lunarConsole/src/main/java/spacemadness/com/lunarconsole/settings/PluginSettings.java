@@ -42,7 +42,6 @@ import static spacemadness.com.lunarconsole.utils.ClassUtils.FieldFilter;
 @Retention(RetentionPolicy.RUNTIME)
 @interface PluginSettingsEntry
 {
-    String defaultValue();
     boolean proOnly() default false;
 }
 
@@ -61,11 +60,17 @@ public class PluginSettings
         }
     };
 
-    @PluginSettingsEntry(defaultValue = "true")
+    @PluginSettingsEntry
     private boolean enableExceptionWarning;
 
-    @PluginSettingsEntry(defaultValue = "false", proOnly = true)
+    @PluginSettingsEntry(proOnly = true)
     private boolean enableTransparentLogOverlay;
+
+    @PluginSettingsEntry(proOnly = true)
+    private boolean sortActions;
+
+    @PluginSettingsEntry(proOnly = true)
+    private boolean sortVariables;
 
     public PluginSettings(Context context)
     {
@@ -74,13 +79,12 @@ public class PluginSettings
             throw new NullPointerException("Context is null");
         }
         contextRef = new WeakReference<>(context);
-        load();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Save/Load
 
-    private boolean load()
+    public boolean load()
     {
         final Context context = getContext();
         if (context == null)
@@ -98,22 +102,25 @@ public class PluginSettings
                 field.setAccessible(true);
 
                 final String name = field.getName();
-                final Class<?> type = field.getType();
-                final PluginSettingsEntry annotation = field.getAnnotation(PluginSettingsEntry.class);
+                if (preferences.contains(name))
+                {
+                    continue;
+                }
 
                 Object value;
+
+                final Class<?> type = field.getType();
                 if (type == boolean.class)
                 {
-                    final boolean defValue = Boolean.parseBoolean(annotation.defaultValue());
-                    value = preferences.getBoolean(name, defValue);
+                    value = preferences.getBoolean(name, false);
                 }
-                else if (type == boolean.class)
+                else if (type == int.class)
                 {
-                    final int defValue = Integer.parseInt(annotation.defaultValue());
-                    value = preferences.getInt(name, defValue);
+                    value = preferences.getInt(name, 0);
                 }
                 else
                 {
+                    Log.e("Unexpected setting field type: %s", type);
                     continue;
                 }
 
@@ -217,6 +224,26 @@ public class PluginSettings
     public void setEnableTransparentLogOverlay(boolean enableTransparentLogOverlay)
     {
         this.enableTransparentLogOverlay = enableTransparentLogOverlay;
+    }
+
+    public boolean isSortActions()
+    {
+        return sortActions;
+    }
+
+    public void setSortActions(boolean sortActions)
+    {
+        this.sortActions = sortActions;
+    }
+
+    public boolean isSortVariables()
+    {
+        return sortVariables;
+    }
+
+    public void setSortVariables(boolean sortVariables)
+    {
+        this.sortVariables = sortVariables;
     }
 
     private Context getContext()
