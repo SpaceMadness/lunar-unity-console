@@ -82,7 +82,18 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
         _actionRegistry.variableSortingEnabled = editorSettings.variableSortingEnabled;
         
         _gesture = [self gestureFromString:gestureName];
-        _settings = [LUConsolePluginSettings loadFromFile:kSettingsFilename];
+        
+        _settings = [[LUConsolePluginSettings alloc] initWithFilename:kSettingsFilename];
+        _settings.enableExceptionWarning = editorSettings.isExceptionWarningEnabled;
+        _settings.enableTransparentLogOverlay = editorSettings.isTransparentLogOverlayEnabled;
+        
+        LUConsolePluginSettings *existing = [LUConsolePluginSettings loadFromFile:kSettingsFilename
+                                                                      initDefault:NO];
+        if (existing != nil)
+        {
+            _settings.enableExceptionWarning = existing.enableExceptionWarning;
+            _settings.enableTransparentLogOverlay = existing.enableTransparentLogOverlay;
+        }
     }
     return self;
 }

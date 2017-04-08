@@ -40,7 +40,9 @@ class ViewController: LUViewController {
         
         actionOverlaySwitch.setTestAccessibilityIdentifier("Action Overlay Switch")
         
-        plugin = LUConsolePlugin(targetName: "LunarConsole", methodName: "OnNativeMessage", version: "0.0.0", capacity: kConsoleCapacity, trimCount: kConsoleTrimCount, gestureName: "SwipeDown", settingsJson:"")
+        let settingsJson = "{\"exceptionWarning\":\"true\",\"transparentLogOverlay\":\"true\",\"sortActions\":\"true\",\"sortVariables\":\"true\"}"
+        
+        plugin = LUConsolePlugin(targetName: "LunarConsole", methodName: "OnNativeMessage", version: "0.0.0", capacity: kConsoleCapacity, trimCount: kConsoleTrimCount, gestureName: "SwipeDown", settingsJson:settingsJson)
         plugin.delegate = self
         
         capacityText.text = "\(kConsoleCapacity)"
