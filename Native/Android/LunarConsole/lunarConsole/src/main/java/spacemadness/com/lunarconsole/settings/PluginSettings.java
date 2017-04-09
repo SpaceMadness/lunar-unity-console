@@ -96,7 +96,7 @@ public class PluginSettings
                 field.setAccessible(true);
 
                 final String name = field.getName();
-                if (preferences.contains(name))
+                if (!preferences.contains(name))
                 {
                     continue;
                 }

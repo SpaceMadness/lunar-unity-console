@@ -107,7 +107,13 @@ public class MainActivity extends Activity
                 {
                     ConsolePlugin.shutdown(); // kill any previous instance
                 }
-                ConsolePlugin.init(MainActivity.this, "0.0.0", capacity, trim, "SwipeDown");
+                String settingsJson = "{" +
+                        "\"exceptionWarning\":\"false\"," +
+                        "\"transparentLogOverlay\":\"false\"," +
+                        "\"sortActions\":\"true\"," +
+                        "\"sortVariables\":\"true\"" +
+                        "}";
+                ConsolePlugin.init(MainActivity.this, "0.0.0", capacity, trim, "SwipeDown", settingsJson);
 
                 /*
                 ConsolePlugin.registerAction(1, "Action - A");

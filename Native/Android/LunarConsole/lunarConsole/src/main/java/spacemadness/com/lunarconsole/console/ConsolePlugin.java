@@ -169,9 +169,9 @@ public class ConsolePlugin implements Destroyable
         }
     }
 
-    public static void init(Activity activity, String version, int capacity, int trim, String gesture)
+    public static void init(Activity activity, String version, int capacity, int trim, String gesture, String settingsJson)
     {
-        init(activity, new UnitySettings(new DefaultPluginImp(activity), version, capacity, trim, gesture, null));
+        init(activity, new UnitySettings(new DefaultPluginImp(activity), version, capacity, trim, gesture, settingsJson));
     }
 
     public static void destroyInstance()
