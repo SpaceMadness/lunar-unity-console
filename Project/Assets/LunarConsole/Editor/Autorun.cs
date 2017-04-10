@@ -35,11 +35,6 @@ namespace LunarConsoleEditorInternal
         static Autorun()
         {
             Updater.TryCheckForUpdates();
-
-            #if UNITY_ANDROID
-            AndroidPlugin.UpdateFiles();
-            #endif
-
             LunarConsoleEditorAnalytics.TrackPluginVersionUpdate();
         }
     }

@@ -23,6 +23,7 @@
 
 #import "Lunar.h"
 #import "LUConsolePluginImp.h"
+#import "LUConsoleEditorSettings.h"
 
 NSString * const LUConsoleCheckFullVersionNotification = @"LUConsoleCheckFullVersionNotification";
 NSString * const LUConsoleCheckFullVersionNotificationSource = @"source";
@@ -54,6 +55,7 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
                           capacity:(NSUInteger)capacity
                          trimCount:(NSUInteger)trimCount
                        gestureName:(NSString *)gestureName
+                      settingsJson:(NSString *)settingsJson
 {
     self = [super init];
     if (self)
@@ -66,13 +68,32 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
             return nil;
         }
         
+        NSData *settingsData = [settingsJson dataUsingEncoding:NSUTF8StringEncoding];
+        NSDictionary *settingsDict = [NSJSONSerialization JSONObjectWithData:settingsData options:0 error:nil];
+        
+        LUConsoleEditorSettings *editorSettings = [[LUConsoleEditorSettings alloc] initWithDictionary:settingsDict];
+        
         _pluginImp = [[LUConsolePluginImp alloc] initWithPlugin:self];
         _scriptMessenger = [[LUUnityScriptMessenger alloc] initWithTargetName:targetName methodName:methodName];
         _version = version;
         _console = [[LUConsole alloc] initWithCapacity:capacity trimCount:trimCount];
         _actionRegistry = [[LUActionRegistry alloc] init];
+        _actionRegistry.actionSortingEnabled = editorSettings.isActionSortingEnabled;
+        _actionRegistry.variableSortingEnabled = editorSettings.variableSortingEnabled;
+        
         _gesture = [self gestureFromString:gestureName];
-        _settings = [LUConsolePluginSettings loadFromFile:kSettingsFilename];
+        
+        _settings = [[LUConsolePluginSettings alloc] initWithFilename:kSettingsFilename];
+        _settings.enableExceptionWarning = editorSettings.isExceptionWarningEnabled;
+        _settings.enableTransparentLogOverlay = editorSettings.isTransparentLogOverlayEnabled;
+        
+        LUConsolePluginSettings *existing = [LUConsolePluginSettings loadFromFile:kSettingsFilename
+                                                                      initDefault:NO];
+        if (existing != nil)
+        {
+            _settings.enableExceptionWarning = existing.enableExceptionWarning;
+            _settings.enableTransparentLogOverlay = existing.enableTransparentLogOverlay;
+        }
     }
     return self;
 }

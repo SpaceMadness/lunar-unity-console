@@ -28,7 +28,7 @@
 
 static LUConsolePlugin * _lunarConsolePlugin;
 
-void __lunar_console_initialize(const char *targetNameStr, const char *methodNameStr, const char * versionStr, int capacity, int trimCount, const char *gestureStr)
+void __lunar_console_initialize(const char *targetNameStr, const char *methodNameStr, const char * versionStr, int capacity, int trimCount, const char *gestureStr, const char *settingsJsonStr)
 {
     lunar_dispatch_main(^{
         if (_lunarConsolePlugin == nil) {
@@ -36,13 +36,15 @@ void __lunar_console_initialize(const char *targetNameStr, const char *methodNam
             NSString *methodName = [[NSString alloc] initWithUTF8String:methodNameStr];
             NSString *version = [[NSString alloc] initWithUTF8String:versionStr];
             NSString *gesture = [[NSString alloc] initWithUTF8String:gestureStr];
+            NSString *settingsJson = [[NSString alloc] initWithUTF8String:settingsJsonStr];
             
             _lunarConsolePlugin = [[LUConsolePlugin alloc] initWithTargetName:targetName
                                                                    methodName:methodName
                                                                       version:version
-                                                                  capacity:capacity
-                                                                 trimCount:trimCount
-                                                               gestureName:gesture];
+                                                                     capacity:capacity
+                                                                    trimCount:trimCount
+                                                                  gestureName:gesture
+                                                                 settingsJson:settingsJson];
             [_lunarConsolePlugin start];
             
         }

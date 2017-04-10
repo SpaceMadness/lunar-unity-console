@@ -24,6 +24,9 @@
 @interface LUSerializableObject : NSObject
 
 + (instancetype)loadFromFile:(NSString *)filename;
++ (instancetype)loadFromFile:(NSString *)filename initDefault:(BOOL)initDefault;
+
+- (instancetype)initWithFilename:(NSString *)filename;
 - (BOOL)save;
 
 @end

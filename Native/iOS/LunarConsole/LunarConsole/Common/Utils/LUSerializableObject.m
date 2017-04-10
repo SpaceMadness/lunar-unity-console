@@ -34,6 +34,11 @@
 
 + (instancetype)loadFromFile:(NSString *)filename
 {
+    return [self loadFromFile:filename initDefault:YES];
+}
+
++ (instancetype)loadFromFile:(NSString *)filename initDefault:(BOOL)initDefault
+{
     id object = LUDeserializeObject(filename);
     if (object != nil)
     {
@@ -41,7 +46,7 @@
         return object;
     }
     
-    return [[self alloc] initWithFilename:filename];
+    return initDefault ? [[self alloc] initWithFilename:filename] : nil;
 }
 
 - (instancetype)initWithFilename:(NSString *)filename

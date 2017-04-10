@@ -25,6 +25,7 @@
 
 @property (nonatomic, readonly) NSUInteger count;
 @property (nonatomic, readonly, nonnull) NSArray *innerArray;
+@property (nonatomic, assign, getter=isSortingEnabled) BOOL sortingEnabled;
 
 - (nonnull id)objectAtIndex:(NSUInteger)index;
 - (nonnull id)objectAtIndexedSubscript:(NSUInteger)index;

@@ -172,8 +172,7 @@ public class ActionRegistry
         }
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Getters/Setters
+    //region Getters/Setters
 
     public List<Action> actions() // FIXME: rename
     {
@@ -195,8 +194,19 @@ public class ActionRegistry
         this.delegate = delegate;
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Delegate
+    public void setActionSortingEnabled(boolean sortingEnabled)
+    {
+        actions.setSortingEnabled(sortingEnabled);
+    }
+
+    public void setVariableSortingEnabled(boolean sortingEnabled)
+    {
+        variables.setSortingEnabled(sortingEnabled);
+    }
+
+    //endregion
+
+    //region Delegate
 
     public interface Delegate // FIXME: rename
     {
@@ -205,4 +215,6 @@ public class ActionRegistry
         void didRegisterVariable(ActionRegistry registry, Variable variable, int index);
         void didDidChangeVariable(ActionRegistry registry, Variable variable, int index);
     }
+
+    //endregion
 }

@@ -61,13 +61,5 @@ namespace LunarConsoleEditorInternal
             Updater.Reset();
         }
         #endif
-
-        #if LUNAR_DEVELOPMENT && UNITY_ANDROID
-        [MenuItem("Window/Lunar Mobile Console/Force update plugin")]
-        static void ForceUpdatePlugin()
-        {
-            AndroidPlugin.ForceUpdateFiles();
-        }
-        #endif
     }
 }
