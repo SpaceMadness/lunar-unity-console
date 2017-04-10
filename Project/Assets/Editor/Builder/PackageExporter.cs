@@ -29,10 +29,50 @@ using System.IO;
 
 namespace LunarConsoleEditorInternal
 {
+    delegate void AssetProcessor(string assetPath);
+
     static class PackageExporter
     {
         private static readonly string kArgumentAssetList = "assets";
         private static readonly string kArgumentOutputFile = "output";
+
+        private static readonly IDictionary<string, AssetProcessor> assetProcessorLookup;
+
+        static PackageExporter()
+        {
+            assetProcessorLookup = new Dictionary<string, AssetProcessor>();
+            assetProcessorLookup[".png"] = delegate(string assetPath)
+            {
+                var importer = (TextureImporter) TextureImporter.GetAtPath(assetPath);
+                importer.textureType = TextureImporterType.Default;
+                importer.mipmapEnabled = false;
+                importer.filterMode = FilterMode.Point;
+                importer.npotScale = TextureImporterNPOTScale.None;
+                importer.textureCompression = TextureImporterCompression.Uncompressed;
+                importer.alphaSource = TextureImporterAlphaSource.None;
+                importer.SaveAndReimport();
+            };
+            assetProcessorLookup[".h"] =
+            assetProcessorLookup[".m"] =
+            assetProcessorLookup[".mm"] = delegate(string assetPath)
+            {
+                var importer = (PluginImporter) PluginImporter.GetAtPath(assetPath);
+                importer.SetCompatibleWithEditor(false);
+                importer.SetCompatibleWithPlatform(BuildTarget.iOS, false);
+                importer.SetCompatibleWithPlatform(BuildTarget.Android, false);
+                importer.SetCompatibleWithPlatform(BuildTarget.WebGL, false);
+                importer.SaveAndReimport();
+            };
+            assetProcessorLookup[".aar"] = delegate(string assetPath)
+            {
+                var importer = (PluginImporter) PluginImporter.GetAtPath(assetPath);
+                importer.SetCompatibleWithEditor(false);
+                importer.SetCompatibleWithPlatform(BuildTarget.Android, true);
+                importer.SetCompatibleWithPlatform(BuildTarget.iOS, false);
+                importer.SetCompatibleWithPlatform(BuildTarget.WebGL, false);
+                importer.SaveAndReimport();
+            };
+        }
 
         private static void ExportUnityPackage()
         {
@@ -57,6 +97,13 @@ namespace LunarConsoleEditorInternal
                 if (!File.Exists(assetPath) && !Directory.Exists(assetPath))
                 {
                     throw new IOException("Asset does not exist: " + asset);
+                }
+
+                var extension = Path.GetExtension(asset);
+                AssetProcessor processor;
+                if (extension != null && assetProcessorLookup.TryGetValue(extension, out processor))
+                {
+                    processor(asset);
                 }
             }
 
