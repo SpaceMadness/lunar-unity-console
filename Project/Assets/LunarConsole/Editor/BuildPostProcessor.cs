@@ -99,7 +99,7 @@ namespace LunarConsoleEditorInternal
             foreach (var file in mod.files)
             {
                 var filename = Path.GetFileName(file);
-                var fileGuid = project.AddFile(MakeRelativePath(dirProject, sourceDir + "/" + file), targetGroup + "/" + filename, PBXSourceTree.Source);
+                var fileGuid = project.AddFile(FileUtils.FixPath(FileUtils.MakeRelativePath(dirProject, sourceDir + "/" + file)), targetGroup + "/" + filename, PBXSourceTree.Source);
                 if (filename.EndsWith(".h"))
                 {
                     continue;
@@ -112,17 +112,6 @@ namespace LunarConsoleEditorInternal
                 project.AddFrameworkToProject(targetGuid, framework, false);
             }
         }
-
-        #pragma warning disable 0612
-        #pragma warning disable 0618
-
-        static string MakeRelativePath(string parentPath, string filePath)
-        {
-            return Uri.UnescapeDataString(new Uri(parentPath, false).MakeRelative(new Uri(filePath)));
-        }
-
-        #pragma warning restore 0612
-        #pragma warning restore 0618
     }
 
     #pragma warning disable 0649

@@ -23,6 +23,7 @@ using UnityEngine;
 using UnityEditor;
 
 using LunarConsolePlugin;
+using LunarConsolePluginInternal;
 
 using System.IO;
 using System.Collections;
@@ -34,6 +35,7 @@ namespace LunarConsoleEditorInternal
     {
         static Autorun()
         {
+            AndroidPlugin.SetEnabled(LunarConsoleConfig.consoleEnabled);
             Updater.TryCheckForUpdates();
             LunarConsoleEditorAnalytics.TrackPluginVersionUpdate();
         }
