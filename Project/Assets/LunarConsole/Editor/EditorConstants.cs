@@ -34,8 +34,6 @@ namespace LunarConsoleEditorInternal
     {
         private static string pluginRootDirectory;
 
-        public static readonly string LegacyAndroidPluginPath = "Assets/Plugins/Android/LunarConsole";
-
         public static string PrefabPath
         {
             get

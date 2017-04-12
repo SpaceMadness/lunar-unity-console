@@ -33,11 +33,33 @@ namespace LunarConsoleEditorInternal
     [InitializeOnLoad]
     static class Autorun
     {
+        private static readonly string[] kLegacyAssets =
+        {
+            "Assets/Plugins/Android/LunarConsole",
+            "Assets/LunarConsole/Editor/Android/AndroidManifest.xml",
+            "Assets/LunarConsole/Editor/Android/libs",
+            "Assets/LunarConsole/Editor/Android/project.properties",
+            "Assets/LunarConsole/Editor/Android/res",
+        };
+
         static Autorun()
         {
             AndroidPlugin.SetEnabled(LunarConsoleConfig.consoleEnabled);
+            CleanLegacyFiles(); // automatically fix old installations
+
             Updater.TryCheckForUpdates();
             LunarConsoleEditorAnalytics.TrackPluginVersionUpdate();
+        }
+
+        static void CleanLegacyFiles()
+        {
+            foreach (var assetPath in kLegacyAssets)
+            {
+                if (AssetDatabase.DeleteAsset(assetPath))
+                {
+                    Debug.LogWarning("Deleted legacy asset: " + assetPath);
+                }
+            }
         }
     }
 }
