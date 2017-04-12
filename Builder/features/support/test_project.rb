@@ -1,6 +1,6 @@
 require_relative '../../common'
 require_relative '../../unity_project'
-require_relative '../../apk_info'
+require_relative '../../android_archive'
 
 class TestProject
 
@@ -61,22 +61,27 @@ class TestProject
 
     # list classes from apk
     file_apk = resolve_path Dir["#{@unity_project.dir_project}/Build/Android/*.apk"].first
-    apk = ApkInfo.new file_apk
-    apk_classes = apk.list_classes
+    apk = AndroidArchive.new file_apk
+    apk_classes = apk.list_classes &-> (name) {
+      return name.start_with?('spacemadness/')
+    }
 
     # list resource from apk
     apk_resources = apk.list_resources &-> (name) {
-      return name.start_with?('res/')
+      return name.include? 'lunar_console_'
     }
 
     # list classes from jars included in plugin
-    dir_plugin = resolve_path "#{@unity_project.dir_project}/Assets/LunarConsole/Editor/Android"
-    plugin_classes = list_android_plugin_classes resolve_path("#{dir_plugin}/libs")
+    file_aar = resolve_path "#{@unity_project.dir_project}/Assets/LunarConsole/Editor/Android/lunar-console.aar"
+    aar = AndroidArchive.new file_aar
+    plugin_classes = aar.list_classes &-> (name) {
+      return name.start_with?('spacemadness/')
+    }
 
     # list resources included in plugin
-    plugin_resources = list_android_plugin_resources resolve_path("#{dir_plugin}/res")
-    plugin_resources.delete 'res/values/values.xml' # for some reason this file does not appear in the apk
-    plugin_resources.delete 'res/values-v14/values-v14.xml' # for some reason this file does not appear in the apk
+    plugin_resources = aar.list_resources &-> (name) {
+      return name.include? 'lunar_console_'
+    }
 
     # check classes
     no_classes = true

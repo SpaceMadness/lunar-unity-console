@@ -1404,10 +1404,8 @@ namespace LunarConsolePluginInternal
 
             File.WriteAllText(pluginFile, newSourceCode);
 
-            // TODO: write a better implementation
-            string assetsPath = Directory.GetParent(Application.dataPath).FullName;
-            string relativePath = pluginFile.Substring(assetsPath.Length + 1);
-            AssetDatabase.ImportAsset(relativePath);
+            // re-import asset to apply changes
+            AssetDatabase.ImportAsset(FileUtils.GetAssetPath(pluginFile));
         }
 
         static string ResolvePluginFile()
@@ -1420,11 +1418,12 @@ namespace LunarConsolePluginInternal
                     return currentFile;
                 }
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Log.e(e, "Exception while resolving plugin files location");
             }
 
-            return File.Exists(Constants.PluginScriptPath) ? Constants.PluginScriptPath : null;
+            return null;
         }
 
         static void PrintError(bool flag, string message)
