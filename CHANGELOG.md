@@ -1,5 +1,12 @@
 # Lunar Console Changelog
 
+## v.1.3.0 - 4/12/2017
+
+**Changes:**
+
+* **Android**: Replaced legacy plugin installation 'Assets\Plugins\Android\LunarConsole' with a single 'aar' file.
+* **iOS**: Removed texture compression for plugin images to decrease build and platform switching time.
+
 ## v.1.2.2 - 4/4/2017
 
 **Fixes:**
