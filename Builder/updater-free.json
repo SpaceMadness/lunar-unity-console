@@ -1,6 +1,6 @@
 {
   "status": "OK",
-  "version": "1.2.0",
-  "message": "Fixes:\n* Android: Fixed Unity 5.6 incompatibility bugs.",
+  "version": "1.3.0",
+  "message": "Changes:\n* Android: Replaced legacy plugin installation 'Assets\\Plugins\\Android\\LunarConsole' with a single 'aar' file.\n* iOS: Removed texture compression for plugin images to decrease build and platform switching time.",
   "url": "https://www.assetstore.unity3d.com/en/#!/content/82881"
 }
