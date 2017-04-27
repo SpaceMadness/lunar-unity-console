@@ -22,7 +22,7 @@
 #define LUNAR_CONSOLE_ENABLED
 #define LUNAR_CONSOLE_FULL
 
-#if UNITY_IOS || UNITY_IPHONE || UNITY_ANDROID
+#if UNITY_IOS || UNITY_IPHONE || UNITY_ANDROID || UNITY_EDITOR
 #define LUNAR_CONSOLE_PLATFORM_SUPPORTED
 #endif
 
@@ -197,7 +197,9 @@ namespace LunarConsolePlugin
 
         static bool IsPlatformSupported()
         {
-            #if UNITY_IOS || UNITY_IPHONE
+            #if UNITY_EDITOR
+            return true;
+            #elif UNITY_IOS || UNITY_IPHONE
             return Application.platform == RuntimePlatform.IPhonePlayer;
             #elif UNITY_ANDROID
             return Application.platform == RuntimePlatform.Android;
@@ -276,7 +278,11 @@ namespace LunarConsolePlugin
             }
             #endif
 
+            #if UNITY_EDITOR
+            return new PlatformEditor();
+            #else
             return null;
+            #endif
         }
 
         void DestroyInstance()
@@ -784,6 +790,51 @@ namespace LunarConsolePlugin
                 this.message = message;
                 this.stackTrace = stackTrace;
                 this.type = type;
+            }
+        }
+
+        #endif // UNITY_ANDROID
+
+        #if UNITY_EDITOR
+
+        class PlatformEditor : IPlatform
+        {
+            public void Update()
+            {
+            }
+
+            public void OnLogMessageReceived(string message, string stackTrace, LogType type)
+            {
+            }
+
+            public bool ShowConsole()
+            {
+                return false;
+            }
+
+            public bool HideConsole()
+            {
+                return false;
+            }
+
+            public void ClearConsole()
+            {
+            }
+
+            public void Destroy()
+            {
+            }
+
+            public void OnActionRegistered(CRegistry registry, CAction action)
+            {
+            }
+
+            public void OnActionUnregistered(CRegistry registry, CAction action)
+            {
+            }
+
+            public void OnVariableRegistered(CRegistry registry, CVar cvar)
+            {
             }
         }
 
@@ -1300,6 +1351,16 @@ namespace LunarConsolePlugin
         }
 
         #endif // LUNAR_CONSOLE_ENABLED
+
+        public static LunarConsole instance
+        {
+            get { return s_instance; }
+        }
+
+        public CRegistry registry
+        {
+            get { return m_registry; }
+        }
 
         #endregion
     }
