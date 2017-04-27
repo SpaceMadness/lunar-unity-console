@@ -51,15 +51,49 @@ namespace LunarConsoleEditorInternal
             {
                 m_filterText = GUILayout.TextField(m_filterText);
                 m_scrollPosition = GUILayout.BeginScrollView(m_scrollPosition);
-                foreach (var action in registry.actions)
                 {
-                    if (GUILayout.Button(action.Name))
+                    GUILayout.Label("Actions");
+                    foreach (var action in registry.actions)
                     {
+                        OnActionGUI(action);
+                    }
+
+                    GUILayout.Label("Variables");
+                    foreach (var cvar in registry.cvars)
+                    {
+                        OnVariableGUI(cvar);
                     }
                 }
                 GUILayout.EndScrollView();
             }
             GUILayout.EndVertical();
+        }
+
+        void OnActionGUI(CAction action)
+        {
+            GUILayout.Label(action.Name);
+        }
+
+        void OnVariableGUI(CVar cvar)
+        {
+            switch (cvar.Type)
+            {
+                case CVarType.Boolean:
+                    cvar.BoolValue = EditorGUILayout.Toggle(cvar.Name, cvar.BoolValue);
+                    break;
+                case CVarType.Float:
+                    cvar.FloatValue = EditorGUILayout.FloatField(cvar.Name, cvar.FloatValue);
+                    break;
+                case CVarType.Integer:
+                    cvar.IntValue = EditorGUILayout.IntField(cvar.Name, cvar.IntValue);
+                    break;
+                case CVarType.String:
+                    cvar.Value = EditorGUILayout.TextField(cvar.Name, cvar.Value);
+                    break;
+                default:
+                    EditorGUILayout.LabelField(cvar.Name, cvar.Value);
+                    break;
+            }
         }
 
         public static void ShowWindow()
