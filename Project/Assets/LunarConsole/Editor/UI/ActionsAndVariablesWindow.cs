@@ -71,7 +71,10 @@ namespace LunarConsoleEditorInternal
 
         void OnActionGUI(CAction action)
         {
-            GUILayout.Label(action.Name);
+            if (GUILayout.Button(action.Name))
+            {
+                action.Execute();
+            }
         }
 
         void OnVariableGUI(CVar cvar)

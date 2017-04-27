@@ -1404,7 +1404,9 @@ namespace LunarConsolePluginInternal
             {
                 if (consoleSupported && consoleEnabled)
                 {
-                    #if UNITY_IOS || UNITY_IPHONE
+                    #if UNITY_EDITOR
+                    return true;
+                    #elif UNITY_IOS || UNITY_IPHONE
                     return Application.platform == RuntimePlatform.IPhonePlayer;
                     #elif UNITY_ANDROID
                     return Application.platform == RuntimePlatform.Android;
