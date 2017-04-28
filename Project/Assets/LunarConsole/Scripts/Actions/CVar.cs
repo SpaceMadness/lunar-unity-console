@@ -411,6 +411,18 @@ namespace LunarConsolePlugin
             return m_lookupById.TryGetValue(id, out variable) ? variable : null;
         }
 
+        public CVar Find(string name)
+        {
+            foreach (var cvar in m_variables)
+            {
+                if (cvar.Name == name)
+                {
+                    return cvar;
+                }
+            }
+            return null;
+        }
+
         public void Clear()
         {
             m_variables.Clear();
@@ -434,6 +446,11 @@ namespace LunarConsolePlugin
         }
 
         #endregion
+
+        public int Count
+        {
+            get { return m_variables.Count; }
+        }
     }
 
     [AttributeUsage (AttributeTargets.Field, Inherited = true, AllowMultiple = false)]

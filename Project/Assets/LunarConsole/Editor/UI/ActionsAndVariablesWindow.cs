@@ -129,6 +129,7 @@ namespace LunarConsoleEditorInternal
 
         static void OnVariableFieldGUI(CVar cvar)
         {
+            EditorGUI.BeginChangeCheck();
             switch (cvar.Type)
             {
                 case CVarType.Boolean:
@@ -146,6 +147,11 @@ namespace LunarConsoleEditorInternal
                 default:
                     EditorGUILayout.LabelField(cvar.Name, cvar.Value);
                     break;
+            }
+            var changed = EditorGUI.EndChangeCheck();
+            if (changed)
+            {
+                LunarConsole.instance.MarkVariablesDirty();
             }
         }
 
