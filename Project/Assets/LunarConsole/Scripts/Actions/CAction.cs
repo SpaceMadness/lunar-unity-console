@@ -59,7 +59,7 @@ namespace LunarConsolePluginInternal
             m_actionDelegate = actionDelegate;
         }
 
-        internal bool Execute()
+        public bool Execute()
         {
             try
             {

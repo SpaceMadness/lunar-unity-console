@@ -36,9 +36,16 @@ namespace LunarConsoleEditorInternal
             Installer.Install(silent);
         }
 
-        [MenuItem("Window/Lunar Mobile Console/")]
-        static void Separator()
+        [MenuItem("Window/Lunar Mobile Console/Actions and Variables", true)]
+        static bool ShowActionsAndWariablesFunc()
         {
+            return LunarConsoleConfig.fullVersion && LunarConsoleConfig.consoleEnabled;
+        }
+
+        [MenuItem("Window/Lunar Mobile Console/Actions and Variables")]
+        static void ShowActionsAndWariables()
+        {
+            ActionsAndVariablesWindow.ShowWindow();
         }
 
         [MenuItem("Window/Lunar Mobile Console/Check for updates...")]

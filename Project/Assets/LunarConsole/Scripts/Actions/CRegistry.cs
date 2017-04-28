@@ -179,6 +179,11 @@ namespace LunarConsolePluginInternal
             return m_vars.Find(variableId);
         }
 
+        public CVar FindVariable(string variableName)
+        {
+            return m_vars.Find(variableName);
+        }
+
         #endregion
 
         #region Destroyable
