@@ -18,6 +18,7 @@ namespace LunarConsoleEditorInternal
         GUIStyle m_filterTextStyle;
         GUIStyle m_filterButtonStyle;
         GUIStyle m_headerLabelStyle;
+        GUIStyle m_resetButtonStyle;
 
         public ActionsAndVariablesWindow()
         {
@@ -55,10 +56,15 @@ namespace LunarConsoleEditorInternal
             {
                 GUILayout.BeginHorizontal();
                 {
+                    var oldFilterText = m_filterText;
                     m_filterText = GUILayout.TextField(m_filterText, filterTextStyle);
                     if (GUILayout.Button(GUIContent.none, filterButtonStyle))
                     {
                         m_filterText = "";
+                    }
+                    if (oldFilterText != m_filterText)
+                    {
+                        EditorPrefs.SetString(PrefsKeyFilterText, m_filterText);
                     }
                 }
                 GUILayout.EndHorizontal();
@@ -99,6 +105,29 @@ namespace LunarConsoleEditorInternal
         }
 
         void OnVariableGUI(CVar cvar)
+        {
+            if (cvar.IsDefault)
+            {
+                OnVariableFieldGUI(cvar);
+            }
+            else
+            {
+                GUILayout.BeginHorizontal();
+                {
+                    OnVariableFieldGUI(cvar);
+
+                    GUI.SetNextControlName("Reset Button");
+                    if (GUILayout.Button("Reset", resetButtonStyle, GUILayout.Width(40)))
+                    {
+                        cvar.Value = cvar.DefaultValue;
+                        GUI.FocusControl("Reset Button");
+                    }
+                }
+                GUILayout.EndHorizontal();
+            }
+        }
+
+        static void OnVariableFieldGUI(CVar cvar)
         {
             switch (cvar.Type)
             {
@@ -158,6 +187,18 @@ namespace LunarConsoleEditorInternal
                     m_headerLabelStyle = new GUIStyle("HeaderLabel");
                 }
                 return m_headerLabelStyle;
+            }
+        }
+
+        private GUIStyle resetButtonStyle
+        {
+            get
+            {
+                if (m_resetButtonStyle == null)
+                {
+                    m_resetButtonStyle = new GUIStyle("minibutton");
+                }
+                return m_resetButtonStyle;
             }
         }
     }

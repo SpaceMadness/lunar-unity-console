@@ -254,8 +254,8 @@ namespace LunarConsolePlugin
                 bool changed = m_value.stringValue != value;
 
                 m_value.stringValue = value;
-                m_value.intValue = 0;
-                m_value.floatValue = 0.0f;
+                m_value.floatValue = IsInt || IsFloat ? StringUtils.ParseFloat(value, 0.0f) : 0.0f;
+                m_value.intValue = IsInt || IsFloat ? (int)FloatValue : 0;
 
                 if (changed)
                 {
