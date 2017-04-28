@@ -1,5 +1,11 @@
 # Lunar Console Changelog
 
+## v.1.4.0 - 4/27/2017
+
+**New:**
+
+* Added 'Actions & Variables' window
+
 ## v.1.3.0 - 4/12/2017
 
 **Changes:**
