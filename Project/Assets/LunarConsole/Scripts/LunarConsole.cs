@@ -434,6 +434,7 @@ namespace LunarConsolePlugin
                                 }
 
                                 cvar.Value = value;
+                                m_platform.OnVariableRegistered(m_registry, cvar);
                             }
                         }
                     }
