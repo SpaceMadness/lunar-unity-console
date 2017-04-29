@@ -157,7 +157,14 @@ namespace LunarConsoleEditorInternal
                     cvar.BoolValue = EditorGUILayout.Toggle(cvar.Name, cvar.BoolValue);
                     break;
                 case CVarType.Float:
-                    cvar.FloatValue = EditorGUILayout.FloatField(cvar.Name, cvar.FloatValue);
+                    if (cvar.HasRange)
+                    {
+                        cvar.FloatValue = EditorGUILayout.Slider(cvar.Name, cvar.FloatValue, cvar.Range.min, cvar.Range.max);
+                    }
+                    else
+                    {
+                        cvar.FloatValue = EditorGUILayout.FloatField(cvar.Name, cvar.FloatValue);
+                    }
                     break;
                 case CVarType.Integer:
                     cvar.IntValue = EditorGUILayout.IntField(cvar.Name, cvar.IntValue);
