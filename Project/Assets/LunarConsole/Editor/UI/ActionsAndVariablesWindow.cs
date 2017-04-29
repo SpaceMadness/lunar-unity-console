@@ -43,7 +43,11 @@ namespace LunarConsoleEditorInternal
 
         public ActionsAndVariablesWindow()
         {
+            #if UNITY_5_0
+            this.title = "Actions & Vars";
+            #else
             this.titleContent = new GUIContent("Actions & Vars");
+            #endif
         }
 
         void OnEnable()
