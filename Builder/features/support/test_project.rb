@@ -186,7 +186,7 @@ class TestProject
 
   def build_ios_app
     file_xcodeproj = resolve_path "#{@unity_project.dir_project}/Build/iOS/Unity-iPhone.xcodeproj"
-    exec_shell %(xcodebuild -project "#{file_xcodeproj}" -target Unity-iPhone -configuration Debug DEVELOPMENT_TEAM=QKXHZM7Z5V), "Can't build iOS app"
+    exec_shell %(xcodebuild -project "#{file_xcodeproj}" -target Unity-iPhone -configuration Debug), "Can't build iOS app"
   end
 
   def dir_project
