@@ -30,7 +30,6 @@ using UnityEngine;
 
 #if UNITY_EDITOR
 using UnityEditor;
-using System.IO;
 using System.Runtime.CompilerServices;
 #endif
 
@@ -41,6 +40,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Text;
+using System.IO;
 
 using LunarConsolePlugin;
 using LunarConsolePluginInternal;
@@ -434,6 +434,7 @@ namespace LunarConsolePlugin
                                 }
 
                                 cvar.Value = value;
+                                m_platform.OnVariableRegistered(m_registry, cvar);
                             }
                         }
                     }
