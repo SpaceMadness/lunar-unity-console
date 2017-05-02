@@ -62,12 +62,21 @@ namespace LunarConsolePluginInternal
 
         public static string GetFullAssetPath(string path)
         {
-            return Path.Combine(projectDir, path);
+            return FixPath(Path.Combine(projectDir, path));
+        }
+
+        public static string FixAssetPath(string path)
+        {
+            return path.Replace('\\', '/');
         }
 
         public static string FixPath(string path)
         {
+            #if UNITY_EDITOR_WIN
+            return path.Replace('/', '\\');
+            #else
             return path.Replace('\\', '/');
+            #endif
         }
 
         #pragma warning disable 0612
