@@ -32,7 +32,7 @@ namespace LunarConsoleEditorInternal
     {
         public static void SetEnabled(bool enabled)
         {
-            var androidPathAAR = EditorConstants.EditorPathAndroidAAR;
+            var androidPathAAR = FileUtils.FixAssetPath(EditorConstants.EditorPathAndroidAAR);
             if (androidPathAAR == null || !FileUtils.AssetPathExists(androidPathAAR))
             {
                 Debug.LogErrorFormat("Can't {0} Android plugin: missing required file '{1}'. Re-install {2} to fix the issue.", 
