@@ -1,10 +1,16 @@
 # Lunar Console Changelog
 
+## v.1.4.1 - 5/2/2017
+
+**Fixes:**
+
+* **Android:** Fixed build issue on Windows Editor.
+
 ## v.1.4.0 - 4/27/2017
 
 **New:**
 
-* Added 'Actions & Variables' window
+* Added 'Actions & Variables' window.
 
 ## v.1.3.0 - 4/12/2017
 
