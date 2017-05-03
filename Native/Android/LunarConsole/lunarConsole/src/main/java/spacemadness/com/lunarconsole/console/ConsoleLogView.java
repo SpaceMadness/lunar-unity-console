@@ -86,6 +86,7 @@ public class ConsoleLogView extends AbstractConsoleView implements
     private boolean scrollLocked;
 
     private OnMoveSizeListener onMoveSizeListener;
+    private String[] emails;
 
     public ConsoleLogView(Activity activity, final Console console)
     {
@@ -279,6 +280,10 @@ public class ConsoleLogView extends AbstractConsoleView implements
             intent.setData(Uri.parse("mailto:")); // only email apps should handle this
             intent.putExtra(Intent.EXTRA_SUBJECT, subject);
             intent.putExtra(Intent.EXTRA_TEXT, outputText);
+            if (emails != null && emails.length > 0)
+            {
+                intent.putExtra(Intent.EXTRA_EMAIL, emails);
+            }
 
             if (intent.resolveActivity(getContext().getPackageManager()) != null)
             {
@@ -675,6 +680,11 @@ public class ConsoleLogView extends AbstractConsoleView implements
     public void setOnMoveSizeListener(OnMoveSizeListener onMoveSizeListener)
     {
         this.onMoveSizeListener = onMoveSizeListener;
+    }
+
+    public void setEmails(String[] emails)
+    {
+        this.emails = emails;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

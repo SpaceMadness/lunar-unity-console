@@ -68,6 +68,7 @@ public class ConsolePlugin implements Destroyable
     private final String version;
     private final PluginSettings settings;
     private final ConsoleViewState consoleViewState;
+    private final String[] emails;
 
     // Dialog for holding console related UI (starting Unity 5.6b we can use overlay views)
     private OverlayDialog overlayDialog;
@@ -624,6 +625,7 @@ public class ConsolePlugin implements Destroyable
 
         this.version = unitySettings.version;
         this.pluginImp = unitySettings.pluginImp;
+        this.emails = unitySettings.editorSettings.emails;
 
         consoleViewState = new ConsoleViewState(activity.getApplicationContext());
 
@@ -1183,6 +1185,11 @@ public class ConsolePlugin implements Destroyable
     private Activity getActivity()
     {
         return activityRef.get();
+    }
+
+    public String[] getEmails()
+    {
+        return emails;
     }
 
     //endregion
