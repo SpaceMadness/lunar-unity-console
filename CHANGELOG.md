@@ -1,5 +1,11 @@
 # Lunar Console Changelog
 
+## v.1.4.2 - TBA
+
+**New:**
+
+* Default e-mail configuration.
+
 ## v.1.4.1 - 5/2/2017
 
 **Fixes:**
