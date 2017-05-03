@@ -43,6 +43,7 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
     LUUnityScriptMessenger  * _scriptMessenger;
     UIGestureRecognizer     * _gestureRecognizer;
     LUConsoleGesture          _gesture;
+    NSArray<NSString *>     * _emails;
 }
 
 @end
@@ -82,6 +83,7 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
         _actionRegistry.variableSortingEnabled = editorSettings.variableSortingEnabled;
         
         _gesture = [self gestureFromString:gestureName];
+        _emails = editorSettings.emails;
         
         _settings = [[LUConsolePluginSettings alloc] initWithFilename:kSettingsFilename];
         _settings.enableExceptionWarning = editorSettings.isExceptionWarningEnabled;
@@ -135,6 +137,7 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
     if (_consoleWindow == nil)
     {
         LUConsoleController *controller = [LUConsoleController controllerWithPlugin:self];
+        controller.emails = _emails;
         controller.delegate = self;
         
         CGRect windowFrame = LUGetScreenBounds();

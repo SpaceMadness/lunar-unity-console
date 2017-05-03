@@ -79,6 +79,9 @@ namespace LunarConsolePlugin
         [HideInInspector]
         #endif
         public bool sortVariables = true;
+
+        [SerializeField]
+        public string[] emails;
     }
 
     public sealed class LunarConsole : MonoBehaviour

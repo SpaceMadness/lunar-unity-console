@@ -21,6 +21,8 @@
 
 package spacemadness.com.lunarconsole.console;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 public class EditorSettings
@@ -29,6 +31,7 @@ public class EditorSettings
     public boolean enableTransparentLogOverlay = false;
     public boolean sortActions = true;
     public boolean sortVariables = true;
+    public String[] emails;
 
     public EditorSettings()
     {
@@ -45,11 +48,26 @@ public class EditorSettings
             settings.enableTransparentLogOverlay = json.getBoolean("transparentLogOverlay");
             settings.sortActions = json.getBoolean("sortActions");
             settings.sortVariables = json.getBoolean("sortVariables");
+            JSONArray emails = json.optJSONArray("emails");
+            if (emails != null && emails.length() > 0)
+            {
+                settings.emails = toArray(emails);
+            }
             return settings;
         }
         catch (Exception e)
         {
             throw new EditorSettingsException("Invalid settings json: " + jsonString, e);
         }
+    }
+
+    private static String[] toArray(JSONArray jsonArray) throws JSONException
+    {
+        String[] array = new String[jsonArray.length()];
+        for (int i = 0; i < array.length; ++i)
+        {
+            array[i] = jsonArray.getString(i);
+        }
+        return array;
     }
 }

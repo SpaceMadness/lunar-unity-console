@@ -40,7 +40,20 @@ class ViewController: LUViewController {
         
         actionOverlaySwitch.setTestAccessibilityIdentifier("Action Overlay Switch")
         
-        let settingsJson = "{\"exceptionWarning\":\"true\",\"transparentLogOverlay\":\"true\",\"sortActions\":\"true\",\"sortVariables\":\"true\"}"
+        let settings = [
+            "exceptionWarning":true,
+            "transparentLogOverlay":true,
+            "sortActions":true,
+            "sortVariables":true,
+            "emails":["lunar.plugin@gmail.com","a.lementuev@gmail.com"]
+        ] as [String : Any]
+        var settingsJson = "{}"
+        do {
+            let jsonData = try JSONSerialization.data(withJSONObject: settings, options: .prettyPrinted)
+            settingsJson = String(data: jsonData, encoding: String.Encoding.utf8)!
+        } catch {
+            print(error.localizedDescription)
+        }
         
         plugin = LUConsolePlugin(targetName: "LunarConsole", methodName: "OnNativeMessage", version: "0.0.0", capacity: kConsoleCapacity, trimCount: kConsoleTrimCount, gestureName: "SwipeDown", settingsJson:settingsJson)
         plugin.delegate = self

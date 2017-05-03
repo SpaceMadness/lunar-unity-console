@@ -107,11 +107,13 @@ public class MainActivity extends Activity
                 {
                     ConsolePlugin.shutdown(); // kill any previous instance
                 }
+
                 String settingsJson = "{" +
                         "\"exceptionWarning\":\"false\"," +
                         "\"transparentLogOverlay\":\"false\"," +
                         "\"sortActions\":\"true\"," +
-                        "\"sortVariables\":\"true\"" +
+                        "\"sortVariables\":\"true\"," +
+                        "\"emails\":[\"lunar.plugin@gmail.com\",\"a.lementuev@gmail.com\"]" +
                         "}";
                 ConsolePlugin.init(MainActivity.this, "0.0.0", capacity, trim, "SwipeDown", settingsJson);
 
