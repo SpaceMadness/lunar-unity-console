@@ -256,6 +256,10 @@ static const CGFloat kMinWidthToResizeSearchBar = 480;
     [controller setMailComposeDelegate:self];
     [controller setSubject:[NSString stringWithFormat:@"%@ console log", bundleName]];
     [controller setMessageBody:text isHTML:NO];
+    if (_emails.count > 0)
+    {
+        [controller setToRecipients:_emails];
+    }
     if (controller)
     {
         [self presentViewController:controller animated:YES completion:nil];

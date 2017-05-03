@@ -45,6 +45,7 @@
         _transparentLogOverlayEnabled = [[settings objectForKey:@"transparentLogOverlay"] boolValue];
         _actionSortingEnabled = [[settings objectForKey:@"sortActions"] boolValue];
         _variableSortingEnabled = [[settings objectForKey:@"sortVariables"] boolValue];
+        _emails = [settings objectForKey:@"emails"];
     }
     return self;
 }

@@ -93,6 +93,7 @@ NSString * const LUConsoleControllerDidResizeNotification = @"LUConsoleControlle
     
     LUConsoleLogController *logController = [LUConsoleLogController controllerWithPlugin:_plugin];
     logController.version = _plugin.version;
+    logController.emails = _emails;
     logController.resizeDelegate = self;
     
     LUActionController *actionController = [LUActionController controllerWithActionRegistry:_plugin.actionRegistry];

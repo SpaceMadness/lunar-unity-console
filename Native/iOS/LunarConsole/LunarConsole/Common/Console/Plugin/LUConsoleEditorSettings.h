@@ -27,6 +27,7 @@
 @property (nonatomic, readonly, getter=isTransparentLogOverlayEnabled) BOOL transparentLogOverlayEnabled;
 @property (nonatomic, readonly, getter=isActionSortingEnabled) BOOL actionSortingEnabled;
 @property (nonatomic, readonly, getter=isVariableSortingEnabled) BOOL variableSortingEnabled;
+@property (nonatomic, readonly) NSArray<NSString *> *emails;
 
 - (instancetype)init;
 - (instancetype)initWithDictionary:(NSDictionary *)settings;

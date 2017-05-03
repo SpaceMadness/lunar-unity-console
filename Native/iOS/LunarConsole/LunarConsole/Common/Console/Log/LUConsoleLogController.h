@@ -35,6 +35,7 @@
 @interface LUConsoleLogController : LUViewController
 
 @property (nonatomic, strong) NSString *version;
+@property (nonatomic, strong) NSArray<NSString *> *emails;
 @property (nonatomic, weak) id<LUConsoleLogControllerResizeDelegate> resizeDelegate;
 
 + (instancetype)controllerWithPlugin:(LUConsolePlugin *)plugin;
