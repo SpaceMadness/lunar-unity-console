@@ -1,6 +1,6 @@
 {
   "status": "OK",
-  "version": "1.4.0",
-  "message": "New:\n* Added 'Actions & Variables' window",
+  "version": "1.4.1",
+  "message": "Fixes:\n* Android: Fixed build issue on Windows Editor.",
   "url": "https://www.assetstore.unity3d.com/en/#!/content/43800"
 }
