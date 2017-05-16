@@ -1,6 +1,6 @@
 # Lunar Console Changelog
 
-## v.1.4.3 - TBA
+## v.1.4.3 - 5/16/2017
 
 **New:**
 
