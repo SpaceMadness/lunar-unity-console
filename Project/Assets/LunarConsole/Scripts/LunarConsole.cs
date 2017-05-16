@@ -26,6 +26,10 @@
 #define LUNAR_CONSOLE_PLATFORM_SUPPORTED
 #endif
 
+#if LUNAR_CONSOLE_ENABLED && !LUNAR_CONSOLE_ANALYTICS_DISABLED
+#define LUNAR_CONSOLE_ANALYTICS_ENABLED
+#endif
+
 using UnityEngine;
 
 #if UNITY_EDITOR
@@ -1137,6 +1141,7 @@ namespace LunarConsolePlugin
 
         void TrackEventHandler(IDictionary<string, string> data)
         {
+            #if LUNAR_CONSOLE_ANALYTICS_ENABLED
             string category;
             if (!data.TryGetValue("category", out category) || category.Length == 0)
             {
@@ -1163,13 +1168,16 @@ namespace LunarConsolePlugin
             }
 
             LunarConsoleAnalytics.TrackEvent(category, action, value);
+            #endif // LUNAR_CONSOLE_ANALYTICS_ENABLED
         }
 
         #region Analytics
 
         void TrackEvent(string category, string action, int value = LunarConsoleAnalytics.kUndefinedValue)
         {
+            #if LUNAR_CONSOLE_ANALYTICS_ENABLED
             StartCoroutine(LunarConsoleAnalytics.TrackEvent(category, action, value));
+            #endif // LUNAR_CONSOLE_ANALYTICS_ENABLED
         }
 
         #endregion
@@ -1604,7 +1612,7 @@ namespace LunarConsolePluginInternal
 
         public const int kUndefinedValue = int.MinValue;
 
-        #if LUNAR_CONSOLE_ENABLED
+        #if LUNAR_CONSOLE_ANALYTICS_ENABLED
 
         private static readonly string DefaultPayload;
 
@@ -1669,11 +1677,11 @@ namespace LunarConsolePluginInternal
             yield return www;
         }
 
-        #endif // LUNAR_CONSOLE_ENABLED
+        #endif // LUNAR_CONSOLE_ANALYTICS_ENABLED
 
         public static string CreatePayload(string category, string action, int value)
         {
-            #if LUNAR_CONSOLE_ENABLED
+            #if LUNAR_CONSOLE_ANALYTICS_ENABLED
             var payload = new StringBuilder(DefaultPayload);
             payload.AppendFormat("&ec={0}", WWW.EscapeURL(category));
             payload.AppendFormat("&ea={0}", WWW.EscapeURL(action));
@@ -1685,7 +1693,7 @@ namespace LunarConsolePluginInternal
             return payload.ToString();
             #else
             return null;
-            #endif // LUNAR_CONSOLE_ENABLED
+            #endif // LUNAR_CONSOLE_ANALYTICS_ENABLED
         }
     }
 }
