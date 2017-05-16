@@ -55,20 +55,23 @@ namespace LunarConsoleEditorInternal
             if (LunarConsoleConfig.consoleEnabled && LunarConsoleConfig.consoleSupported)
             {
                 var payloadStr = LunarConsoleAnalytics.CreatePayload(category, action, value);
-                Log.d("Event track payload: " + payloadStr);
-
-                LunarConsoleHttpClient downloader = new LunarConsoleHttpClient(LunarConsoleAnalytics.TrackingURL);
-                downloader.UploadData(payloadStr, delegate(string result, Exception error)
+                if (payloadStr != null)
                 {
-                    if (error != null)
+                    Log.d("Event track payload: " + payloadStr);
+
+                    LunarConsoleHttpClient downloader = new LunarConsoleHttpClient(LunarConsoleAnalytics.TrackingURL);
+                    downloader.UploadData(payloadStr, delegate(string result, Exception error)
                     {
-                        Log.e("Event track failed: " + error);
-                    }
-                    else
-                    {
-                        Log.d("Event track result: " + result);
-                    }
-                });
+                        if (error != null)
+                        {
+                            Log.e("Event track failed: " + error);
+                        }
+                        else
+                        {
+                            Log.d("Event track result: " + result);
+                        }
+                    });
+                }
             }
         }
     }

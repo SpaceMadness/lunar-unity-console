@@ -1,10 +1,16 @@
 # Lunar Console Changelog
 
-## v.1.4.2 - TBA
+## v.1.4.3 - TBA
 
 **New:**
 
 * Default e-mail configuration.
+
+## v.1.4.2 - 5/15/2017
+
+**Changes:**
+
+* Added `LUNAR_CONSOLE_ANALYTICS_DISABLED` preprocessor define to disable analytics.
 
 ## v.1.4.1 - 5/2/2017
 
