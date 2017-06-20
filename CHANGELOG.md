@@ -1,5 +1,11 @@
 # Lunar Console Changelog
 
+## v.1.4.4 - 6/19/2017
+
+**Fixes:**
+
+* **iOS:** Suppressed 'Stale touch detected!' warning.
+
 ## v.1.4.3 - 5/16/2017
 
 **New:**
