@@ -562,6 +562,12 @@ namespace LunarConsolePlugin
 
             public void OnLogMessageReceived(string message, string stackTrace, LogType type)
             {
+                // Suppress "stale touch" warning.
+                // See: https://github.com/SpaceMadness/lunar-unity-console/issues/70 
+                if (type == LogType.Error && message == "Stale touch detected!")
+                {
+                    return;
+                }
                 __lunar_console_log_message(message, stackTrace, (int)type);
             }
 
