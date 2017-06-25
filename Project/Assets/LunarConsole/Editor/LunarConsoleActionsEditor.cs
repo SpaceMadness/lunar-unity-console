@@ -165,12 +165,21 @@ namespace LunarConsoleEditorInternal
                             int newIndex = EditorGUILayout.Popup(oldIndex, functions.names);
                             if (oldIndex != newIndex)
                             {
-                                var typeName = functions.componentTypes[newIndex - 2].AssemblyQualifiedName;
-                                var methodName = functions.componentMethods[newIndex - 2].Name;
+                                if (newIndex >= 2)
+                                {
+                                    var typeName = functions.componentTypes[newIndex - 2].AssemblyQualifiedName;
+                                    var methodName = functions.componentMethods[newIndex - 2].Name;
 
-                                componentTypeProperty.stringValue = typeName;
-                                componentMethodProperty.stringValue = methodName;
-                                nameProperty.stringValue = newIndex >= 2 ? StringUtils.ToDisplayName(methodName) : "";
+                                    componentTypeProperty.stringValue = typeName;
+                                    componentMethodProperty.stringValue = methodName;
+                                    nameProperty.stringValue = StringUtils.ToDisplayName(methodName);
+                                }
+                                else
+                                {
+                                    componentTypeProperty.stringValue = null;
+                                    componentMethodProperty.stringValue = null;
+                                    nameProperty.stringValue = "";
+                                }
                             }
                         }
                         EditorGUILayout.EndHorizontal();
