@@ -1513,7 +1513,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.spacemadness.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LunarConsoleApp.app/LunarConsoleApp";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LunarConsoleAppFull.app/LunarConsoleAppFull";
 			};
 			name = Debug;
 		};
@@ -1531,7 +1531,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.spacemadness.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LunarConsoleApp.app/LunarConsoleApp";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LunarConsoleAppFull.app/LunarConsoleAppFull";
 			};
 			name = Release;
 		};
@@ -1549,10 +1549,11 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.blastworksinc.LunarConsoleAppUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "LunarConsoleAppUITests/LunarConsoleAppUITests-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
-				TEST_TARGET_NAME = LunarConsoleApp;
+				TEST_TARGET_NAME = LunarConsoleAppFull;
 				USES_XCTRUNNER = YES;
 			};
 			name = Debug;
@@ -1569,9 +1570,10 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.blastworksinc.LunarConsoleAppUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "LunarConsoleAppUITests/LunarConsoleAppUITests-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
-				TEST_TARGET_NAME = LunarConsoleApp;
+				TEST_TARGET_NAME = LunarConsoleAppFull;
 				USES_XCTRUNNER = YES;
 			};
 			name = Release;

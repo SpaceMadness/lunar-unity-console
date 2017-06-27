@@ -23,6 +23,10 @@
 
 #import "Lunar.h"
 
+void UnitySendMessage(const char *objectName, const char *methodName, const char *message)
+{
+}
+
 @implementation TestCase
 
 - (void)setUp
