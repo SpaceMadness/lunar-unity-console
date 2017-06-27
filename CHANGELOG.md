@@ -1,5 +1,12 @@
 # Lunar Console Changelog
 
+## v.1.4.5 - 6/26/2017
+
+**Fixes:**
+
+* **iOS:** Fixed NSRangeException in the log overlay controller.
+* Fixed editor actions bug.
+
 ## v.1.4.4 - 6/19/2017
 
 **Fixes:**
