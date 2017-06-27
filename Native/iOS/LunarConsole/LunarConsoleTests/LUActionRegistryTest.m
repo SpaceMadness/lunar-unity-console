@@ -22,6 +22,7 @@
 #import "TestCase.h"
 
 #import "Lunar.h"
+#import "Lunar-Full.h"
 
 @interface LUActionRegistryTest : TestCase <LUActionRegistryDelegate>
 {

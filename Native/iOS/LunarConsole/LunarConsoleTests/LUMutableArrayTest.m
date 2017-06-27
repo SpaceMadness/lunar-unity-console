@@ -144,6 +144,30 @@
     XCTAssert(array.isTrimmed);
     
     [self assertMutableArray:array, @"7", @"8", nil];
+    
+    [array addObject:@"9"];
+    XCTAssertEqual(3, array.count);
+    XCTAssertEqual(5, array.totalCount);
+    XCTAssertEqual(2, array.trimmedCount);
+    XCTAssert(array.isTrimmed);
+    
+    [self assertMutableArray:array, @"7", @"8", @"9", nil];
+    
+    [array addObject:@"10"];
+    XCTAssertEqual(2, array.count);
+    XCTAssertEqual(6, array.totalCount);
+    XCTAssertEqual(4, array.trimmedCount);
+    XCTAssert(array.isTrimmed);
+    
+    [self assertMutableArray:array, @"9", @"10", nil];
+    
+    [array addObject:@"11"];
+    XCTAssertEqual(3, array.count);
+    XCTAssertEqual(7, array.totalCount);
+    XCTAssertEqual(4, array.trimmedCount);
+    XCTAssert(array.isTrimmed);
+    
+    [self assertMutableArray:array, @"9", @"10", @"11", nil];
 }
 
 - (void)assertMutableArray:(LUMutableArray *)actual, ... NS_REQUIRES_NIL_TERMINATION

@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11542" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="GeT-2f-Yq5">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16B2659" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="GeT-2f-Yq5">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -13,7 +13,7 @@
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="LunarConsoleApp" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="LunarConsoleAppFree" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
@@ -132,6 +132,15 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m6g-Pq-R2c" userLabel="Clear Console">
+                                <rect key="frame" x="112.5" y="383" width="96" height="30"/>
+                                <state key="normal" title="Clear Console">
+                                    <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="onClearConsoleWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8S7-7E-ios"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
@@ -139,11 +148,13 @@
                             <constraint firstItem="LPa-0J-Gun" firstAttribute="centerY" secondItem="P6c-4t-lvy" secondAttribute="centerY" id="5S9-wg-1pK"/>
                             <constraint firstAttribute="leadingMargin" secondItem="zNG-Pl-iur" secondAttribute="leading" id="8Gl-Pt-4Y5"/>
                             <constraint firstItem="TwB-1j-1uD" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="AWv-yg-o09"/>
+                            <constraint firstItem="m6g-Pq-R2c" firstAttribute="centerX" secondItem="TwB-1j-1uD" secondAttribute="centerX" id="AfS-RP-RrQ"/>
                             <constraint firstAttribute="trailingMargin" secondItem="6wn-Mw-3aO" secondAttribute="trailing" id="D3I-8o-91C"/>
                             <constraint firstItem="6wn-Mw-3aO" firstAttribute="leading" secondItem="4Y1-hE-rHl" secondAttribute="trailing" constant="8" symbolic="YES" id="DP6-To-oXB"/>
                             <constraint firstItem="4Y1-hE-rHl" firstAttribute="leading" secondItem="LPa-0J-Gun" secondAttribute="leading" id="Ghk-D7-Q37"/>
                             <constraint firstItem="6FP-nf-7BK" firstAttribute="top" secondItem="zNG-Pl-iur" secondAttribute="bottom" constant="8" id="H78-iB-H3e"/>
                             <constraint firstItem="zNG-Pl-iur" firstAttribute="top" secondItem="4Y1-hE-rHl" secondAttribute="bottom" constant="8" symbolic="YES" id="HgD-d2-GfX"/>
+                            <constraint firstItem="m6g-Pq-R2c" firstAttribute="top" secondItem="TwB-1j-1uD" secondAttribute="bottom" constant="8" id="KSz-C7-bsl"/>
                             <constraint firstItem="fgb-vV-fT6" firstAttribute="centerX" secondItem="evW-4U-GLQ" secondAttribute="centerX" id="Kbb-av-69L"/>
                             <constraint firstItem="fgb-vV-fT6" firstAttribute="top" secondItem="evW-4U-GLQ" secondAttribute="bottom" constant="8" id="QBP-Gd-QnM"/>
                             <constraint firstItem="TwB-1j-1uD" firstAttribute="centerX" secondItem="fgb-vV-fT6" secondAttribute="centerX" id="Qxr-wO-HbL"/>

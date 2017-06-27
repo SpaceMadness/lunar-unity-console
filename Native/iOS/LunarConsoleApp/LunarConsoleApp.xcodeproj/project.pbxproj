@@ -188,7 +188,6 @@
 		844741F91B719DA500F5ABD3 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 844741F81B719DA500F5ABD3 /* Images.xcassets */; };
 		8447421C1B719F3A00F5ABD3 /* libLunarConsoleFull.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 844742171B719DB600F5ABD3 /* libLunarConsoleFull.a */; };
 		9BEC6F3D1F9B9B89C6781CD6 /* Pods_LunarConsoleAppFree.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E04BC23509F578BDFC1C6547 /* Pods_LunarConsoleAppFree.framework */; };
-		C93996763C98DE29EE74A563 /* Pods_LunarConsoleApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 196642A55653B48BF1B389F9 /* Pods_LunarConsoleApp.framework */; };
 		E6F740BE31A651A20991CAB6 /* Pods_LunarConsoleAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F1F69FE94F7692B28338C21 /* Pods_LunarConsoleAppUITests.framework */; };
 		EF0836B31B7ABD6D00DFB877 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 844741FA1B719DA500F5ABD3 /* LaunchScreen.xib */; };
 		EF0836B41B7ABD6D00DFB877 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 844741F51B719DA500F5ABD3 /* Main.storyboard */; };
@@ -410,7 +409,6 @@
 			files = (
 				EF21AE1B1BF536FE0053D50B /* MessageUI.framework in Frameworks */,
 				8447421C1B719F3A00F5ABD3 /* libLunarConsoleFull.a in Frameworks */,
-				C93996763C98DE29EE74A563 /* Pods_LunarConsoleApp.framework in Frameworks */,
 				5606C47D4C94359A3336A8B5 /* Pods_LunarConsoleAppFull.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1054,7 +1052,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		2BA9C0843954D1D452E7BE3E /* [CP] Copy Pods Resources */ = {
@@ -1084,7 +1082,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		4A94B3ABA98D80318B1A4B3B /* [CP] Copy Pods Resources */ = {
@@ -1114,7 +1112,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 		596B16D65996F1B59A229325 /* [CP] Copy Pods Resources */ = {
@@ -1204,7 +1202,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1513,7 +1511,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.spacemadness.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LunarConsoleApp.app/LunarConsoleApp";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LunarConsoleAppFull.app/LunarConsoleAppFull";
 			};
 			name = Debug;
 		};
@@ -1531,7 +1529,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.spacemadness.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LunarConsoleApp.app/LunarConsoleApp";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LunarConsoleAppFull.app/LunarConsoleAppFull";
 			};
 			name = Release;
 		};
@@ -1549,10 +1547,11 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.blastworksinc.LunarConsoleAppUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "LunarConsoleAppUITests/LunarConsoleAppUITests-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
-				TEST_TARGET_NAME = LunarConsoleApp;
+				TEST_TARGET_NAME = LunarConsoleAppFull;
 				USES_XCTRUNNER = YES;
 			};
 			name = Debug;
@@ -1569,9 +1568,10 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.blastworksinc.LunarConsoleAppUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "LunarConsoleAppUITests/LunarConsoleAppUITests-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
-				TEST_TARGET_NAME = LunarConsoleApp;
+				TEST_TARGET_NAME = LunarConsoleAppFull;
 				USES_XCTRUNNER = YES;
 			};
 			name = Release;
