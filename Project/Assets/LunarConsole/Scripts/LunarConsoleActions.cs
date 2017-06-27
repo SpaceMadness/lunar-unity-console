@@ -55,7 +55,19 @@ namespace LunarConsolePluginInternal
 
         public void Register()
         {
-            if (m_name != null && m_componentMethodName != null)
+            if (string.IsNullOrEmpty(m_name))
+            {
+                Log.w("Unable to register action: name is null or empty");
+            }
+            else if (m_target == null)
+            {
+                Log.w("Unable to register action '{0}': target GameObject is missing", m_name);
+            }
+            else if (string.IsNullOrEmpty(m_componentMethodName))
+            {
+                Log.w("Unable to register action '{0}' for '{1}': function is missing", m_name, m_target.name);
+            }
+            else
             {
                 LunarConsole.RegisterAction(m_name, Invoke);
             }
