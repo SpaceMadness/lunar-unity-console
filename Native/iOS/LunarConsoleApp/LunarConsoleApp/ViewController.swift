@@ -143,6 +143,10 @@ class ViewController: LUViewController {
         }
     }
     
+    @IBAction func onClearConsole(sender: AnyObject) {
+        plugin.clear()
+    }
+    
     // MARK: - Log Entries
     
     private func loadLogEntries() -> [FakeLogEntry] {

@@ -144,6 +144,12 @@
     [self lunarConsole:console didAddEntryAtIndex:index trimmedCount:trimmedCount];
 }
 
+- (void)lunarConsoleDidClearEntries:(LUConsole *)console
+{
+     [_entries removeAllObjects];
+     [self reloadData];
+}
+
 #pragma mark -
 #pragma mark Rows
 
