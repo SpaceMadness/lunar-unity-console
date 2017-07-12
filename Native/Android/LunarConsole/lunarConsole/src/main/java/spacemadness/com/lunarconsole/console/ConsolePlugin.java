@@ -945,8 +945,6 @@ public class ConsolePlugin implements Destroyable
             Log.d(WARNING_VIEW, "Hide warning");
 
             removeOverlayView(warningView);
-            warningView = null;
-
             warningView.destroy();
             warningView = null;
         }
