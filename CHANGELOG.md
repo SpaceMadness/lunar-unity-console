@@ -1,5 +1,11 @@
 # Lunar Console Changelog
 
+## v.1.4.6 - 7/11/2017
+
+**Fixes:**
+
+* **Android:** java.lang.NullPointerException: Attempt to invoke virtual method 'void spacemadness.com.lunarconsole.console.WarningView.destroy()' on a null object reference.
+
 ## v.1.4.5 - 6/26/2017
 
 **Fixes:**
