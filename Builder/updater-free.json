@@ -1,6 +1,6 @@
 {
   "status": "OK",
-  "version": "1.4.1",
-  "message": "Fixes:\n* Android: Fixed build issue on Windows Editor.",
+  "version": "1.4.6",
+  "message": "Fixes:\n**Android**: java.lang.NullPointerException: Attempt to invoke virtual method 'void spacemadness.com.lunarconsole.console.WarningView.destroy()' on a null object reference.",
   "url": "https://www.assetstore.unity3d.com/en/#!/content/82881"
 }
