@@ -751,7 +751,6 @@ public class ConsolePlugin implements Destroyable
                     public void onClose(ConsoleView view)
                     {
                         hideConsole();
-                        sendNativeCallback(SCRIPT_MESSAGE_CONSOLE_CLOSE);
                     }
                 });
 
@@ -841,6 +840,7 @@ public class ConsolePlugin implements Destroyable
                         }
                     });
                     consoleView.startAnimation(animation);
+                    sendNativeCallback(SCRIPT_MESSAGE_CONSOLE_CLOSE);
                 }
                 else
                 {
