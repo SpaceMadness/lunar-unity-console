@@ -178,7 +178,7 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
         
         _consoleWindow = nil;
 		
-		[_scriptMessenger sendMessageName:kScriptMessageConsoleClose];
+        [_scriptMessenger sendMessageName:kScriptMessageConsoleClose];
     }
     
     if (_settings.enableTransparentLogOverlay)
