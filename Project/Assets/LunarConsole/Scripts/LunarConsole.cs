@@ -94,7 +94,7 @@ namespace LunarConsolePlugin
         #pragma warning disable 0414
 
         [SerializeField]
-        LunarConsoleSettings m_settings;
+        LunarConsoleSettings m_settings = new LunarConsoleSettings();
 
         [Range(128, 65536)]
         [Tooltip("Logs will be trimmed to the capacity")]
