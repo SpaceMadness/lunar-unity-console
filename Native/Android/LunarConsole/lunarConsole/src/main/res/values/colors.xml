@@ -29,4 +29,5 @@
     <color name="lunar_console_color_action_text">#FFFFFF</color>
     <color name="lunar_console_color_variable_value_background">#4D4D4D</color>
     <color name="lunar_console_color_variable_value_text">#B4B4B4</color>
+    <color name="lunar_console_color_variable_volatile_text">#FDD631</color>
 </resources>

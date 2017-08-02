@@ -96,6 +96,8 @@
 @property (nonatomic, readonly) UIFont  *variableEditFont;
 @property (nonatomic, readonly) UIColor *variableEditTextColor;
 @property (nonatomic, readonly) UIColor *variableEditBackground;
+@property (nonatomic, readonly) UIColor *variableTextColor;
+@property (nonatomic, readonly) UIColor *variableVolatileTextColor;
 
 @property (nonatomic, readonly) UIColor *switchTintColor;
 

@@ -423,11 +423,11 @@ public class ConsolePlugin implements Destroyable
         }
     }
 
-    public static void registerVariable(final int variableId, final String name, final String type, final String value, final String defaultValue, final boolean hasRange, final float rangeMin, final float rangeMax)
+    public static void registerVariable(final int variableId, final String name, final String type, final String value, final String defaultValue, final int flags, final boolean hasRange, final float rangeMin, final float rangeMax)
     {
         if (isRunningOnMainThread())
         {
-            registerVariable0(variableId, name, type, value, defaultValue, hasRange, rangeMin, rangeMax);
+            registerVariable0(variableId, name, type, value, defaultValue, flags, hasRange, rangeMin, rangeMax);
         }
         else
         {
@@ -436,7 +436,7 @@ public class ConsolePlugin implements Destroyable
                 @Override
                 public void run()
                 {
-                    registerVariable0(variableId, name, type, value, defaultValue, hasRange, rangeMin, rangeMax);
+                    registerVariable0(variableId, name, type, value, defaultValue, flags, hasRange, rangeMin, rangeMax);
                 }
             });
         }
@@ -509,7 +509,7 @@ public class ConsolePlugin implements Destroyable
         }
     }
 
-    private static void registerVariable0(int variableId, String name, String typeName, String value, String defaultValue, boolean hasRange, float rangeMin, float rangeMax)
+    private static void registerVariable0(int variableId, String name, String typeName, String value, String defaultValue, int flags, boolean hasRange, float rangeMin, float rangeMax)
     {
         if (instance != null)
         {
@@ -521,6 +521,7 @@ public class ConsolePlugin implements Destroyable
             }
 
             Variable variable = instance.actionRegistry.registerVariable(variableId, name, type, value, defaultValue);
+            variable.setFlags(flags);
             if (hasRange)
             {
                 variable.setRange(rangeMin, rangeMax);

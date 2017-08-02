@@ -578,12 +578,12 @@ public class ApplicationBaseUITest implements TestHelper.EventListener
 
     protected void registerVariable(int variableId, String name, VariableType type, String value, String defaultValue)
     {
-        ConsolePlugin.registerVariable(variableId, name, type.toString(), value, defaultValue, false, 0, 0);
+        ConsolePlugin.registerVariable(variableId, name, type.toString(), value, defaultValue, 0, false, 0, 0);
     }
 
     protected void registerVariable(int variableId, String name, VariableType type, String value, String defaultValue, float min, float max)
     {
-        ConsolePlugin.registerVariable(variableId, name, type.toString(), value, defaultValue, true, min, max);
+        ConsolePlugin.registerVariable(variableId, name, type.toString(), value, defaultValue, 0, true, min, max);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
