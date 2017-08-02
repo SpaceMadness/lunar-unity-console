@@ -31,6 +31,7 @@ public static class Variables
     public static readonly CVar c_bool = new CVar("bool", true);
     public static readonly CVar c_float = new CVar("float", 3.14f);
     public static readonly CVar c_string = new CVar("string", "Test");
+    public static readonly CVar c_volatile = new CVar("volatile", 0.0f, CFlags.NoArchive);
 
     [CVarRange(1.5f, 11.5f)]
     public static readonly CVar c_range = new CVar("range", 2.5f);

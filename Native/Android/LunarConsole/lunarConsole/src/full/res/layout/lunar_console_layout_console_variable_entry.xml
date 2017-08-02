@@ -8,7 +8,7 @@
 
     <TextView
         android:id="@+id/lunar_console_variable_entry_name"
-        style="@style/lunar_console_action_entry_style"
+        style="@style/lunar_console_variable_style"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:text="Variable name" />

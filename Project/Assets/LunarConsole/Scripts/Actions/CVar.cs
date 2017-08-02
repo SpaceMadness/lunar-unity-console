@@ -72,6 +72,24 @@ namespace LunarConsolePlugin
         }
     }
 
+    public enum CFlags
+    {   
+        /// <summary>
+        /// No flags (default value)
+        /// </summary>
+        None      = 0,
+
+        /// <summary>
+        /// Won't be listed in UI
+        /// </summary>
+        Hidden    = 1 << 1,
+
+        /// <summary>
+        /// Don't save between sessions
+        /// </summary>
+        NoArchive = 1 << 2
+    }
+
     public class CVar : IEquatable<CVar>, IComparable<CVar>
     {
         private static int s_nextId;
@@ -79,6 +97,7 @@ namespace LunarConsolePlugin
         private readonly int m_id;
         private readonly string m_name;
         private readonly CVarType m_type;
+        private readonly CFlags m_flags;
 
         private CValue m_value;
         private CValue m_defaultValue;
@@ -86,35 +105,35 @@ namespace LunarConsolePlugin
 
         private CVarChangedDelegateList m_delegateList;
 
-        public CVar(string name, bool defaultValue)
-            : this(name, CVarType.Boolean)
+        public CVar(string name, bool defaultValue, CFlags flags = CFlags.None)
+            : this(name, CVarType.Boolean, flags)
         {
             this.IntValue = defaultValue ? 1 : 0;
             m_defaultValue = m_value;
         }
 
-        public CVar(string name, int defaultValue)
-            : this(name, CVarType.Integer)
+        public CVar(string name, int defaultValue, CFlags flags = CFlags.None)
+            : this(name, CVarType.Integer, flags)
         {
             this.IntValue = defaultValue;
             m_defaultValue = m_value;
         }
 
-        public CVar(string name, float defaultValue)
-            : this(name, CVarType.Float)
+        public CVar(string name, float defaultValue, CFlags flags = CFlags.None)
+            : this(name, CVarType.Float, flags)
         {
             this.FloatValue = defaultValue;
             m_defaultValue = m_value;
         }
 
-        public CVar(string name, string defaultValue)
-            : this(name, CVarType.String)
+        public CVar(string name, string defaultValue, CFlags flags = CFlags.None)
+            : this(name, CVarType.String, flags)
         {
             this.Value = defaultValue;
             m_defaultValue = m_value;
         }
 
-        private CVar(string name, CVarType type)
+        private CVar(string name, CVarType type, CFlags flags)
         {
             if (name == null)
             {
@@ -125,6 +144,7 @@ namespace LunarConsolePlugin
 
             m_name = name;
             m_type = type;
+            m_flags = flags;
         }
 
         //////////////////////////////////////////////////////////////////////////////
@@ -345,6 +365,16 @@ namespace LunarConsolePlugin
                     NotifyValueChanged();
                 }
             }
+        }
+
+        public bool HasFlag(CFlags flag)
+        {
+            return (m_flags & flag) != 0;
+        }
+
+        public CFlags Flags
+        {
+            get { return m_flags; }
         }
 
         #endregion

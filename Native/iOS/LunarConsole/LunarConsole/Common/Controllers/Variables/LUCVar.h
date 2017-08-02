@@ -29,6 +29,12 @@ typedef enum : NSUInteger {
     LUCVarTypeString
 } LUCVarType;
 
+typedef enum : NSUInteger {
+	LUCVarFlagsNone = 0,
+	LUCVarFlagsHidden = 1 << 1,
+	LUCVarFlagsNoArchive = 1 << 2
+} LUCVarFlags;
+
 typedef struct _LUCVarRange {
     CGFloat min;
     CGFloat max;
@@ -53,6 +59,7 @@ extern NSString * const LUCVarTypeNameUnknown;
 @property (nonatomic, strong) NSString *value;
 @property (nonatomic, strong) NSString *defaultValue;
 @property (nonatomic, readonly) BOOL isDefaultValue;
+@property (nonatomic, assign) LUCVarFlags flags;
 @property (nonatomic, assign) LUCVarRange range;
 @property (nonatomic, readonly) BOOL hasRange;
 
@@ -63,5 +70,6 @@ extern NSString * const LUCVarTypeNameUnknown;
 + (NSString *)typeNameForType:(LUCVarType)type;
 
 - (void)resetToDefaultValue;
+- (BOOL)hasFlag:(LUCVarFlags)flag;
 
 @end

@@ -82,6 +82,10 @@ public class VariableViewHolder extends ConsoleActionAdapter.ViewHolder<Variable
             ignoreListenerCallbacks = true;
 
             nameTextView.setText(cvar.name());
+            if (cvar.hasFlag(Variable.FLAG_NO_ARCHIVE))
+            {
+                nameTextView.setTextColor(getResources().getColor(R.color.lunar_console_color_variable_volatile_text));
+            }
 
             if (cvar.type == VariableType.Boolean)
             {

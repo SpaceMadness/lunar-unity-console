@@ -471,7 +471,7 @@ namespace LunarConsolePlugin
                         int count = 0;
                         foreach (var cvar in cvars)
                         {
-                            if (!cvar.IsDefault)
+                            if (ShouldSaveVar(cvar))
                             {
                                 ++count;
                             }
@@ -480,7 +480,7 @@ namespace LunarConsolePlugin
                         writer.Write(count);
                         foreach (var cvar in cvars)
                         {
-                            if (!cvar.IsDefault)
+                            if (ShouldSaveVar(cvar))
                             {
                                 writer.Write(cvar.Name);
                                 writer.Write(cvar.Value);
@@ -493,6 +493,11 @@ namespace LunarConsolePlugin
             {
                 Log.e(e, "Error while saving variables");
             }
+        }
+
+        bool ShouldSaveVar(CVar cvar)
+        {
+            return !cvar.IsDefault && !cvar.HasFlag(CFlags.NoArchive);
         }
 
         #endregion
@@ -533,7 +538,7 @@ namespace LunarConsolePlugin
             private static extern void __lunar_console_action_unregister(int actionId);
 
             [DllImport("__Internal")]
-            private static extern void __lunar_console_cvar_register(int variableId, string name, string type, string value, string defaultValue, bool hasRange, float min, float max);
+            private static extern void __lunar_console_cvar_register(int variableId, string name, string type, string value, string defaultValue, int flags, bool hasRange, float min, float max);
 
             [DllImport("__Internal")]
             private static extern void __lunar_console_cvar_update(int variableId, string value);
@@ -600,7 +605,7 @@ namespace LunarConsolePlugin
 
             public void OnVariableRegistered(CRegistry registry, CVar cvar)
             {
-                __lunar_console_cvar_register(cvar.Id, cvar.Name, cvar.Type.ToString(), cvar.Value, cvar.DefaultValue, cvar.HasRange, cvar.Range.min, cvar.Range.max);
+                __lunar_console_cvar_register(cvar.Id, cvar.Name, cvar.Type.ToString(), cvar.Value, cvar.DefaultValue, (int)cvar.Flags, cvar.HasRange, cvar.Range.min, cvar.Range.max);
             }
 
             public void Destroy()
@@ -619,7 +624,7 @@ namespace LunarConsolePlugin
             private readonly jvalue[] m_args1 = new jvalue[1];
             private readonly jvalue[] m_args2 = new jvalue[2];
             private readonly jvalue[] m_args3 = new jvalue[3];
-            private readonly jvalue[] m_args8 = new jvalue[8];
+            private readonly jvalue[] m_args9 = new jvalue[9];
 
             private static readonly string kPluginClassName = "spacemadness.com.lunarconsole.console.ConsolePlugin";
 
@@ -677,7 +682,7 @@ namespace LunarConsolePlugin
                 m_methodClearConsole = GetStaticMethod(m_pluginClassRaw, "clear", "()V");
                 m_methodRegisterAction = GetStaticMethod(m_pluginClassRaw, "registerAction", "(ILjava.lang.String;)V");
                 m_methodUnregisterAction = GetStaticMethod(m_pluginClassRaw, "unregisterAction", "(I)V");
-                m_methodRegisterVariable = GetStaticMethod(m_pluginClassRaw, "registerVariable", "(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ZFF)V");
+                m_methodRegisterVariable = GetStaticMethod(m_pluginClassRaw, "registerVariable", "(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IZFF)V");
                 m_methodDestroy = GetStaticMethod(m_pluginClassRaw, "destroyInstance", "()V");
 
                 m_messageQueue = new Queue<LogMessageEntry>();
@@ -808,19 +813,20 @@ namespace LunarConsolePlugin
             {
                 try
                 {
-                    m_args8[0] = jval(cvar.Id);
-                    m_args8[1] = jval(cvar.Name);
-                    m_args8[2] = jval(cvar.Type.ToString());
-                    m_args8[3] = jval(cvar.Value);
-                    m_args8[4] = jval(cvar.DefaultValue);
-                    m_args8[5] = jval(cvar.HasRange);
-                    m_args8[6] = jval(cvar.Range.min);
-                    m_args8[7] = jval(cvar.Range.max);
-                    CallStaticVoidMethod(m_methodRegisterVariable, m_args8);
-                    AndroidJNI.DeleteLocalRef(m_args8[1].l);
-                    AndroidJNI.DeleteLocalRef(m_args8[2].l);
-                    AndroidJNI.DeleteLocalRef(m_args8[3].l);
-                    AndroidJNI.DeleteLocalRef(m_args8[4].l);
+                    m_args9[0] = jval(cvar.Id);
+                    m_args9[1] = jval(cvar.Name);
+                    m_args9[2] = jval(cvar.Type.ToString());
+                    m_args9[3] = jval(cvar.Value);
+                    m_args9[4] = jval(cvar.DefaultValue);
+                    m_args9[5] = jval((int)cvar.Flags);
+                    m_args9[6] = jval(cvar.HasRange);
+                    m_args9[7] = jval(cvar.Range.min);
+                    m_args9[8] = jval(cvar.Range.max);
+                    CallStaticVoidMethod(m_methodRegisterVariable, m_args9);
+                    AndroidJNI.DeleteLocalRef(m_args9[1].l);
+                    AndroidJNI.DeleteLocalRef(m_args9[2].l);
+                    AndroidJNI.DeleteLocalRef(m_args9[3].l);
+                    AndroidJNI.DeleteLocalRef(m_args9[4].l);
                 }
                 catch (Exception e)
                 {

@@ -177,6 +177,8 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
         }];
         
         _consoleWindow = nil;
+		
+        [_scriptMessenger sendMessageName:kScriptMessageConsoleClose];
     }
     
     if (_settings.enableTransparentLogOverlay)
@@ -334,8 +336,6 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
 - (void)consoleControllerDidClose:(LUConsoleController *)controller
 {
     [self hideConsole];
-    
-    [_scriptMessenger sendMessageName:kScriptMessageConsoleClose];
     
     if ([_delegate respondsToSelector:@selector(consolePluginDidCloseController:)]) {
         [_delegate consolePluginDidCloseController:self];

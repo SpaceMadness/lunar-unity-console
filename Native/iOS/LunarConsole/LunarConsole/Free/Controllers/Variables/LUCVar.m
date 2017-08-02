@@ -62,6 +62,14 @@ NSString * const LUCVarTypeNameUnknown = @"Unknown";
 }
 
 #pragma mark -
+#pragma mark Flags
+
+- (BOOL)hasFlag:(LUCVarFlags)flag
+{
+    return NO;
+}
+
+#pragma mark -
 #pragma mark UITableView
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellAtIndex:(NSUInteger)index

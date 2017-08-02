@@ -25,11 +25,16 @@ import spacemadness.com.lunarconsole.utils.ObjectUtils;
 
 public class Variable extends IdentityEntry
 {
+    public static final int FLAG_NONE = 0;
+    public static final int FLAG_HIDDEN = 1 << 1;
+    public static final int FLAG_NO_ARCHIVE = 1 << 2;
+
     public final VariableType type;
     public final String defaultValue;
     public String value;
     private float min;
     private float max;
+    private int flags;
 
     public Variable(int entryId, String name, String value, String defaultValue, VariableType type)
     {
@@ -82,6 +87,19 @@ public class Variable extends IdentityEntry
     public float getMax()
     {
         return max;
+    }
+
+    public void setFlags(int flags) {
+        this.flags = flags;
+    }
+
+    public int getFlags() {
+        return flags;
+    }
+
+    public boolean hasFlag(int flag)
+    {
+        return (flags & flag) != 0;
     }
 
     //endregion

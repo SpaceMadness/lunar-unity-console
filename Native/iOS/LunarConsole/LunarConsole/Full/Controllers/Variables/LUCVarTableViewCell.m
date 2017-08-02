@@ -71,7 +71,7 @@
     _titleLabel.text = variable.name;
     
     LUTheme *theme = [LUTheme mainTheme];
-    _titleLabel.textColor = theme.actionsTextColor;
+    _titleLabel.textColor = [variable hasFlag:LUCVarFlagsNoArchive] ? theme.variableVolatileTextColor : theme.variableTextColor;
     _titleLabel.font = theme.actionsFont;
     _titleLabel.backgroundColor = [UIColor clearColor];
     _titleLabel.opaque = YES;

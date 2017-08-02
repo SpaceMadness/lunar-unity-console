@@ -127,6 +127,12 @@
         <item name="android:gravity">left|center_vertical</item>
     </style>
 
+    <style name="lunar_console_variable_style" parent="lunar_console_action_entry_style" />
+
+    <style name="lunar_console_variable_volatile_style" parent="lunar_console_action_entry_style">
+        <item name="android:textColor">@color/lunar_console_color_variable_volatile_text</item>
+    </style>
+
     <style name="lunar_console_variable_value_style" parent="lunar_console_variable_value_style_base"/>
 
     <style name="lunar_console_move_resize_view_style">
