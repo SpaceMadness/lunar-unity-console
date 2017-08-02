@@ -1,5 +1,15 @@
 # Lunar Console Changelog
 
+## v.1.4.7 - 8/1/2017
+
+**New:**
+
+* Variable flags.
+
+**Fixes:**
+
+* ‘onConsoleClosed’ callbacks not called when dismissing the console programmatically.
+
 ## v.1.4.6 - 7/11/2017
 
 **Fixes:**
