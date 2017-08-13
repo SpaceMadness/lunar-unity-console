@@ -162,21 +162,11 @@ namespace LunarConsoleEditorInternal
             typeof(bool)
         };
 
-        private const string kPropsCalls = "m_calls";
-        private const string kPropActionsSize = kPropsCalls + ".Array.size";
-
         private int m_selectedIndex = -1;
-        private SerializedProperty m_actionsPropertry;
-        private SerializedProperty m_actionsCountProperty;
 
         private void OnEnable()
         {
-            m_actionsPropertry = serializedObject.FindProperty(kPropsCalls);
-            m_actionsCountProperty = serializedObject.FindProperty(kPropActionsSize);
-
-            list = new ReorderableList(serializedObject,
-                serializedObject.FindProperty(kPropsCalls),
-                false, true, true, true);
+            list = new ReorderableList(serializedObject, serializedObject.FindProperty("m_calls"), false, true, true, true);
             list.drawHeaderCallback = DrawListHeader;
             list.drawElementCallback = DrawListElement;
             list.elementHeight = 43;
@@ -198,105 +188,109 @@ namespace LunarConsoleEditorInternal
         {
             SerializedProperty arrayElementAtIndex = list.serializedProperty.GetArrayElementAtIndex(index);
             rect.y += 1f;
-            Rect[] rowRects = this.GetRowRects(rect);
-            Rect position = rowRects[0];
-            Rect position2 = rowRects[1];
-            Rect rect2 = rowRects[2];
-            Rect position3 = rowRects[3];
-            SerializedProperty mode = arrayElementAtIndex.FindPropertyRelative("m_mode");
-            SerializedProperty serializedProperty2 = arrayElementAtIndex.FindPropertyRelative("m_target");
-            SerializedProperty serializedProperty3 = arrayElementAtIndex.FindPropertyRelative("m_methodName");
+            Rect[] rowRects = GetRowRects(rect);
+            Rect runtimeModeRect = rowRects[0];
+            Rect targetRect = rowRects[1];
+            Rect methodRect = rowRects[2];
+            Rect argumentRect = rowRects[3];
+            SerializedProperty modeProperty = arrayElementAtIndex.FindPropertyRelative("m_mode");
+            SerializedProperty targetProperty = arrayElementAtIndex.FindPropertyRelative("m_target");
+            SerializedProperty methodProperty = arrayElementAtIndex.FindPropertyRelative("m_methodName");
             Color backgroundColor = GUI.backgroundColor;
             GUI.backgroundColor = Color.white;
-            GUI.Box(position, "Runtime Only", EditorStyles.popup);
+            GUI.Box(runtimeModeRect, "Runtime Only", EditorStyles.popup);
             EditorGUI.BeginChangeCheck();
-            GUI.Box(position2, GUIContent.none);
-            EditorGUI.PropertyField(position2, serializedProperty2, GUIContent.none);
+            GUI.Box(targetRect, GUIContent.none);
+            EditorGUI.PropertyField(targetRect, targetProperty, GUIContent.none);
             if (EditorGUI.EndChangeCheck())
             {
-                serializedProperty3.stringValue = null;
+                methodProperty.stringValue = null;
             }
-            PersistentListenerMode persistentListenerMode = (PersistentListenerMode) mode.enumValueIndex;
-            if (serializedProperty2.objectReferenceValue == null || string.IsNullOrEmpty(serializedProperty3.stringValue))
+            PersistentListenerMode persistentListenerMode = (PersistentListenerMode) modeProperty.enumValueIndex;
+            if (targetProperty.objectReferenceValue == null || string.IsNullOrEmpty(methodProperty.stringValue))
             {
                 persistentListenerMode = PersistentListenerMode.Void;
             }
-            SerializedProperty serializedProperty4;
+            SerializedProperty argumentProperty;
             switch (persistentListenerMode)
             {
                 case PersistentListenerMode.Object:
-                    serializedProperty4 = arrayElementAtIndex.FindPropertyRelative("m_objectArgument");
+                    argumentProperty = arrayElementAtIndex.FindPropertyRelative("m_objectArgument");
                     break;
                 case PersistentListenerMode.Int:
-                    serializedProperty4 = arrayElementAtIndex.FindPropertyRelative("m_intArgument");
+                    argumentProperty = arrayElementAtIndex.FindPropertyRelative("m_intArgument");
                     break;
                 case PersistentListenerMode.Float:
-                    serializedProperty4 = arrayElementAtIndex.FindPropertyRelative("m_floatArgument");
+                    argumentProperty = arrayElementAtIndex.FindPropertyRelative("m_floatArgument");
                     break;
                 case PersistentListenerMode.String:
-                    serializedProperty4 = arrayElementAtIndex.FindPropertyRelative("m_stringArgument");
+                    argumentProperty = arrayElementAtIndex.FindPropertyRelative("m_stringArgument");
                     break;
                 case PersistentListenerMode.Bool:
-                    serializedProperty4 = arrayElementAtIndex.FindPropertyRelative("m_boolArgument");
+                    argumentProperty = arrayElementAtIndex.FindPropertyRelative("m_boolArgument");
                     break;
                 default:
-                    serializedProperty4 = arrayElementAtIndex.FindPropertyRelative("m_intArgument");
+                    argumentProperty = arrayElementAtIndex.FindPropertyRelative("m_intArgument");
                     break;
             }
-            string stringValue = arrayElementAtIndex.FindPropertyRelative("m_objectArgumentAssemblyTypeName").stringValue;
-            Type type = typeof(UnityEngine.Object);
-            if (!string.IsNullOrEmpty(stringValue))
+            string argumentAssemblyTypeName = arrayElementAtIndex.FindPropertyRelative("m_objectArgumentAssemblyTypeName").stringValue;
+            Type argumentType = typeof(UnityEngine.Object);
+            if (!string.IsNullOrEmpty(argumentAssemblyTypeName))
             {
-                type = (Type.GetType(stringValue, false) ?? typeof(UnityEngine.Object));
+                argumentType = (Type.GetType(argumentAssemblyTypeName, false) ?? typeof(UnityEngine.Object));
             }
             if (persistentListenerMode == PersistentListenerMode.Object)
             {
                 EditorGUI.BeginChangeCheck();
-                UnityEngine.Object objectReferenceValue = EditorGUI.ObjectField(position3, GUIContent.none, serializedProperty4.objectReferenceValue, type, true);
+                UnityEngine.Object objectReferenceValue = EditorGUI.ObjectField(argumentRect, GUIContent.none, argumentProperty.objectReferenceValue, argumentType, true);
                 if (EditorGUI.EndChangeCheck())
                 {
-                    serializedProperty4.objectReferenceValue = objectReferenceValue;
+                    argumentProperty.objectReferenceValue = objectReferenceValue;
                 }
             }
             else if (persistentListenerMode != PersistentListenerMode.Void)
             {
-                EditorGUI.PropertyField(position3, serializedProperty4, GUIContent.none);
+                EditorGUI.PropertyField(argumentRect, argumentProperty, GUIContent.none);
             }
-            using (new EditorGUI.DisabledScope(serializedProperty2.objectReferenceValue == null))
+            using (new EditorGUI.DisabledScope(targetProperty.objectReferenceValue == null))
             {
-                EditorGUI.BeginProperty(rect2, GUIContent.none, serializedProperty3);
+                EditorGUI.BeginProperty(methodRect, GUIContent.none, methodProperty);
                 GUIContent content;
                 {
                     StringBuilder stringBuilder = new StringBuilder();
-                    if (serializedProperty2.objectReferenceValue == null || string.IsNullOrEmpty(serializedProperty3.stringValue))
+                    if (targetProperty.objectReferenceValue == null || string.IsNullOrEmpty(methodProperty.stringValue))
                     {
                         stringBuilder.Append("No Function");
                     }
                     else
                     {
-                        stringBuilder.Append(serializedProperty2.objectReferenceValue.GetType().Name);
-                        if (!string.IsNullOrEmpty(serializedProperty3.stringValue))
+                        stringBuilder.Append(targetProperty.objectReferenceValue.GetType().Name);
+                        if (!string.IsNullOrEmpty(methodProperty.stringValue))
                         {
                             stringBuilder.Append(".");
-                            if (serializedProperty3.stringValue.StartsWith("set_"))
+                            if (methodProperty.stringValue.StartsWith("set_"))
                             {
-                                stringBuilder.Append(serializedProperty3.stringValue.Substring(4));
+                                stringBuilder.Append(methodProperty.stringValue.Substring(4));
                             }
                             else
                             {
-                                stringBuilder.Append(serializedProperty3.stringValue);
+                                stringBuilder.Append(methodProperty.stringValue);
                             }
                         }
                     }
                     content = new GUIContent(stringBuilder.ToString());
                 }
-                if (GUI.Button(rect2, content, EditorStyles.popup))
+                if (GUI.Button(methodRect, content, EditorStyles.popup))
                 {
-                    // UnityEventDrawer.BuildPopupList(serializedProperty2.objectReferenceValue, this.m_DummyEvent, arrayElementAtIndex).DropDown(rect2);
+                    BuildFunctionPopupList();
                 }
                 EditorGUI.EndProperty();
             }
             GUI.backgroundColor = backgroundColor;
+        }
+
+        private void BuildFunctionPopupList()
+        {
         }
 
         private Rect[] GetRowRects(Rect rect)
