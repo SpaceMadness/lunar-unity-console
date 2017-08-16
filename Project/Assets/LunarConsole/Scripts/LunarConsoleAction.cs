@@ -194,7 +194,7 @@ namespace LunarConsolePluginInternal
     public class LunarConsoleAction : MonoBehaviour
     {
         [SerializeField]
-        string m_title;
+        string m_title = "Untitled Action";
 
         [SerializeField]
         [HideInInspector]

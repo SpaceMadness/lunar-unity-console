@@ -100,8 +100,6 @@ namespace LunarConsoleEditorInternal
             typeof(bool)
         };
 
-        private int m_selectedIndex = -1;
-
         private void OnEnable()
         {
             list = new ReorderableList(serializedObject, serializedObject.FindProperty(kPropCalls), false, true, true, true);
@@ -112,6 +110,8 @@ namespace LunarConsoleEditorInternal
         
         public override void OnInspectorGUI()
         {
+            base.OnInspectorGUI();
+
             serializedObject.Update();
             list.DoLayoutList();
             serializedObject.ApplyModifiedProperties();
@@ -335,7 +335,6 @@ namespace LunarConsoleEditorInternal
                 if (obj is GameObject)
                 {
                     var gameObject = obj as GameObject;
-                    var components = gameObject.GetComponents<Component>();
                     foreach (var component in gameObject.GetComponents<Component>())
                     {
                         targets.Add(component);
