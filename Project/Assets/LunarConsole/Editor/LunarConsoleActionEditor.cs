@@ -41,12 +41,9 @@ namespace LunarConsoleEditorInternal
         private const string kPropMode = "m_mode";
         private const string kPropTarget = "m_target";
         private const string kPropMethod = "m_methodName";
-        private const string kPropArgObject = "m_objectArgument";
-        private const string kPropArgInt = "m_intArgument";
-        private const string kPropArgFloat = "m_floatArgument";
-        private const string kPropArgString = "m_stringArgument";
-        private const string kPropArgBool = "m_boolArgument";
-        private const string kPropArgAssemblyTypeName = "m_objectArgumentAssemblyTypeName";
+        private const string kPropArguments = "m_arguments";
+
+        private const string kPropObjectArgumentAssemblyTypeName = "m_objectArgumentAssemblyTypeName";
         ReorderableList list;
 
         struct Function
@@ -137,6 +134,8 @@ namespace LunarConsoleEditorInternal
             SerializedProperty modeProperty = arrayElementAtIndex.FindPropertyRelative(kPropMode);
             SerializedProperty targetProperty = arrayElementAtIndex.FindPropertyRelative(kPropTarget);
             SerializedProperty methodProperty = arrayElementAtIndex.FindPropertyRelative(kPropMethod);
+            SerializedProperty argumentsProperty = arrayElementAtIndex.FindPropertyRelative(kPropArguments);
+
             Color backgroundColor = GUI.backgroundColor;
             GUI.backgroundColor = Color.white;
             GUI.Box(runtimeModeRect, "Runtime Only", EditorStyles.popup);
@@ -147,40 +146,40 @@ namespace LunarConsoleEditorInternal
             {
                 methodProperty.stringValue = null;
             }
-            PersistentListenerMode persistentListenerMode = (PersistentListenerMode) modeProperty.enumValueIndex;
+            LunarPersistentListenerMode persistentListenerMode = (LunarPersistentListenerMode) modeProperty.enumValueIndex;
             if (targetProperty.objectReferenceValue == null || string.IsNullOrEmpty(methodProperty.stringValue))
             {
-                persistentListenerMode = PersistentListenerMode.Void;
+                persistentListenerMode = LunarPersistentListenerMode.Void;
             }
             SerializedProperty argumentProperty;
             switch (persistentListenerMode)
             {
-                case PersistentListenerMode.Object:
-                    argumentProperty = arrayElementAtIndex.FindPropertyRelative(kPropArgObject);
+                case LunarPersistentListenerMode.Object:
+                    argumentProperty = argumentsProperty.FindPropertyRelative("m_objectArgument");
                     break;
-                case PersistentListenerMode.Int:
-                    argumentProperty = arrayElementAtIndex.FindPropertyRelative(kPropArgInt);
+                case LunarPersistentListenerMode.Int:
+                    argumentProperty = argumentsProperty.FindPropertyRelative("m_intArgument");
                     break;
-                case PersistentListenerMode.Float:
-                    argumentProperty = arrayElementAtIndex.FindPropertyRelative(kPropArgFloat);
+                case LunarPersistentListenerMode.Float:
+                    argumentProperty = argumentsProperty.FindPropertyRelative("m_floatArgument");
                     break;
-                case PersistentListenerMode.String:
-                    argumentProperty = arrayElementAtIndex.FindPropertyRelative(kPropArgString);
+                case LunarPersistentListenerMode.String:
+                    argumentProperty = argumentsProperty.FindPropertyRelative("m_stringArgument");
                     break;
-                case PersistentListenerMode.Bool:
-                    argumentProperty = arrayElementAtIndex.FindPropertyRelative(kPropArgBool);
+                case LunarPersistentListenerMode.Bool:
+                    argumentProperty = argumentsProperty.FindPropertyRelative("m_boolArgument");
                     break;
                 default:
-                    argumentProperty = arrayElementAtIndex.FindPropertyRelative(kPropArgInt);
+                    argumentProperty = argumentsProperty.FindPropertyRelative("m_intArgument");
                     break;
             }
-            string argumentAssemblyTypeName = arrayElementAtIndex.FindPropertyRelative(kPropArgAssemblyTypeName).stringValue;
+            string argumentAssemblyTypeName = argumentsProperty.FindPropertyRelative(kPropObjectArgumentAssemblyTypeName).stringValue;
             Type argumentType = typeof(UnityEngine.Object);
             if (!string.IsNullOrEmpty(argumentAssemblyTypeName))
             {
                 argumentType = (Type.GetType(argumentAssemblyTypeName, false) ?? typeof(UnityEngine.Object));
             }
-            if (persistentListenerMode == PersistentListenerMode.Object)
+            if (persistentListenerMode == LunarPersistentListenerMode.Object)
             {
                 EditorGUI.BeginChangeCheck();
                 UnityEngine.Object objectReferenceValue = EditorGUI.ObjectField(argumentRect, GUIContent.none, argumentProperty.objectReferenceValue, argumentType, true);
@@ -189,7 +188,7 @@ namespace LunarConsoleEditorInternal
                     argumentProperty.objectReferenceValue = objectReferenceValue;
                 }
             }
-            else if (persistentListenerMode != PersistentListenerMode.Void)
+            else if (persistentListenerMode != LunarPersistentListenerMode.Void)
             {
                 EditorGUI.PropertyField(argumentRect, argumentProperty, GUIContent.none);
             }
@@ -265,30 +264,31 @@ namespace LunarConsoleEditorInternal
         void UpdateParamProperty(SerializedProperty serializedProperty, Type paramType)
         {
             SerializedProperty modeProperty = serializedProperty.FindPropertyRelative(kPropMode);
-            SerializedProperty typeAssemblyProperty = serializedProperty.FindPropertyRelative(kPropArgAssemblyTypeName);
+            SerializedProperty argumentsProperty = serializedProperty.FindPropertyRelative(kPropArguments);
+            SerializedProperty typeAssemblyProperty = argumentsProperty.FindPropertyRelative(kPropObjectArgumentAssemblyTypeName);
 
-            PersistentListenerMode mode = PersistentListenerMode.Void;
+            LunarPersistentListenerMode mode = LunarPersistentListenerMode.Void;
             if (paramType != null)
             {
                 if (paramType.IsSubclassOf(typeof(UnityEngine.Object)))
                 {
-                    mode = PersistentListenerMode.Object;
+                    mode = LunarPersistentListenerMode.Object;
                 }
                 else if (paramType == typeof(int))
                 {
-                    mode = PersistentListenerMode.Int;
+                    mode = LunarPersistentListenerMode.Int;
                 }
                 else if (paramType == typeof(float))
                 {
-                    mode = PersistentListenerMode.Float;
+                    mode = LunarPersistentListenerMode.Float;
                 }
                 else if (paramType == typeof(string))
                 {
-                    mode = PersistentListenerMode.String;
+                    mode = LunarPersistentListenerMode.String;
                 }
                 else if (paramType == typeof(bool))
                 {
-                    mode = PersistentListenerMode.Bool;
+                    mode = LunarPersistentListenerMode.Bool;
                 }
                 else
                 {
