@@ -37,6 +37,11 @@ namespace LunarConsoleEditorInternal
     [CustomEditor(typeof(LunarConsoleAction))]
     class LunarConsoleActionEditor : Editor
     {
+        private const string kPropCalls = "m_calls";
+        private const string kPropMode = "m_mode";
+        private const string kPropTarget = "m_target";
+        private const string kPropMethod = "m_methodName";
+
         ReorderableList list;
 
         struct Function
@@ -81,7 +86,7 @@ namespace LunarConsoleEditorInternal
                             string.Format("{0} {1}", typeName, simpleName) :
                             string.Format("{0} ({1})", simpleName, typeName);
                     }
-                    return simpleName;
+                    return string.Format("{0} ()", simpleName);
                 }
             }
         }
@@ -166,7 +171,7 @@ namespace LunarConsoleEditorInternal
 
         private void OnEnable()
         {
-            list = new ReorderableList(serializedObject, serializedObject.FindProperty("m_calls"), false, true, true, true);
+            list = new ReorderableList(serializedObject, serializedObject.FindProperty(kPropCalls), false, true, true, true);
             list.drawHeaderCallback = DrawListHeader;
             list.drawElementCallback = DrawListElement;
             list.elementHeight = 43;
@@ -193,9 +198,9 @@ namespace LunarConsoleEditorInternal
             Rect targetRect = rowRects[1];
             Rect methodRect = rowRects[2];
             Rect argumentRect = rowRects[3];
-            SerializedProperty modeProperty = arrayElementAtIndex.FindPropertyRelative("m_mode");
-            SerializedProperty targetProperty = arrayElementAtIndex.FindPropertyRelative("m_target");
-            SerializedProperty methodProperty = arrayElementAtIndex.FindPropertyRelative("m_methodName");
+            SerializedProperty modeProperty = arrayElementAtIndex.FindPropertyRelative(kPropMode);
+            SerializedProperty targetProperty = arrayElementAtIndex.FindPropertyRelative(kPropTarget);
+            SerializedProperty methodProperty = arrayElementAtIndex.FindPropertyRelative(kPropMethod);
             Color backgroundColor = GUI.backgroundColor;
             GUI.backgroundColor = Color.white;
             GUI.Box(runtimeModeRect, "Runtime Only", EditorStyles.popup);
@@ -282,15 +287,38 @@ namespace LunarConsoleEditorInternal
                 }
                 if (GUI.Button(methodRect, content, EditorStyles.popup))
                 {
-                    BuildFunctionPopupList();
+                    BuildPopupList(arrayElementAtIndex).DropDown(methodRect);
                 }
                 EditorGUI.EndProperty();
             }
             GUI.backgroundColor = backgroundColor;
         }
 
-        private void BuildFunctionPopupList()
+        private GenericMenu BuildPopupList(SerializedProperty serializedProperty)
         {
+            SerializedProperty targetProperty = serializedProperty.FindPropertyRelative(kPropTarget);
+            SerializedProperty methodProperty = serializedProperty.FindPropertyRelative(kPropMethod);
+
+            var menu = new GenericMenu();
+            menu.AddItem(new GUIContent("No Function"), methodProperty.stringValue == null, delegate() {
+                methodProperty.stringValue = null;
+            });
+
+            var target = targetProperty.objectReferenceValue;
+            if (target != null)
+            {
+                menu.AddSeparator("/");
+
+                var functions = ListFunctions(target);
+                foreach (var function in functions)
+                {
+                    var selected = target.GetType() == function.targetType && methodProperty.stringValue == function.method.Name;
+                    menu.AddItem(new GUIContent(function.targetType.Name + "/" + function.displayName), selected, delegate () {
+                    });
+                }
+            }
+
+            return menu;
         }
 
         private Rect[] GetRowRects(Rect rect)
@@ -311,18 +339,6 @@ namespace LunarConsoleEditorInternal
             array[2] = rect4;
             array[3] = rect5;
             return array;
-        }
-
-        private string[] GetFunctionNames(Function[] functions)
-        {
-            List<string> names = new List<string>();
-            names.Add("No Function");
-            names.Add("/");
-            foreach (var function in functions)
-            {
-                names.Add(function.targetType.Name + "/" + function.displayName);
-            }
-            return names.ToArray();
         }
 
         int IndexOfFunction(Function[] functions, string typeName, string methodName)
@@ -352,21 +368,28 @@ namespace LunarConsoleEditorInternal
             return -1;
         }
 
-        Function[] ListFunctions(GameObject obj)
+        Function[] ListFunctions(UnityEngine.Object obj)
         {
             List<Function> functions = new List<Function>();
             if (obj != null)
             {
                 List<Type> types = new List<Type>();
-                types.Add(typeof(GameObject));
-                foreach (Component component in obj.GetComponents<Component>())
+                types.Add(obj.GetType());
+
+                if (obj is GameObject)
                 {
-                    types.Add(component.GetType());
+                    var gameObject = obj as GameObject;
+                    var components = gameObject.GetComponents<Component>();
+                    foreach (var component in gameObject.GetComponents<Component>())
+                    {
+                        types.Add(component.GetType());
+                    }
                 }
 
                 foreach (var type in types)
                 {
-                    var methods = ClassUtils.ListInstanceMethods(type, IsValidActionMethod);
+                    List<MethodInfo> methods = new List<MethodInfo>();
+                    ClassUtils.ListMethods(methods, type, IsValidActionMethod, BindingFlags.Instance | BindingFlags.Public | BindingFlags.FlattenHierarchy);
                     foreach (var method in methods)
                     {
                         functions.Add(new Function(type, method));
