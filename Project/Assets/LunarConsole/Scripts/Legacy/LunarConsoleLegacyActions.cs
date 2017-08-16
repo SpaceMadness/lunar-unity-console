@@ -173,8 +173,8 @@ namespace LunarConsolePluginInternal
         }
     }
 
-    [Obsolete("Use LunarConsoleAction instead")]
-    public class LunarConsoleActions : MonoBehaviour
+    [Obsolete("Use 'LunarConsoleAction' instead")]
+    public class LunarConsoleLegacyActions : MonoBehaviour
     {
         [SerializeField]
         bool m_dontDestroyOnLoad;
