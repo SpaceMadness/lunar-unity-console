@@ -41,7 +41,12 @@ namespace LunarConsoleEditorInternal
         private const string kPropMode = "m_mode";
         private const string kPropTarget = "m_target";
         private const string kPropMethod = "m_methodName";
-
+        private const string kPropArgObject = "m_objectArgument";
+        private const string kPropArgInt = "m_intArgument";
+        private const string kPropArgFloat = "m_floatArgument";
+        private const string kPropArgString = "m_stringArgument";
+        private const string kPropArgBool = "m_boolArgument";
+        private const string kPropArgAssemblyTypeName = "m_objectArgumentAssemblyTypeName";
         ReorderableList list;
 
         struct Function
@@ -151,25 +156,25 @@ namespace LunarConsoleEditorInternal
             switch (persistentListenerMode)
             {
                 case PersistentListenerMode.Object:
-                    argumentProperty = arrayElementAtIndex.FindPropertyRelative("m_objectArgument");
+                    argumentProperty = arrayElementAtIndex.FindPropertyRelative(kPropArgObject);
                     break;
                 case PersistentListenerMode.Int:
-                    argumentProperty = arrayElementAtIndex.FindPropertyRelative("m_intArgument");
+                    argumentProperty = arrayElementAtIndex.FindPropertyRelative(kPropArgInt);
                     break;
                 case PersistentListenerMode.Float:
-                    argumentProperty = arrayElementAtIndex.FindPropertyRelative("m_floatArgument");
+                    argumentProperty = arrayElementAtIndex.FindPropertyRelative(kPropArgFloat);
                     break;
                 case PersistentListenerMode.String:
-                    argumentProperty = arrayElementAtIndex.FindPropertyRelative("m_stringArgument");
+                    argumentProperty = arrayElementAtIndex.FindPropertyRelative(kPropArgString);
                     break;
                 case PersistentListenerMode.Bool:
-                    argumentProperty = arrayElementAtIndex.FindPropertyRelative("m_boolArgument");
+                    argumentProperty = arrayElementAtIndex.FindPropertyRelative(kPropArgBool);
                     break;
                 default:
-                    argumentProperty = arrayElementAtIndex.FindPropertyRelative("m_intArgument");
+                    argumentProperty = arrayElementAtIndex.FindPropertyRelative(kPropArgInt);
                     break;
             }
-            string argumentAssemblyTypeName = arrayElementAtIndex.FindPropertyRelative("m_objectArgumentAssemblyTypeName").stringValue;
+            string argumentAssemblyTypeName = arrayElementAtIndex.FindPropertyRelative(kPropArgAssemblyTypeName).stringValue;
             Type argumentType = typeof(UnityEngine.Object);
             if (!string.IsNullOrEmpty(argumentAssemblyTypeName))
             {
@@ -248,12 +253,50 @@ namespace LunarConsoleEditorInternal
                     menu.AddItem(new GUIContent(function.target.GetType().Name + "/" + function.displayName), selected, delegate () {
                         targetProperty.objectReferenceValue = function.target;
                         methodProperty.stringValue = function.method.Name;
+                        UpdateParamProperty(serializedProperty, function.paramType);
                         serializedObject.ApplyModifiedProperties();
                     });
                 }
             }
 
             return menu;
+        }
+
+        void UpdateParamProperty(SerializedProperty serializedProperty, Type paramType)
+        {
+            SerializedProperty modeProperty = serializedProperty.FindPropertyRelative(kPropMode);
+            SerializedProperty typeAssemblyProperty = serializedProperty.FindPropertyRelative(kPropArgAssemblyTypeName);
+
+            PersistentListenerMode mode = PersistentListenerMode.Void;
+            if (paramType != null)
+            {
+                if (paramType.IsSubclassOf(typeof(UnityEngine.Object)))
+                {
+                    mode = PersistentListenerMode.Object;
+                }
+                else if (paramType == typeof(int))
+                {
+                    mode = PersistentListenerMode.Int;
+                }
+                else if (paramType == typeof(float))
+                {
+                    mode = PersistentListenerMode.Float;
+                }
+                else if (paramType == typeof(string))
+                {
+                    mode = PersistentListenerMode.String;
+                }
+                else if (paramType == typeof(bool))
+                {
+                    mode = PersistentListenerMode.Bool;
+                }
+                else
+                {
+                    Log.e("Unexpected param type: {0}", paramType);
+                }
+            }
+            modeProperty.enumValueIndex = (int)mode;
+            typeAssemblyProperty.stringValue = paramType != null ? paramType.AssemblyQualifiedName : null;
         }
 
         private Rect[] GetRowRects(Rect rect)
