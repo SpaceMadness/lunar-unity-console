@@ -46,12 +46,12 @@ namespace LunarConsoleEditorInternal
 
         struct Function
         {
-            public readonly Type targetType;
+            public readonly UnityEngine.Object target;
             public readonly MethodInfo method;
 
-            public Function(Type targetType, MethodInfo method)
+            public Function(UnityEngine.Object target, MethodInfo method)
             {
-                this.targetType = targetType;
+                this.target = target;
                 this.method = method;
             }
 
@@ -90,75 +90,6 @@ namespace LunarConsoleEditorInternal
                 }
             }
         }
-
-        /// <summary>
-        /// This methods should not be listed for action delegates
-        /// </summary>
-        private static readonly string[] kIgnoredMethods = {
-            "Awake",
-            "FixedUpdate",
-            "LateUpdate",
-            "OnAnimatorIK",
-            "OnAnimatorMove",
-            "OnApplicationFocus",
-            "OnApplicationPause",
-            "OnApplicationQuit",
-            "OnAudioFilterRead",
-            "OnBecameInvisible",
-            "OnBecameVisible",
-            "OnCollisionEnter",
-            "OnCollisionEnter2D",
-            "OnCollisionExit",
-            "OnCollisionExit2D",
-            "OnCollisionStay",
-            "OnCollisionStay2D",
-            "OnConnectedToServer",
-            "OnControllerColliderHit",
-            "OnDestroy",
-            "OnDisable",
-            "OnDisconnectedFromServer",
-            "OnDrawGizmos",
-            "OnDrawGizmosSelected",
-            "OnEnable",
-            "OnFailedToConnect",
-            "OnFailedToConnectToMasterServer",
-            "OnGUI",
-            "OnJointBreak",
-            "OnJointBreak2D",
-            "OnMasterServerEvent",
-            "OnMouseDown",
-            "OnMouseDrag",
-            "OnMouseEnter",
-            "OnMouseExit",
-            "OnMouseOver",
-            "OnMouseUp",
-            "OnMouseUpAsButton",
-            "OnNetworkInstantiate",
-            "OnParticleCollision",
-            "OnParticleTrigger",
-            "OnPlayerConnected",
-            "OnPlayerDisconnected",
-            "OnPostRender",
-            "OnPreCull",
-            "OnPreRender",
-            "OnRenderImage",
-            "OnRenderObject",
-            "OnSerializeNetworkView",
-            "OnServerInitialized",
-            "OnTransformChildrenChanged",
-            "OnTransformParentChanged",
-            "OnTriggerEnter",
-            "OnTriggerEnter2D",
-            "OnTriggerExit",
-            "OnTriggerExit2D",
-            "OnTriggerStay",
-            "OnTriggerStay2D",
-            "OnValidate",
-            "OnWillRenderObject",
-            "Reset",
-            "Start",
-            "Update",
-        };
 
         private static readonly Type[] kParamTypes = {
             typeof(int),
@@ -302,6 +233,7 @@ namespace LunarConsoleEditorInternal
             var menu = new GenericMenu();
             menu.AddItem(new GUIContent("No Function"), methodProperty.stringValue == null, delegate() {
                 methodProperty.stringValue = null;
+                serializedObject.ApplyModifiedProperties();
             });
 
             var target = targetProperty.objectReferenceValue;
@@ -312,8 +244,11 @@ namespace LunarConsoleEditorInternal
                 var functions = ListFunctions(target);
                 foreach (var function in functions)
                 {
-                    var selected = target.GetType() == function.targetType && methodProperty.stringValue == function.method.Name;
-                    menu.AddItem(new GUIContent(function.targetType.Name + "/" + function.displayName), selected, delegate () {
+                    var selected = target == function.target && methodProperty.stringValue == function.method.Name;
+                    menu.AddItem(new GUIContent(function.target.GetType().Name + "/" + function.displayName), selected, delegate () {
+                        targetProperty.objectReferenceValue = function.target;
+                        methodProperty.stringValue = function.method.Name;
+                        serializedObject.ApplyModifiedProperties();
                     });
                 }
             }
@@ -323,7 +258,7 @@ namespace LunarConsoleEditorInternal
 
         private Rect[] GetRowRects(Rect rect)
         {
-            Rect[] array = new Rect[4];
+            Rect[] array = new Rect[4]; 
             rect.height = 16f;
             rect.y += 2f;
             Rect rect2 = rect;
@@ -341,40 +276,18 @@ namespace LunarConsoleEditorInternal
             return array;
         }
 
-        int IndexOfFunction(Function[] functions, string typeName, string methodName)
-        {
-            if (typeName == null || methodName == null)
-            {
-                return -1;
-            }
-
-            var type = Type.GetType(typeName);
-            if (type == null)
-            {
-                return -1;
-            }
-
-            int index = 0;
-            foreach (var function in functions)
-            {
-                if (function.targetType.Name == typeName && function.method.Name == methodName)
-                {
-                    return index;
-                }
-
-                ++index;
-            }
-
-            return -1;
-        }
-
         Function[] ListFunctions(UnityEngine.Object obj)
         {
+            if (obj is Component)
+            {
+                obj = ((Component)obj).gameObject;
+            }
+
             List<Function> functions = new List<Function>();
             if (obj != null)
             {
-                List<Type> types = new List<Type>();
-                types.Add(obj.GetType());
+                List<UnityEngine.Object> targets = new List<UnityEngine.Object>();
+                targets.Add(obj);
 
                 if (obj is GameObject)
                 {
@@ -382,25 +295,24 @@ namespace LunarConsoleEditorInternal
                     var components = gameObject.GetComponents<Component>();
                     foreach (var component in gameObject.GetComponents<Component>())
                     {
-                        types.Add(component.GetType());
+                        targets.Add(component);
                     }
                 }
 
-                foreach (var type in types)
+                foreach (var target in targets)
                 {
                     List<MethodInfo> methods = new List<MethodInfo>();
-                    ClassUtils.ListMethods(methods, type, IsValidActionMethod, BindingFlags.Instance | BindingFlags.Public | BindingFlags.FlattenHierarchy);
+                    ClassUtils.ListMethods(methods, target.GetType(), IsValidActionMethod, BindingFlags.Instance | BindingFlags.Public | BindingFlags.FlattenHierarchy);
+                    methods.Sort(delegate (MethodInfo a, MethodInfo b) {
+                        return a.IsSpecialName == b.IsSpecialName ? a.Name.CompareTo(b.Name) : (a.IsSpecialName ? -1 : 1);
+                    });
+
                     foreach (var method in methods)
                     {
-                        functions.Add(new Function(type, method));
+                        functions.Add(new Function(target, method));
                     }
                 }
             }
-
-            functions.Sort(delegate (Function a, Function b)
-            {
-                return a.isProperty == b.isProperty ? a.displayName.CompareTo(b.displayName) : (a.isProperty ? -1 : 1);
-            });
 
             return functions.ToArray();
         }
@@ -435,11 +347,6 @@ namespace LunarConsoleEditorInternal
             if (attributes != null && attributes.Length > 0)
             {
                 return false; // no obsolete methods
-            }
-
-            if (Array.IndexOf(kIgnoredMethods, method.Name) != -1)
-            {
-                return false; // this method should be ignored
             }
 
             if (methodParams.Length == 1)
