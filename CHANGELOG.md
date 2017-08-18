@@ -1,5 +1,11 @@
 # Lunar Console Changelog
 
+## v.1.4.8 - 8/18/2017
+
+**Fixes:**
+
+* iOS build portability issues.
+
 ## v.1.4.7 - 8/1/2017
 
 **New:**
