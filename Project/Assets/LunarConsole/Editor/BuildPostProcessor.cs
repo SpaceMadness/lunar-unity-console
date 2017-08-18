@@ -55,7 +55,18 @@ namespace LunarConsoleEditorInternal
             // Workaround for:
             // FileNotFoundException: Could not load file or assembly 'UnityEditor.iOS.Extensions.Xcode, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null' or one of its dependencies.
             // For more information see: http://answers.unity3d.com/questions/1016975/filenotfoundexception-when-using-xcode-api.html
-            var projectMod = new XcodeProjMod(buildPath);
+            // Copy plugin files to the build directory so you can later move to another machine and build it there
+            var pluginPath = Path.Combine(buildPath, Constants.PluginName);
+            FileUtil.DeleteFileOrDirectory(pluginPath);
+            FileUtil.CopyFileOrDirectory(EditorConstants.EditorPathIOS, pluginPath);
+            // Clean up meta files
+            string[] files = Directory.GetFiles(pluginPath, "*.meta", System.IO.SearchOption.AllDirectories);
+            foreach (string file in files)
+            {
+                FileUtil.DeleteFileOrDirectory(file);
+            }
+
+            var projectMod = new XcodeProjMod(buildPath, pluginPath);
             projectMod.UpdateProject();
         }
         #endif //UNITY_IOS || UNITY_IPHONE
@@ -66,11 +77,12 @@ namespace LunarConsoleEditorInternal
     {
         private readonly string m_buildPath;
         private readonly string m_projectPath;
+        private readonly string m_pluginPath;
 
-
-        public XcodeProjMod(string buildPath)
+        public XcodeProjMod(string buildPath, string pluginPath)
         {
             m_buildPath = buildPath;
+            m_pluginPath = pluginPath;
             m_projectPath = PBXProject.GetPBXProjectPath(buildPath);
         }
 
@@ -79,7 +91,7 @@ namespace LunarConsoleEditorInternal
             var project = new PBXProject();
             project.ReadFromFile(m_projectPath);
 
-            string[] files = Directory.GetFiles(EditorConstants.EditorPathIOS, "*.projmods", System.IO.SearchOption.AllDirectories);
+            string[] files = Directory.GetFiles(m_pluginPath, "*.projmods", System.IO.SearchOption.AllDirectories);
             foreach (string file in files)
             {
                 ApplyMod(project, file);
