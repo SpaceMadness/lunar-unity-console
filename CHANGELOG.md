@@ -1,5 +1,15 @@
 # Lunar Console Changelog
 
+## v.1.5.0 - 8/20/2017
+
+**New:**
+
+* Console actions can now accept an optional parameter.
+
+**Changes:**
+
+* `LunarConsoleActions` is now deprecated.
+
 ## v.1.4.9 - 8/19/2017
 
 **Fixes:**
