@@ -1,5 +1,5 @@
 //
-//  LunarConsoleActions.cs
+//  LunarConsoleLegacyActions.cs
 //
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
