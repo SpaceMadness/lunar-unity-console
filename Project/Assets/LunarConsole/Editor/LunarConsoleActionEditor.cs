@@ -93,13 +93,6 @@ namespace LunarConsoleEditorInternal
             }
         }
 
-        private static readonly Type[] kParamTypes = {
-            typeof(int),
-            typeof(float),
-            typeof(string),
-            typeof(bool)
-        };
-
         private void OnEnable()
         {
             list = new ReorderableList(serializedObject, serializedObject.FindProperty(kPropCalls), false, true, true, true);
@@ -207,7 +200,7 @@ namespace LunarConsoleEditorInternal
                     {
                         stringBuilder.Append("No Function");
                     }
-                    else if (!IsPersistantListenerValid(targetProperty.objectReferenceValue, methodProperty.stringValue, persistentListenerMode))
+                    else if (!LunarConsoleActionCall.IsPersistantListenerValid(targetProperty.objectReferenceValue, methodProperty.stringValue, persistentListenerMode))
                     {
                         string componentName = "UnknownComponent";
                         UnityEngine.Object target = targetProperty.objectReferenceValue;
@@ -314,57 +307,6 @@ namespace LunarConsoleEditorInternal
             typeAssemblyProperty.stringValue = paramType != null ? paramType.AssemblyQualifiedName : null;
         }
 
-        bool IsPersistantListenerValid(UnityEngine.Object target, string methodName, LunarPersistentListenerMode mode)
-        {
-            if (target == null)
-            {
-                return false;
-            }
-
-            List<MethodInfo> methods = new List<MethodInfo>();
-            ClassUtils.ListMethods(methods, target.GetType(), IsValidActionMethod, BindingFlags.Instance | BindingFlags.Public | BindingFlags.FlattenHierarchy);
-            foreach (var method in methods)
-            {
-                if (method.Name == methodName)
-                {
-                    var parameters = method.GetParameters();
-                    if (mode == LunarPersistentListenerMode.Void)
-                    {
-                        if (parameters.Length == 0)
-                        {
-                            return true;
-                        }
-                    }
-                    else if (parameters.Length == 1)
-                    {
-                        var paramType = parameters[0].ParameterType;
-                        if (mode == LunarPersistentListenerMode.Bool && paramType == typeof(bool))
-                        {
-                            return true;
-                        }
-                        if (mode == LunarPersistentListenerMode.Float && paramType == typeof(float))
-                        {
-                            return true;
-                        }
-                        if (mode == LunarPersistentListenerMode.Int && paramType == typeof(int))
-                        {
-                            return true;
-                        }
-                        if (mode == LunarPersistentListenerMode.String && paramType == typeof(string))
-                        {
-                            return true;
-                        }
-                        if (mode == LunarPersistentListenerMode.Object && paramType.IsSubclassOf(typeof(UnityEngine.Object)))
-                        {
-                            return true;
-                        }
-                    }
-                }
-            }
-
-            return false;
-        }
-
         private Rect[] GetRowRects(Rect rect)
         {
             Rect[] array = new Rect[4]; 
@@ -409,8 +351,7 @@ namespace LunarConsoleEditorInternal
 
                 foreach (var target in targets)
                 {
-                    List<MethodInfo> methods = new List<MethodInfo>();
-                    ClassUtils.ListMethods(methods, target.GetType(), IsValidActionMethod, BindingFlags.Instance | BindingFlags.Public | BindingFlags.FlattenHierarchy);
+                    List<MethodInfo> methods = LunarConsoleActionCall.ListActionMethods(target);
                     methods.Sort(delegate (MethodInfo a, MethodInfo b) {
                         return a.IsSpecialName == b.IsSpecialName ? a.Name.CompareTo(b.Name) : (a.IsSpecialName ? -1 : 1);
                     });
@@ -423,50 +364,6 @@ namespace LunarConsoleEditorInternal
             }
 
             return functions.ToArray();
-        }
-
-        /// <summary>
-        /// Determines if method is a valid action delegate
-        /// </summary>
-        private static bool IsValidActionMethod(MethodInfo method)
-        {
-            if (!method.IsPublic)
-            {
-                return false; // only list public methods
-            }
-
-            if (method.ReturnType != typeof(void))
-            {
-                return false; // non-void return type are not allowed
-            }
-
-            if (method.IsAbstract)
-            {
-                return false; // don't list abstract methods
-            }
-
-            var methodParams = method.GetParameters();
-            if (methodParams.Length > 1)
-            {
-                return false; // no more then a single param
-            }
-
-            var attributes = method.GetCustomAttributes(typeof(ObsoleteAttribute), false);
-            if (attributes != null && attributes.Length > 0)
-            {
-                return false; // no obsolete methods
-            }
-
-            if (methodParams.Length == 1)
-            {
-                var paramType = methodParams[0].ParameterType;
-                if (!paramType.IsSubclassOf(typeof(UnityEngine.Object)) && Array.IndexOf(kParamTypes, paramType) == -1)
-                {
-                    return false;
-                }
-            }
-
-            return true;
         }
     }
 }
