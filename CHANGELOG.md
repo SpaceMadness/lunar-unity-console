@@ -1,5 +1,11 @@
 # Lunar Console Changelog
 
+## v.1.4.9 - 8/19/2017
+
+**Fixes:**
+
+* Console variables are not properly serialized after reset in the editor mode.
+
 ## v.1.4.8 - 8/18/2017
 
 **Fixes:**
