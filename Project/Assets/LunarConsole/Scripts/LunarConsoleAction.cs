@@ -256,6 +256,11 @@ namespace LunarConsolePluginInternal
             });
             return methods.Count == 1 ? methods[0] : null;
         }
+
+        public Object target
+        {
+            get { return m_target; }
+        }
     }
 
     public class LunarConsoleAction : MonoBehaviour
@@ -284,6 +289,29 @@ namespace LunarConsolePluginInternal
             else
             {
                 Destroy(this);
+            }
+        }
+
+        void OnValidate()
+        {
+            if (m_calls.Count > 0)
+            {
+                foreach (var call in m_calls)
+                {
+                    Validate(call);
+                }
+            }
+            else
+            {
+                Debug.LogWarning(string.Format("Action '{0}' ({1}) has no handlers", m_title, gameObject.name), gameObject);
+            }
+        }
+
+        void Validate(LunarConsoleActionCall call)
+        {
+            if (call.target == null)
+            {
+                Debug.LogWarning(string.Format("Action '{0}' ({1}) is missing a target object", m_title, gameObject.name), gameObject); 
             }
         }
         

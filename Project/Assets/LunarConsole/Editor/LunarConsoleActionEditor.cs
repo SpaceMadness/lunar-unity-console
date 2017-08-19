@@ -138,7 +138,12 @@ namespace LunarConsoleEditorInternal
 
             Color backgroundColor = GUI.backgroundColor;
             GUI.backgroundColor = Color.white;
+
+            var oldFlag = GUI.enabled;
+            GUI.enabled = false;
             GUI.Box(runtimeModeRect, "Runtime Only", EditorStyles.popup);
+            GUI.enabled = oldFlag;
+
             EditorGUI.BeginChangeCheck();
             GUI.Box(targetRect, GUIContent.none);
             EditorGUI.PropertyField(targetRect, targetProperty, GUIContent.none);
@@ -201,6 +206,16 @@ namespace LunarConsoleEditorInternal
                     if (targetProperty.objectReferenceValue == null || string.IsNullOrEmpty(methodProperty.stringValue))
                     {
                         stringBuilder.Append("No Function");
+                    }
+                    else if (!IsPersistantListenerValid(targetProperty.objectReferenceValue, methodProperty.stringValue, persistentListenerMode))
+                    {
+                        string componentName = "UnknownComponent";
+                        UnityEngine.Object target = targetProperty.objectReferenceValue;
+                        if (target != null)
+                        {
+                            componentName = target.GetType().Name;
+                        }
+                        stringBuilder.Append(string.Format("<Missing {0}.{1}>", componentName, methodProperty.stringValue));
                     }
                     else
                     {
@@ -297,6 +312,57 @@ namespace LunarConsoleEditorInternal
             }
             modeProperty.enumValueIndex = (int)mode;
             typeAssemblyProperty.stringValue = paramType != null ? paramType.AssemblyQualifiedName : null;
+        }
+
+        bool IsPersistantListenerValid(UnityEngine.Object target, string methodName, LunarPersistentListenerMode mode)
+        {
+            if (target == null)
+            {
+                return false;
+            }
+
+            List<MethodInfo> methods = new List<MethodInfo>();
+            ClassUtils.ListMethods(methods, target.GetType(), IsValidActionMethod, BindingFlags.Instance | BindingFlags.Public | BindingFlags.FlattenHierarchy);
+            foreach (var method in methods)
+            {
+                if (method.Name == methodName)
+                {
+                    var parameters = method.GetParameters();
+                    if (mode == LunarPersistentListenerMode.Void)
+                    {
+                        if (parameters.Length == 0)
+                        {
+                            return true;
+                        }
+                    }
+                    else if (parameters.Length == 1)
+                    {
+                        var paramType = parameters[0].ParameterType;
+                        if (mode == LunarPersistentListenerMode.Bool && paramType == typeof(bool))
+                        {
+                            return true;
+                        }
+                        if (mode == LunarPersistentListenerMode.Float && paramType == typeof(float))
+                        {
+                            return true;
+                        }
+                        if (mode == LunarPersistentListenerMode.Int && paramType == typeof(int))
+                        {
+                            return true;
+                        }
+                        if (mode == LunarPersistentListenerMode.String && paramType == typeof(string))
+                        {
+                            return true;
+                        }
+                        if (mode == LunarPersistentListenerMode.Object && paramType.IsSubclassOf(typeof(UnityEngine.Object)))
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            return false;
         }
 
         private Rect[] GetRowRects(Rect rect)
