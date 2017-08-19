@@ -419,10 +419,6 @@ namespace LunarConsolePluginInternal
                     Validate(call);
                 }
             }
-            else
-            {
-                Debug.LogWarning(string.Format("Action '{0}' ({1}) has no handlers", m_title, gameObject.name), gameObject);
-            }
         }
 
         void Validate(LunarConsoleActionCall call)
