@@ -173,7 +173,7 @@ namespace LunarConsolePluginInternal
         }
     }
 
-    [Obsolete("Use 'LunarConsoleAction' instead")]
+    [Obsolete("Use 'Lunar Console Action' instead")]
     public class LunarConsoleLegacyActions : MonoBehaviour
     {
         [SerializeField]
