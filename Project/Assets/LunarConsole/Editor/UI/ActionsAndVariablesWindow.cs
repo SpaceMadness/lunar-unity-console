@@ -146,6 +146,7 @@ namespace LunarConsoleEditorInternal
                     {
                         cvar.Value = cvar.DefaultValue;
                         GUI.FocusControl("Reset Button");
+                        LunarConsole.instance.MarkVariablesDirty();
                     }
                 }
                 GUILayout.EndHorizontal();
