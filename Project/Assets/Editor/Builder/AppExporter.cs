@@ -50,8 +50,10 @@ namespace LunarConsoleEditorInternal
             #else
             BuildTarget target = BuildTarget.iOS;
             #endif
-            
+
+            #pragma warning disable 0618
             EditorUserBuildSettings.SwitchActiveBuildTarget(target);
+            #pragma warning restore 0618
             EditorUserBuildSettings.allowDebugging = true;
             BuildPipeline.BuildPlayer(GetScenePaths(), outDir, target, buildOptions);
         }
@@ -63,15 +65,19 @@ namespace LunarConsoleEditorInternal
             Cleanup(outDir);
             
             string productName = PlayerSettings.productName;
-            
+
+            #pragma warning disable 0618
             EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTarget.Android);
+            #pragma warning restore 0618
             EditorUserBuildSettings.allowDebugging = true;
             BuildPipeline.BuildPlayer(GetScenePaths(), outDir + "/" + productName + ".apk", BuildTarget.Android, buildOptions);
         }
 
         internal static void SwitchToIOSBuildTarget()
         {
+            #pragma warning disable 0618
             EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTarget.iOS);
+            #pragma warning restore 0618
             EditorUserBuildSettings.allowDebugging = true;
         }
 

@@ -34,7 +34,7 @@ using LunarConsolePlugin;
 namespace LunarConsolePluginInternal
 {
     [Serializable]
-    public class LunarConsoleAction
+    public class LunarConsoleLegacyAction
     {
         static readonly object[] kEmptyArgs = {};
 
@@ -173,14 +173,15 @@ namespace LunarConsolePluginInternal
         }
     }
 
-    public class LunarConsoleActions : MonoBehaviour
+    [Obsolete("Use 'Lunar Console Action' instead")]
+    public class LunarConsoleLegacyActions : MonoBehaviour
     {
         [SerializeField]
         bool m_dontDestroyOnLoad;
 
         [SerializeField]
         [HideInInspector]
-        List<LunarConsoleAction> m_actions;
+        List<LunarConsoleLegacyAction> m_actions;
 
         void Awake()
         {
@@ -221,12 +222,12 @@ namespace LunarConsolePluginInternal
             }
         }
 
-        public void AddAction(LunarConsoleAction action)
+        public void AddAction(LunarConsoleLegacyAction action)
         {
             m_actions.Add(action);
         }
 
-        public List<LunarConsoleAction> actions
+        public List<LunarConsoleLegacyAction> actions
         {
             get { return m_actions; }
         }

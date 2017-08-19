@@ -35,4 +35,34 @@ public class GlobalActions : MonoBehaviour
     {
         LunarConsole.SetConsoleEnabled(false);
     }
+
+    public void TestVoid()
+    {
+        Debug.Log("Void");
+    }
+
+    public void TestString(string message)
+    {
+        Debug.Log(message);
+    }
+
+    public void TestInt(int value)
+    {
+        Debug.Log(value);
+    }
+
+    public void TestFloat(float value)
+    {
+        Debug.Log(value);
+    }
+
+    public void TestBool(bool value)
+    {
+        Debug.Log(value);
+    }
+
+    public void TestTransform(Transform value)
+    {
+        Debug.Log(value.name);
+    }
 }
