@@ -188,6 +188,73 @@ namespace LunarConsolePluginInternal
 
         public void Invoke()
         {
+            MethodInfo method = null;
+            object[] invokeParams = null;
+            switch (m_mode)
+            {
+                case LunarPersistentListenerMode.Void:
+                    method = ResolveMethod(m_target, m_methodName, typeof(void));
+                    invokeParams = new object[0];
+                    break;
+
+                case LunarPersistentListenerMode.Bool:
+                    method = ResolveMethod(m_target, m_methodName, typeof(bool));
+                    invokeParams = new object[] { m_arguments.boolArgument };
+                    break;
+
+                case LunarPersistentListenerMode.Float:
+                    method = ResolveMethod(m_target, m_methodName, typeof(float));
+                    invokeParams = new object[] { m_arguments.floatArgument };
+                    break;
+
+                case LunarPersistentListenerMode.Int:
+                    method = ResolveMethod(m_target, m_methodName, typeof(int));
+                    invokeParams = new object[] { m_arguments.intArgument };
+                    break;
+
+                case LunarPersistentListenerMode.String:
+                    method = ResolveMethod(m_target, m_methodName, typeof(string));
+                    invokeParams = new object[] { m_arguments.stringArgument };
+                    break;
+
+                case LunarPersistentListenerMode.Object:
+                    method = ResolveMethod(m_target, m_methodName, typeof(UnityEngine.Object));
+                    invokeParams = new object[] { m_arguments.unityObjectArgument };
+                    break;
+
+                default:
+                    Log.e("Unable to invoke action: unexpected invoke mode '{0}'", m_mode);
+                    return;
+            }
+
+            if (method != null)
+            {
+                method.Invoke(m_target, invokeParams);
+            }
+            else
+            {
+                Log.e("Unable to invoke action: can't resolve method '{0}'", m_methodName);
+            }
+        }
+
+        static MethodInfo ResolveMethod(object target, string methodName, Type paramType)
+        {
+            var methods = ClassUtils.ListInstanceMethods(target.GetType(), delegate(MethodInfo method)
+            {
+                if (method.Name != methodName)
+                {
+                    return false;
+                }
+
+                var parameters = method.GetParameters();
+                if (paramType == typeof(void))
+                {
+                    return parameters.Length == 0;
+                }
+
+                return parameters.Length == 1 && (parameters[0].ParameterType == paramType || parameters[0].ParameterType.IsSubclassOf(paramType));
+            });
+            return methods.Count == 1 ? methods[0] : null;
         }
     }
 
