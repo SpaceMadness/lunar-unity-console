@@ -1,6 +1,6 @@
 {
   "status": "OK",
-  "version": "1.4.6",
-  "message": "Fixes:\n**Android**: java.lang.NullPointerException: Attempt to invoke virtual method 'void spacemadness.com.lunarconsole.console.WarningView.destroy()' on a null object reference.",
+  "version": "1.5.0",
+  "message": "**New:**\n\n* Console actions can now accept an optional parameter.\n\n**Changes:**\n\n*  `LunarConsoleActions` is now deprecated.",
   "url": "https://www.assetstore.unity3d.com/en/#!/content/43800"
 }
