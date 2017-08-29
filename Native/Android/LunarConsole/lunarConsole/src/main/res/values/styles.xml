@@ -122,7 +122,8 @@
         <item name="android:textColor">@color/lunar_console_color_variable_value_text</item>
         <item name="android:textColorHighlight">@color/lunar_console_color_variable_value_text
         </item>
-        <item name="android:layout_width">60dp</item> <!-- TODO: use dimensions -->
+        <item name="android:layout_weight">0</item>
+        <item name="android:layout_width">120dp</item> <!-- TODO: use dimensions -->
         <item name="android:layout_height">30dp</item> <!-- TODO: use dimensions -->
         <item name="android:gravity">left|center_vertical</item>
     </style>
