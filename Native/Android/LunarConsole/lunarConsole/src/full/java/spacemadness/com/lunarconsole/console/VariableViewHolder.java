@@ -53,6 +53,7 @@ public class VariableViewHolder extends ConsoleActionAdapter.ViewHolder<Variable
     private final TextView nameTextView;
     private final Button valueEditButton;
     private final Switch toggleSwitch;
+    private final int originalNameTextColor;
     private boolean ignoreListenerCallbacks;
     private Variable variable; // TODO: weak reference?
 
@@ -62,6 +63,7 @@ public class VariableViewHolder extends ConsoleActionAdapter.ViewHolder<Variable
 
         layout = itemView.findViewById(R.id.lunar_console_action_entry_layout);
         nameTextView = (TextView) itemView.findViewById(R.id.lunar_console_variable_entry_name);
+        originalNameTextColor = nameTextView.getCurrentTextColor();
         valueEditButton = (Button) itemView.findViewById(R.id.lunar_console_variable_entry_value);
         toggleSwitch = (Switch) itemView.findViewById(R.id.lunar_console_variable_entry_switch);
         valueEditButton.setOnClickListener(this);
@@ -85,6 +87,10 @@ public class VariableViewHolder extends ConsoleActionAdapter.ViewHolder<Variable
             if (cvar.hasFlag(Variable.FLAG_NO_ARCHIVE))
             {
                 nameTextView.setTextColor(getResources().getColor(R.color.lunar_console_color_variable_volatile_text));
+            }
+            else
+            {
+                nameTextView.setTextColor(originalNameTextColor);
             }
 
             if (cvar.type == VariableType.Boolean)
