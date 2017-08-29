@@ -1,5 +1,11 @@
 # Lunar Console Changelog
 
+## v.1.5.1 - 8/28/2017
+
+**Fixes:**
+
+* Console variables are not properly loaded and duplicated.
+
 ## v.1.5.0 - 8/20/2017
 
 **New:**
