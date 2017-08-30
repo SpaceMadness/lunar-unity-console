@@ -65,4 +65,9 @@ public class GlobalActions : MonoBehaviour
     {
         Debug.Log(value.name);
     }
+
+    public void Restart()
+    {
+        Application.LoadLevel(Application.loadedLevel);
+    }
 }

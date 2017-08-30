@@ -441,7 +441,7 @@ namespace LunarConsolePlugin
                                 }
 
                                 cvar.Value = value;
-                                m_platform.OnVariableRegistered(m_registry, cvar);
+                                m_platform.OnVariableUpdated(m_registry, cvar);
                             }
                         }
                     }
@@ -608,6 +608,11 @@ namespace LunarConsolePlugin
                 __lunar_console_cvar_register(cvar.Id, cvar.Name, cvar.Type.ToString(), cvar.Value, cvar.DefaultValue, (int)cvar.Flags, cvar.HasRange, cvar.Range.min, cvar.Range.max);
             }
 
+            public void OnVariableUpdated(CRegistry registry, CVar cvar)
+            {
+                __lunar_console_cvar_update(cvar.Id, cvar.Value);
+            }
+
             public void Destroy()
             {
                 __lunar_console_destroy();
@@ -638,6 +643,7 @@ namespace LunarConsolePlugin
             private readonly IntPtr m_methodRegisterAction;
             private readonly IntPtr m_methodUnregisterAction;
             private readonly IntPtr m_methodRegisterVariable;
+            private readonly IntPtr m_methodUpdateVariable;
             private readonly IntPtr m_methodDestroy;
 
             private readonly Queue<LogMessageEntry> m_messageQueue;
@@ -683,6 +689,7 @@ namespace LunarConsolePlugin
                 m_methodRegisterAction = GetStaticMethod(m_pluginClassRaw, "registerAction", "(ILjava.lang.String;)V");
                 m_methodUnregisterAction = GetStaticMethod(m_pluginClassRaw, "unregisterAction", "(I)V");
                 m_methodRegisterVariable = GetStaticMethod(m_pluginClassRaw, "registerVariable", "(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IZFF)V");
+                m_methodUpdateVariable = GetStaticMethod(m_pluginClassRaw, "updateVariable", "(ILjava/lang/String;)V");
                 m_methodDestroy = GetStaticMethod(m_pluginClassRaw, "destroyInstance", "()V");
 
                 m_messageQueue = new Queue<LogMessageEntry>();
@@ -834,6 +841,21 @@ namespace LunarConsolePlugin
                 }
             }
 
+            public void OnVariableUpdated(CRegistry registry, CVar cvar)
+            {
+                try
+                {
+                    m_args2[0] = jval(cvar.Id);
+                    m_args2[1] = jval(cvar.Value);
+                    CallStaticVoidMethod(m_methodUpdateVariable, m_args2);
+                    AndroidJNI.DeleteLocalRef(m_args2[1].l);
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError("Exception while calling 'LunarConsole.OnVariableUpdated': " + e.Message);
+                }
+            }
+
             #endregion
 
             #region Helpers
@@ -939,6 +961,10 @@ namespace LunarConsolePlugin
             }
 
             public void OnVariableRegistered(CRegistry registry, CVar cvar)
+            {
+            }
+
+            public void OnVariableUpdated(CRegistry registry, CVar cvar)
             {
             }
         }

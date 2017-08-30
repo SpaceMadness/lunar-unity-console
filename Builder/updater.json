@@ -1,6 +1,6 @@
 {
   "status": "OK",
-  "version": "1.5.0",
-  "message": "**New:**\n\n* Console actions can now accept an optional parameter.\n\n**Changes:**\n\n*  `LunarConsoleActions` is now deprecated.",
+  "version": "1.5.1",
+  "message": "**Fixes:**\n\n* Console variables are not properly loaded and duplicated.",
   "url": "https://www.assetstore.unity3d.com/en/#!/content/43800"
 }

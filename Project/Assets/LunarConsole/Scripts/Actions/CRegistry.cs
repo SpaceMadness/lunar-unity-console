@@ -36,6 +36,7 @@ namespace LunarConsolePluginInternal
         void OnActionRegistered(CRegistry registry, CAction action);
         void OnActionUnregistered(CRegistry registry, CAction action);
         void OnVariableRegistered(CRegistry registry, CVar cvar);
+        void OnVariableUpdated(CRegistry registry, CVar cvar);
     }
 
     public class CRegistry

@@ -520,6 +520,13 @@ public class ConsolePlugin implements Destroyable
                 return;
             }
 
+            Variable existing = instance.actionRegistry.findVariable(variableId);
+            if (existing != null)
+            {
+                Log.e("Attempted to register variable twice: %d", variableId);
+                return;
+            }
+
             Variable variable = instance.actionRegistry.registerVariable(variableId, name, type, value, defaultValue);
             variable.setFlags(flags);
             if (hasRange)
