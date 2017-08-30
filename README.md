@@ -2,7 +2,10 @@
 
 Asset store link: [https://www.assetstore.unity3d.com/en/#!/content/43800](https://goo.gl/lQKEbW)  
 Requires Unity 5.0 or later.
-
+  
+**iOS demo app:** _coming soon_  
+**Android demo app:** https://play.google.com/store/apps/details?id=com.spacemadness.LunarConsole
+  
 **If you enjoy using the plugin - please, [rate and review](https://www.assetstore.unity3d.com/en/#!/account/downloads/search=Lunar%20Mobile%20Console) on the Asset Store!**
 
 <img width="465" src="https://cloud.githubusercontent.com/assets/786644/14592627/a7757736-04d5-11e6-9eef-62257823a83a.png">
