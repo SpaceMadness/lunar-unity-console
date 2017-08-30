@@ -25,12 +25,12 @@ using UnityEngine;
 
 public class ActionScene : MonoBehaviour
 {
-    void Action1()
+    public void Action1()
     {
         Debug.Log("Action-1");
     }
 
-    void Action2()
+    public void Action2()
     {
         Debug.Log("Action-2");
     }

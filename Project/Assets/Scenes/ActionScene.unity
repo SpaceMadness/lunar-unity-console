@@ -38,11 +38,11 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
+  m_IndirectSpecularColor: {r: 0.4465934, g: 0.49642956, b: 0.5748249, a: 1}
 --- !u!157 &4
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 9
+  serializedVersion: 11
   m_GIWorkflowMode: 0
   m_GISettings:
     serializedVersion: 2
@@ -54,7 +54,7 @@ LightmapSettings:
     m_EnableBakedLightmaps: 1
     m_EnableRealtimeLightmaps: 1
   m_LightmapEditorSettings:
-    serializedVersion: 8
+    serializedVersion: 9
     m_Resolution: 2
     m_BakeResolution: 40
     m_TextureWidth: 1024
@@ -87,7 +87,7 @@ LightmapSettings:
     m_PVRFilteringAtrousNormalSigma: 1
     m_PVRFilteringAtrousPositionSigma: 1
   m_LightingDataAsset: {fileID: 0}
-  m_ShadowMaskMode: 2
+  m_UseShadowmask: 1
 --- !u!196 &5
 NavMeshSettings:
   serializedVersion: 2
@@ -119,8 +119,9 @@ GameObject:
   - component: {fileID: 325927472}
   - component: {fileID: 325927471}
   - component: {fileID: 325927470}
-  - component: {fileID: 325927475}
   - component: {fileID: 325927474}
+  - component: {fileID: 325927476}
+  - component: {fileID: 325927475}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -223,21 +224,44 @@ MonoBehaviour:
   m_GameObject: {fileID: 325927469}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d9ca3326e330843bc825ea966b3d15c6, type: 3}
+  m_Script: {fileID: 11500000, guid: ec77148523b71dc4fa9c635588284aea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_dontDestroyOnLoad: 0
-  m_actions:
-  - m_name: Action 2
-    m_target: {fileID: 325927469}
-    m_componentTypeName: ActionScene, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-    m_componentMethodName: Action2
-  - m_name: Action 1
-    m_target: {fileID: 325927469}
-    m_componentTypeName: ActionScene, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
-    m_componentMethodName: Action1
+  m_title: Action 2
+  m_calls:
+  - m_target: {fileID: 325927474}
+    m_methodName: Action2
+    m_mode: 0
+    m_arguments:
+      m_objectArgument: {fileID: 0}
+      m_objectArgumentAssemblyTypeName: 
+      m_intArgument: 0
+      m_floatArgument: 0
+      m_stringArgument: 
+      m_boolArgument: 0
+--- !u!114 &325927476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 325927469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec77148523b71dc4fa9c635588284aea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_title: Action 1
+  m_calls:
+  - m_target: {fileID: 325927474}
+    m_methodName: Action1
+    m_mode: 0
+    m_arguments:
+      m_objectArgument: {fileID: 0}
+      m_objectArgumentAssemblyTypeName: 
+      m_intArgument: 0
+      m_floatArgument: 0
+      m_stringArgument: 
+      m_boolArgument: 0
 --- !u!1 &747812300
 GameObject:
   m_ObjectHideFlags: 0
@@ -360,6 +384,20 @@ Light:
   m_Lightmapping: 4
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
+  m_FalloffTable:
+    m_Table[0]: 0
+    m_Table[1]: 0
+    m_Table[2]: 0
+    m_Table[3]: 0
+    m_Table[4]: 0
+    m_Table[5]: 0
+    m_Table[6]: 0
+    m_Table[7]: 0
+    m_Table[8]: 0
+    m_Table[9]: 0
+    m_Table[10]: 0
+    m_Table[11]: 0
+    m_Table[12]: 0
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
@@ -598,6 +636,7 @@ MonoBehaviour:
   m_PreferredHeight: 40
   m_FlexibleWidth: -1
   m_FlexibleHeight: -1
+  m_LayoutPriority: 1
 --- !u!114 &1712615844
 MonoBehaviour:
   m_ObjectHideFlags: 0
