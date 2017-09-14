@@ -25,6 +25,7 @@ using UnityEditor;
 using LunarConsolePlugin;
 using LunarConsolePluginInternal;
 
+using System;
 using System.IO;
 using System.Collections;
 
@@ -61,9 +62,20 @@ namespace LunarConsoleEditorInternal
         {
             foreach (var assetPath in kLegacyAssets)
             {
-                if (AssetDatabase.DeleteAsset(assetPath))
+                try
                 {
-                    Debug.LogWarning("Deleted legacy asset: " + assetPath);
+                    if (AssetDatabase.DeleteAsset(assetPath))
+                    {
+                        Debug.LogWarning("Deleted legacy asset: " + assetPath);
+                    }
+                }
+                catch (NullReferenceException e) // see: https://forum.unity.com/threads/lunar-mobile-console-high-performance-unity-ios-android-logger-built-with-native-platform-ui.347650/page-5#post-3215675
+                {
+                    Log.d("Exception while deleting asset '{0}': {1}", assetPath, e);
+                }
+                catch (Exception e)
+                {
+                    Debug.LogWarningFormat("Exception while deleting asset '{0}': {1}", assetPath, e);
                 }
             }
         }
