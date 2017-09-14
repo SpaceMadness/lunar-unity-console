@@ -1,5 +1,11 @@
 # Lunar Console Changelog
 
+## v.1.5.2 - 9/14/2017
+
+**Fixes:**
+
+* Fixed `NullReferenceException` while cleaning legacy files.
+
 ## v.1.5.1 - 8/28/2017
 
 **Fixes:**
