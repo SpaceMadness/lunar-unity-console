@@ -40,7 +40,7 @@ namespace LunarConsolePluginInternal
         {
             if (target == null)
             {
-                throw new NullReferenceException("target is null");
+                throw new ArgumentNullException("target");
             }
 
             m_target = target;

@@ -137,7 +137,7 @@ namespace LunarConsolePlugin
         {
             if (name == null)
             {
-                throw new NullReferenceException("Name is null");
+                throw new ArgumentNullException("name");
             }
 
             m_id = ++s_nextId;
