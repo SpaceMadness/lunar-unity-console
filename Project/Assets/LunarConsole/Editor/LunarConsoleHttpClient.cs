@@ -82,7 +82,7 @@ namespace LunarConsoleEditorInternal
         {
             if (uri == null)
             {
-                throw new ArgumentNullException("Uri is null");
+                throw new ArgumentNullException("uri");
             }
 
             m_uri = uri;
@@ -93,7 +93,7 @@ namespace LunarConsoleEditorInternal
         {
             if (callback == null)
             {
-                throw new ArgumentNullException("Callback is null");
+                throw new ArgumentNullException("callback");
             }
 
             if (m_client == null)
@@ -129,7 +129,7 @@ namespace LunarConsoleEditorInternal
         {
             if (callback == null)
             {
-                throw new ArgumentNullException("Callback is null");
+                throw new ArgumentNullException("callback");
             }
 
             if (m_client == null)

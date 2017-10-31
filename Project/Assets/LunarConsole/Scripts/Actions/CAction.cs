@@ -51,7 +51,7 @@ namespace LunarConsolePluginInternal
 
             if (actionDelegate == null)
             {
-                throw new ArgumentNullException("Action delegate is null");
+                throw new ArgumentNullException("actionDelegate");
             }
 
             m_id = s_nextActionId++;

@@ -344,7 +344,7 @@ namespace LunarConsoleEditorInternal
             {
                 if (key == null)
                 {
-                    throw new NullReferenceException("Key is null");
+                    throw new ArgumentNullException("key");
                 }
                 
                 m_key = key;
