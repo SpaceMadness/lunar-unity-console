@@ -1,6 +1,6 @@
 {
   "status": "OK",
-  "version": "1.5.1",
-  "message": "**Fixes:**\n\n* Console variables are not properly loaded and duplicated.",
+  "version": "1.5.2",
+  "message": "**Fixes:**\n\n* Fixed NullReferenceException while cleaning legacy files.",
   "url": "https://www.assetstore.unity3d.com/en/#!/content/43800"
 }
