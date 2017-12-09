@@ -2,6 +2,9 @@
 Asset Store Link: [https://www.assetstore.unity3d.com/en/#!/content/43800](http://bit.ly/GetLunarMobileConsole)
 
 ## Which Version Is Right For Me?
+Not sure? Try a demo app on your phone!
+* Android: https://play.google.com/store/apps/details?id=com.spacemadness.LunarConsole
+* iOS: _coming soon_
 
 |Compare Versions| FREE | PRO |
 | --- | :---: | :---: |
