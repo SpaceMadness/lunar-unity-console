@@ -22,6 +22,7 @@
 package spacemadness.com.lunarconsole.console;
 
 import android.app.Activity;
+import android.app.Application;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -63,6 +64,7 @@ public class ConsolePlugin implements Destroyable
     private static ConsolePlugin instance;
 
     private Console console;
+    private ForegroundChecker foregroundChecker;
     private final ActionRegistry actionRegistry;
     private final ConsolePluginImp pluginImp;
     private final String version;
@@ -645,6 +647,15 @@ public class ConsolePlugin implements Destroyable
         actionRegistry.setVariableSortingEnabled(unitySettings.editorSettings.sortVariables);
 
         activityRef = new WeakReference<>(activity);
+        Application application = activity.getApplication();
+        if (application != null)
+        {
+            foregroundChecker = new ForegroundChecker(application);
+        }
+        else
+        {
+            Log.e("Unable to resolve application object: plugin might not function properly");
+        }
 
         gestureDetector = GestureRecognizerFactory.create(activity, unitySettings.gesture);
         gestureDetector.setListener(new OnGestureListener()
@@ -674,6 +685,14 @@ public class ConsolePlugin implements Destroyable
         unregisterNotifications();
 
         console.destroy();
+        if (foregroundChecker != null)
+        {
+            foregroundChecker.destroy();
+        }
+        if (console != null)
+        {
+            console.destroy();
+        }
         entryDispatcher.cancelAll();
 
         Log.d(PLUGIN, "Plugin destroyed");

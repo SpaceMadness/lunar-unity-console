@@ -27,6 +27,9 @@ package spacemadness.com.lunarconsole.console;
 
 public class ConsoleNotifications
 {
+    public static final String NOTIFICATION_APP_ENTER_FOREGROUND = "APP_ENTER_FOREGROUND";
+    public static final String NOTIFICATION_APP_ENTER_BACKGROUND = "APP_ENTER_BACKGROUND";
+
     public static final String ACTION_SELECT = "ACTION_SELECT";
     public static final String ACTION_SELECT_KEY_ACTION = "action";
 
