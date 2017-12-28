@@ -1,5 +1,11 @@
 # Lunar Console Changelog
 
+## v.1.5.3 - 12/27/2017
+
+**Fixes:**
+
+* Fixed blocking app after minimize/restore.
+
 ## v.1.5.2 - 9/14/2017
 
 **Fixes:**
