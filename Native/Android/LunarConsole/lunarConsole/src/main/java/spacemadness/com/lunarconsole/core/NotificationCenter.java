@@ -26,19 +26,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import spacemadness.com.lunarconsole.debug.Log;
+
 public class NotificationCenter // FIXME: cover with unit-tests
 {
     private final Map<String, NotificationList> listLookup;
-    private final DispatchQueue dispatchQueue;
 
-    public NotificationCenter(DispatchQueue dispatchQueue)
+    public NotificationCenter()
     {
-        this.dispatchQueue = dispatchQueue;
         this.listLookup = new HashMap<>();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Notifications
+
+    public void postNotification(String name)
+    {
+        postNotification(name, null);
+    }
 
     public void postNotification(String name, String key, Object value)
     {
@@ -53,24 +58,18 @@ public class NotificationCenter // FIXME: cover with unit-tests
         if (list != null)
         {
             final Notification notification = new Notification(name, userData);
-            dispatchQueue.dispatchAsync(new Runnable()
-            {
-                @Override
-                public void run()
-                {
-                    list.postNotification(notification);
-                }
-            });
+            list.postNotification(notification);
         }
     }
 
-    public void addListener(String name, OnNotificationListener listener)
+    public NotificationCenter addListener(String name, OnNotificationListener listener)
     {
         NotificationList list = resolveNotificationList(name);
         list.add(listener);
+        return this;
     }
 
-    public void removeListener(String name, OnNotificationListener listener)
+    public NotificationCenter removeListener(String name, OnNotificationListener listener)
     {
         NotificationList list = findNotificationList(name);
         if (list != null)
@@ -81,6 +80,7 @@ public class NotificationCenter // FIXME: cover with unit-tests
                 removeNotificationList(name);
             }
         }
+        return this;
     }
 
     public void removeListener(OnNotificationListener listener)
@@ -142,7 +142,7 @@ public class NotificationCenter // FIXME: cover with unit-tests
 
     private static class Holder
     {
-        private static final NotificationCenter INSTANCE = new NotificationCenter(DispatchQueue.mainQueue());
+        private static final NotificationCenter INSTANCE = new NotificationCenter();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -159,7 +159,14 @@ public class NotificationCenter // FIXME: cover with unit-tests
         {
             for (OnNotificationListener listener : this)
             {
-                listener.onNotification(notification);
+                try
+                {
+                    listener.onNotification(notification);
+                }
+                catch (Exception e)
+                {
+                    Log.e(e, "Exception while notifying listener: %s", listener.getClass());
+                }
             }
         }
     }

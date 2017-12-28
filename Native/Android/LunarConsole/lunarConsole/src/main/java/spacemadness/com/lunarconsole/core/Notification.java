@@ -23,6 +23,8 @@ package spacemadness.com.lunarconsole.core;
 
 import java.util.Map;
 
+import spacemadness.com.lunarconsole.utils.ObjectUtils;
+
 public class Notification
 {
     private final String name;
@@ -52,5 +54,10 @@ public class Notification
     public Object getUserData(String key)
     {
         return userData != null ? userData.get(key) : null;
+    }
+
+    public <T> T getUserData(String key, Class<T> cls)
+    {
+        return ObjectUtils.as(getUserData(key), cls);
     }
 }

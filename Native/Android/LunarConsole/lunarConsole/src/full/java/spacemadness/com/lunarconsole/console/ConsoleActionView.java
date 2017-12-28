@@ -44,7 +44,7 @@ import spacemadness.com.lunarconsole.utils.UIUtils;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static spacemadness.com.lunarconsole.console.BaseConsoleAdapter.DataSource;
-import static spacemadness.com.lunarconsole.console.ConsoleNotifications.*;
+import static spacemadness.com.lunarconsole.console.Notifications.*;
 import static spacemadness.com.lunarconsole.utils.ObjectUtils.*;
 
 public class ConsoleActionView extends AbstractConsoleView implements
@@ -93,7 +93,7 @@ public class ConsoleActionView extends AbstractConsoleView implements
                 }
 
                 // post notification
-                NotificationCenter.defaultCenter().postNotification(ACTION_SELECT, ACTION_SELECT_KEY_ACTION, action);
+                NotificationCenter.defaultCenter().postNotification(NOTIFICATION_ACTION_SELECT, NOTIFICATION_KEY_ACTION, action);
 
                 // visual feedback
                 // TODO: user color resource and animation

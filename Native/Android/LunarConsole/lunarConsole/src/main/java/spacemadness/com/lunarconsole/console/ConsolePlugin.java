@@ -22,6 +22,7 @@
 package spacemadness.com.lunarconsole.console;
 
 import android.app.Activity;
+import android.app.Application;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -35,6 +36,7 @@ import java.util.Map;
 
 import spacemadness.com.lunarconsole.R;
 import spacemadness.com.lunarconsole.core.Destroyable;
+import spacemadness.com.lunarconsole.core.DispatchQueue;
 import spacemadness.com.lunarconsole.core.Notification;
 import spacemadness.com.lunarconsole.core.NotificationCenter;
 import spacemadness.com.lunarconsole.debug.Assert;
@@ -46,14 +48,24 @@ import spacemadness.com.lunarconsole.utils.DictionaryUtils;
 
 import static android.widget.FrameLayout.LayoutParams;
 import static spacemadness.com.lunarconsole.console.Console.Options;
-import static spacemadness.com.lunarconsole.console.ConsoleLogType.*;
-import static spacemadness.com.lunarconsole.utils.ThreadUtils.*;
+import static spacemadness.com.lunarconsole.console.ConsoleLogType.isErrorType;
+import static spacemadness.com.lunarconsole.console.Notifications.NOTIFICATION_ACTION_SELECT;
+import static spacemadness.com.lunarconsole.console.Notifications.NOTIFICATION_ACTIVITY_STARTED;
+import static spacemadness.com.lunarconsole.console.Notifications.NOTIFICATION_ACTIVITY_STOPPED;
+import static spacemadness.com.lunarconsole.console.Notifications.NOTIFICATION_KEY_ACTION;
+import static spacemadness.com.lunarconsole.console.Notifications.NOTIFICATION_KEY_ACTIVITY;
+import static spacemadness.com.lunarconsole.console.Notifications.NOTIFICATION_KEY_VARIABLE;
+import static spacemadness.com.lunarconsole.console.Notifications.NOTIFICATION_VARIABLE_SET;
+import static spacemadness.com.lunarconsole.debug.Tags.CONSOLE;
+import static spacemadness.com.lunarconsole.debug.Tags.GESTURES;
+import static spacemadness.com.lunarconsole.debug.Tags.OVERLAY_VIEW;
+import static spacemadness.com.lunarconsole.debug.Tags.PLUGIN;
+import static spacemadness.com.lunarconsole.debug.Tags.WARNING_VIEW;
 import static spacemadness.com.lunarconsole.ui.gestures.GestureRecognizer.OnGestureListener;
-import static spacemadness.com.lunarconsole.debug.Tags.*;
-import static spacemadness.com.lunarconsole.console.ConsoleNotifications.*;
-import static spacemadness.com.lunarconsole.utils.ObjectUtils.*;
+import static spacemadness.com.lunarconsole.utils.ThreadUtils.isRunningOnMainThread;
+import static spacemadness.com.lunarconsole.utils.ThreadUtils.runOnUIThread;
 
-public class ConsolePlugin implements Destroyable
+public class ConsolePlugin implements NotificationCenter.OnNotificationListener, Destroyable
 {
     private static final String SCRIPT_MESSAGE_CONSOLE_OPEN = "console_open";
     private static final String SCRIPT_MESSAGE_CONSOLE_CLOSE = "console_close";
@@ -63,6 +75,7 @@ public class ConsolePlugin implements Destroyable
     private static ConsolePlugin instance;
 
     private Console console;
+    private ActivityLifecycleHandler activityLifecycleHandler;
     private final ActionRegistry actionRegistry;
     private final ConsolePluginImp pluginImp;
     private final String version;
@@ -645,6 +658,15 @@ public class ConsolePlugin implements Destroyable
         actionRegistry.setVariableSortingEnabled(unitySettings.editorSettings.sortVariables);
 
         activityRef = new WeakReference<>(activity);
+        Application application = activity.getApplication();
+        if (application != null)
+        {
+            activityLifecycleHandler = new ActivityLifecycleHandler(application);
+        }
+        else
+        {
+            Log.e("Unable to resolve application object: plugin might not function properly");
+        }
 
         gestureDetector = GestureRecognizerFactory.create(activity, unitySettings.gesture);
         gestureDetector.setListener(new OnGestureListener()
@@ -674,6 +696,14 @@ public class ConsolePlugin implements Destroyable
         unregisterNotifications();
 
         console.destroy();
+        if (activityLifecycleHandler != null)
+        {
+            activityLifecycleHandler.destroy();
+        }
+        if (console != null)
+        {
+            console.destroy();
+        }
         entryDispatcher.cancelAll();
 
         Log.d(PLUGIN, "Plugin destroyed");
@@ -1076,32 +1106,25 @@ public class ConsolePlugin implements Destroyable
 
     //region Notifications
 
-    private NotificationCenter.OnNotificationListener actionSelectListener;
-    private NotificationCenter.OnNotificationListener variableSetListener;
-
-    private void registerNotifications()
+    @Override
+    public void onNotification(Notification notification)
     {
-        actionSelectListener = new NotificationCenter.OnNotificationListener()
+        switch (notification.getName())
         {
-            @Override
-            public void onNotification(Notification notification)
+            case NOTIFICATION_ACTION_SELECT:
             {
-                Action action = as(notification.getUserData(ACTION_SELECT_KEY_ACTION), Action.class);
+                Action action = notification.getUserData(NOTIFICATION_KEY_ACTION, Action.class);
                 Assert.IsNotNull(action);
 
                 if (action != null)
                 {
                     sendNativeCallback(SCRIPT_MESSAGE_ACTION, DictionaryUtils.createMap("id", action.actionId()));
                 }
+                break;
             }
-        };
-
-        variableSetListener = new NotificationCenter.OnNotificationListener()
-        {
-            @Override
-            public void onNotification(Notification notification)
+            case NOTIFICATION_VARIABLE_SET:
             {
-                Variable variable = as(notification.getUserData(VARIABLE_SET_KEY_VARIABLE), Variable.class);
+                Variable variable = notification.getUserData(NOTIFICATION_KEY_VARIABLE, Variable.class);
                 Assert.IsNotNull(variable);
 
                 if (variable != null)
@@ -1113,26 +1136,55 @@ public class ConsolePlugin implements Destroyable
 
                     sendNativeCallback(SCRIPT_MESSAGE_VARIABLE_SET, params);
                 }
+                break;
             }
-        };
+            case NOTIFICATION_ACTIVITY_STOPPED:
+            {
+                // we need this as a workaround for the blank screen issue:
+                // https://github.com/SpaceMadness/lunar-unity-console/issues/104
+                Activity activity = notification.getUserData(NOTIFICATION_KEY_ACTIVITY, Activity.class);
+                if (getActivity() == activity && overlayDialog != null)
+                {
+                    Log.d("Hiding overlay dialog");
+                    overlayDialog.hide();
+                }
+                break;
+            }
+            case NOTIFICATION_ACTIVITY_STARTED:
+            {
+                // we need this as a workaround for the blank screen issue:
+                // https://github.com/SpaceMadness/lunar-unity-console/issues/104
+                Activity activity = notification.getUserData(NOTIFICATION_KEY_ACTIVITY, Activity.class);
+                if (getActivity() == activity && overlayDialog != null)
+                {
+                    Log.d("Showing overlay dialog");
+                    // we need to give activity a chance to initialize
+                    DispatchQueue.mainQueue().dispatchAsync(new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            overlayDialog.show();
+                        }
+                    });
+                }
+                break;
+            }
+        }
+    }
 
-        NotificationCenter.defaultCenter().addListener(ACTION_SELECT, actionSelectListener);
-        NotificationCenter.defaultCenter().addListener(VARIABLE_SET, variableSetListener);
+    private void registerNotifications()
+    {
+        NotificationCenter.defaultCenter()
+                .addListener(NOTIFICATION_ACTION_SELECT, this)
+                .addListener(NOTIFICATION_VARIABLE_SET, this)
+                .addListener(NOTIFICATION_ACTIVITY_STOPPED, this)
+                .addListener(NOTIFICATION_ACTIVITY_STARTED, this);
     }
 
     private void unregisterNotifications()
     {
-        if (actionSelectListener != null)
-        {
-            NotificationCenter.defaultCenter().removeListener(actionSelectListener);
-            actionSelectListener = null;
-        }
-
-        if (variableSetListener != null)
-        {
-            NotificationCenter.defaultCenter().removeListener(variableSetListener);
-            variableSetListener = null;
-        }
+        NotificationCenter.defaultCenter().removeListener(this);
     }
 
     //endregion
