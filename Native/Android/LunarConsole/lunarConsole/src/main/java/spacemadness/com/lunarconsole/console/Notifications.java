@@ -27,13 +27,13 @@ package spacemadness.com.lunarconsole.console;
 
 public class Notifications
 {
-    public static final String NOTIFICATION_APP_ENTER_FOREGROUND = "APP_ENTER_FOREGROUND";
-    public static final String NOTIFICATION_APP_ENTER_BACKGROUND = "APP_ENTER_BACKGROUND";
-    public static final String NOTIFICATION_ACTIVITY_DESTROYED = "ACTIVITY_DESTROYED";
+    public static final String NOTIFICATION_ACTIVITY_STARTED = "ACTIVITY_STARTED"; // { activity: Activity }
+    public static final String NOTIFICATION_ACTIVITY_STOPPED = "ACTIVITY_STOPPED"; // { activity: Activity }
 
     public static final String NOTIFICATION_ACTION_SELECT = "ACTION_SELECT";
     public static final String NOTIFICATION_VARIABLE_SET = "VARIABLE_SET";
 
+    public static final String NOTIFICATION_KEY_ACTIVITY = "activity";
     public static final String NOTIFICATION_KEY_ACTION = "action";
     public static final String NOTIFICATION_KEY_VARIABLE = "variable";
 }
