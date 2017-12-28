@@ -51,7 +51,7 @@ import static spacemadness.com.lunarconsole.console.ConsoleLogType.*;
 import static spacemadness.com.lunarconsole.utils.ThreadUtils.*;
 import static spacemadness.com.lunarconsole.ui.gestures.GestureRecognizer.OnGestureListener;
 import static spacemadness.com.lunarconsole.debug.Tags.*;
-import static spacemadness.com.lunarconsole.console.ConsoleNotifications.*;
+import static spacemadness.com.lunarconsole.console.Notifications.*;
 import static spacemadness.com.lunarconsole.utils.ObjectUtils.*;
 
 public class ConsolePlugin implements Destroyable
@@ -64,7 +64,7 @@ public class ConsolePlugin implements Destroyable
     private static ConsolePlugin instance;
 
     private Console console;
-    private ForegroundChecker foregroundChecker;
+    private ActivityLifecycleHandler activityLifecycleHandler;
     private final ActionRegistry actionRegistry;
     private final ConsolePluginImp pluginImp;
     private final String version;
@@ -650,7 +650,7 @@ public class ConsolePlugin implements Destroyable
         Application application = activity.getApplication();
         if (application != null)
         {
-            foregroundChecker = new ForegroundChecker(application);
+            activityLifecycleHandler = new ActivityLifecycleHandler(application);
         }
         else
         {
@@ -685,9 +685,9 @@ public class ConsolePlugin implements Destroyable
         unregisterNotifications();
 
         console.destroy();
-        if (foregroundChecker != null)
+        if (activityLifecycleHandler != null)
         {
-            foregroundChecker.destroy();
+            activityLifecycleHandler.destroy();
         }
         if (console != null)
         {

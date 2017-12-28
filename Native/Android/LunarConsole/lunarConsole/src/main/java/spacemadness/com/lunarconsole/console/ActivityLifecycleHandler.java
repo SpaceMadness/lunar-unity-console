@@ -14,11 +14,11 @@ import spacemadness.com.lunarconsole.core.Destroyable;
 import spacemadness.com.lunarconsole.core.NotificationCenter;
 import spacemadness.com.lunarconsole.debug.Log;
 
-import static spacemadness.com.lunarconsole.console.ConsoleNotifications.NOTIFICATION_APP_ENTER_BACKGROUND;
-import static spacemadness.com.lunarconsole.console.ConsoleNotifications.NOTIFICATION_APP_ENTER_FOREGROUND;
+import static spacemadness.com.lunarconsole.console.Notifications.NOTIFICATION_APP_ENTER_BACKGROUND;
+import static spacemadness.com.lunarconsole.console.Notifications.NOTIFICATION_APP_ENTER_FOREGROUND;
 
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-class ForegroundChecker implements Application.ActivityLifecycleCallbacks, Destroyable
+class ActivityLifecycleHandler implements Application.ActivityLifecycleCallbacks, Destroyable
 {
     private static final long CHECK_DELAY = 1000;
 
@@ -28,7 +28,7 @@ class ForegroundChecker implements Application.ActivityLifecycleCallbacks, Destr
     private boolean foregroundFlag = true;
     private int foregroundActivitiesCount = 1;
 
-    public ForegroundChecker(Application application)
+    public ActivityLifecycleHandler(Application application)
     {
         if (application == null)
         {
@@ -68,6 +68,7 @@ class ForegroundChecker implements Application.ActivityLifecycleCallbacks, Destr
     @Override
     public void onActivityResumed(Activity activity)
     {
+
     }
 
     @Override

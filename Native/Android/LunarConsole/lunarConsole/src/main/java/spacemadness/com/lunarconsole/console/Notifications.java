@@ -1,5 +1,5 @@
 //
-//  ConsoleNotifications.java
+//  Notifications.java
 //
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
@@ -25,11 +25,11 @@ package spacemadness.com.lunarconsole.console;
  * Created by alementuev on 12/20/16.
  */
 
-public class ConsoleNotifications
+public class Notifications
 {
     public static final String NOTIFICATION_APP_ENTER_FOREGROUND = "APP_ENTER_FOREGROUND";
     public static final String NOTIFICATION_APP_ENTER_BACKGROUND = "APP_ENTER_BACKGROUND";
-    public static final String NOTIFICATION_ACTIVITY_DESTROYED = "APP_ENTER_BACKGROUND";
+    public static final String NOTIFICATION_ACTIVITY_DESTROYED = "ACTIVITY_DESTROYED";
 
     public static final String NOTIFICATION_ACTION_SELECT = "ACTION_SELECT";
     public static final String NOTIFICATION_VARIABLE_SET = "VARIABLE_SET";

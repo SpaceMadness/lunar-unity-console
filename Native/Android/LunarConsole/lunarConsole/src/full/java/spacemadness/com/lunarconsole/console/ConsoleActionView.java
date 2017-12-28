@@ -44,7 +44,7 @@ import spacemadness.com.lunarconsole.utils.UIUtils;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 import static spacemadness.com.lunarconsole.console.BaseConsoleAdapter.DataSource;
-import static spacemadness.com.lunarconsole.console.ConsoleNotifications.*;
+import static spacemadness.com.lunarconsole.console.Notifications.*;
 import static spacemadness.com.lunarconsole.utils.ObjectUtils.*;
 
 public class ConsoleActionView extends AbstractConsoleView implements
