@@ -62,13 +62,14 @@ public class NotificationCenter // FIXME: cover with unit-tests
         }
     }
 
-    public void addListener(String name, OnNotificationListener listener)
+    public NotificationCenter addListener(String name, OnNotificationListener listener)
     {
         NotificationList list = resolveNotificationList(name);
         list.add(listener);
+        return this;
     }
 
-    public void removeListener(String name, OnNotificationListener listener)
+    public NotificationCenter removeListener(String name, OnNotificationListener listener)
     {
         NotificationList list = findNotificationList(name);
         if (list != null)
@@ -79,6 +80,7 @@ public class NotificationCenter // FIXME: cover with unit-tests
                 removeNotificationList(name);
             }
         }
+        return this;
     }
 
     public void removeListener(OnNotificationListener listener)

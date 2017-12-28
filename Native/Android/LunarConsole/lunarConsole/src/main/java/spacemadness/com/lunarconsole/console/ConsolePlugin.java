@@ -1097,6 +1097,8 @@ public class ConsolePlugin implements Destroyable
 
     private NotificationCenter.OnNotificationListener actionSelectListener;
     private NotificationCenter.OnNotificationListener variableSetListener;
+    private NotificationCenter.OnNotificationListener foregroundListener;
+    private NotificationCenter.OnNotificationListener backgroundListener;
 
     private void registerNotifications()
     {
@@ -1135,8 +1137,35 @@ public class ConsolePlugin implements Destroyable
             }
         };
 
-        NotificationCenter.defaultCenter().addListener(ACTION_SELECT, actionSelectListener);
-        NotificationCenter.defaultCenter().addListener(VARIABLE_SET, variableSetListener);
+        backgroundListener = new NotificationCenter.OnNotificationListener()
+        {
+            @Override
+            public void onNotification(Notification notification)
+            {
+                if (overlayDialog != null)
+                {
+                    overlayDialog.hide();
+                }
+            }
+        };
+
+        foregroundListener = new NotificationCenter.OnNotificationListener()
+        {
+            @Override
+            public void onNotification(Notification notification)
+            {
+                if (overlayDialog != null)
+                {
+                    overlayDialog.show();
+                }
+            }
+        };
+
+        NotificationCenter.defaultCenter()
+                .addListener(ACTION_SELECT, actionSelectListener)
+                .addListener(VARIABLE_SET, variableSetListener)
+                .addListener(NOTIFICATION_APP_ENTER_BACKGROUND, backgroundListener)
+                .addListener(NOTIFICATION_APP_ENTER_FOREGROUND, foregroundListener);
     }
 
     private void unregisterNotifications()
@@ -1151,6 +1180,17 @@ public class ConsolePlugin implements Destroyable
         {
             NotificationCenter.defaultCenter().removeListener(variableSetListener);
             variableSetListener = null;
+        }
+        if (backgroundListener != null)
+        {
+            NotificationCenter.defaultCenter().removeListener(backgroundListener);
+            backgroundListener = null;
+        }
+
+        if (foregroundListener != null)
+        {
+            NotificationCenter.defaultCenter().removeListener(foregroundListener);
+            foregroundListener = null;
         }
     }
 

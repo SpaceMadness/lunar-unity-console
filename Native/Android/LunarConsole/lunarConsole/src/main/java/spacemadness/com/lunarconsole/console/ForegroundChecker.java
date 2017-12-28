@@ -25,8 +25,8 @@ class ForegroundChecker implements Application.ActivityLifecycleCallbacks, Destr
     private final Handler handler;
     private final WeakReference<Application> applicationRef;
     private Runnable foregroundCheckRunnable;
-    private boolean foregroundFlag;
-    private int foregroundActivitiesCount;
+    private boolean foregroundFlag = true;
+    private int foregroundActivitiesCount = 1;
 
     public ForegroundChecker(Application application)
     {
@@ -138,12 +138,14 @@ class ForegroundChecker implements Application.ActivityLifecycleCallbacks, Destr
 
     private void notifyAppEnteredForeground()
     {
+        Log.d("Application entered foreground");
         NotificationCenter.defaultCenter().
                 postNotification(NOTIFICATION_APP_ENTER_FOREGROUND);
     }
 
     private void notifyAppEnteredBackground()
     {
+        Log.d("Application entered background");
         NotificationCenter.defaultCenter().
                 postNotification(NOTIFICATION_APP_ENTER_BACKGROUND);
     }
