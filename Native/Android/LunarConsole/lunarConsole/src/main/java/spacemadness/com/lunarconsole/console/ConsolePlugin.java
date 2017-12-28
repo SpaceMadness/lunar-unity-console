@@ -1166,7 +1166,7 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
                         {
                             overlayDialog.show();
                         }
-                    }, 100);
+                    });
                 }
                 break;
             }
