@@ -1107,7 +1107,7 @@ public class ConsolePlugin implements Destroyable
             @Override
             public void onNotification(Notification notification)
             {
-                Action action = as(notification.getUserData(ACTION_SELECT_KEY_ACTION), Action.class);
+                Action action = as(notification.getUserData(NOTIFICATION_KEY_ACTION), Action.class);
                 Assert.IsNotNull(action);
 
                 if (action != null)
@@ -1122,7 +1122,7 @@ public class ConsolePlugin implements Destroyable
             @Override
             public void onNotification(Notification notification)
             {
-                Variable variable = as(notification.getUserData(VARIABLE_SET_KEY_VARIABLE), Variable.class);
+                Variable variable = as(notification.getUserData(NOTIFICATION_KEY_VARIABLE), Variable.class);
                 Assert.IsNotNull(variable);
 
                 if (variable != null)
@@ -1162,8 +1162,8 @@ public class ConsolePlugin implements Destroyable
         };
 
         NotificationCenter.defaultCenter()
-                .addListener(ACTION_SELECT, actionSelectListener)
-                .addListener(VARIABLE_SET, variableSetListener)
+                .addListener(NOTIFICATION_ACTION_SELECT, actionSelectListener)
+                .addListener(NOTIFICATION_VARIABLE_SET, variableSetListener)
                 .addListener(NOTIFICATION_APP_ENTER_BACKGROUND, backgroundListener)
                 .addListener(NOTIFICATION_APP_ENTER_FOREGROUND, foregroundListener);
     }

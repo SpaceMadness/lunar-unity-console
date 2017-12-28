@@ -43,8 +43,8 @@ import spacemadness.com.lunarconsole.utils.StringUtils;
 import spacemadness.com.lunarconsole.utils.UIUtils;
 
 import static android.view.inputmethod.EditorInfo.IME_ACTION_DONE;
-import static spacemadness.com.lunarconsole.console.ConsoleNotifications.VARIABLE_SET;
-import static spacemadness.com.lunarconsole.console.ConsoleNotifications.VARIABLE_SET_KEY_VARIABLE;
+import static spacemadness.com.lunarconsole.console.ConsoleNotifications.NOTIFICATION_VARIABLE_SET;
+import static spacemadness.com.lunarconsole.console.ConsoleNotifications.NOTIFICATION_KEY_VARIABLE;
 
 public class VariableViewHolder extends ConsoleActionAdapter.ViewHolder<Variable> implements
         CompoundButton.OnCheckedChangeListener, View.OnClickListener
@@ -304,7 +304,7 @@ public class VariableViewHolder extends ConsoleActionAdapter.ViewHolder<Variable
     void updateValue(String value)
     {
         variable.value = value;
-        NotificationCenter.defaultCenter().postNotification(VARIABLE_SET, VARIABLE_SET_KEY_VARIABLE, variable);
+        NotificationCenter.defaultCenter().postNotification(NOTIFICATION_VARIABLE_SET, NOTIFICATION_KEY_VARIABLE, variable);
         updateUI();
     }
 

@@ -93,7 +93,7 @@ public class ConsoleActionView extends AbstractConsoleView implements
                 }
 
                 // post notification
-                NotificationCenter.defaultCenter().postNotification(ACTION_SELECT, ACTION_SELECT_KEY_ACTION, action);
+                NotificationCenter.defaultCenter().postNotification(NOTIFICATION_ACTION_SELECT, NOTIFICATION_KEY_ACTION, action);
 
                 // visual feedback
                 // TODO: user color resource and animation

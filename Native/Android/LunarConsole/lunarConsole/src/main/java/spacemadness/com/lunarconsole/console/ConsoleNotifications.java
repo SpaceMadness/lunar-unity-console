@@ -29,10 +29,11 @@ public class ConsoleNotifications
 {
     public static final String NOTIFICATION_APP_ENTER_FOREGROUND = "APP_ENTER_FOREGROUND";
     public static final String NOTIFICATION_APP_ENTER_BACKGROUND = "APP_ENTER_BACKGROUND";
+    public static final String NOTIFICATION_ACTIVITY_DESTROYED = "APP_ENTER_BACKGROUND";
 
-    public static final String ACTION_SELECT = "ACTION_SELECT";
-    public static final String ACTION_SELECT_KEY_ACTION = "action";
+    public static final String NOTIFICATION_ACTION_SELECT = "ACTION_SELECT";
+    public static final String NOTIFICATION_VARIABLE_SET = "VARIABLE_SET";
 
-    public static final String VARIABLE_SET = "VARIABLE_SET";
-    public static final String VARIABLE_SET_KEY_VARIABLE = "variable";
+    public static final String NOTIFICATION_KEY_ACTION = "action";
+    public static final String NOTIFICATION_KEY_VARIABLE = "variable";
 }
