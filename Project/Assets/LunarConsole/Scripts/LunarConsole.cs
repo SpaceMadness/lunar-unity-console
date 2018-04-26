@@ -329,11 +329,13 @@ namespace LunarConsolePlugin
         {
             try
             {
-                var assembly = GetType().Assembly;
-                var containerTypes = ReflectionUtils.FindAttributeTypes<CVarContainerAttribute>(assembly);
-                foreach (var type in containerTypes)
+                foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
                 {
-                    RegisterVariables(type);
+                    var containerTypes = ReflectionUtils.FindAttributeTypes<CVarContainerAttribute>(assembly);
+                    foreach (var type in containerTypes)
+                    {
+                        RegisterVariables(type);
+                    }
                 }
             }
             catch (Exception e)
