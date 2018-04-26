@@ -46,5 +46,7 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     // Unity 5.3.x and later
     provided files('/Applications/Unity/PlaybackEngines/AndroidPlayer/Variations/mono/Release/Classes/classes.jar')
+    // Unity 5.2
+    provided files('/Applications/Unity5/Unity.app/Contents/PlaybackEngines/AndroidPlayer/Variations/mono/Release/Classes/classes.jar')
     testCompile 'junit:junit:4.12'
 }
