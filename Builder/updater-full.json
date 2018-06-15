@@ -1,6 +1,6 @@
 {
   "status": "OK",
-  "version": "1.5.2",
-  "message": "**Fixes:**\n\n* Fixed NullReferenceException while cleaning legacy files.",
+  "version": "1.5.3",
+  "message": "**Fixes:**\n\n* Fixed blocking app after minimize/restore.",
   "url": "https://www.assetstore.unity3d.com/en/#!/content/43800"
 }
