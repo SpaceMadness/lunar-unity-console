@@ -26,6 +26,10 @@ namespace :lunar do
 
     $dir_repo = resolve_path File.expand_path('..')
 
+    # unity
+    $bin_unity_export = resolve_path '/Applications/Unity-Export/Unity.app/Contents/MacOS/Unity'
+    $bin_unity_publish = resolve_path '/Applications/Unity-Publish/Unity.app/Contents/MacOS/Unity'
+
     # plugin project
     $dir_project = resolve_path File.expand_path('../Project')
     $dir_project_plugin = resolve_path "#{$dir_project}/Assets/LunarConsole"
@@ -160,7 +164,7 @@ namespace :lunar do
 
     package_files = not_nil $package_files
 
-    project = UnityProject.new $dir_project
+    project = UnityProject.new $dir_project, $bin_unity_export
     project.export_unity_package file_package, package_files
 
   end
@@ -175,7 +179,7 @@ namespace :lunar do
 
   task :build_run_native_android => [:build_native_android] do
 
-    project = UnityProject.new $dir_project
+    project = UnityProject.new $dir_project, $bin_unity_export
     project.exec_unity_method 'LunarConsoleEditorInternal.AndroidPlugin.ForceUpdateFiles'
     project.exec_unity_method 'LunarConsoleEditorInternal.AppExporter.PerformAndroidBuild'
 

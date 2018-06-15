@@ -5,7 +5,7 @@ require_relative '../../android_archive'
 class TestProject
 
   def initialize(path)
-    @unity_project = UnityProject.new path
+    @unity_project = UnityProject.new path, $bin_unity_export
   end
 
   def clean
