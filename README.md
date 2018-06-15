@@ -1,8 +1,10 @@
 # Lunar Unity Mobile Console
 
+[![saythanks](https://img.shields.io/badge/say-thanks-ff69b4.svg)](https://saythanks.io/to/weeeBox)
+
 Asset store link: [https://www.assetstore.unity3d.com/en/#!/content/43800](https://goo.gl/lQKEbW)  
 Requires Unity 5.0 or later.
-  
+
 **iOS demo app:** _coming soon_  
 **Android demo app:** https://play.google.com/store/apps/details?id=com.spacemadness.LunarConsole
   

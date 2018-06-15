@@ -4,7 +4,7 @@
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
 //
-//  Copyright 2017 Alex Lementuev, SpaceMadness.
+//  Copyright 2018 Alex Lementuev, SpaceMadness.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");
 //  you may not use this file except in compliance with the License.
@@ -329,11 +329,8 @@ namespace LunarConsolePlugin
         {
             try
             {
-                AppDomain domain = System.AppDomain.CurrentDomain;
-                Assembly[] assemblies = domain.GetAssemblies();
-                for (int i = 0; i < assemblies.Length; i++)
+                foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
                 {
-                    var assembly = assemblies[i];
                     var containerTypes = ReflectionUtils.FindAttributeTypes<CVarContainerAttribute>(assembly);
                     foreach (var type in containerTypes)
                     {

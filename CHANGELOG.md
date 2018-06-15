@@ -1,5 +1,11 @@
 # Lunar Console Changelog
 
+## v.1.5.4 - 4/26/2018
+
+**Fixes:**
+
+* Fixed registering variables in Unity 2017.4.1f1.
+
 ## v.1.5.3 - 12/27/2017
 
 **Fixes:**

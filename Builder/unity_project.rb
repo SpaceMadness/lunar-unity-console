@@ -6,7 +6,7 @@ class UnityProject
 
   attr_reader :dir_project
 
-  def initialize(dir_project, bin_unity = '/Applications/Unity/Unity.app/Contents/MacOS/Unity') # Windows support? Nah!
+  def initialize(dir_project, bin_unity = '/Applications/Unity Latest/Unity.app/Contents/MacOS/Unity') # Windows support? Nah!
     @dir_project = resolve_path File.expand_path(dir_project)
     @bin_unity   = resolve_path bin_unity
   end
