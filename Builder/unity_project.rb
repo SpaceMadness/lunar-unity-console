@@ -39,7 +39,7 @@ class UnityProject
 
   def exec_unity(project, command, error_message = nil)
     fail_script_unless_file_exists project
-    exec_shell %(#{@bin_unity} -quit -batchmode -projectPath "#{project}" #{command}),
+    exec_shell %("#{@bin_unity}" -quit -batchmode -projectPath "#{project}" #{command}),
                error_message.nil? ? "Can't execute unit command: #{command}\nProject: #{project}" : error_message
 
     unity_log = File.expand_path Build Platform.unity_log
