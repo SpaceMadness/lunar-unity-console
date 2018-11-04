@@ -1,4 +1,5 @@
 require_relative 'common.rb'
+require_relative 'platform'
 
 include Common
 
@@ -26,7 +27,7 @@ class UnityProject
 
     exec_shell cmd, error_message.nil? ? "Can't execute method: #{method}\nProject: #{project}" : error_message
 
-    unity_log = File.expand_path '~/Library/Logs/Unity/Editor.log'
+    unity_log = File.expand_path Platform.unity_log
     fail_script_unless_file_exists unity_log
 
     result = File.read unity_log
@@ -41,7 +42,7 @@ class UnityProject
     exec_shell %(#{@bin_unity} -quit -batchmode -projectPath "#{project}" #{command}),
                error_message.nil? ? "Can't execute unit command: #{command}\nProject: #{project}" : error_message
 
-    unity_log = File.expand_path '~/Library/Logs/Unity/Editor.log'
+    unity_log = File.expand_path Build Platform.unity_log
     fail_script_unless_file_exists unity_log
 
     result = File.read unity_log

@@ -10,6 +10,11 @@ module Common
       return 'C:\Program Files\Unity-Publish\Editor\Unity.exe'
     end
 
+    def self.unity_log
+      return '~/Library/Logs/Unity/Editor.log' if is_mac_os
+      return '~/AppData/Local/Unity/Editor/Editor.log'
+    end
+
     private
     def self.is_mac_os
       host_os = RbConfig::CONFIG['host_os']
