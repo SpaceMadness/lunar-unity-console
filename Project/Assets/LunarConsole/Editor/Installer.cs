@@ -66,6 +66,11 @@ namespace LunarConsoleEditorInternal
             GameObject lunarConsole = PrefabUtility.InstantiatePrefab(lunarConsolePrefab) as GameObject;
             lunarConsole.name = objectName;
 
+            // starting Unity 5.3 we need to add an undo operation or the scene would not be marked dirty
+            #if UNITY_5_3_OR_NEWER
+            Undo.RegisterCreatedObjectUndo(lunarConsole, "Install Lunar Console");
+            #endif
+
             if (!silent)
             {
                 Utils.ShowDialog(messageTitle, objectName + " game object created!\n\nDon't forget to save your scene changes!", "OK");
