@@ -76,7 +76,7 @@ class UnityProject
   end
 
   def open(error_message = nil)
-    exec_shell %(#{@bin_unity} -projectPath "#{@dir_project}"),
+    exec_shell %("#{@bin_unity}" -projectPath "#{@dir_project}"),
                error_message.nil? ? "Can't open Unity project: #{@dir_project}" : error_message
   end
 
