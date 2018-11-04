@@ -5,6 +5,7 @@ require_relative 'common'
 require_relative 'unity_helper'
 require_relative 'unity_project'
 require_relative 'android_aar_build_result'
+require_relative 'platform'
 
 require 'cucumber/rake/task'
 
@@ -27,8 +28,8 @@ namespace :lunar do
     $dir_repo = resolve_path File.expand_path('..')
 
     # unity
-    $bin_unity_export = resolve_path '/Applications/Unity-Export/Unity.app/Contents/MacOS/Unity'
-    $bin_unity_publish = resolve_path '/Applications/Unity-Publish/Unity.app/Contents/MacOS/Unity'
+    $bin_unity_export = resolve_path Platform.unity_export
+    $bin_unity_publish = resolve_path Platform.unity_publish
 
     # plugin project
     $dir_project = resolve_path File.expand_path('../Project')

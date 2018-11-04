@@ -36,6 +36,7 @@ GEM
 
 PLATFORMS
   ruby
+  x64-mingw32
 
 DEPENDENCIES
   colorize
@@ -45,4 +46,4 @@ DEPENDENCIES
   rubyzip
 
 BUNDLED WITH
-   1.13.6
+   1.17.1
