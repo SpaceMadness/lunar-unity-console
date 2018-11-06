@@ -1,6 +1,6 @@
 {
   "status": "OK",
-  "version": "1.5.3",
-  "message": "**Fixes:**\n\n* Fixed blocking app after minimize/restore.",
+  "version": "1.5.4",
+  "message": "**Fixes:**\n\n* Fixed Undo support for the plugin installation.",
   "url": "https://www.assetstore.unity3d.com/en/#!/content/82881"
 }
