@@ -190,7 +190,7 @@ namespace LunarConsoleEditorInternal
             {
                 EditorGUI.PropertyField(argumentRect, argumentProperty, GUIContent.none);
             }
-            using (new EditorGUI.DisabledScope(targetProperty.objectReferenceValue == null))
+            using (new DisabledScopeCompat(targetProperty.objectReferenceValue == null))
             {
                 EditorGUI.BeginProperty(methodRect, GUIContent.none, methodProperty);
                 GUIContent content;
