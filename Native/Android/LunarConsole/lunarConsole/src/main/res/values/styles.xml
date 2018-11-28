@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <style name="lunar_console_theme" parent="android:Theme.Light.NoTitleBar">
+
+    </style>
 
     <style name="lunar_console_dialog_style">
         <item name="android:windowFullscreen">true</item>
