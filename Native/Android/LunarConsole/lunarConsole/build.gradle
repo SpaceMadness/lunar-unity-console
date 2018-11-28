@@ -47,6 +47,6 @@ dependencies {
     // Mac OS X
     provided files('/Applications/Unity-Export/PlaybackEngines/AndroidPlayer/Variations/mono/Release/Classes/classes.jar')
     // Windows
-    provided files('C:/Program Files/Unity-Export/Editor/Data/PlaybackEngines/AndroidPlayer/Variations/mono/Release/Classes/classes.jar')
+    provided files('C//:\\Program Files\\Unity-Export\\Editor\\Data\\PlaybackEngines\\AndroidPlayer\\Variations\\mono\\Release\\Classes\\classes.jar')
     testCompile 'junit:junit:4.12'
 }
