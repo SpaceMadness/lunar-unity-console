@@ -1,5 +1,11 @@
 # Lunar Console Changelog
 
+## v.1.5.5 - 11/30/2018
+
+**Fixes:**
+
+* **Android:** fixed black settings screen when building on Unity 2018.x.
+
 ## v.1.5.4 - 4/26/2018
 
 **Fixes:**

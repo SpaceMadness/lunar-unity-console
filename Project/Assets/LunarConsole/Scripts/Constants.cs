@@ -26,7 +26,7 @@ namespace LunarConsolePluginInternal
 {
     public static class Constants
     {
-        public static readonly string Version = "1.5.4";
+        public static readonly string Version = "1.5.5";
         public static readonly string UpdateJsonURLFull = "https://raw.githubusercontent.com/SpaceMadness/lunar-unity-console/master/Builder/updater-full.json";
         public static readonly string UpdateJsonURLFree = "https://raw.githubusercontent.com/SpaceMadness/lunar-unity-console/master/Builder/updater-free.json";
 
