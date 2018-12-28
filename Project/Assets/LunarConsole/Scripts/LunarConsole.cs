@@ -341,13 +341,13 @@ namespace LunarConsolePlugin
                     }
                     catch (Exception e)
                     {
-                        Debug.LogException(e);
+                        Log.e(e, "Unable to register variables from assembly: {0}", assembly);
                     }
                 }
             }
             catch (Exception e)
             {
-                Debug.LogException(e);
+                Log.e(e, "Unable to register variables");
             }
         }
 

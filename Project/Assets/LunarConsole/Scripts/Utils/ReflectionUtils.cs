@@ -245,7 +245,8 @@ namespace LunarConsolePluginInternal
 
         public static List<Type> FindAttributeTypes(Assembly assembly, Type attributeType)
         {
-            return FindTypes(assembly, delegate(Type type) {
+            return FindTypes(assembly, delegate(Type type)
+            {
                 var attributes = type.GetCustomAttributes(attributeType, false);
                 return attributes != null && attributes.Length > 0;
             });
@@ -268,7 +269,7 @@ namespace LunarConsolePluginInternal
             }
             catch (Exception e)
             {
-                Log.e(e, "Unable to list types");
+                Log.e(e, "Unable to list types for assembly: {0}", assembly);
             }
 
             return list;
