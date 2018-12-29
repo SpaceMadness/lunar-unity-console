@@ -21,13 +21,23 @@
 
 #import <Foundation/Foundation.h>
 
+@interface LUConsoleLogOverlaySettings : NSObject
+
+@property (nonatomic, readonly) NSUInteger maxVisibleLines;
+@property (nonatomic, readonly) NSTimeInterval hideDelay;
+
+- (instancetype)initWithDictionary:(NSDictionary *)dict;
+
+@end
+
 @interface LUConsoleEditorSettings : NSObject
 
 @property (nonatomic, readonly, getter=isExceptionWarningEnabled) BOOL exceptionWarningEnabled;
 @property (nonatomic, readonly, getter=isTransparentLogOverlayEnabled) BOOL transparentLogOverlayEnabled;
 @property (nonatomic, readonly, getter=isActionSortingEnabled) BOOL actionSortingEnabled;
 @property (nonatomic, readonly, getter=isVariableSortingEnabled) BOOL variableSortingEnabled;
-@property (nonatomic, readonly) NSArray<NSString *> *emails;
+@property (nonatomic, readonly) LUConsoleLogOverlaySettings * logOverlaySettings;
+@property (nonatomic, readonly) NSArray<NSString *> * emails;
 
 - (instancetype)init;
 - (instancetype)initWithDictionary:(NSDictionary *)settings;

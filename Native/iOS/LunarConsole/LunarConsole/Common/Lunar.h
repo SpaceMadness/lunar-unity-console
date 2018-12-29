@@ -24,6 +24,7 @@
 #import "LUActionButton.h"
 #import "LUActionController.h"
 #import "LUActionRegistry.h"
+#import "LUBarButtonItem.h"
 #import "LUConsole.h"
 #import "LUConsoleController.h"
 #import "LUConsoleLogController.h"

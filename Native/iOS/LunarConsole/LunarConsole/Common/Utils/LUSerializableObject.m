@@ -109,6 +109,36 @@
 }
 
 #pragma mark -
+#pragma mark Helpers
+
+- (BOOL)decodeBool:(NSCoder *)coder forKey:(NSString *)key defaultValue:(BOOL)defaultValue
+{
+	if ([coder containsValueForKey:key])
+	{
+		return [coder decodeBoolForKey:key];
+	}
+	return defaultValue;
+}
+
+- (double)decodeDouble:(NSCoder *)coder forKey:(NSString *)key defaultValue:(double)defaultValue
+{
+	if ([coder containsValueForKey:key])
+	{
+		return [coder decodeDoubleForKey:key];
+	}
+	return defaultValue;
+}
+
+- (NSInteger)decodeInteger:(NSCoder *)coder forKey:(NSString *)key defaultValue:(NSInteger)defaultValue
+{
+	if ([coder containsValueForKey:key])
+	{
+		return [coder decodeIntegerForKey:key];
+	}
+	return defaultValue;
+}
+
+#pragma mark -
 #pragma mark Getters/Setters
 
 - (void)setFilename:(NSString *)filename

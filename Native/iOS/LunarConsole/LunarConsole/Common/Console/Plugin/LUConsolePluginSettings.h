@@ -26,5 +26,7 @@
 
 @property (nonatomic, assign) BOOL enableExceptionWarning;
 @property (nonatomic, assign) BOOL enableTransparentLogOverlay;
+@property (nonatomic, assign) NSUInteger overlayVisibleLinesCount;
+@property (nonatomic, assign) NSTimeInterval overlayHideDelay;
 
 @end

@@ -22,9 +22,12 @@
 #import "Lunar.h"
 
 #import "LUConsolePluginSettings.h"
+#import "LUSerializableObject+Inheritance.h"
 
 static NSString * const kKeyEnableExceptionWarning      = @"enableExceptionWarning";
 static NSString * const kKeyEnableTransparentLogOverlay = @"enableTransparentLogOverlay";
+static NSString * const kKeyOverlayVisibleLinesCount    = @"overlayVisibleLinesCount";
+static NSString * const kKeyOverlayHideDelay            = @"overlayHideDelay";
 
 @interface LUConsolePluginSettings ()
 
@@ -52,18 +55,24 @@ static NSString * const kKeyEnableTransparentLogOverlay = @"enableTransparentLog
 {
     _enableExceptionWarning = YES;
     _enableTransparentLogOverlay = NO;
+	_overlayVisibleLinesCount = 3;
+	_overlayHideDelay = 1.0;
 }
 
 - (void)serializeWithCoder:(NSCoder *)coder
 {
     [coder encodeBool:_enableExceptionWarning forKey:kKeyEnableExceptionWarning];
     [coder encodeBool:_enableTransparentLogOverlay forKey:kKeyEnableTransparentLogOverlay];
+	[coder encodeInteger:_overlayVisibleLinesCount forKey:kKeyOverlayVisibleLinesCount];
+	[coder encodeDouble:_overlayHideDelay forKey:kKeyOverlayHideDelay];
 }
 
 - (void)deserializeWithDecoder:(NSCoder *)decoder
 {
-    _enableExceptionWarning = [decoder decodeBoolForKey:kKeyEnableExceptionWarning];
-    _enableTransparentLogOverlay = [decoder decodeBoolForKey:kKeyEnableTransparentLogOverlay];
+    _enableExceptionWarning = [self decodeBool:decoder forKey:kKeyEnableExceptionWarning defaultValue:YES];
+	_enableTransparentLogOverlay = [self decodeBool:decoder forKey:kKeyEnableTransparentLogOverlay defaultValue:NO];
+	_overlayVisibleLinesCount = [self decodeInteger:decoder forKey:kKeyOverlayVisibleLinesCount defaultValue:3];
+	_overlayHideDelay = [self decodeDouble:decoder forKey:kKeyOverlayHideDelay defaultValue:1.0];
 }
 
 @end

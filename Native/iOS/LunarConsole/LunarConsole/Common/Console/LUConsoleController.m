@@ -57,6 +57,7 @@ NSString * const LUConsoleControllerDidResizeNotification = @"LUConsoleControlle
     if ([self class] == [LUConsoleLogController class])
     {
         // force linker to add these classes for Interface Builder
+		[LUBarButtonItem class];
         [LUConsoleLogTypeButton class];
         [LUSwitch class];
         [LUSlider class];
@@ -77,7 +78,7 @@ NSString * const LUConsoleControllerDidResizeNotification = @"LUConsoleControlle
     if (self)
     {
         _plugin = plugin;
-        _state = [LUConsoleControllerState loadFromFile:kStateFilename];
+        _state = [LUConsoleControllerState loadFromFile:LUGetDocumentsFile(kStateFilename)];
     }
     return self;
 }

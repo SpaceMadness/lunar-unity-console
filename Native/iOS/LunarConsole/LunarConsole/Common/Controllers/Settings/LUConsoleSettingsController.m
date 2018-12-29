@@ -26,9 +26,12 @@
 #import "LUConsoleSettingsController.h"
 
 static const NSInteger kTagName = 1;
-static const NSInteger kTagControl = 2;
+static const NSInteger kTagSwitch = 2;
+static const NSInteger kTagTextField = 3;
 
-static NSString * const kSettingsEntryTypeBool = @"Bool";
+static NSString * const kSettingsEntryTypeBool    = @"Bool";
+static NSString * const kSettingsEntryTypeInt     = @"Int";
+static NSString * const kSettingsEntryTypeDouble  = @"Double";
 
 static NSDictionary * _propertyTypeLookup;
 static NSArray * _proOnlyFeaturesLookup;
@@ -84,7 +87,7 @@ static NSArray * _proOnlyFeaturesLookup;
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     LUConsoleSettingsEntry *entry = [_entries objectAtIndex:indexPath.row];
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:entry.type];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"SettingCell"];
     if (cell == nil)
     {
         cell = [self loadCellForType:entry.type];
@@ -102,17 +105,48 @@ static NSArray * _proOnlyFeaturesLookup;
     nameLabel.font = theme.font;
     nameLabel.textColor = available ? theme.cellLog.textColor : theme.settingsTextColorUnavailable;
     nameLabel.text = entry.title;
+	
+	LUSwitch *swtch = [cell.contentView viewWithTag:kTagSwitch];
+	LUAssert(swtch);
+	
+	UITextField *textField = [cell.contentView viewWithTag:kTagTextField];
+	LUAssert(textField);
     
-    if (entry.type == kSettingsEntryTypeBool)
+	if ([entry.type isEqualToString:kSettingsEntryTypeBool])
     {
-        LUSwitch *swtch = [cell.contentView viewWithTag:kTagControl];
-        LUAssert(swtch);
-        
         swtch.on = [entry.value boolValue];
         swtch.userData = entry;
         [swtch addTarget:self action:@selector(onToggleBoolean:) forControlEvents:UIControlEventValueChanged];
         swtch.enabled = available;
+		
+		textField.hidden = YES;
     }
+	else
+	{
+		textField.text = [entry.value description];
+		textField.enabled = available;
+		textField.keyboardType = UIKeyboardTypeNumberPad;
+		textField.returnKeyType = UIReturnKeyDone;
+
+		__weak id weakSelf = self;
+		UIToolbar* numberToolbar = [[UIToolbar alloc]initWithFrame:CGRectMake(0, 0, 320, 50)];
+		numberToolbar.items = @[
+			[[LUBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStylePlain handler:^(LUBarButtonItem * _Nonnull button) {
+				[textField resignFirstResponder];
+			}],
+			[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
+			[[LUBarButtonItem alloc] initWithTitle:@"Apply" style:UIBarButtonItemStyleDone handler:^(LUBarButtonItem * _Nonnull button) {
+				[textField resignFirstResponder];
+				
+				entry.value = [NSNumber numberWithInt:[textField.text intValue]];
+				[weakSelf settingEntryDidChange:entry];
+			}]
+		];
+		[numberToolbar sizeToFit];
+		textField.inputAccessoryView = numberToolbar;
+		
+		swtch.hidden = YES;
+	}
     
     return cell;
 }
@@ -141,8 +175,7 @@ static NSArray * _proOnlyFeaturesLookup;
 
 - (UITableViewCell *)loadCellForType:(NSString *)type
 {
-    NSString *nibName = [NSString stringWithFormat:@"LUSettingsTableCell%@", type];
-    return (UITableViewCell *) [[NSBundle mainBundle] loadNibNamed:nibName owner:self options:nil].firstObject;
+    return (UITableViewCell *) [[NSBundle mainBundle] loadNibNamed:@"LUConsoleSettingsTableCell" owner:self options:nil].firstObject;
 }
 
 #pragma mark -
@@ -204,6 +237,9 @@ static NSArray * _proOnlyFeaturesLookup;
                     _propertyTypeLookup = [[NSDictionary alloc] initWithObjectsAndKeys:
                                            kSettingsEntryTypeBool, @"c",
                                            kSettingsEntryTypeBool, @"B",
+										   kSettingsEntryTypeInt, @"i",
+										   kSettingsEntryTypeInt, @"Q",
+										   kSettingsEntryTypeDouble, @"d",
                                            nil];
                 }
                 
@@ -222,7 +258,7 @@ static NSArray * _proOnlyFeaturesLookup;
     objc_property_t *properties = class_copyPropertyList([settings class], &propertyCount);
     
     if (_proOnlyFeaturesLookup == nil) {
-        _proOnlyFeaturesLookup = @[ @"enableTransparentLogOverlay" ];
+		_proOnlyFeaturesLookup = @[ @"enableTransparentLogOverlay", @"overlayVisibleLinesCount", @"overlayHideDelay" ];
     }
     
     NSMutableArray *entries = [NSMutableArray arrayWithCapacity:propertyCount];

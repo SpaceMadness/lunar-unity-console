@@ -65,6 +65,16 @@ namespace LunarConsolePlugin
     delegate void LunarConsoleNativeMessageHandler(IDictionary<string, string> data);
 
     [Serializable]
+    public class TransparentLogOverlaySettings
+    {
+        [SerializeField]
+        public int maxVisibleLines = 3;
+
+        [SerializeField]
+        public float hideDelay = 1.0f;
+    }
+
+    [Serializable]
     public class LunarConsoleSettings
     {
         public bool exceptionWarning = true;
@@ -73,6 +83,11 @@ namespace LunarConsolePlugin
         [HideInInspector]
         #endif
         public bool transparentLogOverlay = false;
+
+        #if LUNAR_CONSOLE_FREE
+        [HideInInspector]
+        #endif
+        public TransparentLogOverlaySettings transparentLogOverlaySettings = new TransparentLogOverlaySettings();
 
         #if LUNAR_CONSOLE_FREE
         [HideInInspector]

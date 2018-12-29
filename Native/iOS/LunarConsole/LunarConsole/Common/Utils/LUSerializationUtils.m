@@ -23,23 +23,29 @@
 
 #import "Lunar.h"
 
-BOOL LUSerializeObject(id object, NSString *filename)
+BOOL LUSerializeObject(id object, NSString *path)
 {
+	if (path.length == 0)
+	{
+		return NO;
+	}
+	
     NSData *data = [NSKeyedArchiver archivedDataWithRootObject:object];
     if (data == nil)
     {
         return NO;
     }
     
-    NSString *path = LUGetDocumentsFile(filename);
-    [data writeToFile:path atomically:YES];
-    
-    return YES;
+    return [data writeToFile:path atomically:YES];
 }
 
-id LUDeserializeObject(NSString *filename)
+id LUDeserializeObject(NSString *path)
 {
-    NSString *path = LUGetDocumentsFile(filename);
+	if (path.length == 0)
+	{
+		return nil;
+	}
+	
     NSData *data = [NSData dataWithContentsOfFile:path];
     if (data == nil)
     {
@@ -47,4 +53,14 @@ id LUDeserializeObject(NSString *filename)
     }
     
     return [NSKeyedUnarchiver unarchiveObjectWithData:data];
+}
+
+id LUDecodeJson(NSString *json)
+{
+	if (json == nil) {
+		return nil;
+	}
+	
+	NSData *data = [json dataUsingEncoding:NSUTF8StringEncoding];
+	return [NSJSONSerialization JSONObjectWithData:data options:0 error:nil];
 }

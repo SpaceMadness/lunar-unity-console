@@ -21,33 +21,49 @@
 
 #import "LUConsoleEditorSettings.h"
 
+@implementation LUConsoleLogOverlaySettings
+
+- (instancetype)initWithDictionary:(NSDictionary *)dict
+{
+	self = [super init];
+	if (self)
+	{
+		_maxVisibleLines = [[dict objectForKey:@"maxVisibleLines"] integerValue];
+		_hideDelay = [[dict objectForKey:@"hideDelay"] doubleValue];
+	}
+	return self;
+}
+
+@end
+
 @implementation LUConsoleEditorSettings
 
 - (instancetype)init
 {
-    self = [super init];
-    if (self)
-    {
-        _exceptionWarningEnabled = YES;
-        _transparentLogOverlayEnabled = NO;
-        _actionSortingEnabled = YES;
-        _variableSortingEnabled = YES;
-    }
-    return self;
+	self = [super init];
+	if (self)
+	{
+		_exceptionWarningEnabled = YES;
+		_transparentLogOverlayEnabled = NO;
+		_actionSortingEnabled = YES;
+		_variableSortingEnabled = YES;
+	}
+	return self;
 }
 
 - (instancetype)initWithDictionary:(NSDictionary *)settings
 {
-    self = [super init];
-    if (self)
-    {
-        _exceptionWarningEnabled = [[settings objectForKey:@"exceptionWarning"] boolValue];
-        _transparentLogOverlayEnabled = [[settings objectForKey:@"transparentLogOverlay"] boolValue];
-        _actionSortingEnabled = [[settings objectForKey:@"sortActions"] boolValue];
-        _variableSortingEnabled = [[settings objectForKey:@"sortVariables"] boolValue];
-        _emails = [settings objectForKey:@"emails"];
-    }
-    return self;
+	self = [super init];
+	if (self)
+	{
+		_exceptionWarningEnabled = [[settings objectForKey:@"exceptionWarning"] boolValue];
+		_transparentLogOverlayEnabled = [[settings objectForKey:@"transparentLogOverlay"] boolValue];
+		_actionSortingEnabled = [[settings objectForKey:@"sortActions"] boolValue];
+		_variableSortingEnabled = [[settings objectForKey:@"sortVariables"] boolValue];
+		_logOverlaySettings = [[LUConsoleLogOverlaySettings alloc] initWithDictionary:[settings objectForKey:@"transparentLogOverlaySettings"]];
+		_emails = [settings objectForKey:@"emails"];
+	}
+	return self;
 }
 
 @end

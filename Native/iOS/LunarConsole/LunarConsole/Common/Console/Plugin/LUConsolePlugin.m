@@ -69,9 +69,7 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
             return nil;
         }
         
-        NSData *settingsData = [settingsJson dataUsingEncoding:NSUTF8StringEncoding];
-        NSDictionary *settingsDict = [NSJSONSerialization JSONObjectWithData:settingsData options:0 error:nil];
-        
+        NSDictionary *settingsDict = LUDecodeJson(settingsJson);
         LUConsoleEditorSettings *editorSettings = [[LUConsoleEditorSettings alloc] initWithDictionary:settingsDict];
         
         _pluginImp = [[LUConsolePluginImp alloc] initWithPlugin:self];
@@ -84,12 +82,13 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
         
         _gesture = [self gestureFromString:gestureName];
         _emails = editorSettings.emails;
-        
-        _settings = [[LUConsolePluginSettings alloc] initWithFilename:kSettingsFilename];
+		
+		NSString *settingsPath = LUGetDocumentsFile(kSettingsFilename);
+        _settings = [[LUConsolePluginSettings alloc] initWithFilename:settingsPath];
         _settings.enableExceptionWarning = editorSettings.isExceptionWarningEnabled;
         _settings.enableTransparentLogOverlay = editorSettings.isTransparentLogOverlayEnabled;
         
-        LUConsolePluginSettings *existing = [LUConsolePluginSettings loadFromFile:kSettingsFilename
+        LUConsolePluginSettings *existing = [LUConsolePluginSettings loadFromFile:settingsPath
                                                                       initDefault:NO];
         if (existing != nil)
         {

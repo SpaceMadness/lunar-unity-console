@@ -23,3 +23,5 @@
 
 BOOL LUSerializeObject(id object, NSString *filename);
 id LUDeserializeObject(NSString *filename);
+
+id LUDecodeJson(NSString *json);
