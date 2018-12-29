@@ -94,6 +94,8 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
         {
             _settings.enableExceptionWarning = existing.enableExceptionWarning;
             _settings.enableTransparentLogOverlay = existing.enableTransparentLogOverlay;
+			_settings.overlayHideDelay = existing.overlayHideDelay;
+			_settings.overlayVisibleLinesCount = existing.overlayVisibleLinesCount;
         }
     }
     return self;

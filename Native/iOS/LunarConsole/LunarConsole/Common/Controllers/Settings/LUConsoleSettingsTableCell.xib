@@ -22,18 +22,18 @@
                         <rect key="frame" x="16" y="6.5" width="288" height="31"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" tag="1" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kQL-nr-Jlg">
-                                <rect key="frame" x="0.0" y="0.0" width="123" height="31"/>
+                                <rect key="frame" x="0.0" y="0.0" width="163" height="31"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <switch opaque="NO" tag="2" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="WHb-KD-H9B" customClass="LUSwitch">
-                                <rect key="frame" x="131" y="0.0" width="51" height="31"/>
+                                <rect key="frame" x="171" y="0.0" width="51" height="31"/>
                             </switch>
                             <textField opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Tst-87-nrr">
-                                <rect key="frame" x="188" y="0.0" width="100" height="31"/>
+                                <rect key="frame" x="228" y="0.0" width="60" height="31"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="100" id="nZq-O9-3gh"/>
+                                    <constraint firstAttribute="width" constant="60" id="nZq-O9-3gh"/>
                                 </constraints>
                                 <nil key="textColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>

@@ -93,6 +93,9 @@ static NSString * const kScriptMessageAction         = @"console_action";
     if (_overlayWindow == nil)
     {
         LUConsoleOverlayControllerSettings *settings = [LUConsoleOverlayControllerSettings settings];
+		settings.maxVisibleEntries = _plugin.settings.overlayVisibleLinesCount;
+		settings.entryDisplayTime = _plugin.settings.overlayHideDelay;
+		
         LUConsoleOverlayController *controller = [LUConsoleOverlayController controllerWithConsole:_plugin.console
                                                                                           settings:settings];
         
