@@ -49,11 +49,14 @@
 #pragma mark -
 #pragma mark UIAlertViewDelegate
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 - (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
 {
     if (buttonIndex == 0 && _callback) {
         _callback(self, [self textFieldAtIndex:0].text);
     }
 }
+#pragma clang diagnostic pop
 
 @end
