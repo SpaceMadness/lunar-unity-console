@@ -1,5 +1,6 @@
 # Lunar Unity Mobile Console
 
+[![Build Status](https://travis-ci.com/SpaceMadness/lunar-unity-console.svg?branch=master)](https://travis-ci.com/SpaceMadness/lunar-unity-console)
 [![saythanks](https://img.shields.io/badge/say-thanks-ff69b4.svg)](https://saythanks.io/to/weeeBox)
 
 Asset store link: [https://www.assetstore.unity3d.com/en/#!/content/43800](https://goo.gl/lQKEbW)  

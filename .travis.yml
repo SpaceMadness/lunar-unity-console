@@ -1,0 +1,21 @@
+matrix:
+  include:
+    # - language: android
+    #   jdk: oraclejdk8
+    #   android:
+    #     components:
+    #       - tools
+    #       - android-25
+    #       - build-tools-25.0.3
+    #   before_script:
+    #     - cd android/AppName
+    #   script:
+    #     - ./gradlew build connectedCheck
+
+    - language: objective-c
+      os: osx
+      osx_image: xcode10.1
+      before_script:
+        - cd Native/iOS/LunarConsole
+      script:
+        - xcodebuild -project LunarConsole.xcodeproj -scheme LunarConsoleFull -destination 'platform=iOS Simulator,name=iPhone 7,OS=12.1' build test
