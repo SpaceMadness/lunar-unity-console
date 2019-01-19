@@ -1,5 +1,11 @@
 # Lunar Console Changelog
 
+## v.1.5.6 - 1/19/2019
+
+**Fixes:**
+
+* Fixed resolving variables in Unity 2018.3.x.
+
 ## v.1.5.5 - 11/30/2018
 
 **Fixes:**
