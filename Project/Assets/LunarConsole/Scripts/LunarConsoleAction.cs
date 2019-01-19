@@ -181,6 +181,8 @@ namespace LunarConsolePluginInternal
             typeof(bool)
         };
 
+        #pragma warning disable 0649
+
         [SerializeField]
         Object m_target;
 
@@ -192,6 +194,8 @@ namespace LunarConsolePluginInternal
 
         [SerializeField]
         LunarArgumentCache m_arguments;
+
+        #pragma warning restore 0649
 
         public void Invoke()
         {
@@ -383,12 +387,16 @@ namespace LunarConsolePluginInternal
 
     public class LunarConsoleAction : MonoBehaviour
     {
+        #pragma warning disable 0649
+
         [SerializeField]
         string m_title = "Untitled Action";
 
         [SerializeField]
         [HideInInspector]
         List<LunarConsoleActionCall> m_calls;
+
+        #pragma warning restore 0649
 
         void Awake()
         {

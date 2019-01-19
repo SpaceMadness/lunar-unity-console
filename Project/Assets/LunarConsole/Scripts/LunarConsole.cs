@@ -1658,6 +1658,8 @@ namespace LunarConsolePluginInternal
 
     #endif // UNITY_EDITOR
 
+    #pragma warning disable 0618
+
     /// <summary>
     /// Class for collecting anonymous usage statistics
     /// </summary>
@@ -1751,4 +1753,6 @@ namespace LunarConsolePluginInternal
             #endif // LUNAR_CONSOLE_ANALYTICS_ENABLED
         }
     }
+
+    #pragma warning restore 0618
 }

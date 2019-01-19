@@ -36,6 +36,8 @@ namespace LunarConsolePluginInternal
     [Serializable]
     public class LunarConsoleLegacyAction
     {
+        #pragma warning disable 0649
+
         static readonly object[] kEmptyArgs = {};
 
         [SerializeField]
@@ -52,6 +54,8 @@ namespace LunarConsolePluginInternal
 
         Type m_componentType;
         MethodInfo m_componentMethod;
+
+        #pragma warning restore 0649
 
         public void Register()
         {
@@ -176,12 +180,16 @@ namespace LunarConsolePluginInternal
     [Obsolete("Use 'Lunar Console Action' instead")]
     public class LunarConsoleLegacyActions : MonoBehaviour
     {
+        #pragma warning disable 0649
+
         [SerializeField]
         bool m_dontDestroyOnLoad;
 
         [SerializeField]
         [HideInInspector]
         List<LunarConsoleLegacyAction> m_actions;
+
+        #pragma warning restore 0649
 
         void Awake()
         {
