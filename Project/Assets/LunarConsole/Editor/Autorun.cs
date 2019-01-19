@@ -34,50 +34,12 @@ namespace LunarConsoleEditorInternal
     [InitializeOnLoad]
     static class Autorun
     {
-        private static readonly string[] kLegacyAssets =
-        {
-            "Assets/Plugins/Android/LunarConsole",
-
-            "Assets/LunarConsole/Editor/Android/AndroidManifest.xml",
-            "Assets/LunarConsole/Editor/Android/libs",
-            "Assets/LunarConsole/Editor/Android/project.properties",
-            "Assets/LunarConsole/Editor/Android/res",
-
-            "Assets/Plugins/LunarConsole/Editor/Android/AndroidManifest.xml",
-            "Assets/Plugins/LunarConsole/Editor/Android/libs",
-            "Assets/Plugins/LunarConsole/Editor/Android/project.properties",
-            "Assets/Plugins/LunarConsole/Editor/Android/res",
-        };
-
         static Autorun()
         {
             AndroidPlugin.SetEnabled(LunarConsoleConfig.consoleEnabled);
-            CleanLegacyFiles(); // automatically fix old installations
 
             Updater.TryCheckForUpdates();
             LunarConsoleEditorAnalytics.TrackPluginVersionUpdate();
-        }
-
-        static void CleanLegacyFiles()
-        {
-            foreach (var assetPath in kLegacyAssets)
-            {
-                try
-                {
-                    if (AssetDatabase.DeleteAsset(assetPath))
-                    {
-                        Debug.LogWarning("Deleted legacy asset: " + assetPath);
-                    }
-                }
-                catch (NullReferenceException e) // see: https://forum.unity.com/threads/lunar-mobile-console-high-performance-unity-ios-android-logger-built-with-native-platform-ui.347650/page-5#post-3215675
-                {
-                    Log.d("Exception while deleting asset '{0}': {1}", assetPath, e);
-                }
-                catch (Exception e)
-                {
-                    Debug.LogWarningFormat("Exception while deleting asset '{0}': {1}", assetPath, e);
-                }
-            }
         }
     }
 }
