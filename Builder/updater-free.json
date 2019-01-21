@@ -1,6 +1,6 @@
 {
   "status": "OK",
-  "version": "1.5.4",
-  "message": "**Fixes:**\n\n* Fixed Undo support for the plugin installation.",
+  "version": "1.5.6",
+  "message": "**Fixes:**\n\n* Fixed resolving variables in Unity 2018.3.x.",
   "url": "https://www.assetstore.unity3d.com/en/#!/content/82881"
 }
