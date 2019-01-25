@@ -241,8 +241,11 @@ namespace LunarConsolePlugin
 
                         Application.logMessageReceivedThreaded += OnLogMessageReceived;
 
+                        #if LUNAR_CONSOLE_FULL
                         ResolveVariables();
                         LoadVariables();
+                        #endif // LUNAR_CONSOLE_FULL
+
                         return true;
                     }
                 }
@@ -328,9 +331,11 @@ namespace LunarConsolePlugin
         private void ResolveVariables()
         {
             try
-            {
+            {   
                 foreach (var assembly in ListAssemblies())
                 {
+                    Log.dev("Checking '{0}'...", assembly);
+
                     try
                     {
                         var containerTypes = ReflectionUtils.FindAttributeTypes<CVarContainerAttribute>(assembly);
@@ -351,16 +356,28 @@ namespace LunarConsolePlugin
             }
         }
 
-        private static IList<Assembly> ListAssemblies() {
-            // for now only list the current assembly
-            return new Assembly[] { Assembly.GetExecutingAssembly() };
+        private static IList<Assembly> ListAssemblies()
+        {
+            return ReflectionUtils.ListAssemblies((assembly) =>
+            {
+                var assemblyName = assembly.FullName;
+                return !assemblyName.StartsWith("Unity") &&
+                       !assemblyName.StartsWith("System") &&
+                       !assemblyName.StartsWith("Microsoft") &&
+                       !assemblyName.StartsWith("SyntaxTree") &&
+                       !assemblyName.StartsWith("Mono") &&
+                       !assemblyName.StartsWith("ExCSS") &&
+                       !assemblyName.StartsWith("nunit") &&
+                       !assemblyName.StartsWith("netstandard") &&
+                       !assemblyName.StartsWith("mscorlib");
+            });
         }
 
         private void RegisterVariables(Type type)
         {
             try
             {
-                var fields = type.GetFields(BindingFlags.Static|BindingFlags.Public|BindingFlags.NonPublic);
+                var fields = type.GetFields(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
                 if (fields != null && fields.Length > 0)
                 {
                     foreach (var field in fields)

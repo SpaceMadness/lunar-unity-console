@@ -238,6 +238,19 @@ namespace LunarConsolePluginInternal
 
         #region Assembly Helper
 
+        public static List<Assembly> ListAssemblies(Func<Assembly, bool> filter)
+        {
+            List<Assembly> result = new List<Assembly>();
+            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                if (filter(assembly))
+                {
+                    result.Add(assembly);
+                }
+            }
+            return result;
+        }
+
         public static List<Type> FindAttributeTypes<T>(Assembly assembly) where T : Attribute
         {
             return FindAttributeTypes(assembly, typeof(T));
