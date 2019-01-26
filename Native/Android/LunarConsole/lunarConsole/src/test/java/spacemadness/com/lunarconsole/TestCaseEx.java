@@ -28,7 +28,7 @@ import java.util.List;
 
 import spacemadness.com.lunarconsole.utils.StringUtils;
 
-public class TestCaseEx extends TestCase
+public abstract class TestCaseEx extends TestCase
 {
     private List<String> results;
 
