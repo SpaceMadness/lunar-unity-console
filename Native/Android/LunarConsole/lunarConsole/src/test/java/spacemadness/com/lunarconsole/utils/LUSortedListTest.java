@@ -27,82 +27,74 @@ import spacemadness.com.lunarconsole.TestCase;
 
 import static org.junit.Assert.*;
 
-public class LUSortedListTest extends TestCase
-{
-    private LUSortedList<String> _list;
-    
-    @Override
-    public void setUp() throws Exception
-    {
-        super.setUp();
-        _list = new LUSortedList<>();
-    }
+public class LUSortedListTest extends TestCase {
+	private LUSortedList<String> _list;
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Testing
+	@Override
+	public void setUp() throws Exception {
+		super.setUp();
+		_list = new LUSortedList<>();
+	}
 
-    @Test
-    public void testSortedAdd()
-    {
-        _list.addObject("3");
-        _list.addObject("2");
-        _list.addObject("1");
-        _list.addObject("4");
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// Testing
 
-        assertList("1", "2", "3", "4");
-    }
+	@Test
+	public void testSortedAdd() {
+		_list.addObject("3");
+		_list.addObject("2");
+		_list.addObject("1");
+		_list.addObject("4");
 
-    @Test
-    public void testDuplicateItems()
-    {
-        _list.addObject("3");
-        _list.addObject("3");
-        _list.addObject("2");
-        _list.addObject("1");
-        _list.addObject("1");
-        _list.addObject("4");
+		assertList("1", "2", "3", "4");
+	}
 
-        assertList("1", "2", "3", "4");
-    }
+	@Test
+	public void testDuplicateItems() {
+		_list.addObject("3");
+		_list.addObject("3");
+		_list.addObject("2");
+		_list.addObject("1");
+		_list.addObject("1");
+		_list.addObject("4");
 
-    @Test
-    public void testRemoveItems()
-    {
-        _list.addObject("3");
-        _list.addObject("2");
-        _list.addObject("1");
-        _list.addObject("4");
+		assertList("1", "2", "3", "4");
+	}
 
-        _list.removeObject("2");
+	@Test
+	public void testRemoveItems() {
+		_list.addObject("3");
+		_list.addObject("2");
+		_list.addObject("1");
+		_list.addObject("4");
 
-        assertList("1", "3", "4");
-    }
+		_list.removeObject("2");
 
-    @Test
-    public void testIndexOfItem()
-    {
-        _list.addObject("3");
-        _list.addObject("3");
-        _list.addObject("2");
-        _list.addObject("1");
-        _list.addObject("1");
-        _list.addObject("4");
+		assertList("1", "3", "4");
+	}
 
-        assertEquals(0, _list.indexOfObject("1"));
-        assertEquals(1, _list.indexOfObject("2"));
-        assertEquals(2, _list.indexOfObject("3"));
-        assertEquals(3, _list.indexOfObject("4"));
-    }
+	@Test
+	public void testIndexOfItem() {
+		_list.addObject("3");
+		_list.addObject("3");
+		_list.addObject("2");
+		_list.addObject("1");
+		_list.addObject("1");
+		_list.addObject("4");
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Helpers
+		assertEquals(0, _list.indexOfObject("1"));
+		assertEquals(1, _list.indexOfObject("2"));
+		assertEquals(2, _list.indexOfObject("3"));
+		assertEquals(3, _list.indexOfObject("4"));
+	}
 
-    private void assertList(String ...expected)
-    {
-        assertEquals(expected.length, _list.count());
-        for (int i = 0; i < expected.length; ++i)
-        {
-            assertEquals(expected[i], _list.objectAtIndex(i));
-        }
-    }
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// Helpers
+
+	private void assertList(String... expected) {
+		assertEquals(expected.length, _list.count());
+		for (int i = 0; i < expected.length; ++i) {
+			assertEquals(expected[i], _list.objectAtIndex(i));
+		}
+	}
 }

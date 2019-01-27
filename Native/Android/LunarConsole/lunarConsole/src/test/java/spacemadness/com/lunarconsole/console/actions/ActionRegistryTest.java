@@ -32,210 +32,187 @@ import spacemadness.com.lunarconsole.console.VariableType;
 import static junit.framework.TestCase.fail;
 import static org.junit.Assert.assertEquals;
 
-public class ActionRegistryTest extends TestCase implements ActionRegistry.Delegate
-{
-    private ActionRegistry actionRegistry;
-    private int nextActionId;
+public class ActionRegistryTest extends TestCase implements ActionRegistry.Delegate {
+	private ActionRegistry actionRegistry;
+	private int nextActionId;
 
-    @Override
-    public void setUp() throws Exception
-    {
-        super.setUp();
+	@Override
+	public void setUp() throws Exception {
+		super.setUp();
 
-        actionRegistry = new ActionRegistry();
-        actionRegistry.setDelegate(this);
-        nextActionId = 0;
-    }
+		actionRegistry = new ActionRegistry();
+		actionRegistry.setDelegate(this);
+		nextActionId = 0;
+	}
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Register
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// Register
 
-    @Test
-    public void testRegisterActionsAndVariables()
-    {
-        registerActionWithName("a2");
-        registerActionWithName("a1");
-        registerActionWithName("a3");
+	@Test
+	public void testRegisterActionsAndVariables() {
+		registerActionWithName("a2");
+		registerActionWithName("a1");
+		registerActionWithName("a3");
 
-        registerVariableWithName("v2");
-        registerVariableWithName("v1");
-        registerVariableWithName("v3");
+		registerVariableWithName("v2");
+		registerVariableWithName("v1");
+		registerVariableWithName("v3");
 
-        assertActions("a1", "a2", "a3");
-        assertVariables("v1", "v2", "v3");
-    }
+		assertActions("a1", "a2", "a3");
+		assertVariables("v1", "v2", "v3");
+	}
 
-    @Test
-    public void testRegisterMultipleActionsWithSameName()
-    {
-        registerActionWithName("a2");
-        registerActionWithName("a3");
-        registerActionWithName("a1");
-        registerActionWithName("a3");
+	@Test
+	public void testRegisterMultipleActionsWithSameName() {
+		registerActionWithName("a2");
+		registerActionWithName("a3");
+		registerActionWithName("a1");
+		registerActionWithName("a3");
 
-        assertActions("a1", "a2", "a3");
-    }
+		assertActions("a1", "a2", "a3");
+	}
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Unregister actions
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// Unregister actions
 
-    @Test
-    public void testUnregisterAction()
-    {
-        int id2 = registerActionWithName("a2").actionId();
-        int id1 = registerActionWithName("a1").actionId();
-        int id3 = registerActionWithName("a3").actionId();
+	@Test
+	public void testUnregisterAction() {
+		int id2 = registerActionWithName("a2").actionId();
+		int id1 = registerActionWithName("a1").actionId();
+		int id3 = registerActionWithName("a3").actionId();
 
-        unregisterActionWithId(id1);
-        assertActions("a2", "a3");
+		unregisterActionWithId(id1);
+		assertActions("a2", "a3");
 
-        unregisterActionWithId(id2);
-        assertActions("a3");
+		unregisterActionWithId(id2);
+		assertActions("a3");
 
-        unregisterActionWithId(id3);
-        assertActions();
+		unregisterActionWithId(id3);
+		assertActions();
 
-        unregisterActionWithId(id3);
-        assertActions();
-    }
+		unregisterActionWithId(id3);
+		assertActions();
+	}
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Delegate notifications
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// Delegate notifications
 
-    @Test
-    public void testDelegateNotifications()
-    {
-        // register actions
-        registerActionWithName("a2");
-        assertResult("added action: a2 (0)");
+	@Test
+	public void testDelegateNotifications() {
+		// register actions
+		registerActionWithName("a2");
+		assertResult("added action: a2 (0)");
 
-        registerActionWithName("a1");
-        assertResult("added action: a1 (0)");
+		registerActionWithName("a1");
+		assertResult("added action: a1 (0)");
 
-        registerActionWithName("a3");
-        assertResult("added action: a3 (2)");
+		registerActionWithName("a3");
+		assertResult("added action: a3 (2)");
 
-        // register variables
-        registerVariableWithName("1.bool", VariableType.Boolean, "1");
-        assertResult("register variable: Boolean 1.bool 1 (0)");
+		// register variables
+		registerVariableWithName("1.bool", VariableType.Boolean, "1");
+		assertResult("register variable: Boolean 1.bool 1 (0)");
 
-        registerVariableWithName("2.int", VariableType.Integer, "10");
-        assertResult("register variable: Integer 2.int 10 (1)");
+		registerVariableWithName("2.int", VariableType.Integer, "10");
+		assertResult("register variable: Integer 2.int 10 (1)");
 
-        registerVariableWithName("3.float", VariableType.Float, "3.14");
-        assertResult("register variable: Float 3.float 3.14 (2)");
+		registerVariableWithName("3.float", VariableType.Float, "3.14");
+		assertResult("register variable: Float 3.float 3.14 (2)");
 
-        registerVariableWithName("4.string", VariableType.String, "value");
-        assertResult("register variable: String 4.string value (3)");
+		registerVariableWithName("4.string", VariableType.String, "value");
+		assertResult("register variable: String 4.string value (3)");
 
-        // unregister variables
-        unregisterActionWithName("a1");
-        assertResult("removed action: a1 (0)");
+		// unregister variables
+		unregisterActionWithName("a1");
+		assertResult("removed action: a1 (0)");
 
-        unregisterActionWithName("a3");
-        assertResult("removed action: a3 (1)");
+		unregisterActionWithName("a3");
+		assertResult("removed action: a3 (1)");
 
-        unregisterActionWithName("a2");
-        assertResult("removed action: a2 (0)");
-    }
+		unregisterActionWithName("a2");
+		assertResult("removed action: a2 (0)");
+	}
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Delegate
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// Delegate
 
-    @Override
-    public void didAddAction(ActionRegistry registry, Action action, int index)
-    {
-        addResult(String.format("added action: %s (%d)", action.name(), index));
-    }
+	@Override
+	public void didAddAction(ActionRegistry registry, Action action, int index) {
+		addResult(String.format("added action: %s (%d)", action.name(), index));
+	}
 
-    @Override
-    public void didRemoveAction(ActionRegistry registry, Action action, int index)
-    {
-        addResult(String.format("removed action: %s (%d)", action.name(), index));
-    }
+	@Override
+	public void didRemoveAction(ActionRegistry registry, Action action, int index) {
+		addResult(String.format("removed action: %s (%d)", action.name(), index));
+	}
 
-    @Override
-    public void didRegisterVariable(ActionRegistry registry, Variable variable, int index)
-    {
-        addResult(String.format("register variable: %s %s %s (%d)", variable.type, variable.name(), variable.value, index));
-    }
+	@Override
+	public void didRegisterVariable(ActionRegistry registry, Variable variable, int index) {
+		addResult(String.format("register variable: %s %s %s (%d)", variable.type, variable.name(), variable.value, index));
+	}
 
-    @Override
-    public void didDidChangeVariable(ActionRegistry registry, Variable variable, int index)
-    {
-        fail("Implement me");
-    }
+	@Override
+	public void didDidChangeVariable(ActionRegistry registry, Variable variable, int index) {
+		fail("Implement me");
+	}
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Helpers
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// Helpers
 
-    private Action registerActionWithName(String name)
-    {
-        return actionRegistry.registerAction(nextActionId++, name);
-    }
+	private Action registerActionWithName(String name) {
+		return actionRegistry.registerAction(nextActionId++, name);
+	}
 
-    private Variable registerVariableWithName(String name)
-    {
-        return registerVariableWithName(name, VariableType.String);
-    }
+	private Variable registerVariableWithName(String name) {
+		return registerVariableWithName(name, VariableType.String);
+	}
 
-    private Variable registerVariableWithName(String name, VariableType type)
-    {
-        return registerVariableWithName(name, type, "value");
-    }
+	private Variable registerVariableWithName(String name, VariableType type) {
+		return registerVariableWithName(name, type, "value");
+	}
 
-    private Variable registerVariableWithName(String name, VariableType type, String value)
-    {
-        return actionRegistry.registerVariable(nextActionId++, name, type, value, value);
-    }
+	private Variable registerVariableWithName(String name, VariableType type, String value) {
+		return actionRegistry.registerVariable(nextActionId++, name, type, value, value);
+	}
 
-    private void unregisterActionWithId(int actionId)
-    {
-        actionRegistry.unregisterAction(actionId);
-    }
+	private void unregisterActionWithId(int actionId) {
+		actionRegistry.unregisterAction(actionId);
+	}
 
-    private boolean unregisterActionWithName(String name)
-    {
-        for (Action action : actionRegistry.actions())
-        {
-            if (action.name().equals(name))
-            {
-                actionRegistry.unregisterAction(action.actionId());
-                return true;
-            }
-        }
+	private boolean unregisterActionWithName(String name) {
+		for (Action action : actionRegistry.actions()) {
+			if (action.name().equals(name)) {
+				actionRegistry.unregisterAction(action.actionId());
+				return true;
+			}
+		}
 
-        return false;
-    }
+		return false;
+	}
 
-    private void assertActions(String... expected)
-    {
-        assertEquals(expected.length, actionRegistry.actions().size());
+	private void assertActions(String... expected) {
+		assertEquals(expected.length, actionRegistry.actions().size());
 
-        int index = 0;
-        for (Action action : actionRegistry.actions())
-        {
-            assertEquals(expected[index], action.name());
-            ++index;
-        }
-    }
+		int index = 0;
+		for (Action action : actionRegistry.actions()) {
+			assertEquals(expected[index], action.name());
+			++index;
+		}
+	}
 
-    private void assertVariables(String... expected)
-    {
-        assertEquals(expected.length, actionRegistry.variables().size());
+	private void assertVariables(String... expected) {
+		assertEquals(expected.length, actionRegistry.variables().size());
 
-        int index = 0;
-        for (Variable cvar : actionRegistry.variables())
-        {
-            assertEquals(expected[index], cvar.name());
-            ++index;
-        }
-    }
+		int index = 0;
+		for (Variable cvar : actionRegistry.variables()) {
+			assertEquals(expected[index], cvar.name());
+			++index;
+		}
+	}
 
-    @Override
-    protected void assertResult(String... expected)
-    {
-        super.assertResult(expected);
-        clearResult();
-    }
+	@Override
+	protected void assertResult(String... expected) {
+		super.assertResult(expected);
+		clearResult();
+	}
 }

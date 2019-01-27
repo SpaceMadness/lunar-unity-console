@@ -31,120 +31,102 @@ import spacemadness.com.lunarconsole.utils.StringUtils;
 
 import static org.junit.Assert.assertEquals;
 
-public abstract class TestCase
-{
-    private List<String> results;
+public abstract class TestCase {
+	private List<String> results;
 
-    //////////////////////////////////////////////////////////////////////////////
-    // Lifecycle
+	//////////////////////////////////////////////////////////////////////////////
+	// Lifecycle
 
-    @Before
-    public void setUp() throws Exception
-    {
-        results = new ArrayList<>();
-    }
+	@Before
+	public void setUp() throws Exception {
+		results = new ArrayList<>();
+	}
 
-    @After
-    public void tearDown() throws Exception
-    {
-    }
+	@After
+	public void tearDown() throws Exception {
+	}
 
-    //////////////////////////////////////////////////////////////////////////////
-    // Assert helpers
+	//////////////////////////////////////////////////////////////////////////////
+	// Assert helpers
 
-    protected void assertResult(String... expected)
-    {
-        assertResult(results, expected);
-        results.clear();
-    }
+	protected void assertResult(String... expected) {
+		assertResult(results, expected);
+		results.clear();
+	}
 
-    protected void assertResult(List<String> actual, String... expected)
-    {
-        assertEquals("\nExpected: " + StringUtils.Join(expected) +
-                "\nActual: " + StringUtils.Join(actual), expected.length, actual.size());
+	protected void assertResult(List<String> actual, String... expected) {
+		assertEquals("\nExpected: " + StringUtils.Join(expected) +
+			             "\nActual: " + StringUtils.Join(actual), expected.length, actual.size());
 
-        for (int i = 0; i < expected.length; ++i)
-        {
-            assertEquals("\nExpected: " + StringUtils.Join(expected) +
-                            "\nActual: " + StringUtils.Join(actual),
-                    expected[i], actual.get(i));
-        }
-    }
+		for (int i = 0; i < expected.length; ++i) {
+			assertEquals("\nExpected: " + StringUtils.Join(expected) +
+				             "\nActual: " + StringUtils.Join(actual),
+				expected[i], actual.get(i));
+		}
+	}
 
-    protected void assertResult(String[] actual, String... expected)
-    {
-        assertEquals("\nExpected: " + StringUtils.Join(expected) +
-                        "\nActual: " + StringUtils.Join(actual),
-                expected.length, actual.length);
+	protected void assertResult(String[] actual, String... expected) {
+		assertEquals("\nExpected: " + StringUtils.Join(expected) +
+			             "\nActual: " + StringUtils.Join(actual),
+			expected.length, actual.length);
 
-        for (int i = 0; i < expected.length; ++i)
-        {
-            assertEquals("\nExpected: " + StringUtils.Join(expected) +
-                            "\nActual: " + StringUtils.Join(actual),
-                    expected[i], actual[i]);
-        }
-    }
+		for (int i = 0; i < expected.length; ++i) {
+			assertEquals("\nExpected: " + StringUtils.Join(expected) +
+				             "\nActual: " + StringUtils.Join(actual),
+				expected[i], actual[i]);
+		}
+	}
 
-    protected void assertResult(int[] actual, int... expected)
-    {
-        assertEquals("\nExpected: " + StringUtils.Join(expected) +
-                        "\nActual: " + StringUtils.Join(actual),
-                expected.length, actual.length);
+	protected void assertResult(int[] actual, int... expected) {
+		assertEquals("\nExpected: " + StringUtils.Join(expected) +
+			             "\nActual: " + StringUtils.Join(actual),
+			expected.length, actual.length);
 
-        for (int i = 0; i < expected.length; ++i)
-        {
-            assertEquals("\nExpected: " + StringUtils.Join(expected) +
-                            "\nActual: " + StringUtils.Join(actual),
-                    expected[i], actual[i]);
-        }
-    }
+		for (int i = 0; i < expected.length; ++i) {
+			assertEquals("\nExpected: " + StringUtils.Join(expected) +
+				             "\nActual: " + StringUtils.Join(actual),
+				expected[i], actual[i]);
+		}
+	}
 
-    protected void assertResult(float[] actual, float... expected)
-    {
-        assertEquals("\nExpected: " + StringUtils.Join(expected) +
-                        "\nActual: " + StringUtils.Join(actual), expected.length, actual.length);
+	protected void assertResult(float[] actual, float... expected) {
+		assertEquals("\nExpected: " + StringUtils.Join(expected) +
+			             "\nActual: " + StringUtils.Join(actual), expected.length, actual.length);
 
-        for (int i = 0; i < expected.length; ++i)
-        {
-            assertEquals("\nExpected: " + StringUtils.Join(expected) +
-                            "\nActual: " + StringUtils.Join(actual),
-                    expected[i], actual[i]);
-        }
-    }
+		for (int i = 0; i < expected.length; ++i) {
+			assertEquals("\nExpected: " + StringUtils.Join(expected) +
+				             "\nActual: " + StringUtils.Join(actual),
+				expected[i], actual[i]);
+		}
+	}
 
-    protected void assertResult(boolean[] actual, boolean... expected)
-    {
-        assertEquals("\nExpected: " + StringUtils.Join(expected) +
-                        "\nActual: " + StringUtils.Join(actual), expected.length, actual.length);
+	protected void assertResult(boolean[] actual, boolean... expected) {
+		assertEquals("\nExpected: " + StringUtils.Join(expected) +
+			             "\nActual: " + StringUtils.Join(actual), expected.length, actual.length);
 
-        for (int i = 0; i < expected.length; ++i)
-        {
-            assertEquals("\nExpected: " + StringUtils.Join(expected) +
-                            "\nActual: " + StringUtils.Join(actual),
-                    expected[i], actual[i]);
-        }
-    }
+		for (int i = 0; i < expected.length; ++i) {
+			assertEquals("\nExpected: " + StringUtils.Join(expected) +
+				             "\nActual: " + StringUtils.Join(actual),
+				expected[i], actual[i]);
+		}
+	}
 
-    //////////////////////////////////////////////////////////////////////////////
-    // Results
+	//////////////////////////////////////////////////////////////////////////////
+	// Results
 
-    protected void addResult(String format, Object... args)
-    {
-        addResult(String.format(format, args));
-    }
+	protected void addResult(String format, Object... args) {
+		addResult(String.format(format, args));
+	}
 
-    protected void addResult(String result)
-    {
-        results.add(result);
-    }
+	protected void addResult(String result) {
+		results.add(result);
+	}
 
-    protected void clearResult()
-    {
-        results.clear();
-    }
+	protected void clearResult() {
+		results.clear();
+	}
 
-    public List<String> getResultList()
-    {
-        return results;
-    }
+	public List<String> getResultList() {
+		return results;
+	}
 }

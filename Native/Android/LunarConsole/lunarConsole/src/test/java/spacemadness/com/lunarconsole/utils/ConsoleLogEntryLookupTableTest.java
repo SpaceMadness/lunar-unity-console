@@ -30,41 +30,36 @@ import spacemadness.com.lunarconsole.console.ConsoleLogType;
 
 import static org.junit.Assert.*;
 
-public class ConsoleLogEntryLookupTableTest extends TestCase
-{
-    private ConsoleLogEntryLookupTable table;
+public class ConsoleLogEntryLookupTableTest extends TestCase {
+	private ConsoleLogEntryLookupTable table;
 
-    @Override
-    public void setUp() throws Exception
-    {
-        super.setUp();
-        table = new ConsoleLogEntryLookupTable();
-    }
+	@Override
+	public void setUp() throws Exception {
+		super.setUp();
+		table = new ConsoleLogEntryLookupTable();
+	}
 
-    @Test
-    public void testAddEntry()
-    {
-        ConsoleCollapsedLogEntry entry = addEntryMessage("message1");
-        assertEquals(1, entry.count);
+	@Test
+	public void testAddEntry() {
+		ConsoleCollapsedLogEntry entry = addEntryMessage("message1");
+		assertEquals(1, entry.count);
 
-        entry = addEntryMessage("message1");
-        assertEquals(2, entry.count);
+		entry = addEntryMessage("message1");
+		assertEquals(2, entry.count);
 
-        entry = addEntryMessage("message2");
-        assertEquals(1, entry.count);
-    }
+		entry = addEntryMessage("message2");
+		assertEquals(1, entry.count);
+	}
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Helpers
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// Helpers
 
-    private ConsoleCollapsedLogEntry addEntryMessage(String message)
-    {
-        return addEntryType(ConsoleLogType.LOG, message, "");
-    }
+	private ConsoleCollapsedLogEntry addEntryMessage(String message) {
+		return addEntryType(ConsoleLogType.LOG, message, "");
+	}
 
-    private ConsoleCollapsedLogEntry addEntryType(byte type, String message, String stackTrace)
-    {
-        ConsoleLogEntry entry = new ConsoleLogEntry(type, message, stackTrace);
-        return table.addEntry(entry);
-    }
+	private ConsoleCollapsedLogEntry addEntryType(byte type, String message, String stackTrace) {
+		ConsoleLogEntry entry = new ConsoleLogEntry(type, message, stackTrace);
+		return table.addEntry(entry);
+	}
 }

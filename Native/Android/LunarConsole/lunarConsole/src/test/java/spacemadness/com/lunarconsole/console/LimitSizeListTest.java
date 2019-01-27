@@ -27,146 +27,137 @@ import spacemadness.com.lunarconsole.TestCase;
 
 import static org.junit.Assert.*;
 
-public class LimitSizeListTest extends TestCase
-{
-    @Test
-    public void testAddElements()
-    {
-        TestList list = new TestList(10);
-        list.addObject("1");
-        list.addObject("2");
-        list.addObject("3");
+public class LimitSizeListTest extends TestCase {
+	@Test
+	public void testAddElements() {
+		TestList list = new TestList(10);
+		list.addObject("1");
+		list.addObject("2");
+		list.addObject("3");
 
-        listAssertObjects(list, "1", "2", "3");
-    }
+		listAssertObjects(list, "1", "2", "3");
+	}
 
-    @Test
-    public void testTrimElements()
-    {
-        TestList list = new TestList(3, 2);
-        assertEquals(0, list.count());
-        assertEquals(0, list.totalCount());
-        assertEquals(0, list.trimmedCount());
-        assertFalse(list.isTrimmed());
+	@Test
+	public void testTrimElements() {
+		TestList list = new TestList(3, 2);
+		assertEquals(0, list.count());
+		assertEquals(0, list.totalCount());
+		assertEquals(0, list.trimmedCount());
+		assertFalse(list.isTrimmed());
 
-        list.addObject("1");
-        assertEquals(1, list.count());
-        assertEquals(1, list.totalCount());
-        assertEquals(0, list.trimmedCount());
-        assertFalse(list.isTrimmed());
+		list.addObject("1");
+		assertEquals(1, list.count());
+		assertEquals(1, list.totalCount());
+		assertEquals(0, list.trimmedCount());
+		assertFalse(list.isTrimmed());
 
-        list.addObject("2");
-        assertEquals(2, list.count());
-        assertEquals(2, list.totalCount());
-        assertEquals(0, list.trimmedCount());
-        assertFalse(list.isTrimmed());
+		list.addObject("2");
+		assertEquals(2, list.count());
+		assertEquals(2, list.totalCount());
+		assertEquals(0, list.trimmedCount());
+		assertFalse(list.isTrimmed());
 
-        list.addObject("3");
-        assertEquals(3, list.count());
-        assertEquals(3, list.totalCount());
-        assertEquals(0, list.trimmedCount());
-        assertFalse(list.isTrimmed());
+		list.addObject("3");
+		assertEquals(3, list.count());
+		assertEquals(3, list.totalCount());
+		assertEquals(0, list.trimmedCount());
+		assertFalse(list.isTrimmed());
 
-        list.addObject("4");
-        assertEquals(2, list.count());
-        assertEquals(4, list.totalCount());
-        assertEquals(2, list.trimmedCount());
-        assertTrue(list.isTrimmed());
+		list.addObject("4");
+		assertEquals(2, list.count());
+		assertEquals(4, list.totalCount());
+		assertEquals(2, list.trimmedCount());
+		assertTrue(list.isTrimmed());
 
-        listAssertObjects(list, "3", "4");
+		listAssertObjects(list, "3", "4");
 
-        list.addObject("5");
-        assertEquals(3, list.count());
-        assertEquals(5, list.totalCount());
-        assertEquals(2, list.trimmedCount());
-        assertTrue(list.isTrimmed());
+		list.addObject("5");
+		assertEquals(3, list.count());
+		assertEquals(5, list.totalCount());
+		assertEquals(2, list.trimmedCount());
+		assertTrue(list.isTrimmed());
 
-        listAssertObjects(list, "3", "4", "5");
+		listAssertObjects(list, "3", "4", "5");
 
-        list.addObject("6");
-        assertEquals(2, list.count());
-        assertEquals(6, list.totalCount());
-        assertEquals(4, list.trimmedCount());
-        assertTrue(list.isTrimmed());
+		list.addObject("6");
+		assertEquals(2, list.count());
+		assertEquals(6, list.totalCount());
+		assertEquals(4, list.trimmedCount());
+		assertTrue(list.isTrimmed());
 
-        listAssertObjects(list, "5", "6");
+		listAssertObjects(list, "5", "6");
 
-        list.addObject("7");
-        assertEquals(3, list.count());
-        assertEquals(7, list.totalCount());
-        assertEquals(4, list.trimmedCount());
-        assertTrue(list.isTrimmed());
+		list.addObject("7");
+		assertEquals(3, list.count());
+		assertEquals(7, list.totalCount());
+		assertEquals(4, list.trimmedCount());
+		assertTrue(list.isTrimmed());
 
-        listAssertObjects(list, "5", "6", "7");
-    }
+		listAssertObjects(list, "5", "6", "7");
+	}
 
-    @Test
-    public void testTrimElementsAndClear()
-    {
-        TestList list = new TestList(3, 2);
-        list.addObject("1");
-        list.addObject("2");
-        list.addObject("3");
-        list.addObject("4");
+	@Test
+	public void testTrimElementsAndClear() {
+		TestList list = new TestList(3, 2);
+		list.addObject("1");
+		list.addObject("2");
+		list.addObject("3");
+		list.addObject("4");
 
-        list.clear();
-        assertEquals(0, list.count());
-        assertEquals(0, list.totalCount());
-        assertEquals(0, list.trimmedCount());
-        assertFalse(list.isTrimmed());
+		list.clear();
+		assertEquals(0, list.count());
+		assertEquals(0, list.totalCount());
+		assertEquals(0, list.trimmedCount());
+		assertFalse(list.isTrimmed());
 
-        list.addObject("5");
-        assertEquals(1, list.count());
-        assertEquals(1, list.totalCount());
-        assertEquals(0, list.trimmedCount());
-        assertFalse(list.isTrimmed());
+		list.addObject("5");
+		assertEquals(1, list.count());
+		assertEquals(1, list.totalCount());
+		assertEquals(0, list.trimmedCount());
+		assertFalse(list.isTrimmed());
 
-        listAssertObjects(list, "5");
+		listAssertObjects(list, "5");
 
-        list.addObject("6");
-        assertEquals(2, list.count());
-        assertEquals(2, list.totalCount());
-        assertEquals(0, list.trimmedCount());
-        assertFalse(list.isTrimmed());
+		list.addObject("6");
+		assertEquals(2, list.count());
+		assertEquals(2, list.totalCount());
+		assertEquals(0, list.trimmedCount());
+		assertFalse(list.isTrimmed());
 
-        listAssertObjects(list, "5", "6");
+		listAssertObjects(list, "5", "6");
 
-        list.addObject("7");
-        assertEquals(3, list.count());
-        assertEquals(3, list.totalCount());
-        assertEquals(0, list.trimmedCount());
-        assertFalse(list.isTrimmed());
+		list.addObject("7");
+		assertEquals(3, list.count());
+		assertEquals(3, list.totalCount());
+		assertEquals(0, list.trimmedCount());
+		assertFalse(list.isTrimmed());
 
-        listAssertObjects(list, "5", "6", "7");
+		listAssertObjects(list, "5", "6", "7");
 
-        list.addObject("8");
-        assertEquals(2, list.count());
-        assertEquals(4, list.totalCount());
-        assertEquals(2, list.trimmedCount());
-        assertTrue(list.isTrimmed());
+		list.addObject("8");
+		assertEquals(2, list.count());
+		assertEquals(4, list.totalCount());
+		assertEquals(2, list.trimmedCount());
+		assertTrue(list.isTrimmed());
 
-        listAssertObjects(list, "7", "8");
-    }
+		listAssertObjects(list, "7", "8");
+	}
 
-    private void listAssertObjects(TestList list, String... expected)
-    {
-        assertEquals(expected.length, list.count());
-        for (int i = 0; i < expected.length; ++i)
-        {
-            assertEquals(expected[i], list.objectAtIndex(i));
-        }
-    }
+	private void listAssertObjects(TestList list, String... expected) {
+		assertEquals(expected.length, list.count());
+		for (int i = 0; i < expected.length; ++i) {
+			assertEquals(expected[i], list.objectAtIndex(i));
+		}
+	}
 
-    private static class TestList extends LimitSizeList<String>
-    {
-        public TestList(int capacity)
-        {
-            this(capacity, 1);
-        }
+	private static class TestList extends LimitSizeList<String> {
+		public TestList(int capacity) {
+			this(capacity, 1);
+		}
 
-        public TestList(int capacity, int trimSize)
-        {
-            super(String.class, capacity, trimSize);
-        }
-    }
+		public TestList(int capacity, int trimSize) {
+			super(String.class, capacity, trimSize);
+		}
+	}
 }

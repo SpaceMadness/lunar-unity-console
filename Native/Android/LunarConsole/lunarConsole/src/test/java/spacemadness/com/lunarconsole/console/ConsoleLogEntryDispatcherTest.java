@@ -28,100 +28,88 @@ import java.util.List;
 import spacemadness.com.lunarconsole.TestCase;
 
 public class ConsoleLogEntryDispatcherTest extends TestCase implements
-        ConsoleLogEntryDispatcher.OnDispatchListener
-{
-    @Test
-    public void testAddEntries() throws Exception
-    {
-        MockConsoleLogEntryDispatcher dispatcher = new MockConsoleLogEntryDispatcher();
-        dispatcher.add("1");
-        dispatcher.add("2");
-        dispatcher.add("3");
+	ConsoleLogEntryDispatcher.OnDispatchListener {
+	@Test
+	public void testAddEntries() throws Exception {
+		MockConsoleLogEntryDispatcher dispatcher = new MockConsoleLogEntryDispatcher();
+		dispatcher.add("1");
+		dispatcher.add("2");
+		dispatcher.add("3");
 
-        assertResult(); // no items should be dispatched yet
+		assertResult(); // no items should be dispatched yet
 
-        dispatcher.runDispatch();
-        assertResult("1", "2", "3");
+		dispatcher.runDispatch();
+		assertResult("1", "2", "3");
 
-        dispatcher.runDispatch();
-        assertResult();
+		dispatcher.runDispatch();
+		assertResult();
 
-        dispatcher.add("4");
-        dispatcher.add("5");
-        dispatcher.add("6");
+		dispatcher.add("4");
+		dispatcher.add("5");
+		dispatcher.add("6");
 
-        assertResult(); // no items should be dispatched
+		assertResult(); // no items should be dispatched
 
-        dispatcher.runDispatch();
-        assertResult("4", "5", "6");
+		dispatcher.runDispatch();
+		assertResult("4", "5", "6");
 
-        dispatcher.runDispatch();
-        assertResult();
-    }
+		dispatcher.runDispatch();
+		assertResult();
+	}
 
-    @Test
-    public void testRemoveEntries() throws Exception
-    {
-        MockConsoleLogEntryDispatcher dispatcher = new MockConsoleLogEntryDispatcher();
-        dispatcher.add("1");
-        dispatcher.add("2");
-        dispatcher.add("3");
+	@Test
+	public void testRemoveEntries() throws Exception {
+		MockConsoleLogEntryDispatcher dispatcher = new MockConsoleLogEntryDispatcher();
+		dispatcher.add("1");
+		dispatcher.add("2");
+		dispatcher.add("3");
 
-        dispatcher.cancelAll();
-        assertResult();
-    }
+		dispatcher.cancelAll();
+		assertResult();
+	}
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // ConsoleLogEntryDispatcher.OnDispatchListener
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// ConsoleLogEntryDispatcher.OnDispatchListener
 
-    @Override
-    public void onDispatchEntries(List<ConsoleLogEntry> entries)
-    {
-        for (int i = 0; i < entries.size(); ++i)
-        {
-            addResult(entries.get(i).message);
-        }
-    }
+	@Override
+	public void onDispatchEntries(List<ConsoleLogEntry> entries) {
+		for (int i = 0; i < entries.size(); ++i) {
+			addResult(entries.get(i).message);
+		}
+	}
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Helpers
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// Helpers
 
-    @Override
-    protected void assertResult(String... expected)
-    {
-        super.assertResult(expected);
-        clearResult();
-    }
+	@Override
+	protected void assertResult(String... expected) {
+		super.assertResult(expected);
+		clearResult();
+	}
 
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Mocks
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	// Mocks
 
-    private class MockConsoleLogEntryDispatcher extends ConsoleLogEntryDispatcher
-    {
-        public MockConsoleLogEntryDispatcher()
-        {
-            super(ConsoleLogEntryDispatcherTest.this);
-        }
+	private class MockConsoleLogEntryDispatcher extends ConsoleLogEntryDispatcher {
+		public MockConsoleLogEntryDispatcher() {
+			super(ConsoleLogEntryDispatcherTest.this);
+		}
 
-        public void add(String message)
-        {
-            add(new ConsoleLogEntry((byte) 0, message));
-        }
+		public void add(String message) {
+			add(new ConsoleLogEntry((byte) 0, message));
+		}
 
-        public void runDispatch()
-        {
-            dispatchEntries();
-        }
+		public void runDispatch() {
+			dispatchEntries();
+		}
 
-        @Override
-        protected void postEntriesDispatch()
-        {
-        }
+		@Override
+		protected void postEntriesDispatch() {
+		}
 
-        @Override
-        protected void cancelEntriesDispatch()
-        {
-        }
-    }
+		@Override
+		protected void cancelEntriesDispatch() {
+		}
+	}
 }
