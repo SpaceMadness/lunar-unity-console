@@ -31,7 +31,7 @@ public class ActionRegistry
 {
     private final SortedList<Action> actions;
     private final SortedList<Variable> variables;
-    private Delegate delegate;
+    private RegistryListener registryListener;
 
     public ActionRegistry()
     {
@@ -138,37 +138,37 @@ public class ActionRegistry
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Delegate notifications
+    // RegistryListener notifications
 
     private void notifyActionAdd(Action action, int actionIndex)
     {
-        if (delegate != null)
+        if (registryListener != null)
         {
-            delegate.didAddAction(this, action, actionIndex);
+            registryListener.didAddAction(this, action, actionIndex);
         }
     }
 
     private void notifyActionRemove(Action action, int actionIndex)
     {
-        if (delegate != null)
+        if (registryListener != null)
         {
-            delegate.didRemoveAction(this, action, actionIndex);
+            registryListener.didRemoveAction(this, action, actionIndex);
         }
     }
 
     private void notifyVariableRegister(Variable variable, int index)
     {
-        if (delegate != null)
+        if (registryListener != null)
         {
-            delegate.didRegisterVariable(this, variable, index);
+            registryListener.didRegisterVariable(this, variable, index);
         }
     }
 
     private void notifyVariableChange(Variable cvar, int index)
     {
-        if (delegate != null)
+        if (registryListener != null)
         {
-            delegate.didDidChangeVariable(this, cvar, index);
+            registryListener.didDidChangeVariable(this, cvar, index);
         }
     }
 
@@ -184,14 +184,14 @@ public class ActionRegistry
         return variables.list();
     }
 
-    public Delegate getDelegate()
+    public RegistryListener getRegistryListener()
     {
-        return delegate;
+        return registryListener;
     }
 
-    public void setDelegate(Delegate delegate)
+    public void setRegistryListener(RegistryListener registryListener)
     {
-        this.delegate = delegate;
+        this.registryListener = registryListener;
     }
 
     public void setActionSortingEnabled(boolean sortingEnabled)
@@ -206,9 +206,9 @@ public class ActionRegistry
 
     //endregion
 
-    //region Delegate
+    //region RegistryListener
 
-    public interface Delegate // FIXME: rename
+    public interface RegistryListener
     {
         void didAddAction(ActionRegistry registry, Action action, int index);
         void didRemoveAction(ActionRegistry registry, Action action, int index);

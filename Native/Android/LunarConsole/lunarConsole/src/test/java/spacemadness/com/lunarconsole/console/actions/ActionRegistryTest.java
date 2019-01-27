@@ -32,7 +32,7 @@ import spacemadness.com.lunarconsole.console.VariableType;
 import static junit.framework.TestCase.fail;
 import static org.junit.Assert.assertEquals;
 
-public class ActionRegistryTest extends TestCase implements ActionRegistry.Delegate {
+public class ActionRegistryTest extends TestCase implements ActionRegistry.RegistryListener {
 	private ActionRegistry actionRegistry;
 	private int nextActionId;
 
@@ -41,7 +41,7 @@ public class ActionRegistryTest extends TestCase implements ActionRegistry.Deleg
 		super.setUp();
 
 		actionRegistry = new ActionRegistry();
-		actionRegistry.setDelegate(this);
+		actionRegistry.setRegistryListener(this);
 		nextActionId = 0;
 	}
 
@@ -95,7 +95,7 @@ public class ActionRegistryTest extends TestCase implements ActionRegistry.Deleg
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// Delegate notifications
+	// RegistryListener notifications
 
 	@Test
 	public void testDelegateNotifications() {
@@ -134,7 +134,7 @@ public class ActionRegistryTest extends TestCase implements ActionRegistry.Deleg
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
-	// Delegate
+	// RegistryListener
 
 	@Override
 	public void didAddAction(ActionRegistry registry, Action action, int index) {

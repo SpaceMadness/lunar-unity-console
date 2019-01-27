@@ -228,7 +228,7 @@ public class ConsoleActionView extends AbstractConsoleView implements
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
-    // ActionRegistryFilter.Delegate
+    // ActionRegistryFilter.RegistryListener
 
     @Override
     public void actionRegistryFilterDidAddAction(ActionRegistryFilter registryFilter, Action action, int index)

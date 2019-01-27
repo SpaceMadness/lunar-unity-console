@@ -46,7 +46,7 @@ public class ActionRegistryFilterTest extends TestCase implements ActionRegistry
 	private ActionRegistry _actionRegistry;
 	private ActionRegistryFilter _registryFilter;
 
-	// MARK: - Setup
+	//region Setup
 
 	@Override
 	public void setUp() throws Exception {
@@ -58,7 +58,9 @@ public class ActionRegistryFilterTest extends TestCase implements ActionRegistry
 		_nextActionId = 0;
 	}
 
-	// MARK: - Filter by text
+	//endregion
+
+	//region Filter by text
 
 	@Test
 	public void testFilterByText() {
@@ -68,11 +70,11 @@ public class ActionRegistryFilterTest extends TestCase implements ActionRegistry
 			new LUActionInfo("line111"),
 			new LUActionInfo("line1111"),
 			new LUActionInfo("foo"),
-			new LUCVarInfo("line1", "value", VariableType.String),
-			new LUCVarInfo("line11", "value", VariableType.String),
-			new LUCVarInfo("line111", "value", VariableType.String),
-			new LUCVarInfo("line1111", "value", VariableType.String),
-			new LUCVarInfo("foo", "value", VariableType.String)
+			new MockCVarInfo("line1", "value", VariableType.String),
+			new MockCVarInfo("line11", "value", VariableType.String),
+			new MockCVarInfo("line111", "value", VariableType.String),
+			new MockCVarInfo("line1111", "value", VariableType.String),
+			new MockCVarInfo("foo", "value", VariableType.String)
 		);
 
 		assertNotFiltering();
@@ -172,7 +174,9 @@ public class ActionRegistryFilterTest extends TestCase implements ActionRegistry
 		assertNotFiltering();
 	}
 
-	// MARK: - Register entries
+	//endregion
+
+	//region Register entries
 
 	@Test
 	public void testRegisterEntries() {
@@ -247,7 +251,9 @@ public class ActionRegistryFilterTest extends TestCase implements ActionRegistry
 		assertActions("a", "a11", "a12");
 	}
 
-	// MARK: - Unregister actions
+	//endregion
+
+	//region Unregister actions
 
 	@Test
 	public void testUnregisterActions() {
@@ -289,7 +295,9 @@ public class ActionRegistryFilterTest extends TestCase implements ActionRegistry
 		assertNoActions();
 	}
 
-	// MARK: - Delegate notifications
+	//endregion
+
+	//region RegistryListener notifications
 
 	@Test
 	public void testDelegateNotifications() {
@@ -398,7 +406,9 @@ public class ActionRegistryFilterTest extends TestCase implements ActionRegistry
 		assertActions("line1", "line11");
 	}
 
-	// MARK: - LUActionRegistryFilterDelegate
+	//endregion
+
+	//region ActionRegistryFilter.Delegate
 
 	@Override
 	public void actionRegistryFilterDidAddAction(ActionRegistryFilter registryFilter, Action action, int index) {
@@ -420,7 +430,9 @@ public class ActionRegistryFilterTest extends TestCase implements ActionRegistry
 		fail("Implement me");
 	}
 
-	// MARK: - Helpers
+	//endregion
+
+	//region Helpers
 
 	private boolean setFilter(String text) {
 		return _registryFilter.setFilterText(text);
@@ -461,15 +473,15 @@ public class ActionRegistryFilterTest extends TestCase implements ActionRegistry
 		_actionRegistry.unregisterAction(id);
 	}
 
-	private void registerEntries(LUEntryInfo... entries) {
+	private void registerEntries(MockEntryInfo... entries) {
 
-		for (LUEntryInfo info : entries) {
+		for (MockEntryInfo info : entries) {
 			_nextActionId = _nextActionId + 1;
 
 			if (info instanceof LUActionInfo) {
 				_actionRegistry.registerAction(_nextActionId, info.name);
-			} else if (info instanceof LUCVarInfo) {
-				LUCVarInfo cvar = (LUCVarInfo) info;
+			} else if (info instanceof MockCVarInfo) {
+				MockCVarInfo cvar = (MockCVarInfo) info;
 				_actionRegistry.registerVariable(_nextActionId, cvar.name, cvar.type, cvar.value, cvar.value);
 			} else {
 				fail("Unexpected entry: " + info);
@@ -477,7 +489,9 @@ public class ActionRegistryFilterTest extends TestCase implements ActionRegistry
 		}
 	}
 
-	// MARK: - Assertion Helpers
+	//endregion
+
+	//region Assertion Helpers
 
 	private void assertNoActions() {
 		assertTrue(_registryFilter.actions().size() == 0);
@@ -525,10 +539,14 @@ public class ActionRegistryFilterTest extends TestCase implements ActionRegistry
 		assertFalse(_registryFilter.isFiltering());
 	}
 
-	private static class LUEntryInfo {
+	//endregion
+
+	//region Mock Entries
+
+	private static class MockEntryInfo {
 		final String name;
 
-		LUEntryInfo(String name) {
+		MockEntryInfo(String name) {
 			this.name = name;
 		}
 
@@ -537,7 +555,7 @@ public class ActionRegistryFilterTest extends TestCase implements ActionRegistry
 		}
 	}
 
-	private static class LUActionInfo extends LUEntryInfo {
+	private static class LUActionInfo extends MockEntryInfo {
 		LUActionInfo(String name) {
 			super(name);
 		}
@@ -549,11 +567,11 @@ public class ActionRegistryFilterTest extends TestCase implements ActionRegistry
 		}
 	}
 
-	private static class LUCVarInfo extends LUEntryInfo {
+	private static class MockCVarInfo extends MockEntryInfo {
 		public final String value;
 		public final VariableType type;
 
-		LUCVarInfo(String name, String value, VariableType type) {
+		MockCVarInfo(String name, String value, VariableType type) {
 			super(name);
 			this.value = value;
 			this.type = type;
@@ -569,4 +587,6 @@ public class ActionRegistryFilterTest extends TestCase implements ActionRegistry
 
 		}
 	}
+
+	//endregion
 }

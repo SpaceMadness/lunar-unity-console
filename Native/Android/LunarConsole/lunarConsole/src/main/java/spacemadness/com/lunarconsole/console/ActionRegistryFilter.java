@@ -27,7 +27,7 @@ import java.util.List;
 import static spacemadness.com.lunarconsole.utils.ObjectUtils.*;
 import static spacemadness.com.lunarconsole.utils.StringUtils.*;
 
-public class ActionRegistryFilter implements ActionRegistry.Delegate
+public class ActionRegistryFilter implements ActionRegistry.RegistryListener
 {
     private final ActionRegistry _registry;
     private String _filterText;
@@ -38,7 +38,7 @@ public class ActionRegistryFilter implements ActionRegistry.Delegate
     public ActionRegistryFilter(ActionRegistry actionRegistry)
     {
         _registry = actionRegistry;
-        _registry.setDelegate(this);
+        _registry.setRegistryListener(this);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

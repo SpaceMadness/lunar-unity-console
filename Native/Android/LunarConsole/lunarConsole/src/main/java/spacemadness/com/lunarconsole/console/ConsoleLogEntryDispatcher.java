@@ -27,6 +27,8 @@ import java.util.List;
 import spacemadness.com.lunarconsole.debug.Log;
 import spacemadness.com.lunarconsole.utils.ThreadUtils;
 
+import static spacemadness.com.lunarconsole.utils.ObjectUtils.checkNotNull;
+
 /** Class for handling batches of console entries on UI-thread */
 class ConsoleLogEntryDispatcher
 {
@@ -36,12 +38,7 @@ class ConsoleLogEntryDispatcher
 
     public ConsoleLogEntryDispatcher(OnDispatchListener listener)
     {
-        if (listener == null)
-        {
-            throw new NullPointerException("Listener is null");
-        }
-
-        this.listener = listener;
+        this.listener = checkNotNull(listener, "listener");
         this.entries = new ArrayList<>();
         this.dispatchRunnable = createDispatchRunnable();
     }
