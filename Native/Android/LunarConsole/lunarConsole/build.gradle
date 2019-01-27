@@ -51,6 +51,10 @@ dependencies {
 }
 
 static def getUnityDependencyJar() {
+    if ("true".equals(System.getenv("CI"))) {
+        return 'lunarConsole/travis/unity-player.jar'
+    }
+
     if (Os.isFamily(Os.FAMILY_WINDOWS)) {
         return 'C:/Program Files/Unity-Export/Editor/Data/PlaybackEngines/AndroidPlayer/Variations/mono/Release/Classes/classes.jar'
     }
