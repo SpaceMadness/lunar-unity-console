@@ -36,7 +36,7 @@ public class CycleArrayTest extends TestCase {
 		assertEquals(3, array.getCapacity());
 		assertEquals(1, array.length());
 		assertEquals(1, array.realLength());
-		AssertArray(array, "1");
+		assertArray(array, "1");
 	}
 
 	@Test
@@ -48,7 +48,7 @@ public class CycleArrayTest extends TestCase {
 		assertEquals(3, array.getCapacity());
 		assertEquals(2, array.length());
 		assertEquals(2, array.realLength());
-		AssertArray(array, "1", "2");
+		assertArray(array, "1", "2");
 	}
 
 	@Test
@@ -61,7 +61,7 @@ public class CycleArrayTest extends TestCase {
 		assertEquals(3, array.getCapacity());
 		assertEquals(3, array.length());
 		assertEquals(3, array.realLength());
-		AssertArray(array, "1", "2", "3");
+		assertArray(array, "1", "2", "3");
 	}
 
 	@Test
@@ -75,7 +75,7 @@ public class CycleArrayTest extends TestCase {
 		assertEquals(3, array.getCapacity());
 		assertEquals(4, array.length());
 		assertEquals(3, array.realLength());
-		AssertArray(array, "2", "3", "4");
+		assertArray(array, "2", "3", "4");
 	}
 
 	@Test
@@ -90,7 +90,7 @@ public class CycleArrayTest extends TestCase {
 		assertEquals(3, array.getCapacity());
 		assertEquals(5, array.length());
 		assertEquals(3, array.realLength());
-		AssertArray(array, "3", "4", "5");
+		assertArray(array, "3", "4", "5");
 	}
 
 	@Test
@@ -106,7 +106,7 @@ public class CycleArrayTest extends TestCase {
 		assertEquals(3, array.getCapacity());
 		assertEquals(6, array.length());
 		assertEquals(3, array.realLength());
-		AssertArray(array, "4", "5", "6");
+		assertArray(array, "4", "5", "6");
 	}
 
 	@Test
@@ -123,7 +123,7 @@ public class CycleArrayTest extends TestCase {
 		assertEquals(3, array.getCapacity());
 		assertEquals(7, array.length());
 		assertEquals(3, array.realLength());
-		AssertArray(array, "5", "6", "7");
+		assertArray(array, "5", "6", "7");
 	}
 
 	@Test
@@ -141,7 +141,7 @@ public class CycleArrayTest extends TestCase {
 		assertEquals(3, array.getCapacity());
 		assertEquals(8, array.length());
 		assertEquals(3, array.realLength());
-		AssertArray(array, "6", "7", "8");
+		assertArray(array, "6", "7", "8");
 	}
 
 	@Test
@@ -160,7 +160,7 @@ public class CycleArrayTest extends TestCase {
 		assertEquals(3, array.getCapacity());
 		assertEquals(9, array.length());
 		assertEquals(3, array.realLength());
-		AssertArray(array, "7", "8", "9");
+		assertArray(array, "7", "8", "9");
 	}
 
 	@Test
@@ -175,7 +175,7 @@ public class CycleArrayTest extends TestCase {
 		assertEquals(10, array.getCapacity());
 		assertEquals(3, array.length());
 		assertEquals(3, array.realLength());
-		AssertArray(array, "1", "2", "3");
+		assertArray(array, "1", "2", "3");
 	}
 
 	@Test
@@ -192,7 +192,7 @@ public class CycleArrayTest extends TestCase {
 		assertEquals(10, array.getCapacity());
 		assertEquals(5, array.length());
 		assertEquals(5, array.realLength());
-		AssertArray(array, "1", "2", "3", "4", "5");
+		assertArray(array, "1", "2", "3", "4", "5");
 	}
 
 	@Test
@@ -208,7 +208,7 @@ public class CycleArrayTest extends TestCase {
 		assertEquals(10, array.getCapacity());
 		assertEquals(4, array.length());
 		assertEquals(3, array.realLength());
-		AssertArray(array, "2", "3", "4");
+		assertArray(array, "2", "3", "4");
 	}
 
 	@Test
@@ -225,7 +225,7 @@ public class CycleArrayTest extends TestCase {
 		assertEquals(10, array.getCapacity());
 		assertEquals(5, array.length());
 		assertEquals(3, array.realLength());
-		AssertArray(array, "3", "4", "5");
+		assertArray(array, "3", "4", "5");
 	}
 
 	@Test
@@ -243,7 +243,7 @@ public class CycleArrayTest extends TestCase {
 		assertEquals(10, array.getCapacity());
 		assertEquals(6, array.length());
 		assertEquals(3, array.realLength());
-		AssertArray(array, "4", "5", "6");
+		assertArray(array, "4", "5", "6");
 	}
 
 	@Test
@@ -262,7 +262,7 @@ public class CycleArrayTest extends TestCase {
 		assertEquals(10, array.getCapacity());
 		assertEquals(7, array.length());
 		assertEquals(3, array.realLength());
-		AssertArray(array, "5", "6", "7");
+		assertArray(array, "5", "6", "7");
 	}
 
 	@Test
@@ -280,7 +280,7 @@ public class CycleArrayTest extends TestCase {
 		assertEquals(5, array.getCapacity());
 		assertEquals(7, array.length());
 		assertEquals(3, array.realLength());
-		AssertArray(array, "5", "6", "7");
+		assertArray(array, "5", "6", "7");
 
 		array.add("8");
 		array.add("9");
@@ -288,7 +288,7 @@ public class CycleArrayTest extends TestCase {
 		assertEquals(5, array.getCapacity());
 		assertEquals(9, array.length());
 		assertEquals(5, array.realLength());
-		AssertArray(array, "5", "6", "7", "8", "9");
+		assertArray(array, "5", "6", "7", "8", "9");
 	}
 
 	@Test
@@ -299,7 +299,7 @@ public class CycleArrayTest extends TestCase {
 		}
 
 		array.setCapacity(9);
-		AssertArray(array, "1", "2", "3", "4", "5", "6", "7");
+		assertArray(array, "1", "2", "3", "4", "5", "6", "7");
 
 		array.add("8");
 		array.add("9");
@@ -307,7 +307,7 @@ public class CycleArrayTest extends TestCase {
 		assertEquals(9, array.getCapacity());
 		assertEquals(9, array.length());
 		assertEquals(9, array.realLength());
-		AssertArray(array, "1", "2", "3", "4", "5", "6", "7", "8", "9");
+		assertArray(array, "1", "2", "3", "4", "5", "6", "7", "8", "9");
 	}
 
 	@Test
@@ -318,7 +318,7 @@ public class CycleArrayTest extends TestCase {
 		}
 
 		array.setCapacity(5);
-		AssertArray(array, "8", "9", "10");
+		assertArray(array, "8", "9", "10");
 
 		array.add("11");
 		array.add("12");
@@ -326,7 +326,7 @@ public class CycleArrayTest extends TestCase {
 		assertEquals(5, array.getCapacity());
 		assertEquals(12, array.length());
 		assertEquals(5, array.realLength());
-		AssertArray(array, "8", "9", "10", "11", "12");
+		assertArray(array, "8", "9", "10", "11", "12");
 	}
 
 	@Test
@@ -340,7 +340,7 @@ public class CycleArrayTest extends TestCase {
 
 		array.trimToLength(3);
 
-		AssertArray(array, "1", "2", "3");
+		assertArray(array, "1", "2", "3");
 		assertEquals(0, array.getHeadIndex());
 		assertEquals(3, array.length());
 		assertEquals(3, array.realLength());
@@ -348,7 +348,7 @@ public class CycleArrayTest extends TestCase {
 		array.add("6");
 		array.add("7");
 
-		AssertArray(array, "1", "2", "3", "6", "7");
+		assertArray(array, "1", "2", "3", "6", "7");
 		assertEquals(0, array.getHeadIndex());
 		assertEquals(5, array.length());
 		assertEquals(5, array.realLength());
@@ -356,14 +356,14 @@ public class CycleArrayTest extends TestCase {
 		array.add("8");
 		array.add("9");
 
-		AssertArray(array, "3", "6", "7", "8", "9");
+		assertArray(array, "3", "6", "7", "8", "9");
 		assertEquals(2, array.getHeadIndex());
 		assertEquals(7, array.length());
 		assertEquals(5, array.realLength());
 
 		array.trimToLength(4);
 
-		AssertArray(array, "3", "6");
+		assertArray(array, "3", "6");
 		assertEquals(2, array.getHeadIndex());
 		assertEquals(4, array.length());
 		assertEquals(2, array.realLength());
@@ -371,14 +371,14 @@ public class CycleArrayTest extends TestCase {
 		array.add("10");
 		array.add("11");
 
-		AssertArray(array, "3", "6", "10", "11");
+		assertArray(array, "3", "6", "10", "11");
 		assertEquals(2, array.getHeadIndex());
 		assertEquals(6, array.length());
 		assertEquals(4, array.realLength());
 
 		array.trimToLength(2);
 
-		AssertArray(array);
+		assertArray(array);
 		assertEquals(2, array.getHeadIndex());
 		assertEquals(2, array.length());
 		assertEquals(0, array.realLength());
@@ -391,7 +391,7 @@ public class CycleArrayTest extends TestCase {
 		array.add("17");
 		array.add("18");
 
-		AssertArray(array, "14", "15", "16", "17", "18");
+		assertArray(array, "14", "15", "16", "17", "18");
 		assertEquals(4, array.getHeadIndex());
 		assertEquals(9, array.length());
 		assertEquals(5, array.realLength());
@@ -408,7 +408,7 @@ public class CycleArrayTest extends TestCase {
 
 		array.trimToHeadIndex(2);
 
-		AssertArray(array, "3", "4", "5");
+		assertArray(array, "3", "4", "5");
 		assertEquals(2, array.getHeadIndex());
 		assertEquals(5, array.length());
 		assertEquals(3, array.realLength());
@@ -416,7 +416,7 @@ public class CycleArrayTest extends TestCase {
 		array.add("6");
 		array.add("7");
 
-		AssertArray(array, "3", "4", "5", "6", "7");
+		assertArray(array, "3", "4", "5", "6", "7");
 		assertEquals(2, array.getHeadIndex());
 		assertEquals(7, array.length());
 		assertEquals(5, array.realLength());
@@ -424,14 +424,14 @@ public class CycleArrayTest extends TestCase {
 		array.add("8");
 		array.add("9");
 
-		AssertArray(array, "5", "6", "7", "8", "9");
+		assertArray(array, "5", "6", "7", "8", "9");
 		assertEquals(4, array.getHeadIndex());
 		assertEquals(9, array.length());
 		assertEquals(5, array.realLength());
 
 		array.trimToHeadIndex(7);
 
-		AssertArray(array, "8", "9");
+		assertArray(array, "8", "9");
 		assertEquals(7, array.getHeadIndex());
 		assertEquals(9, array.length());
 		assertEquals(2, array.realLength());
@@ -439,14 +439,14 @@ public class CycleArrayTest extends TestCase {
 		array.add("10");
 		array.add("11");
 
-		AssertArray(array, "8", "9", "10", "11");
+		assertArray(array, "8", "9", "10", "11");
 		assertEquals(7, array.getHeadIndex());
 		assertEquals(11, array.length());
 		assertEquals(4, array.realLength());
 
 		array.trimToHeadIndex(11);
 
-		AssertArray(array);
+		assertArray(array);
 		assertEquals(11, array.getHeadIndex());
 		assertEquals(11, array.length());
 		assertEquals(0, array.realLength());
@@ -459,7 +459,7 @@ public class CycleArrayTest extends TestCase {
 		array.add("17");
 		array.add("18");
 
-		AssertArray(array, "14", "15", "16", "17", "18");
+		assertArray(array, "14", "15", "16", "17", "18");
 		assertEquals(13, array.getHeadIndex());
 		assertEquals(18, array.length());
 		assertEquals(5, array.realLength());
@@ -546,7 +546,7 @@ public class CycleArrayTest extends TestCase {
 		assertArrayIterator(array, "5", "6", "7");
 	}
 
-	private <T> void AssertArray(CycleArray<T> actual, T... expected) {
+	private <T> void assertArray(CycleArray<T> actual, T... expected) {
 		assertEquals(expected.length, actual.realLength());
 		for (int i = 0, j = actual.getHeadIndex(); i < expected.length; ++i, ++j) {
 			assertEquals(expected[i], actual.get(j));
