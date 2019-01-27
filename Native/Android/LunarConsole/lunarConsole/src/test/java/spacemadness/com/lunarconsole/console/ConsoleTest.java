@@ -21,15 +21,18 @@
 
 package spacemadness.com.lunarconsole.console;
 
+import org.junit.Test;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import spacemadness.com.lunarconsole.TestCaseEx;
+import spacemadness.com.lunarconsole.TestCase;
 
 import static spacemadness.com.lunarconsole.console.Console.Options;
 
-public class ConsoleTest extends TestCaseEx implements LunarConsoleListener
+public class ConsoleTest extends TestCase implements LunarConsoleListener
 {
+    @Test
     public void testLogMessages()
     {
         Console console = createConsole(5);
@@ -70,6 +73,7 @@ public class ConsoleTest extends TestCaseEx implements LunarConsoleListener
         );
     }
 
+    @Test
     public void testLogMessagesFreeBlock()
     {
         Console console = createConsole(5, 3);
@@ -126,6 +130,7 @@ public class ConsoleTest extends TestCaseEx implements LunarConsoleListener
         );
     }
 
+    @Test
     public void testClear()
     {
         Console console = createConsole(5);

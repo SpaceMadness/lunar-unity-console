@@ -21,12 +21,16 @@
 
 package spacemadness.com.lunarconsole.utils;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
+import spacemadness.com.lunarconsole.TestCase;
+
+import static org.junit.Assert.*;
 import static spacemadness.com.lunarconsole.utils.StringUtils.*;
 
 public class StringUtilsTest extends TestCase
 {
+    @Test
     public void testLength() throws Exception
     {
         assertEquals(5, length("12345"));
@@ -34,6 +38,7 @@ public class StringUtilsTest extends TestCase
         assertEquals(0, length(null));
     }
 
+    @Test
     public void testContains() throws Exception
     {
         assertTrue(contains("12345", "34"));
@@ -42,6 +47,7 @@ public class StringUtilsTest extends TestCase
         assertFalse(contains(null, null));
     }
 
+    @Test
     public void testContainsIgnoreCase() throws Exception
     {
         assertTrue(containsIgnoreCase("TEST", "es"));
@@ -52,6 +58,7 @@ public class StringUtilsTest extends TestCase
         assertFalse(containsIgnoreCase(null, null));
     }
 
+    @Test
     public void testHasPrefix() throws Exception
     {
         assertTrue(hasPrefix("12345", "123"));
@@ -62,6 +69,7 @@ public class StringUtilsTest extends TestCase
         assertFalse(hasPrefix(null, null));
     }
 
+    @Test
     public void testCamelCaseToWords() throws Exception
     {
         String string = "enableExceptionWarning";

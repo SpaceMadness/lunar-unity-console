@@ -21,10 +21,15 @@
 
 package spacemadness.com.lunarconsole.console;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+
+import spacemadness.com.lunarconsole.TestCase;
+
+import static org.junit.Assert.*;
 
 public class LimitSizeListTest extends TestCase
 {
+    @Test
     public void testAddElements()
     {
         TestList list = new TestList(10);
@@ -35,6 +40,7 @@ public class LimitSizeListTest extends TestCase
         listAssertObjects(list, "1", "2", "3");
     }
 
+    @Test
     public void testTrimElements()
     {
         TestList list = new TestList(3, 2);
@@ -94,6 +100,7 @@ public class LimitSizeListTest extends TestCase
         listAssertObjects(list, "5", "6", "7");
     }
 
+    @Test
     public void testTrimElementsAndClear()
     {
         TestList list = new TestList(3, 2);

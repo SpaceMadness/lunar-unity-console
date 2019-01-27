@@ -1,5 +1,5 @@
 //
-//  TestCaseEx.java
+//  TestCase.java
 //
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
@@ -21,32 +21,32 @@
 
 package spacemadness.com.lunarconsole;
 
-import junit.framework.TestCase;
+import org.junit.After;
+import org.junit.Before;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import spacemadness.com.lunarconsole.utils.StringUtils;
 
-public abstract class TestCaseEx extends TestCase
+import static org.junit.Assert.assertEquals;
+
+public abstract class TestCase
 {
     private List<String> results;
 
     //////////////////////////////////////////////////////////////////////////////
     // Lifecycle
 
-    @Override
-    protected void setUp() throws Exception
+    @Before
+    public void setUp() throws Exception
     {
-        super.setUp();
-
         results = new ArrayList<>();
     }
 
-    @Override
-    protected void tearDown() throws Exception
+    @After
+    public void tearDown() throws Exception
     {
-        super.tearDown();
     }
 
     //////////////////////////////////////////////////////////////////////////////

@@ -21,8 +21,12 @@
 
 package spacemadness.com.lunarconsole.console;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
+import spacemadness.com.lunarconsole.TestCase;
+
+import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertEquals;
 import static spacemadness.com.lunarconsole.console.ConsoleLogType.*;
 
 public class ConsoleLogEntryListTest extends TestCase
@@ -30,6 +34,7 @@ public class ConsoleLogEntryListTest extends TestCase
     private static final int kDefaultCapacity = 100;
     private static final int kDefaultTrim = 1;
 
+    @Test
     public void testFilteringByText()
     {
         ConsoleLogEntryList list = createEntryListWithMessages(
@@ -118,7 +123,7 @@ public class ConsoleLogEntryListTest extends TestCase
         assertTrue(!list.isFiltering());
     }
 
-
+    @Test
     public void testFilteringByLogType()
     {
         ConsoleLogEntryList list = createEntryListWithEntries(
@@ -217,6 +222,7 @@ public class ConsoleLogEntryListTest extends TestCase
         assertTrue(!list.isFiltering());
     }
 
+    @Test
     public void testFilteringByLogTypeMask()
     {
         ConsoleLogEntryList list = createEntryListWithEntries(
@@ -279,6 +285,7 @@ public class ConsoleLogEntryListTest extends TestCase
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Collapse items
 
+    @Test
     public void testCollapseEntries()
     {
         ConsoleLogEntryList list = createEntryListWithEntries(kDefaultCapacity, kDefaultTrim,
@@ -302,6 +309,7 @@ public class ConsoleLogEntryListTest extends TestCase
         listAssertMessages(list, "message1", "message1", "message1", "message12", "message12");
     }
 
+    @Test
     public void testCollapseAddEntries()
     {
         ConsoleLogEntryList list = createEntryListWithEntries(kDefaultCapacity, kDefaultTrim,
@@ -363,6 +371,7 @@ public class ConsoleLogEntryListTest extends TestCase
          "message2");
     }
 
+    @Test
     public void testCollapseAddEntriesOverflow()
     {
         ConsoleLogEntryList list = createEntryListWithEntries(3, 1,
@@ -387,6 +396,7 @@ public class ConsoleLogEntryListTest extends TestCase
         listAssertMessages(list, "message1", "message1", "message1");
     }
 
+    @Test
     public void testCollapseAddEntriesOverflowDistinctive()
     {
         ConsoleLogEntryList list = createEntryListWithEntries(3, 1,
@@ -411,6 +421,7 @@ public class ConsoleLogEntryListTest extends TestCase
         listAssertMessages(list, "message1", "message12", "message12");
     }
 
+    @Test
     public void testCollapseFilteredEntries()
     {
         ConsoleLogEntryList list = createEntryListWithEntries(kDefaultCapacity, kDefaultTrim,
@@ -441,6 +452,7 @@ public class ConsoleLogEntryListTest extends TestCase
         listAssertMessages(list, "message1", "message12", "message1", "message12", "message1", "message12");
     }
 
+    @Test
     public void testCollapseAddFilteredEntries()
     {
         ConsoleLogEntryList list = createEntryListWithEntries(kDefaultCapacity, kDefaultTrim,
@@ -513,6 +525,7 @@ public class ConsoleLogEntryListTest extends TestCase
          "message2");
     }
 
+    @Test
     public void testCollapseAddFilteredEntriesOverflow()
     {
         ConsoleLogEntryList list = createEntryListWithEntries(3, 1,
@@ -574,6 +587,7 @@ public class ConsoleLogEntryListTest extends TestCase
          "message2");
     }
 
+    @Test
     public void testFilterCollapsedEntries()
     {
         ConsoleLogEntryList list = createEntryListWithEntries(kDefaultCapacity, kDefaultTrim,
@@ -622,6 +636,7 @@ public class ConsoleLogEntryListTest extends TestCase
          "message2");
     }
 
+    @Test
     public void testFilterCollapsedEntriesAndAddEntries()
     {
         ConsoleLogEntryList list = createEntryListWithEntries(kDefaultCapacity, kDefaultTrim,
@@ -690,6 +705,7 @@ public class ConsoleLogEntryListTest extends TestCase
          "message2");
     }
 
+    @Test
     public void testFilterCollapsedEntriesAndAddEntriesOverflow()
     {
         ConsoleLogEntryList list = createEntryListWithEntries(3, 1,

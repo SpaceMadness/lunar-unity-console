@@ -21,10 +21,15 @@
 
 package spacemadness.com.lunarconsole.utils;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+
+import spacemadness.com.lunarconsole.TestCase;
+
+import static org.junit.Assert.*;
 
 public class StackTraceTest extends TestCase
 {
+    @Test
     public void testOptimize() throws Exception
     {
         String stackTrace = "UnityEngine.Debug:LogError(Object)\n" +

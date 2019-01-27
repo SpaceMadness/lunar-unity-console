@@ -21,23 +21,27 @@
 
 package spacemadness.com.lunarconsole.utils;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
+import spacemadness.com.lunarconsole.TestCase;
 import spacemadness.com.lunarconsole.console.ConsoleCollapsedLogEntry;
 import spacemadness.com.lunarconsole.console.ConsoleLogEntry;
 import spacemadness.com.lunarconsole.console.ConsoleLogType;
+
+import static org.junit.Assert.*;
 
 public class ConsoleLogEntryLookupTableTest extends TestCase
 {
     private ConsoleLogEntryLookupTable table;
 
     @Override
-    protected void setUp() throws Exception
+    public void setUp() throws Exception
     {
         super.setUp();
         table = new ConsoleLogEntryLookupTable();
     }
 
+    @Test
     public void testAddEntry()
     {
         ConsoleCollapsedLogEntry entry = addEntryMessage("message1");

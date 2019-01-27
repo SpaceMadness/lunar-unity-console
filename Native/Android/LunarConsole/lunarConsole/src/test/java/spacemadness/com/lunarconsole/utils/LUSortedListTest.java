@@ -21,14 +21,18 @@
 
 package spacemadness.com.lunarconsole.utils;
 
-import spacemadness.com.lunarconsole.TestCaseEx;
+import org.junit.Test;
 
-public class LUSortedListTest extends TestCaseEx
+import spacemadness.com.lunarconsole.TestCase;
+
+import static org.junit.Assert.*;
+
+public class LUSortedListTest extends TestCase
 {
     private LUSortedList<String> _list;
     
     @Override
-    protected void setUp() throws Exception
+    public void setUp() throws Exception
     {
         super.setUp();
         _list = new LUSortedList<>();
@@ -37,6 +41,7 @@ public class LUSortedListTest extends TestCaseEx
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Testing
 
+    @Test
     public void testSortedAdd()
     {
         _list.addObject("3");
@@ -47,6 +52,7 @@ public class LUSortedListTest extends TestCaseEx
         assertList("1", "2", "3", "4");
     }
 
+    @Test
     public void testDuplicateItems()
     {
         _list.addObject("3");
@@ -59,6 +65,7 @@ public class LUSortedListTest extends TestCaseEx
         assertList("1", "2", "3", "4");
     }
 
+    @Test
     public void testRemoveItems()
     {
         _list.addObject("3");
@@ -71,6 +78,7 @@ public class LUSortedListTest extends TestCaseEx
         assertList("1", "3", "4");
     }
 
+    @Test
     public void testIndexOfItem()
     {
         _list.addObject("3");

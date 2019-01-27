@@ -21,13 +21,16 @@
 
 package spacemadness.com.lunarconsole.console;
 
+import org.junit.Test;
+
 import java.util.List;
 
-import spacemadness.com.lunarconsole.TestCaseEx;
+import spacemadness.com.lunarconsole.TestCase;
 
-public class ConsoleLogEntryDispatcherTest extends TestCaseEx implements
+public class ConsoleLogEntryDispatcherTest extends TestCase implements
         ConsoleLogEntryDispatcher.OnDispatchListener
 {
+    @Test
     public void testAddEntries() throws Exception
     {
         MockConsoleLogEntryDispatcher dispatcher = new MockConsoleLogEntryDispatcher();
@@ -56,6 +59,7 @@ public class ConsoleLogEntryDispatcherTest extends TestCaseEx implements
         assertResult();
     }
 
+    @Test
     public void testRemoveEntries() throws Exception
     {
         MockConsoleLogEntryDispatcher dispatcher = new MockConsoleLogEntryDispatcher();

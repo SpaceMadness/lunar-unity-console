@@ -21,19 +21,24 @@
 
 package spacemadness.com.lunarconsole.console.actions;
 
-import spacemadness.com.lunarconsole.TestCaseEx;
+import org.junit.Test;
+
+import spacemadness.com.lunarconsole.TestCase;
 import spacemadness.com.lunarconsole.console.Action;
 import spacemadness.com.lunarconsole.console.ActionRegistry;
 import spacemadness.com.lunarconsole.console.Variable;
 import spacemadness.com.lunarconsole.console.VariableType;
 
-public class ActionRegistryTest extends TestCaseEx implements ActionRegistry.Delegate
+import static junit.framework.TestCase.fail;
+import static org.junit.Assert.assertEquals;
+
+public class ActionRegistryTest extends TestCase implements ActionRegistry.Delegate
 {
     private ActionRegistry actionRegistry;
     private int nextActionId;
 
     @Override
-    protected void setUp() throws Exception
+    public void setUp() throws Exception
     {
         super.setUp();
 
@@ -45,6 +50,7 @@ public class ActionRegistryTest extends TestCaseEx implements ActionRegistry.Del
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Register
 
+    @Test
     public void testRegisterActionsAndVariables()
     {
         registerActionWithName("a2");
@@ -59,6 +65,7 @@ public class ActionRegistryTest extends TestCaseEx implements ActionRegistry.Del
         assertVariables("v1", "v2", "v3");
     }
 
+    @Test
     public void testRegisterMultipleActionsWithSameName()
     {
         registerActionWithName("a2");
@@ -72,6 +79,7 @@ public class ActionRegistryTest extends TestCaseEx implements ActionRegistry.Del
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Unregister actions
 
+    @Test
     public void testUnregisterAction()
     {
         int id2 = registerActionWithName("a2").actionId();
@@ -94,6 +102,7 @@ public class ActionRegistryTest extends TestCaseEx implements ActionRegistry.Del
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Delegate notifications
 
+    @Test
     public void testDelegateNotifications()
     {
         // register actions

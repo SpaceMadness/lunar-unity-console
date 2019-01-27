@@ -21,10 +21,12 @@
 
 package spacemadness.com.lunarconsole.console.actions;
 
+import org.junit.Test;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import spacemadness.com.lunarconsole.TestCaseEx;
+import spacemadness.com.lunarconsole.TestCase;
 import spacemadness.com.lunarconsole.console.Action;
 import spacemadness.com.lunarconsole.console.ActionRegistry;
 import spacemadness.com.lunarconsole.console.ActionRegistryFilter;
@@ -32,10 +34,14 @@ import spacemadness.com.lunarconsole.console.IdentityEntry;
 import spacemadness.com.lunarconsole.console.Variable;
 import spacemadness.com.lunarconsole.console.VariableType;
 
+import static junit.framework.Assert.assertFalse;
+import static junit.framework.TestCase.assertTrue;
+import static junit.framework.TestCase.fail;
+import static org.junit.Assert.assertEquals;
 import static spacemadness.com.lunarconsole.utils.ObjectUtils.*;
 import static spacemadness.com.lunarconsole.utils.StringUtils.*;
 
-public class ActionRegistryFilterTest extends TestCaseEx implements ActionRegistryFilter.Delegate
+public class ActionRegistryFilterTest extends TestCase implements ActionRegistryFilter.Delegate
 {
     private int _nextActionId;
     private ActionRegistry _actionRegistry;
@@ -44,7 +50,7 @@ public class ActionRegistryFilterTest extends TestCaseEx implements ActionRegist
     // MARK: - Setup
 
     @Override
-    protected void setUp() throws Exception
+    public void setUp() throws Exception
     {
         super.setUp();
 
@@ -56,6 +62,7 @@ public class ActionRegistryFilterTest extends TestCaseEx implements ActionRegist
 
     // MARK: - Filter by text
 
+    @Test
     public void testFilterByText()
     {
         registerEntries(
@@ -170,6 +177,7 @@ public class ActionRegistryFilterTest extends TestCaseEx implements ActionRegist
 
     // MARK: - Register entries
 
+    @Test
     public void testRegisterEntries()
     {
         registerAction("a11");
@@ -185,6 +193,7 @@ public class ActionRegistryFilterTest extends TestCaseEx implements ActionRegist
         assertVariables("v1", "v11", "v111");
     }
 
+    @Test
     public void testRegisterEntriesFiltered()
     {
         setFilter("a11");
@@ -212,6 +221,7 @@ public class ActionRegistryFilterTest extends TestCaseEx implements ActionRegist
         assertVariables("v1", "v11", "v111");
     }
 
+    @Test
     public void testRegisterMultipleActionsWithSameName()
     {
         registerAction("a2");
@@ -222,6 +232,7 @@ public class ActionRegistryFilterTest extends TestCaseEx implements ActionRegist
         assertActions("a1", "a2", "a3");
     }
 
+    @Test
     public void testRegisterMultipleActionsWithSameNameFiltered()
     {
         setFilter("a1");
@@ -245,6 +256,7 @@ public class ActionRegistryFilterTest extends TestCaseEx implements ActionRegist
 
     // MARK: - Unregister actions
 
+    @Test
     public void testUnregisterActions()
     {
         int id2 = registerAction("a2").actionId();
@@ -264,6 +276,7 @@ public class ActionRegistryFilterTest extends TestCaseEx implements ActionRegist
         assertNoActions();
     }
 
+    @Test
     public void testUnregisterActionFiltered()
     {
         setFilter("a11");
@@ -287,6 +300,7 @@ public class ActionRegistryFilterTest extends TestCaseEx implements ActionRegist
 
     // MARK: - Delegate notifications
 
+    @Test
     public void testDelegateNotifications()
     {
         // register actions
@@ -324,6 +338,7 @@ public class ActionRegistryFilterTest extends TestCaseEx implements ActionRegist
         assertResult("removed action: a2 (0)");
     }
 
+    @Test
     public void testDelegateNotificationsFiltered()
     {
         // set filter
@@ -360,6 +375,7 @@ public class ActionRegistryFilterTest extends TestCaseEx implements ActionRegist
         assertResult("removed action: a12 (0)");
     }
 
+    @Test
     public void testFilteringByTextAddActions()
     {
         assertNotFiltering();
