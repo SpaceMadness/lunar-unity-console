@@ -29,16 +29,16 @@ import static spacemadness.com.lunarconsole.utils.StringUtils.*;
 
 public class ActionRegistryFilter implements ActionRegistry.RegistryListener
 {
-    private final ActionRegistry _registry;
-    private String _filterText;
-    private List<Action> _filteredActions;
-    private List<Variable> _filteredVariables;
-    private Delegate _delegate;
+    private final ActionRegistry registry;
+    private String filterText;
+    private List<Action> filteredActions;
+    private List<Variable> filteredVariables;
+    private Delegate delegate;
 
     public ActionRegistryFilter(ActionRegistry actionRegistry)
     {
-        _registry = actionRegistry;
-        _registry.setRegistryListener(this);
+        registry = actionRegistry;
+        registry.setRegistryListener(this);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -46,10 +46,10 @@ public class ActionRegistryFilter implements ActionRegistry.RegistryListener
 
     public boolean setFilterText(String filterText)
     {
-        if (!areEqual(_filterText, filterText)) // filter text has changed
+        if (!areEqual(this.filterText, filterText)) // filter text has changed
         {
-            String oldFilterText = _filterText;
-            _filterText = filterText;
+            String oldFilterText = this.filterText;
+            this.filterText = filterText;
 
             if (length(filterText) > length(oldFilterText) && (length(oldFilterText) == 0 ||  hasPrefix(filterText, oldFilterText))) // added more characters
             {
@@ -67,8 +67,8 @@ public class ActionRegistryFilter implements ActionRegistry.RegistryListener
     {
         if (isFiltering())
         {
-            _filteredActions = filterEntries(_filteredActions);
-            _filteredVariables = filterEntries(_filteredVariables);
+            filteredActions = filterEntries(filteredActions);
+            filteredVariables = filterEntries(filteredVariables);
             return true;
         }
 
@@ -78,10 +78,10 @@ public class ActionRegistryFilter implements ActionRegistry.RegistryListener
     /** setup filtering for the list */
     private boolean applyFilter()
     {
-        if (length(_filterText) > 0)
+        if (length(filterText) > 0)
         {
-            _filteredActions = filterEntries(getAllActions());
-            _filteredVariables = filterEntries(getAllVariables());
+            filteredActions = filterEntries(getAllActions());
+            filteredVariables = filterEntries(getAllVariables());
             return true;
         }
 
@@ -92,8 +92,8 @@ public class ActionRegistryFilter implements ActionRegistry.RegistryListener
     {
         if (isFiltering())
         {
-            _filteredActions = null;
-            _filteredVariables = null;
+            filteredActions = null;
+            filteredVariables = null;
             return true;
         }
 
@@ -116,7 +116,7 @@ public class ActionRegistryFilter implements ActionRegistry.RegistryListener
 
     private boolean filterEntry(IdentityEntry entry)
     {
-        return length(_filterText) == 0 || containsIgnoreCase(entry.name(), _filterText);
+        return length(filterText) == 0 || containsIgnoreCase(entry.name(), filterText);
     }
 
     private <T extends IdentityEntry> int filteredArrayAddEntry(List<T> array, T entry)
@@ -167,10 +167,10 @@ public class ActionRegistryFilter implements ActionRegistry.RegistryListener
                 return;
             }
 
-            index = filteredArrayAddEntry(_filteredActions, action);
+            index = filteredArrayAddEntry(filteredActions, action);
         }
 
-        _delegate.actionRegistryFilterDidAddAction(this, action, index);
+        delegate.actionRegistryFilterDidAddAction(this, action, index);
     }
 
     @Override
@@ -178,17 +178,17 @@ public class ActionRegistryFilter implements ActionRegistry.RegistryListener
     {
         if (isFiltering())
         {
-            index = filteredArrayIndexOfEntry(_filteredActions, action);
+            index = filteredArrayIndexOfEntry(filteredActions, action);
             if (index == -1)
             {
                 return;
             }
 
-            action = _filteredActions.get(index);
-            _filteredActions.remove(index);
+            action = filteredActions.get(index);
+            filteredActions.remove(index);
         }
 
-        _delegate.actionRegistryFilterDidRemoveAction(this, action, index);
+        delegate.actionRegistryFilterDidRemoveAction(this, action, index);
     }
 
     @Override
@@ -201,10 +201,10 @@ public class ActionRegistryFilter implements ActionRegistry.RegistryListener
                 return;
             }
 
-            index = filteredArrayAddEntry(_filteredVariables, variable);
+            index = filteredArrayAddEntry(filteredVariables, variable);
         }
 
-        _delegate.actionRegistryFilterDidRegisterVariable(this, variable, index);
+        delegate.actionRegistryFilterDidRegisterVariable(this, variable, index);
     }
 
     @Override
@@ -217,10 +217,10 @@ public class ActionRegistryFilter implements ActionRegistry.RegistryListener
                 return;
             }
 
-            index = filteredArrayIndexOfEntry(_filteredVariables, variable);
+            index = filteredArrayIndexOfEntry(filteredVariables, variable);
         }
 
-        _delegate.actionRegistryFilterDidChangeVariable(this, variable, index);
+        delegate.actionRegistryFilterDidChangeVariable(this, variable, index);
     }
     
     ////////////////////////////////////////////////////////////////////////////////////////////////
@@ -228,42 +228,42 @@ public class ActionRegistryFilter implements ActionRegistry.RegistryListener
 
     public List<Action> actions()
     {
-        return isFiltering() ? _filteredActions : getAllActions();
+        return isFiltering() ? filteredActions : getAllActions();
     }
 
     public List<Action> getAllActions()
     {
-        return _registry.actions();
+        return registry.actions();
     }
 
     public List<Variable> variables()
     {
-        return isFiltering() ? _filteredVariables : getAllVariables();
+        return isFiltering() ? filteredVariables : getAllVariables();
     }
 
     public List<Variable> getAllVariables()
     {
-        return _registry.variables();
+        return registry.variables();
     }
 
     public boolean isFiltering()
     {
-        return _filteredActions != null || _filteredVariables != null;
+        return filteredActions != null || filteredVariables != null;
     }
 
     public String getFilterText()
     {
-        return _filterText;
+        return filterText;
     }
 
     public Delegate getDelegate()
     {
-        return _delegate;
+        return delegate;
     }
 
     public void setDelegate(Delegate delegate)
     {
-        this._delegate = delegate;
+        this.delegate = delegate;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
