@@ -8,7 +8,7 @@ import spacemadness.com.lunarconsole.TestCase;
 public class LiveDataTest extends TestCase {
 	@Test
 	public void testObservers() {
-		LiveData<String> data = new MockLiveData<>("a");
+		MutableLiveData<String> data = new MockLiveData<>("a");
 		Disposable disposable1 = data.observe(new MockObserver<String>("1"));
 		assertResult("1: a");
 
@@ -52,7 +52,7 @@ public class LiveDataTest extends TestCase {
 		}
 	}
 
-	static class MockLiveData<T> extends LiveData<T> {
+	static class MockLiveData<T> extends MutableLiveData<T> {
 		MockLiveData(T value) {
 			super(value, new ImmediateDispatchQueue());
 		}

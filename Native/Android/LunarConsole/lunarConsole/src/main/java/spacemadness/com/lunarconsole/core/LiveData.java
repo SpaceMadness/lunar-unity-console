@@ -28,7 +28,7 @@ public class LiveData<T> {
 		return value;
 	}
 
-	public void setValue(final T value) {
+	protected void setValue(final T value) {
 		this.value = value;
 
 		dispatchQueue.dispatch(new Runnable() {
