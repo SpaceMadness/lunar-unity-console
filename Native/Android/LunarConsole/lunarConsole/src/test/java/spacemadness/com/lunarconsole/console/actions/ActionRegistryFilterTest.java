@@ -42,9 +42,9 @@ import static spacemadness.com.lunarconsole.utils.ObjectUtils.*;
 import static spacemadness.com.lunarconsole.utils.StringUtils.*;
 
 public class ActionRegistryFilterTest extends TestCase implements ActionRegistryFilter.Delegate {
-	private int _nextActionId;
-	private ActionRegistry _actionRegistry;
-	private ActionRegistryFilter _registryFilter;
+	private int nextActionId;
+	private ActionRegistry actionRegistry;
+	private ActionRegistryFilter registryFilter;
 
 	//region Setup
 
@@ -52,10 +52,10 @@ public class ActionRegistryFilterTest extends TestCase implements ActionRegistry
 	public void setUp() throws Exception {
 		super.setUp();
 
-		_actionRegistry = new ActionRegistry();
-		_registryFilter = new ActionRegistryFilter(_actionRegistry);
-		_registryFilter.setDelegate(this);
-		_nextActionId = 0;
+		actionRegistry = new ActionRegistry();
+		registryFilter = new ActionRegistryFilter(actionRegistry);
+		registryFilter.setDelegate(this);
+		nextActionId = 0;
 	}
 
 	//endregion
@@ -435,33 +435,33 @@ public class ActionRegistryFilterTest extends TestCase implements ActionRegistry
 	//region Helpers
 
 	private boolean setFilter(String text) {
-		return _registryFilter.setFilterText(text);
+		return registryFilter.setFilterText(text);
 	}
 
 	private Action registerAction(String name) {
-		_nextActionId = _nextActionId + 1;
-		return registerAction(_nextActionId, name);
+		nextActionId = nextActionId + 1;
+		return registerAction(nextActionId, name);
 	}
 
 	private Action registerAction(int id, String name) {
-		return _actionRegistry.registerAction(id, name);
+		return actionRegistry.registerAction(id, name);
 	}
 
 	private Variable registerVariable(String name, VariableType type, String value) {
-		_nextActionId = _nextActionId + 1;
-		return _actionRegistry.registerVariable(_nextActionId, name, type, value, value);
+		nextActionId = nextActionId + 1;
+		return actionRegistry.registerVariable(nextActionId, name, type, value, value);
 	}
 
 	private Variable registerVariable(String name) {
-		_nextActionId = _nextActionId + 1;
-		return _actionRegistry.registerVariable(_nextActionId, name, VariableType.String, "value", "value");
+		nextActionId = nextActionId + 1;
+		return actionRegistry.registerVariable(nextActionId, name, VariableType.String, "value", "value");
 	}
 
 	private boolean unregisterAction(String name) {
-		for (int i = 0; i < _actionRegistry.actions().size(); ++i) {
-			Action action = as(_actionRegistry.actions().get(i), Action.class);
+		for (int i = 0; i < actionRegistry.actions().size(); ++i) {
+			Action action = as(actionRegistry.actions().get(i), Action.class);
 			if (action != null && action.name().equals(name)) {
-				_actionRegistry.unregisterAction(action.actionId());
+				actionRegistry.unregisterAction(action.actionId());
 				return true;
 			}
 		}
@@ -470,19 +470,19 @@ public class ActionRegistryFilterTest extends TestCase implements ActionRegistry
 	}
 
 	private void unregisterAction(int id) {
-		_actionRegistry.unregisterAction(id);
+		actionRegistry.unregisterAction(id);
 	}
 
 	private void registerEntries(MockEntryInfo... entries) {
 
 		for (MockEntryInfo info : entries) {
-			_nextActionId = _nextActionId + 1;
+			nextActionId = nextActionId + 1;
 
 			if (info instanceof LUActionInfo) {
-				_actionRegistry.registerAction(_nextActionId, info.name);
+				actionRegistry.registerAction(nextActionId, info.name);
 			} else if (info instanceof MockCVarInfo) {
 				MockCVarInfo cvar = (MockCVarInfo) info;
-				_actionRegistry.registerVariable(_nextActionId, cvar.name, cvar.type, cvar.value, cvar.value);
+				actionRegistry.registerVariable(nextActionId, cvar.name, cvar.type, cvar.value, cvar.value);
 			} else {
 				fail("Unexpected entry: " + info);
 			}
@@ -494,17 +494,17 @@ public class ActionRegistryFilterTest extends TestCase implements ActionRegistry
 	//region Assertion Helpers
 
 	private void assertNoActions() {
-		assertTrue(_registryFilter.actions().size() == 0);
+		assertTrue(registryFilter.actions().size() == 0);
 	}
 
 	private void assertNoVariables() {
-		assertTrue(_registryFilter.variables().size() == 0);
+		assertTrue(registryFilter.variables().size() == 0);
 	}
 
 	private void assertActions(String... names) {
 		List<String> actualNames = new ArrayList<>();
-		for (int i = 0; i < _registryFilter.actions().size(); ++i) {
-			Action action = as(_registryFilter.actions().get(i), Action.class);
+		for (int i = 0; i < registryFilter.actions().size(); ++i) {
+			Action action = as(registryFilter.actions().get(i), Action.class);
 			actualNames.add(action.name());
 		}
 
@@ -518,8 +518,8 @@ public class ActionRegistryFilterTest extends TestCase implements ActionRegistry
 
 	private void assertVariables(String... names) {
 		List<String> actualNames = new ArrayList<>();
-		for (int i = 0; i < _registryFilter.variables().size(); ++i) {
-			Variable variable = as(_registryFilter.variables().get(i), Variable.class);
+		for (int i = 0; i < registryFilter.variables().size(); ++i) {
+			Variable variable = as(registryFilter.variables().get(i), Variable.class);
 			actualNames.add(variable.name());
 		}
 
@@ -532,11 +532,11 @@ public class ActionRegistryFilterTest extends TestCase implements ActionRegistry
 	}
 
 	private void assertFiltering() {
-		assertTrue(_registryFilter.isFiltering());
+		assertTrue(registryFilter.isFiltering());
 	}
 
 	private void assertNotFiltering() {
-		assertFalse(_registryFilter.isFiltering());
+		assertFalse(registryFilter.isFiltering());
 	}
 
 	//endregion
