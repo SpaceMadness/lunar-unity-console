@@ -158,7 +158,7 @@ public class ActionRegistryFilter implements ActionRegistry.RegistryListener
     // LUActionRegistryDelegate
 
     @Override
-    public void didAddAction(ActionRegistry registry, Action action, int index)
+    public void onAddAction(ActionRegistry registry, Action action, int index)
     {
         if (isFiltering())
         {
@@ -174,7 +174,7 @@ public class ActionRegistryFilter implements ActionRegistry.RegistryListener
     }
 
     @Override
-    public void didRemoveAction(ActionRegistry registry, Action action, int index)
+    public void onRemoveAction(ActionRegistry registry, Action action, int index)
     {
         if (isFiltering())
         {
@@ -192,7 +192,7 @@ public class ActionRegistryFilter implements ActionRegistry.RegistryListener
     }
 
     @Override
-    public void didRegisterVariable(ActionRegistry registry, Variable variable, int index)
+    public void onRegisterVariable(ActionRegistry registry, Variable variable, int index)
     {
         if (isFiltering())
         {
@@ -208,7 +208,7 @@ public class ActionRegistryFilter implements ActionRegistry.RegistryListener
     }
 
     @Override
-    public void didDidChangeVariable(ActionRegistry registry, Variable variable, int index)
+    public void onChangeVariable(ActionRegistry registry, Variable variable, int index)
     {
         if (isFiltering())
         {

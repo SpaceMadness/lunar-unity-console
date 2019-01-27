@@ -144,7 +144,7 @@ public class ActionRegistry
     {
         if (registryListener != null)
         {
-            registryListener.didAddAction(this, action, actionIndex);
+            registryListener.onAddAction(this, action, actionIndex);
         }
     }
 
@@ -152,7 +152,7 @@ public class ActionRegistry
     {
         if (registryListener != null)
         {
-            registryListener.didRemoveAction(this, action, actionIndex);
+            registryListener.onRemoveAction(this, action, actionIndex);
         }
     }
 
@@ -160,7 +160,7 @@ public class ActionRegistry
     {
         if (registryListener != null)
         {
-            registryListener.didRegisterVariable(this, variable, index);
+            registryListener.onRegisterVariable(this, variable, index);
         }
     }
 
@@ -168,7 +168,7 @@ public class ActionRegistry
     {
         if (registryListener != null)
         {
-            registryListener.didDidChangeVariable(this, cvar, index);
+            registryListener.onChangeVariable(this, cvar, index);
         }
     }
 
@@ -210,10 +210,10 @@ public class ActionRegistry
 
     public interface RegistryListener
     {
-        void didAddAction(ActionRegistry registry, Action action, int index);
-        void didRemoveAction(ActionRegistry registry, Action action, int index);
-        void didRegisterVariable(ActionRegistry registry, Variable variable, int index);
-        void didDidChangeVariable(ActionRegistry registry, Variable variable, int index);
+        void onAddAction(ActionRegistry registry, Action action, int index);
+        void onRemoveAction(ActionRegistry registry, Action action, int index);
+        void onRegisterVariable(ActionRegistry registry, Variable variable, int index);
+        void onChangeVariable(ActionRegistry registry, Variable variable, int index);
     }
 
     //endregion

@@ -137,22 +137,22 @@ public class ActionRegistryTest extends TestCase implements ActionRegistry.Regis
 	// RegistryListener
 
 	@Override
-	public void didAddAction(ActionRegistry registry, Action action, int index) {
+	public void onAddAction(ActionRegistry registry, Action action, int index) {
 		addResult(String.format("added action: %s (%d)", action.name(), index));
 	}
 
 	@Override
-	public void didRemoveAction(ActionRegistry registry, Action action, int index) {
+	public void onRemoveAction(ActionRegistry registry, Action action, int index) {
 		addResult(String.format("removed action: %s (%d)", action.name(), index));
 	}
 
 	@Override
-	public void didRegisterVariable(ActionRegistry registry, Variable variable, int index) {
+	public void onRegisterVariable(ActionRegistry registry, Variable variable, int index) {
 		addResult(String.format("register variable: %s %s %s (%d)", variable.type, variable.name(), variable.value, index));
 	}
 
 	@Override
-	public void didDidChangeVariable(ActionRegistry registry, Variable variable, int index) {
+	public void onChangeVariable(ActionRegistry registry, Variable variable, int index) {
 		fail("Implement me");
 	}
 
