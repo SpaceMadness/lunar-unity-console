@@ -19,28 +19,35 @@
 //  limitations under the License.
 //
 
-package spacemadness.com.lunarconsole.core;
+package spacemadness.com.lunarconsole.concurrent;
 
+import android.os.Handler;
 import android.os.Looper;
 
-public abstract class DispatchQueue implements Destroyable
-{
-    public abstract void dispatchAsync(Runnable runnable);
+import static spacemadness.com.lunarconsole.utils.ObjectUtils.checkNotNull;
 
-    public abstract void dispatchAsync(Runnable runnable, long delay);
+public class SerialDispatchQueue extends DispatchQueue
+{
+    private final Handler handler;
+
+    public SerialDispatchQueue(Looper looper, String name)
+    {
+        this(new Handler(checkNotNull(looper, "looper")), name);
+    }
+
+    public SerialDispatchQueue(Handler handler, String name)
+    {
+        super(name);
+        this.handler = checkNotNull(handler, "handler");
+    }
+
+    public void dispatch(Runnable r)
+    {
+        handler.post(r);
+    }
 
     @Override
-    public void destroy()
-    {
-    }
-
-    public static DispatchQueue mainQueue()
-    {
-        return Holder.INSTANCE;
-    }
-
-    private static class Holder
-    {
-        private static final DispatchQueue INSTANCE = new HandlerDispatchQueue(Looper.getMainLooper());
+    public boolean isCurrent() {
+        return handler.getLooper() == Looper.myLooper();
     }
 }

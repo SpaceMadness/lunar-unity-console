@@ -1,5 +1,5 @@
 //
-//  HandlerDispatchQueue.java
+//  DispatchQueue.java
 //
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
@@ -19,29 +19,32 @@
 //  limitations under the License.
 //
 
-package spacemadness.com.lunarconsole.core;
+package spacemadness.com.lunarconsole.concurrent;
 
-import android.os.Handler;
 import android.os.Looper;
 
-public class HandlerDispatchQueue extends DispatchQueue
-{
-    private final Handler handler;
+import static spacemadness.com.lunarconsole.utils.ObjectUtils.checkNotNull;
 
-    public HandlerDispatchQueue(Looper looper)
-    {
-        handler = new Handler(looper);
-    }
+public abstract class DispatchQueue {
+	private final String name;
 
-    @Override
-    public void dispatchAsync(Runnable runnable)
-    {
-        handler.post(runnable);
-    }
+	public DispatchQueue(String name) {
+		this.name = checkNotNull(name, "name");
+	}
 
-    @Override
-    public void dispatchAsync(Runnable runnable, long delay)
-    {
-        handler.postDelayed(runnable, delay);
-    }
+	public abstract void dispatch(Runnable r);
+
+	public abstract boolean isCurrent();
+
+	public String getName() {
+		return name;
+	}
+
+	public static DispatchQueue mainQueue() {
+		return Holder.MAIN_QUEUE;
+	}
+
+	private static final class Holder {
+		private static final DispatchQueue MAIN_QUEUE = new SerialDispatchQueue(Looper.getMainLooper(), "main");
+	}
 }

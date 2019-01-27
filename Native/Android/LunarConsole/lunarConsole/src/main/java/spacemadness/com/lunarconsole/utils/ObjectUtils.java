@@ -23,6 +23,13 @@ package spacemadness.com.lunarconsole.utils;
 
 public class ObjectUtils
 {
+    public static <T> T checkNotNull(T reference, String name) {
+        if (reference == null) {
+            throw new IllegalArgumentException(name + " is null");
+        }
+        return reference;
+    }
+
     public static boolean areEqual(Object o1, Object o2)
     {
         return o1 != null && o1.equals(o2) || o1 == null && o2 == null;

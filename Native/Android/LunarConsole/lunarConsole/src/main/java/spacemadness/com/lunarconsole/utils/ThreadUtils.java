@@ -24,62 +24,58 @@ package spacemadness.com.lunarconsole.utils;
 import android.os.Handler;
 import android.os.Looper;
 
-public class ThreadUtils
-{
-    private final Handler handler;
+import spacemadness.com.lunarconsole.concurrent.DispatchQueue;
 
-    private ThreadUtils()
-    {
-        handler = new Handler(Looper.getMainLooper());
-    }
+public class ThreadUtils {
+	private final Handler handler;
 
-    private void postRunnable(Runnable runnable)
-    {
-        handler.post(runnable);
-    }
+	private ThreadUtils() {
+		handler = new Handler(Looper.getMainLooper());
+	}
 
-    private void postRunnable(Runnable runnable, long delay)
-    {
-        handler.postDelayed(runnable, delay);
-    }
+	private void postRunnable(Runnable runnable) {
+		handler.post(runnable);
+	}
 
-    public static void runOnUIThread(Runnable runnable)
-    {
-        Holder.INSTANCE.postRunnable(runnable);
-    }
+	private void postRunnable(Runnable runnable, long delay) {
+		handler.postDelayed(runnable, delay);
+	}
 
-    public static void runOnUIThread(Runnable runnable, long delay)
-    {
-        Holder.INSTANCE.postRunnable(runnable, delay);
-    }
+	public static void runOnUIThread(Runnable runnable) {
+		Holder.INSTANCE.postRunnable(runnable);
+	}
 
-    public static void cancel(Runnable runnable)
-    {
-        Holder.INSTANCE.cancelRunnable(runnable);
-    }
+	public static void runOnUIThread(Runnable runnable, long delay) {
+		Holder.INSTANCE.postRunnable(runnable, delay);
+	}
 
-    private void cancelRunnable(Runnable runnable)
-    {
-        handler.removeCallbacks(runnable);
-    }
+	public static void cancel(Runnable runnable) {
+		Holder.INSTANCE.cancelRunnable(runnable);
+	}
 
-    public static void cancelAll()
-    {
-        Holder.INSTANCE.cancelRunnables();
-    }
+	private void cancelRunnable(Runnable runnable) {
+		handler.removeCallbacks(runnable);
+	}
 
-    private void cancelRunnables()
-    {
-        handler.removeCallbacks(null);
-    }
+	public static void cancelAll() {
+		Holder.INSTANCE.cancelRunnables();
+	}
 
-    public static boolean isRunningOnMainThread()
-    {
-        return Thread.currentThread() == Looper.getMainLooper().getThread();
-    }
+	private void cancelRunnables() {
+		handler.removeCallbacks(null);
+	}
 
-    private static class Holder
-    {
-        private static final ThreadUtils INSTANCE = new ThreadUtils();
-    }
+	public static void checkQueue(DispatchQueue dispatchQueue) {
+		if (!dispatchQueue.isCurrent()) {
+			throw new IllegalStateException("Invalid dispatch queue");
+		}
+	}
+
+	public static boolean isRunningOnMainThread() {
+		return Thread.currentThread() == Looper.getMainLooper().getThread();
+	}
+
+	private static class Holder {
+		private static final ThreadUtils INSTANCE = new ThreadUtils();
+	}
 }

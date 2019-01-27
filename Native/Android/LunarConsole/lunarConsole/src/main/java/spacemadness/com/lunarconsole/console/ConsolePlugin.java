@@ -35,8 +35,8 @@ import java.util.List;
 import java.util.Map;
 
 import spacemadness.com.lunarconsole.R;
+import spacemadness.com.lunarconsole.concurrent.DispatchQueue;
 import spacemadness.com.lunarconsole.core.Destroyable;
-import spacemadness.com.lunarconsole.core.DispatchQueue;
 import spacemadness.com.lunarconsole.core.Notification;
 import spacemadness.com.lunarconsole.core.NotificationCenter;
 import spacemadness.com.lunarconsole.debug.Assert;
@@ -1159,7 +1159,7 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
                 {
                     Log.d("Showing overlay dialog");
                     // we need to give activity a chance to initialize
-                    DispatchQueue.mainQueue().dispatchAsync(new Runnable()
+                    DispatchQueue.mainQueue().dispatch(new Runnable()
                     {
                         @Override
                         public void run()
