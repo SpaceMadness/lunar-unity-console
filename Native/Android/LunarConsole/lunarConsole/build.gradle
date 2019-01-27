@@ -51,6 +51,7 @@ dependencies {
 }
 
 static def getUnityDependencyJar() {
+    // we don't have unity installation while building on Travis so we provide compile time dependencies
     if ("true" == System.getenv("TRAVIS")) {
         return 'travis/unity-player.jar'
     }
