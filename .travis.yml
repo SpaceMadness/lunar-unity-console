@@ -1,3 +1,5 @@
+env:
+  - TRAVIS=true
 matrix:
   include:
     - language: android

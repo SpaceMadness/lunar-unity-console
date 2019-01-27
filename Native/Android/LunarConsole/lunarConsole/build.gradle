@@ -51,8 +51,8 @@ dependencies {
 }
 
 static def getUnityDependencyJar() {
-    if ("true".equals(System.getenv("CI"))) {
-        return 'lunarConsole/travis/unity-player.jar'
+    if ("true" == System.getenv("TRAVIS")) {
+        return 'travis/unity-player.jar'
     }
 
     if (Os.isFamily(Os.FAMILY_WINDOWS)) {
