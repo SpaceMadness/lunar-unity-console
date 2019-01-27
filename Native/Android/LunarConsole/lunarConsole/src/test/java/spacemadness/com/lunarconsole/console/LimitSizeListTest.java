@@ -152,11 +152,11 @@ public class LimitSizeListTest extends TestCase {
 	}
 
 	private static class TestList extends LimitSizeList<String> {
-		public TestList(int capacity) {
+		TestList(int capacity) {
 			this(capacity, 1);
 		}
 
-		public TestList(int capacity, int trimSize) {
+		TestList(int capacity, int trimSize) {
 			super(String.class, capacity, trimSize);
 		}
 	}
