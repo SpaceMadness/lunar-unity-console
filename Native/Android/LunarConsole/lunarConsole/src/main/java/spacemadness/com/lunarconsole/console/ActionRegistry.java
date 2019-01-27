@@ -24,19 +24,19 @@ package spacemadness.com.lunarconsole.console;
 import java.util.List;
 
 import spacemadness.com.lunarconsole.debug.Log;
-import spacemadness.com.lunarconsole.utils.LUSortedList;
+import spacemadness.com.lunarconsole.utils.SortedList;
 import spacemadness.com.lunarconsole.utils.ObjectUtils;
 
 public class ActionRegistry
 {
-    private final LUSortedList<Action> actions;
-    private final LUSortedList<Variable> variables;
+    private final SortedList<Action> actions;
+    private final SortedList<Variable> variables;
     private Delegate delegate;
 
     public ActionRegistry()
     {
-        actions = new LUSortedList<>();
-        variables = new LUSortedList<>();
+        actions = new SortedList<>();
+        variables = new SortedList<>();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

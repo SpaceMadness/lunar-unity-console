@@ -1,5 +1,5 @@
 //
-//  LUSortedList.java
+//  SortedList.java
 //
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
@@ -25,12 +25,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class LUSortedList<T extends Comparable> implements Iterable<T>
+public class SortedList<T extends Comparable> implements Iterable<T>
 {
     private final List<T> list;
     private boolean sortingEnabled = true;
 
-    public LUSortedList()
+    public SortedList()
     {
         list = new ArrayList<>();
     }

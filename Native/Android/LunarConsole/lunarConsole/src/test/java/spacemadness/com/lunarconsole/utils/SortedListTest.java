@@ -1,5 +1,5 @@
 //
-//  LUSortedListTest.java
+//  SortedListTest.java
 //
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
@@ -27,13 +27,13 @@ import spacemadness.com.lunarconsole.TestCase;
 
 import static org.junit.Assert.*;
 
-public class LUSortedListTest extends TestCase {
-	private LUSortedList<String> _list;
+public class SortedListTest extends TestCase {
+	private SortedList<String> _list;
 
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		_list = new LUSortedList<>();
+		_list = new SortedList<>();
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
