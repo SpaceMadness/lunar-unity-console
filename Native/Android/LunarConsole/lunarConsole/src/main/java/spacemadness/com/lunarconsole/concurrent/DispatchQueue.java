@@ -34,6 +34,8 @@ public abstract class DispatchQueue {
 
 	public abstract void dispatch(Runnable r);
 
+	public abstract void dispatch(Runnable r, long delay);
+
 	public abstract boolean isCurrent();
 
 	public String getName() {

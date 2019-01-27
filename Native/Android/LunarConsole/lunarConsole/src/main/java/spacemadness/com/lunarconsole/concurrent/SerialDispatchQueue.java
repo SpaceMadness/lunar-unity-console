@@ -26,28 +26,30 @@ import android.os.Looper;
 
 import static spacemadness.com.lunarconsole.utils.ObjectUtils.checkNotNull;
 
-public class SerialDispatchQueue extends DispatchQueue
-{
-    private final Handler handler;
+public class SerialDispatchQueue extends DispatchQueue {
+	private final Handler handler;
 
-    public SerialDispatchQueue(Looper looper, String name)
-    {
-        this(new Handler(checkNotNull(looper, "looper")), name);
-    }
+	public SerialDispatchQueue(Looper looper, String name) {
+		this(new Handler(checkNotNull(looper, "looper")), name);
+	}
 
-    public SerialDispatchQueue(Handler handler, String name)
-    {
-        super(name);
-        this.handler = checkNotNull(handler, "handler");
-    }
+	public SerialDispatchQueue(Handler handler, String name) {
+		super(name);
+		this.handler = checkNotNull(handler, "handler");
+	}
 
-    public void dispatch(Runnable r)
-    {
-        handler.post(r);
-    }
+	@Override
+	public void dispatch(Runnable r) {
+		handler.post(r);
+	}
 
-    @Override
-    public boolean isCurrent() {
-        return handler.getLooper() == Looper.myLooper();
-    }
+	@Override
+	public void dispatch(Runnable r, long delay) {
+		handler.postDelayed(r, delay);
+	}
+
+	@Override
+	public boolean isCurrent() {
+		return handler.getLooper() == Looper.myLooper();
+	}
 }

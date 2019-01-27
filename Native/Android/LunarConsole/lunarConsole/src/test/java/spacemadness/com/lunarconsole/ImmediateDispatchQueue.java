@@ -13,6 +13,11 @@ public class ImmediateDispatchQueue extends DispatchQueue {
 	}
 
 	@Override
+	public void dispatch(Runnable r, long delay) {
+		r.run();
+	}
+
+	@Override
 	public boolean isCurrent() {
 		return true;
 	}
