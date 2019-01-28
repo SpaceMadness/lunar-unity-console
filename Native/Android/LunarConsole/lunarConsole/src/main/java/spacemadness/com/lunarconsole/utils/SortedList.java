@@ -85,14 +85,20 @@ public class SortedList<T extends Comparable> implements Iterable<T>
         return list.indexOf(object);
     }
 
-    public int count()
+    public int count() // FIXME: rename to 'size'
     {
         return list.size();
     }
 
+    @Deprecated
     public List<T> list()
     {
         return list;
+    }
+
+    public List<T> asList()
+    {
+        return new ArrayList<>(list);
     }
 
     public boolean isSortingEnabled()

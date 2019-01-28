@@ -2,7 +2,7 @@ package spacemadness.com.lunarconsole.core;
 
 import spacemadness.com.lunarconsole.concurrent.DispatchQueue;
 
-class MutableLiveData<T> extends LiveData<T> {
+public class MutableLiveData<T> extends LiveData<T> {
 	public MutableLiveData(T value) {
 		super(value);
 	}
