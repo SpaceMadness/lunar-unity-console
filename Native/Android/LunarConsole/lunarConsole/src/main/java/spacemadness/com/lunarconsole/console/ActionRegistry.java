@@ -78,7 +78,7 @@ public class ActionRegistry
         for (int index = 0; index < actions.count(); ++index)
         {
             Action action = actions.objectAtIndex(index);
-            if (ObjectUtils.areEqual(action.name(), actionName))
+            if (ObjectUtils.areEqual(action.getName(), actionName))
             {
                 return index;
             }

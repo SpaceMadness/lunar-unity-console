@@ -67,7 +67,7 @@ public class ConsoleActionRepositoryTest extends TestCase {
 					actualActions = Collections.map(actions, new Collections.Map<Action, String>() {
 						@Override
 						public String map(Action action) {
-							return action.name();
+							return action.getName();
 						}
 					});
 				}

@@ -412,17 +412,17 @@ public class ActionRegistryFilterTest extends TestCase implements ActionRegistry
 
 	@Override
 	public void actionRegistryFilterDidAddAction(ActionRegistryFilter registryFilter, Action action, int index) {
-		addResult("added action: %s (%d)", action.name(), index);
+		addResult("added action: %s (%d)", action.getName(), index);
 	}
 
 	@Override
 	public void actionRegistryFilterDidRemoveAction(ActionRegistryFilter registryFilter, Action action, int index) {
-		addResult("removed action: %s (%d)", action.name(), index);
+		addResult("removed action: %s (%d)", action.getName(), index);
 	}
 
 	@Override
 	public void actionRegistryFilterDidRegisterVariable(ActionRegistryFilter registryFilter, Variable variable, int index) {
-		addResult("register variable: %s %s %s (%d)", variable.type, variable.name(), variable.value, index);
+		addResult("register variable: %s %s %s (%d)", variable.type, variable.getName(), variable.value, index);
 	}
 
 	@Override
@@ -460,7 +460,7 @@ public class ActionRegistryFilterTest extends TestCase implements ActionRegistry
 	private boolean unregisterAction(String name) {
 		for (int i = 0; i < actionRegistry.actions().size(); ++i) {
 			Action action = as(actionRegistry.actions().get(i), Action.class);
-			if (action != null && action.name().equals(name)) {
+			if (action != null && action.getName().equals(name)) {
 				actionRegistry.unregisterAction(action.actionId());
 				return true;
 			}
@@ -505,7 +505,7 @@ public class ActionRegistryFilterTest extends TestCase implements ActionRegistry
 		List<String> actualNames = new ArrayList<>();
 		for (int i = 0; i < registryFilter.actions().size(); ++i) {
 			Action action = as(registryFilter.actions().get(i), Action.class);
-			actualNames.add(action.name());
+			actualNames.add(action.getName());
 		}
 
 		String message = String.format("Expected %s but was %s", Join(names, ","), Join(actualNames, ","));
@@ -520,7 +520,7 @@ public class ActionRegistryFilterTest extends TestCase implements ActionRegistry
 		List<String> actualNames = new ArrayList<>();
 		for (int i = 0; i < registryFilter.variables().size(); ++i) {
 			Variable variable = as(registryFilter.variables().get(i), Variable.class);
-			actualNames.add(variable.name());
+			actualNames.add(variable.getName());
 		}
 
 		String message = String.format("Expected %s but was %s", Join(names, ","), Join(actualNames, ","));
@@ -563,7 +563,7 @@ public class ActionRegistryFilterTest extends TestCase implements ActionRegistry
 		@Override
 		public boolean isEqual(IdentityEntry entry) {
 			Action action = as(entry, Action.class);
-			return action != null && action.name().equals(name);
+			return action != null && action.getName().equals(name);
 		}
 	}
 
@@ -581,7 +581,7 @@ public class ActionRegistryFilterTest extends TestCase implements ActionRegistry
 		public boolean isEqual(IdentityEntry entry) {
 			Variable cvar = as(entry, Variable.class);
 			return cvar != null &&
-				       this.name.equals(cvar.name()) &&
+				       this.name.equals(cvar.getName()) &&
 				       this.value.equals(cvar.value) &&
 				       this.type.equals(cvar.type);
 

@@ -64,7 +64,7 @@ public abstract class IdentityEntry extends BaseEntry implements Comparable<Iden
         return entryId;
     }
 
-    public String name() // FIXME: rename
+    public String getName()
     {
         return name;
     }

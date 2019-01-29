@@ -116,7 +116,7 @@ public class ActionRegistryFilter implements ActionRegistry.RegistryListener
 
     private boolean filterEntry(IdentityEntry entry)
     {
-        return length(filterText) == 0 || containsIgnoreCase(entry.name(), filterText);
+        return length(filterText) == 0 || containsIgnoreCase(entry.getName(), filterText);
     }
 
     private <T extends IdentityEntry> int filteredArrayAddEntry(List<T> array, T entry)

@@ -39,6 +39,6 @@ public class HeaderEntryViewHolder extends ConsoleActionAdapter.ViewHolder<Heade
     @Override
     public void onBindViewHolder(HeaderEntry header, int position)
     {
-        nameView.setText(header.name());
+        nameView.setText(header.getName());
     }
 }

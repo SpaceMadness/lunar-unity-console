@@ -55,7 +55,7 @@ class ConsoleActionRepository {
 	private int indexOf(String name) {
 		for (int index = 0; index < actions.size(); ++index) {
 			Action action = actions.get(index);
-			if (ObjectUtils.areEqual(action.name(), name)) {
+			if (ObjectUtils.areEqual(action.getName(), name)) {
 				return index;
 			}
 		}

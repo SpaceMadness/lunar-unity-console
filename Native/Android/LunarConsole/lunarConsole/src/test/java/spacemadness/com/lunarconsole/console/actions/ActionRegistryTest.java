@@ -138,17 +138,17 @@ public class ActionRegistryTest extends TestCase implements ActionRegistry.Regis
 
 	@Override
 	public void onAddAction(ActionRegistry registry, Action action, int index) {
-		addResult(String.format("added action: %s (%d)", action.name(), index));
+		addResult(String.format("added action: %s (%d)", action.getName(), index));
 	}
 
 	@Override
 	public void onRemoveAction(ActionRegistry registry, Action action, int index) {
-		addResult(String.format("removed action: %s (%d)", action.name(), index));
+		addResult(String.format("removed action: %s (%d)", action.getName(), index));
 	}
 
 	@Override
 	public void onRegisterVariable(ActionRegistry registry, Variable variable, int index) {
-		addResult(String.format("register variable: %s %s %s (%d)", variable.type, variable.name(), variable.value, index));
+		addResult(String.format("register variable: %s %s %s (%d)", variable.type, variable.getName(), variable.value, index));
 	}
 
 	@Override
@@ -181,7 +181,7 @@ public class ActionRegistryTest extends TestCase implements ActionRegistry.Regis
 
 	private boolean unregisterActionWithName(String name) {
 		for (Action action : actionRegistry.actions()) {
-			if (action.name().equals(name)) {
+			if (action.getName().equals(name)) {
 				actionRegistry.unregisterAction(action.actionId());
 				return true;
 			}
@@ -195,7 +195,7 @@ public class ActionRegistryTest extends TestCase implements ActionRegistry.Regis
 
 		int index = 0;
 		for (Action action : actionRegistry.actions()) {
-			assertEquals(expected[index], action.name());
+			assertEquals(expected[index], action.getName());
 			++index;
 		}
 	}
@@ -205,7 +205,7 @@ public class ActionRegistryTest extends TestCase implements ActionRegistry.Regis
 
 		int index = 0;
 		for (Variable cvar : actionRegistry.variables()) {
-			assertEquals(expected[index], cvar.name());
+			assertEquals(expected[index], cvar.getName());
 			++index;
 		}
 	}
