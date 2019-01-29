@@ -22,12 +22,32 @@
 package spacemadness.com.lunarconsole.console;
 
 public class Action extends IdentityEntry {
+	private final String shortName;
+
 	public Action(int actionId, String name) {
 		super(actionId, name);
+		this.shortName = getSimpleName(name);
+	}
+
+	//region Helpers
+
+	private static String getSimpleName(String name) {
+		int index = name.replace('\\', '/').lastIndexOf('/');
+		return index != -1 ? name.substring(index + 1) : name;
+	}
+
+	//endregion
+
+	//region Properties
+
+	public String getShortName() {
+		return shortName;
 	}
 
 	@Override
 	public EntryType getEntryType() {
 		return EntryType.Action;
 	}
+
+	//endregion
 }

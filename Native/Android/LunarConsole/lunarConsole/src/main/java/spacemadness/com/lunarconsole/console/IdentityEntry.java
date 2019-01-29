@@ -25,6 +25,8 @@ import android.content.Context;
 
 import spacemadness.com.lunarconsole.R;
 
+import static spacemadness.com.lunarconsole.utils.ObjectUtils.checkNotNull;
+
 public abstract class IdentityEntry extends BaseEntry implements Comparable<IdentityEntry>
 {
     private final int entryId;
@@ -33,7 +35,7 @@ public abstract class IdentityEntry extends BaseEntry implements Comparable<Iden
     public IdentityEntry(int entryId, String name)
     {
         this.entryId = entryId;
-        this.name = name;
+        this.name = checkNotNull(name, "name");
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
