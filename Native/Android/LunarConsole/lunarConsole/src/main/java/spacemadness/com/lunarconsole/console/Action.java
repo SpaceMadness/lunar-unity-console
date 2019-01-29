@@ -22,11 +22,11 @@
 package spacemadness.com.lunarconsole.console;
 
 public class Action extends IdentityEntry {
-	private final String shortName;
+	private final String groupName;
 
 	public Action(int actionId, String name) {
-		super(actionId, name);
-		this.shortName = getSimpleName(name);
+		super(actionId, getSimpleName(name));
+		this.groupName = getGroupName(name);
 	}
 
 	//region Helpers
@@ -36,17 +36,23 @@ public class Action extends IdentityEntry {
 		return index != -1 ? name.substring(index + 1) : name;
 	}
 
+	private static String getGroupName(String name) {
+		String fixedName = name.replace('\\', '/');
+		int index = fixedName.lastIndexOf('/');
+		return index != -1 ? fixedName.substring(0, index) : "";
+	}
+
 	//endregion
 
 	//region Properties
 
-	public String getShortName() {
-		return shortName;
-	}
-
 	@Override
 	public EntryType getEntryType() {
 		return EntryType.Action;
+	}
+
+	public String getGroupName() {
+		return groupName;
 	}
 
 	//endregion

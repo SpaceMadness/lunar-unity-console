@@ -8,18 +8,21 @@ public class ActionTest {
 	@Test
 	public void testSimpleName() {
 		Action action = new Action(100, "My Action");
-		assertEquals("My Action", action.getShortName());
+		assertEquals("My Action", action.name());
+		assertEquals("", action.getGroupName());
 	}
 
 	@Test
 	public void testComplexName() {
-		Action action = new Action(100, "My Group/My Action");
-		assertEquals("My Action", action.getShortName());
+		Action action = new Action(100, "My Group\\My Action");
+		assertEquals("My Action", action.name());
+		assertEquals("My Group", action.getGroupName());
 	}
 
 	@Test
 	public void testVeryComplexName() {
-		Action action = new Action(100, "My Domain/My Group/My Action");
-		assertEquals("My Action", action.getShortName());
+		Action action = new Action(100, "My Domain\\My Group\\My Action");
+		assertEquals("My Action", action.name());
+		assertEquals("My Domain/My Group", action.getGroupName());
 	}
 }
