@@ -30,8 +30,8 @@ public class ConsoleActionRepositoryTest extends TestCase {
 	@Test
 	public void testAddRemoveActions() {
 
-		int id2 = repository.addAction("a2").actionId();
 		int id1 = repository.addAction("a1").actionId();
+		int id2 = repository.addAction("a2").actionId();
 		int id3 = repository.addAction("a3").actionId();
 
 		assertActions("a1", "a2", "a3");
