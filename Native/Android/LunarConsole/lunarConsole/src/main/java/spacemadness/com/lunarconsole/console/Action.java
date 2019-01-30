@@ -55,5 +55,9 @@ public class Action extends IdentityEntry {
 		return groupName;
 	}
 
+	public String getFullName() {
+		return getGroupName() + "/" + getName();
+	}
+
 	//endregion
 }

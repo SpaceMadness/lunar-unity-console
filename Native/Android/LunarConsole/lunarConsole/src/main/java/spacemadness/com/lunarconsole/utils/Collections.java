@@ -4,6 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Collections {
+	public static <T> List<T> emptyList() {
+		return new ArrayList<>(0);
+	}
+
 	public static <In, Out> List<Out> map(List<In> list, Map<In, Out> map) {
 		List<Out> result = new ArrayList<>(list.size());
 		for (In in : list) {
