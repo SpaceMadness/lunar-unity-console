@@ -1,38 +1,45 @@
-package spacemadness.com.lunarconsole.utils;
+package spacemadness.com.lunarconsole.settings;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class Color {
+import spacemadness.com.lunarconsole.utils.StringUtils;
+
+public class ColorSetting {
 	public final int r;
 	public final int g;
 	public final int b;
 	public final int a;
 
-	public Color(int r, int g, int b, int a) throws IllegalArgumentException {
+	public ColorSetting(int r, int g, int b, int a) throws IllegalArgumentException {
 		this.r = checkRange(r);
 		this.g = checkRange(g);
 		this.b = checkRange(b);
 		this.a = checkRange(a);
 	}
 
-	public static Color fromJson(String json) throws JSONException {
-		return fromJson(new JSONObject(json));
+	public static ColorSetting fromJson(String json) {
+		try {
+			return fromJson(new JSONObject(json));
+		} catch (JSONException e) {
+			throw new IllegalArgumentException("Invalid json: " + json);
+		}
 	}
 
-	public static Color fromJson(JSONObject json) throws JSONException {
+	public static ColorSetting fromJson(JSONObject json) throws JSONException {
 		int r = json.getInt("r");
 		int g = json.getInt("g");
 		int b = json.getInt("b");
 		int a = json.getInt("a");
-		return new Color(r, g, b, a);
+		return new ColorSetting(r, g, b, a);
 	}
 
-	@Override public boolean equals(Object o) {
+	@Override
+	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 
-		Color color = (Color) o;
+		ColorSetting color = (ColorSetting) o;
 
 		if (r != color.r) return false;
 		if (g != color.g) return false;
@@ -40,7 +47,8 @@ public class Color {
 		return a == color.a;
 	}
 
-	@Override public int hashCode() {
+	@Override
+	public int hashCode() {
 		int result = r;
 		result = 31 * result + g;
 		result = 31 * result + b;
