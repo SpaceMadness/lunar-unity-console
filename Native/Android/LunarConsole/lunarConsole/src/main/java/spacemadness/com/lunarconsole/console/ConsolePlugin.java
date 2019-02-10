@@ -41,29 +41,21 @@ import spacemadness.com.lunarconsole.core.Notification;
 import spacemadness.com.lunarconsole.core.NotificationCenter;
 import spacemadness.com.lunarconsole.debug.Assert;
 import spacemadness.com.lunarconsole.debug.Log;
+import spacemadness.com.lunarconsole.settings.EditorSettings;
 import spacemadness.com.lunarconsole.settings.PluginSettings;
 import spacemadness.com.lunarconsole.ui.gestures.GestureRecognizer;
 import spacemadness.com.lunarconsole.ui.gestures.GestureRecognizerFactory;
 import spacemadness.com.lunarconsole.utils.DictionaryUtils;
+import spacemadness.com.lunarconsole.utils.NotImplementedException;
+import spacemadness.com.lunarconsole.utils.ObjectUtils;
 
 import static android.widget.FrameLayout.LayoutParams;
 import static spacemadness.com.lunarconsole.console.Console.Options;
 import static spacemadness.com.lunarconsole.console.ConsoleLogType.isErrorType;
-import static spacemadness.com.lunarconsole.console.Notifications.NOTIFICATION_ACTION_SELECT;
-import static spacemadness.com.lunarconsole.console.Notifications.NOTIFICATION_ACTIVITY_STARTED;
-import static spacemadness.com.lunarconsole.console.Notifications.NOTIFICATION_ACTIVITY_STOPPED;
-import static spacemadness.com.lunarconsole.console.Notifications.NOTIFICATION_KEY_ACTION;
-import static spacemadness.com.lunarconsole.console.Notifications.NOTIFICATION_KEY_ACTIVITY;
-import static spacemadness.com.lunarconsole.console.Notifications.NOTIFICATION_KEY_VARIABLE;
-import static spacemadness.com.lunarconsole.console.Notifications.NOTIFICATION_VARIABLE_SET;
-import static spacemadness.com.lunarconsole.debug.Tags.CONSOLE;
-import static spacemadness.com.lunarconsole.debug.Tags.GESTURES;
-import static spacemadness.com.lunarconsole.debug.Tags.OVERLAY_VIEW;
-import static spacemadness.com.lunarconsole.debug.Tags.PLUGIN;
-import static spacemadness.com.lunarconsole.debug.Tags.WARNING_VIEW;
+import static spacemadness.com.lunarconsole.console.Notifications.*;
+import static spacemadness.com.lunarconsole.debug.Tags.*;
 import static spacemadness.com.lunarconsole.ui.gestures.GestureRecognizer.OnGestureListener;
-import static spacemadness.com.lunarconsole.utils.ThreadUtils.isRunningOnMainThread;
-import static spacemadness.com.lunarconsole.utils.ThreadUtils.runOnUIThread;
+import static spacemadness.com.lunarconsole.utils.ThreadUtils.*;
 
 public class ConsolePlugin implements NotificationCenter.OnNotificationListener, Destroyable
 {
@@ -142,35 +134,13 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
 
         UnitySettings(ConsolePluginImp pluginImp, String version, int capacity, int trim, String gesture, String settingsJson)
         {
-            this.pluginImp = notNull(pluginImp, "Plugin implementation");
-            this.gesture = notNullAndNotEmpty(gesture, "Gesture");
-            this.version = notNullAndNotEmpty(version, "Version");
+            this.pluginImp = ObjectUtils.checkNotNull(pluginImp, "Plugin implementation");
+            this.gesture = ObjectUtils.checkNotNullAndNotEmpty(gesture, "Gesture");
+            this.version = ObjectUtils.checkNotNullAndNotEmpty(version, "Version");
             this.capacity = positive(capacity, "Capacity");
             this.trim = positive(trim, "Trim");
-            this.editorSettings = settingsJson != null ? EditorSettings.fromJson(settingsJson) : new EditorSettings();
-        }
-
-        private static <T> T notNull(T reference, String name)
-        {
-            if (reference == null)
-            {
-                throw new NullPointerException(name + " is null");
-            }
-            return reference;
-        }
-
-        private static String notNullAndNotEmpty(String reference, String name)
-        {
-            if (reference == null)
-            {
-                throw new NullPointerException(name + " is null");
-            }
-            if (reference.length() == 0)
-            {
-                throw new IllegalArgumentException(name + " is empty");
-            }
-
-            return reference;
+            // this.editorSettings = settingsJson != null ? EditorSettings.fromJson(settingsJson) : new EditorSettings(enableExceptionWarning, logOverlaySettings, emails, sortActions, sortVariables);
+	        throw new NotImplementedException();
         }
 
         private static int positive(int value, String name)
@@ -640,8 +610,11 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
         }
 
         settings = new PluginSettings(activity.getApplicationContext());
-        settings.setEnableExceptionWarning(unitySettings.editorSettings.enableExceptionWarning);
-        settings.setEnableTransparentLogOverlay(unitySettings.editorSettings.enableTransparentLogOverlay);
+        //settings.setEnableExceptionWarning(unitySettings.editorSettings.enableExceptionWarning);
+        //settings.setEnableTransparentLogOverlay(unitySettings.editorSettings.enableTransparentLogOverlay);
+				if (true) {
+					throw new NotImplementedException();
+				}
         settings.load();
 
         this.version = unitySettings.version;

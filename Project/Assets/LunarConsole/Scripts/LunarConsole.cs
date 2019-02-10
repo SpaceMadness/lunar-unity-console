@@ -65,23 +65,104 @@ namespace LunarConsolePlugin
     delegate void LunarConsoleNativeMessageHandler(IDictionary<string, string> data);
 
     [Serializable]
+    public class LogOverlayEntryColors
+    {
+        [SerializeField]
+        public Color32 foreground;
+
+        [SerializeField]
+        public Color32 background;
+    }
+
+    [Serializable]
+    public class LogOverlayColors
+    {
+        [SerializeField]
+        public LogOverlayEntryColors exception = MakeColors(0xfffc0000, 0x00000000);
+
+        [SerializeField]
+        public LogOverlayEntryColors error = MakeColors(0xfffc0000, 0x00000000);
+
+        [SerializeField]
+        public LogOverlayEntryColors warning = MakeColors(0xfff4f600, 0x00000000);
+
+        [SerializeField]
+        public LogOverlayEntryColors debug = MakeColors(0xff000000, 0x00000000);
+
+        static LogOverlayEntryColors MakeColors(uint foreground, uint background)
+        {
+            var colors = new LogOverlayEntryColors();
+            colors.foreground = MakeColor(foreground);
+            colors.background = MakeColor(background);
+            return colors;
+        }
+
+        static Color32 MakeColor(uint color)
+        {
+            return new Color32(
+                (byte)((color >> 24) & 0xff),
+                (byte)((color >> 16) & 0xff),
+                (byte)((color >> 8) & 0xff),
+                (byte)(color & 0xff)
+            );
+        }
+    }
+
+    public enum ExceptionWarningDisplayMode
+    {
+        None,
+        Errors,
+        Exceptions,
+        All
+    }
+
+    [Serializable]
+    public class ExceptionWarningSettings
+    {
+        [SerializeField]
+        public ExceptionWarningDisplayMode displayMode = ExceptionWarningDisplayMode.All;
+    }
+
+    [Serializable]
+    public class LogOverlaySettings
+    {
+        [SerializeField]
+        public bool enabled = false;
+
+        [SerializeField]
+        [Tooltip("Maximum visible lines count")]
+        public int maxVisibleLines = 3;
+
+        [SerializeField]
+        [Tooltip("The amount of time each line would be diplayed")]
+        public float timeout = 1.0f;
+
+        [SerializeField]
+        public LogOverlayColors colors;
+    }
+
+    [Serializable]
     public class LunarConsoleSettings
     {
-        public bool exceptionWarning = true;
+        [SerializeField]
+        public ExceptionWarningSettings exceptionWarning;
 
         #if LUNAR_CONSOLE_FREE
         [HideInInspector]
         #endif
-        public bool transparentLogOverlay = false;
+        [SerializeField]
+        public LogOverlaySettings logOverlaySettings;
 
         #if LUNAR_CONSOLE_FREE
         [HideInInspector]
         #endif
+        [SerializeField]
         public bool sortActions = true;
 
         #if LUNAR_CONSOLE_FREE
         [HideInInspector]
         #endif
+        [SerializeField]
         public bool sortVariables = true;
 
         [SerializeField]
