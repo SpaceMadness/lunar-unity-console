@@ -1,5 +1,5 @@
 //
-//  SettingsActivityTest.java
+//  PluginSettingsActivityTest.java
 //
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
@@ -33,7 +33,7 @@ import spacemadness.com.lunarconsole.settings.PluginSettings;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class SettingsActivityTest extends ApplicationBaseUITest
+public class PluginSettingsActivityTest extends ApplicationBaseUITest
 {
     @Test
     public void testSettings()

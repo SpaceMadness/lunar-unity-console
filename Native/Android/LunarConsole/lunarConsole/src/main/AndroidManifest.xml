@@ -4,7 +4,7 @@
 
     <application>
         <activity
-            android:name=".settings.SettingsActivity"
+            android:name=".settings.PluginSettingsActivity"
             android:theme="@style/lunar_console_theme"/>
     </application>
 

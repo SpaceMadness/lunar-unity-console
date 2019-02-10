@@ -1,5 +1,5 @@
 //
-//  SettingsActivity.java
+//  PluginSettingsActivity.java
 //
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
@@ -36,7 +36,7 @@ import spacemadness.com.lunarconsole.console.LunarConsoleConfig;
 import spacemadness.com.lunarconsole.debug.Log;
 import spacemadness.com.lunarconsole.utils.StringUtils;
 
-public class SettingsActivity extends PreferenceActivity
+public class PluginSettingsActivity extends PreferenceActivity
 {
     @Override
     @SuppressWarnings("deprecation")
