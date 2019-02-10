@@ -1,7 +1,5 @@
 package spacemadness.com.lunarconsole.json;
 
-import org.json.JSONException;
-
 import java.util.Arrays;
 
 import spacemadness.com.lunarconsole.InstrumentationTestCase;
@@ -41,8 +39,29 @@ public class JsonDecoderTest extends InstrumentationTestCase {
 		assertEquals(expected, actual);
 	}
 
+	public void testMissingProperty() {
+		Parent actual = JsonDecoder.decode(readTextAsset("json-tests/parent-missing-property.json"), Parent.class);
+		Parent expected = createParent(
+			0,
+			0.0f,
+			false,
+			null,
+			createChild(
+				0,
+				0.0f,
+				true,
+				null),
+			null
+		);
+		assertEquals(expected, actual);
+	}
+
 	public void testMissingRequiredProperty() {
-		JsonDecoder.decode(readTextAsset("json-tests/parent-missing-required-property"), Parent.class);
+		try {
+			JsonDecoder.decode(readTextAsset("json-tests/parent-missing-required-property.json"), Parent.class);
+			fail("Should be throwing exception");
+		} catch (JsonDecoderException ignored) {
+		}
 	}
 }
 
@@ -51,7 +70,7 @@ class Parent {
 	private float floatField;
 	private boolean boolField;
 	private String stringField;
-	private Child child;
+	private @Required Child child;
 	private Child[] children;
 
 	static Parent createParent(int intField, float floatField, boolean boolField, String stringField, Child child, Child[] children) {

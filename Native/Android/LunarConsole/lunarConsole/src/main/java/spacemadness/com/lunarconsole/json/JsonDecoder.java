@@ -14,6 +14,11 @@ import spacemadness.com.lunarconsole.utils.NotImplementedException;
 import spacemadness.com.lunarconsole.utils.ObjectUtils;
 
 public class JsonDecoder {
+	/**
+	 * Special marker-object to indicate that field should retain its default value.
+	 */
+	private static final Object DEFAULT = new Object();
+
 	public static <T> T decode(String json, Class<T> cls) throws JsonDecoderException {
 		try {
 			//noinspection unchecked
@@ -39,7 +44,10 @@ public class JsonDecoder {
 			}
 
 			// decode value
-			ClassUtils.setField(field, instance, decode(value, field.getType()));
+			Object fieldValue = decode(value, field.getType());
+			if (fieldValue != DEFAULT) {
+				ClassUtils.setField(field, instance, fieldValue);
+			}
 		}
 		return instance;
 	}
@@ -69,12 +77,21 @@ public class JsonDecoder {
 		}
 
 		if (targetType.isPrimitive()) {
+			// if value is missing - use default
+			if (jsonValue == null) {
+				return DEFAULT;
+			}
+
 			// we need to do explicit down casts here
 			if (targetType == float.class && jsonValue.getClass() == Double.class) {
 				return ((Double) jsonValue).floatValue();
 			}
 
 			return jsonValue;
+		}
+
+		if (jsonValue == null) {
+			return null;
 		}
 
 		if (targetType.isArray()) {
