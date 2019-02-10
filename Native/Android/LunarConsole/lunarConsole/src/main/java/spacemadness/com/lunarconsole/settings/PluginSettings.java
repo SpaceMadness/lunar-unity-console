@@ -38,13 +38,6 @@ import spacemadness.com.lunarconsole.utils.ClassUtils;
 import static spacemadness.com.lunarconsole.debug.Tags.*;
 import static spacemadness.com.lunarconsole.utils.ClassUtils.FieldFilter;
 
-@Target(ElementType.FIELD)
-@Retention(RetentionPolicy.RUNTIME)
-@interface PluginSettingsEntry
-{
-    boolean proOnly() default false;
-}
-
 public class PluginSettings
 {
     static final String PREFS_NAME = "spacemadness.com.lunarconsole.console.PluginSettings";
