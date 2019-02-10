@@ -1,12 +1,10 @@
 package spacemadness.com.lunarconsole.settings;
 
-import junit.framework.TestCase;
+import spacemadness.com.lunarconsole.InstrumentationTestCase;
 
-import org.json.JSONException;
-
-public class ColorSettingTest extends TestCase {
-	public void testFromJson() throws JSONException {
-		String json = "{\"r\":10,\"g\":20,\"b\":30,\"a\":40}";
+public class ColorSettingTest extends InstrumentationTestCase {
+	public void testFromJson() throws Exception {
+		String json = readTextAsset("color.json");
 		ColorSetting expected = new ColorSetting(10, 20, 30, 40);
 		ColorSetting actual = ColorSetting.fromJson(json);
 		assertEquals(expected, actual);
