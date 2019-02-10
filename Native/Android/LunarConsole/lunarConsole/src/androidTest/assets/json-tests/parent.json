@@ -1,0 +1,26 @@
+{
+  "intField": 1,
+  "floatField": 1.0,
+  "boolField": true,
+  "stringField": "parent",
+  "child": {
+    "int": 2,
+    "float": 2.0,
+    "bool": false,
+    "string": "child"
+  },
+  "children": [
+    {
+      "int": 3,
+      "float": 3.0,
+      "bool": true,
+      "string": "child-1"
+    },
+    {
+      "int": 4,
+      "float": 4.0,
+      "bool": false,
+      "string": "child-2"
+    }
+  ]
+}

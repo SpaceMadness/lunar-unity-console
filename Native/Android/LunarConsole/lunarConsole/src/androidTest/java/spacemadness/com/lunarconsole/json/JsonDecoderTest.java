@@ -1,0 +1,133 @@
+package spacemadness.com.lunarconsole.json;
+
+import org.json.JSONException;
+
+import java.util.Arrays;
+
+import spacemadness.com.lunarconsole.InstrumentationTestCase;
+
+import static spacemadness.com.lunarconsole.json.Child.createChild;
+import static spacemadness.com.lunarconsole.json.Parent.createParent;
+
+public class JsonDecoderTest extends InstrumentationTestCase {
+
+	public void testDecode() {
+		Parent actual = JsonDecoder.decode(readTextAsset("json-tests/parent.json"), Parent.class);
+		Parent expected = createParent(
+			1,
+			1.0f,
+			true,
+			"parent",
+			createChild(
+				2,
+				2.0f,
+				false,
+				"child"),
+			new Child[]{
+				createChild(
+					3,
+					3.0f,
+					true,
+					"child-1"
+				),
+				createChild(
+					4,
+					4.0f,
+					false,
+					"child-2"
+				),
+			}
+		);
+		assertEquals(expected, actual);
+	}
+
+	public void testMissingRequiredProperty() {
+		JsonDecoder.decode(readTextAsset("json-tests/parent-missing-required-property"), Parent.class);
+	}
+}
+
+class Parent {
+	private int intField;
+	private float floatField;
+	private boolean boolField;
+	private String stringField;
+	private Child child;
+	private Child[] children;
+
+	static Parent createParent(int intField, float floatField, boolean boolField, String stringField, Child child, Child[] children) {
+		Parent parent = new Parent();
+		parent.intField = intField;
+		parent.floatField = floatField;
+		parent.boolField = boolField;
+		parent.stringField = stringField;
+		parent.child = child;
+		parent.children = children;
+		return parent;
+	}
+
+	@Override public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		Parent parent = (Parent) o;
+
+		if (intField != parent.intField) return false;
+		if (Float.compare(parent.floatField, floatField) != 0) return false;
+		if (boolField != parent.boolField) return false;
+		if (stringField != null ? !stringField.equals(parent.stringField) : parent.stringField != null)
+			return false;
+		if (child != null ? !child.equals(parent.child) : parent.child != null) return false;
+		// Probably incorrect - comparing Object[] arrays with Arrays.equals
+		return Arrays.equals(children, parent.children);
+	}
+
+	@Override public int hashCode() {
+		int result = intField;
+		result = 31 * result + (floatField != +0.0f ? Float.floatToIntBits(floatField) : 0);
+		result = 31 * result + (boolField ? 1 : 0);
+		result = 31 * result + (stringField != null ? stringField.hashCode() : 0);
+		result = 31 * result + (child != null ? child.hashCode() : 0);
+		result = 31 * result + Arrays.hashCode(children);
+		return result;
+	}
+}
+
+class Child {
+	private @Rename("int")
+	int intField;
+	private @Rename("float")
+	float floatField;
+	private @Rename("bool")
+	boolean boolField;
+	private @Rename("string")
+	String stringField;
+
+	static Child createChild(int intField, float floatField, boolean boolField, String stringField) {
+		Child child = new Child();
+		child.intField = intField;
+		child.floatField = floatField;
+		child.boolField = boolField;
+		child.stringField = stringField;
+		return child;
+	}
+
+	@Override public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		Child child = (Child) o;
+
+		if (intField != child.intField) return false;
+		if (Float.compare(child.floatField, floatField) != 0) return false;
+		if (boolField != child.boolField) return false;
+		return stringField != null ? stringField.equals(child.stringField) : child.stringField == null;
+	}
+
+	@Override public int hashCode() {
+		int result = intField;
+		result = 31 * result + (floatField != +0.0f ? Float.floatToIntBits(floatField) : 0);
+		result = 31 * result + (boolField ? 1 : 0);
+		result = 31 * result + (stringField != null ? stringField.hashCode() : 0);
+		return result;
+	}
+}

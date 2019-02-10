@@ -21,30 +21,56 @@
 
 package spacemadness.com.lunarconsole.utils;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class ClassUtils
-{
-    public static List<Field> listFields(Class<?> cls, FieldFilter filter)
-    {
-        final Field[] fields = cls.getDeclaredFields();
-        final List<Field> result = new ArrayList<>(fields.length);
+import static spacemadness.com.lunarconsole.utils.ObjectUtils.checkNotNull;
 
-        for (Field field : fields)
-        {
-            if (filter.accept(field))
-            {
-                result.add(field);
-            }
-        }
+public final class ClassUtils {
+	private static final Class<?>[] EMPTY_PARAMS_TYPES = new Class[0];
+	private static final Object[] EMPTY_ARGS = new Object[0];
 
-        return result;
-    }
+	public static <T> T newInstance(Class<T> cls) {
+		try {
+			Constructor<T> constructor = checkNotNull(cls, "cls").getDeclaredConstructor(EMPTY_PARAMS_TYPES);
+			constructor.setAccessible(true);
+			return constructor.newInstance(EMPTY_ARGS);
 
-    public interface FieldFilter
-    {
-        boolean accept(Field field);
-    }
+		} catch (Exception e) {
+			throw new RuntimeException(e); // TODO: custom class
+		}
+	}
+
+	public static Field[] listFields(Class<?> cls) {
+		return cls.getDeclaredFields();
+	}
+
+	public static List<Field> listFields(Class<?> cls, FieldFilter filter) {
+		final Field[] fields = cls.getDeclaredFields();
+		final List<Field> result = new ArrayList<>(fields.length);
+
+		for (Field field : fields) {
+			if (filter.accept(field)) {
+				result.add(field);
+			}
+		}
+
+		return result;
+	}
+
+	public static Field setField(Field field, Object target, Object value) {
+		field.setAccessible(true);
+		try {
+			field.set(target, value);
+		} catch (IllegalAccessException e) {
+			throw new RuntimeException("Unable to set field value: " + field); // TODO: custom class
+		}
+		return field;
+	}
+
+	public interface FieldFilter {
+		boolean accept(Field field);
+	}
 }
