@@ -21,11 +21,7 @@
 
 package spacemadness.com.lunarconsole.settings;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import static spacemadness.com.lunarconsole.utils.ObjectUtils.checkNotNull;
+import spacemadness.com.lunarconsole.json.Required;
 
 /**
  * Global settings from Unity editor.
@@ -34,81 +30,48 @@ public final class EditorSettings {
 	/**
 	 * Exception warning settings.
 	 */
-	public final EditorExceptionWarningSettings exceptionWarningSettings;
+	private @Required EditorExceptionWarningSettings exceptionWarningSettings;
 
 	/**
 	 * Log overlay settings
 	 */
-	public final EditorLogOverlaySettings logOverlaySettings;
+	private @Required EditorLogOverlaySettings logOverlaySettings;
 
 	/**
 	 * Indicates if actions should be sorted.
 	 */
-	public final boolean sortActions;
+	private boolean sortActions;
 
 	/**
 	 * Indicates if variables should be sorted.
 	 */
-	public final boolean sortVariables;
+	private boolean sortVariables;
 
 	/**
 	 * Optional list of the email recipients for sending a report.
 	 */
-	public final String[] emails; // TODO: make it an immutable list
+	private String[] emails;
 
-	public EditorSettings(EditorExceptionWarningSettings exceptionWarningSettings,
-	                      EditorLogOverlaySettings logOverlaySettings,
-	                      String[] emails, boolean sortActions,
-	                      boolean sortVariables) {
-		this.exceptionWarningSettings = checkNotNull(exceptionWarningSettings, "exceptionWarningSettings");
-		this.logOverlaySettings = checkNotNull(logOverlaySettings, "logOverlaySettings");
-		this.emails = checkNotNull(emails, "emails");
-		this.sortActions = sortActions;
-		this.sortVariables = sortVariables;
+	//region Getters
+
+	public EditorExceptionWarningSettings getExceptionWarningSettings() {
+		return exceptionWarningSettings;
 	}
 
-	//region Json Factory
-
-	/**
-	 * Creates an <code>EditorSettings</code> instance from a json string.
-	 */
-	public static EditorSettings fromJson(String json) {
-		try {
-			return fromJson(new JSONObject(json));
-		} catch (JSONException e) {
-			throw new IllegalArgumentException("Invalid json: " + json);
-		}
+	public @ProOnly EditorLogOverlaySettings getLogOverlaySettings() {
+		return logOverlaySettings;
 	}
 
-	/**
-	 * Creates an <code>EditorSettings</code> instance from a json object.
-	 */
-	private static EditorSettings fromJson(JSONObject json) throws JSONException {
-		return new EditorSettings(
-			EditorExceptionWarningSettings.fromJson(json.getJSONObject("exceptionWarning")),
-			EditorLogOverlaySettings.fromJson(json.getJSONObject("logOverlay")),
-			toStringArray(json.getJSONArray("emails")), json.getBoolean("sortActions"),
-			json.getBoolean("sortVariables")
-		);
+	public boolean isSortActions() {
+		return sortActions;
 	}
 
-	//endregion
+	public boolean isSortVariables() {
+		return sortVariables;
+	}
 
-	//region Helpers
-
-	/**
-	 * @return a non-null array of strings from the passed <code>JSONArray</code>
-	 */
-	private static String[] toStringArray(JSONArray jsonArray) throws JSONException {
-		if (jsonArray == null) {
-			return new String[0];
-		}
-
-		String[] array = new String[jsonArray.length()];
-		for (int i = 0; i < array.length; ++i) {
-			array[i] = jsonArray.getString(i);
-		}
-		return array;
+	public String[] getEmails() {
+		return emails;
 	}
 
 	//endregion

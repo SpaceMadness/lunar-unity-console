@@ -619,7 +619,7 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
 
         this.version = unitySettings.version;
         this.pluginImp = unitySettings.pluginImp;
-        this.emails = unitySettings.editorSettings.emails;
+        this.emails = unitySettings.editorSettings.getEmails();
 
         consoleViewState = new ConsoleViewState(activity.getApplicationContext());
 
@@ -627,8 +627,8 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
         options.setTrimCount(unitySettings.trim);
         console = new Console(options);
         actionRegistry = new ActionRegistry();
-        actionRegistry.setActionSortingEnabled(unitySettings.editorSettings.sortActions);
-        actionRegistry.setVariableSortingEnabled(unitySettings.editorSettings.sortVariables);
+        actionRegistry.setActionSortingEnabled(unitySettings.editorSettings.isSortActions());
+        actionRegistry.setVariableSortingEnabled(unitySettings.editorSettings.isSortVariables());
 
         activityRef = new WeakReference<>(activity);
         Application application = activity.getApplication();

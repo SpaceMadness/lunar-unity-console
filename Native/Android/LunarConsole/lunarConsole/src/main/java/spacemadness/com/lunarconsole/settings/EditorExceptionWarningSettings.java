@@ -1,9 +1,6 @@
 package spacemadness.com.lunarconsole.settings;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import static spacemadness.com.lunarconsole.utils.ObjectUtils.checkNotNull;
+import spacemadness.com.lunarconsole.json.Required;
 
 /**
  * Exception warning settings from Unity editor.
@@ -44,31 +41,13 @@ public final class EditorExceptionWarningSettings {
 	/**
 	 * Content display mode.
 	 */
-	public final DisplayMode displayMode;
+	private @Required DisplayMode displayMode;
 
-	/**
-	 * Creates an <code>EditorExceptionWarningSettings</code> instance from a json string.
-	 */
-	public EditorExceptionWarningSettings(DisplayMode displayMode) {
-		this.displayMode = checkNotNull(displayMode, "displayMode");
+	//region Getters
+
+	public DisplayMode getDisplayMode() {
+		return displayMode;
 	}
 
-	/**
-	 * Creates an <code>EditorExceptionWarningSettings</code> instance from a json string.
-	 */
-	public static EditorExceptionWarningSettings fromJson(String json) {
-		try {
-			return fromJson(new JSONObject(json));
-		} catch (JSONException e) {
-			throw new IllegalArgumentException("Invalid json: " + json);
-		}
-	}
-
-	/**
-	 * Creates an <code>EditorExceptionWarningSettings</code> instance from a json object.
-	 */
-	public static EditorExceptionWarningSettings fromJson(JSONObject json) throws JSONException {
-		DisplayMode displayMode = DisplayMode.parse(json.getString("displayMode"));
-		return new EditorExceptionWarningSettings(displayMode);
-	}
+	//endregion
 }
