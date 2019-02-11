@@ -2,7 +2,7 @@
    "exceptionWarning":{
       "displayMode":3
    },
-   "logOverlaySettings":{
+   "logOverlay":{
       "enabled":false,
       "maxVisibleLines":3,
       "timeout":1.0,

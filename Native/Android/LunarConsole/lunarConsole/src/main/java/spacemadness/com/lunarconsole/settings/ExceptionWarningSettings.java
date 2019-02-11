@@ -5,7 +5,7 @@ import spacemadness.com.lunarconsole.json.Required;
 /**
  * Exception warning settings from Unity editor.
  */
-public final class EditorExceptionWarningSettings {
+public final class ExceptionWarningSettings {
 	public enum DisplayMode {
 		/**
 		 * Don't display anything.
@@ -41,12 +41,21 @@ public final class EditorExceptionWarningSettings {
 	/**
 	 * Content display mode.
 	 */
-	private @Required DisplayMode displayMode;
+	public @Required DisplayMode displayMode;
 
-	//region Getters
+	//region Equality
 
-	public DisplayMode getDisplayMode() {
-		return displayMode;
+	@Override public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		ExceptionWarningSettings that = (ExceptionWarningSettings) o;
+
+		return displayMode == that.displayMode;
+	}
+
+	@Override public int hashCode() {
+		return displayMode != null ? displayMode.hashCode() : 0;
 	}
 
 	//endregion

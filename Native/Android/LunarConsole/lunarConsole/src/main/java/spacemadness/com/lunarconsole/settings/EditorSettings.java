@@ -21,6 +21,8 @@
 
 package spacemadness.com.lunarconsole.settings;
 
+import java.util.Arrays;
+
 import spacemadness.com.lunarconsole.json.Required;
 
 /**
@@ -30,75 +32,81 @@ public final class EditorSettings {
 	/**
 	 * Exception warning settings.
 	 */
-	private @Required EditorExceptionWarningSettings exceptionWarningSettings;
+	public @Required ExceptionWarningSettings exceptionWarning;
 
 	/**
 	 * Log overlay settings
 	 */
-	private @Required @ProOnly EditorLogOverlaySettings logOverlaySettings;
+	public @Required @ProOnly LogOverlaySettings logOverlay;
 
 	/**
 	 * Log output would not grow bigger than this capacity.
 	 */
-	private @Required @Readonly int capacity;
+	public @Required @Readonly int capacity;
 
 	/**
 	 * Log output will be trimmed this many lines when overflown.
 	 */
-	private @Required @Readonly int trim;
+	public @Required @Readonly int trim;
 
 	/**
 	 * Gesture type to open the console.
 	 */
-	private @Required @Readonly String gesture; // TODO: use enum type
+	public @Required @Readonly Gesture gesture;
+
+	/**
+	 * Indicates if reach text tags should be ignored.
+	 */
+	public @Readonly boolean removeRichTextTags;
 
 	/**
 	 * Indicates if actions should be sorted.
 	 */
-	private boolean sortActions;
+	public boolean sortActions;
 
 	/**
 	 * Indicates if variables should be sorted.
 	 */
-	private boolean sortVariables;
+	public boolean sortVariables;
 
 	/**
 	 * Optional list of the email recipients for sending a report.
 	 */
-	private @Readonly String[] emails;
+	public @Readonly String[] emails;
 
-	//region Getters
+	//region Equality
 
-	public EditorExceptionWarningSettings getExceptionWarningSettings() {
-		return exceptionWarningSettings;
+	@Override public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		EditorSettings settings = (EditorSettings) o;
+
+		if (capacity != settings.capacity) return false;
+		if (trim != settings.trim) return false;
+		if (removeRichTextTags != settings.removeRichTextTags) return false;
+		if (sortActions != settings.sortActions) return false;
+		if (sortVariables != settings.sortVariables) return false;
+		if (exceptionWarning != null ? !exceptionWarning.equals(settings.exceptionWarning) : settings.exceptionWarning != null)
+			return false;
+		if (logOverlay != null ? !logOverlay.equals(settings.logOverlay) : settings.logOverlay != null)
+			return false;
+		if (gesture != settings.gesture) return false;
+		// Probably incorrect - comparing Object[] arrays with Arrays.equals
+		return Arrays.equals(emails, settings.emails);
 	}
 
-	public EditorLogOverlaySettings getLogOverlaySettings() {
-		return logOverlaySettings;
-	}
-
-	public int getCapacity() {
-		return capacity;
-	}
-
-	public int getTrim() {
-		return trim;
-	}
-
-	public String getGesture() {
-		return gesture;
-	}
-
-	public boolean isSortActions() {
-		return sortActions;
-	}
-
-	public boolean isSortVariables() {
-		return sortVariables;
-	}
-
-	public String[] getEmails() {
-		return emails;
+	@Override public int hashCode() {
+		int result = exceptionWarning != null ? exceptionWarning.hashCode() : 0;
+		result = 31 * result + (logOverlay != null ? logOverlay.hashCode() : 0);
+		result = 31 * result + capacity;
+		result = 31 * result + trim;
+		result = 31 * result + (gesture != null ? gesture.hashCode() : 0);
+		result = 31 * result + (removeRichTextTags ? 1 : 0);
+		result = 31 * result + (sortActions ? 1 : 0);
+		result = 31 * result + (sortVariables ? 1 : 0);
+		result = 31 * result + Arrays.hashCode(emails);
+		return result;
 	}
 
 	//endregion

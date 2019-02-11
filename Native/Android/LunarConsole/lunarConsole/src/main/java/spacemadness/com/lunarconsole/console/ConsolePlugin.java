@@ -43,6 +43,7 @@ import spacemadness.com.lunarconsole.debug.Assert;
 import spacemadness.com.lunarconsole.debug.Log;
 import spacemadness.com.lunarconsole.json.JsonDecoder;
 import spacemadness.com.lunarconsole.settings.EditorSettings;
+import spacemadness.com.lunarconsole.settings.Gesture;
 import spacemadness.com.lunarconsole.settings.PluginSettings;
 import spacemadness.com.lunarconsole.ui.gestures.GestureRecognizer;
 import spacemadness.com.lunarconsole.ui.gestures.GestureRecognizerFactory;
@@ -139,15 +140,15 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
         }
 
         public int getCapacity() {
-            return editorSettings.getCapacity();
+            return editorSettings.capacity;
         }
 
         public int getTrim() {
-            return editorSettings.getTrim();
+            return editorSettings.trim;
         }
 
-        public String getGesture() {
-            return editorSettings.getGesture();
+        public Gesture getGesture() {
+            return editorSettings.gesture;
         }
     }
 
@@ -614,7 +615,7 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
 
         this.version = unitySettings.version;
         this.pluginImp = unitySettings.pluginImp;
-        this.emails = unitySettings.editorSettings.getEmails();
+        this.emails = unitySettings.editorSettings.emails;
 
         consoleViewState = new ConsoleViewState(activity.getApplicationContext());
 
@@ -622,8 +623,8 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
         options.setTrimCount(unitySettings.getTrim());
         console = new Console(options);
         actionRegistry = new ActionRegistry();
-        actionRegistry.setActionSortingEnabled(unitySettings.editorSettings.isSortActions());
-        actionRegistry.setVariableSortingEnabled(unitySettings.editorSettings.isSortVariables());
+        actionRegistry.setActionSortingEnabled(unitySettings.editorSettings.sortActions);
+        actionRegistry.setVariableSortingEnabled(unitySettings.editorSettings.sortVariables);
 
         activityRef = new WeakReference<>(activity);
         Application application = activity.getApplication();
