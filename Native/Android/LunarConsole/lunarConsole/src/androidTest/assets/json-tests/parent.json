@@ -7,20 +7,23 @@
     "int": 2,
     "float": 2.0,
     "bool": false,
-    "string": "child"
+    "string": "child",
+    "enum": 1
   },
   "children": [
     {
       "int": 3,
       "float": 3.0,
       "bool": true,
-      "string": "child-1"
+      "string": "child-1",
+      "enum": "One"
     },
     {
       "int": 4,
       "float": 4.0,
       "bool": false,
-      "string": "child-2"
+      "string": "child-2",
+      "enum": "Three"
     }
   ]
 }

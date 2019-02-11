@@ -21,8 +21,10 @@
 
 package spacemadness.com.lunarconsole.utils;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -68,6 +70,17 @@ public final class ClassUtils {
 			throw new RuntimeException("Unable to set field value: " + field); // TODO: custom class
 		}
 		return field;
+	}
+
+	public static Object getEnumValue(Class<?> cls, int ordinal) {
+		try {
+			Field valuesField = cls.getDeclaredField("$VALUES");
+			valuesField.setAccessible(true);
+			Object values = valuesField.get(null);
+			return Array.get(values, ordinal);
+		} catch (Exception e) {
+			throw new RuntimeException("Unable to get enum values", e);
+		}
 	}
 
 	public interface FieldFilter {

@@ -108,6 +108,20 @@ public class JsonDecoder {
 			return decode((JSONObject) jsonValue, targetType);
 		}
 
+		if (targetType.isEnum()) {
+			if (jsonValue instanceof String) {
+				//noinspection unchecked
+				return Enum.valueOf((Class<? extends Enum>)targetType, (String) jsonValue);
+			}
+
+			if (jsonValue instanceof Integer) {
+				int ordinal = (Integer) jsonValue;
+				return ClassUtils.getEnumValue(targetType, ordinal);
+			}
+
+			throw new NotImplementedException("Invalid enum value: " + jsonValue);
+		}
+
 		throw new NotImplementedException("Type not supported: " + targetType);
 	}
 

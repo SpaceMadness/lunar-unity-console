@@ -20,19 +20,23 @@ public class JsonDecoderTest extends InstrumentationTestCase {
 				2,
 				2.0f,
 				false,
-				"child"),
+				"child",
+				MyEnum.Two
+				),
 			new Child[]{
 				createChild(
 					3,
 					3.0f,
 					true,
-					"child-1"
+					"child-1",
+					MyEnum.One
 				),
 				createChild(
 					4,
 					4.0f,
 					false,
-					"child-2"
+					"child-2",
+					MyEnum.Three
 				),
 			}
 		);
@@ -50,6 +54,7 @@ public class JsonDecoderTest extends InstrumentationTestCase {
 				0,
 				0.0f,
 				true,
+				null,
 				null),
 			null
 		);
@@ -111,26 +116,29 @@ class Parent {
 	}
 }
 
-class Child {
-	private @Rename("int")
-	int intField;
-	private @Rename("float")
-	float floatField;
-	private @Rename("bool")
-	boolean boolField;
-	private @Rename("string")
-	String stringField;
+enum MyEnum {
+	One, Two, Three
+}
 
-	static Child createChild(int intField, float floatField, boolean boolField, String stringField) {
+class Child {
+	private @Rename("int") int intField;
+	private @Rename("float") float floatField;
+	private @Rename("bool") boolean boolField;
+	private @Rename("string") String stringField;
+	private @Rename("enum") MyEnum enumField;
+
+	static Child createChild(int intField, float floatField, boolean boolField, String stringField, MyEnum enumField) {
 		Child child = new Child();
 		child.intField = intField;
 		child.floatField = floatField;
 		child.boolField = boolField;
 		child.stringField = stringField;
+		child.enumField = enumField;
 		return child;
 	}
 
-	@Override public boolean equals(Object o) {
+	@Override
+	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 
@@ -139,14 +147,18 @@ class Child {
 		if (intField != child.intField) return false;
 		if (Float.compare(child.floatField, floatField) != 0) return false;
 		if (boolField != child.boolField) return false;
-		return stringField != null ? stringField.equals(child.stringField) : child.stringField == null;
+		if (stringField != null ? !stringField.equals(child.stringField) : child.stringField != null)
+			return false;
+		return enumField == child.enumField;
 	}
 
-	@Override public int hashCode() {
+	@Override
+	public int hashCode() {
 		int result = intField;
 		result = 31 * result + (floatField != +0.0f ? Float.floatToIntBits(floatField) : 0);
 		result = 31 * result + (boolField ? 1 : 0);
 		result = 31 * result + (stringField != null ? stringField.hashCode() : 0);
+		result = 31 * result + (enumField != null ? enumField.hashCode() : 0);
 		return result;
 	}
 }
