@@ -41,6 +41,7 @@ import spacemadness.com.lunarconsole.core.Notification;
 import spacemadness.com.lunarconsole.core.NotificationCenter;
 import spacemadness.com.lunarconsole.debug.Assert;
 import spacemadness.com.lunarconsole.debug.Log;
+import spacemadness.com.lunarconsole.json.JsonDecoder;
 import spacemadness.com.lunarconsole.settings.EditorSettings;
 import spacemadness.com.lunarconsole.settings.PluginSettings;
 import spacemadness.com.lunarconsole.ui.gestures.GestureRecognizer;
@@ -72,6 +73,7 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
     private final ConsolePluginImp pluginImp;
     private final String version;
     private final PluginSettings settings;
+    private final EditorSettings pluginSettings;
     private final ConsoleViewState consoleViewState;
     private final String[] emails;
 
@@ -127,35 +129,31 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
     {
         public final ConsolePluginImp pluginImp;
         public final String version;
-        public final int capacity;
-        public final int trim;
-        public final String gesture;
         public final EditorSettings editorSettings;
 
-        UnitySettings(ConsolePluginImp pluginImp, String version, int capacity, int trim, String gesture, String settingsJson)
+        UnitySettings(ConsolePluginImp pluginImp, String version, String settingsJson)
         {
             this.pluginImp = ObjectUtils.checkNotNull(pluginImp, "Plugin implementation");
-            this.gesture = ObjectUtils.checkNotNullAndNotEmpty(gesture, "Gesture");
             this.version = ObjectUtils.checkNotNullAndNotEmpty(version, "Version");
-            this.capacity = positive(capacity, "Capacity");
-            this.trim = positive(trim, "Trim");
-            // this.editorSettings = settingsJson != null ? EditorSettings.fromJson(settingsJson) : new EditorSettings(enableExceptionWarning, logOverlaySettings, emails, sortActions, sortVariables);
-	        throw new NotImplementedException();
+            this.editorSettings = JsonDecoder.decode(settingsJson, EditorSettings.class);
         }
 
-        private static int positive(int value, String name)
-        {
-            if (value <= 0)
-            {
-                throw new IllegalArgumentException(name + " should be positive but was " + value);
-            }
-            return value;
+        public int getCapacity() {
+            return editorSettings.getCapacity();
+        }
+
+        public int getTrim() {
+            return editorSettings.getTrim();
+        }
+
+        public String getGesture() {
+            return editorSettings.getGesture();
         }
     }
 
-    public static void init(Activity activity, String version, int capacity, int trim, String gesture, String settingsJson)
+    public static void init(Activity activity, String version, String settingsJson)
     {
-        init(activity, new UnitySettings(new DefaultPluginImp(activity), version, capacity, trim, gesture, settingsJson));
+        init(activity, new UnitySettings(new DefaultPluginImp(activity), version, settingsJson));
     }
 
     public static void destroyInstance()
@@ -208,7 +206,7 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
         {
             if (instance == null)
             {
-                Log.d(PLUGIN, "Initializing plugin instance (%s): %d", unitySettings.version, unitySettings.capacity);
+                Log.d(PLUGIN, "Initializing plugin instance (%s): %d", unitySettings.version, unitySettings.getCapacity());
                 instance = new ConsolePlugin(activity, unitySettings);
                 instance.start();
             }
@@ -296,14 +294,11 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
      * @param targetName - the name of game object which would receive native callbacks
      * @param methodName - the name of the method of the game object to be called
      * @param version    - the plugin version
-     * @param capacity   - the console`s capacity (everything beyond that would be trimmed)
-     * @param trim       - the trim amount upon console overflow (how many items would be trimmed when console overflows)
-     * @param gesture    - the name of a touch gesture to open the console or "none" if disabled
      */
-    public static void init(String targetName, String methodName, String version, int capacity, int trim, String gesture, String settings)
+    public static void init(String targetName, String methodName, String version, String settings)
     {
         Activity activity = UnityPlayer.currentActivity;
-        init(activity, new UnitySettings(new UnityPluginImp(activity, targetName, methodName), version, capacity, trim, gesture, settings));
+        init(activity, new UnitySettings(new UnityPluginImp(activity, targetName, methodName), version, settings));
     }
 
     public static void logMessage(String message, String stackTrace, int logType)
@@ -623,8 +618,8 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
 
         consoleViewState = new ConsoleViewState(activity.getApplicationContext());
 
-        Options options = new Options(unitySettings.capacity);
-        options.setTrimCount(unitySettings.trim);
+        Options options = new Options(unitySettings.getCapacity());
+        options.setTrimCount(unitySettings.getTrim());
         console = new Console(options);
         actionRegistry = new ActionRegistry();
         actionRegistry.setActionSortingEnabled(unitySettings.editorSettings.isSortActions());
@@ -641,7 +636,7 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
             Log.e("Unable to resolve application object: plugin might not function properly");
         }
 
-        gestureDetector = GestureRecognizerFactory.create(activity, unitySettings.gesture);
+        gestureDetector = GestureRecognizerFactory.create(activity, unitySettings.getGesture());
         gestureDetector.setListener(new OnGestureListener()
         {
             @Override

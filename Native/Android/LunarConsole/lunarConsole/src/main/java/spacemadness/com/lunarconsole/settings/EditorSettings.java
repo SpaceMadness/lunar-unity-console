@@ -35,7 +35,22 @@ public final class EditorSettings {
 	/**
 	 * Log overlay settings
 	 */
-	private @Required EditorLogOverlaySettings logOverlaySettings;
+	private @Required @ProOnly EditorLogOverlaySettings logOverlaySettings;
+
+	/**
+	 * Log output would not grow bigger than this capacity.
+	 */
+	private @Required @Readonly int capacity;
+
+	/**
+	 * Log output will be trimmed this many lines when overflown.
+	 */
+	private @Required @Readonly int trim;
+
+	/**
+	 * Gesture type to open the console.
+	 */
+	private @Required @Readonly String gesture; // TODO: use enum type
 
 	/**
 	 * Indicates if actions should be sorted.
@@ -50,7 +65,7 @@ public final class EditorSettings {
 	/**
 	 * Optional list of the email recipients for sending a report.
 	 */
-	private String[] emails;
+	private @Readonly String[] emails;
 
 	//region Getters
 
@@ -58,8 +73,20 @@ public final class EditorSettings {
 		return exceptionWarningSettings;
 	}
 
-	public @ProOnly EditorLogOverlaySettings getLogOverlaySettings() {
+	public EditorLogOverlaySettings getLogOverlaySettings() {
 		return logOverlaySettings;
+	}
+
+	public int getCapacity() {
+		return capacity;
+	}
+
+	public int getTrim() {
+		return trim;
+	}
+
+	public String getGesture() {
+		return gesture;
 	}
 
 	public boolean isSortActions() {
