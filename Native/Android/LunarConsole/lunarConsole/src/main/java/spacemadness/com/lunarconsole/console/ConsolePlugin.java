@@ -43,12 +43,11 @@ import spacemadness.com.lunarconsole.debug.Assert;
 import spacemadness.com.lunarconsole.debug.Log;
 import spacemadness.com.lunarconsole.json.JsonDecoder;
 import spacemadness.com.lunarconsole.settings.EditorSettings;
+import spacemadness.com.lunarconsole.settings.ExceptionWarningSettings.DisplayMode;
 import spacemadness.com.lunarconsole.settings.Gesture;
-import spacemadness.com.lunarconsole.settings.PluginSettings;
 import spacemadness.com.lunarconsole.ui.gestures.GestureRecognizer;
 import spacemadness.com.lunarconsole.ui.gestures.GestureRecognizerFactory;
 import spacemadness.com.lunarconsole.utils.DictionaryUtils;
-import spacemadness.com.lunarconsole.utils.NotImplementedException;
 import spacemadness.com.lunarconsole.utils.ObjectUtils;
 
 import static android.widget.FrameLayout.LayoutParams;
@@ -73,8 +72,7 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
     private final ActionRegistry actionRegistry;
     private final ConsolePluginImp pluginImp;
     private final String version;
-    private final PluginSettings settings;
-    private final EditorSettings pluginSettings;
+    private final EditorSettings settings;
     private final ConsoleViewState consoleViewState;
     private final String[] emails;
 
@@ -235,7 +233,7 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
     {
         enableGestureRecognition();
 
-        if (settings.isEnableTransparentLogOverlay())
+        if (settings.logOverlay.enabled)
         {
             runOnUIThread(new Runnable()
             {
@@ -605,13 +603,12 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
             throw new NullPointerException("Context is null");
         }
 
-        settings = new PluginSettings(activity.getApplicationContext());
+        // FIXME: load settings
+        settings = unitySettings.editorSettings;
+        //settings = new PluginSettings(activity.getApplicationContext());
         //settings.setEnableExceptionWarning(unitySettings.editorSettings.enableExceptionWarning);
         //settings.setEnableTransparentLogOverlay(unitySettings.editorSettings.enableTransparentLogOverlay);
-				if (true) {
-					throw new NotImplementedException();
-				}
-        settings.load();
+				//settings.load();
 
         this.version = unitySettings.version;
         this.pluginImp = unitySettings.pluginImp;
@@ -831,7 +828,7 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
                         {
                             removeConsoleView();
 
-                            if (settings.isEnableTransparentLogOverlay())
+                            if (settings.logOverlay.enabled)
                             {
                                 showLogOverlayView();
                             }
@@ -901,7 +898,7 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
     {
         try
         {
-            if (!settings.isEnableExceptionWarning())
+            if (settings.exceptionWarning.displayMode == DisplayMode.NONE)
             {
                 return;
             }
@@ -1180,7 +1177,8 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
         return consoleView != null;
     }
 
-    public static PluginSettings pluginSettings()
+    // FIXME: get rid of that
+    public static EditorSettings pluginSettings()
     {
         return instance != null ? instance.settings : null;
     }
