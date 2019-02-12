@@ -6,7 +6,6 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.util.List;
 
 import spacemadness.com.lunarconsole.utils.ClassUtils;
@@ -46,7 +45,7 @@ public class JsonDecoder {
 			// decode value
 			Object fieldValue = decode(value, field.getType());
 			if (fieldValue != DEFAULT) {
-				ClassUtils.setField(field, instance, fieldValue);
+				ClassUtils.setFieldValue(field, instance, fieldValue);
 			}
 		}
 		return instance;
@@ -136,8 +135,7 @@ public class JsonDecoder {
 
 	private static final ClassUtils.FieldFilter FIELD_FILTER = new ClassUtils.FieldFilter() {
 		@Override public boolean accept(Field field) {
-			int modifiers = field.getModifiers();
-			return !Modifier.isStatic(modifiers) && !Modifier.isFinal(modifiers);
+			return !ClassUtils.isStatic(field) && !ClassUtils.isFinal(field);
 		}
 	};
 }

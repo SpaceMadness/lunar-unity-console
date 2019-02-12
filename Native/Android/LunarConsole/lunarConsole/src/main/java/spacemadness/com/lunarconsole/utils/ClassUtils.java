@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static spacemadness.com.lunarconsole.utils.ObjectUtils.checkNotNull;
+import static spacemadness.com.lunarconsole.utils.ObjectUtils.checkNotNullAndNotEmpty;
 
 public final class ClassUtils {
 	private static final Class<?>[] EMPTY_PARAMS_TYPES = new Class[0];
@@ -62,12 +63,38 @@ public final class ClassUtils {
 		return result;
 	}
 
-	public static Field setField(Field field, Object target, Object value) {
+	public static Field getField(Object target, String name) {
+		Class<?> cls = checkNotNull(target, "target").getClass();
+		try {
+			return cls.getDeclaredField(checkNotNullAndNotEmpty(name, "name"));
+		} catch (NoSuchFieldException e) {
+			return null;
+		}
+	}
+
+	public static Object getFieldValue(Object target, String name) {
+		Field field = getField(target, name);
+		if (field == null) {
+			throw new IllegalArgumentException("Field not found: " + name);
+		}
+		return getFieldValue(target, field);
+	}
+
+	public static Object getFieldValue(Object target, Field field) {
+		field.setAccessible(true);
+		try {
+			return field.get(target);
+		} catch (IllegalAccessException e) {
+			throw new RuntimeException("Unable to get field value: " + field);
+		}
+	}
+
+	public static Field setFieldValue(Field field, Object target, Object value) {
 		field.setAccessible(true);
 		try {
 			field.set(target, value);
 		} catch (IllegalAccessException e) {
-			throw new RuntimeException("Unable to set field value: " + field); // TODO: custom class
+			throw new RuntimeException("Unable to set field value: " + field);
 		}
 		return field;
 	}
@@ -81,6 +108,14 @@ public final class ClassUtils {
 		} catch (Exception e) {
 			throw new RuntimeException("Unable to get enum values", e);
 		}
+	}
+
+	public static boolean isStatic(Field field) {
+		return Modifier.isStatic(field.getModifiers());
+	}
+
+	public static boolean isFinal(Field field) {
+		return Modifier.isFinal(field.getModifiers());
 	}
 
 	public interface FieldFilter {
