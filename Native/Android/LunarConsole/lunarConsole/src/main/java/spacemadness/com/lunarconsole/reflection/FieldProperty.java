@@ -20,4 +20,8 @@ public class FieldProperty extends Property {
 	public void setValue(Object value) {
 		ClassUtils.setFieldValue(field, target, value);
 	}
+
+	@Override public String toString() {
+		return target.getClass().getSimpleName() + "." + field.getName();
+	}
 }

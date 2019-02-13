@@ -31,4 +31,8 @@ class MyClass {
 	MyClass getChildField() {
 		return childField;
 	}
+
+	void setChildField(MyClass childField) {
+		this.childField = childField;
+	}
 }

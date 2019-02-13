@@ -15,4 +15,8 @@ public class GroupProperty extends Property {
 	public List<Property> getChildren() {
 		return children;
 	}
+
+	public int size() {
+		return children.size();
+	}
 }
