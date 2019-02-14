@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.widget.ListView;
 
 import spacemadness.com.lunarconsole.R;
+import spacemadness.com.lunarconsole.dependency.DependencyProvider;
+import spacemadness.com.lunarconsole.dependency.EditorSettingsDependency;
 
 public class EditorSettingsActivity extends Activity {
 	private ListView listView;
@@ -14,6 +16,10 @@ public class EditorSettingsActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_editor_settings);
 
-		listView = (ListView) findViewById(R.id.lunar_console_settings_list_view);
+		final EditorSettings settings = DependencyProvider.of(EditorSettingsDependency.class).getEditorSettings();
+		final EditorSettingsAdapter settingsAdapter = new EditorSettingsAdapter(settings);
+
+		listView = findViewById(R.id.lunar_console_settings_list_view);
+		listView.setAdapter(settingsAdapter);
 	}
 }
