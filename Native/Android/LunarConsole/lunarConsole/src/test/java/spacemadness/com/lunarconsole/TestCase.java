@@ -49,12 +49,12 @@ public abstract class TestCase {
 	//////////////////////////////////////////////////////////////////////////////
 	// Assert helpers
 
-	protected void assertResult(String... expected) {
-		assertResult(results, expected);
+	protected void assertResults(String... expected) {
+		assertResults(results, expected);
 		results.clear();
 	}
 
-	protected void assertResult(List<String> actual, String... expected) {
+	protected void assertResults(List<String> actual, String... expected) {
 		assertEquals("\nExpected: " + StringUtils.Join(expected) +
 			             "\nActual: " + StringUtils.Join(actual), expected.length, actual.size());
 
@@ -65,7 +65,7 @@ public abstract class TestCase {
 		}
 	}
 
-	protected void assertResult(String[] actual, String... expected) {
+	protected void assertResults(String[] actual, String... expected) {
 		assertEquals("\nExpected: " + StringUtils.Join(expected) +
 			             "\nActual: " + StringUtils.Join(actual),
 			expected.length, actual.length);
@@ -77,7 +77,7 @@ public abstract class TestCase {
 		}
 	}
 
-	protected void assertResult(int[] actual, int... expected) {
+	protected void assertResults(int[] actual, int... expected) {
 		assertEquals("\nExpected: " + StringUtils.Join(expected) +
 			             "\nActual: " + StringUtils.Join(actual),
 			expected.length, actual.length);
@@ -89,7 +89,7 @@ public abstract class TestCase {
 		}
 	}
 
-	protected void assertResult(float[] actual, float... expected) {
+	protected void assertResults(float[] actual, float... expected) {
 		assertEquals("\nExpected: " + StringUtils.Join(expected) +
 			             "\nActual: " + StringUtils.Join(actual), expected.length, actual.length);
 
@@ -100,7 +100,7 @@ public abstract class TestCase {
 		}
 	}
 
-	protected void assertResult(boolean[] actual, boolean... expected) {
+	protected void assertResults(boolean[] actual, boolean... expected) {
 		assertEquals("\nExpected: " + StringUtils.Join(expected) +
 			             "\nActual: " + StringUtils.Join(actual), expected.length, actual.length);
 

@@ -54,6 +54,14 @@ public class SerialDispatchQueue extends DispatchQueue {
 	}
 
 	@Override
+	public void stop() {
+		if (handlerThread != null) {
+			handler.removeCallbacks(null);
+			handlerThread.quit();
+		}
+	}
+
+	@Override
 	public boolean isCurrent() {
 		return handler.getLooper() == Looper.myLooper();
 	}

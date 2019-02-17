@@ -26,18 +26,21 @@ import spacemadness.com.lunarconsole.dependency.Provider;
 
 import static spacemadness.com.lunarconsole.utils.ObjectUtils.checkNotNull;
 
-public abstract class DispatchQueue {
+public abstract class DispatchQueue implements Dispatcher {
 	private final String name;
 
 	public DispatchQueue(String name) {
 		this.name = checkNotNull(name, "name");
 	}
 
+	@Override
 	public void dispatch(Runnable r) {
 		dispatch(r, 0L);
 	}
 
 	public abstract void dispatch(Runnable r, long delay);
+
+	public abstract void stop();
 
 	public abstract boolean isCurrent();
 

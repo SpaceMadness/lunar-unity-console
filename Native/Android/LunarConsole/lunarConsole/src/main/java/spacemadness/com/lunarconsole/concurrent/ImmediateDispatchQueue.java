@@ -28,6 +28,10 @@ public class ImmediateDispatchQueue extends DispatchQueue {
 	}
 
 	@Override
+	public void stop() {
+	}
+
+	@Override
 	public boolean isCurrent() {
 		return Thread.currentThread() == currentThread;
 	}
