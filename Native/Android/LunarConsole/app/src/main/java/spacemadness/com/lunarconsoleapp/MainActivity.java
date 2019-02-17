@@ -46,6 +46,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import spacemadness.com.lunarconsole.Config;
+import spacemadness.com.lunarconsole.concurrent.DispatchQueue;
 import spacemadness.com.lunarconsole.console.ConsoleLogType;
 import spacemadness.com.lunarconsole.console.ConsolePlugin;
 import spacemadness.com.lunarconsole.console.ConsoleViewState;
@@ -86,8 +87,8 @@ public class MainActivity extends Activity {
 
 		Config.DEBUG = true;
 
-		mainQueue = new DispatchQueue(Looper.getMainLooper());
-		backgroundQueue = BackgroundDispatchQueue.create("Background");
+		mainQueue = DispatchQueue.mainQueue();
+		backgroundQueue = DispatchQueue.createSerialQueue("background");
 
 		delayEditText = (EditText) findViewById(R.id.test_edit_text_delay);
 		capacityEditText = (EditText) findViewById(R.id.test_edit_text_capacity);

@@ -1,5 +1,5 @@
 //
-//  ConsoleOverlayLogAdapter.java
+//  LogOverlayAdapter.java
 //
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
@@ -28,9 +28,9 @@ import android.widget.TextView;
 
 import spacemadness.com.lunarconsole.R;
 
-public class ConsoleOverlayLogAdapter extends BaseConsoleLogAdapter
+public class LogOverlayAdapter extends BaseConsoleLogAdapter
 {
-    public ConsoleOverlayLogAdapter(DataSource dataSource)
+    public LogOverlayAdapter(DataSource dataSource)
     {
         super(dataSource);
     }

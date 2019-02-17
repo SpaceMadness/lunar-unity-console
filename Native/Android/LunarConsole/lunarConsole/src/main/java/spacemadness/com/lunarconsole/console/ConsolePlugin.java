@@ -36,13 +36,14 @@ import java.util.Map;
 
 import spacemadness.com.lunarconsole.R;
 import spacemadness.com.lunarconsole.core.Destroyable;
-import spacemadness.com.lunarconsole.core.DispatchQueue;
+import spacemadness.com.lunarconsole.concurrent.DispatchQueue;
 import spacemadness.com.lunarconsole.core.Notification;
 import spacemadness.com.lunarconsole.core.NotificationCenter;
 import spacemadness.com.lunarconsole.debug.Assert;
 import spacemadness.com.lunarconsole.debug.Log;
-import spacemadness.com.lunarconsole.dependency.DependencyProvider;
-import spacemadness.com.lunarconsole.dependency.EditorSettingsDependency;
+import spacemadness.com.lunarconsole.dependency.DefaultDependencies;
+import spacemadness.com.lunarconsole.dependency.EditorSettingsProvider;
+import spacemadness.com.lunarconsole.dependency.Provider;
 import spacemadness.com.lunarconsole.json.JsonDecoder;
 import spacemadness.com.lunarconsole.settings.EditorSettings;
 import spacemadness.com.lunarconsole.settings.ExceptionWarningSettings.DisplayMode;
@@ -81,7 +82,7 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
 	private OverlayDialog overlayDialog;
 
 	private ConsoleView consoleView;
-	private ConsoleOverlayLogView consoleOverlayLogView;
+	private LogOverlayView logOverlayView;
 	private WarningView warningView;
 
 	private final WeakReference<Activity> activityRef;
@@ -147,7 +148,7 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
 	}
 
 	public static void destroyInstance() {
-		if (isRunningOnMainThread()) {
+		if (DispatchQueue.isMainQueue()) {
 			destroyInstance0();
 		} else {
 			Log.d(PLUGIN,
@@ -162,8 +163,14 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
 		}
 	}
 
+	static {
+		// register default providers
+		DefaultDependencies.register();
+	}
+
 	private static void init(final Activity activity, final UnitySettings unitySettings) {
-		if (isRunningOnMainThread()) {
+		// TODO: figure out a proper threading model
+		if (DispatchQueue.isMainQueue()) {
 			init0(activity, unitySettings);
 		} else {
 			Log.d(PLUGIN,
@@ -213,7 +220,7 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
 	}
 
 	public static void shutdown() {
-		if (isRunningOnMainThread()) {
+		if (DispatchQueue.isMainQueue()) {
 			shutdown0();
 		} else {
 			Log.d(PLUGIN, "Tried to shutdown plugin on the secondary thread. Scheduling on UI-thread...");
@@ -259,7 +266,7 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
 	}
 
 	public static void show() {
-		if (isRunningOnMainThread()) {
+		if (DispatchQueue.isMainQueue()) {
 			show0();
 		} else {
 			runOnUIThread(new Runnable() {
@@ -272,7 +279,7 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
 	}
 
 	public static void hide() {
-		if (isRunningOnMainThread()) {
+		if (DispatchQueue.isMainQueue()) {
 			hide0();
 		} else {
 			runOnUIThread(new Runnable() {
@@ -285,7 +292,7 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
 	}
 
 	public static void clear() {
-		if (isRunningOnMainThread()) {
+		if (DispatchQueue.isMainQueue()) {
 			clear0();
 		} else {
 			runOnUIThread(new Runnable() {
@@ -298,7 +305,7 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
 	}
 
 	public static void registerAction(final int actionId, final String actionName) {
-		if (isRunningOnMainThread()) {
+		if (DispatchQueue.isMainQueue()) {
 			registerAction0(actionId, actionName);
 		} else {
 			runOnUIThread(new Runnable() {
@@ -311,7 +318,7 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
 	}
 
 	public static void unregisterAction(final int actionId) {
-		if (isRunningOnMainThread()) {
+		if (DispatchQueue.isMainQueue()) {
 			unregisterAction0(actionId);
 		} else {
 			runOnUIThread(new Runnable() {
@@ -324,7 +331,7 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
 	}
 
 	public static void registerVariable(final int variableId, final String name, final String type, final String value, final String defaultValue, final int flags, final boolean hasRange, final float rangeMin, final float rangeMax) {
-		if (isRunningOnMainThread()) {
+		if (DispatchQueue.isMainQueue()) {
 			registerVariable0(variableId, name, type, value, defaultValue, flags, hasRange, rangeMin, rangeMax);
 		} else {
 			runOnUIThread(new Runnable() {
@@ -337,7 +344,7 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
 	}
 
 	public static void updateVariable(final int variableId, final String value) {
-		if (isRunningOnMainThread()) {
+		if (DispatchQueue.isMainQueue()) {
 			updateVariable0(variableId, value);
 		} else {
 			runOnUIThread(new Runnable() {
@@ -420,7 +427,7 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
 	}
 
 	public static void showOverlay() {
-		if (isRunningOnMainThread()) {
+		if (DispatchQueue.isMainQueue()) {
 			showOverlay0();
 		} else {
 			runOnUIThread(new Runnable() {
@@ -441,7 +448,7 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
 	}
 
 	public static void hideOverlay() {
-		if (isRunningOnMainThread()) {
+		if (DispatchQueue.isMainQueue()) {
 			hideOverlay0();
 		} else {
 			runOnUIThread(new Runnable() {
@@ -474,7 +481,7 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
 		settings = unitySettings.editorSettings;
 
 		// make settings available as a dependency
-		DependencyProvider.register(EditorSettingsDependency.class, new EditorSettingsDependency() {
+		Provider.register(EditorSettingsProvider.class, new EditorSettingsProvider() {
 			@Override public EditorSettings getEditorSettings() {
 				return settings;
 			}
@@ -774,7 +781,7 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
 	//region Overlay view
 
 	private boolean isOverlayViewShown() {
-		return consoleOverlayLogView != null;
+		return logOverlayView != null;
 	}
 
 	private boolean showLogOverlayView() {
@@ -783,7 +790,7 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
 		}
 
 		try {
-			if (consoleOverlayLogView == null) {
+			if (logOverlayView == null) {
 				Log.d(OVERLAY_VIEW, "Show log overlay view");
 
 				final Activity activity = getActivity();
@@ -792,11 +799,11 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
 					return false;
 				}
 
-				ConsoleOverlayLogView.Settings overlaySettings = new ConsoleOverlayLogView.Settings();
-				consoleOverlayLogView = new ConsoleOverlayLogView(activity, console, overlaySettings);
+				LogOverlayView.Settings overlaySettings = new LogOverlayView.Settings();
+				logOverlayView = new LogOverlayView(activity, console, overlaySettings);
 
 				LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-				addOverlayView(activity, consoleOverlayLogView, params);
+				addOverlayView(activity, logOverlayView, params);
 
 				return true;
 			}
@@ -809,11 +816,11 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
 
 	private boolean removeLogOverlayView() {
 		try {
-			if (consoleOverlayLogView != null) {
+			if (logOverlayView != null) {
 				Log.d(CONSOLE, "Hide log overlay view");
 
-				removeOverlayView(consoleOverlayLogView);
-				consoleOverlayLogView = null;
+				removeOverlayView(logOverlayView);
+				logOverlayView = null;
 
 				return true;
 			}
@@ -909,7 +916,7 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
 				if (getActivity() == activity && overlayDialog != null) {
 					Log.d("Showing overlay dialog");
 					// we need to give activity a chance to initialize
-					DispatchQueue.mainQueue().dispatchAsync(new Runnable() {
+					DispatchQueue.mainQueue().dispatch(new Runnable() {
 						@Override
 						public void run() {
 							overlayDialog.show();

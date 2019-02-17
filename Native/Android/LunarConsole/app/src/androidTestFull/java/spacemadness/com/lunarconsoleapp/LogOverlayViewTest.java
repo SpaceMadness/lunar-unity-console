@@ -28,30 +28,30 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import spacemadness.com.lunarconsole.console.ConsoleLogType;
-import spacemadness.com.lunarconsole.console.ConsoleOverlayLogView;
+import spacemadness.com.lunarconsole.console.LogOverlayView;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class ConsoleOverlayLogViewTest extends ApplicationBaseUITest
+public class LogOverlayViewTest extends ApplicationBaseUITest
 {
     @Test
     public void testOverlayVisibility()
     {
-        assertDoesNotExist(ConsoleOverlayLogView.class);
+        assertDoesNotExist(LogOverlayView.class);
 
         openSettings();
         pressButton("Enable Transparent Log Overlay");
         closeSettings();
         closeConsole();
 
-        assertVisible(ConsoleOverlayLogView.class);
+        assertVisible(LogOverlayView.class);
 
         openSettings();
         pressButton("Enable Transparent Log Overlay");
         closeSettings();
         closeConsole();
 
-        assertDoesNotExist(ConsoleOverlayLogView.class);
+        assertDoesNotExist(LogOverlayView.class);
     }
 
     @Test
