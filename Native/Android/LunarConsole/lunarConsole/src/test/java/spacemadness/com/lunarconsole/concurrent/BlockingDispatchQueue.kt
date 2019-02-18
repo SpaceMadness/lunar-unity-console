@@ -4,7 +4,7 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.atomic.AtomicBoolean
 
-internal class BlockingExecutionQueue(name: String) : DispatchQueue(name) {
+internal class BlockingDispatchQueue(name: String) : DispatchQueue(name) {
     private val threadGroup: ThreadGroup = ThreadGroup(name)
     private val executor: ExecutorService
 
