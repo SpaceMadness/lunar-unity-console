@@ -1,5 +1,5 @@
 package spacemadness.com.lunarconsole.core;
 
-interface Disposable {
+public interface Disposable {
 	void dispose();
 }
