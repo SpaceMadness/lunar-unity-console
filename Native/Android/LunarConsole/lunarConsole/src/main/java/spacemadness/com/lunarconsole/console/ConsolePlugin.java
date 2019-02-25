@@ -799,8 +799,7 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
 					return false;
 				}
 
-				LogOverlayView.Settings overlaySettings = new LogOverlayView.Settings();
-				logOverlayView = new LogOverlayView(activity, console, overlaySettings);
+				logOverlayView = new LogOverlayView(activity, console, settings.logOverlay);
 
 				LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 				addOverlayView(activity, logOverlayView, params);

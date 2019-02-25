@@ -15,7 +15,7 @@ public class EditorSettingsTest extends InstrumentationTestCase {
 		exceptionWarning.displayMode = DisplayMode.ALL;
 		expected.exceptionWarning = exceptionWarning;
 
-		final LogOverlayColors logOverlayColors = new LogOverlayColors();
+		final LogColors logOverlayColors = new LogColors();
 		logOverlayColors.exception = createOverlayColor(createColor(10, 11, 12, 13), createColor(14, 15, 16, 17));
 		logOverlayColors.error = createOverlayColor(createColor(20, 21, 22, 23), createColor(24, 25, 26, 27));
 		logOverlayColors.warning = createOverlayColor(createColor(30, 31, 32, 33), createColor(34, 35, 36, 37));
@@ -41,8 +41,8 @@ public class EditorSettingsTest extends InstrumentationTestCase {
 		assertEquals(expected, actual);
 	}
 
-	private static LogOverlayEntryColors createOverlayColor(Color foreground, Color background) {
-		LogOverlayEntryColors colors = new LogOverlayEntryColors();
+	private static LogEntryColors createOverlayColor(Color foreground, Color background) {
+		LogEntryColors colors = new LogEntryColors();
 		colors.foreground = foreground;
 		colors.background = background;
 		return colors;

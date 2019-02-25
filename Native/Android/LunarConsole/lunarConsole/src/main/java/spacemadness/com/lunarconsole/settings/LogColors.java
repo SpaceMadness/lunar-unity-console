@@ -2,11 +2,11 @@ package spacemadness.com.lunarconsole.settings;
 
 import spacemadness.com.lunarconsole.json.Required;
 
-public class LogOverlayColors {
-	public @Required LogOverlayEntryColors exception;
-	public @Required LogOverlayEntryColors error;
-	public @Required LogOverlayEntryColors warning;
-	public @Required LogOverlayEntryColors debug;
+public class LogColors {
+	public @Required LogEntryColors exception;
+	public @Required LogEntryColors error;
+	public @Required LogEntryColors warning;
+	public @Required LogEntryColors debug;
 
 	//region Equality
 
@@ -14,7 +14,7 @@ public class LogOverlayColors {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 
-		LogOverlayColors that = (LogOverlayColors) o;
+		LogColors that = (LogColors) o;
 
 		if (exception != null ? !exception.equals(that.exception) : that.exception != null)
 			return false;

@@ -65,7 +65,7 @@ namespace LunarConsolePlugin
     delegate void LunarConsoleNativeMessageHandler(IDictionary<string, string> data);
 
     [Serializable]
-    public class LogOverlayEntryColors
+    public class LogEntryColors
     {
         [SerializeField]
         public Color32 foreground;
@@ -78,20 +78,20 @@ namespace LunarConsolePlugin
     public class LogOverlayColors
     {
         [SerializeField]
-        public LogOverlayEntryColors exception = MakeColors(0xfffc0000, 0x00000000);
+        public LogEntryColors exception = MakeColors(0xfffc0000, 0x00000000);
 
         [SerializeField]
-        public LogOverlayEntryColors error = MakeColors(0xfffc0000, 0x00000000);
+        public LogEntryColors error = MakeColors(0xfffc0000, 0x00000000);
 
         [SerializeField]
-        public LogOverlayEntryColors warning = MakeColors(0xfff4f600, 0x00000000);
+        public LogEntryColors warning = MakeColors(0xfff4f600, 0x00000000);
 
         [SerializeField]
-        public LogOverlayEntryColors debug = MakeColors(0xff000000, 0x00000000);
+        public LogEntryColors debug = MakeColors(0xff000000, 0x00000000);
 
-        static LogOverlayEntryColors MakeColors(uint foreground, uint background)
+        static LogEntryColors MakeColors(uint foreground, uint background)
         {
-            var colors = new LogOverlayEntryColors();
+            var colors = new LogEntryColors();
             colors.foreground = MakeColor(foreground);
             colors.background = MakeColor(background);
             return colors;

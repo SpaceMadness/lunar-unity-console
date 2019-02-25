@@ -28,5 +28,9 @@ public class Color {
 		return result;
 	}
 
+	public int toARGB() {
+		return ((a << 24) & 0xff) | ((r << 16) & 0xff) | ((g << 8) & 0xff) | (b & 0xff);
+	}
+
 	//endregion
 }

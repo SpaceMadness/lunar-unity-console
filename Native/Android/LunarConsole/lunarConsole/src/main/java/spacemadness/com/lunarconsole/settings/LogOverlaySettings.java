@@ -24,7 +24,7 @@ public final class LogOverlaySettings {
 	/**
 	 * Indicates if the line background should be transparent.
 	 */
-	public @Required LogOverlayColors colors;
+	public @Required LogColors colors;
 
 	//region Equality
 

@@ -28,43 +28,39 @@ import android.widget.TextView;
 
 import spacemadness.com.lunarconsole.R;
 
-public class LogOverlayAdapter extends BaseConsoleLogAdapter
-{
-    public LogOverlayAdapter(DataSource dataSource)
-    {
-        super(dataSource);
-    }
+public class LogOverlayAdapter extends BaseConsoleLogAdapter {
+	private final LogViewStyle style;
 
-    @Override
-    protected ViewHolder createViewHolder(View convertView, int position)
-    {
-        return new OverlayViewHolder(convertView);
-    }
+	public LogOverlayAdapter(DataSource dataSource, LogViewStyle style) {
+		super(dataSource);
+		this.style = style;
+	}
 
-    @Override
-    protected View createConvertView(ViewGroup parent, int position)
-    {
-        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-        return inflater.inflate(R.layout.lunar_console_layout_overlay_log_entry, parent, false);
-    }
+	@Override
+	protected ViewHolder createViewHolder(View convertView, int position) {
+		return new OverlayViewHolder(convertView);
+	}
 
-    private static class OverlayViewHolder extends ViewHolder<ConsoleLogEntry>
-    {
-        private final TextView messageView;
+	@Override
+	protected View createConvertView(ViewGroup parent, int position) {
+		LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+		return inflater.inflate(R.layout.lunar_console_layout_overlay_log_entry, parent, false);
+	}
 
-        public OverlayViewHolder(View itemView)
-        {
-            super(itemView);
-            messageView = (TextView) itemView.findViewById(R.id.lunar_console_overlay_log_entry_message);
-        }
+	private class OverlayViewHolder extends ViewHolder<ConsoleLogEntry> {
+		private final TextView messageView;
 
-        @Override
-        public void onBindViewHolder(ConsoleLogEntry entry, int position)
-        {
-            final int colorId = ConsoleLogEntry.getAppearance(entry.type).overlayColorId;
+		public OverlayViewHolder(View itemView) {
+			super(itemView);
+			messageView = itemView.findViewById(R.id.lunar_console_overlay_log_entry_message);
+		}
 
-            messageView.setText(entry.message);
-            messageView.setTextColor(getColor(colorId));
-        }
-    }
+		@Override
+		public void onBindViewHolder(ConsoleLogEntry entry, int position) {
+			final LogEntryStyle entryStyle = style.getEntryStyle(entry.type);
+			messageView.setText(entry.message);
+			messageView.setTextColor(entryStyle.textColor);
+			messageView.setBackgroundColor(entryStyle.backgroundColor);
+		}
+	}
 }

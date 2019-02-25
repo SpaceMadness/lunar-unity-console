@@ -27,6 +27,9 @@ import android.widget.ListView;
 
 import spacemadness.com.lunarconsole.core.Destroyable;
 import spacemadness.com.lunarconsole.debug.Log;
+import spacemadness.com.lunarconsole.settings.LogColors;
+import spacemadness.com.lunarconsole.settings.LogEntryColors;
+import spacemadness.com.lunarconsole.settings.LogOverlaySettings;
 import spacemadness.com.lunarconsole.utils.CycleArray;
 import spacemadness.com.lunarconsole.utils.ThreadUtils;
 
@@ -38,7 +41,7 @@ import static spacemadness.com.lunarconsole.debug.TestHelper.*;
 public class LogOverlayView extends ListView implements Destroyable, DataSource, LunarConsoleListener {
 	private final Console console;
 
-	private final Settings settings;
+	private final LogOverlaySettings settings;
 
 	private final LogOverlayAdapter adapter;
 
@@ -67,7 +70,7 @@ public class LogOverlayView extends ListView implements Destroyable, DataSource,
 	};
 	private boolean entryRemovalScheduled;
 
-	public LogOverlayView(Context context, Console console, Settings settings) {
+	public LogOverlayView(Context context, Console console, LogOverlaySettings settings) {
 		super(context);
 
 		if (console == null) {
@@ -83,8 +86,8 @@ public class LogOverlayView extends ListView implements Destroyable, DataSource,
 
 		this.settings = settings;
 
-		entries = new CycleArray<>(ConsoleLogEntry.class, settings.maxVisibleEntries);
-		adapter = new LogOverlayAdapter(this);
+		entries = new CycleArray<>(ConsoleLogEntry.class, settings.maxVisibleLines);
+		adapter = new LogOverlayAdapter(this, createLogViewStyle(settings.colors));
 
 		setDivider(null);
 		setDividerHeight(0);
@@ -93,6 +96,19 @@ public class LogOverlayView extends ListView implements Destroyable, DataSource,
 		setScrollingCacheEnabled(false);
 
 		reloadData();
+	}
+
+	private static LogViewStyle createLogViewStyle(LogColors colors) {
+		return new LogViewStyle(
+			createLogEntryStyle(colors.exception),
+			createLogEntryStyle(colors.error),
+			createLogEntryStyle(colors.warning),
+			createLogEntryStyle(colors.debug)
+		);
+	}
+
+	private static LogEntryStyle createLogEntryStyle(LogEntryColors colors) {
+		return new LogEntryStyle(colors.foreground.toARGB(), colors.background.toARGB());
 	}
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
@@ -116,7 +132,7 @@ public class LogOverlayView extends ListView implements Destroyable, DataSource,
 	private void scheduleEntryRemoval() {
 		if (!entryRemovalScheduled) {
 			entryRemovalScheduled = true;
-			ThreadUtils.runOnUIThread(entryRemovalCallback, settings.entryDisplayTimeMillis);
+			ThreadUtils.runOnUIThread(entryRemovalCallback, (long) (settings.timeout * 1000L));
 
 			testEvent(TEST_EVENT_OVERLAY_SCHEDULE_ITEM_REMOVAL);
 		}

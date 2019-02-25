@@ -2,7 +2,7 @@ package spacemadness.com.lunarconsole.settings;
 
 import spacemadness.com.lunarconsole.json.Required;
 
-public class LogOverlayEntryColors {
+public class LogEntryColors {
 	public @Required Color foreground;
 	public @Required Color background;
 
@@ -12,7 +12,7 @@ public class LogOverlayEntryColors {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 
-		LogOverlayEntryColors that = (LogOverlayEntryColors) o;
+		LogEntryColors that = (LogEntryColors) o;
 
 		if (foreground != null ? !foreground.equals(that.foreground) : that.foreground != null)
 			return false;
