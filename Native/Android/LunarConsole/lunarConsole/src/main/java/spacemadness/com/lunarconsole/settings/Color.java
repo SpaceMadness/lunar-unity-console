@@ -1,5 +1,7 @@
 package spacemadness.com.lunarconsole.settings;
 
+import spacemadness.com.lunarconsole.utils.ColorUtils;
+
 public class Color {
 	public int r;
 	public int g;
@@ -29,7 +31,7 @@ public class Color {
 	}
 
 	public int toARGB() {
-		return ((a << 24) & 0xff) | ((r << 16) & 0xff) | ((g << 8) & 0xff) | (b & 0xff);
+		return ColorUtils.toARGB(a, r, g, b);
 	}
 
 	//endregion

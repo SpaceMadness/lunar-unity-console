@@ -60,7 +60,9 @@ public class LogOverlayAdapter extends BaseConsoleLogAdapter {
 			final LogEntryStyle entryStyle = style.getEntryStyle(entry.type);
 			messageView.setText(entry.message);
 			messageView.setTextColor(entryStyle.textColor);
-			messageView.setBackgroundColor(entryStyle.backgroundColor);
+			if (entryStyle.hasBackground()) {
+				messageView.setBackgroundColor(entryStyle.backgroundColor);
+			}
 		}
 	}
 }
