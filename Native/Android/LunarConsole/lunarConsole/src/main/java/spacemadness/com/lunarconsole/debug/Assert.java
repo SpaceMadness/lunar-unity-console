@@ -2354,7 +2354,7 @@ public class Assert // FIXME: rename methods to assert*
 
     private static void AssertHelper(String format, Object... args)
     {
-//        String message = TryFormat(format, args);
+//        String message = format(format, args);
 //        String stackTrace = StackTrace.ExtractStackTrace(3);
 //
 //        Platform.AssertMessage(message, stackTrace);
@@ -2368,7 +2368,7 @@ public class Assert // FIXME: rename methods to assert*
 //        {
 //        }
 
-        throw new AssertionError(TryFormat(format, args));
+        throw new AssertionError(format(format, args));
     }
 
     private static String toString(Object value)

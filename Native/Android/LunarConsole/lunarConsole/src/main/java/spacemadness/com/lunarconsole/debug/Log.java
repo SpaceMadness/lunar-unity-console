@@ -125,7 +125,7 @@ public class Log
     {
         int priority = level.getAndroidLogPriority();
 
-        String message = StringUtils.TryFormat(format, args);
+        String message = StringUtils.format(format, args);
         String threadName = Thread.currentThread().getName();
         String tag = TAG + "/" + threadName;
         android.util.Log.println(priority, tag, message);

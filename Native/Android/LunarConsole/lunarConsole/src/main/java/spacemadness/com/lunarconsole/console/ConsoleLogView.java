@@ -272,7 +272,7 @@ public class ConsoleLogView extends AbstractConsoleView implements
         try
         {
             String packageName = getContext().getPackageName();
-            String subject = StringUtils.TryFormat("'%s' console log", packageName);
+            String subject = StringUtils.format("'%s' console log", packageName);
 
             String outputText = console.getText();
 

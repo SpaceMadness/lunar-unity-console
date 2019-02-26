@@ -321,7 +321,7 @@ public class StringUtils
         return builder.toString();
     }
 
-    public static String TryFormat(String format, Object... args) // FIXME: rename
+    public static String format(String format, Object... args)
     {
         if (format != null && args != null && args.length > 0)
         {
