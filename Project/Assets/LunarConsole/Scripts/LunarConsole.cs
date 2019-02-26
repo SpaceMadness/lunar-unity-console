@@ -151,7 +151,7 @@ namespace LunarConsolePlugin
         [HideInInspector]
         #endif
         [SerializeField]
-        public LogOverlaySettings logOverlaySettings;
+        public LogOverlaySettings logOverlay;
 
         [Range(128, 65536)]
         [Tooltip("Log output will never become bigger than this capacity")]
