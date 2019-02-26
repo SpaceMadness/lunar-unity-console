@@ -97,14 +97,13 @@ namespace LunarConsolePlugin
             return colors;
         }
 
-        static Color32 MakeColor(uint color)
+        static Color32 MakeColor(uint argb)
         {
-            return new Color32(
-                (byte)((color >> 24) & 0xff),
-                (byte)((color >> 16) & 0xff),
-                (byte)((color >> 8) & 0xff),
-                (byte)(color & 0xff)
-            );
+            byte a = (byte)((argb >> 24) & 0xff);
+            byte r = (byte)((argb >> 16) & 0xff);
+            byte g = (byte)((argb >> 8) & 0xff);
+            byte b = (byte)(argb & 0xff);
+            return new Color32(r, g, b, a);
         }
     }
 
