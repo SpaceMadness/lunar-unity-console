@@ -1,6 +1,7 @@
 package spacemadness.com.lunarconsole.settings;
 
 import spacemadness.com.lunarconsole.json.Required;
+import spacemadness.com.lunarconsole.utils.StringUtils;
 
 public class LogEntryColors {
 	public @Required Color foreground;
@@ -26,4 +27,8 @@ public class LogEntryColors {
 	}
 
 	//endregion
+
+	@Override public String toString() {
+		return StringUtils.format("foreground=%s background=%s", foreground, background);
+	}
 }

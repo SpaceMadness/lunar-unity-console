@@ -1,6 +1,7 @@
 package spacemadness.com.lunarconsole.settings;
 
 import spacemadness.com.lunarconsole.utils.ColorUtils;
+import spacemadness.com.lunarconsole.utils.StringUtils;
 
 public class Color {
 	public int r;
@@ -35,4 +36,8 @@ public class Color {
 	}
 
 	//endregion
+
+	@Override public String toString() {
+		return StringUtils.format("[r: %d, g:%d, b: %d, a:%d]", r, g, b, a);
+	}
 }
