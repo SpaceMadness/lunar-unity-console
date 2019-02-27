@@ -1,9 +1,6 @@
 package spacemadness.com.lunarconsole.rx;
 
-import java.util.List;
-
-import spacemadness.com.lunarconsole.concurrent.DispatchQueue;
-import spacemadness.com.lunarconsole.console.ConsoleLogEntry;
+import spacemadness.com.lunarconsole.concurrent.Dispatcher;
 import spacemadness.com.lunarconsole.core.Disposable;
 import spacemadness.com.lunarconsole.utils.NotImplementedException;
 
@@ -13,7 +10,7 @@ import spacemadness.com.lunarconsole.utils.NotImplementedException;
 public abstract class Observable<T> {
 	public abstract Disposable subscribe(Observer<T> observer);
 
-	public Observable<List<ConsoleLogEntry>> subscribeOn(DispatchQueue queue) {
+	public Observable<T> observeOn(Dispatcher dispatcher) {
 		throw new NotImplementedException();
 	}
 }
