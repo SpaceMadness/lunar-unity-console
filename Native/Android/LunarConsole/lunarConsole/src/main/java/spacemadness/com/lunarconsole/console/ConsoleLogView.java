@@ -442,7 +442,7 @@ public class ConsoleLogView extends AbstractConsoleView implements
     private void setupFakeStatusBar()
     {
         String title = String.format(getResources().
-                getString(R.string.lunar_console_title_fake_status_bar), ConsolePlugin.getVersion());
+                getString(R.string.lunar_console_title_fake_status_bar), ConsolePluginImpl.getVersion());
 
         TextView statusBar = findExistingViewById(R.id.lunar_console_fake_status_bar);
         statusBar.setText(title);

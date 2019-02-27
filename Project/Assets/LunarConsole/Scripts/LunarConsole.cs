@@ -738,7 +738,7 @@ namespace LunarConsolePlugin
             private readonly jvalue[] m_args3 = new jvalue[3];
             private readonly jvalue[] m_args9 = new jvalue[9];
 
-            private static readonly string kPluginClassName = "spacemadness.com.lunarconsole.console.ConsolePlugin";
+            private static readonly string kPluginClassName = "spacemadness.com.lunarconsole.console.NativeBridge";
 
             private readonly AndroidJavaClass m_pluginClass;
 
@@ -785,14 +785,14 @@ namespace LunarConsolePlugin
                 AndroidJNI.DeleteLocalRef(methodInitParams[3].l);
 
                 m_methodLogMessage = GetStaticMethod(m_pluginClassRaw, "logMessage", "(Ljava.lang.String;Ljava.lang.String;I)V");
-                m_methodShowConsole = GetStaticMethod(m_pluginClassRaw, "show", "()V");
-                m_methodHideConsole = GetStaticMethod(m_pluginClassRaw, "hide", "()V");
-                m_methodClearConsole = GetStaticMethod(m_pluginClassRaw, "clear", "()V");
+                m_methodShowConsole = GetStaticMethod(m_pluginClassRaw, "showConsole", "()V");
+                m_methodHideConsole = GetStaticMethod(m_pluginClassRaw, "hideConsole", "()V");
+                m_methodClearConsole = GetStaticMethod(m_pluginClassRaw, "clearConsole", "()V");
                 m_methodRegisterAction = GetStaticMethod(m_pluginClassRaw, "registerAction", "(ILjava.lang.String;)V");
                 m_methodUnregisterAction = GetStaticMethod(m_pluginClassRaw, "unregisterAction", "(I)V");
                 m_methodRegisterVariable = GetStaticMethod(m_pluginClassRaw, "registerVariable", "(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IZFF)V");
                 m_methodUpdateVariable = GetStaticMethod(m_pluginClassRaw, "updateVariable", "(ILjava/lang/String;)V");
-                m_methodDestroy = GetStaticMethod(m_pluginClassRaw, "destroyInstance", "()V");
+                m_methodDestroy = GetStaticMethod(m_pluginClassRaw, "destroy", "()V");
 
                 m_messageQueue = new Queue<LogMessageEntry>();
             }

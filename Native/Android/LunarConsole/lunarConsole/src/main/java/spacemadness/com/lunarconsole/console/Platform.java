@@ -1,5 +1,5 @@
 //
-//  ConsolePluginImp.java
+//  Platform.java
 //
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
@@ -25,10 +25,10 @@ import android.view.View;
 
 import java.util.Map;
 
-interface ConsolePluginImp
+interface Platform
 {
     /** View to attach gesture detector */
-    View getTouchRecepientView();
+    View getTouchRecipientView();
 
     /** Send message to Unity runtime */
     void sendUnityScriptMessage(String name, Map<String, Object> data);

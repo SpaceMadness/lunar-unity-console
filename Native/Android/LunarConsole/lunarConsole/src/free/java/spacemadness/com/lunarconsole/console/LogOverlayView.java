@@ -28,7 +28,7 @@ import spacemadness.com.lunarconsole.core.Destroyable;
 
 public class LogOverlayView extends View implements Destroyable
 {
-    public LogOverlayView(Context context, Console console, Settings settings)
+    public LogOverlayView(Context context, Console console, Object settings)
     {
         super(context);
     }

@@ -27,12 +27,10 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -49,11 +47,17 @@ import spacemadness.com.lunarconsole.Config;
 import spacemadness.com.lunarconsole.concurrent.DispatchQueue;
 import spacemadness.com.lunarconsole.console.ConsoleLogType;
 import spacemadness.com.lunarconsole.console.ConsolePlugin;
+import spacemadness.com.lunarconsole.console.ConsolePluginImpl;
 import spacemadness.com.lunarconsole.console.ConsoleViewState;
+import spacemadness.com.lunarconsole.console.NativePlatform;
+import spacemadness.com.lunarconsole.json.JsonDecoder;
+import spacemadness.com.lunarconsole.settings.EditorSettings;
 import spacemadness.com.lunarconsole.settings.PluginSettings;
-import spacemadness.com.lunarconsole.utils.StringUtils;
 
-import static spacemadness.com.lunarconsole.console.ConsoleLogType.*;
+import static spacemadness.com.lunarconsole.console.ConsoleLogType.ERROR;
+import static spacemadness.com.lunarconsole.console.ConsoleLogType.EXCEPTION;
+import static spacemadness.com.lunarconsole.console.ConsoleLogType.LOG;
+import static spacemadness.com.lunarconsole.console.ConsoleLogType.WARNING;
 
 public class MainActivity extends Activity {
 	private static final String TEST_PREFS_NAME = "spacemadness.com.lunarconsole.Preferences";
@@ -64,6 +68,7 @@ public class MainActivity extends Activity {
 	private static final String KEY_CHECKBOX_USE_MAIN_THREAD = "use_main_thread";
 	private static final String KEY_CHECKBOX_ENABLE_STACK_TRACE = "enable_stack_trace";
 
+	private ConsolePlugin consolePlugin;
 	private Thread loggerThread;
 	private int logIndex;
 
@@ -105,11 +110,15 @@ public class MainActivity extends Activity {
 			@Override
 			public void run() {
 				if (!shutdownPluginWhenDestroyed) {
-					ConsolePlugin.shutdown(); // kill any previous instance
+					if (consolePlugin != null) {
+						consolePlugin.destroy(); // kill any previous instance
+					}
 				}
 
-				String settingsJson = readTextAsset("settings.json");
-				ConsolePlugin.init(MainActivity.this, "0.0.0", settingsJson);
+				final String settingsJson = readTextAsset("settings.json");
+				final EditorSettings settings = JsonDecoder.decode(settingsJson, EditorSettings.class);
+				final Activity activity = MainActivity.this;
+				consolePlugin = new ConsolePluginImpl(activity, new NativePlatform(activity), "0.0.0", settings);
 
                 /*
                 ConsolePlugin.registerAction(1, "Action - A");
@@ -153,7 +162,7 @@ public class MainActivity extends Activity {
 									@Override
 									public void run() {
 										String stacktrace = isStackTraceEnabled() ? entry.stacktrace : null;
-										ConsolePlugin.logMessage(entry.message, stacktrace, entry.type);
+										consolePlugin.logMessage(entry.message, stacktrace, entry.type);
 									}
 								});
 
@@ -219,7 +228,7 @@ public class MainActivity extends Activity {
 				dispatchOnSelectedQueue(new Runnable() {
 					@Override
 					public void run() {
-						ConsolePlugin.logMessage("Exception is thrown", "UnityEngine.Debug:LogError(Object)\n" +
+						consolePlugin.logMessage("Exception is thrown", "UnityEngine.Debug:LogError(Object)\n" +
 							                                                "Test:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n" +
 							                                                "<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\n" +
 							                                                "UnityEngine.MonoBehaviour:StartCoroutine(IEnumerator)\n" +
@@ -239,53 +248,54 @@ public class MainActivity extends Activity {
 		});
 
 		final Button showOverlay = (Button) findViewById(R.id.test_button_show_overlay);
-		showOverlay.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				dispatchOnSelectedQueue(new Runnable() {
-					@Override
-					public void run() {
-						if (ConsolePlugin.isOverlayShown()) {
-							ConsolePlugin.hideOverlay();
-						} else {
-							ConsolePlugin.showOverlay();
-						}
-					}
-				});
-			}
-		});
+		showOverlay.setEnabled(false);
+//		showOverlay.setOnClickListener(new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				dispatchOnSelectedQueue(new Runnable() {
+//					@Override
+//					public void run() {
+//						if (consolePlugin.isOverlayShown()) {
+//							consolePlugin.hideOverlay();
+//						} else {
+//							consolePlugin.showOverlay();
+//						}
+//					}
+//				});
+//			}
+//		});
 
 		setLogOnClickListener(R.id.test_button_log_debug, ConsoleLogType.LOG);
 		setLogOnClickListener(R.id.test_button_log_warning, ConsoleLogType.WARNING);
 		setLogOnClickListener(R.id.test_button_log_error, ConsoleLogType.ERROR);
 
-		setOnClickListener(R.id.test_button_set_capacity, new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				EditText capacityEditText = (EditText) findViewById(R.id.test_edit_text_capacity);
-				String capacityText = capacityEditText.getText().toString();
-				int capacity = StringUtils.parseInt(capacityText, 0);
-				if (capacity > 0) {
-					ConsolePlugin.setCapacity(capacity);
-				} else {
-					Toast.makeText(MainActivity.this, "Invalid capacity: " + capacityText, Toast.LENGTH_SHORT).show();
-				}
-			}
-		});
-
-		setOnClickListener(R.id.test_button_set_trim, new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				EditText trimEditText = (EditText) findViewById(R.id.test_edit_text_trim);
-				String trimText = trimEditText.getText().toString();
-				int trim = StringUtils.parseInt(trimText, 0);
-				if (trim > 0) {
-					ConsolePlugin.setTrimSize(trim);
-				} else {
-					Toast.makeText(MainActivity.this, "Invalid trim: " + trimText, Toast.LENGTH_SHORT).show();
-				}
-			}
-		});
+//		setOnClickListener(R.id.test_button_set_capacity, new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				EditText capacityEditText = (EditText) findViewById(R.id.test_edit_text_capacity);
+//				String capacityText = capacityEditText.getText().toString();
+//				int capacity = StringUtils.parseInt(capacityText, 0);
+//				if (capacity > 0) {
+//					consolePlugin.setCapacity(capacity);
+//				} else {
+//					Toast.makeText(MainActivity.this, "Invalid capacity: " + capacityText, Toast.LENGTH_SHORT).show();
+//				}
+//			}
+//		});
+//
+//		setOnClickListener(R.id.test_button_set_trim, new View.OnClickListener() {
+//			@Override
+//			public void onClick(View v) {
+//				EditText trimEditText = (EditText) findViewById(R.id.test_edit_text_trim);
+//				String trimText = trimEditText.getText().toString();
+//				int trim = StringUtils.parseInt(trimText, 0);
+//				if (trim > 0) {
+//					ConsolePlugin.setTrimSize(trim);
+//				} else {
+//					Toast.makeText(MainActivity.this, "Invalid trim: " + trimText, Toast.LENGTH_SHORT).show();
+//				}
+//			}
+//		});
 	}
 
 	@TargetApi(Build.VERSION_CODES.KITKAT)
@@ -326,7 +336,7 @@ public class MainActivity extends Activity {
 			dispatchOnSelectedQueue(new Runnable() {
 				@Override
 				public void run() {
-					ConsolePlugin.shutdown();
+					consolePlugin.destroy();
 				}
 			});
 		}
@@ -421,7 +431,7 @@ public class MainActivity extends Activity {
 					@Override
 					public void run() {
 						String message = messageText.getText().toString();
-						ConsolePlugin.logMessage(message, "", logType);
+						consolePlugin.logMessage(message, "", logType);
 					}
 				});
 			}
@@ -436,7 +446,7 @@ public class MainActivity extends Activity {
 		dispatchOnSelectedQueue(new Runnable() {
 			@Override
 			public void run() {
-				ConsolePlugin.show();
+				consolePlugin.showConsole();
 			}
 		});
 	}

@@ -1,5 +1,5 @@
 //
-//  DefaultPluginImp.java
+//  NativePlatform.java
 //
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
@@ -25,7 +25,6 @@ import android.app.Activity;
 import android.view.View;
 
 import java.lang.ref.WeakReference;
-import java.util.HashMap;
 import java.util.Map;
 
 import spacemadness.com.lunarconsole.core.LunarConsoleException;
@@ -35,11 +34,11 @@ import spacemadness.com.lunarconsole.utils.UIUtils;
 import static spacemadness.com.lunarconsole.debug.Tags.*;
 import static spacemadness.com.lunarconsole.debug.TestHelper.TEST_EVENT_NATIVE_CALLBACK;
 
-class DefaultPluginImp implements ConsolePluginImp
+public class NativePlatform implements Platform
 {
     private final WeakReference<View> rootViewRef;
 
-    public DefaultPluginImp(Activity activity)
+    public NativePlatform(Activity activity)
     {
         View rootView = UIUtils.getRootViewGroup(activity);
         if (rootView == null)
@@ -51,7 +50,7 @@ class DefaultPluginImp implements ConsolePluginImp
     }
 
     @Override
-    public View getTouchRecepientView()
+    public View getTouchRecipientView()
     {
         return rootViewRef.get();
     }
