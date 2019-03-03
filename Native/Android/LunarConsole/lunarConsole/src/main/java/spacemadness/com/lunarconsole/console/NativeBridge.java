@@ -6,7 +6,7 @@ import com.unity3d.player.UnityPlayer;
 
 import spacemadness.com.lunarconsole.debug.Log;
 import spacemadness.com.lunarconsole.json.JsonDecoder;
-import spacemadness.com.lunarconsole.settings.EditorSettings;
+import spacemadness.com.lunarconsole.settings.PluginSettings;
 
 /**
  * Class representing a bridge between native and managed code.
@@ -34,7 +34,7 @@ public final class NativeBridge {
 		try {
 			final Activity activity = UnityPlayer.currentActivity;
 			final Platform platform = new ManagedPlatform(activity, targetName, methodName);
-			final EditorSettings settings = JsonDecoder.decode(settingsJson, EditorSettings.class);
+			final PluginSettings settings = JsonDecoder.decode(settingsJson, PluginSettings.class);
 			plugin = new ConsolePluginImpl(activity, platform, version, settings);
 			plugin.start();
 		} catch (Exception e) {

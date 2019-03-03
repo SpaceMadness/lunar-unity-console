@@ -10,10 +10,10 @@ import spacemadness.com.lunarconsole.reflection.FieldProperty;
 import static spacemadness.com.lunarconsole.utils.ObjectUtils.checkNotNull;
 
 class EditorSettingsAdapter extends BaseAdapter {
-	private final EditorSettings settings;
+	private final PluginSettings settings;
 	private final FieldProperty settingsProperty;
 
-	public EditorSettingsAdapter(EditorSettings settings) {
+	public EditorSettingsAdapter(PluginSettings settings) {
 		this.settings = checkNotNull(settings, "settings");
 		this.settingsProperty = new FieldProperty(this, ClassUtils.getField(this, "settings"));
 	}

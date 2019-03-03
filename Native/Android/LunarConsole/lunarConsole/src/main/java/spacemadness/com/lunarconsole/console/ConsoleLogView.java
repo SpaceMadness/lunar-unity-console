@@ -51,7 +51,7 @@ import java.lang.ref.WeakReference;
 
 import spacemadness.com.lunarconsole.R;
 import spacemadness.com.lunarconsole.debug.Log;
-import spacemadness.com.lunarconsole.settings.PluginSettingsActivity;
+import spacemadness.com.lunarconsole.settings.EditorSettingsActivity;
 import spacemadness.com.lunarconsole.ui.ConsoleListView;
 import spacemadness.com.lunarconsole.ui.LogTypeButton;
 import spacemadness.com.lunarconsole.ui.ToggleButton;
@@ -142,9 +142,9 @@ public class ConsoleLogView extends AbstractConsoleView implements
 
                 LayoutInflater inflater = LayoutInflater.from(ctx);
                 View contentView = inflater.inflate(R.layout.lunar_console_layout_log_details_dialog, null);
-                ImageView imageView = (ImageView) contentView.findViewById(R.id.lunar_console_log_details_icon);
-                TextView messageView = (TextView) contentView.findViewById(R.id.lunar_console_log_details_message);
-                TextView stacktraceView = (TextView) contentView.findViewById(R.id.lunar_console_log_details_stacktrace);
+                ImageView imageView = contentView.findViewById(R.id.lunar_console_log_details_icon);
+                TextView messageView = contentView.findViewById(R.id.lunar_console_log_details_message);
+                TextView stacktraceView = contentView.findViewById(R.id.lunar_console_log_details_stacktrace);
 
                 final String message = entry.message;
                 final String stackTrace = entry.hasStackTrace() ?
@@ -498,7 +498,7 @@ public class ConsoleLogView extends AbstractConsoleView implements
 
                     try
                     {
-                        Intent intent = new Intent(activity, PluginSettingsActivity.class);
+                        Intent intent = new Intent(activity, EditorSettingsActivity.class);
                         activity.startActivity(intent);
                     }
                     catch (Exception e)

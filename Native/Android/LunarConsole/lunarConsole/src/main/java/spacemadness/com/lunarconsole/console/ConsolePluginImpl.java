@@ -40,9 +40,11 @@ import spacemadness.com.lunarconsole.core.NotificationCenter;
 import spacemadness.com.lunarconsole.debug.Assert;
 import spacemadness.com.lunarconsole.debug.Log;
 import spacemadness.com.lunarconsole.dependency.DefaultDependencies;
-import spacemadness.com.lunarconsole.dependency.EditorSettingsProvider;
+import spacemadness.com.lunarconsole.dependency.PluginSettingsProvider;
 import spacemadness.com.lunarconsole.dependency.Provider;
-import spacemadness.com.lunarconsole.settings.EditorSettings;
+import spacemadness.com.lunarconsole.rx.BehaviorSubject;
+import spacemadness.com.lunarconsole.rx.Observable;
+import spacemadness.com.lunarconsole.settings.PluginSettings;
 import spacemadness.com.lunarconsole.settings.ExceptionWarningSettings.DisplayMode;
 import spacemadness.com.lunarconsole.ui.gestures.GestureRecognizer;
 import spacemadness.com.lunarconsole.ui.gestures.GestureRecognizerFactory;
@@ -70,7 +72,9 @@ public class ConsolePluginImpl implements ConsolePlugin, NotificationCenter.OnNo
 	private final ActionRegistry actionRegistry;
 	private final Platform platform;
 	private final String version;
-	private final EditorSettings settings;
+	private final PluginSettings settings;
+	private final BehaviorSubject<PluginSettings> settingsBehaviorSubject;
+
 	private final ConsoleViewState consoleViewState;
 
 	// Dialog for holding console related UI (starting Unity 5.6b we can use overlay views)
@@ -200,11 +204,13 @@ public class ConsolePluginImpl implements ConsolePlugin, NotificationCenter.OnNo
 
 	//region Constructor
 
-	public ConsolePluginImpl(Activity activity, Platform platform, String version, EditorSettings settings) {
+	public ConsolePluginImpl(Activity activity, Platform platform, String version, PluginSettings settings) {
 		this.activityRef = new WeakReference<>(checkNotNull(activity, "activity"));
 		// FIXME: load settings
 		this.platform = checkNotNull(platform, "platform");
 		this.settings = checkNotNull(settings, "settings");
+		this.settingsBehaviorSubject = new BehaviorSubject<>(settings);
+
 		this.version = checkNotNullAndNotEmpty(version, "version");
 
 		Application application = activity.getApplication();
@@ -214,9 +220,9 @@ public class ConsolePluginImpl implements ConsolePlugin, NotificationCenter.OnNo
 		activityLifecycleHandler = new ActivityLifecycleHandler(application);
 
 		// make settings available as a dependency
-		Provider.register(EditorSettingsProvider.class, new EditorSettingsProvider() {
-			@Override public EditorSettings getEditorSettings() {
-				return ConsolePluginImpl.this.settings;
+		Provider.register(PluginSettingsProvider.class, new PluginSettingsProvider() {
+			@Override public Observable<PluginSettings> getEditorSettings() {
+				return settingsBehaviorSubject;
 			}
 		});
 

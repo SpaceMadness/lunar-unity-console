@@ -58,7 +58,7 @@ public class ConsoleActionView extends AbstractConsoleView implements
 
     private final ConsoleViewState consoleViewState;
 
-    public ConsoleActionView(Activity activity, ConsolePlugin consolePlugin)
+    public ConsoleActionView(Activity activity, ConsolePluginImpl consolePlugin)
     {
         super(activity, R.layout.lunar_console_layout_console_action_view);
 

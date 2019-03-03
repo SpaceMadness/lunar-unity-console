@@ -3,7 +3,7 @@ package spacemadness.com.lunarconsole.rx;
 import spacemadness.com.lunarconsole.core.Disposable;
 import spacemadness.com.lunarconsole.utils.NotImplementedException;
 
-public class BehaviorSubject<T> extends Observable<T> implements Observer<T> {
+public class BehaviorSubject<T> extends Subject<T> {
 	private T value;
 
 	public BehaviorSubject(T value) {
