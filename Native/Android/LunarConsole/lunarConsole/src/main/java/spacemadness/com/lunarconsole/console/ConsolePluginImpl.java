@@ -40,12 +40,15 @@ import spacemadness.com.lunarconsole.core.NotificationCenter;
 import spacemadness.com.lunarconsole.debug.Assert;
 import spacemadness.com.lunarconsole.debug.Log;
 import spacemadness.com.lunarconsole.dependency.DefaultDependencies;
+import spacemadness.com.lunarconsole.dependency.PluginSettingsEditorProvider;
 import spacemadness.com.lunarconsole.dependency.PluginSettingsProvider;
 import spacemadness.com.lunarconsole.dependency.Provider;
+import spacemadness.com.lunarconsole.redux.Store;
 import spacemadness.com.lunarconsole.rx.BehaviorSubject;
 import spacemadness.com.lunarconsole.rx.Observable;
 import spacemadness.com.lunarconsole.settings.PluginSettings;
 import spacemadness.com.lunarconsole.settings.ExceptionWarningSettings.DisplayMode;
+import spacemadness.com.lunarconsole.settings.PluginSettingsEditor;
 import spacemadness.com.lunarconsole.ui.gestures.GestureRecognizer;
 import spacemadness.com.lunarconsole.ui.gestures.GestureRecognizerFactory;
 import spacemadness.com.lunarconsole.utils.DictionaryUtils;
@@ -61,7 +64,7 @@ import static spacemadness.com.lunarconsole.utils.ObjectUtils.checkNotNull;
 import static spacemadness.com.lunarconsole.utils.ObjectUtils.checkNotNullAndNotEmpty;
 import static spacemadness.com.lunarconsole.utils.ThreadUtils.*;
 
-public class ConsolePluginImpl implements ConsolePlugin, NotificationCenter.OnNotificationListener, Destroyable {
+public class ConsolePluginImpl implements ConsolePlugin, NotificationCenter.OnNotificationListener, Destroyable, PluginSettingsEditorProvider {
 	private static final String SCRIPT_MESSAGE_CONSOLE_OPEN = "console_open";
 	private static final String SCRIPT_MESSAGE_CONSOLE_CLOSE = "console_close";
 	private static final String SCRIPT_MESSAGE_ACTION = "console_action";
@@ -69,6 +72,7 @@ public class ConsolePluginImpl implements ConsolePlugin, NotificationCenter.OnNo
 
 	private Console console;
 	private ActivityLifecycleHandler activityLifecycleHandler;
+	private final Store<PluginState> store;
 	private final ActionRegistry actionRegistry;
 	private final Platform platform;
 	private final String version;
@@ -210,6 +214,7 @@ public class ConsolePluginImpl implements ConsolePlugin, NotificationCenter.OnNo
 		this.platform = checkNotNull(platform, "platform");
 		this.settings = checkNotNull(settings, "settings");
 		this.settingsBehaviorSubject = new BehaviorSubject<>(settings);
+		this.store = new Store<>(new ConsolePluginReducer(), new PluginState(settings));
 
 		this.version = checkNotNullAndNotEmpty(version, "version");
 
@@ -220,11 +225,7 @@ public class ConsolePluginImpl implements ConsolePlugin, NotificationCenter.OnNo
 		activityLifecycleHandler = new ActivityLifecycleHandler(application);
 
 		// make settings available as a dependency
-		Provider.register(PluginSettingsProvider.class, new PluginSettingsProvider() {
-			@Override public Observable<PluginSettings> getEditorSettings() {
-				return settingsBehaviorSubject;
-			}
-		});
+		Provider.register(PluginSettingsEditorProvider.class, this);
 
 		consoleViewState = new ConsoleViewState(activity.getApplicationContext());
 
@@ -646,6 +647,25 @@ public class ConsolePluginImpl implements ConsolePlugin, NotificationCenter.OnNo
 			}
 		}
 	};
+
+	//endregion
+
+	//region PluginSettingsEditorProvider
+
+	@Override
+	public PluginSettingsEditor getSettingsEditor() {
+		return new PluginSettingsEditor() {
+			@Override
+			public PluginSettings getSettings() {
+				return settings;
+			}
+
+			@Override
+			public void setSettings(PluginSettings settings) {
+				throw new NotImplementedException();
+			}
+		};
+	}
 
 	//endregion
 

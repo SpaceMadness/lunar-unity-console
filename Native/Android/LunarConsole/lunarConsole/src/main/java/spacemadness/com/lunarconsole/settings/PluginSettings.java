@@ -76,7 +76,8 @@ public final class PluginSettings {
 
 	//region Equality
 
-	@Override public boolean equals(Object o) {
+	@Override
+	public boolean equals(Object o) {
 		if (this == o) return true;
 		if (o == null || getClass() != o.getClass()) return false;
 
@@ -96,7 +97,8 @@ public final class PluginSettings {
 		return Arrays.equals(emails, settings.emails);
 	}
 
-	@Override public int hashCode() {
+	@Override
+	public int hashCode() {
 		int result = exceptionWarning != null ? exceptionWarning.hashCode() : 0;
 		result = 31 * result + (logOverlay != null ? logOverlay.hashCode() : 0);
 		result = 31 * result + capacity;

@@ -25,17 +25,7 @@ public final class ExceptionWarningSettings {
 		/**
 		 * Display everything.
 		 */
-		ALL;
-
-		/**
-		 * Parses the value of <code>DisplayMode</code> (case insensitive)
-		 */
-		public static DisplayMode parse(String value) {
-			if (value == null) {
-				throw new IllegalArgumentException("Value is null");
-			}
-			return DisplayMode.valueOf(value.toUpperCase());
-		}
+		ALL
 	}
 
 	/**

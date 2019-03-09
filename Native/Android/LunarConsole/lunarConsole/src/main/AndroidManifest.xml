@@ -3,7 +3,7 @@
           package="spacemadness.com.lunarconsole">
 
     <application>
-        <activity android:name=".settings.EditorSettingsActivity">
+        <activity android:name=".settings.PluginSettingsActivity">
         </activity>
     </application>
 

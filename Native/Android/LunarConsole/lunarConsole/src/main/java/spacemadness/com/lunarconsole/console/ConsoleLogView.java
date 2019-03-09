@@ -51,7 +51,7 @@ import java.lang.ref.WeakReference;
 
 import spacemadness.com.lunarconsole.R;
 import spacemadness.com.lunarconsole.debug.Log;
-import spacemadness.com.lunarconsole.settings.EditorSettingsActivity;
+import spacemadness.com.lunarconsole.settings.PluginSettingsActivity;
 import spacemadness.com.lunarconsole.ui.ConsoleListView;
 import spacemadness.com.lunarconsole.ui.LogTypeButton;
 import spacemadness.com.lunarconsole.ui.ToggleButton;
@@ -498,7 +498,7 @@ public class ConsoleLogView extends AbstractConsoleView implements
 
                     try
                     {
-                        Intent intent = new Intent(activity, EditorSettingsActivity.class);
+                        Intent intent = new Intent(activity, PluginSettingsActivity.class);
                         activity.startActivity(intent);
                     }
                     catch (Exception e)
