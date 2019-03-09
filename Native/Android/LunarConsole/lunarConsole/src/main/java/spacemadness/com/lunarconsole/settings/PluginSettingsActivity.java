@@ -3,23 +3,20 @@ package spacemadness.com.lunarconsole.settings;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.TextView;
 
-import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.List;
 
 import spacemadness.com.lunarconsole.R;
 import spacemadness.com.lunarconsole.dependency.Provider;
 import spacemadness.com.lunarconsole.reflection.FieldProperty;
-import spacemadness.com.lunarconsole.reflection.Property;
-import spacemadness.com.lunarconsole.reflection.PropertyHelper;
 import spacemadness.com.lunarconsole.settings.PluginSettingsViewModel.HeaderItem;
 import spacemadness.com.lunarconsole.settings.PluginSettingsViewModel.PropertyItem;
 import spacemadness.com.lunarconsole.ui.ListViewAdapter;
 import spacemadness.com.lunarconsole.ui.ListViewItem;
-import spacemadness.com.lunarconsole.utils.ClassUtils;
 import spacemadness.com.lunarconsole.utils.NotImplementedException;
 
 import static spacemadness.com.lunarconsole.settings.PluginSettingsViewModel.ItemType;
@@ -61,18 +58,14 @@ public class PluginSettingsActivity extends Activity {
 		});
 
 		// Property
-//		adapter.register(ItemType.PROPERTY, new ListViewAdapter.LayoutIdFactory() {
-//			@Override
-//			public ListViewAdapter.ViewHolder createViewHolder(View convertView) {
-//				throw new NotImplementedException();
-//			}
-//		});
+		adapter.register(ItemType.PROPERTY, new ListViewAdapter.LayoutIdFactory(R.layout.lunar_console_layout_settings_property) {
+			@Override
+			public ListViewAdapter.ViewHolder createViewHolder(View convertView) {
+				return new PropertyViewHolder(convertView);
+			}
+		});
 
 		return adapter;
-	}
-
-	private List<ListViewItem> createItems(PluginSettings settings) {
-		return viewModel.createItems();
 	}
 
 	private void notifyPropertyChanged(FieldProperty property) {
@@ -94,13 +87,21 @@ public class PluginSettingsActivity extends Activity {
 	}
 
 	private class PropertyViewHolder extends ListViewAdapter.ViewHolder<PropertyItem> {
+		private final TextView titleTextView;
+		private final EditText valueEditText;
+		private final Switch valueSwitch;
+
 		public PropertyViewHolder(View view) {
 			super(view);
+
+			titleTextView = view.findViewById(R.id.lunar_console_settings_property_name);
+			valueEditText = view.findViewById(R.id.lunar_console_settings_property_value);
+			valueSwitch = view.findViewById(R.id.lunar_console_settings_property_switch);
 		}
 
 		@Override
 		public void bindView(PropertyItem item, int position) {
-			throw new NotImplementedException();
+
 		}
 	}
 }

@@ -1,14 +1,11 @@
 package spacemadness.com.lunarconsole.settings;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
 import spacemadness.com.lunarconsole.reflection.FieldProperty;
-import spacemadness.com.lunarconsole.reflection.Property;
 import spacemadness.com.lunarconsole.reflection.PropertyHelper;
 import spacemadness.com.lunarconsole.ui.ListViewItem;
-import spacemadness.com.lunarconsole.utils.ClassUtils;
 
 import static spacemadness.com.lunarconsole.utils.ObjectUtils.checkNotNull;
 
@@ -33,6 +30,7 @@ class PluginSettingsViewModel {
 	}
 
 	private void notifyPropertyChanged(FieldProperty property) {
+		settingsEditor.setSettings(settingsEditor.getSettings());
 	}
 
 	enum ItemType {HEADER, PROPERTY}
