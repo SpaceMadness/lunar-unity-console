@@ -17,8 +17,16 @@ public class FieldProperty extends Property {
 		this.target = checkNotNull(target, "target");
 	}
 
+	public Class<?> getType() {
+		return field.getType();
+	}
+
+	public Object getValue() {
+		return ClassUtils.getFieldValue(target, field);
+	}
+
 	public void setValue(Object value) {
-		ClassUtils.setFieldValue(field, target, value);
+		ClassUtils.setFieldValue(target, field, value);
 	}
 
 	@Override public String toString() {

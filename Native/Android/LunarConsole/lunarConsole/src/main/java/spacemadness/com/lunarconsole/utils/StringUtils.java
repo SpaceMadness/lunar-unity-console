@@ -82,8 +82,7 @@ public class StringUtils {
 		return str != null && prefix != null && str.startsWith(prefix);
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// Transformations
+	//region Transformations
 
 	public static String camelCaseToWords(String string) {
 		if (IsNullOrEmpty(string)) return string;
@@ -102,8 +101,9 @@ public class StringUtils {
 		return result.toString();
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// Nullability
+	//endregion
+
+	//region Nullability
 
 	public static boolean IsNullOrEmpty(String str) {
 		return str == null || str.length() == 0;
@@ -116,6 +116,8 @@ public class StringUtils {
 	public static String NonNullOrEmpty(String str) {
 		return str != null ? str : "";
 	}
+
+	//endregion
 
 	public static String toString(Object value) {
 		return value != null ? value.toString() : "null";

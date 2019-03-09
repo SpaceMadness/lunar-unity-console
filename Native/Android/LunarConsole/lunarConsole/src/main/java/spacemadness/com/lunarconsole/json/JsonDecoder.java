@@ -45,7 +45,7 @@ public class JsonDecoder {
 			// decode value
 			Object fieldValue = decode(value, field.getType());
 			if (fieldValue != DEFAULT) {
-				ClassUtils.setFieldValue(field, instance, fieldValue);
+				ClassUtils.setFieldValue(instance, field, fieldValue);
 			}
 		}
 		return instance;

@@ -6,24 +6,31 @@ import spacemadness.com.lunarconsole.TestCase
 
 class PropertyHelperTest : TestCase() {
     @Test
-    fun testListProperties() {
-        val myClass = MyClass()
-        myClass.childField = MyClass()
+    fun testGetProperty() {
+        val parent = Parent()
+        parent.child.intValue = 42
+        parent.child.boolValue = true
+        parent.child.floatValue = 3.14f
+        parent.child.stringValue = "value"
 
-        val properties = PropertyHelper.listProperties(myClass)
-        assertEquals(6, properties.size)
-        assertEquals(properties[0].toString(), "MyClass.intField")
-        assertEquals(properties[1].toString(), "MyClass.floatField")
-        assertEquals(properties[2].toString(), "MyClass.boolField")
-        assertEquals(properties[3].toString(), "MyClass.stringField")
-        assertEquals(properties[4].toString(), "MyClass.enumField")
+        val intProperty = PropertyHelper.getProperty(parent, "child.intValue")
+        val boolProperty = PropertyHelper.getProperty(parent, "child.boolValue")
+        val floatProperty = PropertyHelper.getProperty(parent, "child.floatValue")
+        val stringProperty = PropertyHelper.getProperty(parent, "child.stringValue")
 
-        val groupProperty = properties[5] as GroupProperty
-        assertEquals(5, groupProperty.size())
-        assertEquals(groupProperty.children[0].toString(), "MyClass.intField")
-        assertEquals(groupProperty.children[1].toString(), "MyClass.floatField")
-        assertEquals(groupProperty.children[2].toString(), "MyClass.boolField")
-        assertEquals(groupProperty.children[3].toString(), "MyClass.stringField")
-        assertEquals(groupProperty.children[4].toString(), "MyClass.enumField")
+        assertEquals(42, intProperty.value as Int)
+        assertEquals(true, boolProperty.value as Boolean)
+        assertEquals(3.14f, floatProperty.value as Float)
+        assertEquals("value", stringProperty.value as String)
+
+        intProperty.value = 20
+        boolProperty.value = false
+        floatProperty.value = 6.28f
+        stringProperty.value = "new value"
+
+        assertEquals(20, parent.child.intValue)
+        assertEquals(false, parent.child.boolValue)
+        assertEquals(6.28f, parent.child.floatValue)
+        assertEquals("new value", parent.child.stringValue)
     }
 }

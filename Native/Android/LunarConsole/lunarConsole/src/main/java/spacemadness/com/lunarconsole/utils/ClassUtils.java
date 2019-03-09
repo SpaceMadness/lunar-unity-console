@@ -89,7 +89,7 @@ public final class ClassUtils {
 		}
 	}
 
-	public static Field setFieldValue(Field field, Object target, Object value) {
+	public static Field setFieldValue(Object target, Field field, Object value) {
 		field.setAccessible(true);
 		try {
 			field.set(target, value);
