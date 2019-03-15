@@ -50,8 +50,10 @@ import spacemadness.com.lunarconsole.console.ConsolePlugin;
 import spacemadness.com.lunarconsole.console.ConsolePluginImpl;
 import spacemadness.com.lunarconsole.console.ConsoleViewState;
 import spacemadness.com.lunarconsole.console.NativePlatform;
+import spacemadness.com.lunarconsole.dependency.DefaultDependencies;
+import spacemadness.com.lunarconsole.dependency.DispatchQueueProvider;
+import spacemadness.com.lunarconsole.dependency.Provider;
 import spacemadness.com.lunarconsole.json.JsonDecoder;
-import spacemadness.com.lunarconsole.settings.EditorSettings;
 import spacemadness.com.lunarconsole.settings.PluginSettings;
 
 import static spacemadness.com.lunarconsole.console.ConsoleLogType.ERROR;
@@ -92,6 +94,8 @@ public class MainActivity extends Activity {
 
 		Config.DEBUG = true;
 
+		DefaultDependencies.register();
+
 		mainQueue = DispatchQueue.mainQueue();
 		backgroundQueue = DispatchQueue.createSerialQueue("background");
 
@@ -116,26 +120,25 @@ public class MainActivity extends Activity {
 				}
 
 				final String settingsJson = readTextAsset("settings.json");
-				final EditorSettings settings = JsonDecoder.decode(settingsJson, EditorSettings.class);
+				final PluginSettings settings = JsonDecoder.decode(settingsJson, PluginSettings.class);
 				final Activity activity = MainActivity.this;
 				consolePlugin = new ConsolePluginImpl(activity, new NativePlatform(activity), "0.0.0", settings);
+				/*
+				consolePlugin.registerAction(1, "Action - A");
+				consolePlugin.registerAction(3, "Action - B");
+				consolePlugin.registerAction(5, "Action - C");
 
-                /*
-                ConsolePlugin.registerAction(1, "Action - A");
-                ConsolePlugin.registerAction(3, "Action - B");
-                ConsolePlugin.registerAction(5, "Action - C");
-
-                ConsolePlugin.registerVariable(0, "String variable", "String", "test-1", "test-1", 0, false, 0, 0);
-                ConsolePlugin.registerVariable(1, "Integer variable", "Integer", "10", "10", 0, false, 0, 0);
-                ConsolePlugin.registerVariable(2, "Float variable", "Float", "3.14", "3.14", 0, false, 0, 0);
-                ConsolePlugin.registerVariable(3, "Toggle variable", "Boolean", "1", "1", 0, false, 0, 0);
-                ConsolePlugin.registerVariable(4, "Range", "Float", "6.28", "6.28", 0, true, 1.0f, 10.0f);
-                ConsolePlugin.registerVariable(5, "Volatile", "Integer", "25", "25", Variable.FLAG_NO_ARCHIVE, true, 1.0f, 10.0f);
-                */
+				consolePlugin.registerVariable(0, "String variable", "String", "test-1", "test-1", 0, false, 0, 0);
+				consolePlugin.registerVariable(1, "Integer variable", "Integer", "10", "10", 0, false, 0, 0);
+				consolePlugin.registerVariable(2, "Float variable", "Float", "3.14", "3.14", 0, false, 0, 0);
+				consolePlugin.registerVariable(3, "Toggle variable", "Boolean", "1", "1", 0, false, 0, 0);
+				consolePlugin.registerVariable(4, "Range", "Float", "6.28", "6.28", 0, true, 1.0f, 10.0f);
+				consolePlugin.registerVariable(5, "Volatile", "Integer", "25", "25", Variable.FLAG_NO_ARCHIVE, true, 1.0f, 10.0f);
+				*/
 			}
 		});
 
-		final Button loggerButton = (Button) findViewById(R.id.test_button_start_logger);
+		final Button loggerButton = findViewById(R.id.test_button_start_logger);
 		loggerButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -415,7 +418,7 @@ public class MainActivity extends Activity {
 		edit.clear();
 		edit.apply();
 
-		PluginSettings.clear(context);
+		// PluginSettings.clear(context); // FIXME
 		ConsoleViewState.clear(context);
 	}
 
@@ -426,7 +429,7 @@ public class MainActivity extends Activity {
 		setOnClickListener(id, new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				final EditText messageText = (EditText) findViewById(R.id.test_edit_message);
+				final EditText messageText = findViewById(R.id.test_edit_message);
 				dispatchOnSelectedQueue(new Runnable() {
 					@Override
 					public void run() {
