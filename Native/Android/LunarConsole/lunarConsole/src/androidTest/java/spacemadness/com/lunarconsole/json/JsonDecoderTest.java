@@ -8,32 +8,66 @@ import static spacemadness.com.lunarconsole.json.Child.createChild;
 import static spacemadness.com.lunarconsole.json.Parent.createParent;
 
 public class JsonDecoderTest extends InstrumentationTestCase {
-
-	public void testDecode() {
-		Parent actual = JsonDecoder.decode(readTextAsset("json-tests/parent.json"), Parent.class);
-		Parent expected = createParent(
+	public void testEncode() {
+		Parent object = createParent(
 			1,
-			1.0f,
+			1.1f,
 			true,
 			"parent",
 			createChild(
 				2,
-				2.0f,
+				2.2f,
 				false,
 				"child",
 				MyEnum.Two
-				),
+			),
 			new Child[]{
 				createChild(
 					3,
-					3.0f,
+					3.3f,
 					true,
 					"child-1",
 					MyEnum.One
 				),
 				createChild(
 					4,
-					4.0f,
+					4.4f,
+					false,
+					"child-2",
+					MyEnum.Three
+				),
+			}
+		);
+		String expected = readTextAsset("json-tests/parent.json");
+		String actual = JsonDecoder.encode(object);
+		assertEquals(expected, actual);
+	}
+
+	public void testDecode() {
+		Parent actual = JsonDecoder.decode(readTextAsset("json-tests/parent.json"), Parent.class);
+		Parent expected = createParent(
+			1,
+			1.1f,
+			true,
+			"parent",
+			createChild(
+				2,
+				2.2f,
+				false,
+				"child",
+				MyEnum.Two
+			),
+			new Child[]{
+				createChild(
+					3,
+					3.3f,
+					true,
+					"child-1",
+					MyEnum.One
+				),
+				createChild(
+					4,
+					4.4f,
 					false,
 					"child-2",
 					MyEnum.Three

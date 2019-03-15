@@ -1,29 +1,29 @@
 {
-  "intField": 1,
-  "floatField": 1.0,
   "boolField": true,
-  "stringField": "parent",
   "child": {
-    "int": 2,
-    "float": 2.0,
     "bool": false,
-    "string": "child",
-    "enum": 1
+    "enum": "Two",
+    "float": 2.2,
+    "int": 2,
+    "string": "child"
   },
   "children": [
     {
-      "int": 3,
-      "float": 3.0,
       "bool": true,
-      "string": "child-1",
-      "enum": "One"
+      "enum": "One",
+      "float": 3.3,
+      "int": 3,
+      "string": "child-1"
     },
     {
-      "int": 4,
-      "float": 4.0,
       "bool": false,
-      "string": "child-2",
-      "enum": "Three"
+      "enum": "Three",
+      "float": 4.4,
+      "int": 4,
+      "string": "child-2"
     }
-  ]
+  ],
+  "floatField": 1.1,
+  "intField": 1,
+  "stringField": "parent"
 }

@@ -6,6 +6,7 @@ import org.json.JSONObject;
 
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 
 import spacemadness.com.lunarconsole.utils.ClassUtils;
@@ -17,6 +18,63 @@ public class JsonDecoder {
 	 * Special marker-object to indicate that field should retain its default value.
 	 */
 	private static final Object DEFAULT = new Object();
+
+	public static String encode(Object object) {
+		try {
+			return encodeJsonObject(object).toString(2);
+		} catch (Exception e) {
+			throw new JsonDecoderException(e);
+		}
+	}
+
+	private static JSONObject encodeJsonObject(Object object) throws JSONException {
+		JSONObject jsonObject = new JSONObject();
+
+		// decode fields
+		List<Field> fields = ClassUtils.listFields(object.getClass(), FIELD_FILTER);
+		for (Field field : fields) {
+			final String name = getName(field);
+			final Object value = encodeObject(ClassUtils.getFieldValue(object, field));
+
+			jsonObject.put(name, value);
+		}
+
+		return jsonObject;
+	}
+
+	private static Object encodeObject(Object value) throws JSONException {
+		if (value == null) {
+			return null;
+		}
+
+		if (value instanceof String ||
+		    value instanceof Number ||
+		    value instanceof Boolean ||
+				value instanceof Character) {
+			return value;
+		}
+
+		Class<?> targetType = value.getClass();
+		if (targetType.isPrimitive()) {
+			return value;
+		}
+
+		if (targetType.isArray()) {
+			int length = Array.getLength(value);
+			List<Object> encoded = new ArrayList<>(length);
+			for (int i = 0; i < length; ++i) {
+				encoded.add(encodeObject(Array.get(value, i)));
+			}
+
+			return new JSONArray(encoded);
+		}
+
+		if (targetType.isEnum()) {
+			return value.toString();
+		}
+
+		return encodeJsonObject(value);
+	}
 
 	public static <T> T decode(String json, Class<T> cls) throws JsonDecoderException {
 		try {
@@ -110,7 +168,7 @@ public class JsonDecoder {
 		if (targetType.isEnum()) {
 			if (jsonValue instanceof String) {
 				//noinspection unchecked
-				return Enum.valueOf((Class<? extends Enum>)targetType, (String) jsonValue);
+				return Enum.valueOf((Class<? extends Enum>) targetType, (String) jsonValue);
 			}
 
 			if (jsonValue instanceof Integer) {
