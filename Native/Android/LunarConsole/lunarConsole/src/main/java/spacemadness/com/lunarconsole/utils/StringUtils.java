@@ -48,11 +48,27 @@ public class StringUtils {
 		}
 	}
 
+	public static Integer parseInt(String str) {
+		try {
+			return Integer.parseInt(str);
+		} catch (NumberFormatException e) {
+			return null;
+		}
+	}
+
 	public static int parseInt(String str, int defaultValue) {
 		try {
 			return Integer.parseInt(str);
 		} catch (NumberFormatException e) {
 			return defaultValue;
+		}
+	}
+
+	public static Float parseFloat(String str) {
+		try {
+			return Float.parseFloat(str);
+		} catch (NumberFormatException e) {
+			return null;
 		}
 	}
 

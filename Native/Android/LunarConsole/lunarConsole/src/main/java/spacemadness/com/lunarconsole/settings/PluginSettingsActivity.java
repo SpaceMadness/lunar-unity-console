@@ -5,7 +5,12 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -24,6 +29,7 @@ import spacemadness.com.lunarconsole.ui.ListViewAdapter;
 import spacemadness.com.lunarconsole.ui.ListViewItem;
 import spacemadness.com.lunarconsole.utils.CollectionUtils;
 import spacemadness.com.lunarconsole.utils.EnumUtils;
+import spacemadness.com.lunarconsole.utils.NotImplementedException;
 import spacemadness.com.lunarconsole.utils.StringUtils;
 
 import static spacemadness.com.lunarconsole.settings.PluginSettingsViewModel.ItemType;
@@ -112,34 +118,72 @@ public class PluginSettingsActivity extends Activity {
 			int valueSwitchVisibility = View.GONE;
 			int valueButtonVisibility = View.GONE;
 
-			Class<?> type = item.getType();
+			final Class<?> type = item.getType();
+			final Object value = item.getValue();
 			if (type == Boolean.class || type == boolean.class) {
 				valueSwitchVisibility = View.VISIBLE;
-				valueSwitch.setChecked(item.getValue() == Boolean.TRUE);
+				valueSwitch.setChecked(value == Boolean.TRUE);
 				valueSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 					@Override
 					public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 						item.setValue(isChecked);
 					}
 				});
-			} else if (type.isEnum()) {
-				valueButtonVisibility = View.VISIBLE;
-				valueButton.setText(StringUtils.toString(item.getValue()));
-				valueButton.setOnClickListener(new View.OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						showEnumDialog(v.getContext(), item.displayName, item.getValue(), new EnumDialogCallback() {
+			} else {
+				final String valueStr = StringUtils.toString(value);
+				if (type.isEnum()) {
+					valueButtonVisibility = View.VISIBLE;
+					valueButton.setText(valueStr);
+					valueButton.setOnClickListener(new View.OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							showEnumDialog(v.getContext(), item.displayName, value, new EnumDialogCallback() {
+								@Override
+								public void onValueSelected(Object value) {
+									item.setValue(value);
+									valueButton.setText(value.toString());
+								}
+							});
+						}
+					});
+				} else {
+					valueEditTextVisibility = View.VISIBLE;
+
+					/* This helps avoiding a weird flickering while keyboard is shown */
+					if (!valueStr.equals(valueEditText.getText().toString())) {
+						valueEditText.setText(valueStr);
+						if (value instanceof Number) {
+							int inputType = InputType.TYPE_CLASS_NUMBER;
+							if (value instanceof Float || value instanceof Double) {
+								inputType |= InputType.TYPE_NUMBER_FLAG_DECIMAL;
+							}
+							valueEditText.setInputType(inputType);
+						}
+						valueEditText.setOnEditorActionListener(new EditText.OnEditorActionListener() {
 							@Override
-							public void onValueSelected(Object value) {
-								item.setValue(value);
-								valueButton.setText(value.toString());
+							public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+								if (actionId == EditorInfo.IME_ACTION_DONE) {
+									Object newValue = parseItemValue(v.getText().toString(), type);
+									if (newValue != null) {
+										item.setValue(newValue);
+									}
+								}
+								return false;
+							}
+
+							private Object parseItemValue(String value, Class<?> type) {
+								if (type == Integer.class || type == int.class) {
+									return StringUtils.parseInt(value);
+								}
+								if (type == Float.class || type == float.class) {
+									return StringUtils.parseFloat(value);
+								}
+
+								throw new NotImplementedException("Unsupported type: " + type);
 							}
 						});
 					}
-				});
-			} else {
-				valueEditTextVisibility = View.VISIBLE;
-				valueEditText.setText(StringUtils.toString(item.getValue()));
+				}
 			}
 
 			valueEditText.setVisibility(valueEditTextVisibility);

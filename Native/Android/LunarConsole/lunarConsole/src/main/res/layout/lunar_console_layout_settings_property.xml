@@ -15,6 +15,7 @@
 
     <EditText
         android:id="@+id/lunar_console_settings_property_value"
+        android:imeOptions="actionDone"
         style="@style/lunar_console_variable_value_style" />
 
     <Button
