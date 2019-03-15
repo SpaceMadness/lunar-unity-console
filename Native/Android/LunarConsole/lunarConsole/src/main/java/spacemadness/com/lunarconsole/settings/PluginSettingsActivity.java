@@ -32,7 +32,6 @@ public class PluginSettingsActivity extends Activity {
 	private ListView listView;
 	private ListViewAdapter adapter;
 
-	private PluginSettings settings;
 	private PluginSettingsEditor settingsEditor;
 
 	private PluginSettingsViewModel viewModel;

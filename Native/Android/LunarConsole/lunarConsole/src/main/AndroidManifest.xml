@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="spacemadness.com.lunarconsole">
-
     <application>
-        <activity android:name=".settings.PluginSettingsActivity">
-        </activity>
+        <activity
+            android:icon="@drawable/lunar_console_icon_button_settings"
+            android:label="@string/lunar_console_settings_activity_label"
+            android:theme="@style/lunar_console_theme"
+            android:name=".settings.PluginSettingsActivity"
+        />
     </application>
-
 </manifest>
