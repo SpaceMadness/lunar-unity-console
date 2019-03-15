@@ -26,7 +26,6 @@ allprojects {
 
 android {
     compileSdkVersion 26
-    buildToolsVersion "26.0.3"
     defaultConfig {
         minSdkVersion 14
         targetSdkVersion 26
@@ -48,6 +47,13 @@ android {
         free {
             dimension "version"
         }
+    }
+
+    configurations {
+        fullDebug
+        fullRelease
+        freeDebug
+        freeRelease
     }
 }
 
