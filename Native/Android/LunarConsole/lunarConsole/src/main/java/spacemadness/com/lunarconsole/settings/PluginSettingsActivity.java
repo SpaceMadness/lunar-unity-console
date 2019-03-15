@@ -16,15 +16,14 @@ import android.widget.TextView;
 import java.util.List;
 
 import spacemadness.com.lunarconsole.R;
+import spacemadness.com.lunarconsole.dependency.PluginSettingsEditorProvider;
 import spacemadness.com.lunarconsole.dependency.Provider;
-import spacemadness.com.lunarconsole.reflection.FieldProperty;
 import spacemadness.com.lunarconsole.settings.PluginSettingsViewModel.HeaderItem;
 import spacemadness.com.lunarconsole.settings.PluginSettingsViewModel.PropertyItem;
 import spacemadness.com.lunarconsole.ui.ListViewAdapter;
 import spacemadness.com.lunarconsole.ui.ListViewItem;
 import spacemadness.com.lunarconsole.utils.CollectionUtils;
 import spacemadness.com.lunarconsole.utils.EnumUtils;
-import spacemadness.com.lunarconsole.utils.NotImplementedException;
 import spacemadness.com.lunarconsole.utils.StringUtils;
 
 import static spacemadness.com.lunarconsole.settings.PluginSettingsViewModel.ItemType;
@@ -43,7 +42,7 @@ public class PluginSettingsActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.lunar_console_layout_activity_settings);
 
-		settingsEditor = Provider.of(PluginSettingsEditor.class);
+		settingsEditor = Provider.of(PluginSettingsEditorProvider.class).getSettingsEditor();
 
 		viewModel = new PluginSettingsViewModel(settingsEditor);
 
@@ -75,10 +74,6 @@ public class PluginSettingsActivity extends Activity {
 		});
 
 		return adapter;
-	}
-
-	private void notifyPropertyChanged(FieldProperty property) {
-		throw new NotImplementedException();
 	}
 
 	private static class HeaderViewHolder extends ListViewAdapter.ViewHolder<HeaderItem> {

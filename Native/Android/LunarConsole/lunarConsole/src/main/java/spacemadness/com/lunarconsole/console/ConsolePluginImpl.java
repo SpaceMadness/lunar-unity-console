@@ -33,22 +33,20 @@ import java.util.List;
 import java.util.Map;
 
 import spacemadness.com.lunarconsole.R;
-import spacemadness.com.lunarconsole.core.Destroyable;
 import spacemadness.com.lunarconsole.concurrent.DispatchQueue;
+import spacemadness.com.lunarconsole.core.Destroyable;
 import spacemadness.com.lunarconsole.core.Notification;
 import spacemadness.com.lunarconsole.core.NotificationCenter;
 import spacemadness.com.lunarconsole.debug.Assert;
 import spacemadness.com.lunarconsole.debug.Log;
 import spacemadness.com.lunarconsole.dependency.DefaultDependencies;
 import spacemadness.com.lunarconsole.dependency.PluginSettingsEditorProvider;
-import spacemadness.com.lunarconsole.dependency.PluginSettingsProvider;
 import spacemadness.com.lunarconsole.dependency.Provider;
 import spacemadness.com.lunarconsole.redux.Store;
-import spacemadness.com.lunarconsole.rx.BehaviorSubject;
-import spacemadness.com.lunarconsole.rx.Observable;
-import spacemadness.com.lunarconsole.settings.PluginSettings;
 import spacemadness.com.lunarconsole.settings.ExceptionWarningSettings.DisplayMode;
+import spacemadness.com.lunarconsole.settings.PluginSettings;
 import spacemadness.com.lunarconsole.settings.PluginSettingsEditor;
+import spacemadness.com.lunarconsole.settings.PluginSettingsIO;
 import spacemadness.com.lunarconsole.ui.gestures.GestureRecognizer;
 import spacemadness.com.lunarconsole.ui.gestures.GestureRecognizerFactory;
 import spacemadness.com.lunarconsole.utils.DictionaryUtils;
@@ -57,12 +55,22 @@ import spacemadness.com.lunarconsole.utils.NotImplementedException;
 import static android.widget.FrameLayout.LayoutParams;
 import static spacemadness.com.lunarconsole.console.Console.Options;
 import static spacemadness.com.lunarconsole.console.ConsoleLogType.isErrorType;
-import static spacemadness.com.lunarconsole.console.Notifications.*;
-import static spacemadness.com.lunarconsole.debug.Tags.*;
+import static spacemadness.com.lunarconsole.console.Notifications.NOTIFICATION_ACTION_SELECT;
+import static spacemadness.com.lunarconsole.console.Notifications.NOTIFICATION_ACTIVITY_STARTED;
+import static spacemadness.com.lunarconsole.console.Notifications.NOTIFICATION_ACTIVITY_STOPPED;
+import static spacemadness.com.lunarconsole.console.Notifications.NOTIFICATION_KEY_ACTION;
+import static spacemadness.com.lunarconsole.console.Notifications.NOTIFICATION_KEY_ACTIVITY;
+import static spacemadness.com.lunarconsole.console.Notifications.NOTIFICATION_KEY_VARIABLE;
+import static spacemadness.com.lunarconsole.console.Notifications.NOTIFICATION_VARIABLE_SET;
+import static spacemadness.com.lunarconsole.debug.Tags.CONSOLE;
+import static spacemadness.com.lunarconsole.debug.Tags.GESTURES;
+import static spacemadness.com.lunarconsole.debug.Tags.OVERLAY_VIEW;
+import static spacemadness.com.lunarconsole.debug.Tags.PLUGIN;
+import static spacemadness.com.lunarconsole.debug.Tags.WARNING_VIEW;
 import static spacemadness.com.lunarconsole.ui.gestures.GestureRecognizer.OnGestureListener;
 import static spacemadness.com.lunarconsole.utils.ObjectUtils.checkNotNull;
 import static spacemadness.com.lunarconsole.utils.ObjectUtils.checkNotNullAndNotEmpty;
-import static spacemadness.com.lunarconsole.utils.ThreadUtils.*;
+import static spacemadness.com.lunarconsole.utils.ThreadUtils.runOnUIThread;
 
 public class ConsolePluginImpl implements ConsolePlugin, NotificationCenter.OnNotificationListener, Destroyable, PluginSettingsEditorProvider {
 	private static final String SCRIPT_MESSAGE_CONSOLE_OPEN = "console_open";
@@ -72,12 +80,10 @@ public class ConsolePluginImpl implements ConsolePlugin, NotificationCenter.OnNo
 
 	private Console console;
 	private ActivityLifecycleHandler activityLifecycleHandler;
-	private final Store<PluginState> store;
 	private final ActionRegistry actionRegistry;
 	private final Platform platform;
 	private final String version;
-	private final PluginSettings settings;
-	private final BehaviorSubject<PluginSettings> settingsBehaviorSubject;
+	private PluginSettings settings;
 
 	private final ConsoleViewState consoleViewState;
 
@@ -210,12 +216,14 @@ public class ConsolePluginImpl implements ConsolePlugin, NotificationCenter.OnNo
 
 	public ConsolePluginImpl(Activity activity, Platform platform, String version, PluginSettings settings) {
 		this.activityRef = new WeakReference<>(checkNotNull(activity, "activity"));
-		// FIXME: load settings
+
+		PluginSettings existingSettings = PluginSettingsIO.load(activity);
+		if (existingSettings != null) {
+			settings = existingSettings;
+		}
+
 		this.platform = checkNotNull(platform, "platform");
 		this.settings = checkNotNull(settings, "settings");
-		this.settingsBehaviorSubject = new BehaviorSubject<>(settings);
-		this.store = new Store<>(new ConsolePluginReducer(), new PluginState(settings));
-
 		this.version = checkNotNullAndNotEmpty(version, "version");
 
 		Application application = activity.getApplication();
@@ -662,7 +670,8 @@ public class ConsolePluginImpl implements ConsolePlugin, NotificationCenter.OnNo
 
 			@Override
 			public void setSettings(PluginSettings settings) {
-				throw new NotImplementedException();
+				ConsolePluginImpl.this.settings = settings;
+				PluginSettingsIO.save(getActivity(), settings);
 			}
 		};
 	}
