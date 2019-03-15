@@ -129,7 +129,13 @@ public class PluginSettingsActivity extends Activity {
 				valueButton.setOnClickListener(new View.OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						showEnumDialog(v.getContext(), item);
+						showEnumDialog(v.getContext(), item.displayName, item.getValue(), new EnumDialogCallback() {
+							@Override
+							public void onValueSelected(Object value) {
+								item.setValue(value);
+								valueButton.setText(value.toString());
+							}
+						});
 					}
 				});
 			} else {
@@ -142,13 +148,13 @@ public class PluginSettingsActivity extends Activity {
 			valueButton.setVisibility(valueButtonVisibility);
 		}
 
-		private void showEnumDialog(Context context, final PropertyItem item) {
+		private void showEnumDialog(Context context, String name, Object value, final EnumDialogCallback callback) {
 			AlertDialog.Builder builder = new AlertDialog.Builder(context);
-			builder.setTitle(item.displayName);
+			builder.setTitle(name);
 			builder.setCancelable(true);
 
-			final Object[] values = EnumUtils.listValues((Enum<?>) item.getValue());
-			int checkItem = CollectionUtils.indexOf(values, item.getValue());
+			final Object[] values = EnumUtils.listValues((Enum<?>) value);
+			int checkItem = CollectionUtils.indexOf(values, value);
 			String[] names = CollectionUtils.map(values, new CollectionUtils.Map<Object, String>() {
 				@Override public String map(Object o) {
 					return StringUtils.toString(o);
@@ -163,7 +169,8 @@ public class PluginSettingsActivity extends Activity {
 					@Override
 					public void onClick(DialogInterface dialog, int id) {
 						ListView lw = ((AlertDialog) dialog).getListView();
-						item.setValue(values[lw.getCheckedItemPosition()]);
+						Object newValue = values[lw.getCheckedItemPosition()];
+						callback.onValueSelected(newValue);
 						dialog.cancel();
 					}
 				});
@@ -179,5 +186,9 @@ public class PluginSettingsActivity extends Activity {
 
 			builder.create().show();
 		}
+	}
+
+	private interface EnumDialogCallback {
+		void onValueSelected(Object value);
 	}
 }
