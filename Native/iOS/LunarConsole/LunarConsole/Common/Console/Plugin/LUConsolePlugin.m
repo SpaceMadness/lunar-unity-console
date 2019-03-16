@@ -38,8 +38,7 @@ static NSString * const kScriptMessageTrackEvent     = @"track_event";
 
 static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmobileconsole.settings.bin";
 
-@interface LUConsolePlugin () <LUConsoleControllerDelegate, LUExceptionWarningControllerDelegate>
-{
+@interface LUConsolePlugin () <LUConsoleControllerDelegate, LUExceptionWarningControllerDelegate> {
     LUConsolePluginImp      * _pluginImp;
     LUUnityScriptMessenger  * _scriptMessenger;
     UIGestureRecognizer     * _gestureRecognizer;
@@ -54,13 +53,10 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
 - (instancetype)initWithTargetName:(NSString *)targetName
                         methodName:(NSString *)methodName
                            version:(NSString *)version
-                      settingsJson:(NSString *)settingsJson
-{
+                      settingsJson:(NSString *)settingsJson {
     self = [super init];
-    if (self)
-    {
-        if (!LU_IOS_MIN_VERSION_AVAILABLE)
-        {
+    if (self) {
+        if (!LU_IOS_MIN_VERSION_AVAILABLE) {
             NSLog(@"Console is not initialized. Mininum iOS version required: %d", LU_SYSTEM_VERSION_MIN);
             
             self = nil;
@@ -89,8 +85,7 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
         
         LUConsolePluginSettings *existing = [LUConsolePluginSettings loadFromFile:kSettingsFilename
                                                                       initDefault:NO];
-        if (existing != nil)
-        {
+        if (existing != nil) {
             _settings.enableExceptionWarning = existing.enableExceptionWarning;
             _settings.enableTransparentLogOverlay = existing.enableTransparentLogOverlay;
         }
@@ -98,28 +93,24 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
     return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     [self disableGestureRecognition];
 }
 
 #pragma mark -
 #pragma mark Public interface
 
-- (void)start
-{
+- (void)start {
     [self enableGestureRecognition];
     
-    if (_settings.enableTransparentLogOverlay)
-    {
+    if (_settings.enableTransparentLogOverlay) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [self showOverlay];
         });
     }
 }
 
-- (void)stop
-{
+- (void)stop {
     [self removeConsole];
     [self hideOverlay];
     [self hideWarning];
@@ -127,13 +118,11 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
     [self unregisterNotifications];
 }
 
-- (void)showConsole
-{
+- (void)showConsole {
     [self hideOverlay];
     [self hideWarning];
     
-    if (_consoleWindow == nil)
-    {
+    if (_consoleWindow == nil) {
         LUConsoleController *controller = [LUConsoleController controllerWithPlugin:self];
         controller.emails = _emails;
         controller.delegate = self;
@@ -157,10 +146,8 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
     }
 }
 
-- (void)hideConsole
-{
-    if (_consoleWindow != nil)
-    {
+- (void)hideConsole {
+    if (_consoleWindow != nil) {
         [self unregisterNotifications];
         
         CGRect windowFrame = _consoleWindow.frame;
@@ -179,32 +166,26 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
         [_scriptMessenger sendMessageName:kScriptMessageConsoleClose];
     }
     
-    if (_settings.enableTransparentLogOverlay)
-    {
+    if (_settings.enableTransparentLogOverlay) {
         [self showOverlay];
     }
 }
 
-- (void)removeConsole
-{
+- (void)removeConsole {
     _consoleWindow.hidden = YES;
     _consoleWindow = nil;
 }
 
-- (void)showOverlay
-{
+- (void)showOverlay {
     [_pluginImp showOverlay];
 }
 
-- (void)hideOverlay
-{
+- (void)hideOverlay {
     [_pluginImp hideOverlay];
 }
 
-- (void)logMessage:(NSString *)message stackTrace:(NSString *)stackTrace type:(LUConsoleLogType)type
-{
-    if (LU_IS_CONSOLE_LOG_TYPE_ERROR(type) && _consoleWindow == nil)
-    {
+- (void)logMessage:(NSString *)message stackTrace:(NSString *)stackTrace type:(LUConsoleLogType)type {
+    if (LU_IS_CONSOLE_LOG_TYPE_ERROR(type) && _consoleWindow == nil) {
         [self showWarningWithMessage:message];
     }
     
@@ -214,46 +195,38 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
     });
 }
 
-- (void)clear
-{
+- (void)clear {
     [_console clear];
 }
 
 #pragma mark -
 #pragma mark Quick actions
 
-- (void)registerActionWithId:(int)actionId name:(NSString *)name
-{
+- (void)registerActionWithId:(int)actionId name:(NSString *)name {
     [_actionRegistry registerActionWithId:actionId name:name];
 }
 
-- (void)unregisterActionWithId:(int)actionId
-{
+- (void)unregisterActionWithId:(int)actionId {
     [_actionRegistry unregisterActionWithId:actionId];
 }
 
-- (LUCVar *)registerVariableWithId:(int)entryId name:(NSString *)name type:(NSString *)type value:(NSString *)value
-{
+- (LUCVar *)registerVariableWithId:(int)entryId name:(NSString *)name type:(NSString *)type value:(NSString *)value {
     return [self registerVariableWithId:entryId name:name type:type value:value defaultValue:value];
 }
 
-- (LUCVar *)registerVariableWithId:(int)entryId name:(NSString *)name type:(NSString *)type value:(NSString *)value defaultValue:(NSString *)defaultValue
-{
+- (LUCVar *)registerVariableWithId:(int)entryId name:(NSString *)name type:(NSString *)type value:(NSString *)value defaultValue:(NSString *)defaultValue {
     return [_actionRegistry registerVariableWithId:entryId name:name typeName:type value:value defaultValue:defaultValue];
 }
 
-- (void)setValue:(NSString *)value forVariableWithId:(int)variableId
-{
+- (void)setValue:(NSString *)value forVariableWithId:(int)variableId {
     [_actionRegistry setValue:value forVariableWithId:variableId];
 }
 
 #pragma mark -
 #pragma mark Warnings
 
-- (BOOL)showWarningWithMessage:(NSString *)message
-{
-    if (_warningWindow == nil && _settings.enableExceptionWarning)
-    {
+- (BOOL)showWarningWithMessage:(NSString *)message {
+    if (_warningWindow == nil && _settings.enableExceptionWarning) {
         CGSize screenSize = LUGetScreenBounds().size;
         
         CGRect windowFrame = CGRectMake(0, screenSize.height - kWarningHeight, screenSize.width, kWarningHeight);
@@ -273,10 +246,8 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
     return NO;
 }
 
-- (void)hideWarning
-{
-    if (_warningWindow)
-    {
+- (void)hideWarning {
+    if (_warningWindow) {
         _warningWindow.hidden = YES;
         _warningWindow = nil;
     }
@@ -285,19 +256,16 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
 #pragma mark -
 #pragma mark Notifications
 
-- (void)registerNotifications
-{
+- (void)registerNotifications {
     [self registerNotificationName:LUConsoleCheckFullVersionNotification
                           selector:@selector(checkFullVersionNotification:)];
 }
 
-- (void)checkFullVersionNotification:(NSNotification *)notification
-{
+- (void)checkFullVersionNotification:(NSNotification *)notification {
     NSString *source = [notification.userInfo objectForKey:LUConsoleCheckFullVersionNotificationSource];
     LUAssert(source);
     
-    if (source)
-    {
+    if (source) {
         NSDictionary *params = @{
             @"category" : @"Full Version",
             @"action"   : [NSString stringWithFormat:@"full_version_%@", source]
@@ -309,21 +277,18 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
 #pragma mark -
 #pragma mark LUConsoleLogControllerEntrySource
 
-- (NSInteger)consoleControllerNumberOfEntries:(LUConsoleLogController *)controller
-{
+- (NSInteger)consoleControllerNumberOfEntries:(LUConsoleLogController *)controller {
     return _console.entriesCount;
 }
 
-- (LUConsoleLogEntry *)consoleController:(LUConsoleLogController *)controller entryAtIndex:(NSUInteger)index
-{
+- (LUConsoleLogEntry *)consoleController:(LUConsoleLogController *)controller entryAtIndex:(NSUInteger)index {
     return [_console entryAtIndex:index];
 }
 
 #pragma mark -
 #pragma mark LUConsoleControllerDelegate
 
-- (void)consoleControllerDidOpen:(LUConsoleController *)controller
-{
+- (void)consoleControllerDidOpen:(LUConsoleController *)controller {
     [_scriptMessenger sendMessageName:kScriptMessageConsoleOpen];
     
     if ([_delegate respondsToSelector:@selector(consolePluginDidOpenController:)]) {
@@ -331,8 +296,7 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
     }
 }
 
-- (void)consoleControllerDidClose:(LUConsoleController *)controller
-{
+- (void)consoleControllerDidClose:(LUConsoleController *)controller {
     [self hideConsole];
     
     if ([_delegate respondsToSelector:@selector(consolePluginDidCloseController:)]) {
@@ -343,25 +307,21 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
 #pragma mark -
 #pragma mark LUExceptionWarningControllerDelegate
 
-- (void)exceptionWarningControllerDidShow:(LUExceptionWarningController *)controller
-{
+- (void)exceptionWarningControllerDidShow:(LUExceptionWarningController *)controller {
     [self hideWarning];
     [self showConsole];
 }
 
-- (void)exceptionWarningControllerDidDismiss:(LUExceptionWarningController *)controller
-{
+- (void)exceptionWarningControllerDidDismiss:(LUExceptionWarningController *)controller {
     [self hideWarning];
 }
 
 #pragma mark -
 #pragma mark Gesture Recognition
 
-- (void)enableGestureRecognition
-{
+- (void)enableGestureRecognition {
     LUAssert(_gestureRecognizer == nil);
-    if (!_gestureRecognizer && _gesture != LUConsoleGestureNone) // TODO: handle other gesture types
-    {
+	if (!_gestureRecognizer && _gesture != LUConsoleGestureNone) { // TODO: handle other gesture types
         UISwipeGestureRecognizer *gr = [[UISwipeGestureRecognizer alloc] initWithTarget:self
                                                                                  action:@selector(handleGesture:)];
         gr.numberOfTouchesRequired = 2;
@@ -373,27 +333,21 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
     }
 }
 
-- (void)disableGestureRecognition
-{
-    if (_gestureRecognizer != nil)
-    {
+- (void)disableGestureRecognition {
+    if (_gestureRecognizer != nil) {
         [[self keyWindow] removeGestureRecognizer:_gestureRecognizer];
         _gestureRecognizer = nil;
     }
 }
 
-- (void)handleGesture:(UIGestureRecognizer *)gr
-{
-    if (gr.state == UIGestureRecognizerStateEnded)
-    {
+- (void)handleGesture:(UIGestureRecognizer *)gr {
+    if (gr.state == UIGestureRecognizerStateEnded) {
         [self showConsole];
     }
 }
 
-- (LUConsoleGesture)gestureFromString:(NSString *)gestureName
-{
-    if ([gestureName isEqualToString:@"SwipeDown"])
-    {
+- (LUConsoleGesture)gestureFromString:(NSString *)gestureName {
+    if ([gestureName isEqualToString:@"SwipeDown"]) {
         return LUConsoleGestureSwipeDown;
     }
     
@@ -403,43 +357,36 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
 #pragma mark -
 #pragma mark Script Messanger
 
-- (void)sendScriptMessageName:(NSString *)name
-{
+- (void)sendScriptMessageName:(NSString *)name {
     [_scriptMessenger sendMessageName:name];
 }
 
-- (void)sendScriptMessageName:(NSString *)name params:(NSDictionary *)params
-{
+- (void)sendScriptMessageName:(NSString *)name params:(NSDictionary *)params {
     [_scriptMessenger sendMessageName:name params:params];
 }
 
 #pragma mark -
 #pragma mark Properties
 
-- (UIWindow *)keyWindow
-{
+- (UIWindow *)keyWindow {
     return [UIApplication sharedApplication].keyWindow;
 }
 
-- (NSInteger)capacity
-{
+- (NSInteger)capacity {
     return _console.capacity;
 }
 
-- (void)setCapacity:(NSInteger)capacity
-{
+- (void)setCapacity:(NSInteger)capacity {
     NSInteger trimCount = _console.trimmedCount;
     
     _console = [[LUConsole alloc] initWithCapacity:capacity trimCount:trimCount];
 }
 
-- (NSInteger)trim
-{
+- (NSInteger)trim {
     return _console.trimCount;
 }
 
-- (void)setTrim:(NSInteger)trim
-{
+- (void)setTrim:(NSInteger)trim {
     NSInteger capacity = _console.capacity;
     _console = [[LUConsole alloc] initWithCapacity:capacity trimCount:trim];
 }
