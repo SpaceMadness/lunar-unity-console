@@ -42,7 +42,6 @@ import spacemadness.com.lunarconsole.debug.Log;
 import spacemadness.com.lunarconsole.dependency.DefaultDependencies;
 import spacemadness.com.lunarconsole.dependency.PluginSettingsEditorProvider;
 import spacemadness.com.lunarconsole.dependency.Provider;
-import spacemadness.com.lunarconsole.settings.ExceptionWarningSettings.DisplayMode;
 import spacemadness.com.lunarconsole.settings.PluginSettings;
 import spacemadness.com.lunarconsole.settings.PluginSettingsEditor;
 import spacemadness.com.lunarconsole.settings.PluginSettingsIO;
@@ -316,7 +315,7 @@ public class ConsolePluginImpl implements ConsolePlugin, NotificationCenter.OnNo
 			console.logMessage(entry);
 
 			// show warning
-			if (isErrorType(entry.type) && !isConsoleShown()) {
+			if (shouldShowWarning(entry.type) && !isConsoleShown()) {
 				showWarning(entry.message);
 			}
 		}
@@ -338,12 +337,25 @@ public class ConsolePluginImpl implements ConsolePlugin, NotificationCenter.OnNo
 
 	//region Error warning
 
+	private boolean shouldShowWarning(byte type) {
+		if (!isErrorType(type)) {
+			return false;
+		}
+
+		switch (settings.exceptionWarning.displayMode) {
+			case NONE:
+				return false;
+			case ERRORS:
+				return type == ConsoleLogType.ERROR || type == ConsoleLogType.ASSERT;
+			case EXCEPTIONS:
+				return type == ConsoleLogType.EXCEPTION;
+		}
+
+		return true;
+	}
+
 	private void showWarning(final String message) {
 		try {
-			if (settings.exceptionWarning.displayMode == DisplayMode.NONE) {
-				return;
-			}
-
 			if (warningView == null) {
 				Log.d(WARNING_VIEW, "Show warning");
 
