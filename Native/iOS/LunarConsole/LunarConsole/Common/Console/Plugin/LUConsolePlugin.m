@@ -23,6 +23,7 @@
 
 #import "Lunar.h"
 #import "LUConsolePluginImp.h"
+#import "LUPluginSettings.h"
 #import "LUConsoleEditorSettings.h"
 
 NSString * const LUConsoleCheckFullVersionNotification = @"LUConsoleCheckFullVersionNotification";
@@ -53,9 +54,6 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
 - (instancetype)initWithTargetName:(NSString *)targetName
                         methodName:(NSString *)methodName
                            version:(NSString *)version
-                          capacity:(NSUInteger)capacity
-                         trimCount:(NSUInteger)trimCount
-                       gestureName:(NSString *)gestureName
                       settingsJson:(NSString *)settingsJson
 {
     self = [super init];
@@ -77,12 +75,12 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
         _pluginImp = [[LUConsolePluginImp alloc] initWithPlugin:self];
         _scriptMessenger = [[LUUnityScriptMessenger alloc] initWithTargetName:targetName methodName:methodName];
         _version = version;
-        _console = [[LUConsole alloc] initWithCapacity:capacity trimCount:trimCount];
+        // _console = [[LUConsole alloc] initWithCapacity:capacity trimCount:trimCount];
         _actionRegistry = [[LUActionRegistry alloc] init];
         _actionRegistry.actionSortingEnabled = editorSettings.isActionSortingEnabled;
         _actionRegistry.variableSortingEnabled = editorSettings.variableSortingEnabled;
         
-        _gesture = [self gestureFromString:gestureName];
+        // _gesture = [self gestureFromString:gestureName];
         _emails = editorSettings.emails;
         
         _settings = [[LUConsolePluginSettings alloc] initWithFilename:kSettingsFilename];
@@ -396,7 +394,7 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
 {
     if ([gestureName isEqualToString:@"SwipeDown"])
     {
-        return LUConsoleGestureSwipe;
+        return LUConsoleGestureSwipeDown;
     }
     
     return LUConsoleGestureNone;

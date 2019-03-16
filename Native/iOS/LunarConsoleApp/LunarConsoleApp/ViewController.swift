@@ -55,7 +55,7 @@ class ViewController: LUViewController {
             print(error.localizedDescription)
         }
         
-        plugin = LUConsolePlugin(targetName: "LunarConsole", methodName: "OnNativeMessage", version: "0.0.0", capacity: kConsoleCapacity, trimCount: kConsoleTrimCount, gestureName: "SwipeDown", settingsJson:settingsJson)
+        plugin = LUConsolePlugin(targetName: "LunarConsole", methodName: "OnNativeMessage", version: "0.0.0", settingsJson:settingsJson)
         plugin.delegate = self
         
         capacityText.text = "\(kConsoleCapacity)"

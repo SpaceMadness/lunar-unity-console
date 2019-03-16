@@ -31,11 +31,6 @@
 @class LUCVar;
 @class LUWindow;
 
-typedef enum : NSUInteger {
-    LUConsoleGestureNone,
-    LUConsoleGestureSwipe
-} LUConsoleGesture;
-
 @protocol LUConsolePluginDelegate <NSObject>
 
 @optional
@@ -68,9 +63,6 @@ extern NSString * const LUConsoleCheckFullVersionNotificationSource;
 - (instancetype)initWithTargetName:(NSString *)targetName
                         methodName:(NSString *)methodName
                            version:(NSString *)version
-                          capacity:(NSUInteger)capacity
-                         trimCount:(NSUInteger)trimCount
-                       gestureName:(NSString *)gestureName
                       settingsJson:(NSString *)settingsJson;
 
 - (void)start;

@@ -45,6 +45,7 @@
 #import "LUExceptionWarningController.h"
 #import "LUPanViewGestureRecognizer.h"
 #import "LUPassTouchView.h"
+#import "LUPluginSettings.h"
 #import "LUSwitch.h"
 #import "LUSlider.h"
 #import "LUTableView.h"

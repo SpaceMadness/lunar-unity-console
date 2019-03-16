@@ -132,6 +132,10 @@
 		840F08881DEA6B7400E9F13D /* LUStringUtilsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F087E1DEA6B7400E9F13D /* LUStringUtilsTest.m */; };
 		844741B51B719C3100F5ABD3 /* libLunarConsoleFull.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 844741A91B719C3100F5ABD3 /* libLunarConsoleFull.a */; };
 		EF1D47A81E04A60B005BEC07 /* LUActionRegistryFilterTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1D47A71E04A60B005BEC07 /* LUActionRegistryFilterTest.swift */; };
+		EF30B268223C65F700898849 /* LUPluginSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = EF30B267223C65F700898849 /* LUPluginSettings.m */; };
+		EF30B269223C65F700898849 /* LUPluginSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = EF30B267223C65F700898849 /* LUPluginSettings.m */; };
+		EF30B26B223C6CAC00898849 /* LUPluginSettingsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF30B26A223C6CAC00898849 /* LUPluginSettingsTest.swift */; };
+		EF30B272223C7C1900898849 /* editor-settings.json in Resources */ = {isa = PBXBuildFile; fileRef = EF30B271223C7C1900898849 /* editor-settings.json */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -396,6 +400,10 @@
 		844741BA1B719C3100F5ABD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EF1D47A61E04A60A005BEC07 /* LunarConsoleTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LunarConsoleTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		EF1D47A71E04A60B005BEC07 /* LUActionRegistryFilterTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LUActionRegistryFilterTest.swift; sourceTree = "<group>"; };
+		EF30B266223C65F700898849 /* LUPluginSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LUPluginSettings.h; sourceTree = "<group>"; };
+		EF30B267223C65F700898849 /* LUPluginSettings.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LUPluginSettings.m; sourceTree = "<group>"; };
+		EF30B26A223C6CAC00898849 /* LUPluginSettingsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LUPluginSettingsTest.swift; sourceTree = "<group>"; };
+		EF30B271223C7C1900898849 /* editor-settings.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "editor-settings.json"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -743,6 +751,8 @@
 				4DD4FB4C1DFB932B00032A29 /* LUConsolePluginSettings.m */,
 				4DD4FB4D1DFB932B00032A29 /* lunar_unity_native_interface.h */,
 				4DD4FB4E1DFB932B00032A29 /* lunar_unity_native_interface.m */,
+				EF30B266223C65F700898849 /* LUPluginSettings.h */,
+				EF30B267223C65F700898849 /* LUPluginSettings.m */,
 				4DD4FB4F1DFB932B00032A29 /* LUUnityScriptMessenger.h */,
 				4DD4FB501DFB932B00032A29 /* LUUnityScriptMessenger.m */,
 			);
@@ -904,6 +914,7 @@
 		844741B81B719C3100F5ABD3 /* LunarConsoleTests */ = {
 			isa = PBXGroup;
 			children = (
+				EF30B271223C7C1900898849 /* editor-settings.json */,
 				840F08731DEA6B7400E9F13D /* Helpers */,
 				EF1D47A71E04A60B005BEC07 /* LUActionRegistryFilterTest.swift */,
 				840F08771DEA6B7400E9F13D /* LUActionRegistryTest.m */,
@@ -912,6 +923,7 @@
 				840F087A1DEA6B7400E9F13D /* LUConsoleTest.m */,
 				840F087B1DEA6B7400E9F13D /* LUMutableArrayTest.m */,
 				EF1D47A61E04A60A005BEC07 /* LunarConsoleTests-Bridging-Header.h */,
+				EF30B26A223C6CAC00898849 /* LUPluginSettingsTest.swift */,
 				840F087C1DEA6B7400E9F13D /* LUSortedListTest.m */,
 				840F087D1DEA6B7400E9F13D /* LUStacktraceTest.m */,
 				840F087E1DEA6B7400E9F13D /* LUStringUtilsTest.m */,
@@ -1025,6 +1037,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF30B272223C7C1900898849 /* editor-settings.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1052,6 +1065,7 @@
 				4DD4FC0E1DFB932C00032A29 /* LUFileUtils.m in Sources */,
 				4DD4FBE01DFB932C00032A29 /* LUConsoleLogTypeButton.m in Sources */,
 				4DD4FBD01DFB932B00032A29 /* LUEntryTableViewCell.m in Sources */,
+				EF30B269223C65F700898849 /* LUPluginSettings.m in Sources */,
 				4DD4FBF61DFB932C00032A29 /* LUActionButton.m in Sources */,
 				4DD4FBDA1DFB932B00032A29 /* LUConsoleLogEntryLookupTable.m in Sources */,
 				4DD4FBE41DFB932C00032A29 /* LUConsoleController.m in Sources */,
@@ -1106,6 +1120,7 @@
 				4DD4FBCD1DFB932B00032A29 /* LUEntry.m in Sources */,
 				4DE389EA1DFCAC0E003A2B6B /* LUNotificationCenter.m in Sources */,
 				4DD4FC171DFB932C00032A29 /* LUSerializableObject.m in Sources */,
+				EF30B268223C65F700898849 /* LUPluginSettings.m in Sources */,
 				4D02A7B91E496C93009F4998 /* LUCVarFactory.m in Sources */,
 				4DD4FBFB1DFB932C00032A29 /* LUPassTouchView.m in Sources */,
 				4DD4FBE91DFB932C00032A29 /* lunar_unity_native_interface.m in Sources */,
@@ -1167,6 +1182,7 @@
 				840F08871DEA6B7400E9F13D /* LUStacktraceTest.m in Sources */,
 				EF1D47A81E04A60B005BEC07 /* LUActionRegistryFilterTest.swift in Sources */,
 				840F08811DEA6B7400E9F13D /* LUActionRegistryTest.m in Sources */,
+				EF30B26B223C6CAC00898849 /* LUPluginSettingsTest.swift in Sources */,
 				840F08821DEA6B7400E9F13D /* LUConsoleEntryListTest.m in Sources */,
 				840F08861DEA6B7400E9F13D /* LUSortedListTest.m in Sources */,
 				840F08851DEA6B7400E9F13D /* LUMutableArrayTest.m in Sources */,
