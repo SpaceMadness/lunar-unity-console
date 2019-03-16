@@ -5,7 +5,6 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class ColorUtilsTest {
-
 	@Test
 	public void toARGB() {
 		int a = 255;

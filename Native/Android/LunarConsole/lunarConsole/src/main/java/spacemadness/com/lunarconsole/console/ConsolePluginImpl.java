@@ -42,7 +42,6 @@ import spacemadness.com.lunarconsole.debug.Log;
 import spacemadness.com.lunarconsole.dependency.DefaultDependencies;
 import spacemadness.com.lunarconsole.dependency.PluginSettingsEditorProvider;
 import spacemadness.com.lunarconsole.dependency.Provider;
-import spacemadness.com.lunarconsole.redux.Store;
 import spacemadness.com.lunarconsole.settings.ExceptionWarningSettings.DisplayMode;
 import spacemadness.com.lunarconsole.settings.PluginSettings;
 import spacemadness.com.lunarconsole.settings.PluginSettingsEditor;
