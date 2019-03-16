@@ -71,4 +71,40 @@ class LUPluginSettingsTest: TestCase {
 		color.a = a
 		return color
 	}
+	
+	func testSerialization() {
+		// this looks ugly
+		let expected = LUPluginSettings();
+		let exceptionWarning = LUExceptionWarningSettings();
+		exceptionWarning.displayMode = LUDisplayModeAll;
+		expected.exceptionWarning = exceptionWarning;
+		
+		let logOverlayColors = LULogColors();
+		logOverlayColors.exception = createOverlayColor(createColor(10, 11, 12, 13), createColor(14, 15, 16, 17));
+		logOverlayColors.error = createOverlayColor(createColor(20, 21, 22, 23), createColor(24, 25, 26, 27));
+		logOverlayColors.warning = createOverlayColor(createColor(30, 31, 32, 33), createColor(34, 35, 36, 37));
+		logOverlayColors.debug = createOverlayColor(createColor(40, 41, 42, 43), createColor(44, 45, 46, 47));
+		let logOverlay = LULogOverlaySettings();
+		logOverlay.isEnabled = false;
+		logOverlay.maxVisibleLines = 3;
+		logOverlay.timeout = 1.0;
+		logOverlay.colors = logOverlayColors;
+		expected.logOverlay = logOverlay;
+		
+		expected.capacity = 4096;
+		expected.trim = 512;
+		expected.gesture = LUConsoleGestureSwipeDown;
+		expected.removeRichTextTags = false;
+		expected.sortActions = true;
+		expected.sortVariables = false;
+		expected.emails = [
+			"a.lementuev@gmail.com",
+			"lunar.plugin@gmail.com"
+		];
+		
+		let data = NSKeyedArchiver.archivedData(withRootObject: expected)
+		let actual = NSKeyedUnarchiver.unarchiveObject(with: data) as? LUPluginSettings
+		
+		XCTAssertEqual(expected, actual);
+	}
 }

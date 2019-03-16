@@ -8,16 +8,58 @@
 
 #import "LUPluginSettings.h"
 
+static NSString *NSStringFromGesture(LUConsoleGesture gesture) {
+	switch (gesture) {
+		case LUConsoleGestureSwipeDown:
+			return @"swipe_down";
+		case LUConsoleGestureNone:
+			return @"none";
+	}
+}
+
 static LUConsoleGesture parseGesture(id value) {
 	if ([value isKindOfClass:[NSString class]]) {
-		return LUConsoleGestureNone;
+		if ([value isEqualToString:@"swipe_down"]) {
+			return LUConsoleGestureSwipeDown;
+		}
+		if ([value isEqualToString:@"none"]) {
+			return LUConsoleGestureNone;
+		}
+		
+		return LUConsoleGestureSwipeDown;
 	}
 	return (LUConsoleGesture) [value intValue];
 }
 
+static NSString *NSStringFromDisplayMode(LUDisplayMode mode) {
+	switch (mode) {
+		case LUDisplayModeNone:
+			return @"none";
+		case LUDisplayModeErrors:
+			return @"errors";
+		case LUDisplayModeExceptions:
+			return @"exceptions";
+		case LUDisplayModeAll:
+			return @"all";
+	}
+}
+
 static LUDisplayMode parseDisplayMode(id value) {
 	if ([value isKindOfClass:[NSString class]]) {
-		return LUDisplayModeNone;
+		if ([value isEqualToString:@"all"]) {
+			return LUDisplayModeAll;
+		}
+		if ([value isEqualToString:@"errors"]) {
+			return LUDisplayModeErrors;
+		}
+		if ([value isEqualToString:@"exceptions"]) {
+			return LUDisplayModeExceptions;
+		}
+		if ([value isEqualToString:@"none"]) {
+			return LUDisplayModeNone;
+		}
+		
+		return LUDisplayModeAll;
 	}
 	return (LUDisplayMode) [value intValue];
 }
@@ -36,11 +78,13 @@ static LUDisplayMode parseDisplayMode(id value) {
 #pragma mark NSCoding
 
 - (void)encodeWithCoder:(NSCoder *)coder {
+	[coder encodeObject:NSStringFromDisplayMode(self.displayMode) forKey:@"displayMode"];
 }
 
 - (nullable instancetype)initWithCoder:(NSCoder *)decoder {
 	self = [super init];
 	if (self) {
+		_displayMode = parseDisplayMode([decoder decodeObjectForKey:@"displayMode"]);
 	}
 	return self;
 }
@@ -80,11 +124,19 @@ static LUDisplayMode parseDisplayMode(id value) {
 #pragma mark NSCoding
 
 - (void)encodeWithCoder:(NSCoder *)coder {
+	[coder encodeInteger:self.r forKey:@"r"];
+	[coder encodeInteger:self.g forKey:@"g"];
+	[coder encodeInteger:self.b forKey:@"b"];
+	[coder encodeInteger:self.a forKey:@"a"];
 }
 
 - (nullable instancetype)initWithCoder:(NSCoder *)decoder {
 	self = [super init];
 	if (self) {
+		_r = [decoder decodeIntegerForKey:@"r"];
+		_g = [decoder decodeIntegerForKey:@"g"];
+		_b = [decoder decodeIntegerForKey:@"b"];
+		_a = [decoder decodeIntegerForKey:@"a"];
 	}
 	return self;
 }
@@ -124,11 +176,19 @@ static LUDisplayMode parseDisplayMode(id value) {
 #pragma mark NSCoding
 
 - (void)encodeWithCoder:(NSCoder *)coder {
+	[coder encodeObject:_exception forKey:@"exception"];
+	[coder encodeObject:_error forKey:@"error"];
+	[coder encodeObject:_warning forKey:@"warning"];
+	[coder encodeObject:_debug forKey:@"debug"];
 }
 
 - (nullable instancetype)initWithCoder:(NSCoder *)decoder {
 	self = [super init];
 	if (self) {
+		_exception = [decoder decodeObjectForKey:@"exception"];
+		_error = [decoder decodeObjectForKey:@"error"];
+		_warning = [decoder decodeObjectForKey:@"warning"];
+		_debug = [decoder decodeObjectForKey:@"debug"];
 	}
 	return self;
 }
@@ -169,11 +229,15 @@ static LUDisplayMode parseDisplayMode(id value) {
 #pragma mark NSCoding
 
 - (void)encodeWithCoder:(NSCoder *)coder {
+	[coder encodeObject:self.foreground forKey:@"foreground"];
+	[coder encodeObject:self.background forKey:@"background"];
 }
 
 - (nullable instancetype)initWithCoder:(NSCoder *)decoder {
 	self = [super init];
 	if (self) {
+		_foreground = [decoder decodeObjectForKey:@"foreground"];
+		_background = [decoder decodeObjectForKey:@"background"];
 	}
 	return self;
 }
@@ -214,11 +278,19 @@ static LUDisplayMode parseDisplayMode(id value) {
 #pragma mark NSCoding
 
 - (void)encodeWithCoder:(NSCoder *)coder {
+	[coder encodeBool:self.enabled forKey:@"enabled"];
+	[coder encodeInteger:self.maxVisibleLines forKey:@"maxVisibleLines"];
+	[coder encodeDouble:self.timeout forKey:@"timeout"];
+	[coder encodeObject:self.colors forKey:@"colors"];
 }
 
 - (nullable instancetype)initWithCoder:(NSCoder *)decoder {
 	self = [super init];
 	if (self) {
+		_enabled = [decoder decodeBoolForKey:@"enabled"];
+		_maxVisibleLines = [decoder decodeIntegerForKey:@"maxVisibleLines"];
+		_timeout = [decoder decodeDoubleForKey:@"timeout"];
+		_colors = [decoder decodeObjectForKey:@"colors"];
 	}
 	return self;
 }
@@ -255,7 +327,6 @@ static LUDisplayMode parseDisplayMode(id value) {
 		_trim = [dict[@"trim"] intValue];
 		_gesture = parseGesture(dict[@"gesture"]);
 		_removeRichTextTags = [dict[@"removeRichTextTags"] boolValue];
-		_removeRichTextTags = [dict[@"removeRichTextTags"] boolValue];
 		_sortActions = [dict[@"sortActions"] boolValue];
 		_sortVariables = [dict[@"sortVariables"] boolValue];
 		_emails = dict[@"emails"];
@@ -267,11 +338,29 @@ static LUDisplayMode parseDisplayMode(id value) {
 #pragma mark NSCoding
 
 - (void)encodeWithCoder:(NSCoder *)coder {
+	[coder encodeObject:self.exceptionWarning forKey:@"exceptionWarning"];
+	[coder encodeObject:self.logOverlay forKey:@"logOverlay"];
+	[coder encodeInteger:self.capacity forKey:@"capacity"];
+	[coder encodeInteger:self.trim forKey:@"trim"];
+	[coder encodeObject:NSStringFromGesture(self.gesture) forKey:@"gesture"];
+	[coder encodeBool:self.removeRichTextTags forKey:@"removeRichTextTags"];
+	[coder encodeBool:self.sortActions forKey:@"sortActions"];
+	[coder encodeBool:self.sortVariables forKey:@"sortVariables"];
+	[coder encodeObject:self.emails forKey:@"emails"];
 }
 
 - (nullable instancetype)initWithCoder:(NSCoder *)decoder {
 	self = [super init];
 	if (self) {
+		_exceptionWarning = [decoder decodeObjectForKey:@"exceptionWarning"];
+		_logOverlay = [decoder decodeObjectForKey:@"logOverlay"];
+		_capacity = [decoder decodeIntegerForKey:@"capacity"];
+		_trim = [decoder decodeIntegerForKey:@"trim"];
+		_gesture = parseGesture([decoder decodeObjectForKey:@"gesture"]);
+		_removeRichTextTags = [decoder decodeBoolForKey:@"removeRichTextTags"];
+		_sortActions = [decoder decodeBoolForKey:@"sortActions"];
+		_sortVariables = [decoder decodeBoolForKey:@"sortVariables"];
+		_emails = [decoder decodeObjectForKey:@"emails"];
 	}
 	return self;
 }
