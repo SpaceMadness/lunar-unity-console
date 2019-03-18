@@ -26,17 +26,94 @@
 #import "LUConsoleSettingsController.h"
 
 static const NSInteger kTagName = 1;
-static const NSInteger kTagControl = 2;
+static const NSInteger kTagButton = 2;
+static const NSInteger kTagInput = 3;
+static const NSInteger kTagSwitch = 4;
 
-static NSString * const kSettingsEntryTypeBool = @"Bool";
+typedef enum : NSUInteger {
+	LUSettingTypeBool,
+	LUSettingTypeInt,
+	LUSettingTypeDouble,
+	LUSettingTypeEnum
+} LUSettingType;
 
 static NSDictionary * _propertyTypeLookup;
 static NSArray * _proOnlyFeaturesLookup;
 
-@interface LUConsoleSettingsController () <UITableViewDataSource>
-{
-    NSArray * _entries;
-    LUConsolePluginSettings * _settings;
+@interface LUConsoleSetting : NSObject
+
+@property (nonatomic, readonly, weak) id target;
+@property (nonatomic, readonly) NSString *name;
+@property (nonatomic, readonly) LUSettingType type;
+@property (nonatomic, readonly) NSString *title;
+@property (nonatomic, readonly) BOOL proOnly;
+
+- (instancetype)initWithTarget:(id)target name:(NSString *)name type:(LUSettingType)type title:(NSString *)title;
+
+- (void)setValue:(id)value;
+
+- (BOOL)boolValue;
+- (int)intValue;
+
+
+@end
+
+@implementation LUConsoleSetting
+
+- (instancetype)initWithTarget:(id)target name:(NSString *)name type:(LUSettingType)type title:(NSString *)title {
+	self = [super init];
+	if (self) {
+		_target = target;
+		_name = name;
+		_type = type;
+		_title = title;
+	}
+	return self;
+}
+
+- (void)setValue:(id)value {
+	[_target setObject:value forKey:_name];
+}
+
+- (id)value {
+	return [_target objectForKey:_name];
+}
+
+- (BOOL)boolValue {
+	return [[self value] boolValue];
+}
+
+- (int)intValue {
+	return [[self value] intValue];
+}
+
+@end
+
+@interface LUConsoleSettingsSection : NSObject
+
+@property (nonatomic, readonly) NSString *name;
+@property (nonatomic, readonly) NSArray<LUConsoleSetting *> *entries;
+
+- (instancetype)initWithName:(NSString *)name entries:(NSArray<LUConsoleSetting *> *)entries;
+
+@end
+
+@implementation LUConsoleSettingsSection
+
+- (instancetype)initWithName:(NSString *)name entries:(NSArray<LUConsoleSetting *> *)entries {
+	self = [super init];
+	if (self) {
+		_name = name;
+		_entries = entries;
+	}
+	return self;
+}
+
+@end
+
+@interface LUConsoleSettingsController () <UITableViewDataSource> {
+    NSArray<LUConsoleSettingsSection *> * _sections;
+    LUPluginSettings * _settings;
 }
 
 @property (nonatomic, weak) IBOutlet UITableView * tableView;
@@ -45,14 +122,12 @@ static NSArray * _proOnlyFeaturesLookup;
 
 @implementation LUConsoleSettingsController
 
-- (instancetype)initWithSettings:(LUConsolePluginSettings *)settings
-{
+- (instancetype)initWithSettings:(LUPluginSettings *)settings {
     self = [super initWithNibName:NSStringFromClass([self class]) bundle:nil];
     if (self)
     {
         _settings = settings;
-        _entries = [LUConsoleSettingsEntry listSettingsEntries:settings];
-        
+        _sections = [[self class] listSections:settings];
     }
     return self;
 }
@@ -61,8 +136,7 @@ static NSArray * _proOnlyFeaturesLookup;
 #pragma mark -
 #pragma mark View
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     
     LUTheme *theme = [LUTheme mainTheme];
@@ -76,18 +150,20 @@ static NSArray * _proOnlyFeaturesLookup;
 #pragma mark -
 #pragma mark UITableViewDataSource
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return _entries.count;
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+	return _sections.count;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    LUConsoleSettingsEntry *entry = [_entries objectAtIndex:indexPath.row];
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:entry.type];
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return _sections[section].entries.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+	LUConsoleSetting *setting = _sections[indexPath.section].entries[indexPath.row];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Setting Cell"];
     if (cell == nil)
     {
-        cell = [self loadCellForType:entry.type];
+        cell = (UITableViewCell *) [[NSBundle mainBundle] loadNibNamed:@"LUSettingsTableCell" owner:self options:nil].firstObject;
     }
     
     LUTheme *theme = [LUTheme mainTheme];
@@ -95,24 +171,38 @@ static NSArray * _proOnlyFeaturesLookup;
     cell.contentView.backgroundColor = indexPath.row % 2 == 0 ? theme.backgroundColorLight : theme.backgroundColorDark;
     
     UILabel *nameLabel = [cell.contentView viewWithTag:kTagName];
-    LUAssert(nameLabel);
-    
-    BOOL available = LUConsoleIsFullVersion || !entry.proOnly;
+	UIButton *enumButton = [cell.contentView viewWithTag:kTagButton];
+	UITextField *inputField = [cell.contentView viewWithTag:kTagInput];
+	LUSwitch *boolSwitch = [cell.contentView viewWithTag:kTagSwitch];
+	
+	enumButton.hidden = YES;
+	inputField.hidden = YES;
+	boolSwitch.hidden = YES;
+	
+    BOOL available = LUConsoleIsFullVersion || !setting.proOnly;
     
     nameLabel.font = theme.font;
     nameLabel.textColor = available ? theme.cellLog.textColor : theme.settingsTextColorUnavailable;
-    nameLabel.text = entry.title;
-    
-    if (entry.type == kSettingsEntryTypeBool)
-    {
-        LUSwitch *swtch = [cell.contentView viewWithTag:kTagControl];
-        LUAssert(swtch);
-        
-        swtch.on = [entry.value boolValue];
-        swtch.userData = entry;
-        [swtch addTarget:self action:@selector(onToggleBoolean:) forControlEvents:UIControlEventValueChanged];
-        swtch.enabled = available;
-    }
+    nameLabel.text = setting.title;
+	
+	switch (setting.type) {
+		case LUSettingTypeBool:
+			boolSwitch.hidden = NO;
+			boolSwitch.on = [setting boolValue];
+			boolSwitch.userData = setting;
+			[boolSwitch addTarget:self action:@selector(onToggleBoolean:) forControlEvents:UIControlEventValueChanged];
+			boolSwitch.enabled = available;
+			break;
+		case LUSettingTypeInt:
+			inputField.hidden = NO;
+			break;
+		case LUSettingTypeDouble:
+			inputField.hidden = NO;
+			break;
+		case LUSettingTypeEnum:
+			enumButton.hidden = NO;
+			break;
+	}
     
     return cell;
 }
@@ -120,169 +210,31 @@ static NSArray * _proOnlyFeaturesLookup;
 #pragma mark -
 #pragma mark Controls
 
-- (void)onToggleBoolean:(LUSwitch *)swtch
-{
-    LUConsoleSettingsEntry *entry = swtch.userData;
-    entry.value = swtch.isOn ? @YES : @NO;
-    [self settingEntryDidChange:entry];
+- (void)onToggleBoolean:(LUSwitch *)swtch {
+    LUConsoleSetting *setting = swtch.userData;
+    setting.value = swtch.isOn ? @YES : @NO;
+    [self settingEntryDidChange:setting];
 }
 
 #pragma mark -
 #pragma mark Entries
 
-- (void)settingEntryDidChange:(LUConsoleSettingsEntry *)entry
-{
-    [_settings setValue:entry.value forKey:entry.name];
-    [_settings save];
++ (NSArray<LUConsoleSettingsSection *> *)listSections:(LUPluginSettings *)settings {
+	return @[
+	  [[LUConsoleSettingsSection alloc] initWithName:@"Exception Warning" entries:@[
+        [[LUConsoleSetting alloc] initWithTarget:settings.exceptionWarning name:@"displayMode" type:LUSettingTypeEnum title:@"Display Mode"]
+	  ]],
+	  [[LUConsoleSettingsSection alloc] initWithName:@"Log Overlay" entries:@[
+		[[LUConsoleSetting alloc] initWithTarget:settings.logOverlay name:@"enabled" type:LUSettingTypeDouble title:@"Enabled"],
+		[[LUConsoleSetting alloc] initWithTarget:settings.logOverlay name:@"maxVisibleLines" type:LUSettingTypeInt title:@"Max Visible Lines"],
+		[[LUConsoleSetting alloc] initWithTarget:settings.logOverlay name:@"timeout" type:LUSettingTypeDouble title:@"Timeout"]
+	  ]],
+	];
 }
 
-#pragma mark -
-#pragma mark Helpers
-
-- (UITableViewCell *)loadCellForType:(NSString *)type
-{
-    NSString *nibName = [NSString stringWithFormat:@"LUSettingsTableCell%@", type];
-    return (UITableViewCell *) [[NSBundle mainBundle] loadNibNamed:nibName owner:self options:nil].firstObject;
-}
-
-#pragma mark -
-#pragma mark Properties
-
-- (NSArray *)changedEntries
-{
-    NSMutableArray *result = [NSMutableArray array];
-    for (LUConsoleSettingsEntry *entry in _entries)
-    {
-        if (entry.isChanged) [result addObject:entry];
-    }
-    return result;
-}
-
-@end
-
-@implementation LUConsoleSettingsEntry
-
-- (instancetype)initWithName:(NSString *)name value:(id)value type:(NSString *)type title:(NSString *)title
-{
-    self = [super init];
-    if (self)
-    {
-        if (name == nil ||
-            value == nil ||
-            type == nil)
-        {
-            self = nil;
-            return nil;
-        }
-        
-        _name = name;
-        _title = title;
-        _value = value;
-        _initialValue = value;
-        _type = type;
-    }
-    return self;
-}
-
-
-#pragma mark -
-#pragma mark Introspection
-
-+ (NSString *)propertyTypeName:(objc_property_t)property
-{
-    const char *cattributes = property_getAttributes(property);
-    if (cattributes)
-    {
-        NSString *attributes = [NSString stringWithUTF8String:cattributes];
-        NSArray *components = [attributes componentsSeparatedByString:@","];
-        for (NSString *component in components)
-        {
-            if (component.length > 1 && [component hasPrefix:@"T"])
-            {
-                if (_propertyTypeLookup == nil)
-                {
-                    _propertyTypeLookup = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                           kSettingsEntryTypeBool, @"c",
-                                           kSettingsEntryTypeBool, @"B",
-                                           nil];
-                }
-                
-                NSString *typeShort = [component substringFromIndex:1];
-                return _propertyTypeLookup[typeShort];
-            }
-        }
-    }
-    
-    return nil;
-}
-
-+ (NSArray *)listSettingsEntries:(LUConsolePluginSettings *)settings
-{
-    unsigned int propertyCount;
-    objc_property_t *properties = class_copyPropertyList([settings class], &propertyCount);
-    
-    if (_proOnlyFeaturesLookup == nil) {
-        _proOnlyFeaturesLookup = @[ @"enableTransparentLogOverlay" ];
-    }
-    
-    NSMutableArray *entries = [NSMutableArray arrayWithCapacity:propertyCount];
-    for (int i = 0; i < propertyCount; i++)
-    {
-        objc_property_t property = properties[i];
-        const char *cname = property_getName(property);
-        if (cname)
-        {
-            NSString *name = [NSString stringWithUTF8String:cname];
-            NSString *title = [self titleFromName:name];
-            NSString *type = [self propertyTypeName:property];
-            if (type == nil)
-            {
-                NSLog(@"LunarMobileConsole: unable to resolve the type of property '%@'", name);
-                continue;
-            }
-            
-            id value = [settings valueForKey:name];
-            
-            LUConsoleSettingsEntry *entry = [[LUConsoleSettingsEntry alloc] initWithName:name value:value type:type title:title];
-            if (entry == nil)
-            {
-                NSLog(@"LunarMobileConsole: unable to create setting entry '%@'", name);
-                continue;
-            }
-            
-            entry.proOnly = [_proOnlyFeaturesLookup indexOfObject:name] != NSNotFound;
-            
-            [entries addObject:entry];
-        }
-    }
-    free(properties);
-    return entries;
-}
-
-+ (NSString *)titleFromName:(NSString *)name
-{
-    NSMutableString *title = [NSMutableString string];
-    [title appendFormat:@"%c", [name characterAtIndex:0] ^ ' ']; // invert case
-    
-    for (NSUInteger i = 1; i < name.length; ++i)
-    {
-        unichar chr = [name characterAtIndex:i];
-        if (chr >= 'A' && chr <= 'Z')
-        {
-            [title appendString:@" "];
-        }
-        [title appendFormat:@"%c", chr];
-        
-    }
-    return title;
-}
-
-#pragma mark -
-#pragma mark Properties
-
-- (BOOL)isChanged
-{
-    return ![_value isEqual:_initialValue];
+- (void)settingEntryDidChange:(LUConsoleSetting *)entry {
+//    [_settings setValue:entry.value forKey:entry.name];
+//    [_settings save];
 }
 
 @end

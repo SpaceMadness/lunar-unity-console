@@ -27,8 +27,8 @@
 @class LUActionRegistry;
 @class LUConsole;
 @class LUConsolePlugin;
-@class LUConsolePluginSettings;
 @class LUCVar;
+@class LUPluginSettings;
 @class LUWindow;
 
 @protocol LUConsolePluginDelegate <NSObject>
@@ -57,7 +57,7 @@ extern NSString * const LUConsoleCheckFullVersionNotificationSource;
 @property (nonatomic, assign) NSInteger capacity;
 @property (nonatomic, assign) NSInteger trim;
 
-@property (nonatomic, readonly) LUConsolePluginSettings *settings;
+@property (nonatomic, readonly) LUPluginSettings *settings;
 @property (nonatomic, weak) id<LUConsolePluginDelegate> delegate;
 
 - (instancetype)initWithTargetName:(NSString *)targetName

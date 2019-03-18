@@ -24,7 +24,6 @@
 #import "Lunar.h"
 #import "LUConsolePluginImp.h"
 #import "LUPluginSettings.h"
-#import "LUConsoleEditorSettings.h"
 
 NSString * const LUConsoleCheckFullVersionNotification = @"LUConsoleCheckFullVersionNotification";
 NSString * const LUConsoleCheckFullVersionNotificationSource = @"source";
@@ -42,8 +41,6 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
     LUConsolePluginImp      * _pluginImp;
     LUUnityScriptMessenger  * _scriptMessenger;
     UIGestureRecognizer     * _gestureRecognizer;
-    LUConsoleGesture          _gesture;
-    NSArray<NSString *>     * _emails;
 }
 
 @end
@@ -66,29 +63,16 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
         NSData *settingsData = [settingsJson dataUsingEncoding:NSUTF8StringEncoding];
         NSDictionary *settingsDict = [NSJSONSerialization JSONObjectWithData:settingsData options:0 error:nil];
         
-        LUConsoleEditorSettings *editorSettings = [[LUConsoleEditorSettings alloc] initWithDictionary:settingsDict];
+        _settings = [[LUPluginSettings alloc] initWithDictionary:settingsDict];
+		// FIXME: load existing settings
         
         _pluginImp = [[LUConsolePluginImp alloc] initWithPlugin:self];
         _scriptMessenger = [[LUUnityScriptMessenger alloc] initWithTargetName:targetName methodName:methodName];
         _version = version;
-        // _console = [[LUConsole alloc] initWithCapacity:capacity trimCount:trimCount];
+        _console = [[LUConsole alloc] initWithCapacity:_settings.capacity trimCount:_settings.trim];
         _actionRegistry = [[LUActionRegistry alloc] init];
-        _actionRegistry.actionSortingEnabled = editorSettings.isActionSortingEnabled;
-        _actionRegistry.variableSortingEnabled = editorSettings.variableSortingEnabled;
-        
-        // _gesture = [self gestureFromString:gestureName];
-        _emails = editorSettings.emails;
-        
-        _settings = [[LUConsolePluginSettings alloc] initWithFilename:kSettingsFilename];
-        _settings.enableExceptionWarning = editorSettings.isExceptionWarningEnabled;
-        _settings.enableTransparentLogOverlay = editorSettings.isTransparentLogOverlayEnabled;
-        
-        LUConsolePluginSettings *existing = [LUConsolePluginSettings loadFromFile:kSettingsFilename
-                                                                      initDefault:NO];
-        if (existing != nil) {
-            _settings.enableExceptionWarning = existing.enableExceptionWarning;
-            _settings.enableTransparentLogOverlay = existing.enableTransparentLogOverlay;
-        }
+		_actionRegistry.actionSortingEnabled = _settings.sortActions;
+		_actionRegistry.variableSortingEnabled = _settings.sortVariables;
     }
     return self;
 }
@@ -103,7 +87,7 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
 - (void)start {
     [self enableGestureRecognition];
     
-    if (_settings.enableTransparentLogOverlay) {
+    if (_settings.logOverlay.enabled) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [self showOverlay];
         });
@@ -124,7 +108,7 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
     
     if (_consoleWindow == nil) {
         LUConsoleController *controller = [LUConsoleController controllerWithPlugin:self];
-        controller.emails = _emails;
+        controller.emails = _settings.emails;
         controller.delegate = self;
         
         CGRect windowFrame = LUGetScreenBounds();
@@ -166,7 +150,7 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
         [_scriptMessenger sendMessageName:kScriptMessageConsoleClose];
     }
     
-    if (_settings.enableTransparentLogOverlay) {
+    if (_settings.logOverlay.enabled) {
         [self showOverlay];
     }
 }
@@ -185,7 +169,7 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
 }
 
 - (void)logMessage:(NSString *)message stackTrace:(NSString *)stackTrace type:(LUConsoleLogType)type {
-    if (LU_IS_CONSOLE_LOG_TYPE_ERROR(type) && _consoleWindow == nil) {
+	if ([self shouldDisplayErrorType:type] && _consoleWindow == nil) {
         [self showWarningWithMessage:message];
     }
     
@@ -226,7 +210,7 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
 #pragma mark Warnings
 
 - (BOOL)showWarningWithMessage:(NSString *)message {
-    if (_warningWindow == nil && _settings.enableExceptionWarning) {
+    if (_warningWindow == nil) {
         CGSize screenSize = LUGetScreenBounds().size;
         
         CGRect windowFrame = CGRectMake(0, screenSize.height - kWarningHeight, screenSize.width, kWarningHeight);
@@ -321,7 +305,7 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
 
 - (void)enableGestureRecognition {
     LUAssert(_gestureRecognizer == nil);
-	if (!_gestureRecognizer && _gesture != LUConsoleGestureNone) { // TODO: handle other gesture types
+	if (!_gestureRecognizer && _settings.gesture == LUConsoleGestureSwipeDown) {
         UISwipeGestureRecognizer *gr = [[UISwipeGestureRecognizer alloc] initWithTarget:self
                                                                                  action:@selector(handleGesture:)];
         gr.numberOfTouchesRequired = 2;
@@ -363,6 +347,26 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
 
 - (void)sendScriptMessageName:(NSString *)name params:(NSDictionary *)params {
     [_scriptMessenger sendMessageName:name params:params];
+}
+
+#pragma mark -
+#pragma mark Helpers
+
+- (BOOL)shouldDisplayErrorType:(LUConsoleLogType)type {
+	if (!LU_IS_CONSOLE_LOG_TYPE_ERROR(type)) {
+		return NO;
+	}
+	LUDisplayMode displayMode = _settings.exceptionWarning.displayMode;
+	switch (displayMode) {
+		case LUDisplayModeNone:
+			return NO;
+		case LUDisplayModeErrors:
+			return type == LUConsoleLogTypeError || type == LUConsoleLogTypeException;
+		case LUDisplayModeExceptions:
+			return type == LUConsoleLogTypeException;
+		default:
+			return YES;
+	}
 }
 
 #pragma mark -
