@@ -72,11 +72,11 @@ static NSArray * _proOnlyFeaturesLookup;
 }
 
 - (void)setValue:(id)value {
-	[_target setObject:value forKey:_name];
+	[_target setValue:value forKey:_name];
 }
 
 - (id)value {
-	return [_target objectForKey:_name];
+	return [_target valueForKey:_name];
 }
 
 - (BOOL)boolValue {
@@ -245,7 +245,7 @@ static NSArray * _proOnlyFeaturesLookup;
         [[LUConsoleSetting alloc] initWithTarget:settings.exceptionWarning name:@"displayMode" type:LUSettingTypeEnum title:@"Display Mode"]
 	  ]],
 	  [[LUConsoleSettingsSection alloc] initWithTitle:@"Log Overlay" entries:@[
-		[[LUConsoleSetting alloc] initWithTarget:settings.logOverlay name:@"enabled" type:LUSettingTypeDouble title:@"Enabled"],
+		[[LUConsoleSetting alloc] initWithTarget:settings.logOverlay name:@"enabled" type:LUSettingTypeBool title:@"Enabled"],
 		[[LUConsoleSetting alloc] initWithTarget:settings.logOverlay name:@"maxVisibleLines" type:LUSettingTypeInt title:@"Max Visible Lines"],
 		[[LUConsoleSetting alloc] initWithTarget:settings.logOverlay name:@"timeout" type:LUSettingTypeDouble title:@"Timeout"]
 	  ]],
