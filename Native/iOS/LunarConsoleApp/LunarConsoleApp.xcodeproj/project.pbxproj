@@ -190,6 +190,10 @@
 		EF0836B31B7ABD6D00DFB877 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 844741FA1B719DA500F5ABD3 /* LaunchScreen.xib */; };
 		EF0836B41B7ABD6D00DFB877 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 844741F51B719DA500F5ABD3 /* Main.storyboard */; };
 		EF21AE1B1BF536FE0053D50B /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF21AE1A1BF536FE0053D50B /* MessageUI.framework */; };
+		EF30B2772241D56900898849 /* settings.json in Resources */ = {isa = PBXBuildFile; fileRef = EF30B2762241D56900898849 /* settings.json */; };
+		EF30B2782241D56A00898849 /* settings.json in Resources */ = {isa = PBXBuildFile; fileRef = EF30B2762241D56900898849 /* settings.json */; };
+		EF30B27E2241DB8C00898849 /* LUSettingsTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF30B27D2241DB8C00898849 /* LUSettingsTableCell.xib */; };
+		EF30B27F2241DB8C00898849 /* LUSettingsTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF30B27D2241DB8C00898849 /* LUSettingsTableCell.xib */; };
 		EF64F8F21C03D86E008DCB8E /* input.txt in Resources */ = {isa = PBXBuildFile; fileRef = EF64F8F11C03D86E008DCB8E /* input.txt */; };
 		EF81893C1BE16E58008FFCB9 /* libLunarConsoleFull.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 844742171B719DB600F5ABD3 /* libLunarConsoleFull.a */; };
 		EFAE76481D2486D70072CCBF /* LUConsoleLogControllerUITest.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAE76471D2486D70072CCBF /* LUConsoleLogControllerUITest.m */; };
@@ -378,7 +382,8 @@
 		C37C6C912F6BE95BC660ACDD /* Pods-LunarConsoleAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LunarConsoleAppTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LunarConsoleAppTests/Pods-LunarConsoleAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		E04BC23509F578BDFC1C6547 /* Pods_LunarConsoleAppFree.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LunarConsoleAppFree.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF21AE1A1BF536FE0053D50B /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
-		EF30B274223F369800898849 /* LUSettingsTableCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LUSettingsTableCell.xib; sourceTree = "<group>"; };
+		EF30B2762241D56900898849 /* settings.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = settings.json; path = ../../../Android/LunarConsole/lunarConsole/src/main/assets/settings.json; sourceTree = "<group>"; };
+		EF30B27D2241DB8C00898849 /* LUSettingsTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LUSettingsTableCell.xib; path = ../../LunarConsole/LunarConsole/Common/Controllers/Settings/LUSettingsTableCell.xib; sourceTree = "<group>"; };
 		EF64F8F11C03D86E008DCB8E /* input.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = input.txt; sourceTree = "<group>"; };
 		EF81892E1BE16844008FFCB9 /* LunarConsoleAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LunarConsoleAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF8189321BE16844008FFCB9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -633,7 +638,8 @@
 				4DD4FCE41DFB93C600032A29 /* LUCVarInputTableViewCell.xib */,
 				4D02A84A1E5A9658009F4998 /* LUCVarEditController.xib */,
 				4DD4FCE51DFB93C600032A29 /* LUExceptionWarningController.xib */,
-				EF30B274223F369800898849 /* LUSettingsTableCell.xib */,
+				EF30B27D2241DB8C00898849 /* LUSettingsTableCell.xib */,
+				EF30B2762241D56900898849 /* settings.json */,
 			);
 			name = Assets;
 			sourceTree = "<group>";
@@ -872,6 +878,7 @@
 				4DBF29F31E654303006E2C8A /* lunar_console_collapse_background@2x.png in Resources */,
 				4D02A7D71E4979C7009F4998 /* LUConsolePopupController.xib in Resources */,
 				4DBF29FD1E654303006E2C8A /* lunar_console_icon_button_close@3x.png in Resources */,
+				EF30B2782241D56A00898849 /* settings.json in Resources */,
 				4DBF2A1D1E654303006E2C8A /* lunar_console_icon_settings@2x.png in Resources */,
 				4DBF2A1C1E654303006E2C8A /* lunar_console_icon_settings.png in Resources */,
 				4D02A7D81E4979C7009F4998 /* LUConsoleResizeController.xib in Resources */,
@@ -907,6 +914,7 @@
 				4DBF2A0C1E654303006E2C8A /* lunar_console_icon_button_more@3x.png in Resources */,
 				4DD4FA221DFB8E5600032A29 /* Images.xcassets in Resources */,
 				4DBF2A0F1E654303006E2C8A /* lunar_console_icon_button_settings@3x.png in Resources */,
+				EF30B27F2241DB8C00898849 /* LUSettingsTableCell.xib in Resources */,
 				4DBF29FA1E654303006E2C8A /* lunar_console_icon_button_clipboard@3x.png in Resources */,
 				4DBF2A261E654303006E2C8A /* lunar_console_resize_handle_vertical@2x.png in Resources */,
 				4DBF29F51E654303006E2C8A /* lunar_console_icon_button_clear.png in Resources */,
@@ -960,6 +968,7 @@
 				4DBF29DB1E6542D7006E2C8A /* lunar_console_icon_log_error@2x.png in Resources */,
 				4DBF29DC1E6542D7006E2C8A /* lunar_console_icon_log_error@3x.png in Resources */,
 				4DBF29DD1E6542D7006E2C8A /* lunar_console_icon_log_warning.png in Resources */,
+				EF30B2772241D56900898849 /* settings.json in Resources */,
 				4DBF29DE1E6542D7006E2C8A /* lunar_console_icon_log_warning@2x.png in Resources */,
 				4DBF29DF1E6542D7006E2C8A /* lunar_console_icon_log_warning@3x.png in Resources */,
 				4DBF29E01E6542D7006E2C8A /* lunar_console_icon_log.png in Resources */,
@@ -992,6 +1001,7 @@
 				4DD4FCEE1DFB93C600032A29 /* LUConsoleResizeController.xib in Resources */,
 				4DD4FCEF1DFB93C600032A29 /* LUConsoleSettingsController.xib in Resources */,
 				4DD4FCF01DFB93C600032A29 /* LUCVarBooleanTableViewCell.xib in Resources */,
+				EF30B27E2241DB8C00898849 /* LUSettingsTableCell.xib in Resources */,
 				4DD4FCF11DFB93C600032A29 /* LUCVarInputTableViewCell.xib in Resources */,
 				4DD4FCF21DFB93C600032A29 /* LUExceptionWarningController.xib in Resources */,
 				4DBF2A341E65434A006E2C8A /* lunar_console_action_button_large_normal@2x.png in Resources */,
@@ -1391,7 +1401,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1432,7 +1442,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";

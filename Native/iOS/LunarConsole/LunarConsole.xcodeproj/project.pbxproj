@@ -326,7 +326,6 @@
 		4DD4FB5B1DFB932B00032A29 /* LUConsoleSettingsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUConsoleSettingsController.h; sourceTree = "<group>"; };
 		4DD4FB5C1DFB932B00032A29 /* LUConsoleSettingsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUConsoleSettingsController.m; sourceTree = "<group>"; };
 		4DD4FB5D1DFB932B00032A29 /* LUConsoleSettingsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LUConsoleSettingsController.xib; sourceTree = "<group>"; };
-		4DD4FB5E1DFB932B00032A29 /* LUSettingsTableCellBool.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LUSettingsTableCellBool.xib; sourceTree = "<group>"; };
 		4DD4FB601DFB932B00032A29 /* LUExceptionWarningController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUExceptionWarningController.h; sourceTree = "<group>"; };
 		4DD4FB611DFB932B00032A29 /* LUExceptionWarningController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUExceptionWarningController.m; sourceTree = "<group>"; };
 		4DD4FB621DFB932B00032A29 /* LUExceptionWarningController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LUExceptionWarningController.xib; sourceTree = "<group>"; };
@@ -400,6 +399,7 @@
 		EF30B267223C65F700898849 /* LUPluginSettings.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LUPluginSettings.m; sourceTree = "<group>"; };
 		EF30B26A223C6CAC00898849 /* LUPluginSettingsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LUPluginSettingsTest.swift; sourceTree = "<group>"; };
 		EF30B271223C7C1900898849 /* editor-settings.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "editor-settings.json"; sourceTree = "<group>"; };
+		EF30B27A2241D77F00898849 /* LUSettingsTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LUSettingsTableCell.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -789,10 +789,10 @@
 		4DD4FB5A1DFB932B00032A29 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				EF30B27A2241D77F00898849 /* LUSettingsTableCell.xib */,
 				4DD4FB5B1DFB932B00032A29 /* LUConsoleSettingsController.h */,
 				4DD4FB5C1DFB932B00032A29 /* LUConsoleSettingsController.m */,
 				4DD4FB5D1DFB932B00032A29 /* LUConsoleSettingsController.xib */,
-				4DD4FB5E1DFB932B00032A29 /* LUSettingsTableCellBool.xib */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -1255,7 +1255,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1294,7 +1294,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";

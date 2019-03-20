@@ -39,22 +39,11 @@ class ViewController: LUViewController {
         super.viewDidLoad()
         
         actionOverlaySwitch.setTestAccessibilityIdentifier("Action Overlay Switch")
-        
-        let settings = [
-            "exceptionWarning":true,
-            "transparentLogOverlay":true,
-            "sortActions":true,
-            "sortVariables":true,
-            "emails":["lunar.plugin@gmail.com","a.lementuev@gmail.com"]
-        ] as [String : Any]
-        var settingsJson = "{}"
-        do {
-            let jsonData = try JSONSerialization.data(withJSONObject: settings, options: .prettyPrinted)
-            settingsJson = String(data: jsonData, encoding: String.Encoding.utf8)!
-        } catch {
-            print(error.localizedDescription)
-        }
-        
+		
+		guard let settingsJson = readJsonFile(name: "settings") else {
+			print("Unable to load settings")
+			return
+		}
         plugin = LUConsolePlugin(targetName: "LunarConsole", methodName: "OnNativeMessage", version: "0.0.0", settingsJson:settingsJson)
         plugin.delegate = self
         
@@ -292,6 +281,16 @@ class ViewController: LUViewController {
     private func log(message: String, stackTrace: String?, type: LUConsoleLogType) {
         plugin.logMessage(message, stackTrace: stackTrace, type: type)
     }
+	
+	private func readJsonFile(name: String) -> String? {
+		if let url = Bundle.main.url(forResource: name, withExtension: "json") {
+			if let jsonData = try? Data(contentsOf: url) {
+				return String(data: jsonData, encoding: .utf8)
+			}
+		}
+		
+		return nil
+	}
 }
 
 extension ViewController: UITextFieldDelegate {

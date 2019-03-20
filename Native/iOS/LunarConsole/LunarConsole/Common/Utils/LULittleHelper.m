@@ -25,12 +25,15 @@
 
 void LUDisplayAlertView(NSString *title, NSString *message)
 {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
                                                         message:message
                                                        delegate:nil
                                               cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil];
     [alertView show];
+#pragma clang diagnostic pop
 }
 
 CGRect LUGetScreenBounds()
