@@ -91,19 +91,19 @@ static NSArray * _proOnlyFeaturesLookup;
 
 @interface LUConsoleSettingsSection : NSObject
 
-@property (nonatomic, readonly) NSString *name;
+@property (nonatomic, readonly) NSString *title;
 @property (nonatomic, readonly) NSArray<LUConsoleSetting *> *entries;
 
-- (instancetype)initWithName:(NSString *)name entries:(NSArray<LUConsoleSetting *> *)entries;
+- (instancetype)initWithTitle:(NSString *)title entries:(NSArray<LUConsoleSetting *> *)entries;
 
 @end
 
 @implementation LUConsoleSettingsSection
 
-- (instancetype)initWithName:(NSString *)name entries:(NSArray<LUConsoleSetting *> *)entries {
+- (instancetype)initWithTitle:(NSString *)title entries:(NSArray<LUConsoleSetting *> *)entries {
 	self = [super init];
 	if (self) {
-		_name = name;
+		_title = title;
 		_entries = entries;
 	}
 	return self;
@@ -158,6 +158,10 @@ static NSArray * _proOnlyFeaturesLookup;
     return _sections[section].entries.count;
 }
 
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+	return _sections[section].title;
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	LUConsoleSetting *setting = _sections[indexPath.section].entries[indexPath.row];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Setting Cell"];
@@ -208,6 +212,22 @@ static NSArray * _proOnlyFeaturesLookup;
 }
 
 #pragma mark -
+#pragma mark UITableViewDelegate
+
+- (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
+{
+	if ([view isKindOfClass:[UITableViewHeaderFooterView class]])
+	{
+		LUTheme *theme = [LUTheme mainTheme];
+		
+		UITableViewHeaderFooterView *headerView = (UITableViewHeaderFooterView *)view;
+		headerView.textLabel.font = theme.actionsGroupFont;
+		headerView.textLabel.textColor = theme.actionsGroupTextColor;
+		headerView.contentView.backgroundColor = theme.actionsGroupBackgroundColor;
+	}
+}
+
+#pragma mark -
 #pragma mark Controls
 
 - (void)onToggleBoolean:(LUSwitch *)swtch {
@@ -221,10 +241,10 @@ static NSArray * _proOnlyFeaturesLookup;
 
 + (NSArray<LUConsoleSettingsSection *> *)listSections:(LUPluginSettings *)settings {
 	return @[
-	  [[LUConsoleSettingsSection alloc] initWithName:@"Exception Warning" entries:@[
+	  [[LUConsoleSettingsSection alloc] initWithTitle:@"Exception Warning" entries:@[
         [[LUConsoleSetting alloc] initWithTarget:settings.exceptionWarning name:@"displayMode" type:LUSettingTypeEnum title:@"Display Mode"]
 	  ]],
-	  [[LUConsoleSettingsSection alloc] initWithName:@"Log Overlay" entries:@[
+	  [[LUConsoleSettingsSection alloc] initWithTitle:@"Log Overlay" entries:@[
 		[[LUConsoleSetting alloc] initWithTarget:settings.logOverlay name:@"enabled" type:LUSettingTypeDouble title:@"Enabled"],
 		[[LUConsoleSetting alloc] initWithTarget:settings.logOverlay name:@"maxVisibleLines" type:LUSettingTypeInt title:@"Max Visible Lines"],
 		[[LUConsoleSetting alloc] initWithTarget:settings.logOverlay name:@"timeout" type:LUSettingTypeDouble title:@"Timeout"]
