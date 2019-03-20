@@ -81,6 +81,9 @@ static LUTheme * _mainTheme;
 @property (nonatomic, strong) UIColor *variableTextColor;
 @property (nonatomic, strong) UIColor *variableVolatileTextColor;
 
+@property (nonatomic, strong) UIFont  *enumButtonFont;
+@property (nonatomic, strong) UIColor *enumButtonTitleColor;
+
 @property (nonatomic, strong) UIColor *switchTintColor;
 @property (nonatomic, strong) UIImage *settingsIconImage;
 @property (nonatomic, strong) UIColor *settingsTextColorUnavailable;
@@ -210,6 +213,8 @@ static UIImage * CreateCollapseBackgroundImage()
         _mainTheme.variableEditBackground = LUColorMake(0x4d4d4d);
         _mainTheme.variableTextColor = _mainTheme.actionsTextColor;
         _mainTheme.variableVolatileTextColor = LUColorMake(0xfdd631);
+		_mainTheme.enumButtonFont = _mainTheme.font;
+		_mainTheme.enumButtonTitleColor = _mainTheme.actionsTextColor;
         
         _mainTheme.logMessageDetailFont = [self createCustomFontWithSize:12];
         _mainTheme.logMessageStacktraceColor = LUColorMake(0x555555);

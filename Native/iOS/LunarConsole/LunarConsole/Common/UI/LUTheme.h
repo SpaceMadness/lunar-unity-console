@@ -99,6 +99,9 @@
 @property (nonatomic, readonly) UIColor *variableTextColor;
 @property (nonatomic, readonly) UIColor *variableVolatileTextColor;
 
+@property (nonatomic, readonly) UIFont  *enumButtonFont;
+@property (nonatomic, readonly) UIColor *enumButtonTitleColor;
+
 @property (nonatomic, readonly) UIColor *switchTintColor;
 
 @property (nonatomic, readonly) UIImage *settingsIconImage;

@@ -54,7 +54,7 @@ static NSArray * _proOnlyFeaturesLookup;
 
 - (BOOL)boolValue;
 - (int)intValue;
-
+- (double)doubleValue;
 
 @end
 
@@ -85,6 +85,10 @@ static NSArray * _proOnlyFeaturesLookup;
 
 - (int)intValue {
 	return [[self value] intValue];
+}
+
+- (double)doubleValue {
+	return [[self value] doubleValue];
 }
 
 @end
@@ -199,12 +203,16 @@ static NSArray * _proOnlyFeaturesLookup;
 			break;
 		case LUSettingTypeInt:
 			inputField.hidden = NO;
+			inputField.text = [NSString stringWithFormat:@"%d", [setting intValue]];
 			break;
 		case LUSettingTypeDouble:
 			inputField.hidden = NO;
+			inputField.text = [NSString stringWithFormat:@"%g", [setting doubleValue]];
 			break;
 		case LUSettingTypeEnum:
 			enumButton.hidden = NO;
+			enumButton.titleLabel.font = theme.enumButtonFont;
+			[enumButton setTitleColor:theme.enumButtonTitleColor forState:UIControlStateNormal];
 			break;
 	}
     
