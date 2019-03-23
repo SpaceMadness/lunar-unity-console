@@ -25,11 +25,11 @@
 
 @interface LUConsoleOverlayController () <UITableViewDataSource, UITableViewDelegate, LunarConsoleDelegate>
 {
-    NSMutableArray                      * _entries;
-    LUConsole                           * _console;
-    LUConsoleOverlayControllerSettings  * _settings;
-    BOOL                                  _entryRemovalScheduled;
-    BOOL                                  _entryRemovalCancelled;
+    NSMutableArray       * _entries;
+    LUConsole            * _console;
+    LULogOverlaySettings * _settings;
+    BOOL                   _entryRemovalScheduled;
+    BOOL                   _entryRemovalCancelled;
 }
 
 @property (nonatomic, weak) IBOutlet UITableView * tableView;
@@ -38,12 +38,12 @@
 
 @implementation LUConsoleOverlayController
 
-+ (instancetype)controllerWithConsole:(LUConsole *)console settings:(LUConsoleOverlayControllerSettings *)settings
++ (instancetype)controllerWithConsole:(LUConsole *)console settings:(LULogOverlaySettings *)settings
 {
     return [[[self class] alloc] initWithConsole:console settings:settings];
 }
 
-- (instancetype)initWithConsole:(LUConsole *)console settings:(LUConsoleOverlayControllerSettings *)settings
+- (instancetype)initWithConsole:(LUConsole *)console settings:(LULogOverlaySettings *)settings
 {
     self = [super initWithNibName:NSStringFromClass([self class]) bundle:nil];
     if (self)
@@ -53,7 +53,7 @@
         
         _settings = settings;
         
-        _entries = [[NSMutableArray alloc] initWithCapacity:_settings.maxVisibleEntries];
+        _entries = [[NSMutableArray alloc] initWithCapacity:_settings.maxVisibleLines];
     }
     return self;
 }
@@ -118,7 +118,7 @@
     [self scheduleEntryRemoval];
     
     [UIView performWithoutAnimation:^{
-        if (_entries.count < _settings.maxVisibleEntries)
+        if (_entries.count < _settings.maxVisibleLines)
         {
             [_entries addObject:entry];
             [_tableView insertRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:_entries.count - 1 inSection:0]]
@@ -172,7 +172,7 @@
     {
         _entryRemovalScheduled = YES;
         
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(_settings.entryDisplayTime * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(_settings.timeout * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             if (!_entryRemovalCancelled)
             {
                 if (_entries.count > 0)
@@ -209,26 +209,6 @@
 - (void)reloadData
 {
     [_tableView reloadData];
-}
-
-@end
-
-@implementation LUConsoleOverlayControllerSettings
-
-+ (instancetype)settings
-{
-    return [[[self class] alloc] init];
-}
-
-- (instancetype)init
-{
-    self = [super init];
-    if (self)
-    {
-        _maxVisibleEntries = 3;
-        _entryDisplayTime = 1.0;
-    }
-    return self;
 }
 
 @end

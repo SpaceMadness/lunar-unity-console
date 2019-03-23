@@ -92,9 +92,8 @@ static NSString * const kScriptMessageAction         = @"console_action";
 {
     if (_overlayWindow == nil)
     {
-        LUConsoleOverlayControllerSettings *settings = [LUConsoleOverlayControllerSettings settings];
         LUConsoleOverlayController *controller = [LUConsoleOverlayController controllerWithConsole:_plugin.console
-                                                                                          settings:settings];
+																						  settings:_plugin.settings.logOverlay];
         
         CGRect windowFrame = LUGetScreenBounds();
         _overlayWindow = [[LUWindow alloc] initWithFrame:windowFrame];
