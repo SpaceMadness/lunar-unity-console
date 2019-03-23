@@ -40,6 +40,9 @@ typedef enum : NSUInteger {
 static NSDictionary * _propertyTypeLookup;
 static NSArray * _proOnlyFeaturesLookup;
 
+static id<LUTextFieldInputValidator> _integerValidator;
+static id<LUTextFieldInputValidator> _floatValidator;
+
 @class LUConsoleSetting;
 
 @protocol LUConsoleSettingDelegate <NSObject>
@@ -154,10 +157,17 @@ static NSArray * _proOnlyFeaturesLookup;
 
 @end
 
-@interface LUConsoleSettingsController () <LUConsoleSettingDelegate>
+@interface LUConsoleSettingsController () <LUConsoleSettingDelegate, LUTextFieldInputDelegate>
 @end
 
 @implementation LUConsoleSettingsController
+
++ (void)initialize {
+	if ([self class] == [LUConsoleSettingsController class]) {
+		_integerValidator = [LUTextFieldIntegerInputValidator new];
+		_floatValidator = [LUTextFieldFloatInputValidator new];
+	}
+}
 
 - (instancetype)initWithSettings:(LUPluginSettings *)settings {
     self = [super initWithNibName:NSStringFromClass([self class]) bundle:nil];
@@ -213,7 +223,7 @@ static NSArray * _proOnlyFeaturesLookup;
     
     UILabel *nameLabel = [cell.contentView viewWithTag:kTagName];
 	LUButton *enumButton = [cell.contentView viewWithTag:kTagButton];
-	UITextField *inputField = [cell.contentView viewWithTag:kTagInput];
+	LUTextField *inputField = [cell.contentView viewWithTag:kTagInput];
 	LUSwitch *boolSwitch = [cell.contentView viewWithTag:kTagSwitch];
 	
 	enumButton.hidden = YES;
@@ -237,10 +247,16 @@ static NSArray * _proOnlyFeaturesLookup;
 		case LUSettingTypeInt:
 			inputField.hidden = NO;
 			inputField.text = [NSString stringWithFormat:@"%d", [setting intValue]];
+			inputField.textValidator = _integerValidator;
+			inputField.textInputDelegate = self;
+			inputField.userData = setting;
 			break;
 		case LUSettingTypeDouble:
 			inputField.hidden = NO;
 			inputField.text = [NSString stringWithFormat:@"%g", [setting doubleValue]];
+			inputField.textValidator = _floatValidator;
+			inputField.textInputDelegate = self;
+			inputField.userData = setting;
 			break;
 		case LUSettingTypeEnum:
 			enumButton.hidden = NO;
@@ -285,6 +301,34 @@ static NSArray * _proOnlyFeaturesLookup;
 		headerView.textLabel.textColor = theme.actionsGroupTextColor;
 		headerView.contentView.backgroundColor = theme.actionsGroupBackgroundColor;
 	}
+}
+
+#pragma mark -
+#pragma mark LUTextFieldInputDelegate
+
+- (void)textFieldDidEndEditing:(LUTextField *)textField {
+	LUConsoleSetting *setting = textField.userData;
+	switch (setting.type) {
+		case LUSettingTypeInt: {
+			NSInteger value;
+			LUStringTryParseInteger(textField.text, &value);
+			setting.intValue = (int) value;
+			break;
+		}
+		case LUSettingTypeDouble: {
+			float value;
+			LUStringTryParseFloat(textField.text, &value);
+			setting.doubleValue = value;
+			break;
+		}
+		case LUSettingTypeBool:
+		case LUSettingTypeEnum:
+			break;
+	}
+}
+
+- (void)textFieldInputDidBecomeInvalid:(LUTextField *)textField {
+	LUDisplayAlertView(@"Input Error", [NSString stringWithFormat:@"Invalid value: '%@'", textField.text]);
 }
 
 #pragma mark -

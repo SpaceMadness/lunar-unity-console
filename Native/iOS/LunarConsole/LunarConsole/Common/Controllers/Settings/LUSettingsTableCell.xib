@@ -31,7 +31,7 @@
                                 <rect key="frame" x="53" y="0.0" width="50" height="31"/>
                                 <state key="normal" title="Button"/>
                             </button>
-                            <textField opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cEX-te-ncn">
+                            <textField opaque="NO" tag="3" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cEX-te-ncn" customClass="LUTextField">
                                 <rect key="frame" x="111" y="0.0" width="120" height="31"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="120" id="UwQ-4s-deV"/>

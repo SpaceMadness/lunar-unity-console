@@ -21,6 +21,32 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
+@class LUTextField;
+
+@protocol LUTextFieldInputValidator <NSObject>
+- (BOOL)isTextValid:(NSString *)text;
+@end
+
+@protocol LUTextFieldInputDelegate <NSObject>
+@optional
+- (void)textFieldDidEndEditing:(LUTextField *)textField;
+- (void)textFieldInputDidBecomeInvalid:(LUTextField *)textField;
+@end
+
 @interface LUTextField : UITextField
 
+@property (nonatomic, nullable, strong) id<LUTextFieldInputValidator> textValidator;
+@property (nonatomic, nullable, weak) id<LUTextFieldInputDelegate> textInputDelegate;
+@property (nonatomic, strong) id userData;
+
 @end
+
+@interface LUTextFieldIntegerInputValidator : NSObject<LUTextFieldInputValidator>
+@end
+
+@interface LUTextFieldFloatInputValidator : NSObject<LUTextFieldInputValidator>
+@end
+
+NS_ASSUME_NONNULL_END
