@@ -47,16 +47,14 @@ NSString * const LUConsoleControllerDidResizeNotification = @"LUConsoleControlle
 
 @implementation LUConsoleController
 
-+ (void)load
-{
-    if (!LU_IOS_MIN_VERSION_AVAILABLE)
-    {
++ (void)load {
+    if (!LU_IOS_MIN_VERSION_AVAILABLE) {
         return;
     }
     
-    if ([self class] == [LUConsoleLogController class])
-    {
+    if ([self class] == [LUConsoleLogController class]) {
         // force linker to add these classes for Interface Builder
+		[LUButton class];
         [LUConsoleLogTypeButton class];
         [LUSwitch class];
         [LUSlider class];
@@ -66,13 +64,11 @@ NSString * const LUConsoleControllerDidResizeNotification = @"LUConsoleControlle
     }
 }
 
-+ (instancetype)controllerWithPlugin:(LUConsolePlugin *)plugin
-{
++ (instancetype)controllerWithPlugin:(LUConsolePlugin *)plugin {
     return [[self alloc] initWithPlugin:plugin];
 }
 
-- (instancetype)initWithPlugin:(LUConsolePlugin *)plugin
-{
+- (instancetype)initWithPlugin:(LUConsolePlugin *)plugin {
     self = [super initWithNibName:NSStringFromClass([self class]) bundle:nil];
     if (self)
     {

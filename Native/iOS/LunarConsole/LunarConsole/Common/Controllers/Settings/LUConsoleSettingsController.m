@@ -46,49 +46,67 @@ static NSArray * _proOnlyFeaturesLookup;
 @property (nonatomic, readonly) NSString *name;
 @property (nonatomic, readonly) LUSettingType type;
 @property (nonatomic, readonly) NSString *title;
+@property (nonatomic, strong) id value;
+@property (nonatomic, assign) BOOL boolValue;
+@property (nonatomic, assign) int intValue;
+@property (nonatomic, assign) double doubleValue;
+
+@property (nonatomic, readonly, nullable) NSArray<NSString *> *values;
 @property (nonatomic, readonly) BOOL proOnly;
 
 - (instancetype)initWithTarget:(id)target name:(NSString *)name type:(LUSettingType)type title:(NSString *)title;
-
-- (void)setValue:(id)value;
-
-- (BOOL)boolValue;
-- (int)intValue;
-- (double)doubleValue;
+- (instancetype)initWithTarget:(id)target name:(NSString *)name type:(LUSettingType)type title:(NSString *)title values:(nullable NSArray<NSString *> *)values;
 
 @end
 
 @implementation LUConsoleSetting
 
 - (instancetype)initWithTarget:(id)target name:(NSString *)name type:(LUSettingType)type title:(NSString *)title {
+	return [self initWithTarget:target name:name type:type title:title values:nil];
+}
+	
+- (instancetype)initWithTarget:(id)target name:(NSString *)name type:(LUSettingType)type title:(NSString *)title values:(nullable NSArray<NSString *> *)values {
 	self = [super init];
 	if (self) {
 		_target = target;
 		_name = name;
 		_type = type;
 		_title = title;
+		_values = values;
 	}
 	return self;
-}
-
-- (void)setValue:(id)value {
-	[_target setValue:value forKey:_name];
 }
 
 - (id)value {
 	return [_target valueForKey:_name];
 }
 
+- (void)setValue:(id)value {
+	[_target setValue:value forKey:_name];
+}
+
 - (BOOL)boolValue {
 	return [[self value] boolValue];
+}
+
+- (void)setBoolValue:(BOOL)boolValue {
+	[self setValue:[NSNumber numberWithBool:boolValue]];
 }
 
 - (int)intValue {
 	return [[self value] intValue];
 }
 
+- (void)setIntValue:(int)intValue {
+	[self setValue:[NSNumber numberWithInt:intValue]];
+}
+
 - (double)doubleValue {
 	return [[self value] doubleValue];
+}
+
+- (void)setDoubleValue:(double)doubleValue {
+	[self setValue:[NSNumber numberWithDouble:doubleValue]];
 }
 
 @end
@@ -115,7 +133,7 @@ static NSArray * _proOnlyFeaturesLookup;
 
 @end
 
-@interface LUConsoleSettingsController () <UITableViewDataSource> {
+@interface LUConsoleSettingsController () <UITableViewDataSource, LUConsolePopupControllerDelegate> {
     NSArray<LUConsoleSettingsSection *> * _sections;
     LUPluginSettings * _settings;
 }
@@ -179,7 +197,7 @@ static NSArray * _proOnlyFeaturesLookup;
     cell.contentView.backgroundColor = indexPath.row % 2 == 0 ? theme.backgroundColorLight : theme.backgroundColorDark;
     
     UILabel *nameLabel = [cell.contentView viewWithTag:kTagName];
-	UIButton *enumButton = [cell.contentView viewWithTag:kTagButton];
+	LUButton *enumButton = [cell.contentView viewWithTag:kTagButton];
 	UITextField *inputField = [cell.contentView viewWithTag:kTagInput];
 	LUSwitch *boolSwitch = [cell.contentView viewWithTag:kTagSwitch];
 	
@@ -211,12 +229,29 @@ static NSArray * _proOnlyFeaturesLookup;
 			break;
 		case LUSettingTypeEnum:
 			enumButton.hidden = NO;
+			int index = [setting intValue];
+			[enumButton setTitle:setting.values[index] forState:UIControlStateNormal];
 			enumButton.titleLabel.font = theme.enumButtonFont;
+			enumButton.userData = setting;
 			[enumButton setTitleColor:theme.enumButtonTitleColor forState:UIControlStateNormal];
+			if (enumButton.allTargets.count == 0) {
+				[enumButton addTarget:self action:@selector(enumButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+			}
 			break;
 	}
     
     return cell;
+}
+
+- (void)enumButtonClicked:(LUButton *)button {
+	LUConsoleSetting *setting = button.userData;
+	
+	LUEnumPickerViewController *picker = [[LUEnumPickerViewController alloc] initWithValues:setting.values initialIndex:[setting intValue]];
+	picker.userData = setting;
+	
+	LUConsolePopupController *popupController = [[LUConsolePopupController alloc] initWithContentController:picker];
+	[popupController presentFromController:self.parentViewController animated:YES];
+	popupController.popupDelegate = self;
 }
 
 #pragma mark -
@@ -236,6 +271,18 @@ static NSArray * _proOnlyFeaturesLookup;
 }
 
 #pragma mark -
+#pragma mark LUConsolePopupControllerDelegate
+
+- (void)popupControllerDidDismiss:(LUConsolePopupController *)controller {
+	LUEnumPickerViewController *pickerController = (LUEnumPickerViewController *) controller.contentController;
+	
+	LUConsoleSetting *setting = pickerController.userData;
+	setting.intValue = (int) pickerController.selectedIndex;
+	
+	[controller dismissAnimated:YES];
+}
+
+#pragma mark -
 #pragma mark Controls
 
 - (void)onToggleBoolean:(LUSwitch *)swtch {
@@ -250,7 +297,7 @@ static NSArray * _proOnlyFeaturesLookup;
 + (NSArray<LUConsoleSettingsSection *> *)listSections:(LUPluginSettings *)settings {
 	return @[
 	  [[LUConsoleSettingsSection alloc] initWithTitle:@"Exception Warning" entries:@[
-        [[LUConsoleSetting alloc] initWithTarget:settings.exceptionWarning name:@"displayMode" type:LUSettingTypeEnum title:@"Display Mode"]
+        [[LUConsoleSetting alloc] initWithTarget:settings.exceptionWarning name:@"displayMode" type:LUSettingTypeEnum title:@"Display Mode" values:@[@"None", @"Errors", @"Exceptions", @"All"]]
 	  ]],
 	  [[LUConsoleSettingsSection alloc] initWithTitle:@"Log Overlay" entries:@[
 		[[LUConsoleSetting alloc] initWithTarget:settings.logOverlay name:@"enabled" type:LUSettingTypeBool title:@"Enabled"],

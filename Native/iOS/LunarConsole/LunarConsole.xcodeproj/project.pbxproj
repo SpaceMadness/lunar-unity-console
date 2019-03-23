@@ -134,6 +134,8 @@
 		EF30B269223C65F700898849 /* LUPluginSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = EF30B267223C65F700898849 /* LUPluginSettings.m */; };
 		EF30B26B223C6CAC00898849 /* LUPluginSettingsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF30B26A223C6CAC00898849 /* LUPluginSettingsTest.swift */; };
 		EF30B272223C7C1900898849 /* editor-settings.json in Resources */ = {isa = PBXBuildFile; fileRef = EF30B271223C7C1900898849 /* editor-settings.json */; };
+		EF30B2842245913900898849 /* LUEnumPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF30B2822245913900898849 /* LUEnumPickerViewController.m */; };
+		EF30B2852245913900898849 /* LUEnumPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF30B2822245913900898849 /* LUEnumPickerViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -400,6 +402,9 @@
 		EF30B26A223C6CAC00898849 /* LUPluginSettingsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LUPluginSettingsTest.swift; sourceTree = "<group>"; };
 		EF30B271223C7C1900898849 /* editor-settings.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "editor-settings.json"; sourceTree = "<group>"; };
 		EF30B27A2241D77F00898849 /* LUSettingsTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LUSettingsTableCell.xib; sourceTree = "<group>"; };
+		EF30B2812245913900898849 /* LUEnumPickerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LUEnumPickerViewController.h; sourceTree = "<group>"; };
+		EF30B2822245913900898849 /* LUEnumPickerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LUEnumPickerViewController.m; sourceTree = "<group>"; };
+		EF30B286224591EB00898849 /* LUEnumPickerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LUEnumPickerViewController.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -757,6 +762,7 @@
 			isa = PBXGroup;
 			children = (
 				4D02A7C41E496FAA009F4998 /* Actions */,
+				EF30B2802245910900898849 /* Misc */,
 				4DD4FB521DFB932B00032A29 /* Popup */,
 				4DD4FB561DFB932B00032A29 /* Resize */,
 				4DD4FB5A1DFB932B00032A29 /* Settings */,
@@ -934,6 +940,16 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		EF30B2802245910900898849 /* Misc */ = {
+			isa = PBXGroup;
+			children = (
+				EF30B2812245913900898849 /* LUEnumPickerViewController.h */,
+				EF30B2822245913900898849 /* LUEnumPickerViewController.m */,
+				EF30B286224591EB00898849 /* LUEnumPickerViewController.xib */,
+			);
+			path = Misc;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1062,6 +1078,7 @@
 				EF30B269223C65F700898849 /* LUPluginSettings.m in Sources */,
 				4DD4FBF61DFB932C00032A29 /* LUActionButton.m in Sources */,
 				4DD4FBDA1DFB932B00032A29 /* LUConsoleLogEntryLookupTable.m in Sources */,
+				EF30B2852245913900898849 /* LUEnumPickerViewController.m in Sources */,
 				4DD4FBE41DFB932C00032A29 /* LUConsoleController.m in Sources */,
 				4DD4FC221DFB932C00032A29 /* LUThreading.m in Sources */,
 				4D02A7CD1E4973FA009F4998 /* LUActionRegistry.m in Sources */,
@@ -1107,6 +1124,7 @@
 				4DD4FC091DFB932C00032A29 /* LUAssert.m in Sources */,
 				4D02A7B51E496C93009F4998 /* LUActionTableViewCell.m in Sources */,
 				4D02A7B21E496C93009F4998 /* LUActionController.m in Sources */,
+				EF30B2842245913900898849 /* LUEnumPickerViewController.m in Sources */,
 				4D02A7BB1E496C93009F4998 /* LUCVarInputTableViewCell.m in Sources */,
 				4DD4FBE71DFB932C00032A29 /* LUConsolePluginSettings.m in Sources */,
 				4D02A8301E5940C2009F4998 /* LUSlider.m in Sources */,

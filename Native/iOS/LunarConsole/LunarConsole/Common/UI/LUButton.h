@@ -23,4 +23,6 @@
 
 @interface LUButton : UIButton
 
+@property (nonatomic, strong) id userData;
+
 @end

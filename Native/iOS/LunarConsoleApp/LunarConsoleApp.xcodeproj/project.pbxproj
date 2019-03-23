@@ -194,6 +194,8 @@
 		EF30B2782241D56A00898849 /* settings.json in Resources */ = {isa = PBXBuildFile; fileRef = EF30B2762241D56900898849 /* settings.json */; };
 		EF30B27E2241DB8C00898849 /* LUSettingsTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF30B27D2241DB8C00898849 /* LUSettingsTableCell.xib */; };
 		EF30B27F2241DB8C00898849 /* LUSettingsTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF30B27D2241DB8C00898849 /* LUSettingsTableCell.xib */; };
+		EF30B2882245961600898849 /* LUEnumPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF30B2872245961600898849 /* LUEnumPickerViewController.xib */; };
+		EF30B2892245962C00898849 /* LUEnumPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF30B2872245961600898849 /* LUEnumPickerViewController.xib */; };
 		EF64F8F21C03D86E008DCB8E /* input.txt in Resources */ = {isa = PBXBuildFile; fileRef = EF64F8F11C03D86E008DCB8E /* input.txt */; };
 		EF81893C1BE16E58008FFCB9 /* libLunarConsoleFull.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 844742171B719DB600F5ABD3 /* libLunarConsoleFull.a */; };
 		EFAE76481D2486D70072CCBF /* LUConsoleLogControllerUITest.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAE76471D2486D70072CCBF /* LUConsoleLogControllerUITest.m */; };
@@ -384,6 +386,7 @@
 		EF21AE1A1BF536FE0053D50B /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		EF30B2762241D56900898849 /* settings.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = settings.json; path = ../../../Android/LunarConsole/lunarConsole/src/main/assets/settings.json; sourceTree = "<group>"; };
 		EF30B27D2241DB8C00898849 /* LUSettingsTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LUSettingsTableCell.xib; path = ../../LunarConsole/LunarConsole/Common/Controllers/Settings/LUSettingsTableCell.xib; sourceTree = "<group>"; };
+		EF30B2872245961600898849 /* LUEnumPickerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LUEnumPickerViewController.xib; sourceTree = "<group>"; };
 		EF64F8F11C03D86E008DCB8E /* input.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = input.txt; sourceTree = "<group>"; };
 		EF81892E1BE16844008FFCB9 /* LunarConsoleAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LunarConsoleAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF8189321BE16844008FFCB9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -638,6 +641,7 @@
 				4DD4FCE41DFB93C600032A29 /* LUCVarInputTableViewCell.xib */,
 				4D02A84A1E5A9658009F4998 /* LUCVarEditController.xib */,
 				4DD4FCE51DFB93C600032A29 /* LUExceptionWarningController.xib */,
+				EF30B2872245961600898849 /* LUEnumPickerViewController.xib */,
 				EF30B27D2241DB8C00898849 /* LUSettingsTableCell.xib */,
 				EF30B2762241D56900898849 /* settings.json */,
 			);
@@ -846,6 +850,7 @@
 			files = (
 				4DBF2A061E654303006E2C8A /* lunar_console_icon_button_help@3x.png in Resources */,
 				4DBF2A181E654303006E2C8A /* lunar_console_icon_log_warning@3x.png in Resources */,
+				EF30B2892245962C00898849 /* LUEnumPickerViewController.xib in Resources */,
 				4DBF29FB1E654303006E2C8A /* lunar_console_icon_button_close.png in Resources */,
 				4DBF29F81E654303006E2C8A /* lunar_console_icon_button_clipboard.png in Resources */,
 				4DBF2A161E654303006E2C8A /* lunar_console_icon_log_warning.png in Resources */,
@@ -926,6 +931,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF30B2882245961600898849 /* LUEnumPickerViewController.xib in Resources */,
 				4DBF29B61E6542D7006E2C8A /* lunar_console_actions_empty_warning.png in Resources */,
 				4DBF29B71E6542D7006E2C8A /* lunar_console_actions_empty_warning@2x.png in Resources */,
 				4DBF29B81E6542D7006E2C8A /* lunar_console_actions_empty_warning@3x.png in Resources */,
