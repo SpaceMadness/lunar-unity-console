@@ -13,6 +13,8 @@ NS_ASSUME_NONNULL_BEGIN
 @interface LUEnumPickerViewController : LUViewController
 
 @property (nonatomic, readonly) NSUInteger selectedIndex;
+@property (nonatomic, readonly) NSString *selectedValue;
+
 @property (nonatomic, strong) id userData;
 
 - (instancetype)initWithValues:(NSArray<NSString *> *)values initialIndex:(NSUInteger)index;

@@ -25,6 +25,8 @@
 #import "LUConsolePluginImp.h"
 #import "LUPluginSettings.h"
 
+static NSString * const kSettingsFilename = @"com.spacemadness.lunarmobileconsole.settings-2.bin";
+
 NSString * const LUConsoleCheckFullVersionNotification = @"LUConsoleCheckFullVersionNotification";
 NSString * const LUConsoleCheckFullVersionNotificationSource = @"source";
 
@@ -34,8 +36,6 @@ static const CGFloat kWarningHeight = 45.0f;
 static NSString * const kScriptMessageConsoleOpen    = @"console_open";
 static NSString * const kScriptMessageConsoleClose   = @"console_close";
 static NSString * const kScriptMessageTrackEvent     = @"track_event";
-
-static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmobileconsole.settings.bin";
 
 @interface LUConsolePlugin () <LUConsoleControllerDelegate, LUExceptionWarningControllerDelegate> {
     LUConsolePluginImp      * _pluginImp;
@@ -62,10 +62,10 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
         
         NSData *settingsData = [settingsJson dataUsingEncoding:NSUTF8StringEncoding];
         NSDictionary *settingsDict = [NSJSONSerialization JSONObjectWithData:settingsData options:0 error:nil];
-        
-        _settings = [[LUPluginSettings alloc] initWithDictionary:settingsDict];
-		// FIXME: load existing settings
-        
+		
+		LUPluginSettings *existingSettings = [self loadSettings];
+		_settings = existingSettings ?: [[LUPluginSettings alloc] initWithDictionary:settingsDict];
+		
         _pluginImp = [[LUConsolePluginImp alloc] initWithPlugin:self];
         _scriptMessenger = [[LUUnityScriptMessenger alloc] initWithTargetName:targetName methodName:methodName];
         _version = version;
@@ -243,6 +243,7 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
 - (void)registerNotifications {
     [self registerNotificationName:LUConsoleCheckFullVersionNotification
                           selector:@selector(checkFullVersionNotification:)];
+	[self registerNotificationName:LUNotificationSettingsDidChange selector:@selector(settingsDidChangeNotification:)];
 }
 
 - (void)checkFullVersionNotification:(NSNotification *)notification {
@@ -256,6 +257,10 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
         };
         [_scriptMessenger sendMessageName:kScriptMessageTrackEvent params:params];
     }
+}
+
+- (void)settingsDidChangeNotification:(NSNotification *)notification {
+	[self saveSettings:_settings];
 }
 
 #pragma mark -
@@ -347,6 +352,19 @@ static NSString * const kSettingsFilename          = @"com.spacemadness.lunarmob
 
 - (void)sendScriptMessageName:(NSString *)name params:(NSDictionary *)params {
     [_scriptMessenger sendMessageName:name params:params];
+}
+
+#pragma mark -
+#pragma mark Settings
+
+- (nullable LUPluginSettings *)loadSettings {
+	NSString *path = LUGetDocumentsFile(kSettingsFilename);
+	return [NSKeyedUnarchiver unarchiveObjectWithFile:path];
+}
+
+- (void)saveSettings:(LUPluginSettings *)settings {
+	NSString *path = LUGetDocumentsFile(kSettingsFilename);
+	[NSKeyedArchiver archiveRootObject:settings toFile:path];
 }
 
 #pragma mark -

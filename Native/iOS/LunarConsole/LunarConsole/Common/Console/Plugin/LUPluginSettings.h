@@ -10,6 +10,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+extern NSNotificationName const LUNotificationSettingsDidChange;
+
 typedef enum : NSUInteger {
 	LUDisplayModeNone,
 	LUDisplayModeErrors,

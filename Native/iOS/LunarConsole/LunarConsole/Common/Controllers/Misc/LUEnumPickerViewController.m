@@ -31,14 +31,10 @@
 	return self;
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-	
+- (CGSize)preferredPopupSize {
 	CGFloat rowHeight = self.tableView.rowHeight;
 	CGFloat height = MIN(self.values.count * rowHeight, 320);
-	CGRect bounds = self.view.bounds;
-	bounds.size.height = height;
-	self.view.bounds = bounds;
+	return CGSizeMake(0, height);
 }
 
 #pragma mark -
@@ -82,6 +78,13 @@
 		_selectedIndex = index;
 	}
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+#pragma mark -
+#pragma mark Properties
+
+- (NSString *)selectedValue {
+	return _values[_selectedIndex];
 }
 
 @end

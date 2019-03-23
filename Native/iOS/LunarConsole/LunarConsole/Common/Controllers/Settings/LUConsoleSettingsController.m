@@ -40,8 +40,17 @@ typedef enum : NSUInteger {
 static NSDictionary * _propertyTypeLookup;
 static NSArray * _proOnlyFeaturesLookup;
 
+@class LUConsoleSetting;
+
+@protocol LUConsoleSettingDelegate <NSObject>
+
+- (void)consoleSettingDidChange:(LUConsoleSetting *)setting;
+
+@end
+
 @interface LUConsoleSetting : NSObject
 
+@property (nonatomic, weak) id<LUConsoleSettingDelegate> delegate;
 @property (nonatomic, readonly, weak) id target;
 @property (nonatomic, readonly) NSString *name;
 @property (nonatomic, readonly) LUSettingType type;
@@ -83,6 +92,9 @@ static NSArray * _proOnlyFeaturesLookup;
 
 - (void)setValue:(id)value {
 	[_target setValue:value forKey:_name];
+	if ([_delegate respondsToSelector:@selector(consoleSettingDidChange:)]) {
+		[_delegate consoleSettingDidChange:self];
+	}
 }
 
 - (BOOL)boolValue {
@@ -142,6 +154,9 @@ static NSArray * _proOnlyFeaturesLookup;
 
 @end
 
+@interface LUConsoleSettingsController () <LUConsoleSettingDelegate>
+@end
+
 @implementation LUConsoleSettingsController
 
 - (instancetype)initWithSettings:(LUPluginSettings *)settings {
@@ -149,7 +164,7 @@ static NSArray * _proOnlyFeaturesLookup;
     if (self)
     {
         _settings = settings;
-        _sections = [[self class] listSections:settings];
+        _sections = [self listSections:settings];
     }
     return self;
 }
@@ -247,7 +262,9 @@ static NSArray * _proOnlyFeaturesLookup;
 	LUConsoleSetting *setting = button.userData;
 	
 	LUEnumPickerViewController *picker = [[LUEnumPickerViewController alloc] initWithValues:setting.values initialIndex:[setting intValue]];
-	picker.userData = setting;
+	picker.userData = @[setting, button];
+	picker.popupTitle = setting.title;
+	picker.popupIcon = [LUTheme mainTheme].settingsIconImage;
 	
 	LUConsolePopupController *popupController = [[LUConsolePopupController alloc] initWithContentController:picker];
 	[popupController presentFromController:self.parentViewController animated:YES];
@@ -276,8 +293,10 @@ static NSArray * _proOnlyFeaturesLookup;
 - (void)popupControllerDidDismiss:(LUConsolePopupController *)controller {
 	LUEnumPickerViewController *pickerController = (LUEnumPickerViewController *) controller.contentController;
 	
-	LUConsoleSetting *setting = pickerController.userData;
+	LUConsoleSetting *setting = pickerController.userData[0];
+	UIButton *button = pickerController.userData[1];
 	setting.intValue = (int) pickerController.selectedIndex;
+	[button setTitle:pickerController.selectedValue forState:UIControlStateNormal];
 	
 	[controller dismissAnimated:YES];
 }
@@ -288,14 +307,13 @@ static NSArray * _proOnlyFeaturesLookup;
 - (void)onToggleBoolean:(LUSwitch *)swtch {
     LUConsoleSetting *setting = swtch.userData;
     setting.value = swtch.isOn ? @YES : @NO;
-    [self settingEntryDidChange:setting];
 }
 
 #pragma mark -
 #pragma mark Entries
 
-+ (NSArray<LUConsoleSettingsSection *> *)listSections:(LUPluginSettings *)settings {
-	return @[
+- (NSArray<LUConsoleSettingsSection *> *)listSections:(LUPluginSettings *)settings {
+	NSArray *sections = @[
 	  [[LUConsoleSettingsSection alloc] initWithTitle:@"Exception Warning" entries:@[
         [[LUConsoleSetting alloc] initWithTarget:settings.exceptionWarning name:@"displayMode" type:LUSettingTypeEnum title:@"Display Mode" values:@[@"None", @"Errors", @"Exceptions", @"All"]]
 	  ]],
@@ -305,11 +323,21 @@ static NSArray * _proOnlyFeaturesLookup;
 		[[LUConsoleSetting alloc] initWithTarget:settings.logOverlay name:@"timeout" type:LUSettingTypeDouble title:@"Timeout"]
 	  ]],
 	];
+	
+	for (LUConsoleSettingsSection *section in sections) {
+		for (LUConsoleSetting *setting in section.entries) {
+			setting.delegate = self;
+		}
+	}
+	
+	return sections;
 }
 
-- (void)settingEntryDidChange:(LUConsoleSetting *)entry {
-//    [_settings setValue:entry.value forKey:entry.name];
-//    [_settings save];
+#pragma mark -
+#pragma mark LUConsoleSettingDelegate
+
+- (void)consoleSettingDidChange:(LUConsoleSetting *)setting {
+	[LUNotificationCenter postNotificationName:LUNotificationSettingsDidChange object:nil];
 }
 
 @end

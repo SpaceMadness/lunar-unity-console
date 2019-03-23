@@ -8,6 +8,8 @@
 
 #import "LUPluginSettings.h"
 
+NSNotificationName const LUNotificationSettingsDidChange = @"SettingsDidChange";
+
 static NSString *NSStringFromGesture(LUConsoleGesture gesture) {
 	switch (gesture) {
 		case LUConsoleGestureSwipeDown:
