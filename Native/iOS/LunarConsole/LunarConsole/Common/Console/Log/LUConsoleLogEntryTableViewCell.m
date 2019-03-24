@@ -40,15 +40,12 @@ static UIEdgeInsets _messageInsets;
 
 @implementation LUConsoleLogEntryTableViewCell
 
-+ (void)load
-{
-    if (!LU_IOS_MIN_VERSION_AVAILABLE)
-    {
++ (void)load {
+    if (!LU_IOS_MIN_VERSION_AVAILABLE) {
         return;
     }
     
-    if ([self class] == [LUConsoleLogEntryTableViewCell class])
-    {
+    if ([self class] == [LUConsoleLogEntryTableViewCell class]) {
         LUTheme *theme = [LUTheme mainTheme];
         
         UIImage *icon = theme.cellLog.icon;
@@ -60,16 +57,13 @@ static UIEdgeInsets _messageInsets;
     }
 }
 
-+ (instancetype)cellWithFrame:(CGRect)frame cellIdentifier:(nullable NSString *)cellIdentifier
-{
++ (instancetype)cellWithFrame:(CGRect)frame cellIdentifier:(nullable NSString *)cellIdentifier {
     return [[[self class] alloc] initWithFrame:frame cellIdentifier:cellIdentifier];
 }
 
-- (instancetype)initWithFrame:(CGRect)frame cellIdentifier:(nullable NSString *)cellIdentifier
-{
+- (instancetype)initWithFrame:(CGRect)frame cellIdentifier:(nullable NSString *)cellIdentifier {
     self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-    if (self)
-    {
+    if (self) {
         self.contentView.bounds = frame;
         
         LUTheme *theme = [self theme];
@@ -104,8 +98,7 @@ static UIEdgeInsets _messageInsets;
 }
 
 
-- (void)setSize:(CGSize)size
-{
+- (void)setSize:(CGSize)size {
     self.contentView.bounds = CGRectMake(0, 0, size.width, size.height);
 
     // icon
@@ -122,8 +115,7 @@ static UIEdgeInsets _messageInsets;
     _messageLabel.frame = CGRectMake(messageX, messageY, messageWidth, messageHeight);
 }
 
-+ (CGFloat)heightForCellWithText:(nullable NSString *)text width:(CGFloat)width
-{
++ (CGFloat)heightForCellWithText:(nullable NSString *)text width:(CGFloat)width {
     LUTheme *theme = [LUTheme mainTheme];
     
     CGSize constraintSize = CGSizeMake(width - (_messageInsets.left + _messageInsets.right), CGFLOAT_MAX);
@@ -138,56 +130,46 @@ static UIEdgeInsets _messageInsets;
 #pragma mark -
 #pragma mark Properties
 
-- (LUTheme *)theme
-{
+- (LUTheme *)theme {
     return [LUTheme mainTheme];
 }
 
-- (UIColor *)cellColor
-{
+- (UIColor *)cellColor {
     return _messageLabel.backgroundColor;
 }
 
-- (void)setCellColor:(UIColor * __nullable)cellColor
-{
+- (void)setCellColor:(UIColor * __nullable)cellColor {
     _messageLabel.backgroundColor = cellColor;
     self.contentView.backgroundColor = cellColor;
 }
 
-- (UIImage *)icon
-{
+- (UIImage *)icon {
     return _iconView.image;
 }
 
-- (void)setIcon:(UIImage * __nullable)icon
-{
+- (void)setIcon:(UIImage * __nullable)icon {
     _iconView.image = icon;
 }
 
-- (NSString *)message
-{
+- (NSString *)message {
     return _messageLabel.text;
 }
 
-- (void)setMessage:(NSString *)message
-{
+- (void)setMessage:(NSString *)message {
     _messageLabel.text = message;
 }
 
-- (UIColor *)messageColor
-{
+- (UIColor *)messageColor {
     return _messageLabel.textColor;
 }
 
-- (void)setMessageColor:(UIColor * __nullable)messageColor
-{
+- (void)setMessageColor:(UIColor * __nullable)messageColor {
     _messageLabel.textColor = messageColor;
 }
 
 @end
 
-@interface LUConsoleCollapsedLogEntryTableViewCell ()
-{
+@interface LUConsoleCollapsedLogEntryTableViewCell () {
     UIImageView * _backgroundImageView;
     UILabel     * _countLabel;
 }
@@ -196,11 +178,9 @@ static UIEdgeInsets _messageInsets;
 
 @implementation LUConsoleCollapsedLogEntryTableViewCell
 
-- (instancetype)initWithFrame:(CGRect)frame cellIdentifier:(nullable NSString *)cellIdentifier
-{
+- (instancetype)initWithFrame:(CGRect)frame cellIdentifier:(nullable NSString *)cellIdentifier {
     self = [super initWithFrame:frame cellIdentifier:cellIdentifier];
-    if (self)
-    {
+    if (self) {
         LUTheme *theme = [self theme];
         
         // background
@@ -224,12 +204,10 @@ static UIEdgeInsets _messageInsets;
 }
 
 
-- (void)setSize:(CGSize)size
-{
+- (void)setSize:(CGSize)size {
     [super setSize:size];
     
-    if (_backgroundImageView.hidden || _countLabel.hidden)
-    {
+    if (_backgroundImageView.hidden || _countLabel.hidden) {
         return; // no need to resize invisible elements
     }
     
@@ -252,8 +230,7 @@ static UIEdgeInsets _messageInsets;
     _countLabel.frame = countFrame;
 }
 
-- (void)setCollapsedCount:(NSInteger)collapsedCount
-{
+- (void)setCollapsedCount:(NSInteger)collapsedCount {
     BOOL shouldBeHidden = collapsedCount <= 1;
     _countLabel.hidden = shouldBeHidden;
     _backgroundImageView.hidden = shouldBeHidden;
@@ -266,11 +243,9 @@ static UIEdgeInsets _messageInsets;
 
 @implementation LUConsoleOverlayLogEntryTableViewCell
 
-- (instancetype)initWithFrame:(CGRect)frame cellIdentifier:(nullable NSString *)cellIdentifier
-{
+- (instancetype)initWithFrame:(CGRect)frame cellIdentifier:(nullable NSString *)cellIdentifier {
     self = [super initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-    if (self)
-    {
+    if (self) {
         self.contentView.bounds = frame;
         self.backgroundColor = self.contentView.backgroundColor = [UIColor clearColor];
         self.opaque = self.contentView.opaque = YES;
@@ -288,8 +263,6 @@ static UIEdgeInsets _messageInsets;
         messageLabel.lineBreakMode = theme.lineBreakMode;
         messageLabel.numberOfLines = 0;
         messageLabel.opaque = YES;
-        messageLabel.shadowColor = [UIColor blackColor];
-        messageLabel.shadowOffset = CGSizeMake(0.75, 0.75);
         LU_SET_ACCESSIBILITY_IDENTIFIER(messageLabel, @"Log Message Label");
         
         [self.contentView addSubview:messageLabel];
@@ -300,8 +273,7 @@ static UIEdgeInsets _messageInsets;
 }
 
 // TODO: fix code duplication
-+ (CGFloat)heightForCellWithText:(nullable NSString *)text width:(CGFloat)width
-{
++ (CGFloat)heightForCellWithText:(nullable NSString *)text width:(CGFloat)width {
     LUTheme *theme = [LUTheme mainTheme];
     
     CGSize constraintSize = CGSizeMake(width - 2 * theme.indentHorTiny, CGFLOAT_MAX);
@@ -313,8 +285,7 @@ static UIEdgeInsets _messageInsets;
     return MAX(theme.cellHeightTiny, height);
 }
 
-- (void)setSize:(CGSize)size
-{
+- (void)setSize:(CGSize)size {
     self.contentView.bounds = CGRectMake(0, 0, size.width, size.height);
     
     // message

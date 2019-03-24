@@ -214,12 +214,7 @@ static NSArray * _cellSkinLookup;
     if (cell == nil) {
         cell = [LUConsoleOverlayLogEntryTableViewCell cellWithFrame:cellBounds cellIdentifier:@"overlay"];
     }
-    
-    LUCellSkin *cellSkin = [self cellSkinForLogType:self.type];
-    
     cell.message = self.message;
-    cell.messageColor = cellSkin.overlayTextColor;
-    
     [cell setSize:cellSize];
     
     return cell;

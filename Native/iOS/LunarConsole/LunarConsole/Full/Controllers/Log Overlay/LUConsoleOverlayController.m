@@ -95,7 +95,15 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     LUConsoleLogEntry *entry = [self entryForRowAtIndexPath:indexPath];
-    return [entry tableView:tableView cellAtIndex:indexPath.row];
+    LUConsoleOverlayLogEntryTableViewCell *cell = (LUConsoleOverlayLogEntryTableViewCell *) [entry tableView:tableView cellAtIndex:indexPath.row];
+	
+	// this is not an approprite place to customize but we're kinda on a tight budget
+	LULogEntryColors *colors = [self colorsForEntryType:entry.type];
+	cell.messageColor = colors.foreground.UIColor;
+	if (colors.background.a > 0) {
+		cell.cellColor = colors.background.UIColor;
+	}
+	return cell;
 }
 
 #pragma mark -
@@ -209,6 +217,22 @@
 - (void)reloadData
 {
     [_tableView reloadData];
+}
+
+- (LULogEntryColors *)colorsForEntryType:(LUConsoleLogType)type {
+	static NSArray<LULogEntryColors *> *colorLookup;
+	if (colorLookup == nil) {
+		LULogColors *colors = _settings.colors;
+		colorLookup = @[
+		  colors.error,     // LUConsoleLogTypeError
+		  colors.error,     // LUConsoleLogTypeAssert
+		  colors.warning,   // LUConsoleLogTypeWarning
+		  colors.debug,     // LUConsoleLogTypeLog
+		  colors.exception, // LUConsoleLogTypeException
+		];
+	}
+	
+	return colorLookup[type];
 }
 
 @end

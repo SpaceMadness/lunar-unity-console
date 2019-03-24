@@ -34,6 +34,7 @@ typedef enum : NSUInteger {
 @property (nonatomic, assign) UInt8 g;
 @property (nonatomic, assign) UInt8 b;
 @property (nonatomic, assign) UInt8 a;
+@property (nonatomic, readonly) UIColor *UIColor;
 
 /** Constructs instance from a JSON-dictionary */
 - (nullable instancetype)initWithDictionary:(NSDictionary *)dict;

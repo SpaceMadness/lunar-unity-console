@@ -122,6 +122,11 @@ static LUDisplayMode parseDisplayMode(id value) {
 	return self;
 }
 
+- (UIColor *)UIColor {
+	static const float multiplier = 1.0/255.0;
+	return [UIColor colorWithRed:multiplier * _r green:multiplier * _g blue:multiplier * _b alpha:multiplier * _a];
+}
+
 #pragma mark -
 #pragma mark NSCoding
 

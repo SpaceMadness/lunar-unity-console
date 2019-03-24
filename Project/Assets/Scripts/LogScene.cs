@@ -132,7 +132,22 @@ public class LogScene : MonoBehaviour
 
     #endregion
 
-    #region Throw Exception
+    #region Fine Logs
+
+    public void Log()
+    {
+        Debug.Log("Log message");
+    }
+
+    public void Warning()
+    {
+        Debug.LogWarning("Warning message");
+    }
+
+    public void Error()
+    {
+        Debug.LogError("Error message");
+    }
 
     public void ThrowException()
     {
