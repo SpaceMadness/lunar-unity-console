@@ -34,15 +34,12 @@ static NSArray * _cellSkinLookup;
 
 @implementation LUConsoleLogEntry
 
-+ (void)load
-{
-    if (!LU_IOS_MIN_VERSION_AVAILABLE)
-    {
++ (void)load {
+    if (!LU_IOS_MIN_VERSION_AVAILABLE) {
         return;
     }
     
-    if ([self class] == [LUConsoleLogEntry class])
-    {
+    if ([self class] == [LUConsoleLogEntry class]) {
         LUTheme *theme = [LUTheme mainTheme];
         
         _cellSkinLookup = [[NSArray alloc] initWithObjects:
@@ -57,16 +54,13 @@ static NSArray * _cellSkinLookup;
     }
 }
 
-+ (instancetype)entryWithType:(LUConsoleLogType)type message:(NSString *)message stackTrace:(NSString *)stackTrace
-{
++ (instancetype)entryWithType:(LUConsoleLogType)type message:(NSString *)message stackTrace:(NSString *)stackTrace {
     return [[[self class] alloc] initWithType:type message:message stackTrace:stackTrace];
 }
 
-- (instancetype)initWithType:(LUConsoleLogType)type message:(NSString *)message stackTrace:(NSString *)stackTrace
-{
+- (instancetype)initWithType:(LUConsoleLogType)type message:(NSString *)message stackTrace:(NSString *)stackTrace {
     self = [super init];
-    if (self)
-    {
+    if (self) {
         _type = type;
         _message = message;
         _stackTrace = stackTrace;
@@ -78,10 +72,8 @@ static NSArray * _cellSkinLookup;
 #pragma mark -
 #pragma mark Equality
 
-- (BOOL)isEqual:(id)object
-{
-    if ([object isKindOfClass:[self class]])
-    {
+- (BOOL)isEqual:(id)object {
+    if ([object isKindOfClass:[self class]]) {
         LUConsoleLogEntry *other = object;
         return other.type == _type && [other.message isEqualToString:_message];
     }
@@ -92,18 +84,15 @@ static NSArray * _cellSkinLookup;
 #pragma mark -
 #pragma mark Cells
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellAtIndex:(NSUInteger)index
-{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellAtIndex:(NSUInteger)index {
     CGSize cellSize = [self cellSizeForTableView:tableView];
     CGRect cellBounds = CGRectMake(0, 0, cellSize.width, cellSize.height);
     
     LUConsoleLogEntryTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"log"];
-    if (cell == nil)
-    {
+    if (cell == nil) {
         cell = [LUConsoleLogEntryTableViewCell cellWithFrame:cellBounds cellIdentifier:@"log"];
     }
-    else
-    {
+    else {
         [cell setSize:cellSize];
     }
     
@@ -117,11 +106,9 @@ static NSArray * _cellSkinLookup;
     return cell;
 }
 
-- (CGSize)cellSizeForTableView:(UITableView *)tableView
-{
+- (CGSize)cellSizeForTableView:(UITableView *)tableView {
     CGFloat cellWidth = CGRectGetWidth(tableView.bounds);
-    if (!LUFloatApprox(_cachedWidth, cellWidth))
-    {
+    if (!LUFloatApprox(_cachedWidth, cellWidth)) {
         _cachedWidth = cellWidth;
         _cachedHeight = [LUConsoleLogEntryTableViewCell heightForCellWithText:_message width:cellWidth];
     }
@@ -132,10 +119,8 @@ static NSArray * _cellSkinLookup;
 #pragma mark -
 #pragma mark Helpers
 
-- (LUCellSkin *)cellSkinForLogType:(LUConsoleLogType)type
-{
-    if (type >= 0 && type < _cellSkinLookup.count)
-    {
+- (LUCellSkin *)cellSkinForLogType:(LUConsoleLogType)type {
+    if (type >= 0 && type < _cellSkinLookup.count) {
         return _cellSkinLookup[type];
     }
     
@@ -146,13 +131,11 @@ static NSArray * _cellSkinLookup;
 #pragma mark -
 #pragma mark Properties
 
-- (UIImage *)icon
-{
+- (UIImage *)icon {
     return [self cellSkinForLogType:_type].icon;
 }
 
-- (BOOL)hasStackTrace
-{
+- (BOOL)hasStackTrace {
     return _stackTrace.length > 0;
 }
 
@@ -160,16 +143,13 @@ static NSArray * _cellSkinLookup;
 
 @implementation LUConsoleCollapsedLogEntry
 
-+ (instancetype)entryWithEntry:(LUConsoleLogEntry *)entry
-{
++ (instancetype)entryWithEntry:(LUConsoleLogEntry *)entry {
     return [[self alloc] initWithEntry:entry];
 }
 
-- (instancetype)initWithEntry:(LUConsoleLogEntry *)entry
-{
+- (instancetype)initWithEntry:(LUConsoleLogEntry *)entry {
     self = [super initWithType:entry.type message:entry.message stackTrace:entry.stackTrace];
-    if (self)
-    {
+    if (self) {
         _count = 1;
         _index = -1;
     }
@@ -179,14 +159,12 @@ static NSArray * _cellSkinLookup;
 #pragma mark -
 #pragma mark Cells
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellAtIndex:(NSUInteger)index
-{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellAtIndex:(NSUInteger)index {
     CGSize cellSize = [self cellSizeForTableView:tableView];
     CGRect cellBounds = CGRectMake(0, 0, cellSize.width, cellSize.height);
     
     LUConsoleCollapsedLogEntryTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"collapse"];
-    if (cell == nil)
-    {
+    if (cell == nil) {
         cell = [LUConsoleCollapsedLogEntryTableViewCell cellWithFrame:cellBounds cellIdentifier:@"collapse"];
     }
     
@@ -206,8 +184,7 @@ static NSArray * _cellSkinLookup;
 #pragma mark -
 #pragma mark Properties
 
-- (void)increaseCount
-{
+- (void)increaseCount {
     ++_count;
 }
 
@@ -215,16 +192,13 @@ static NSArray * _cellSkinLookup;
 
 @implementation LUConsoleOverlayLogEntry
 
-+ (instancetype)entryWithEntry:(LUConsoleLogEntry *)entry
-{
++ (instancetype)entryWithEntry:(LUConsoleLogEntry *)entry {
     return [[self alloc] initWithEntry:entry];
 }
 
-- (instancetype)initWithEntry:(LUConsoleLogEntry *)entry
-{
+- (instancetype)initWithEntry:(LUConsoleLogEntry *)entry {
     self = [super initWithType:entry.type message:entry.message stackTrace:nil]; // we don't need stack trace
-    if (self)
-    {
+    if (self) {
     }
     return self;
 }
@@ -232,14 +206,12 @@ static NSArray * _cellSkinLookup;
 #pragma mark -
 #pragma mark Cells
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellAtIndex:(NSUInteger)index
-{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellAtIndex:(NSUInteger)index {
     CGSize cellSize = [self cellSizeForTableView:tableView];
     CGRect cellBounds = CGRectMake(0, 0, cellSize.width, cellSize.height);
     
     LUConsoleOverlayLogEntryTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"overlay"];
-    if (cell == nil)
-    {
+    if (cell == nil) {
         cell = [LUConsoleOverlayLogEntryTableViewCell cellWithFrame:cellBounds cellIdentifier:@"overlay"];
     }
     
@@ -253,11 +225,9 @@ static NSArray * _cellSkinLookup;
     return cell;
 }
 
-- (CGSize)cellSizeForTableView:(UITableView *)tableView
-{
+- (CGSize)cellSizeForTableView:(UITableView *)tableView {
     CGFloat cellWidth = CGRectGetWidth(tableView.bounds);
-    if (!LUFloatApprox(self.cachedWidth, cellWidth))
-    {
+    if (!LUFloatApprox(self.cachedWidth, cellWidth)) {
         self.cachedWidth = cellWidth;
         self.cachedHeight = [LUConsoleOverlayLogEntryTableViewCell heightForCellWithText:self.message width:cellWidth];
     }
