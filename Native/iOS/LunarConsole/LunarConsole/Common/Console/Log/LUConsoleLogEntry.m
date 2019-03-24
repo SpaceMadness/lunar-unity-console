@@ -192,10 +192,6 @@ static NSArray * _cellSkinLookup;
 
 @implementation LUConsoleOverlayLogEntry
 
-+ (instancetype)entryWithEntry:(LUConsoleLogEntry *)entry {
-    return [[self alloc] initWithEntry:entry];
-}
-
 - (instancetype)initWithEntry:(LUConsoleLogEntry *)entry {
     self = [super initWithType:entry.type message:entry.message stackTrace:nil]; // we don't need stack trace
     if (self) {

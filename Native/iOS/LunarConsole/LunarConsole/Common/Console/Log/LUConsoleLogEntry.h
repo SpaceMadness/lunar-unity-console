@@ -74,7 +74,9 @@ typedef uint8_t LUConsoleLogTypeMask;
 /// Console entry for displaying in overlay view
 @interface LUConsoleOverlayLogEntry : LUConsoleLogEntry
 
-+ (instancetype)entryWithEntry:(LUConsoleLogEntry *)entry;
+/// Scheduled removal date (after becoming visible)
+@property (nonatomic, strong) NSDate *removalDate;
+
 - (instancetype)initWithEntry:(LUConsoleLogEntry *)entry;
 
 @end
