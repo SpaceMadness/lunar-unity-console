@@ -23,6 +23,39 @@
 
 #import "LUConsoleOverlayController.h"
 
+@interface LUOverlayCellSkin : NSObject
+
+@property (nonatomic, readonly) UIColor *textColor;
+@property (nullable, nonatomic, readonly) NSDictionary<NSAttributedStringKey, id> *stringAttributes;
+
+- (instancetype)initWithTextColor:(UIColor *)color backgroundColor:(nullable UIColor *)backgroundColor;
+
+@end
+
+@implementation LUOverlayCellSkin
+
+- (instancetype)initWithTextColor:(UIColor *)textColor backgroundColor:(nullable UIColor *)backgroundColor {
+	self = [super init];
+	if (self) {
+		_textColor = textColor;
+		if (backgroundColor != nil) {
+			_stringAttributes = @{
+			  NSForegroundColorAttributeName: textColor,
+			  NSBackgroundColorAttributeName: backgroundColor
+		    };
+		}
+	}
+	return self;
+}
+
+@end
+
+inline static LUOverlayCellSkin *LUOverlayCellSkinMake(LULogEntryColors *colors) {
+	UIColor *textColor = colors.foreground.UIColor;
+	UIColor *backgroundColor = colors.background.a > 0 ? colors.background.UIColor : nil;
+	return [[LUOverlayCellSkin alloc] initWithTextColor:textColor backgroundColor:backgroundColor];
+}
+
 @interface LUConsoleOverlayController () <UITableViewDataSource, UITableViewDelegate, LunarConsoleDelegate> {
     NSMutableArray<LUConsoleOverlayLogEntry *> * _entries;
     LUConsole                                  * _console;
@@ -90,10 +123,12 @@
     LUConsoleOverlayLogEntryTableViewCell *cell = (LUConsoleOverlayLogEntryTableViewCell *) [entry tableView:tableView cellAtIndex:indexPath.row];
 	
 	// this is not an approprite place to customize but we're kinda on a tight budget
-	LULogEntryColors *colors = [self colorsForEntryType:entry.type];
-	cell.messageColor = colors.foreground.UIColor;
-	if (colors.background.a > 0) {
-		cell.cellColor = colors.background.UIColor;
+	LUOverlayCellSkin *skin = [self cellSkinForLogType:entry.type];
+	if (skin.stringAttributes != nil) {
+		[cell setMessage:entry.message attributes:skin.stringAttributes];
+	} else {
+		cell.message = entry.message;
+		cell.messageColor = skin.textColor;
 	}
 	return cell;
 }
@@ -212,20 +247,21 @@
     [_tableView reloadData];
 }
 
-- (LULogEntryColors *)colorsForEntryType:(LUConsoleLogType)type {
-	static NSArray<LULogEntryColors *> *colorLookup;
-	if (colorLookup == nil) {
-		LULogColors *colors = _settings.colors;
-		colorLookup = @[
-		  colors.error,     // LUConsoleLogTypeError
-		  colors.error,     // LUConsoleLogTypeAssert
-		  colors.warning,   // LUConsoleLogTypeWarning
-		  colors.debug,     // LUConsoleLogTypeLog
-		  colors.exception, // LUConsoleLogTypeException
+- (LUOverlayCellSkin *)cellSkinForLogType:(LUConsoleLogType)type {
+	static NSArray *lookup;
+	static LULogColors *lastColors = nil;
+	if (lastColors != _settings.colors) {
+		lastColors = _settings.colors;
+		lookup = @[
+		  LUOverlayCellSkinMake(lastColors.error),     // LUConsoleLogTypeError
+		  LUOverlayCellSkinMake(lastColors.error),     // LUConsoleLogTypeAssert
+		  LUOverlayCellSkinMake(lastColors.warning),   // LUConsoleLogTypeWarning
+		  LUOverlayCellSkinMake(lastColors.debug),     // LUConsoleLogTypeLog
+		  LUOverlayCellSkinMake(lastColors.exception)  // LUConsoleLogTypeException
 		];
 	}
 	
-	return colorLookup[type];
+	return lookup[type];
 }
 
 @end

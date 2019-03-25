@@ -298,4 +298,8 @@ static UIEdgeInsets _messageInsets;
     self.messageLabel.frame = CGRectMake(messageX, messageY, messageWidth, messageHeight);
 }
 
+- (void)setMessage:(NSString *)message attributes:(NSDictionary<NSAttributedStringKey, id> *)attributes {
+	self.messageLabel.attributedText = [[NSAttributedString alloc] initWithString:message attributes:attributes];
+}
+
 @end

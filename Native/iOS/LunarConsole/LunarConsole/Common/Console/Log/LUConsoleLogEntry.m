@@ -210,7 +210,7 @@ static NSArray * _cellSkinLookup;
     if (cell == nil) {
         cell = [LUConsoleOverlayLogEntryTableViewCell cellWithFrame:cellBounds cellIdentifier:@"overlay"];
     }
-    cell.message = self.message;
+    // cell.message = self.message; this will be done upper in the call chain
     [cell setSize:cellSize];
     
     return cell;

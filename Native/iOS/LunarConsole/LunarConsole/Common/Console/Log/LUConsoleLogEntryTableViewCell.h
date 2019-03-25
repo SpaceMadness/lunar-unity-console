@@ -21,6 +21,8 @@
 
 #import <UIKit/UIKit.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
 @interface LUConsoleLogEntryTableViewCell : UITableViewCell
 
 @property (nonatomic, strong, nullable) UIImage  * icon;
@@ -47,4 +49,8 @@
 
 + (CGFloat)heightForCellWithText:(nullable NSString *)text width:(CGFloat)width;
 
+- (void)setMessage:(NSString *)message attributes:(NSDictionary<NSAttributedStringKey, id> *)attributes;
+
 @end
+
+NS_ASSUME_NONNULL_END
