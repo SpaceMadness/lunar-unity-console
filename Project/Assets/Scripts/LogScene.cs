@@ -81,8 +81,15 @@ public class LogScene : MonoBehaviour
     [SerializeField]
     private float m_logDelay = 0.25f;
 
+    [SerializeField]
+    private UnityEngine.UI.Text m_logTitle;
+
+    [SerializeField]
+    private UnityEngine.UI.Text m_logOnThreadTitle;
+
     private Thread m_logThread;
     private Random m_random;
+    private bool m_logActive;
 
     void Awake()
     {
@@ -96,14 +103,34 @@ public class LogScene : MonoBehaviour
 
     #region Start Log
 
+    public void ToggleLog()
+    {
+        if (!m_logActive)
+        {
+            m_logTitle.text = "Stop Log";
+            StartLog();
+        }
+        else
+        {
+            m_logTitle.text = "Start Log";
+            StopLog();
+        }
+    }
+
     public void StartLog()
     {
+        m_logActive = true;
         StartCoroutine(LogMessages(messages));
+    }
+
+    public void StopLog()
+    {
+        m_logActive = false;
     }
 
     IEnumerator LogMessages(string[] messages)
     {
-        while (true)
+        while (m_logActive)
         {
             LogRandomMessage(messages);
             yield return new WaitForSeconds(m_logDelay);
@@ -168,7 +195,21 @@ public class LogScene : MonoBehaviour
 
     #region Log on Thread
 
-    public void LogOnThread()
+    public void ToggleLogOnThread()
+    {
+        if (m_logThread != null)
+        {
+            m_logOnThreadTitle.text = "Start Log Thread";
+            StopLogThread();
+        }
+        else
+        {
+            m_logOnThreadTitle.text = "Stop Log Thread";
+            StartLogThread();
+        }
+    }
+
+    private void StartLogThread()
     {
         StopLogThread();
 

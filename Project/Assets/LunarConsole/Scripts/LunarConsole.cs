@@ -78,16 +78,16 @@ namespace LunarConsolePlugin
     public class LogOverlayColors
     {
         [SerializeField]
-        public LogEntryColors exception = MakeColors(0xfffc0000, 0x00000000);
+        public LogEntryColors exception = MakeColors(0xFFEA4646, 0xFF1E1E1E);
 
         [SerializeField]
-        public LogEntryColors error = MakeColors(0xfffc0000, 0x00000000);
+        public LogEntryColors error = MakeColors(0xFFEA4646, 0xFF1E1E1E);
 
         [SerializeField]
-        public LogEntryColors warning = MakeColors(0xfff4f600, 0x00000000);
+        public LogEntryColors warning = MakeColors(0xFFCBCB40, 0xFF1E1E1E);
 
         [SerializeField]
-        public LogEntryColors debug = MakeColors(0xff000000, 0x00000000);
+        public LogEntryColors debug = MakeColors(0xFF9BDDFF, 0xFF1E1E1E);
 
         static LogEntryColors MakeColors(uint foreground, uint background)
         {

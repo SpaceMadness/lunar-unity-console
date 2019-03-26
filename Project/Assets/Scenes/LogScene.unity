@@ -589,6 +589,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_logDelay: 0.25
+  m_logTitle: {fileID: 1337518486}
+  m_logOnThreadTitle: {fileID: 1902588119}
 --- !u!1 &411315440
 GameObject:
   m_ObjectHideFlags: 0
@@ -1498,7 +1500,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 325927474}
-        m_MethodName: LogOnThread
+        m_MethodName: ToggleLogOnThread
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1965,7 +1967,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 325927474}
-        m_MethodName: StartLog
+        m_MethodName: ToggleLog
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2257,7 +2259,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Log On Thread
+  m_Text: Start Log Thread
 --- !u!222 &1902588120
 CanvasRenderer:
   m_ObjectHideFlags: 0
