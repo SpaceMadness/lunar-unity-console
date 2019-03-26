@@ -63,8 +63,11 @@ static NSString * const kScriptMessageTrackEvent     = @"track_event";
         NSData *settingsData = [settingsJson dataUsingEncoding:NSUTF8StringEncoding];
         NSDictionary *settingsDict = [NSJSONSerialization JSONObjectWithData:settingsData options:0 error:nil];
 		
+		_settings = [[LUPluginSettings alloc] initWithDictionary:settingsDict];
 		LUPluginSettings *existingSettings = [self loadSettings];
-		_settings = existingSettings ?: [[LUPluginSettings alloc] initWithDictionary:settingsDict];
+		if (existingSettings != nil) {
+			_settings = [self mergeSettings:_settings withExistingSettings:existingSettings];
+		}
 		
         _pluginImp = [[LUConsolePluginImp alloc] initWithPlugin:self];
         _scriptMessenger = [[LUUnityScriptMessenger alloc] initWithTargetName:targetName methodName:methodName];
@@ -365,6 +368,15 @@ static NSString * const kScriptMessageTrackEvent     = @"track_event";
 - (void)saveSettings:(LUPluginSettings *)settings {
 	NSString *path = LUGetDocumentsFile(kSettingsFilename);
 	[NSKeyedArchiver archiveRootObject:settings toFile:path];
+}
+
+- (LUPluginSettings *)mergeSettings:(LUPluginSettings *)settings withExistingSettings:(LUPluginSettings *)existingSettings {
+	// TODO: make it more dynamic
+	settings.exceptionWarning.displayMode = existingSettings.exceptionWarning.displayMode;
+	settings.logOverlay.enabled = existingSettings.logOverlay.enabled;
+	settings.logOverlay.maxVisibleLines = existingSettings.logOverlay.maxVisibleLines;
+	settings.logOverlay.timeout = existingSettings.logOverlay.timeout;
+	return settings;
 }
 
 #pragma mark -
