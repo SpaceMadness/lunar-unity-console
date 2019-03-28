@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2659" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -21,29 +20,31 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
             <autoresizingMask key="autoresizingMask"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tme-tx-8sc" id="ngz-Lv-75T">
-                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43.5"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bmv-fG-j2u" customClass="LUSwitch">
-                        <rect key="frame" x="263" y="6" width="51" height="31"/>
-                        <connections>
-                            <action selector="onToggleSwitch:" destination="-1" eventType="valueChanged" id="UQf-5m-ziK"/>
-                        </connections>
-                    </switch>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s1l-u3-wS8">
-                        <rect key="frame" x="20" y="11" width="235" height="21"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                        <nil key="highlightedColor"/>
-                    </label>
+                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="AGd-1c-66E">
+                        <rect key="frame" x="14" y="6.5" width="292" height="31"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s1l-u3-wS8">
+                                <rect key="frame" x="0.0" y="0.0" width="235" height="31"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bmv-fG-j2u" customClass="LUSwitch">
+                                <rect key="frame" x="243" y="0.0" width="51" height="31"/>
+                                <connections>
+                                    <action selector="onToggleSwitch:" destination="-1" eventType="valueChanged" id="UQf-5m-ziK"/>
+                                </connections>
+                            </switch>
+                        </subviews>
+                    </stackView>
                 </subviews>
                 <constraints>
-                    <constraint firstItem="bmv-fG-j2u" firstAttribute="trailing" secondItem="ngz-Lv-75T" secondAttribute="trailingMargin" id="Mjl-E7-NlI"/>
-                    <constraint firstItem="s1l-u3-wS8" firstAttribute="centerY" secondItem="bmv-fG-j2u" secondAttribute="centerY" id="UzU-og-Agk"/>
-                    <constraint firstItem="s1l-u3-wS8" firstAttribute="leading" secondItem="ngz-Lv-75T" secondAttribute="leadingMargin" constant="12" id="fhL-gy-MZG"/>
-                    <constraint firstAttribute="bottomMargin" secondItem="s1l-u3-wS8" secondAttribute="bottom" constant="3" id="jA4-K5-v3h"/>
-                    <constraint firstItem="bmv-fG-j2u" firstAttribute="leading" secondItem="s1l-u3-wS8" secondAttribute="trailing" constant="8" symbolic="YES" id="lX1-1V-Pz7"/>
-                    <constraint firstItem="s1l-u3-wS8" firstAttribute="top" secondItem="ngz-Lv-75T" secondAttribute="topMargin" constant="3" id="xja-mS-DaB"/>
+                    <constraint firstItem="AGd-1c-66E" firstAttribute="centerY" secondItem="ngz-Lv-75T" secondAttribute="centerY" id="GIB-jq-eQs"/>
+                    <constraint firstItem="AGd-1c-66E" firstAttribute="trailing" secondItem="ngz-Lv-75T" secondAttribute="trailing" constant="-14" id="Ww9-1x-59T"/>
+                    <constraint firstItem="AGd-1c-66E" firstAttribute="leading" secondItem="ngz-Lv-75T" secondAttribute="leading" constant="14" id="z33-k3-WTX"/>
                 </constraints>
             </tableViewCellContentView>
             <point key="canvasLocation" x="352" y="295"/>
