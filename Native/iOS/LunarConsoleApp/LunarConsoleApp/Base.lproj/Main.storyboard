@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16B2659" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="GeT-2f-Yq5">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="GeT-2f-Yq5">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
-        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -14,181 +14,165 @@
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="LunarConsoleAppFree" customModuleProvider="target" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
-                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
-                    </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="evW-4U-GLQ">
-                                <rect key="frame" x="105" y="269" width="110" height="30"/>
-                                <state key="normal" title="Show Controller">
-                                    <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="onShowControllerWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Ket-UX-4KP"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fgb-vV-fT6">
-                                <rect key="frame" x="113" y="307" width="94" height="30"/>
-                                <state key="normal" title="Show Overlay">
-                                    <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="onShowOverlayWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Bdz-N5-ght"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iu3-T1-O2O">
-                                <rect key="frame" x="117" y="231" width="86" height="30"/>
-                                <state key="normal" title="Start Logger"/>
-                                <connections>
-                                    <action selector="onToggleLoggerWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="KnI-49-DiD"/>
-                                </connections>
-                            </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LPa-0J-Gun">
-                                <rect key="frame" x="16" y="8" width="127" height="30"/>
-                                <accessibility key="accessibilityConfiguration" label="Test Message Text"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
-                                <connections>
-                                    <outlet property="delegate" destination="BYZ-38-t0r" id="LU8-q7-g78"/>
-                                </connections>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P6c-4t-lvy">
-                                <rect key="frame" x="151" y="8" width="46" height="30"/>
-                                <state key="normal" title="Debug"/>
-                                <connections>
-                                    <action selector="onLogDebugWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="pxl-iV-2Vi"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e5g-fh-dT4">
-                                <rect key="frame" x="205" y="8" width="57" height="30"/>
-                                <state key="normal" title="Warning"/>
-                                <connections>
-                                    <action selector="onLogWarningWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="YZV-mK-9Ew"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qip-u4-7Vo">
-                                <rect key="frame" x="270" y="8" width="34" height="30"/>
-                                <state key="normal" title="Error"/>
-                                <connections>
-                                    <action selector="onLogErrorWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="DVB-ol-2Ji"/>
-                                </connections>
-                            </button>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zNG-Pl-iur">
-                                <rect key="frame" x="16" y="83" width="192" height="30"/>
-                                <accessibility key="accessibilityConfiguration" label="Test Trim Text"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
-                                <connections>
-                                    <outlet property="delegate" destination="BYZ-38-t0r" id="CHB-c6-IQ1"/>
-                                </connections>
-                            </textField>
-                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4Y1-hE-rHl">
-                                <rect key="frame" x="16" y="45" width="192" height="30"/>
-                                <accessibility key="accessibilityConfiguration" label="Test Capacity Text"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
-                                <connections>
-                                    <outlet property="delegate" destination="BYZ-38-t0r" id="8cs-SM-XQ1"/>
-                                </connections>
-                            </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6wn-Mw-3aO">
-                                <rect key="frame" x="216" y="45" width="88" height="30"/>
-                                <accessibility key="accessibilityConfiguration" label="Test Capacity Button"/>
-                                <state key="normal" title="Set Capacity"/>
-                                <connections>
-                                    <action selector="onSetCapacityWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dqR-ny-s2p"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vyR-xr-omb">
-                                <rect key="frame" x="216" y="83" width="58" height="30"/>
-                                <accessibility key="accessibilityConfiguration" label="Test Trim Button"/>
-                                <state key="normal" title="Set Trim"/>
-                                <connections>
-                                    <action selector="onSetTrimWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="NHP-8w-Cia"/>
-                                </connections>
-                            </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TwB-1j-1uD">
-                                <rect key="frame" x="123" y="345" width="75" height="30"/>
-                                <state key="normal" title="Show Alert">
-                                    <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="onShowAlertWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="BNt-Fw-gIk"/>
-                                </connections>
-                            </button>
-                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="6FP-nf-7BK">
-                                <rect key="frame" x="20" y="121" width="51" height="31"/>
-                                <connections>
-                                    <action selector="onToggleActionOverlayWithSender:" destination="BYZ-38-t0r" eventType="valueChanged" id="yEO-ab-CIr"/>
-                                </connections>
-                            </switch>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Action overlay" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tE7-xZ-xkW">
-                                <rect key="frame" x="77" y="126" width="108" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m6g-Pq-R2c" userLabel="Clear Console">
-                                <rect key="frame" x="112.5" y="383" width="96" height="30"/>
-                                <state key="normal" title="Clear Console">
-                                    <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="onClearConsoleWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8S7-7E-ios"/>
-                                </connections>
-                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="14" translatesAutoresizingMaskIntoConstraints="NO" id="6CO-yQ-kh2">
+                                <rect key="frame" x="20" y="20" width="280" height="380"/>
+                                <subviews>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="mUh-19-fMu">
+                                        <rect key="frame" x="0.0" y="0.0" width="280" height="30"/>
+                                        <subviews>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="LPa-0J-Gun">
+                                                <rect key="frame" x="0.0" y="0.0" width="119" height="30"/>
+                                                <accessibility key="accessibilityConfiguration" label="Test Message Text"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
+                                                <connections>
+                                                    <outlet property="delegate" destination="BYZ-38-t0r" id="LU8-q7-g78"/>
+                                                </connections>
+                                            </textField>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P6c-4t-lvy">
+                                                <rect key="frame" x="127" y="0.0" width="46" height="30"/>
+                                                <state key="normal" title="Debug"/>
+                                                <connections>
+                                                    <action selector="onLogDebugWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="pxl-iV-2Vi"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="e5g-fh-dT4">
+                                                <rect key="frame" x="181" y="0.0" width="57" height="30"/>
+                                                <state key="normal" title="Warning"/>
+                                                <connections>
+                                                    <action selector="onLogWarningWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="YZV-mK-9Ew"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Qip-u4-7Vo">
+                                                <rect key="frame" x="246" y="0.0" width="34" height="30"/>
+                                                <state key="normal" title="Error"/>
+                                                <connections>
+                                                    <action selector="onLogErrorWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="DVB-ol-2Ji"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="qI3-e3-UgN">
+                                        <rect key="frame" x="0.0" y="44" width="280" height="30"/>
+                                        <subviews>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="4Y1-hE-rHl">
+                                                <rect key="frame" x="0.0" y="0.0" width="184" height="30"/>
+                                                <accessibility key="accessibilityConfiguration" label="Test Capacity Text"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
+                                                <connections>
+                                                    <outlet property="delegate" destination="BYZ-38-t0r" id="8cs-SM-XQ1"/>
+                                                </connections>
+                                            </textField>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6wn-Mw-3aO">
+                                                <rect key="frame" x="192" y="0.0" width="88" height="30"/>
+                                                <accessibility key="accessibilityConfiguration" label="Test Capacity Button"/>
+                                                <state key="normal" title="Set Capacity"/>
+                                                <connections>
+                                                    <action selector="onSetCapacityWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dqR-ny-s2p"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="UZ0-vr-Dxi">
+                                        <rect key="frame" x="0.0" y="88" width="280" height="30"/>
+                                        <subviews>
+                                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="zNG-Pl-iur">
+                                                <rect key="frame" x="0.0" y="0.0" width="215" height="30"/>
+                                                <accessibility key="accessibilityConfiguration" label="Test Trim Text"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                                <textInputTraits key="textInputTraits" autocorrectionType="no" spellCheckingType="no"/>
+                                                <connections>
+                                                    <outlet property="delegate" destination="BYZ-38-t0r" id="CHB-c6-IQ1"/>
+                                                </connections>
+                                            </textField>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vyR-xr-omb">
+                                                <rect key="frame" x="223" y="0.0" width="57" height="30"/>
+                                                <accessibility key="accessibilityConfiguration" label="Test Trim Button"/>
+                                                <state key="normal" title="Set Trim"/>
+                                                <connections>
+                                                    <action selector="onSetTrimWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="NHP-8w-Cia"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                    </stackView>
+                                    <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="0e5-bU-20P">
+                                        <rect key="frame" x="0.0" y="132" width="280" height="28"/>
+                                        <subviews>
+                                            <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="6FP-nf-7BK">
+                                                <rect key="frame" x="0.0" y="0.0" width="51" height="28"/>
+                                                <connections>
+                                                    <action selector="onToggleActionOverlayWithSender:" destination="BYZ-38-t0r" eventType="valueChanged" id="yEO-ab-CIr"/>
+                                                </connections>
+                                            </switch>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Action overlay" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tE7-xZ-xkW">
+                                                <rect key="frame" x="57" y="0.0" width="223" height="28"/>
+                                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                    </stackView>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iu3-T1-O2O">
+                                        <rect key="frame" x="0.0" y="174" width="280" height="30"/>
+                                        <state key="normal" title="Start Logger"/>
+                                        <connections>
+                                            <action selector="onToggleLoggerWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="KnI-49-DiD"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="evW-4U-GLQ">
+                                        <rect key="frame" x="0.0" y="218" width="280" height="30"/>
+                                        <state key="normal" title="Show Controller">
+                                            <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="onShowControllerWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Ket-UX-4KP"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fgb-vV-fT6">
+                                        <rect key="frame" x="0.0" y="262" width="280" height="30"/>
+                                        <state key="normal" title="Show Overlay">
+                                            <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="onShowOverlayWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Bdz-N5-ght"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TwB-1j-1uD">
+                                        <rect key="frame" x="0.0" y="306" width="280" height="30"/>
+                                        <state key="normal" title="Show Alert">
+                                            <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="onShowAlertWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="BNt-Fw-gIk"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m6g-Pq-R2c" userLabel="Clear Console">
+                                        <rect key="frame" x="0.0" y="350" width="280" height="30"/>
+                                        <state key="normal" title="Clear Console">
+                                            <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="onClearConsoleWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8S7-7E-ios"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="380" id="vc4-A5-XXl"/>
+                                </constraints>
+                            </stackView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="TwB-1j-1uD" firstAttribute="top" secondItem="fgb-vV-fT6" secondAttribute="bottom" constant="8" id="3Z6-n9-yX6"/>
-                            <constraint firstItem="LPa-0J-Gun" firstAttribute="centerY" secondItem="P6c-4t-lvy" secondAttribute="centerY" id="5S9-wg-1pK"/>
-                            <constraint firstAttribute="leadingMargin" secondItem="zNG-Pl-iur" secondAttribute="leading" id="8Gl-Pt-4Y5"/>
-                            <constraint firstItem="TwB-1j-1uD" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="AWv-yg-o09"/>
-                            <constraint firstItem="m6g-Pq-R2c" firstAttribute="centerX" secondItem="TwB-1j-1uD" secondAttribute="centerX" id="AfS-RP-RrQ"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="6wn-Mw-3aO" secondAttribute="trailing" id="D3I-8o-91C"/>
-                            <constraint firstItem="6wn-Mw-3aO" firstAttribute="leading" secondItem="4Y1-hE-rHl" secondAttribute="trailing" constant="8" symbolic="YES" id="DP6-To-oXB"/>
-                            <constraint firstItem="4Y1-hE-rHl" firstAttribute="leading" secondItem="LPa-0J-Gun" secondAttribute="leading" id="Ghk-D7-Q37"/>
-                            <constraint firstItem="6FP-nf-7BK" firstAttribute="top" secondItem="zNG-Pl-iur" secondAttribute="bottom" constant="8" id="H78-iB-H3e"/>
-                            <constraint firstItem="zNG-Pl-iur" firstAttribute="top" secondItem="4Y1-hE-rHl" secondAttribute="bottom" constant="8" symbolic="YES" id="HgD-d2-GfX"/>
-                            <constraint firstItem="m6g-Pq-R2c" firstAttribute="top" secondItem="TwB-1j-1uD" secondAttribute="bottom" constant="8" id="KSz-C7-bsl"/>
-                            <constraint firstItem="fgb-vV-fT6" firstAttribute="centerX" secondItem="evW-4U-GLQ" secondAttribute="centerX" id="Kbb-av-69L"/>
-                            <constraint firstItem="fgb-vV-fT6" firstAttribute="top" secondItem="evW-4U-GLQ" secondAttribute="bottom" constant="8" id="QBP-Gd-QnM"/>
-                            <constraint firstItem="TwB-1j-1uD" firstAttribute="centerX" secondItem="fgb-vV-fT6" secondAttribute="centerX" id="Qxr-wO-HbL"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="Qip-u4-7Vo" secondAttribute="trailing" id="T8x-C3-Ugg"/>
-                            <constraint firstItem="Qip-u4-7Vo" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="8" id="U0g-Bb-cQb"/>
-                            <constraint firstItem="P6c-4t-lvy" firstAttribute="leading" secondItem="LPa-0J-Gun" secondAttribute="trailing" constant="8" id="VD8-2f-EJS"/>
-                            <constraint firstItem="TwB-1j-1uD" firstAttribute="top" secondItem="evW-4U-GLQ" secondAttribute="bottom" constant="8" symbolic="YES" id="W77-1F-rUD"/>
-                            <constraint firstItem="6FP-nf-7BK" firstAttribute="centerY" secondItem="tE7-xZ-xkW" secondAttribute="centerY" id="XwT-lw-0mF"/>
-                            <constraint firstItem="tE7-xZ-xkW" firstAttribute="leading" secondItem="6FP-nf-7BK" secondAttribute="trailing" constant="8" id="Z0e-bC-qew"/>
-                            <constraint firstItem="P6c-4t-lvy" firstAttribute="centerY" secondItem="e5g-fh-dT4" secondAttribute="centerY" id="aWw-N0-zEE"/>
-                            <constraint firstItem="Qip-u4-7Vo" firstAttribute="leading" secondItem="e5g-fh-dT4" secondAttribute="trailing" constant="8" id="dOR-Mx-0wD"/>
-                            <constraint firstItem="vyR-xr-omb" firstAttribute="leading" secondItem="zNG-Pl-iur" secondAttribute="trailing" constant="8" id="fdm-Oe-MBc"/>
-                            <constraint firstItem="6FP-nf-7BK" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="4" id="fgC-H9-Jhg"/>
-                            <constraint firstItem="e5g-fh-dT4" firstAttribute="leading" secondItem="P6c-4t-lvy" secondAttribute="trailing" constant="8" id="idH-GI-SbY"/>
-                            <constraint firstItem="Iu3-T1-O2O" firstAttribute="centerX" secondItem="evW-4U-GLQ" secondAttribute="centerX" id="laq-1P-0EA"/>
-                            <constraint firstItem="vyR-xr-omb" firstAttribute="centerY" secondItem="zNG-Pl-iur" secondAttribute="centerY" id="nPO-Ba-Ur9"/>
-                            <constraint firstItem="4Y1-hE-rHl" firstAttribute="top" secondItem="P6c-4t-lvy" secondAttribute="bottom" constant="7" id="npz-f5-7ON"/>
-                            <constraint firstItem="e5g-fh-dT4" firstAttribute="centerY" secondItem="Qip-u4-7Vo" secondAttribute="centerY" id="pCU-am-cl8"/>
-                            <constraint firstItem="evW-4U-GLQ" firstAttribute="top" secondItem="Iu3-T1-O2O" secondAttribute="bottom" constant="8" id="pKv-tM-l2r"/>
-                            <constraint firstAttribute="leadingMargin" secondItem="LPa-0J-Gun" secondAttribute="leading" id="po1-8V-U9h"/>
-                            <constraint firstItem="fgb-vV-fT6" firstAttribute="trailing" secondItem="TwB-1j-1uD" secondAttribute="trailing" id="sBI-sk-cmx"/>
-                            <constraint firstItem="evW-4U-GLQ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="taA-Zn-51T"/>
-                            <constraint firstItem="4Y1-hE-rHl" firstAttribute="top" secondItem="6wn-Mw-3aO" secondAttribute="top" id="vha-Ph-gff"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="vyR-xr-omb" secondAttribute="trailing" constant="30" id="viS-br-dPW"/>
-                            <constraint firstItem="evW-4U-GLQ" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="xud-K5-PL3"/>
-                            <constraint firstItem="fgb-vV-fT6" firstAttribute="leading" secondItem="evW-4U-GLQ" secondAttribute="leading" id="y6l-sb-eyU"/>
+                            <constraint firstItem="6CO-yQ-kh2" firstAttribute="trailing" secondItem="MKl-vG-ocY" secondAttribute="trailing" constant="-20" id="0NI-fL-KWg"/>
+                            <constraint firstItem="6CO-yQ-kh2" firstAttribute="top" secondItem="MKl-vG-ocY" secondAttribute="top" id="jXv-EO-bdC"/>
+                            <constraint firstItem="6CO-yQ-kh2" firstAttribute="leading" secondItem="MKl-vG-ocY" secondAttribute="leading" constant="20" id="kcN-XN-0Gr"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="constraints">
-                                <exclude reference="sBI-sk-cmx"/>
-                                <exclude reference="y6l-sb-eyU"/>
-                                <exclude reference="W77-1F-rUD"/>
-                            </mask>
-                        </variation>
+                        <viewLayoutGuide key="safeArea" id="MKl-vG-ocY"/>
                     </view>
                     <navigationItem key="navigationItem" id="1EB-jZ-et0"/>
                     <nil key="simulatedStatusBarMetrics"/>
@@ -211,7 +195,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="GeT-2f-Yq5" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Ies-gx-3Nd">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
