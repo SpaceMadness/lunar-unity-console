@@ -79,28 +79,20 @@ static const CGFloat kMinWidthToResizeSearchBar = 480;
 {
     [self unregisterNotifications];
     
-    if (self.console.delegate == self)
-    {
+    if (self.console.delegate == self) {
         self.console.delegate = nil;
     }
-    _tableView.delegate     = nil;
-    _tableView.dataSource   = nil;
-    _filterBar.delegate     = nil;
-    _logButton.delegate     = nil;
-    _warningButton.delegate = nil;
-    _errorButton.delegate   = nil;    
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     
     self.console.delegate = self;
     
     // scroll lock
-    _scrollLocked = YES; // scroll is locked by default
-    _scrollLockButton.on = _scrollLocked;
-    _scrollLockButton.delegate = self;
+    self.scrollLocked = YES; // scroll is locked by default
+    self.scrollLockButton.on = self.scrollLocked;
+    self.scrollLockButton.delegate = self;
     
     LUTheme *theme = [self theme];
     
@@ -119,22 +111,22 @@ static const CGFloat kMinWidthToResizeSearchBar = 480;
     
     // "status bar" view
     UITapGestureRecognizer *statusBarTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
-                                                                                                    action:@selector(onStatusBarTap:)];
-    [_statusBar addGestureRecognizer:statusBarTapGestureRecognizer];
+																									action:@selector(onStatusBarTap:)];
+    [self.statusBar addGestureRecognizer:statusBarTapGestureRecognizer];
 	
 	self.statusBar.backgroundColor = theme.statusBarColor;
 	self.statusBar.textColor = theme.statusBarTextColor;
     self.statusBar.text = [NSString stringWithFormat:@"Lunar Console v%@", _version ? _version : @"?.?.?"];
     
     // log type buttons
-    _logButton.on = ![self.console.entries isFilterLogTypeEnabled:LUConsoleLogTypeLog];
-    _logButton.delegate = self;
+    self.logButton.on = ![self.console.entries isFilterLogTypeEnabled:LUConsoleLogTypeLog];
+    self.logButton.delegate = self;
     
-    _warningButton.on = ![self.console.entries isFilterLogTypeEnabled:LUConsoleLogTypeWarning];
-    _warningButton.delegate = self;
+    self.warningButton.on = ![self.console.entries isFilterLogTypeEnabled:LUConsoleLogTypeWarning];
+    self.warningButton.delegate = self;
     
-    _errorButton.on = ![self.console.entries isFilterLogTypeEnabled:LUConsoleLogTypeError];
-    _errorButton.delegate = self;
+    self.errorButton.on = ![self.console.entries isFilterLogTypeEnabled:LUConsoleLogTypeError];
+    self.errorButton.delegate = self;
 	
 	// control buttons
 	self.controlButtonsView.backgroundColor = theme.tableColor;
@@ -152,7 +144,7 @@ static const CGFloat kMinWidthToResizeSearchBar = 480;
         [self updateOverflowWarning];
         
         // scroll to the end
-        if (_scrollLocked) {
+        if (self.scrollLocked) {
             [self scrollToBottomAnimated:NO];
         }
     });
@@ -287,7 +279,7 @@ static const CGFloat kMinWidthToResizeSearchBar = 480;
     [popupController presentFromController:self.parentViewController animated:YES];
 }
 
-- (IBAction)onStatusBarTap:(UITapGestureRecognizer *)recognizer
+- (void)onStatusBarTap:(UITapGestureRecognizer *)recognizer
 {
     _scrollLockButton.on = NO;
     [self scrollToTopAnimated:YES];
@@ -396,14 +388,10 @@ static const CGFloat kMinWidthToResizeSearchBar = 480;
 #pragma mark -
 #pragma mark LUToggleButtonDelegate
 
-- (void)toggleButtonStateChanged:(LUToggleButton *)button
-{
-    if (button == _scrollLockButton)
-    {
+- (void)toggleButtonStateChanged:(LUToggleButton *)button {
+    if (button == _scrollLockButton) {
         self.scrollLocked = button.isOn;
-    }
-    else
-    {
+    } else {
         LUConsoleLogTypeMask mask = 0;
         if (button == _logButton)
         {

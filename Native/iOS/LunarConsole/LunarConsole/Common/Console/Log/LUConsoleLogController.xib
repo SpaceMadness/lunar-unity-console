@@ -16,6 +16,7 @@
                 <outlet property="filterBar" destination="tyr-JS-aHW" id="hxF-Cg-ELY"/>
                 <outlet property="logButton" destination="606-se-Duv" id="xmt-KW-Gx5"/>
                 <outlet property="overflowWarningLabel" destination="pS0-TO-fn1" id="M8M-6k-frn"/>
+                <outlet property="scrollLockButton" destination="S7e-Gk-FQ9" id="Wzs-zO-9rY"/>
                 <outlet property="statusBar" destination="d4L-R2-fM7" id="vWz-Cy-B0D"/>
                 <outlet property="tableView" destination="kme-n0-WnJ" id="pwL-1j-BZP"/>
                 <outlet property="view" destination="iN0-l3-epB" id="P0s-bf-EgU"/>
