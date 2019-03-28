@@ -38,19 +38,17 @@ void LUDisplayAlertView(NSString *title, NSString *message)
 
 CGRect LUGetScreenBounds()
 {
-    if (LU_IOS_VERSION_AVAILABLE(__IPHONE_8_0))
-    {
+    if (LU_IOS_VERSION_AVAILABLE(__IPHONE_8_0)) {
         return [UIScreen mainScreen].bounds;
     }
-    
+
     CGRect screenSize = [UIScreen mainScreen].bounds;
-    if (LUIsLandscapeInterfaceOrientation())
-    {
+    if (LUIsLandscapeInterfaceOrientation()) {
         CGFloat width = CGRectGetWidth(screenSize);
         CGFloat height = CGRectGetHeight(screenSize);
         screenSize.size = CGSizeMake(height, width);
     }
-    
+
     return screenSize;
 }
 

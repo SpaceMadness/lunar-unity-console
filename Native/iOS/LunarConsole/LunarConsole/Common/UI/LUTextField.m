@@ -34,11 +34,10 @@
 - (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
-    if (self)
-    {
+    if (self) {
         self.backgroundColor = [LUTheme mainTheme].variableEditBackground;
         self.textColor = [LUTheme mainTheme].variableEditTextColor;
-		self.delegate = self;
+        self.delegate = self;
     }
     return self;
 }
@@ -46,50 +45,56 @@
 #pragma mark -
 #pragma mark UITextFieldDelegate
 
-- (BOOL)textFieldShouldReturn:(UITextField *)textField {
-	[textField resignFirstResponder];
-	return NO;
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return NO;
 }
 
-- (void)textFieldDidBeginEditing:(UITextField *)textField {
-	self.lastText = textField.text;
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    self.lastText = textField.text;
 }
 
-- (void)textFieldDidEndEditing:(UITextField *)textField {
-	NSString *valueText = textField.text;
-	if (![self isTextValid:valueText]) {
-		if ([self.textInputDelegate respondsToSelector:@selector(textFieldInputDidBecomeInvalid:)]) {
-			[self.textInputDelegate textFieldInputDidBecomeInvalid:self];
-		}
-		self.text = self.lastText;
-	} else {
-		if ([self.textInputDelegate respondsToSelector:@selector(textFieldDidEndEditing:)]) {
-			[self.textInputDelegate textFieldDidEndEditing:self];
-		}
-	}
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    NSString *valueText = textField.text;
+    if (![self isTextValid:valueText]) {
+        if ([self.textInputDelegate respondsToSelector:@selector(textFieldInputDidBecomeInvalid:)]) {
+            [self.textInputDelegate textFieldInputDidBecomeInvalid:self];
+        }
+        self.text = self.lastText;
+    } else {
+        if ([self.textInputDelegate respondsToSelector:@selector(textFieldDidEndEditing:)]) {
+            [self.textInputDelegate textFieldDidEndEditing:self];
+        }
+    }
 }
 
 #pragma mark -
 #pragma mark Text Validation
 
-- (BOOL)isTextValid:(NSString *)text {
-	return _textValidator == nil || [_textValidator isTextValid:text];
+- (BOOL)isTextValid:(NSString *)text
+{
+    return _textValidator == nil || [_textValidator isTextValid:text];
 }
 
 @end
 
 @implementation LUTextFieldIntegerInputValidator
 
-- (BOOL)isTextValid:(NSString *)text {
-	return LUStringTryParseInteger(text, NULL);
+- (BOOL)isTextValid:(NSString *)text
+{
+    return LUStringTryParseInteger(text, NULL);
 }
 
 @end
 
 @implementation LUTextFieldFloatInputValidator
 
-- (BOOL)isTextValid:(NSString *)text {
-	return LUStringTryParseFloat(text, NULL);
+- (BOOL)isTextValid:(NSString *)text
+{
+    return LUStringTryParseFloat(text, NULL);
 }
 
 @end

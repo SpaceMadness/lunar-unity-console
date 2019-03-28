@@ -31,14 +31,14 @@ static const NSInteger kTagInput = 3;
 static const NSInteger kTagSwitch = 4;
 
 typedef enum : NSUInteger {
-	LUSettingTypeBool,
-	LUSettingTypeInt,
-	LUSettingTypeDouble,
-	LUSettingTypeEnum
+    LUSettingTypeBool,
+    LUSettingTypeInt,
+    LUSettingTypeDouble,
+    LUSettingTypeEnum
 } LUSettingType;
 
-static NSDictionary * _propertyTypeLookup;
-static NSArray * _proOnlyFeaturesLookup;
+static NSDictionary *_propertyTypeLookup;
+static NSArray *_proOnlyFeaturesLookup;
 
 static id<LUTextFieldInputValidator> _integerValidator;
 static id<LUTextFieldInputValidator> _floatValidator;
@@ -73,55 +73,65 @@ static id<LUTextFieldInputValidator> _floatValidator;
 
 @implementation LUConsoleSetting
 
-- (instancetype)initWithTarget:(id)target name:(NSString *)name type:(LUSettingType)type title:(NSString *)title {
-	return [self initWithTarget:target name:name type:type title:title values:nil];
-}
-	
-- (instancetype)initWithTarget:(id)target name:(NSString *)name type:(LUSettingType)type title:(NSString *)title values:(nullable NSArray<NSString *> *)values {
-	self = [super init];
-	if (self) {
-		_target = target;
-		_name = name;
-		_type = type;
-		_title = title;
-		_values = values;
-	}
-	return self;
+- (instancetype)initWithTarget:(id)target name:(NSString *)name type:(LUSettingType)type title:(NSString *)title
+{
+    return [self initWithTarget:target name:name type:type title:title values:nil];
 }
 
-- (id)value {
-	return [_target valueForKey:_name];
+- (instancetype)initWithTarget:(id)target name:(NSString *)name type:(LUSettingType)type title:(NSString *)title values:(nullable NSArray<NSString *> *)values
+{
+    self = [super init];
+    if (self) {
+        _target = target;
+        _name = name;
+        _type = type;
+        _title = title;
+        _values = values;
+    }
+    return self;
 }
 
-- (void)setValue:(id)value {
-	[_target setValue:value forKey:_name];
-	if ([_delegate respondsToSelector:@selector(consoleSettingDidChange:)]) {
-		[_delegate consoleSettingDidChange:self];
-	}
+- (id)value
+{
+    return [_target valueForKey:_name];
 }
 
-- (BOOL)boolValue {
-	return [[self value] boolValue];
+- (void)setValue:(id)value
+{
+    [_target setValue:value forKey:_name];
+    if ([_delegate respondsToSelector:@selector(consoleSettingDidChange:)]) {
+        [_delegate consoleSettingDidChange:self];
+    }
 }
 
-- (void)setBoolValue:(BOOL)boolValue {
-	[self setValue:[NSNumber numberWithBool:boolValue]];
+- (BOOL)boolValue
+{
+    return [[self value] boolValue];
 }
 
-- (int)intValue {
-	return [[self value] intValue];
+- (void)setBoolValue:(BOOL)boolValue
+{
+    [self setValue:[NSNumber numberWithBool:boolValue]];
 }
 
-- (void)setIntValue:(int)intValue {
-	[self setValue:[NSNumber numberWithInt:intValue]];
+- (int)intValue
+{
+    return [[self value] intValue];
 }
 
-- (double)doubleValue {
-	return [[self value] doubleValue];
+- (void)setIntValue:(int)intValue
+{
+    [self setValue:[NSNumber numberWithInt:intValue]];
 }
 
-- (void)setDoubleValue:(double)doubleValue {
-	[self setValue:[NSNumber numberWithDouble:doubleValue]];
+- (double)doubleValue
+{
+    return [[self value] doubleValue];
+}
+
+- (void)setDoubleValue:(double)doubleValue
+{
+    [self setValue:[NSNumber numberWithDouble:doubleValue]];
 }
 
 @end
@@ -137,23 +147,24 @@ static id<LUTextFieldInputValidator> _floatValidator;
 
 @implementation LUConsoleSettingsSection
 
-- (instancetype)initWithTitle:(NSString *)title entries:(NSArray<LUConsoleSetting *> *)entries {
-	self = [super init];
-	if (self) {
-		_title = title;
-		_entries = entries;
-	}
-	return self;
+- (instancetype)initWithTitle:(NSString *)title entries:(NSArray<LUConsoleSetting *> *)entries
+{
+    self = [super init];
+    if (self) {
+        _title = title;
+        _entries = entries;
+    }
+    return self;
 }
 
 @end
 
 @interface LUConsoleSettingsController () <UITableViewDataSource, LUConsolePopupControllerDelegate> {
-    NSArray<LUConsoleSettingsSection *> * _sections;
-    LUPluginSettings * _settings;
+    NSArray<LUConsoleSettingsSection *> *_sections;
+    LUPluginSettings *_settings;
 }
 
-@property (nonatomic, weak) IBOutlet UITableView * tableView;
+@property (nonatomic, weak) IBOutlet UITableView *tableView;
 
 @end
 
@@ -162,17 +173,18 @@ static id<LUTextFieldInputValidator> _floatValidator;
 
 @implementation LUConsoleSettingsController
 
-+ (void)initialize {
-	if ([self class] == [LUConsoleSettingsController class]) {
-		_integerValidator = [LUTextFieldIntegerInputValidator new];
-		_floatValidator = [LUTextFieldFloatInputValidator new];
-	}
++ (void)initialize
+{
+    if ([self class] == [LUConsoleSettingsController class]) {
+        _integerValidator = [LUTextFieldIntegerInputValidator new];
+        _floatValidator = [LUTextFieldFloatInputValidator new];
+    }
 }
 
-- (instancetype)initWithSettings:(LUPluginSettings *)settings {
+- (instancetype)initWithSettings:(LUPluginSettings *)settings
+{
     self = [super initWithNibName:NSStringFromClass([self class]) bundle:nil];
-    if (self)
-    {
+    if (self) {
         _settings = settings;
         _sections = [self listSections:settings];
     }
@@ -183,13 +195,14 @@ static id<LUTextFieldInputValidator> _floatValidator;
 #pragma mark -
 #pragma mark View
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    
+
     LUTheme *theme = [LUTheme mainTheme];
     _tableView.backgroundColor = theme.tableColor;
     _tableView.rowHeight = 43;
-    
+
     self.popupTitle = @"Settings";
     self.popupIcon = theme.settingsIconImage;
 }
@@ -197,94 +210,98 @@ static id<LUTextFieldInputValidator> _floatValidator;
 #pragma mark -
 #pragma mark UITableViewDataSource
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-	return _sections.count;
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return _sections.count;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
     return _sections[section].entries.count;
 }
 
-- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
-	return _sections[section].title;
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    return _sections[section].title;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-	LUConsoleSetting *setting = _sections[indexPath.section].entries[indexPath.row];
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    LUConsoleSetting *setting = _sections[indexPath.section].entries[indexPath.row];
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Setting Cell"];
-    if (cell == nil)
-    {
-        cell = (UITableViewCell *) [[NSBundle mainBundle] loadNibNamed:@"LUSettingsTableCell" owner:self options:nil].firstObject;
+    if (cell == nil) {
+        cell = (UITableViewCell *)[[NSBundle mainBundle] loadNibNamed:@"LUSettingsTableCell" owner:self options:nil].firstObject;
     }
-    
+
     LUTheme *theme = [LUTheme mainTheme];
-    
+
     cell.contentView.backgroundColor = indexPath.row % 2 == 0 ? theme.backgroundColorLight : theme.backgroundColorDark;
-    
+
     UILabel *nameLabel = [cell.contentView viewWithTag:kTagName];
-	LUButton *enumButton = [cell.contentView viewWithTag:kTagButton];
-	LUTextField *inputField = [cell.contentView viewWithTag:kTagInput];
-	LUSwitch *boolSwitch = [cell.contentView viewWithTag:kTagSwitch];
-	
-	enumButton.hidden = YES;
-	inputField.hidden = YES;
-	boolSwitch.hidden = YES;
-	
+    LUButton *enumButton = [cell.contentView viewWithTag:kTagButton];
+    LUTextField *inputField = [cell.contentView viewWithTag:kTagInput];
+    LUSwitch *boolSwitch = [cell.contentView viewWithTag:kTagSwitch];
+
+    enumButton.hidden = YES;
+    inputField.hidden = YES;
+    boolSwitch.hidden = YES;
+
     BOOL available = LUConsoleIsFullVersion || !setting.proOnly;
-    
+
     nameLabel.font = theme.font;
     nameLabel.textColor = available ? theme.cellLog.textColor : theme.settingsTextColorUnavailable;
     nameLabel.text = setting.title;
-	
-	switch (setting.type) {
-		case LUSettingTypeBool:
-			boolSwitch.hidden = NO;
-			boolSwitch.on = [setting boolValue];
-			boolSwitch.userData = setting;
-			[boolSwitch addTarget:self action:@selector(onToggleBoolean:) forControlEvents:UIControlEventValueChanged];
-			boolSwitch.enabled = available;
-			break;
-		case LUSettingTypeInt:
-			inputField.hidden = NO;
-			inputField.text = [NSString stringWithFormat:@"%d", [setting intValue]];
-			inputField.textValidator = _integerValidator;
-			inputField.textInputDelegate = self;
-			inputField.userData = setting;
-			break;
-		case LUSettingTypeDouble:
-			inputField.hidden = NO;
-			inputField.text = [NSString stringWithFormat:@"%g", [setting doubleValue]];
-			inputField.textValidator = _floatValidator;
-			inputField.textInputDelegate = self;
-			inputField.userData = setting;
-			break;
-		case LUSettingTypeEnum:
-			enumButton.hidden = NO;
-			int index = [setting intValue];
-			[enumButton setTitle:setting.values[index] forState:UIControlStateNormal];
-			enumButton.titleLabel.font = theme.enumButtonFont;
-			enumButton.userData = setting;
-			[enumButton setTitleColor:theme.enumButtonTitleColor forState:UIControlStateNormal];
-			if (enumButton.allTargets.count == 0) {
-				[enumButton addTarget:self action:@selector(enumButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
-			}
-			break;
-	}
-    
+
+    switch (setting.type) {
+        case LUSettingTypeBool:
+            boolSwitch.hidden = NO;
+            boolSwitch.on = [setting boolValue];
+            boolSwitch.userData = setting;
+            [boolSwitch addTarget:self action:@selector(onToggleBoolean:) forControlEvents:UIControlEventValueChanged];
+            boolSwitch.enabled = available;
+            break;
+        case LUSettingTypeInt:
+            inputField.hidden = NO;
+            inputField.text = [NSString stringWithFormat:@"%d", [setting intValue]];
+            inputField.textValidator = _integerValidator;
+            inputField.textInputDelegate = self;
+            inputField.userData = setting;
+            break;
+        case LUSettingTypeDouble:
+            inputField.hidden = NO;
+            inputField.text = [NSString stringWithFormat:@"%g", [setting doubleValue]];
+            inputField.textValidator = _floatValidator;
+            inputField.textInputDelegate = self;
+            inputField.userData = setting;
+            break;
+        case LUSettingTypeEnum:
+            enumButton.hidden = NO;
+            int index = [setting intValue];
+            [enumButton setTitle:setting.values[index] forState:UIControlStateNormal];
+            enumButton.titleLabel.font = theme.enumButtonFont;
+            enumButton.userData = setting;
+            [enumButton setTitleColor:theme.enumButtonTitleColor forState:UIControlStateNormal];
+            if (enumButton.allTargets.count == 0) {
+                [enumButton addTarget:self action:@selector(enumButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
+            }
+            break;
+    }
+
     return cell;
 }
 
-- (void)enumButtonClicked:(LUButton *)button {
-	LUConsoleSetting *setting = button.userData;
-	
-	LUEnumPickerViewController *picker = [[LUEnumPickerViewController alloc] initWithValues:setting.values initialIndex:[setting intValue]];
-	picker.userData = @[setting, button];
-	picker.popupTitle = setting.title;
-	picker.popupIcon = [LUTheme mainTheme].settingsIconImage;
-	
-	LUConsolePopupController *popupController = [[LUConsolePopupController alloc] initWithContentController:picker];
-	[popupController presentFromController:self.parentViewController animated:YES];
-	popupController.popupDelegate = self;
+- (void)enumButtonClicked:(LUButton *)button
+{
+    LUConsoleSetting *setting = button.userData;
+
+    LUEnumPickerViewController *picker = [[LUEnumPickerViewController alloc] initWithValues:setting.values initialIndex:[setting intValue]];
+    picker.userData = @[ setting, button ];
+    picker.popupTitle = setting.title;
+    picker.popupIcon = [LUTheme mainTheme].settingsIconImage;
+
+    LUConsolePopupController *popupController = [[LUConsolePopupController alloc] initWithContentController:picker];
+    [popupController presentFromController:self.parentViewController animated:YES];
+    popupController.popupDelegate = self;
 }
 
 #pragma mark -
@@ -292,63 +309,66 @@ static id<LUTextFieldInputValidator> _floatValidator;
 
 - (void)tableView:(UITableView *)tableView willDisplayHeaderView:(UIView *)view forSection:(NSInteger)section
 {
-	if ([view isKindOfClass:[UITableViewHeaderFooterView class]])
-	{
-		LUTheme *theme = [LUTheme mainTheme];
-		
-		UITableViewHeaderFooterView *headerView = (UITableViewHeaderFooterView *)view;
-		headerView.textLabel.font = theme.actionsGroupFont;
-		headerView.textLabel.textColor = theme.actionsGroupTextColor;
-		headerView.contentView.backgroundColor = theme.actionsGroupBackgroundColor;
-	}
+    if ([view isKindOfClass:[UITableViewHeaderFooterView class]]) {
+        LUTheme *theme = [LUTheme mainTheme];
+
+        UITableViewHeaderFooterView *headerView = (UITableViewHeaderFooterView *)view;
+        headerView.textLabel.font = theme.actionsGroupFont;
+        headerView.textLabel.textColor = theme.actionsGroupTextColor;
+        headerView.contentView.backgroundColor = theme.actionsGroupBackgroundColor;
+    }
 }
 
 #pragma mark -
 #pragma mark LUTextFieldInputDelegate
 
-- (void)textFieldDidEndEditing:(LUTextField *)textField {
-	LUConsoleSetting *setting = textField.userData;
-	switch (setting.type) {
-		case LUSettingTypeInt: {
-			NSInteger value;
-			LUStringTryParseInteger(textField.text, &value);
-			setting.intValue = (int) value;
-			break;
-		}
-		case LUSettingTypeDouble: {
-			float value;
-			LUStringTryParseFloat(textField.text, &value);
-			setting.doubleValue = value;
-			break;
-		}
-		case LUSettingTypeBool:
-		case LUSettingTypeEnum:
-			break;
-	}
+- (void)textFieldDidEndEditing:(LUTextField *)textField
+{
+    LUConsoleSetting *setting = textField.userData;
+    switch (setting.type) {
+        case LUSettingTypeInt: {
+            NSInteger value;
+            LUStringTryParseInteger(textField.text, &value);
+            setting.intValue = (int)value;
+            break;
+        }
+        case LUSettingTypeDouble: {
+            float value;
+            LUStringTryParseFloat(textField.text, &value);
+            setting.doubleValue = value;
+            break;
+        }
+        case LUSettingTypeBool:
+        case LUSettingTypeEnum:
+            break;
+    }
 }
 
-- (void)textFieldInputDidBecomeInvalid:(LUTextField *)textField {
-	LUDisplayAlertView(@"Input Error", [NSString stringWithFormat:@"Invalid value: '%@'", textField.text]);
+- (void)textFieldInputDidBecomeInvalid:(LUTextField *)textField
+{
+    LUDisplayAlertView(@"Input Error", [NSString stringWithFormat:@"Invalid value: '%@'", textField.text]);
 }
 
 #pragma mark -
 #pragma mark LUConsolePopupControllerDelegate
 
-- (void)popupControllerDidDismiss:(LUConsolePopupController *)controller {
-	LUEnumPickerViewController *pickerController = (LUEnumPickerViewController *) controller.contentController;
-	
-	LUConsoleSetting *setting = pickerController.userData[0];
-	UIButton *button = pickerController.userData[1];
-	setting.intValue = (int) pickerController.selectedIndex;
-	[button setTitle:pickerController.selectedValue forState:UIControlStateNormal];
-	
-	[controller dismissAnimated:YES];
+- (void)popupControllerDidDismiss:(LUConsolePopupController *)controller
+{
+    LUEnumPickerViewController *pickerController = (LUEnumPickerViewController *)controller.contentController;
+
+    LUConsoleSetting *setting = pickerController.userData[0];
+    UIButton *button = pickerController.userData[1];
+    setting.intValue = (int)pickerController.selectedIndex;
+    [button setTitle:pickerController.selectedValue forState:UIControlStateNormal];
+
+    [controller dismissAnimated:YES];
 }
 
 #pragma mark -
 #pragma mark Controls
 
-- (void)onToggleBoolean:(LUSwitch *)swtch {
+- (void)onToggleBoolean:(LUSwitch *)swtch
+{
     LUConsoleSetting *setting = swtch.userData;
     setting.value = swtch.isOn ? @YES : @NO;
 }
@@ -356,32 +376,49 @@ static id<LUTextFieldInputValidator> _floatValidator;
 #pragma mark -
 #pragma mark Entries
 
-- (NSArray<LUConsoleSettingsSection *> *)listSections:(LUPluginSettings *)settings {
-	NSArray *sections = @[
-	  [[LUConsoleSettingsSection alloc] initWithTitle:@"Exception Warning" entries:@[
-        [[LUConsoleSetting alloc] initWithTarget:settings.exceptionWarning name:@"displayMode" type:LUSettingTypeEnum title:@"Display Mode" values:@[@"None", @"Errors", @"Exceptions", @"All"]]
-	  ]],
-	  [[LUConsoleSettingsSection alloc] initWithTitle:@"Log Overlay" entries:@[
-		[[LUConsoleSetting alloc] initWithTarget:settings.logOverlay name:@"enabled" type:LUSettingTypeBool title:@"Enabled"],
-		[[LUConsoleSetting alloc] initWithTarget:settings.logOverlay name:@"maxVisibleLines" type:LUSettingTypeInt title:@"Max Visible Lines"],
-		[[LUConsoleSetting alloc] initWithTarget:settings.logOverlay name:@"timeout" type:LUSettingTypeDouble title:@"Timeout"]
-	  ]],
-	];
-	
-	for (LUConsoleSettingsSection *section in sections) {
-		for (LUConsoleSetting *setting in section.entries) {
-			setting.delegate = self;
-		}
-	}
-	
-	return sections;
+- (NSArray<LUConsoleSettingsSection *> *)listSections:(LUPluginSettings *)settings
+{
+    NSArray *sections = @[
+        [[LUConsoleSettingsSection alloc] initWithTitle:@"Exception Warning"
+                                                entries:@[
+                                                    [[LUConsoleSetting alloc] initWithTarget:settings.exceptionWarning
+                                                                                        name:@"displayMode"
+                                                                                        type:LUSettingTypeEnum
+                                                                                       title:@"Display Mode"
+                                                                                      values:@[ @"None", @"Errors", @"Exceptions", @"All" ]]
+                                                ]],
+        [[LUConsoleSettingsSection alloc] initWithTitle:@"Log Overlay"
+                                                entries:@[
+                                                    [[LUConsoleSetting alloc] initWithTarget:settings.logOverlay
+                                                                                        name:@"enabled"
+                                                                                        type:LUSettingTypeBool
+                                                                                       title:@"Enabled"],
+                                                    [[LUConsoleSetting alloc] initWithTarget:settings.logOverlay
+                                                                                        name:@"maxVisibleLines"
+                                                                                        type:LUSettingTypeInt
+                                                                                       title:@"Max Visible Lines"],
+                                                    [[LUConsoleSetting alloc] initWithTarget:settings.logOverlay
+                                                                                        name:@"timeout"
+                                                                                        type:LUSettingTypeDouble
+                                                                                       title:@"Timeout"]
+                                                ]],
+    ];
+
+    for (LUConsoleSettingsSection *section in sections) {
+        for (LUConsoleSetting *setting in section.entries) {
+            setting.delegate = self;
+        }
+    }
+
+    return sections;
 }
 
 #pragma mark -
 #pragma mark LUConsoleSettingDelegate
 
-- (void)consoleSettingDidChange:(LUConsoleSetting *)setting {
-	[LUNotificationCenter postNotificationName:LUNotificationSettingsDidChange object:nil];
+- (void)consoleSettingDidChange:(LUConsoleSetting *)setting
+{
+    [LUNotificationCenter postNotificationName:LUNotificationSettingsDidChange object:nil];
 }
 
 @end

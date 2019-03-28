@@ -24,16 +24,17 @@
 #import "Lunar.h"
 
 @interface LUExceptionWarningController () {
-    NSString * _message;
+    NSString *_message;
 }
 
-@property (nonatomic, weak) IBOutlet UILabel * errorLabel;
+@property (nonatomic, weak) IBOutlet UILabel *errorLabel;
 
 @end
 
 @implementation LUExceptionWarningController
 
-- (instancetype)initWithMessage:(NSString *)message {
+- (instancetype)initWithMessage:(NSString *)message
+{
     self = [super initWithNibName:NSStringFromClass([self class]) bundle:nil];
     if (self) {
         _message = message;
@@ -42,22 +43,25 @@
 }
 
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
-    
+
     _errorLabel.text = _message;
 }
 
 #pragma mark -
 #pragma mark Actions
 
-- (IBAction)onShowButton:(id)sender {
+- (IBAction)onShowButton:(id)sender
+{
     if ([_delegate respondsToSelector:@selector(exceptionWarningControllerDidShow:)]) {
         [_delegate exceptionWarningControllerDidShow:self];
     }
 }
 
-- (IBAction)onDismissButton:(id)sender {
+- (IBAction)onDismissButton:(id)sender
+{
     if ([_delegate respondsToSelector:@selector(exceptionWarningControllerDidDismiss:)]) {
         [_delegate exceptionWarningControllerDidDismiss:self];
     }
