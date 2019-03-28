@@ -112,8 +112,10 @@ static const CGFloat kMinWidthToResizeSearchBar = 480;
     self.view.backgroundColor = theme.statusBarColor;
     
     // table view
-    _tableView.touchDelegate = self;
-    _tableView.backgroundColor = theme.tableColor;
+	self.tableView.dataSource = self;
+	self.tableView.delegate = self;
+    self.tableView.touchDelegate = self;
+    self.tableView.backgroundColor = theme.tableColor;
     
     // "status bar" view
     UITapGestureRecognizer *statusBarTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
@@ -150,8 +152,7 @@ static const CGFloat kMinWidthToResizeSearchBar = 480;
         [self updateOverflowWarning];
         
         // scroll to the end
-        if (_scrollLocked)
-        {
+        if (_scrollLocked) {
             [self scrollToBottomAnimated:NO];
         }
     });
