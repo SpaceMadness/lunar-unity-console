@@ -117,12 +117,12 @@
     
     // border radius
     _contentView.layer.borderColor = [[UIColor colorWithRed:0.37 green:0.37 blue:0.37 alpha:1.0] CGColor];
-    _contentView.layer.cornerRadius = 1.5f;
+    _contentView.layer.cornerRadius = 3.0;
     
     // shadow
     _contentView.layer.shadowColor = [UIColor blackColor].CGColor;
     _contentView.layer.shadowOpacity = 0.5;
-    _contentView.layer.shadowRadius = 20.0;
+    _contentView.layer.shadowRadius = 5.0;
     
     
     // add buttons
