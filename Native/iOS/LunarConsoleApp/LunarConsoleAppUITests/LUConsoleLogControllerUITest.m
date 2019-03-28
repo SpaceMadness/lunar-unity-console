@@ -38,7 +38,7 @@
 - (void)setUp
 {
     [super setUp];
-    
+
     // Put setup code here. This method is called before the invocation of each test method in the class.
 
     // In UI tests it is usually best to stop immediately when a failure occurs.
@@ -61,71 +61,70 @@
 - (void)testFilter
 {
     XCUIApplication *app = [[XCUIApplication alloc] init];
-    
+
     [self app:app logMessage:@"Debug-1" logType:LUConsoleLogTypeLog];
     [self app:app logMessage:@"Debug-2" logType:LUConsoleLogTypeLog];
     [self app:app logMessage:@"Warning-1" logType:LUConsoleLogTypeWarning];
     [self app:app logMessage:@"Warning-2" logType:LUConsoleLogTypeWarning];
     [self app:app logMessage:@"Error-1" logType:LUConsoleLogTypeError];
     [self app:app logMessage:@"Error-2" logType:LUConsoleLogTypeError];
-    
+
     [app.buttons[@"Show Controller"] tap];
-    
+
     XCUIElement *table = GET_CONSOLE_TABLE(app);
-    XCTAssert(table.hittable);
-    
+
     [self assertTable:table, @"Debug-1", @"Debug-2", @"Warning-1", @"Warning-2", @"Error-1", @"Error-2", nil];
-    
+
     [app.buttons[@"Type Debug"] tap];
     [self assertTable:table, @"Warning-1", @"Warning-2", @"Error-1", @"Error-2", nil];
-    
+
     [app.buttons[@"Type Warning"] tap];
     [self assertTable:table, @"Error-1", @"Error-2", nil];
-    
+
     [app.buttons[@"Type Error"] tap];
     [self assertTable:table, nil];
-    
+
     [app.buttons[@"Type Debug"] tap];
     [self assertTable:table, @"Debug-1", @"Debug-2", nil];
-    
+
     [app.buttons[@"Type Warning"] tap];
     [self assertTable:table, @"Debug-1", @"Debug-2", @"Warning-1", @"Warning-2", nil];
-    
+
     [app.buttons[@"Type Error"] tap];
     [self assertTable:table, @"Debug-1", @"Debug-2", @"Warning-1", @"Warning-2", @"Error-1", @"Error-2", nil];
-    
+
     XCUIElement *filterSearchField = app.searchFields[@"Filter"];
     XCTAssertTrue(filterSearchField.exists);
-    
+
     [filterSearchField tap];
-    
+
     [self appDeleteText:app];
     [filterSearchField typeText:@"1"];
     [self assertTable:table, @"Debug-1", @"Warning-1", @"Error-1", nil];
-    
+
     [filterSearchField typeText:@"1"];
     [self assertTable:table, nil];
-    
+
     [self appDeleteChar:app];
     [self assertTable:table, @"Debug-1", @"Warning-1", @"Error-1", nil];
-    
+
     [self appDeleteChar:app];
     [self assertTable:table, @"Debug-1", @"Debug-2", @"Warning-1", @"Warning-2", @"Error-1", @"Error-2", nil];
-    
+
     XCTAssertFalse(filterSearchField.selected);
-    
+
     [filterSearchField tap];
     [filterSearchField typeText:@"2"];
     [self assertTable:table, @"Debug-2", @"Warning-2", @"Error-2", nil];
-    
+
     [filterSearchField typeText:@"2"];
     [self assertTable:table, nil];
-    
+
     [filterSearchField.buttons[@"Clear text"] tap];
     XCTAssertFalse(filterSearchField.selected);
-    
+
     [self assertTable:table, @"Debug-1", @"Debug-2", @"Warning-1", @"Warning-2", @"Error-1", @"Error-2", nil];
-    
+
     [filterSearchField tap];
     [app.buttons[@"Search"] tap];
     XCTAssertFalse(filterSearchField.selected);
@@ -134,7 +133,7 @@
 - (void)testCollapse
 {
     XCUIApplication *app = [[XCUIApplication alloc] init];
-    
+
     // add elements to console
     [self app:app logMessage:@"Debug" logType:LUConsoleLogTypeLog];
     [self app:app logMessage:@"Warning" logType:LUConsoleLogTypeWarning];
@@ -142,36 +141,34 @@
     [self app:app logMessage:@"Debug" logType:LUConsoleLogTypeLog];
     [self app:app logMessage:@"Warning" logType:LUConsoleLogTypeWarning];
     [self app:app logMessage:@"Error" logType:LUConsoleLogTypeError];
-    
+
     // present controller
     [app.buttons[@"Show Controller"] tap];
-    
+
     XCUIElement *table = GET_CONSOLE_TABLE(app);
-    XCTAssert(table.hittable);
-    
+
     // collapse elements
     XCUIElement *lunarConsoleIconButtonMoreButton = app.buttons[@"Console Button More"];
-    
+
     [lunarConsoleIconButtonMoreButton tap];
     [app.buttons[@"Collapse"] tap];
     [self assertTable:table, @"Debug@2", @"Warning@2", @"Error@2", nil];
-    
+
     // close controller
     [app.buttons[@"Console Close Button"] tap];
-    
+
     // re-open controller
     [app.buttons[@"Show Controller"] tap];
-    
+
     table = GET_CONSOLE_TABLE(app);
-    XCTAssert(table.hittable);
-    
+
     [self assertTable:table, @"Debug@2", @"Warning@2", @"Error@2", nil];
-    
+
     // expand elements
     lunarConsoleIconButtonMoreButton = app.buttons[@"Console Button More"];
-    
+
     [lunarConsoleIconButtonMoreButton tap];
-    
+
     [app.buttons[@"Expand"] tap];
     [self assertTable:table, @"Debug", @"Warning", @"Error", @"Debug", @"Warning", @"Error", nil];
 }
@@ -179,51 +176,49 @@
 - (void)testOverflow
 {
     XCUIApplication *app = [[XCUIApplication alloc] init];
-    
+
     [self app:app textField:@"Test Capacity Text" enterText:@"5"];
     [self app:app tapButton:@"Test Capacity Button"];
-    
+
     [self app:app textField:@"Test Trim Text" enterText:@"3"];
     [self app:app tapButton:@"Test Trim Button"];
-    
+
     // add elements to console
     [self app:app logMessage:@"Debug-1" logType:LUConsoleLogTypeLog];
     [self app:app logMessage:@"Warning-1" logType:LUConsoleLogTypeWarning];
     [self app:app logMessage:@"Error-1" logType:LUConsoleLogTypeError];
     [self app:app logMessage:@"Debug-2" logType:LUConsoleLogTypeLog];
     [self app:app logMessage:@"Warning-2" logType:LUConsoleLogTypeWarning];
-    
+
     // show controller
     [app.buttons[@"Show Controller"] tap];
-    
+
     // check table
     XCUIElement *table = GET_CONSOLE_TABLE(app);
-    XCTAssert(table.hittable);
-    
+
     [self assertTable:table, @"Debug-1", @"Warning-1", @"Error-1", @"Debug-2", @"Warning-2", nil];
-    
+
     // close controller
     [app.buttons[@"Console Close Button"] tap];
-    
+
     // make console overflow
     [self app:app logMessage:@"Error-2" logType:LUConsoleLogTypeError];
-    
+
     // show controller
     [app.buttons[@"Show Controller"] tap];
-    
+
     // check table
     table = GET_CONSOLE_TABLE(app);
-    XCTAssert(table.hittable);
-    
+
     [self assertTable:table, @"Debug-2", @"Warning-2", @"Error-2", nil];
-    
+
     // check overflow message
     XCUIElement *overflowWarningText = [app.staticTexts elementMatchingType:XCUIElementTypeStaticText
                                                                  identifier:@"Console Overflow Warning"];
-    
+
     XCTAssertTrue(overflowWarningText.hittable);
-    
-    
+
+
     NSString *warningMessage = [NSString stringWithFormat:@"Too much output: %d item(s) trimmed", 3];
     XCTAssertEqualObjects(overflowWarningText.label, warningMessage, @"Expected '%@' but was '%@'", warningMessage, overflowWarningText.label);
 }
@@ -237,43 +232,33 @@
     NSMutableArray *expectedCount = [[NSMutableArray alloc] init];
     va_list ap;
     va_start(ap, table);
-    
-    for (NSString *value = va_arg(ap, NSString *); value; value = va_arg(ap, NSString *))
-    {
+
+    for (NSString *value = va_arg(ap, NSString *); value; value = va_arg(ap, NSString *)) {
         NSRange atRange = [value rangeOfString:@"@"];
-        if (atRange.location != NSNotFound)
-        {
+        if (atRange.location != NSNotFound) {
             [expected addObject:[value substringToIndex:atRange.location]];
-            
+
             NSString *count = [value substringFromIndex:atRange.location + atRange.length];
             [expectedCount addObject:count];
-        }
-        else
-        {
+        } else {
             [expected addObject:value];
             [expectedCount addObject:@"0"];
         }
     }
-    
+
     va_end(ap);
-    
+
     XCUIElementQuery *cells = table.cells;
-    
+
     XCTAssertEqual(cells.count, expected.count);
-    for (int i = 0; i < cells.count; ++i)
-    {
+    for (int i = 0; i < cells.count; ++i) {
         XCUIElement *cell = [cells elementBoundByIndex:i];
         XCTAssert([expected[i] isEqualToString:cell.staticTexts[@"Log Message Label"].label]);
-        if ([expectedCount[i] isEqualToString:@"0"])
-        {
+        if ([expectedCount[i] isEqualToString:@"0"]) {
             XCTAssertFalse(cell.staticTexts[@"Log Collapse Label"].exists);
-        }
-        else if ([expectedCount[i] isEqualToString:@"1"])
-        {
+        } else if ([expectedCount[i] isEqualToString:@"1"]) {
             XCTAssertFalse(cell.staticTexts[@"Log Collapse Label"].hittable);
-        }
-        else
-        {
+        } else {
             XCTAssertTrue(cell.staticTexts[@"Log Collapse Label"].hittable);
             XCTAssert([expectedCount[i] isEqualToString:cell.staticTexts[@"Log Collapse Label"].label]);
         }
@@ -290,30 +275,18 @@
 
 - (void)app:(XCUIApplication *)app logMessage:(NSString *)message logType:(LUConsoleLogType)logType count:(NSInteger)count
 {
-    [self app:app textField:@"Test Message Text" enterText:message];
+    NSMutableArray *messages = [NSMutableArray new];
+    while (count > 0) {
+        [messages addObject:@{
+            @"message" : message,
+            @"type" : [NSNumber numberWithInteger:logType],
+            @"stacktrace" : @""
+        }];
+        count--;
+    }
 
-    NSString *button = @"Debug";
-    
-    switch (logType)
-    {
-        case LUConsoleLogTypeAssert:
-        case LUConsoleLogTypeError:
-        case LUConsoleLogTypeException:
-            button = @"Error";
-            break;
-            
-        case LUConsoleLogTypeWarning:
-            button = @"Warning";
-            break;
-            
-        default:
-            break;
-    }
-    
-    for (NSInteger i = 0; i < count; ++i)
-    {
-        [app.buttons[button] tap];
-    }
+    NSDictionary *payload = @{ @"messages" : messages };
+    [self app:app runCommandName:@"log_messages" payload:payload];
 }
 
 @end

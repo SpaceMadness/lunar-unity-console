@@ -308,12 +308,24 @@ extension ViewController: NetPeerDelegate {
     
     func createCommandLookup() -> Dictionary<String, (_ jsonObj: Dictionary<String, Any>) -> Void> {
         var dict = Dictionary<String, (_ jsonObj: Dictionary<String, Any>) -> Void>()
+		dict["log_messages"] = onLogMessages
         dict["add_actions"] = onAddActions
         dict["remove_actions"] = onRemoveActions
         dict["register_variable"] = onRegisterVariable
         dict["update_variable"] = onUpdateVariable
         return dict
     }
+	
+	func onLogMessages(jsonDict: Dictionary<String, Any>) {
+		let messages = jsonDict["messages"] as! Array<Dictionary<String, Any>>
+		for m in messages {
+			let message = m["message"] as! String
+			let stackTrace = m["stacktrace"] as? String
+			let type = LUConsoleLogType(rawValue: (m["type"] as! NSNumber).uint8Value)
+			
+			plugin.logMessage(message, stackTrace: stackTrace, type: type)
+		}
+	}
     
     func onAddActions(jsonDict: Dictionary<String, Any>) {
         let actions = jsonDict["actions"] as! Array<Dictionary<String, Any>>
