@@ -545,7 +545,7 @@ namespace LunarConsolePlugin
                                 var cvar = m_registry.FindVariable(name);
                                 if (cvar == null)
                                 {
-                                    Log.w("Ignoring variable '%s'", name);
+                                    Log.w("Variable '{0}' not registered. Ignoring...", name);
                                     continue;
                                 }
 
