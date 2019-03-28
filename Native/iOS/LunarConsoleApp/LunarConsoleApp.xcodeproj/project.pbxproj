@@ -769,19 +769,21 @@
 				ORGANIZATIONNAME = "Space Madness";
 				TargetAttributes = {
 					4DD4F9C71DFB8E5600032A29 = {
-						DevelopmentTeam = 94Z94R59HQ;
+						DevelopmentTeam = QKXHZM7Z5V;
 					};
 					844741E71B719DA500F5ABD3 = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = 94Z94R59HQ;
+						DevelopmentTeam = QKXHZM7Z5V;
 						LastSwiftMigration = 0810;
 					};
 					844742001B719DA500F5ABD3 = {
 						CreatedOnToolsVersion = 6.4;
+						DevelopmentTeam = QKXHZM7Z5V;
 						TestTargetID = 844741E71B719DA500F5ABD3;
 					};
 					EF81892D1BE16844008FFCB9 = {
 						CreatedOnToolsVersion = 7.1;
+						DevelopmentTeam = QKXHZM7Z5V;
 						LastSwiftMigration = 0810;
 						TestTargetID = 844741E71B719DA500F5ABD3;
 					};
@@ -1269,7 +1271,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				DEVELOPMENT_TEAM = 94Z94R59HQ;
+				DEVELOPMENT_TEAM = QKXHZM7Z5V;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"COCOAPODS=1",
@@ -1293,7 +1295,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				DEVELOPMENT_TEAM = 94Z94R59HQ;
+				DEVELOPMENT_TEAM = QKXHZM7Z5V;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"COCOAPODS=1",
@@ -1406,7 +1408,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				DEVELOPMENT_TEAM = 94Z94R59HQ;
+				DEVELOPMENT_TEAM = QKXHZM7Z5V;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"COCOAPODS=1",
@@ -1430,7 +1432,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				DEVELOPMENT_TEAM = 94Z94R59HQ;
+				DEVELOPMENT_TEAM = QKXHZM7Z5V;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"COCOAPODS=1",
@@ -1452,6 +1454,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = QKXHZM7Z5V;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -1474,6 +1477,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				DEVELOPMENT_TEAM = QKXHZM7Z5V;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(inherited)",
@@ -1494,6 +1498,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = QKXHZM7Z5V;
 				ENABLE_TESTABILITY = YES;
 				INFOPLIST_FILE = LunarConsoleAppUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
@@ -1516,6 +1521,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				DEVELOPMENT_TEAM = QKXHZM7Z5V;
 				INFOPLIST_FILE = LunarConsoleAppUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
