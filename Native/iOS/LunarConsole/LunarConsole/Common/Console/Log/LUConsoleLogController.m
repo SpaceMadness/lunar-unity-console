@@ -40,20 +40,18 @@ static const CGFloat kMinWidthToResizeSearchBar = 480;
 
 @property (weak, nonatomic, readonly) LUConsole * console;
 
-@property (nonatomic, weak) IBOutlet UILabel * statusBarView;
+@property (nonatomic, weak) IBOutlet UILabel * statusBar;
 @property (nonatomic, weak) IBOutlet UILabel * overflowWarningLabel;
 
 @property (nonatomic, weak) IBOutlet LUTableView * tableView;
 @property (nonatomic, weak) IBOutlet UISearchBar * filterBar;
+@property (nonatomic, weak) IBOutlet UIView      * controlButtonsView;
 
 @property (nonatomic, weak) IBOutlet LUConsoleLogTypeButton * logButton;
 @property (nonatomic, weak) IBOutlet LUConsoleLogTypeButton * warningButton;
 @property (nonatomic, weak) IBOutlet LUConsoleLogTypeButton * errorButton;
 
 @property (nonatomic, weak) IBOutlet LUToggleButton * scrollLockButton;
-
-@property (nonatomic, weak) IBOutlet NSLayoutConstraint * lastToolbarButtonTrailingConstraintCompact;
-@property (nonatomic, weak) IBOutlet NSLayoutConstraint * overflowLabelHeightConstraint;
 
 @property (nonatomic, assign) BOOL scrollLocked;
 
@@ -108,10 +106,10 @@ static const CGFloat kMinWidthToResizeSearchBar = 480;
     
     // title
     self.title = @"Logs";
-    
-    // background
+	
+	// background
     self.view.opaque = YES;
-    self.view.backgroundColor = theme.tableColor;
+    self.view.backgroundColor = theme.statusBarColor;
     
     // table view
     _tableView.touchDelegate = self;
@@ -120,9 +118,11 @@ static const CGFloat kMinWidthToResizeSearchBar = 480;
     // "status bar" view
     UITapGestureRecognizer *statusBarTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                                     action:@selector(onStatusBarTap:)];
-    [_statusBarView addGestureRecognizer:statusBarTapGestureRecognizer];
-    
-    _statusBarView.text = [NSString stringWithFormat:@"Lunar Console v%@", _version ? _version : @"?.?.?"];
+    [_statusBar addGestureRecognizer:statusBarTapGestureRecognizer];
+	
+	self.statusBar.backgroundColor = theme.statusBarColor;
+	self.statusBar.textColor = theme.statusBarTextColor;
+    self.statusBar.text = [NSString stringWithFormat:@"Lunar Console v%@", _version ? _version : @"?.?.?"];
     
     // log type buttons
     _logButton.on = ![self.console.entries isFilterLogTypeEnabled:LUConsoleLogTypeLog];
@@ -133,9 +133,13 @@ static const CGFloat kMinWidthToResizeSearchBar = 480;
     
     _errorButton.on = ![self.console.entries isFilterLogTypeEnabled:LUConsoleLogTypeError];
     _errorButton.delegate = self;
-    
+	
+	// control buttons
+	self.controlButtonsView.backgroundColor = theme.tableColor;
+	
     // filter text
-    _filterBar.text = self.console.entries.filterText;
+    self.filterBar.text = self.console.entries.filterText;
+	self.filterBar.delegate = self;
     
     // log entries count
     [self updateEntriesCount];
@@ -498,35 +502,36 @@ static const CGFloat kMinWidthToResizeSearchBar = 480;
 {
     [searchBar setShowsCancelButton:YES animated:YES];
     
-    if (CGRectGetWidth(self.view.bounds) < kMinWidthToResizeSearchBar)
-    {
-        NSLayoutConstraint *constraint = self.lastToolbarButtonTrailingConstraintCompact;
-        CGFloat offset = CGRectGetWidth(self.view.bounds) - CGRectGetWidth(self.filterBar.bounds);
-        constraint.constant = -offset;
-        
-        [UIView animateWithDuration:0.4 animations:^{
-            [self.view layoutIfNeeded];
-        }];
+    if (CGRectGetWidth(self.view.bounds) < kMinWidthToResizeSearchBar) {
+		[self setLogButtonsVisible:NO animated:YES];
     }
     
     return YES;
 }
 
-- (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar
-{
+- (BOOL)searchBarShouldEndEditing:(UISearchBar *)searchBar {
     [searchBar setShowsCancelButton:NO animated:YES];
     
-    if (CGRectGetWidth(self.view.bounds) < kMinWidthToResizeSearchBar)
-    {
-        NSLayoutConstraint *constraint = self.lastToolbarButtonTrailingConstraintCompact;
-        constraint.constant = 0;
-        
-        [UIView animateWithDuration:0.4 animations:^{
-            [self.view layoutIfNeeded];
-        }];
+    if (CGRectGetWidth(self.view.bounds) < kMinWidthToResizeSearchBar) {
+		[self setLogButtonsVisible:YES animated:YES];
     }
     
     return YES;
+}
+
+- (void)setLogButtonsVisible:(BOOL)visible animated:(BOOL)animated {
+	NSArray *buttons = @[self.logButton, self.errorButton, self.warningButton];
+	if (animated) {
+		[UIView animateWithDuration:0.4 animations:^{
+			for (UIView *button in buttons) {
+				button.hidden = !visible;
+			}
+		}];
+	} else {
+		for (UIView *button in buttons) {
+			button.hidden = !visible;
+		}
+	}
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
@@ -664,25 +669,16 @@ static const CGFloat kMinWidthToResizeSearchBar = 480;
 
 - (void)showOverflowCount:(NSUInteger)count
 {
-    if (_overflowLabelHeightConstraint.constant == 0)
-    {
-        _overflowLabelHeightConstraint.constant = 20;
-        [self.view layoutIfNeeded];
-    }
-    
     NSString *text = count > 999 ? @"Too much output: 999+ items trimmed" :
     [NSString stringWithFormat:@"Too much output: %d item(s) trimmed", (int)count];
     
-    _overflowWarningLabel.text = text;
+    self.overflowWarningLabel.text = text;
+	self.overflowWarningLabel.hidden = NO;
 }
 
 - (void)hideOverflowCount
 {
-    if (_overflowLabelHeightConstraint.constant > 0)
-    {
-        _overflowLabelHeightConstraint.constant = 0;
-        [self.view layoutIfNeeded];
-    }
+	self.overflowWarningLabel.hidden = YES;
 }
 
 #pragma mark -

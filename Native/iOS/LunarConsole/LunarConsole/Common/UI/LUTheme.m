@@ -27,6 +27,9 @@ static LUTheme * _mainTheme;
 
 @interface LUTheme ()
 
+@property (nonatomic, strong) UIColor *statusBarColor;
+@property (nonatomic, strong) UIColor *statusBarTextColor;
+
 @property (nonatomic, strong) UIColor *tableColor;
 @property (nonatomic, strong) UIColor *logButtonTitleColor;
 @property (nonatomic, strong) UIColor *logButtonTitleSelectedColor;
@@ -167,6 +170,8 @@ static UIImage * CreateCollapseBackgroundImage()
         cellWarning.overlayTextColor = LUColorMake(0xf4f600);
         
         _mainTheme = [LUTheme new];
+		_mainTheme.statusBarColor = [UIColor blackColor];
+		_mainTheme.statusBarTextColor = [UIColor whiteColor];
         _mainTheme.tableColor = LUColorMake(0x2c2c27);
         _mainTheme.logButtonTitleColor = LUColorMake(0xb1b1b1);
         _mainTheme.logButtonTitleSelectedColor = LUColorMake(0x595959);

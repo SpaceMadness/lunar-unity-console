@@ -45,6 +45,9 @@
 
 @interface LUTheme : NSObject
 
+@property (nonatomic, readonly) UIColor *statusBarColor;
+@property (nonatomic, readonly) UIColor *statusBarTextColor;
+
 @property (nonatomic, readonly) UIColor *tableColor;
 @property (nonatomic, readonly) UIColor *logButtonTitleColor;
 @property (nonatomic, readonly) UIColor *logButtonTitleSelectedColor;

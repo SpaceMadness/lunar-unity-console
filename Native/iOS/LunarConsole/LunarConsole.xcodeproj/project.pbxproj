@@ -134,6 +134,8 @@
 		EF30B272223C7C1900898849 /* editor-settings.json in Resources */ = {isa = PBXBuildFile; fileRef = EF30B271223C7C1900898849 /* editor-settings.json */; };
 		EF30B2842245913900898849 /* LUEnumPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF30B2822245913900898849 /* LUEnumPickerViewController.m */; };
 		EF30B2852245913900898849 /* LUEnumPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF30B2822245913900898849 /* LUEnumPickerViewController.m */; };
+		EF35AAD8224C495D00267126 /* LUStackView.m in Sources */ = {isa = PBXBuildFile; fileRef = EF35AAD7224C495D00267126 /* LUStackView.m */; };
+		EF35AAD9224C495D00267126 /* LUStackView.m in Sources */ = {isa = PBXBuildFile; fileRef = EF35AAD7224C495D00267126 /* LUStackView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -287,7 +289,6 @@
 		4DD4FB2E1DFB932B00032A29 /* LUEntryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUEntryTableViewCell.m; sourceTree = "<group>"; };
 		4DD4FB301DFB932B00032A29 /* LUConsoleLogController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUConsoleLogController.h; sourceTree = "<group>"; };
 		4DD4FB311DFB932B00032A29 /* LUConsoleLogController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = LUConsoleLogController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
-		4DD4FB321DFB932B00032A29 /* LUConsoleLogController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LUConsoleLogController.xib; sourceTree = "<group>"; };
 		4DD4FB331DFB932B00032A29 /* LUConsoleLogDetailsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUConsoleLogDetailsController.h; sourceTree = "<group>"; };
 		4DD4FB341DFB932B00032A29 /* LUConsoleLogDetailsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUConsoleLogDetailsController.m; sourceTree = "<group>"; };
 		4DD4FB351DFB932B00032A29 /* LUConsoleLogDetailsController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LUConsoleLogDetailsController.xib; sourceTree = "<group>"; };
@@ -401,6 +402,9 @@
 		EF30B2812245913900898849 /* LUEnumPickerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LUEnumPickerViewController.h; sourceTree = "<group>"; };
 		EF30B2822245913900898849 /* LUEnumPickerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LUEnumPickerViewController.m; sourceTree = "<group>"; };
 		EF30B286224591EB00898849 /* LUEnumPickerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LUEnumPickerViewController.xib; sourceTree = "<group>"; };
+		EF35AAD5224C3BCA00267126 /* LUConsoleLogController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LUConsoleLogController.xib; sourceTree = "<group>"; };
+		EF35AAD6224C495D00267126 /* LUStackView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LUStackView.h; sourceTree = "<group>"; };
+		EF35AAD7224C495D00267126 /* LUStackView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LUStackView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -715,7 +719,7 @@
 			children = (
 				4DD4FB301DFB932B00032A29 /* LUConsoleLogController.h */,
 				4DD4FB311DFB932B00032A29 /* LUConsoleLogController.m */,
-				4DD4FB321DFB932B00032A29 /* LUConsoleLogController.xib */,
+				EF35AAD5224C3BCA00267126 /* LUConsoleLogController.xib */,
 				4DD4FB331DFB932B00032A29 /* LUConsoleLogDetailsController.h */,
 				4DD4FB341DFB932B00032A29 /* LUConsoleLogDetailsController.m */,
 				4DD4FB351DFB932B00032A29 /* LUConsoleLogDetailsController.xib */,
@@ -820,6 +824,8 @@
 				4DD4FBA31DFB932B00032A29 /* LUPassTouchView.m */,
 				4D02A82E1E5940C2009F4998 /* LUSlider.h */,
 				4D02A82F1E5940C2009F4998 /* LUSlider.m */,
+				EF35AAD6224C495D00267126 /* LUStackView.h */,
+				EF35AAD7224C495D00267126 /* LUStackView.m */,
 				4DD4FBA41DFB932B00032A29 /* LUSwitch.h */,
 				4DD4FBA51DFB932B00032A29 /* LUSwitch.m */,
 				4DD4FBA61DFB932B00032A29 /* LUTableView.h */,
@@ -1093,6 +1099,7 @@
 				4DD4FBFE1DFB932C00032A29 /* LUSwitch.m in Sources */,
 				4DD4FC201DFB932C00032A29 /* LUStringUtils.m in Sources */,
 				4DD4FBEE1DFB932C00032A29 /* LUConsolePopupController.m in Sources */,
+				EF35AAD9224C495D00267126 /* LUStackView.m in Sources */,
 				4DD4FC001DFB932C00032A29 /* LUTableView.m in Sources */,
 				4DD4FC141DFB932C00032A29 /* LUMutableArray.m in Sources */,
 				4DBF29331E624EDA006E2C8A /* LUCVar.m in Sources */,
@@ -1123,6 +1130,7 @@
 				4DD4FBCD1DFB932B00032A29 /* LUEntry.m in Sources */,
 				4DE389EA1DFCAC0E003A2B6B /* LUNotificationCenter.m in Sources */,
 				4DD4FC171DFB932C00032A29 /* LUSerializableObject.m in Sources */,
+				EF35AAD8224C495D00267126 /* LUStackView.m in Sources */,
 				EF30B268223C65F700898849 /* LUPluginSettings.m in Sources */,
 				4D02A7B91E496C93009F4998 /* LUCVarFactory.m in Sources */,
 				4DD4FBFB1DFB932C00032A29 /* LUPassTouchView.m in Sources */,
