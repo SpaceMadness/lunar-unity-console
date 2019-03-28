@@ -200,11 +200,23 @@ static id<LUTextFieldInputValidator> _floatValidator;
     [super viewDidLoad];
 
     LUTheme *theme = [LUTheme mainTheme];
-    _tableView.backgroundColor = theme.tableColor;
-    _tableView.rowHeight = 43;
+    self.tableView.backgroundColor = theme.tableColor;
 
     self.popupTitle = @"Settings";
     self.popupIcon = theme.settingsIconImage;
+}
+
+- (CGSize)preferredPopupSize
+{
+	const CGFloat rowHeight = 44;
+	const CGFloat headerHeight = 28;
+	
+	CGFloat height = _sections.count * headerHeight;
+	for (LUConsoleSettingsSection *section in _sections) {
+		height += section.entries.count * rowHeight;
+	}
+	
+	return CGSizeMake(0, height);
 }
 
 #pragma mark -

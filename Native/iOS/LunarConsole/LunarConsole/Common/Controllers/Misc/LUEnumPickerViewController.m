@@ -45,7 +45,7 @@
 
 - (CGSize)preferredPopupSize
 {
-    CGFloat rowHeight = self.tableView.rowHeight;
+    CGFloat rowHeight = 44.0;
     CGFloat height = MIN(self.values.count * rowHeight, 320);
     return CGSizeMake(0, height);
 }
