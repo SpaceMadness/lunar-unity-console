@@ -181,7 +181,7 @@
                                         <action selector="onSettings:" destination="-1" eventType="touchUpInside" id="ooy-TM-ULq"/>
                                     </connections>
                                 </button>
-                                <view autoresizesSubviews="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uT1-JG-8gt">
+                                <view autoresizesSubviews="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uT1-JG-8gt" userLabel="Spacer">
                                     <rect key="frame" x="270" y="0.0" width="105" height="46"/>
                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </view>
