@@ -7,10 +7,12 @@
 //
 
 #import "LUEnumPickerViewController.h"
+#import "LUTheme.h"
 
 @interface LUEnumPickerViewController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (nonatomic, weak) IBOutlet UITableView *tableView;
+
 @property (nonatomic, strong) NSArray<NSString *> *values;
 @property (nonatomic, assign) NSUInteger selectedIndex;
 
@@ -32,6 +34,15 @@
     return self;
 }
 
+- (void)viewDidLoad
+{
+	[super viewDidLoad];
+	
+	self.tableView.dataSource = self;
+	self.tableView.delegate = self;
+	self.tableView.backgroundColor = [LUTheme mainTheme].tableColor;
+}
+
 - (CGSize)preferredPopupSize
 {
     CGFloat rowHeight = self.tableView.rowHeight;
@@ -49,7 +60,6 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
     static NSString *const kCellIdentifier = @"CellIdentifier";
 
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:kCellIdentifier];
@@ -62,6 +72,13 @@
     if (index == _selectedIndex) {
         cell.accessoryType = UITableViewCellAccessoryCheckmark;
     }
+	
+	LUTheme *theme = [LUTheme mainTheme];
+	UIColor *backgroundColor = index % 2 == 0 ? theme.actionsBackgroundColorDark : theme.actionsBackgroundColorLight;
+	cell.contentView.superview.backgroundColor = backgroundColor;
+	cell.textLabel.font = theme.actionsFont;
+	cell.textLabel.textColor = theme.actionsTextColor;
+	cell.selectedBackgroundView.backgroundColor = [UIColor blackColor];
 
     return cell;
 }
