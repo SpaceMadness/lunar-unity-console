@@ -339,8 +339,7 @@ static const NSInteger kSectionCount = 2;
 
 - (void)setNoActionsWarningViewHidden:(BOOL)hidden
 {
-    self.tableView.hidden = !hidden;
-    self.filterBar.hidden = !hidden;
+    self.actionsView.hidden = !hidden;
     self.noActionsWarningView.hidden = hidden;
 }
 

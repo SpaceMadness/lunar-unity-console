@@ -25,6 +25,7 @@
 
 @property (nonatomic, weak) IBOutlet UIView       * noActionsWarningView;
 @property (nonatomic, weak) IBOutlet UILabel      * noActionsWarningLabel;
+@property (nonatomic, weak) IBOutlet UIView       * actionsView;
 @property (nonatomic, weak) IBOutlet UITableView  * tableView;
 @property (nonatomic, weak) IBOutlet UISearchBar  * filterBar;
 @property (nonatomic, weak) IBOutlet UIButton     * learnMoreButton;

@@ -12,6 +12,7 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LUActionController">
             <connections>
+                <outlet property="actionsView" destination="w8d-Hz-LoQ" id="7hk-G7-eOv"/>
                 <outlet property="filterBar" destination="vKS-zo-ZIz" id="MiC-f4-m7a"/>
                 <outlet property="learnMoreButton" destination="Aa5-oX-X6k" id="6ia-Vi-ozx"/>
                 <outlet property="noActionsWarningLabel" destination="b9E-cA-rdH" id="Nnx-sB-1Iw"/>
@@ -25,20 +26,29 @@
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
+                <label contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Actions &amp; Variables" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ouu-Ne-nFv" userLabel="Title Bar">
+                    <rect key="frame" x="0.0" y="20" width="375" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="20" id="pgQ-Me-QmY"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kwy-j4-dCD" userLabel="No Actions Warning View">
-                    <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                    <rect key="frame" x="0.0" y="40" width="375" height="627"/>
                     <subviews>
                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lunar_console_actions_empty_warning" translatesAutoresizingMaskIntoConstraints="NO" id="dGG-61-ZsJ" userLabel="No Actions Icon">
-                            <rect key="frame" x="163.5" y="299.5" width="48" height="48"/>
+                            <rect key="frame" x="163.5" y="289.5" width="48" height="48"/>
                         </imageView>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Warning" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b9E-cA-rdH">
-                            <rect key="frame" x="20" y="355.5" width="335" height="20.5"/>
+                            <rect key="frame" x="20" y="345.5" width="335" height="20.5"/>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                             <nil key="highlightedColor"/>
                         </label>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Aa5-oX-X6k" userLabel="&quot;Learn More...&quot; Button">
-                            <rect key="frame" x="142" y="609" width="91" height="30"/>
+                            <rect key="frame" x="142" y="589" width="91" height="30"/>
                             <state key="normal" title="Learn More..."/>
                             <connections>
                                 <action selector="onInfoButton:" destination="-1" eventType="touchUpInside" id="g7M-tQ-K4H"/>
@@ -57,19 +67,10 @@
                     </constraints>
                 </view>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="w8d-Hz-LoQ">
-                    <rect key="frame" x="0.0" y="20" width="375" height="603"/>
+                    <rect key="frame" x="0.0" y="40" width="375" height="583"/>
                     <subviews>
-                        <label contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Actions &amp; Variables" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ouu-Ne-nFv" userLabel="Title Bar">
-                            <rect key="frame" x="0.0" y="0.0" width="375" height="20"/>
-                            <constraints>
-                                <constraint firstAttribute="height" constant="20" id="pgQ-Me-QmY"/>
-                            </constraints>
-                            <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
-                            <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <nil key="highlightedColor"/>
-                        </label>
                         <searchBar contentMode="redraw" barStyle="black" placeholder="Filter" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vKS-zo-ZIz">
-                            <rect key="frame" x="0.0" y="20" width="375" height="56"/>
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="56"/>
                             <constraints>
                                 <constraint firstAttribute="height" constant="56" id="Z1T-w0-kvT"/>
                             </constraints>
@@ -77,7 +78,7 @@
                             <textInputTraits key="textInputTraits"/>
                         </searchBar>
                         <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="fve-SL-Ifu" customClass="LUTableView">
-                            <rect key="frame" x="0.0" y="76" width="375" height="527"/>
+                            <rect key="frame" x="0.0" y="56" width="375" height="527"/>
                             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </tableView>
                     </subviews>
@@ -86,13 +87,16 @@
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="Kwy-j4-dCD" firstAttribute="trailing" secondItem="tx5-Mv-QOc" secondAttribute="trailing" id="6Oj-iq-Unw"/>
+                <constraint firstItem="Ouu-Ne-nFv" firstAttribute="top" secondItem="tx5-Mv-QOc" secondAttribute="top" id="9XO-iH-4KI"/>
                 <constraint firstItem="w8d-Hz-LoQ" firstAttribute="bottom" secondItem="tx5-Mv-QOc" secondAttribute="bottom" constant="-44" id="ARf-Cr-UJK"/>
                 <constraint firstItem="Kwy-j4-dCD" firstAttribute="bottom" secondItem="tx5-Mv-QOc" secondAttribute="bottom" id="HzQ-hA-Aq2"/>
-                <constraint firstItem="w8d-Hz-LoQ" firstAttribute="top" secondItem="tx5-Mv-QOc" secondAttribute="top" id="Spv-Qv-bSu"/>
+                <constraint firstItem="Ouu-Ne-nFv" firstAttribute="leading" secondItem="tx5-Mv-QOc" secondAttribute="leading" id="Jvh-Eb-IkL"/>
+                <constraint firstItem="Ouu-Ne-nFv" firstAttribute="trailing" secondItem="tx5-Mv-QOc" secondAttribute="trailing" id="SJq-WW-Z4h"/>
+                <constraint firstItem="w8d-Hz-LoQ" firstAttribute="top" secondItem="Ouu-Ne-nFv" secondAttribute="bottom" id="Spv-Qv-bSu"/>
                 <constraint firstItem="w8d-Hz-LoQ" firstAttribute="leading" secondItem="tx5-Mv-QOc" secondAttribute="leading" id="Ztx-PT-D14"/>
                 <constraint firstItem="w8d-Hz-LoQ" firstAttribute="trailing" secondItem="tx5-Mv-QOc" secondAttribute="trailing" id="aQz-fF-7Xh"/>
                 <constraint firstItem="Kwy-j4-dCD" firstAttribute="leading" secondItem="tx5-Mv-QOc" secondAttribute="leading" id="phh-2M-omj"/>
-                <constraint firstItem="Kwy-j4-dCD" firstAttribute="top" secondItem="tx5-Mv-QOc" secondAttribute="top" id="vos-3R-ZUX"/>
+                <constraint firstItem="Kwy-j4-dCD" firstAttribute="top" secondItem="Ouu-Ne-nFv" secondAttribute="bottom" id="vos-3R-ZUX"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <viewLayoutGuide key="safeArea" id="tx5-Mv-QOc"/>
