@@ -58,7 +58,6 @@ NSString * const LUConsoleControllerDidResizeNotification = @"LUConsoleControlle
         [LUConsoleLogTypeButton class];
         [LUSlider class];
 		[LUSwitch class];
-		[LUStackView class];
         [LUTableView class];
         [LUPassTouchView class];
         [LUTextField class];
@@ -79,15 +78,18 @@ NSString * const LUConsoleControllerDidResizeNotification = @"LUConsoleControlle
     return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
     [self unregisterNotifications];
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
-    
+	
+	// background
+	self.view.opaque = YES;
+	self.view.backgroundColor = [LUTheme mainTheme].statusBarColor;
+	
+	// controllers
     LUConsoleLogController *logController = [LUConsoleLogController controllerWithPlugin:_plugin];
     logController.version = _plugin.version;
     logController.emails = _emails;
@@ -99,8 +101,7 @@ NSString * const LUConsoleControllerDidResizeNotification = @"LUConsoleControlle
     [self setPageControllers:_pageControllers];
     
     // notify delegate
-    if ([_delegate respondsToSelector:@selector(consoleControllerDidOpen:)])
-    {
+    if ([_delegate respondsToSelector:@selector(consoleControllerDidOpen:)]) {
         [_delegate consoleControllerDidOpen:self];
     }
     
@@ -110,8 +111,7 @@ NSString * const LUConsoleControllerDidResizeNotification = @"LUConsoleControlle
     [self registerNotifications];
 }
 
-- (void)viewDidLayoutSubviews
-{
+- (void)viewDidLayoutSubviews {
     [super viewDidLayoutSubviews];
     
     // set paging
@@ -125,8 +125,7 @@ NSString * const LUConsoleControllerDidResizeNotification = @"LUConsoleControlle
     }
 }
 
-- (void)setPageControllers:(NSArray<UIViewController *> *)controllers
-{
+- (void)setPageControllers:(NSArray<UIViewController *> *)controllers {
     NSMutableArray *constraints = [NSMutableArray new];
     
     for (NSUInteger idx = 0; idx < controllers.count; ++idx)
@@ -223,8 +222,7 @@ NSString * const LUConsoleControllerDidResizeNotification = @"LUConsoleControlle
 #pragma mark -
 #pragma mark Notifications
 
-- (void)registerNotifications
-{
+- (void)registerNotifications {
     [LUNotificationCenter addObserver:self
                              selector:@selector(consolePopupControllerWillAppearNotification:)
                                  name:LUConsolePopupControllerWillAppearNotification
@@ -236,31 +234,26 @@ NSString * const LUConsoleControllerDidResizeNotification = @"LUConsoleControlle
                                object:nil];
 }
 
-- (void)unregisterNotifications
-{
+- (void)unregisterNotifications {
     [LUNotificationCenter removeObserver:self];
 }
 
-- (void)consolePopupControllerWillAppearNotification:(NSNotification *)notification
-{
+- (void)consolePopupControllerWillAppearNotification:(NSNotification *)notification {
     self.scrollEnabled = NO;
 }
 
-- (void)consolePopupControllerWillDisappearNotification:(NSNotification *)notification
-{
+- (void)consolePopupControllerWillDisappearNotification:(NSNotification *)notification {
     self.scrollEnabled = YES;
 }
 
 #pragma mark -
 #pragma mark Helpers
 
-- (void)setContentHidden:(BOOL)hidden
-{
+- (void)setContentHidden:(BOOL)hidden {
     self.contentView.hidden = hidden;
 }
 
-- (void)setControllerFrame:(CGRect)frame
-{
+- (void)setControllerFrame:(CGRect)frame {
     self.contentTopConstraint.constant = CGRectGetMinY(frame);
     self.contentBottomConstraint.constant = frame.size.height;
     self.contentLeadingConstraint.constant = CGRectGetMinX(frame);
@@ -271,8 +264,7 @@ NSString * const LUConsoleControllerDidResizeNotification = @"LUConsoleControlle
 #pragma mark -
 #pragma mark Actions
 
-- (IBAction)onClose:(id)sender
-{
+- (IBAction)onClose:(id)sender {
     if ([_delegate respondsToSelector:@selector(consoleControllerDidClose:)])
     {
         [_delegate consoleControllerDidClose:self];
@@ -282,8 +274,7 @@ NSString * const LUConsoleControllerDidResizeNotification = @"LUConsoleControlle
 #pragma mark -
 #pragma mark LUConsoleLogControllerResizeDelegate
 
-- (void)consoleLogControllerDidRequestResize:(LUConsoleLogController *)controller
-{
+- (void)consoleLogControllerDidRequestResize:(LUConsoleLogController *)controller {
     [self setContentHidden:YES];
     
     LUConsoleResizeController *resizeController = [LUConsoleResizeController new];
@@ -294,8 +285,7 @@ NSString * const LUConsoleControllerDidResizeNotification = @"LUConsoleControlle
 #pragma mark -
 #pragma mark LUConsoleResizeControllerDelegate
 
-- (void)consoleResizeControllerDidClose:(LUConsoleResizeController *)controller
-{
+- (void)consoleResizeControllerDidClose:(LUConsoleResizeController *)controller {
     CGRect frame = controller.view.frame;
     
     [self removeChildController:controller];
@@ -316,13 +306,11 @@ NSString * const LUConsoleControllerDidResizeNotification = @"LUConsoleControlle
 #pragma mark -
 #pragma mark Properties
 
-- (BOOL)scrollEnabled
-{
+- (BOOL)scrollEnabled {
     return _scrollView.scrollEnabled;
 }
 
-- (void)setScrollEnabled:(BOOL)scrollEnabled
-{
+- (void)setScrollEnabled:(BOOL)scrollEnabled {
     _scrollView.scrollEnabled = scrollEnabled;
 }
 
@@ -333,8 +321,7 @@ NSString * const LUConsoleControllerDidResizeNotification = @"LUConsoleControlle
 #pragma mark -
 #pragma mark Loading
 
-+ (void)initialize
-{
++ (void)initialize {
     if ([self class] == [LUConsoleControllerState class])
     {
         [self setVersion:1];
@@ -344,8 +331,7 @@ NSString * const LUConsoleControllerDidResizeNotification = @"LUConsoleControlle
 #pragma mark -
 #pragma mark Inheritance
 
-- (void)initDefaults
-{
+- (void)initDefaults {
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
     {
         _hasCustomControllerFrame = YES;
@@ -361,14 +347,12 @@ NSString * const LUConsoleControllerDidResizeNotification = @"LUConsoleControlle
     }
 }
 
-- (void)serializeWithCoder:(NSCoder *)coder
-{
+- (void)serializeWithCoder:(NSCoder *)coder {
     [coder encodeBool:_hasCustomControllerFrame forKey:@"hasCustomControllerFrame"];
     [coder encodeCGRect:_controllerFrame forKey:@"controllerFrame"];
 }
 
-- (void)deserializeWithDecoder:(NSCoder *)decoder
-{
+- (void)deserializeWithDecoder:(NSCoder *)decoder {
     _hasCustomControllerFrame = [decoder decodeBoolForKey:@"hasCustomControllerFrame"];
     if (_hasCustomControllerFrame)
     {
@@ -379,8 +363,7 @@ NSString * const LUConsoleControllerDidResizeNotification = @"LUConsoleControlle
 #pragma mark -
 #pragma mark Properties
 
-- (void)setControllerFrame:(CGRect)controllerFrame
-{
+- (void)setControllerFrame:(CGRect)controllerFrame {
     _hasCustomControllerFrame = YES;
     _controllerFrame = controllerFrame;
     

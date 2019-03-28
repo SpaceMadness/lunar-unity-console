@@ -12,7 +12,6 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LUConsoleLogController">
             <connections>
-                <outlet property="controlButtonsView" destination="FZL-vr-f2I" id="H8A-R2-c8B"/>
                 <outlet property="errorButton" destination="rVm-6B-7Pn" id="Xs1-38-vst"/>
                 <outlet property="filterBar" destination="tyr-JS-aHW" id="hxF-Cg-ELY"/>
                 <outlet property="logButton" destination="606-se-Duv" id="xmt-KW-Gx5"/>
@@ -116,7 +115,7 @@
                             <color key="textColor" red="0.73257553580000001" green="0.73255372050000001" blue="0.73256611819999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <stackView contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="FZL-vr-f2I" customClass="LUStackView">
+                        <stackView contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="FZL-vr-f2I">
                             <rect key="frame" x="0.0" y="601" width="375" height="46"/>
                             <subviews>
                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8i5-UD-JJn" userLabel="Button Clear">

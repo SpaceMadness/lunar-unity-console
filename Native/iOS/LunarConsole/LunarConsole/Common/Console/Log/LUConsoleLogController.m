@@ -109,7 +109,7 @@ static const CGFloat kMinWidthToResizeSearchBar = 480;
 	
 	// background
     self.view.opaque = YES;
-    self.view.backgroundColor = theme.statusBarColor;
+    self.view.backgroundColor = theme.tableColor;
     
     // table view
 	self.tableView.dataSource = self;
