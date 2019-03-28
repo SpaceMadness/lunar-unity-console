@@ -1,22 +1,11 @@
-//
+//  
 //  GCDAsyncSocket.h
-//
-//  Lunar Unity Mobile Console
-//  https://github.com/SpaceMadness/lunar-unity-console
-//
-//  Copyright 2019 Alex Lementuev, SpaceMadness.
-//
-//  Licensed under the Apache License, Version 2.0 (the "License");
-//  you may not use this file except in compliance with the License.
-//  You may obtain a copy of the License at
-//
-//      http://www.apache.org/licenses/LICENSE-2.0
-//
-//  Unless required by applicable law or agreed to in writing, software
-//  distributed under the License is distributed on an "AS IS" BASIS,
-//  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-//  See the License for the specific language governing permissions and
-//  limitations under the License.
+//  
+//  This class is in the public domain.
+//  Originally created by Robbie Hanson in Q3 2010.
+//  Updated and maintained by Deusty LLC and the Apple development community.
+//  
+//  https://github.com/robbiehanson/CocoaAsyncSocket
 //
 
 #import <Foundation/Foundation.h>
@@ -99,6 +88,15 @@ typedef NS_ENUM(NSInteger, GCDAsyncSocketError) {
 - (instancetype)initWithSocketQueue:(nullable dispatch_queue_t)sq;
 - (instancetype)initWithDelegate:(nullable id<GCDAsyncSocketDelegate>)aDelegate delegateQueue:(nullable dispatch_queue_t)dq;
 - (instancetype)initWithDelegate:(nullable id<GCDAsyncSocketDelegate>)aDelegate delegateQueue:(nullable dispatch_queue_t)dq socketQueue:(nullable dispatch_queue_t)sq;
+
+/**
+ * Create GCDAsyncSocket from already connect BSD socket file descriptor
+**/
++ (nullable instancetype)socketFromConnectedSocketFD:(int)socketFD socketQueue:(nullable dispatch_queue_t)sq error:(NSError**)error;
+
++ (nullable instancetype)socketFromConnectedSocketFD:(int)socketFD delegate:(nullable id<GCDAsyncSocketDelegate>)aDelegate delegateQueue:(nullable dispatch_queue_t)dq error:(NSError**)error;
+
++ (nullable instancetype)socketFromConnectedSocketFD:(int)socketFD delegate:(nullable id<GCDAsyncSocketDelegate>)aDelegate delegateQueue:(nullable dispatch_queue_t)dq socketQueue:(nullable dispatch_queue_t)sq error:(NSError **)error;
 
 #pragma mark Configuration
 
