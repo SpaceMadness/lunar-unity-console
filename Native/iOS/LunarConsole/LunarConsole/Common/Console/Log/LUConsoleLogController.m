@@ -520,18 +520,17 @@ static const CGFloat kMinWidthToResizeSearchBar = 480;
 }
 
 - (void)setLogButtonsVisible:(BOOL)visible animated:(BOOL)animated {
-	NSArray *buttons = @[self.logButton, self.errorButton, self.warningButton];
 	if (animated) {
 		[UIView animateWithDuration:0.4 animations:^{
-			for (UIView *button in buttons) {
-				button.hidden = !visible;
-			}
+			[self setLogButtonsVisible:visible];
 		}];
 	} else {
-		for (UIView *button in buttons) {
-			button.hidden = !visible;
-		}
+		[self setLogButtonsVisible:visible];
 	}
+}
+
+- (void)setLogButtonsVisible:(BOOL)visible {
+	self.logButton.hidden = self.errorButton.hidden = self.warningButton.hidden = !visible;
 }
 
 - (void)searchBarCancelButtonClicked:(UISearchBar *)searchBar
