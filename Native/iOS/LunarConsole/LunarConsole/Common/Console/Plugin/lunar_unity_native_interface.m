@@ -74,7 +74,7 @@ void __lunar_console_clear()
 {
     lunar_dispatch_main(^{
         LUAssert(_lunarConsolePlugin);
-        [_lunarConsolePlugin clear];
+        [_lunarConsolePlugin clearConsole];
     });
 }
 

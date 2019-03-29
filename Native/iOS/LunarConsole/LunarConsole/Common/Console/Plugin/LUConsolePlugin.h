@@ -75,7 +75,8 @@ extern NSString * const LUConsoleCheckFullVersionNotificationSource;
 - (void)hideOverlay;
 
 - (void)logMessage:(NSString *)message stackTrace:(NSString *)stackTrace type:(LUConsoleLogType)type;
-- (void)clear;
+- (void)clearConsole;
+- (void)clearState;
 
 - (void)registerActionWithId:(int)actionId name:(NSString *)name;
 - (void)unregisterActionWithId:(int)actionId;

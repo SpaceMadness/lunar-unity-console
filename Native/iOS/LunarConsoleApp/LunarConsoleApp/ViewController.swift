@@ -135,10 +135,13 @@ class ViewController: LUViewController {
     }
     
     @IBAction func onClearConsole(sender: AnyObject) {
-        plugin.clear()
+        plugin.clearConsole()
     }
     
-    // MARK: - Log Entries
+	@IBAction func onClearState(sender: AnyObject) {
+		plugin.clearState()
+	}
+	// MARK: - Log Entries
     
     private func loadLogEntries() -> [FakeLogEntry] {
         let URL = Bundle.main.url(forResource: "input", withExtension: "txt")!

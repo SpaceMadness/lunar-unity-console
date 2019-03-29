@@ -19,7 +19,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="14" translatesAutoresizingMaskIntoConstraints="NO" id="6CO-yQ-kh2">
-                                <rect key="frame" x="20" y="36" width="280" height="380"/>
+                                <rect key="frame" x="20" y="36" width="280" height="420"/>
                                 <subviews>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="mUh-19-fMu">
                                         <rect key="frame" x="0.0" y="0.0" width="280" height="30"/>
@@ -101,16 +101,16 @@
                                         </subviews>
                                     </stackView>
                                     <stackView opaque="NO" contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="0e5-bU-20P">
-                                        <rect key="frame" x="0.0" y="132" width="280" height="28"/>
+                                        <rect key="frame" x="0.0" y="132" width="280" height="24"/>
                                         <subviews>
                                             <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="6FP-nf-7BK">
-                                                <rect key="frame" x="0.0" y="0.0" width="51" height="28"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="51" height="24"/>
                                                 <connections>
                                                     <action selector="onToggleActionOverlayWithSender:" destination="BYZ-38-t0r" eventType="valueChanged" id="yEO-ab-CIr"/>
                                                 </connections>
                                             </switch>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Action overlay" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tE7-xZ-xkW">
-                                                <rect key="frame" x="57" y="0.0" width="223" height="28"/>
+                                                <rect key="frame" x="57" y="0.0" width="223" height="24"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -118,14 +118,14 @@
                                         </subviews>
                                     </stackView>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iu3-T1-O2O">
-                                        <rect key="frame" x="0.0" y="174" width="280" height="30"/>
+                                        <rect key="frame" x="0.0" y="170" width="280" height="30"/>
                                         <state key="normal" title="Start Logger"/>
                                         <connections>
                                             <action selector="onToggleLoggerWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="KnI-49-DiD"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="evW-4U-GLQ">
-                                        <rect key="frame" x="0.0" y="218" width="280" height="30"/>
+                                        <rect key="frame" x="0.0" y="214" width="280" height="30"/>
                                         <state key="normal" title="Show Controller">
                                             <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
@@ -134,7 +134,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fgb-vV-fT6">
-                                        <rect key="frame" x="0.0" y="262" width="280" height="30"/>
+                                        <rect key="frame" x="0.0" y="258" width="280" height="30"/>
                                         <state key="normal" title="Show Overlay">
                                             <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
@@ -143,7 +143,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TwB-1j-1uD">
-                                        <rect key="frame" x="0.0" y="306" width="280" height="30"/>
+                                        <rect key="frame" x="0.0" y="302" width="280" height="30"/>
                                         <state key="normal" title="Show Alert">
                                             <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
@@ -152,7 +152,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m6g-Pq-R2c" userLabel="Clear Console">
-                                        <rect key="frame" x="0.0" y="350" width="280" height="30"/>
+                                        <rect key="frame" x="0.0" y="346" width="280" height="30"/>
                                         <state key="normal" title="Clear Console">
                                             <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         </state>
@@ -160,9 +160,18 @@
                                             <action selector="onClearConsoleWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="8S7-7E-ios"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7CS-Qe-Ru0" userLabel="Clear State">
+                                        <rect key="frame" x="0.0" y="390" width="280" height="30"/>
+                                        <state key="normal" title="Clear State">
+                                            <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="onClearStateWithSender:" destination="BYZ-38-t0r" eventType="touchUpInside" id="nTg-ww-e6S"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="380" id="vc4-A5-XXl"/>
+                                    <constraint firstAttribute="height" constant="420" id="vc4-A5-XXl"/>
                                 </constraints>
                             </stackView>
                         </subviews>

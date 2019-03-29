@@ -59,8 +59,8 @@
                 </view>
             </subviews>
             <constraints>
-                <constraint firstItem="iN0-l3-epB" firstAttribute="trailing" secondItem="pXn-qm-hu2" secondAttribute="trailing" id="MpP-DO-sDS"/>
-                <constraint firstItem="iN0-l3-epB" firstAttribute="bottom" secondItem="pXn-qm-hu2" secondAttribute="bottom" id="dZC-oa-5dG"/>
+                <constraint firstItem="pXn-qm-hu2" firstAttribute="trailing" secondItem="iN0-l3-epB" secondAttribute="trailing" id="MpP-DO-sDS"/>
+                <constraint firstItem="pXn-qm-hu2" firstAttribute="bottom" secondItem="iN0-l3-epB" secondAttribute="bottom" id="dZC-oa-5dG"/>
                 <constraint firstItem="iN0-l3-epB" firstAttribute="leading" secondItem="pXn-qm-hu2" secondAttribute="leading" id="nUn-pA-jOd"/>
                 <constraint firstItem="iN0-l3-epB" firstAttribute="top" secondItem="pXn-qm-hu2" secondAttribute="top" id="sl4-vv-BsW"/>
             </constraints>

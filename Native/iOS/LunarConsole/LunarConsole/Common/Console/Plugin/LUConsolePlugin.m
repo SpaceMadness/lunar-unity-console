@@ -195,9 +195,24 @@ static NSString *const kScriptMessageTrackEvent = @"track_event";
     });
 }
 
-- (void)clear
+- (void)clearConsole
 {
     [_console clear];
+}
+
+- (void)clearState
+{
+	NSString *documentsDir = LUGetDocumentsDir();
+	NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:documentsDir error:NULL];
+	for (NSString *file in files) {
+		NSError *error = nil;
+		BOOL removed = [[NSFileManager defaultManager] removeItemAtPath:[documentsDir stringByAppendingPathComponent:file] error:&error];
+		if (removed) {
+			NSLog(@"[LUNAR] File deleted %@", file);
+		} else {
+			NSLog(@"[LUNAR] File NOT deleted %@: %@", file, [error description]);
+		}
+	}
 }
 
 #pragma mark -

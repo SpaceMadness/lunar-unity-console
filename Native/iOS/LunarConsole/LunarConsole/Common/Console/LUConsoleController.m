@@ -91,7 +91,7 @@ NSString *const LUConsoleControllerDidResizeNotification = @"LUConsoleController
 
     // background
     self.view.opaque = YES;
-    self.view.backgroundColor = [LUTheme mainTheme].statusBarColor;
+    self.view.backgroundColor = [UIColor clearColor];
 
     // controllers
     LUConsoleLogController *logController = [LUConsoleLogController controllerWithPlugin:_plugin];
