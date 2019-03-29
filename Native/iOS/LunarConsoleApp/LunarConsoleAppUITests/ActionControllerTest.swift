@@ -399,11 +399,17 @@ class ActionControllerTest: UITestCaseBase {
 
         // value should match
         app(app, textField: "Variable Input Field", assertText: "value")
-        
+		
+		// open editor
+		app(app, tapTextField: "Variable Input Field")
+		
         // change value
-        app(app, textField: "Variable Input Field", enterText: "new value")
+        app(app, textField: "Editor Input Field", enterText: "new value")
         assertResult(["name:console_variable_set\nid:1\nvalue:new value"])
-        
+		
+		// submit
+		app(app, tapButton: "Popup Controller Close Button")
+		
         // reset value
         app(app, tapButton: "Variable Reset Button")
         assertResult(["name:console_variable_set\nid:1\nvalue:value"])

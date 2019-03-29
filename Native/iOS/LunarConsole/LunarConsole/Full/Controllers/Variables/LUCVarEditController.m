@@ -87,6 +87,7 @@
     }
     
     _textField.text = _variable.value;
+	LU_SET_ACCESSIBILITY_IDENTIFIER(_textField, @"Editor Input Field")
 }
 
 #pragma mark -
