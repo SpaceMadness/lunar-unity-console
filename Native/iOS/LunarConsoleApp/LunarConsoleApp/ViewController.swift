@@ -14,7 +14,7 @@ class ViewController: LUViewController {
     private let kConsoleTrimCount: UInt = 512
     private let kActionOverlayViewWidth: CGFloat = 32.0
     private let kActionOverlayViewHeight: CGFloat = 32.0
-    
+	
     private(set) var plugin: LUConsolePlugin!
     private var index: Int = 0
     private var logEntries: [FakeLogEntry]!
@@ -23,6 +23,7 @@ class ViewController: LUViewController {
     var nextActionId: Int = 0
     var nextVariableId: Int = 0
     var netPeer: NetPeer!
+	fileprivate let messenger = UnityMessenger()
     
     static var pluginInstance: LUConsolePlugin?
     
@@ -33,12 +34,13 @@ class ViewController: LUViewController {
     
     deinit {
         ViewController.pluginInstance = nil
+		messenger.delegate = nil
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        actionOverlaySwitch.setTestAccessibilityIdentifier("Action Overlay Switch")
+		
+		actionOverlaySwitch.setTestAccessibilityIdentifier("Action Overlay Switch")
 		
 		guard let settingsJson = readJsonFile(name: "settings") else {
 			print("Unable to load settings")
@@ -301,7 +303,11 @@ extension ViewController: UITextFieldDelegate {
 }
 
 extension ViewController: NetPeerDelegate {
-    
+	
+	func serverDidConnect() {
+		messenger.delegate = self
+	}
+	
     func peer(_ peer: NetPeer!, didReceive message: NetPeerMessage!) {
         runCommand(jsonObj: message.payload)
     }
@@ -378,7 +384,8 @@ extension ViewController: LUConsolePluginDelegate {
 
 extension ViewController: UnityMessengerDelegate {
     func onUnityMessage(_ message: String) {
-        
+        print("Send native callback \(message)")
+		
         let msg = NetPeerMessage(name: "native_callback")!
         msg["message"] = message
         netPeer.send(msg)

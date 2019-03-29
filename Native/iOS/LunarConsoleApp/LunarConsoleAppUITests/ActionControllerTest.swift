@@ -400,7 +400,6 @@ class ActionControllerTest: UITestCaseBase {
         // value should match
         app(app, textField: "Variable Input Field", assertText: "value")
         
-        
         // change value
         app(app, textField: "Variable Input Field", enterText: "new value")
         assertResult(["name:console_variable_set\nid:1\nvalue:new value"])

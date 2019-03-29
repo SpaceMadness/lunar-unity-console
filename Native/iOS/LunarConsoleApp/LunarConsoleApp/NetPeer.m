@@ -22,6 +22,7 @@
 #import <CocoaAsyncSocket/GCDAsyncSocket.h>
 
 #import "NetPeer.h"
+#import "LULog.h"
 
 const static int kTagMessage = 1;
 
@@ -59,7 +60,7 @@ const static int kTagMessage = 1;
     
     if (error != nil)
     {
-        NSLog(@"Unable to start host: %@", error);
+        LULog(@"Unable to start host: %@", error);
         return;
     }
 }
@@ -71,7 +72,7 @@ const static int kTagMessage = 1;
     
     if (error != nil)
     {
-        NSLog(@"Unable to connect to host %@", error);
+        LULog(@"Unable to connect to host %@", error);
         return;
     }
 }
@@ -96,7 +97,7 @@ const static int kTagMessage = 1;
 
 - (void)socket:(GCDAsyncSocket *)sock didAcceptNewSocket:(GCDAsyncSocket *)newSocket
 {
-    NSLog(@"Client connected");
+    LULog(@"Client connected");
     _clientSocket = newSocket;
     
     if ([_delegate respondsToSelector:@selector(clientDidConnect)])
@@ -109,8 +110,12 @@ const static int kTagMessage = 1;
 
 - (void)socket:(GCDAsyncSocket *)sock didConnectToHost:(NSString *)host port:(uint16_t)port
 {
-    NSLog(@"Connected to server %@:%d", host, port);
+    LULog(@"Connected to server %@:%d", host, port);
     _clientSocket = sock;
+	
+	if ([self.delegate respondsToSelector:@selector(serverDidConnect)]) {
+		[self.delegate serverDidConnect];
+	}
     
     [self receiveSocketMessage:sock];
 }
@@ -211,7 +216,7 @@ const static int kTagMessage = 1;
     
     if (error != nil)
     {
-        NSLog(@"Can't create json data: %@", error);
+        LULog(@"Can't create json data: %@", error);
         return nil;
     }
     
