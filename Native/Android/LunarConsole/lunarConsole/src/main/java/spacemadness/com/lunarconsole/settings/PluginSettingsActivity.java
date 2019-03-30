@@ -14,6 +14,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -100,6 +101,7 @@ public class PluginSettingsActivity extends Activity {
 		private final EditText valueEditText;
 		private final Switch valueSwitch;
 		private final Button valueButton;
+		private final ImageButton lockButton;
 
 		public PropertyViewHolder(View view) {
 			super(view);
@@ -108,11 +110,14 @@ public class PluginSettingsActivity extends Activity {
 			valueEditText = view.findViewById(R.id.lunar_console_settings_property_value);
 			valueSwitch = view.findViewById(R.id.lunar_console_settings_property_switch);
 			valueButton = view.findViewById(R.id.lunar_console_settings_property_button);
+			lockButton = view.findViewById(R.id.lunar_console_settings_property_lock_button);
 		}
 
 		@Override
 		public void bindView(final PropertyItem item, int position) {
 			titleTextView.setText(item.displayName);
+
+			lockButton.setVisibility(item.enabled ? View.GONE : View.VISIBLE);
 
 			int valueEditTextVisibility = View.GONE;
 			int valueSwitchVisibility = View.GONE;
@@ -129,6 +134,7 @@ public class PluginSettingsActivity extends Activity {
 						item.setValue(isChecked);
 					}
 				});
+				valueSwitch.setEnabled(item.enabled);
 			} else {
 				final String valueStr = StringUtils.toString(value);
 				if (type.isEnum()) {
@@ -146,8 +152,10 @@ public class PluginSettingsActivity extends Activity {
 							});
 						}
 					});
+					valueButton.setEnabled(item.enabled);
 				} else {
 					valueEditTextVisibility = View.VISIBLE;
+					valueEditText.setEnabled(item.enabled);
 
 					/* This helps avoiding a weird flickering while keyboard is shown */
 					if (!valueStr.equals(valueEditText.getText().toString())) {

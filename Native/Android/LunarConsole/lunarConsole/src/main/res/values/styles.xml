@@ -14,7 +14,7 @@
     <style name="lunar_console_base_button_style">
         <item name="android:minHeight">48dip</item>
         <item name="android:minWidth">48dip</item>
-        <item name="android:background">@drawable/lunar_console_base_button_selector</item>
+        <item name="android:background">?android:selectableItemBackground</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
@@ -133,9 +133,7 @@
     <style name="lunar_console_variable_value_style_base"
            parent="lunar_console_edit_text_base_style">
         <item name="android:background">@drawable/lunar_console_shape_variable_value_text</item>
-        <item name="android:textColor">@color/lunar_console_color_variable_value_text</item>
-        <item name="android:textColorHighlight">@color/lunar_console_color_variable_value_text
-        </item>
+        <item name="android:textColor">@drawable/lunar_console_selector_value_text</item>
         <item name="android:layout_weight">0</item>
         <item name="android:layout_width">120dp</item> <!-- TODO: use dimensions -->
         <item name="android:layout_height">30dp</item> <!-- TODO: use dimensions -->

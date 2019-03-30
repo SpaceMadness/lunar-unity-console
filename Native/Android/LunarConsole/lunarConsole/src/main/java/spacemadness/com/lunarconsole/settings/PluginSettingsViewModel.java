@@ -12,9 +12,11 @@ import static spacemadness.com.lunarconsole.utils.ObjectUtils.checkNotNull;
 
 class PluginSettingsViewModel {
 	private final PluginSettingsEditor settingsEditor;
+	private final boolean isProVersion;
 
 	PluginSettingsViewModel(PluginSettingsEditor settingsEditor) {
 		this.settingsEditor = checkNotNull(settingsEditor, "settingsEditor");
+		this.isProVersion = settingsEditor.isProVersion();
 	}
 
 	List<ListViewItem> createItems() {
@@ -24,9 +26,9 @@ class PluginSettingsViewModel {
 		items.add(new HeaderItem("Exception Warning"));
 		items.add(new PropertyItem(PropertyHelper.getProperty(settings, "exceptionWarning.displayMode")));
 		items.add(new HeaderItem("Log Overlay"));
-		items.add(new PropertyItem(PropertyHelper.getProperty(settings, "logOverlay.enabled")));
-		items.add(new PropertyItem(PropertyHelper.getProperty(settings, "logOverlay.maxVisibleLines")));
-		items.add(new PropertyItem(PropertyHelper.getProperty(settings, "logOverlay.timeout")));
+		items.add(new PropertyItem(PropertyHelper.getProperty(settings, "logOverlay.enabled"), isProVersion));
+		items.add(new PropertyItem(PropertyHelper.getProperty(settings, "logOverlay.maxVisibleLines"), isProVersion));
+		items.add(new PropertyItem(PropertyHelper.getProperty(settings, "logOverlay.timeout"), isProVersion));
 		return items;
 	}
 
@@ -60,11 +62,18 @@ class PluginSettingsViewModel {
 
 	class PropertyItem extends Item {
 		private final FieldProperty property;
+
 		final String displayName;
+		final boolean enabled;
 
 		PropertyItem(FieldProperty property) {
+			this(property, true);
+		}
+
+		PropertyItem(FieldProperty property, boolean enabled) {
 			super(ItemType.PROPERTY);
 			this.property = property;
+			this.enabled = enabled;
 			this.displayName = StringUtils.camelCaseToWords(property.name);
 		}
 

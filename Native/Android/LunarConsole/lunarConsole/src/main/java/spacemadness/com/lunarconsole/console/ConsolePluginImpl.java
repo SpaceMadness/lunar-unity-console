@@ -684,6 +684,11 @@ public class ConsolePluginImpl implements ConsolePlugin, NotificationCenter.OnNo
 				ConsolePluginImpl.this.settings = settings;
 				PluginSettingsIO.save(getActivity(), settings);
 			}
+
+			@Override
+			public boolean isProVersion() {
+				return LunarConsoleConfig.isPro;
+			}
 		};
 	}
 
