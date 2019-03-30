@@ -33,4 +33,6 @@
 
 @property (nonatomic, weak) id<LUConsoleResizeControllerDelegate> delegate;
 
+- (instancetype)initWithMaxSize:(CGSize)maxSize topConstraint:(NSLayoutConstraint *)topConstraint leadingConstraint:(NSLayoutConstraint *)leadingConstraint bottomConstraint:(NSLayoutConstraint *)bottomConstraint trailingConstraint:(NSLayoutConstraint *)trailingConstraint;
+
 @end

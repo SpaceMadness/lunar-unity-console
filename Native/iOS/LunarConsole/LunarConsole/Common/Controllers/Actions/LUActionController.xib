@@ -38,15 +38,20 @@
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Kwy-j4-dCD" userLabel="No Actions Warning View">
                     <rect key="frame" x="0.0" y="40" width="375" height="627"/>
                     <subviews>
-                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lunar_console_actions_empty_warning" translatesAutoresizingMaskIntoConstraints="NO" id="dGG-61-ZsJ" userLabel="No Actions Icon">
-                            <rect key="frame" x="163.5" y="289.5" width="48" height="48"/>
-                        </imageView>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Warning" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b9E-cA-rdH">
-                            <rect key="frame" x="20" y="345.5" width="335" height="20.5"/>
-                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                            <nil key="highlightedColor"/>
-                        </label>
+                        <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="p6O-E3-EBr">
+                            <rect key="frame" x="156" y="271.5" width="63.5" height="84.5"/>
+                            <subviews>
+                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="lunar_console_actions_empty_warning" translatesAutoresizingMaskIntoConstraints="NO" id="dGG-61-ZsJ" userLabel="No Actions Icon">
+                                    <rect key="frame" x="7.5" y="0.0" width="48" height="48"/>
+                                </imageView>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Warning" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b9E-cA-rdH">
+                                    <rect key="frame" x="0.0" y="64" width="63.5" height="20.5"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
+                            </subviews>
+                        </stackView>
                         <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Aa5-oX-X6k" userLabel="&quot;Learn More...&quot; Button">
                             <rect key="frame" x="142" y="589" width="91" height="30"/>
                             <state key="normal" title="Learn More..."/>
@@ -58,12 +63,9 @@
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstItem="Aa5-oX-X6k" firstAttribute="bottom" secondItem="Kwy-j4-dCD" secondAttribute="bottom" constant="-8" id="0Oi-Bl-m9E"/>
-                        <constraint firstItem="b9E-cA-rdH" firstAttribute="trailing" secondItem="Kwy-j4-dCD" secondAttribute="trailing" constant="-20" id="Jzo-R6-fbQ"/>
-                        <constraint firstItem="b9E-cA-rdH" firstAttribute="top" secondItem="dGG-61-ZsJ" secondAttribute="bottom" constant="8" id="KGW-mJ-rFq"/>
+                        <constraint firstItem="p6O-E3-EBr" firstAttribute="centerX" secondItem="Kwy-j4-dCD" secondAttribute="centerX" id="Teh-F1-kOx"/>
                         <constraint firstItem="Aa5-oX-X6k" firstAttribute="centerX" secondItem="Kwy-j4-dCD" secondAttribute="centerX" id="TpM-7i-WT5"/>
-                        <constraint firstItem="dGG-61-ZsJ" firstAttribute="centerX" secondItem="Kwy-j4-dCD" secondAttribute="centerX" id="UHp-zQ-dC8"/>
-                        <constraint firstItem="dGG-61-ZsJ" firstAttribute="centerY" secondItem="Kwy-j4-dCD" secondAttribute="centerY" id="gYF-k6-pUp"/>
-                        <constraint firstItem="b9E-cA-rdH" firstAttribute="leading" secondItem="Kwy-j4-dCD" secondAttribute="leading" constant="20" id="tWE-Qw-wSL"/>
+                        <constraint firstItem="p6O-E3-EBr" firstAttribute="centerY" secondItem="Kwy-j4-dCD" secondAttribute="centerY" id="f2e-tf-NhW"/>
                     </constraints>
                 </view>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="w8d-Hz-LoQ">

@@ -127,6 +127,8 @@
 		840F08871DEA6B7400E9F13D /* LUStacktraceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F087D1DEA6B7400E9F13D /* LUStacktraceTest.m */; };
 		840F08881DEA6B7400E9F13D /* LUStringUtilsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F087E1DEA6B7400E9F13D /* LUStringUtilsTest.m */; };
 		844741B51B719C3100F5ABD3 /* libLunarConsoleFull.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 844741A91B719C3100F5ABD3 /* libLunarConsoleFull.a */; };
+		EF0944C9224EE8DE00F5F3BF /* LUUIHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = EF0944C8224EE8DE00F5F3BF /* LUUIHelper.m */; };
+		EF0944CA224EE8DE00F5F3BF /* LUUIHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = EF0944C8224EE8DE00F5F3BF /* LUUIHelper.m */; };
 		EF1D47A81E04A60B005BEC07 /* LUActionRegistryFilterTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1D47A71E04A60B005BEC07 /* LUActionRegistryFilterTest.swift */; };
 		EF30B268223C65F700898849 /* LUPluginSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = EF30B267223C65F700898849 /* LUPluginSettings.m */; };
 		EF30B269223C65F700898849 /* LUPluginSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = EF30B267223C65F700898849 /* LUPluginSettings.m */; };
@@ -390,6 +392,8 @@
 		844741A91B719C3100F5ABD3 /* libLunarConsoleFull.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libLunarConsoleFull.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		844741B41B719C3100F5ABD3 /* LunarConsoleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LunarConsoleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		844741BA1B719C3100F5ABD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EF0944C7224EE8DE00F5F3BF /* LUUIHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LUUIHelper.h; sourceTree = "<group>"; };
+		EF0944C8224EE8DE00F5F3BF /* LUUIHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LUUIHelper.m; sourceTree = "<group>"; };
 		EF1D47A61E04A60A005BEC07 /* LunarConsoleTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LunarConsoleTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		EF1D47A71E04A60B005BEC07 /* LUActionRegistryFilterTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LUActionRegistryFilterTest.swift; sourceTree = "<group>"; };
 		EF30B266223C65F700898849 /* LUPluginSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LUPluginSettings.h; sourceTree = "<group>"; };
@@ -834,6 +838,8 @@
 				4DD4FBAD1DFB932B00032A29 /* LUViewController.m */,
 				4DD4FBAE1DFB932B00032A29 /* LUWindow.h */,
 				4DD4FBAF1DFB932B00032A29 /* LUWindow.m */,
+				EF0944C7224EE8DE00F5F3BF /* LUUIHelper.h */,
+				EF0944C8224EE8DE00F5F3BF /* LUUIHelper.m */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -1092,6 +1098,7 @@
 				4D02A8311E5940D2009F4998 /* LUSlider.m in Sources */,
 				4DD4FBFE1DFB932C00032A29 /* LUSwitch.m in Sources */,
 				4DD4FC201DFB932C00032A29 /* LUStringUtils.m in Sources */,
+				EF0944CA224EE8DE00F5F3BF /* LUUIHelper.m in Sources */,
 				4DD4FBEE1DFB932C00032A29 /* LUConsolePopupController.m in Sources */,
 				4DD4FC001DFB932C00032A29 /* LUTableView.m in Sources */,
 				4DD4FC141DFB932C00032A29 /* LUMutableArray.m in Sources */,
@@ -1137,6 +1144,7 @@
 				4DD4FBDF1DFB932C00032A29 /* LUConsoleLogTypeButton.m in Sources */,
 				4DD4FBCF1DFB932B00032A29 /* LUEntryTableViewCell.m in Sources */,
 				4DD4FBF51DFB932C00032A29 /* LUActionButton.m in Sources */,
+				EF0944C9224EE8DE00F5F3BF /* LUUIHelper.m in Sources */,
 				4DD4FBD91DFB932B00032A29 /* LUConsoleLogEntryLookupTable.m in Sources */,
 				4DD4FBE31DFB932C00032A29 /* LUConsoleController.m in Sources */,
 				4D02A7C71E496FCA009F4998 /* LUActionControllerBase.m in Sources */,

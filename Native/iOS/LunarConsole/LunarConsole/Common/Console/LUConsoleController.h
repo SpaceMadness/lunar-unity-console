@@ -37,8 +37,7 @@ extern NSString * const LUConsoleControllerDidResizeNotification;
 
 @interface LUConsoleControllerState : LUSerializableObject
 
-@property (nonatomic, readonly) BOOL hasCustomControllerFrame;
-@property (nonatomic, assign) CGRect controllerFrame;
+@property (nonatomic, assign) UIEdgeInsets controllerInsets;
 
 @end
 

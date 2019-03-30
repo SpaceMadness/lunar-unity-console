@@ -111,6 +111,8 @@ NSString *const LUConsoleControllerDidResizeNotification = @"LUConsoleController
 
     self.contentView.translatesAutoresizingMaskIntoConstraints = NO;
     self.scrollView.translatesAutoresizingMaskIntoConstraints = NO;
+	
+	[self setControllerInsets:_state.controllerInsets];
 
     [self registerNotifications];
 }
@@ -123,10 +125,6 @@ NSString *const LUConsoleControllerDidResizeNotification = @"LUConsoleController
     CGSize pageSize = _scrollView.bounds.size;
     CGSize contentSize = CGSizeMake(_pageControllers.count * pageSize.width, pageSize.height);
     _scrollView.contentSize = contentSize;
-
-    if (_state.hasCustomControllerFrame) {
-        [self setControllerFrame:_state.controllerFrame];
-    }
 }
 
 - (void)setPageControllers:(NSArray<UIViewController *> *)controllers
@@ -257,13 +255,12 @@ NSString *const LUConsoleControllerDidResizeNotification = @"LUConsoleController
     self.contentView.hidden = hidden;
 }
 
-- (void)setControllerFrame:(CGRect)frame
+- (void)setControllerInsets:(UIEdgeInsets)insets
 {
-    self.contentTopConstraint.constant = CGRectGetMinY(frame);
-    self.contentBottomConstraint.constant = frame.size.height;
-    self.contentLeadingConstraint.constant = CGRectGetMinX(frame);
-    self.contentTrailingConstraint.constant = frame.size.width;
-    [self.contentView layoutIfNeeded];
+	self.contentTopConstraint.constant = insets.top;
+	self.contentBottomConstraint.constant = insets.bottom;
+	self.contentLeadingConstraint.constant = insets.left;
+	self.contentTrailingConstraint.constant = insets.right;
 }
 
 #pragma mark -
@@ -283,9 +280,16 @@ NSString *const LUConsoleControllerDidResizeNotification = @"LUConsoleController
 {
     [self setContentHidden:YES];
 
-    LUConsoleResizeController *resizeController = [LUConsoleResizeController new];
+	CGSize maxSize = [LUUIHelper safeAreaRect].size;
+	LUConsoleResizeController *resizeController = [[LUConsoleResizeController alloc] initWithMaxSize:maxSize
+																					   topConstraint:self.contentTopConstraint
+																				   leadingConstraint:self.contentLeadingConstraint
+																					bottomConstraint:self.contentBottomConstraint
+																				  trailingConstraint:self.contentTrailingConstraint];
     resizeController.delegate = self;
     [self addChildController:resizeController withFrame:self.contentView.frame];
+	
+	[LUUIHelper view:resizeController.view centerInParent:self.contentView];
 }
 
 #pragma mark -
@@ -293,18 +297,15 @@ NSString *const LUConsoleControllerDidResizeNotification = @"LUConsoleController
 
 - (void)consoleResizeControllerDidClose:(LUConsoleResizeController *)controller
 {
-    CGRect frame = controller.view.frame;
-
     [self removeChildController:controller];
-
-    CGSize size = self.view.bounds.size;
-    frame.size.width = size.width - CGRectGetMaxX(frame);
-    frame.size.height = size.height - CGRectGetMaxY(frame);
-
-    [self setControllerFrame:frame];
     [self setContentHidden:NO];
 
-    _state.controllerFrame = frame;
+    _state.controllerInsets = UIEdgeInsetsMake(
+        self.contentTopConstraint.constant,
+        self.contentLeadingConstraint.constant,
+        self.contentBottomConstraint.constant,
+        self.contentTrailingConstraint.constant
+     );
 
     // post notification
     [LUNotificationCenter postNotificationName:LUConsoleControllerDidResizeNotification object:nil];
@@ -343,39 +344,34 @@ NSString *const LUConsoleControllerDidResizeNotification = @"LUConsoleController
 - (void)initDefaults
 {
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-        _hasCustomControllerFrame = YES;
         CGSize screenSize = LUGetScreenBounds().size;
         if (LUIsPortraitInterfaceOrientation()) {
-            _controllerFrame = CGRectMake(0, 0, 0, 0.4 * screenSize.height);
+            _controllerInsets = UIEdgeInsetsMake(0, 0, 0.6 * screenSize.height, 0);
         } else {
-            _controllerFrame = CGRectMake(0, 0, 0, 0.25 * screenSize.height);
+            _controllerInsets = UIEdgeInsetsMake(0, 0, 0.75 * screenSize.height, 0);
         }
-    }
+	} else {
+		_controllerInsets = UIEdgeInsetsZero;
+	}
 }
 
 - (void)serializeWithCoder:(NSCoder *)coder
 {
-    [coder encodeBool:_hasCustomControllerFrame forKey:@"hasCustomControllerFrame"];
-    [coder encodeCGRect:_controllerFrame forKey:@"controllerFrame"];
+    [coder encodeUIEdgeInsets:_controllerInsets forKey:@"controllerInsets"];
 }
 
 - (void)deserializeWithDecoder:(NSCoder *)decoder
 {
-    _hasCustomControllerFrame = [decoder decodeBoolForKey:@"hasCustomControllerFrame"];
-    if (_hasCustomControllerFrame) {
-        _controllerFrame = [decoder decodeCGRectForKey:@"controllerFrame"];
-    }
+    _controllerInsets = [decoder decodeUIEdgeInsetsForKey:@"controllerInsets"];
 }
 
 #pragma mark -
 #pragma mark Properties
 
-- (void)setControllerFrame:(CGRect)controllerFrame
+- (void)setControllerInsets:(UIEdgeInsets)controllerInsets
 {
-    _hasCustomControllerFrame = YES;
-    _controllerFrame = controllerFrame;
-
-    [self save];
+	_controllerInsets = controllerInsets;
+	[self save];
 }
 
 @end
