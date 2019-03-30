@@ -345,11 +345,7 @@ NSString *const LUConsoleControllerDidResizeNotification = @"LUConsoleController
 {
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         CGSize screenSize = LUGetScreenBounds().size;
-        if (LUIsPortraitInterfaceOrientation()) {
-            _controllerInsets = UIEdgeInsetsMake(0, 0, 0.6 * screenSize.height, 0);
-        } else {
-            _controllerInsets = UIEdgeInsetsMake(0, 0, 0.75 * screenSize.height, 0);
-        }
+		_controllerInsets = UIEdgeInsetsMake(0, 0, 0.5 * screenSize.height, 0);
 	} else {
 		_controllerInsets = UIEdgeInsetsZero;
 	}
