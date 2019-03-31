@@ -90,7 +90,7 @@ static NSString *const kScriptMessageAction = @"console_action";
         LUConsoleOverlayController *controller = [LUConsoleOverlayController controllerWithConsole:_plugin.console
                                                                                           settings:_plugin.settings.logOverlay];
 
-        CGRect windowFrame = LUGetScreenBounds();
+		CGRect windowFrame = [LUUIHelper safeAreaRect];
         _overlayWindow = [[LUWindow alloc] initWithFrame:windowFrame];
         _overlayWindow.userInteractionEnabled = NO;
         _overlayWindow.rootViewController = controller;
