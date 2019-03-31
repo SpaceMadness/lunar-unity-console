@@ -29,6 +29,7 @@ static const NSInteger kTagName = 1;
 static const NSInteger kTagButton = 2;
 static const NSInteger kTagInput = 3;
 static const NSInteger kTagSwitch = 4;
+static const NSInteger kTagLockButton = 5;
 
 typedef enum : NSUInteger {
     LUSettingTypeBool,
@@ -66,19 +67,19 @@ static id<LUTextFieldInputValidator> _floatValidator;
 @property (nonatomic, readonly, nullable) NSArray<NSString *> *values;
 @property (nonatomic, readonly) BOOL proOnly;
 
-- (instancetype)initWithTarget:(id)target name:(NSString *)name type:(LUSettingType)type title:(NSString *)title;
-- (instancetype)initWithTarget:(id)target name:(NSString *)name type:(LUSettingType)type title:(NSString *)title values:(nullable NSArray<NSString *> *)values;
+- (instancetype)initWithTarget:(id)target name:(NSString *)name type:(LUSettingType)type title:(NSString *)title proOnly:(BOOL)proOnly;
+- (instancetype)initWithTarget:(id)target name:(NSString *)name type:(LUSettingType)type title:(NSString *)title proOnly:(BOOL)proOnly values:(nullable NSArray<NSString *> *)values;
 
 @end
 
 @implementation LUConsoleSetting
 
-- (instancetype)initWithTarget:(id)target name:(NSString *)name type:(LUSettingType)type title:(NSString *)title
+- (instancetype)initWithTarget:(id)target name:(NSString *)name type:(LUSettingType)type title:(NSString *)title proOnly:(BOOL)proOnly
 {
-    return [self initWithTarget:target name:name type:type title:title values:nil];
+    return [self initWithTarget:target name:name type:type title:title proOnly:proOnly values:nil];
 }
 
-- (instancetype)initWithTarget:(id)target name:(NSString *)name type:(LUSettingType)type title:(NSString *)title values:(nullable NSArray<NSString *> *)values
+- (instancetype)initWithTarget:(id)target name:(NSString *)name type:(LUSettingType)type title:(NSString *)title  proOnly:(BOOL)proOnly values:(nullable NSArray<NSString *> *)values
 {
     self = [super init];
     if (self) {
@@ -87,6 +88,7 @@ static id<LUTextFieldInputValidator> _floatValidator;
         _type = type;
         _title = title;
         _values = values;
+		_proOnly = proOnly;
     }
     return self;
 }
@@ -253,12 +255,14 @@ static id<LUTextFieldInputValidator> _floatValidator;
     LUButton *enumButton = [cell.contentView viewWithTag:kTagButton];
     LUTextField *inputField = [cell.contentView viewWithTag:kTagInput];
     LUSwitch *boolSwitch = [cell.contentView viewWithTag:kTagSwitch];
+	UIButton *lockButton = [cell.contentView viewWithTag:kTagLockButton];
 
+	BOOL available = LUConsoleIsFullVersion || !setting.proOnly;
+	
     enumButton.hidden = YES;
     inputField.hidden = YES;
     boolSwitch.hidden = YES;
-
-    BOOL available = LUConsoleIsFullVersion || !setting.proOnly;
+	lockButton.hidden = available;
 
     nameLabel.font = theme.font;
     nameLabel.textColor = available ? theme.cellLog.textColor : theme.settingsTextColorUnavailable;
@@ -267,6 +271,7 @@ static id<LUTextFieldInputValidator> _floatValidator;
     switch (setting.type) {
         case LUSettingTypeBool:
             boolSwitch.hidden = NO;
+			boolSwitch.enabled = available;
             boolSwitch.on = [setting boolValue];
             boolSwitch.userData = setting;
             [boolSwitch addTarget:self action:@selector(onToggleBoolean:) forControlEvents:UIControlEventValueChanged];
@@ -274,6 +279,7 @@ static id<LUTextFieldInputValidator> _floatValidator;
             break;
         case LUSettingTypeInt:
             inputField.hidden = NO;
+			inputField.enabled = available;
             inputField.text = [NSString stringWithFormat:@"%d", [setting intValue]];
             inputField.textValidator = _integerValidator;
             inputField.textInputDelegate = self;
@@ -281,6 +287,7 @@ static id<LUTextFieldInputValidator> _floatValidator;
             break;
         case LUSettingTypeDouble:
             inputField.hidden = NO;
+			inputField.enabled = available;
             inputField.text = [NSString stringWithFormat:@"%g", [setting doubleValue]];
             inputField.textValidator = _floatValidator;
             inputField.textInputDelegate = self;
@@ -288,6 +295,7 @@ static id<LUTextFieldInputValidator> _floatValidator;
             break;
         case LUSettingTypeEnum:
             enumButton.hidden = NO;
+			enumButton.enabled = available;
             int index = [setting intValue];
             [enumButton setTitle:setting.values[index] forState:UIControlStateNormal];
             enumButton.titleLabel.font = theme.enumButtonFont;
@@ -298,6 +306,10 @@ static id<LUTextFieldInputValidator> _floatValidator;
             }
             break;
     }
+	
+	if (!available) {
+		[lockButton addTarget:self action:@selector(lockButtonClick:) forControlEvents:UIControlEventTouchUpInside];
+	}
 
     return cell;
 }
@@ -314,6 +326,15 @@ static id<LUTextFieldInputValidator> _floatValidator;
     LUConsolePopupController *popupController = [[LUConsolePopupController alloc] initWithContentController:picker];
     [popupController presentFromController:self.parentViewController animated:YES];
     popupController.popupDelegate = self;
+}
+
+- (void)lockButtonClick:(id)sender
+{
+	[[NSNotificationCenter defaultCenter] postNotificationName:LUConsoleCheckFullVersionNotification
+														object:nil
+													  userInfo:@{ LUConsoleCheckFullVersionNotificationSource : @"settings" }];
+	
+	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://goo.gl/UHej7v"]];
 }
 
 #pragma mark -
@@ -397,6 +418,7 @@ static id<LUTextFieldInputValidator> _floatValidator;
                                                                                         name:@"displayMode"
                                                                                         type:LUSettingTypeEnum
                                                                                        title:@"Display Mode"
+																					 proOnly:NO
                                                                                       values:@[ @"None", @"Errors", @"Exceptions", @"All" ]]
                                                 ]],
         [[LUConsoleSettingsSection alloc] initWithTitle:@"Log Overlay"
@@ -404,15 +426,18 @@ static id<LUTextFieldInputValidator> _floatValidator;
                                                     [[LUConsoleSetting alloc] initWithTarget:settings.logOverlay
                                                                                         name:@"enabled"
                                                                                         type:LUSettingTypeBool
-                                                                                       title:@"Enabled"],
+                                                                                       title:@"Enabled"
+																					 proOnly:YES],
                                                     [[LUConsoleSetting alloc] initWithTarget:settings.logOverlay
                                                                                         name:@"maxVisibleLines"
                                                                                         type:LUSettingTypeInt
-                                                                                       title:@"Max Visible Lines"],
+                                                                                       title:@"Max Visible Lines"
+																					 proOnly:YES],
                                                     [[LUConsoleSetting alloc] initWithTarget:settings.logOverlay
                                                                                         name:@"timeout"
                                                                                         type:LUSettingTypeDouble
-                                                                                       title:@"Timeout"]
+                                                                                       title:@"Timeout"
+																					 proOnly:YES]
                                                 ]],
     ];
 

@@ -262,13 +262,6 @@ static const CGFloat kMinWidthToResizeSearchBar = 480;
     LUConsoleSettingsController *controller = [[LUConsoleSettingsController alloc] initWithSettings:_plugin.settings];
     LUConsolePopupController *popupController = [[LUConsolePopupController alloc] initWithContentController:controller];
     popupController.popupDelegate = self;
-
-    if (LUConsoleIsFreeVersion) {
-        [popupController setLearnMoreTitle:@"Get PRO version..."
-                                    target:self
-                                    action:@selector(onLearnAboutProButton:)];
-    }
-
     [popupController presentFromController:self.parentViewController animated:YES];
 }
 
