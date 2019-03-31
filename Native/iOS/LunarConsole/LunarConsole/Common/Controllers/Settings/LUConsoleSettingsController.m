@@ -330,11 +330,17 @@ static id<LUTextFieldInputValidator> _floatValidator;
 
 - (void)lockButtonClick:(id)sender
 {
-	[[NSNotificationCenter defaultCenter] postNotificationName:LUConsoleCheckFullVersionNotification
-														object:nil
-													  userInfo:@{ LUConsoleCheckFullVersionNotificationSource : @"settings" }];
-	
-	[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://goo.gl/UHej7v"]];
+	NSArray *actions = @[
+        [[LUAlertAction alloc] initWithTitle:@"Close" handler:nil],
+		[[LUAlertAction alloc] initWithTitle:@"Learn More" handler:^(LUAlertAction *action) {
+			[[NSNotificationCenter defaultCenter] postNotificationName:LUConsoleCheckFullVersionNotification
+																object:nil
+															  userInfo:@{ LUConsoleCheckFullVersionNotificationSource : @"settings" }];
+			
+			[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"https://goo.gl/UHej7v"]];
+		}],
+	];
+	[LUUIHelper showAlertViewWithTitle:@"PRO only feature2" message:@"Not available in FREE version" actions:actions];
 }
 
 #pragma mark -
