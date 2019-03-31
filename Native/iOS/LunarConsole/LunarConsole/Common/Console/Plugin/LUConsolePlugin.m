@@ -249,16 +249,20 @@ static NSString *const kScriptMessageTrackEvent = @"track_event";
 - (BOOL)showWarningWithMessage:(NSString *)message
 {
     if (_warningWindow == nil) {
-        CGSize screenSize = LUGetScreenBounds().size;
-
-        CGRect windowFrame = CGRectMake(0, screenSize.height - kWarningHeight, screenSize.width, kWarningHeight);
+		CGRect safeRect = [LUUIHelper safeAreaRect];
+		CGRect windowFrame = CGRectMake(
+            CGRectGetMinX(safeRect),
+            CGRectGetMinY(safeRect) + CGRectGetHeight(safeRect) - kWarningHeight,
+            CGRectGetWidth(safeRect),
+            kWarningHeight
+        );
         _warningWindow = [[LUWindow alloc] initWithFrame:windowFrame];
         _warningWindow.clipsToBounds = YES;
 
         LUExceptionWarningController *controller = [[LUExceptionWarningController alloc] initWithMessage:message];
         controller.view.frame = _warningWindow.bounds;
         controller.delegate = self;
-        _warningWindow.rootViewController = controller;
+		_warningWindow.rootViewController = controller;
 
         _warningWindow.hidden = NO;
 
