@@ -111,23 +111,24 @@ public class LogOverlayView extends ListView implements Destroyable, DataSource,
 		return new LogEntryStyle(colors.foreground.toARGB(), colors.background.toARGB());
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// Events
+	//region Events
 
 	@Override
 	public boolean onTouchEvent(MotionEvent ev) {
 		return false; // no touch events
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// Data
+	//endregion
+
+	//region Data
 
 	private void reloadData() {
 		adapter.notifyDataSetChanged();
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// Entry removal
+	//endregion
+
+	//region Entry removal
 
 	private void scheduleEntryRemoval() {
 		if (!entryRemovalScheduled) {
@@ -143,8 +144,9 @@ public class LogOverlayView extends ListView implements Destroyable, DataSource,
 		ThreadUtils.cancel(entryRemovalCallback);
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// Destroyable
+	//endregion
+
+	//region Destroyable
 
 	@Override
 	public void destroy() {
@@ -155,8 +157,9 @@ public class LogOverlayView extends ListView implements Destroyable, DataSource,
 		cancelEntryRemoval();
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// DataSource
+	//endregion
+
+	//region DataSource
 
 	@Override
 	public ConsoleLogEntry getEntry(int position) {
@@ -168,8 +171,9 @@ public class LogOverlayView extends ListView implements Destroyable, DataSource,
 		return entries.realLength();
 	}
 
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// LunarConsoleListener
+	//endregion
+
+	//region LunarConsoleListener
 
 	@Override
 	public void onAddEntry(Console console, ConsoleLogEntry entry, boolean filtered) {
@@ -198,24 +202,5 @@ public class LogOverlayView extends ListView implements Destroyable, DataSource,
 		reloadData();
 	}
 
-
-	////////////////////////////////////////////////////////////////////////////////////////////////
-	// Settings
-
-	public static class Settings {
-		/**
-		 * How many entries can be visible at the same time
-		 */
-		public int maxVisibleEntries;
-
-		/**
-		 * How much time each row would be displayed on the screen
-		 */
-		public long entryDisplayTimeMillis;
-
-		public Settings() {
-			maxVisibleEntries = 3;
-			entryDisplayTimeMillis = 1000;
-		}
-	}
+	//endregion
 }
