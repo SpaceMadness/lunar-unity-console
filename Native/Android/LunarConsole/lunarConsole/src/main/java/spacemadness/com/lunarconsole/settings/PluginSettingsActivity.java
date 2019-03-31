@@ -5,9 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.InputType;
-import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -32,6 +30,7 @@ import spacemadness.com.lunarconsole.utils.CollectionUtils;
 import spacemadness.com.lunarconsole.utils.EnumUtils;
 import spacemadness.com.lunarconsole.utils.NotImplementedException;
 import spacemadness.com.lunarconsole.utils.StringUtils;
+import spacemadness.com.lunarconsole.utils.UIUtils;
 
 import static spacemadness.com.lunarconsole.settings.PluginSettingsViewModel.ItemType;
 
@@ -118,6 +117,7 @@ public class PluginSettingsActivity extends Activity {
 			titleTextView.setText(item.displayName);
 
 			lockButton.setVisibility(item.enabled ? View.GONE : View.VISIBLE);
+			lockButton.setOnClickListener(item.enabled ? null : createLockClickListener(lockButton.getContext()));
 
 			int valueEditTextVisibility = View.GONE;
 			int valueSwitchVisibility = View.GONE;
@@ -236,6 +236,36 @@ public class PluginSettingsActivity extends Activity {
 				});
 
 			builder.create().show();
+		}
+
+		private View.OnClickListener createLockClickListener(final Context context) {
+			return new View.OnClickListener() {
+				@Override public void onClick(View v) {
+					AlertDialog.Builder builder = new AlertDialog.Builder(context);
+					builder.setTitle(R.string.lunar_console_settings_lock_dialog_title);
+					builder.setCancelable(true);
+
+					builder.setPositiveButton(
+						R.string.lunar_console_settings_lock_dialog_learn_more,
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int id) {
+								UIUtils.openURL(context, context.getString(R.string.lunar_console_settings_lock_dialog_learn_more_url));
+							}
+						});
+
+					builder.setNegativeButton(
+						android.R.string.cancel,
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int id) {
+								dialog.cancel();
+							}
+						});
+
+					builder.create().show();
+				}
+			};
 		}
 	}
 

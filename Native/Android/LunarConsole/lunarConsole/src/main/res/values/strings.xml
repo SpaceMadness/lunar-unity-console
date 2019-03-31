@@ -33,4 +33,9 @@
 
     <string name="lunar_console_url_menu_get_pro_version">https://goo.gl/2kgq9w</string>
     <string name="lunar_console_url_actions_get_pro_version">https://goo.gl/AmxBnU</string>
+
+    <string name="lunar_console_settings_lock_dialog_title">Not available in FREE version</string>
+    <string name="lunar_console_settings_lock_dialog_learn_more">Learn More</string>
+    <string name="lunar_console_settings_lock_dialog_learn_more_url">https://goo.gl/UHej7v</string>
+
 </resources>
