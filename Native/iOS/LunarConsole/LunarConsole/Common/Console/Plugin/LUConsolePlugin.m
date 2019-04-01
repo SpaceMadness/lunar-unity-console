@@ -450,7 +450,7 @@ static NSString *const kScriptMessageTrackEvent = @"track_event";
         case LUDisplayModeNone:
             return NO;
         case LUDisplayModeErrors:
-            return type == LUConsoleLogTypeError || type == LUConsoleLogTypeException;
+            return type == LUConsoleLogTypeError;
         case LUDisplayModeExceptions:
             return type == LUConsoleLogTypeException;
         default:
