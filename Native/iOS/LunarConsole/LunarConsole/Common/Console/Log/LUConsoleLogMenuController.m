@@ -25,11 +25,10 @@
 
 #define kButtonBackgroundImage @"lunar_console_log_button_background.png"
 
-@interface LUConsoleLogMenuControllerButton ()
-{
-    NSString * _title;
-    id         _target;
-    SEL        _action;
+@interface LUConsoleLogMenuControllerButton () {
+    NSString *_title;
+    id _target;
+    SEL _action;
 }
 
 - (UIButton *)UIButton;
@@ -46,9 +45,8 @@
 - (instancetype)initWithTitle:(NSString *)title target:(id)target action:(SEL)action
 {
     self = [super init];
-    if (self)
-    {
-        _title  = title;
+    if (self) {
+        _title = title;
         _target = target;
         _action = action;
     }
@@ -59,11 +57,9 @@
 - (UIButton *)UIButton
 {
     LUTheme *theme = [LUTheme mainTheme];
-    UIColor *textColor = _textColor ?
-        _textColor : theme.contextMenuTextColor;
-    UIColor *textHighlightedColor = _textHighlightedColor ?
-        _textHighlightedColor : theme.contextMenuTextHighlightColor;
-    
+    UIColor *textColor = _textColor ? _textColor : theme.contextMenuTextColor;
+    UIColor *textHighlightedColor = _textHighlightedColor ? _textHighlightedColor : theme.contextMenuTextHighlightColor;
+
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     [button setTitle:_title forState:UIControlStateNormal];
     [button addTarget:_target action:_action forControlEvents:UIControlEventTouchUpInside];
@@ -78,12 +74,11 @@
 
 @end
 
-@interface LUConsoleLogMenuController ()
-{
-    NSMutableArray * _buttons;
+@interface LUConsoleLogMenuController () {
+    NSMutableArray *_buttons;
 }
 
-@property (nonatomic, weak) IBOutlet UIView * contentView;
+@property (nonatomic, weak) IBOutlet UIView *contentView;
 
 @end
 
@@ -92,8 +87,7 @@
 - (instancetype)init
 {
     self = [super initWithNibName:NSStringFromClass([self class]) bundle:nil];
-    if (self)
-    {
+    if (self) {
         _buttons = [NSMutableArray new];
     }
     return self;
@@ -103,31 +97,31 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
     // background tap
     UITapGestureRecognizer *recognizer = [[UITapGestureRecognizer alloc] initWithTarget:self
                                                                                  action:@selector(handleBackgroundTap:)];
     [self.view addGestureRecognizer:recognizer];
-    
+
     // colors
     LUTheme *theme = [LUTheme mainTheme];
-    
+
     // background
     _contentView.backgroundColor = theme.contextMenuBackgroundColor;
-    
+
     // border radius
     _contentView.layer.borderColor = [[UIColor colorWithRed:0.37 green:0.37 blue:0.37 alpha:1.0] CGColor];
-    _contentView.layer.cornerRadius = 1.5f;
-    
+    _contentView.layer.cornerRadius = 3.0;
+
     // shadow
     _contentView.layer.shadowColor = [UIColor blackColor].CGColor;
     _contentView.layer.shadowOpacity = 0.5;
-    _contentView.layer.shadowRadius = 20.0;
-    
-    
+    _contentView.layer.shadowRadius = 5.0;
+
+
     // add buttons
     [self addButtonsToView:_contentView];
-    
+
     // update constraints
     [self updateViewConstraints];
 }
@@ -145,20 +139,19 @@
 - (void)addButtonsToView:(UIView *)view
 {
     UIButton *prevButton = nil;
-    
-    for (LUConsoleLogMenuControllerButton *buttonData in _buttons)
-    {
+
+    for (LUConsoleLogMenuControllerButton *buttonData in _buttons) {
         UIButton *button = [buttonData UIButton];
-        
+
         // close controller on button
         [button addTarget:self action:@selector(onButton:) forControlEvents:UIControlEventTouchUpInside];
-        
+
         // add to parent
         [view addSubview:button];
-        
+
         // content hugging priority so button won't expand
         [button setContentHuggingPriority:UILayoutPriorityRequired forAxis:UILayoutConstraintAxisVertical];
-        
+
         // set horizontal center
         [NSLayoutConstraint constraintWithItem:button
                                      attribute:NSLayoutAttributeCenterX
@@ -166,8 +159,9 @@
                                         toItem:view
                                      attribute:NSLayoutAttributeCenterX
                                     multiplier:1.0
-                                      constant:0].active = YES;
-        
+                                      constant:0]
+            .active = YES;
+
         // set equal width with a parent
         [NSLayoutConstraint constraintWithItem:button
                                      attribute:NSLayoutAttributeWidth
@@ -175,33 +169,33 @@
                                         toItem:view
                                      attribute:NSLayoutAttributeWidth
                                     multiplier:1.0
-                                      constant:0].active = YES;
-        
+                                      constant:0]
+            .active = YES;
+
         // set top margin
-        if (prevButton)
-        {
+        if (prevButton) {
             [NSLayoutConstraint constraintWithItem:button
                                          attribute:NSLayoutAttributeTop
                                          relatedBy:NSLayoutRelationEqual
                                             toItem:prevButton
                                          attribute:NSLayoutAttributeBottom
                                         multiplier:1.0
-                                          constant:8].active = YES;
-        }
-        else
-        {
+                                          constant:8]
+                .active = YES;
+        } else {
             [NSLayoutConstraint constraintWithItem:button
                                          attribute:NSLayoutAttributeTop
                                          relatedBy:NSLayoutRelationEqual
                                             toItem:view
                                          attribute:NSLayoutAttributeTopMargin
                                         multiplier:1.0
-                                          constant:0].active = YES;
+                                          constant:0]
+                .active = YES;
         }
-        
+
         prevButton = button;
     }
-    
+
     // set top margin
     [NSLayoutConstraint constraintWithItem:prevButton
                                  attribute:NSLayoutAttributeBottom
@@ -209,7 +203,8 @@
                                     toItem:view
                                  attribute:NSLayoutAttributeBottomMargin
                                 multiplier:1.0
-                                  constant:0].active = YES;
+                                  constant:0]
+        .active = YES;
 }
 
 - (void)onButton:(id)sender
@@ -230,8 +225,7 @@
 
 - (void)requestClose
 {
-    if ([_delegate respondsToSelector:@selector(menuControllerDidRequestClose:)])
-    {
+    if ([_delegate respondsToSelector:@selector(menuControllerDidRequestClose:)]) {
         [_delegate menuControllerDidRequestClose:self];
     }
 }

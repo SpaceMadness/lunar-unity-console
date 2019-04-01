@@ -64,7 +64,7 @@
 
 - (void)setCellColor:(UIColor * __nullable)cellColor
 {
-    self.contentView.backgroundColor = cellColor;
+    self.contentView.superview.backgroundColor = cellColor;
 }
 
 @end

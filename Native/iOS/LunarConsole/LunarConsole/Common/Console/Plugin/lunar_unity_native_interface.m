@@ -26,32 +26,28 @@
 #import "Lunar.h"
 #import "LUConsolePlugin.h"
 
-static LUConsolePlugin * _lunarConsolePlugin;
+static LUConsolePlugin *_lunarConsolePlugin;
 
-void __lunar_console_initialize(const char *targetNameStr, const char *methodNameStr, const char * versionStr, int capacity, int trimCount, const char *gestureStr, const char *settingsJsonStr)
+void __lunar_console_initialize(const char *targetNameStr, const char *methodNameStr, const char *versionStr, const char *settingsJsonStr)
 {
     lunar_dispatch_main(^{
         if (_lunarConsolePlugin == nil) {
             NSString *targetName = [[NSString alloc] initWithUTF8String:targetNameStr];
             NSString *methodName = [[NSString alloc] initWithUTF8String:methodNameStr];
             NSString *version = [[NSString alloc] initWithUTF8String:versionStr];
-            NSString *gesture = [[NSString alloc] initWithUTF8String:gestureStr];
             NSString *settingsJson = [[NSString alloc] initWithUTF8String:settingsJsonStr];
-            
+
             _lunarConsolePlugin = [[LUConsolePlugin alloc] initWithTargetName:targetName
                                                                    methodName:methodName
                                                                       version:version
-                                                                     capacity:capacity
-                                                                    trimCount:trimCount
-                                                                  gestureName:gesture
                                                                  settingsJson:settingsJson];
             [_lunarConsolePlugin start];
-            
         }
     });
 }
 
-void __lunar_console_destroy() {
+void __lunar_console_destroy()
+{
     lunar_dispatch_main(^{
         [_lunarConsolePlugin stop];
         _lunarConsolePlugin = nil;
@@ -78,21 +74,18 @@ void __lunar_console_clear()
 {
     lunar_dispatch_main(^{
         LUAssert(_lunarConsolePlugin);
-        [_lunarConsolePlugin clear];
+        [_lunarConsolePlugin clearConsole];
     });
 }
 
-void __lunar_console_log_message(const char * messageStr, const char * stackTraceStr, int type)
+void __lunar_console_log_message(const char *messageStr, const char *stackTraceStr, int type)
 {
     NSString *message = [[NSString alloc] initWithUTF8String:messageStr];
     NSString *stackTrace = [[NSString alloc] initWithUTF8String:stackTraceStr];
-    
-    if ([NSThread isMainThread])
-    {
+
+    if ([NSThread isMainThread]) {
         [_lunarConsolePlugin logMessage:message stackTrace:stackTrace type:type];
-    }
-    else
-    {
+    } else {
         dispatch_async(dispatch_get_main_queue(), ^{
             [_lunarConsolePlugin logMessage:message stackTrace:stackTrace type:type];
         });
@@ -102,13 +95,10 @@ void __lunar_console_log_message(const char * messageStr, const char * stackTrac
 void __lunar_console_action_register(int actionId, const char *actionNameStr)
 {
     NSString *actionName = [[NSString alloc] initWithUTF8String:actionNameStr];
-    
-    if ([NSThread isMainThread])
-    {
+
+    if ([NSThread isMainThread]) {
         [_lunarConsolePlugin registerActionWithId:actionId name:actionName];
-    }
-    else
-    {
+    } else {
         dispatch_async(dispatch_get_main_queue(), ^{
             [_lunarConsolePlugin registerActionWithId:actionId name:actionName];
         });
@@ -117,12 +107,9 @@ void __lunar_console_action_register(int actionId, const char *actionNameStr)
 
 void __lunar_console_action_unregister(int actionId)
 {
-    if ([NSThread isMainThread])
-    {
+    if ([NSThread isMainThread]) {
         [_lunarConsolePlugin unregisterActionWithId:actionId];
-    }
-    else
-    {
+    } else {
         dispatch_async(dispatch_get_main_queue(), ^{
             [_lunarConsolePlugin unregisterActionWithId:actionId];
         });
@@ -136,11 +123,10 @@ void __lunar_console_cvar_register(int entryId, const char *nameStr, const char 
         NSString *type = [[NSString alloc] initWithUTF8String:typeStr];
         NSString *value = [[NSString alloc] initWithUTF8String:valueStr];
         NSString *defaultValue = [[NSString alloc] initWithUTF8String:defaultValueStr];
-        
+
         LUCVar *cvar = [_lunarConsolePlugin registerVariableWithId:entryId name:name type:type value:value defaultValue:defaultValue];
         cvar.flags = flags;
-        if (!isnan(min) && !isnan(max))
-        {
+        if (!isnan(min) && !isnan(max)) {
             cvar.range = LUMakeCVarRange(min, max);
         }
     });

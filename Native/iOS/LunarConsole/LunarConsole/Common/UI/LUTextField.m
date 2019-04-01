@@ -23,17 +23,78 @@
 
 #import "Lunar.h"
 
+@interface LUTextField () <UITextFieldDelegate>
+
+@property (nonatomic, strong) NSString *lastText;
+
+@end
+
 @implementation LUTextField
 
 - (instancetype)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
-    if (self)
-    {
+    if (self) {
         self.backgroundColor = [LUTheme mainTheme].variableEditBackground;
         self.textColor = [LUTheme mainTheme].variableEditTextColor;
+        self.delegate = self;
     }
     return self;
+}
+
+#pragma mark -
+#pragma mark UITextFieldDelegate
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    [textField resignFirstResponder];
+    return NO;
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    self.lastText = textField.text;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    NSString *valueText = textField.text;
+    if (![self isTextValid:valueText]) {
+        if ([self.textInputDelegate respondsToSelector:@selector(textFieldInputDidBecomeInvalid:)]) {
+            [self.textInputDelegate textFieldInputDidBecomeInvalid:self];
+        }
+        self.text = self.lastText;
+    } else {
+        if ([self.textInputDelegate respondsToSelector:@selector(textFieldDidEndEditing:)]) {
+            [self.textInputDelegate textFieldDidEndEditing:self];
+        }
+    }
+}
+
+#pragma mark -
+#pragma mark Text Validation
+
+- (BOOL)isTextValid:(NSString *)text
+{
+    return _textValidator == nil || [_textValidator isTextValid:text];
+}
+
+@end
+
+@implementation LUTextFieldIntegerInputValidator
+
+- (BOOL)isTextValid:(NSString *)text
+{
+    return LUStringTryParseInteger(text, NULL);
+}
+
+@end
+
+@implementation LUTextFieldFloatInputValidator
+
+- (BOOL)isTextValid:(NSString *)text
+{
+    return LUStringTryParseFloat(text, NULL);
 }
 
 @end

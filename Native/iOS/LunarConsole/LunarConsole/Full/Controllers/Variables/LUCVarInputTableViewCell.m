@@ -25,9 +25,8 @@
 
 @interface LUCVarInputTableViewCell () <LUConsolePopupControllerDelegate, LUCVarEditControllerDelegate>
 
-@property (nonatomic, weak) IBOutlet UITextField * inputField;
-@property (nonatomic, weak) IBOutlet UIButton * resetButton;
-@property (nonatomic, weak) IBOutlet NSLayoutConstraint * resetButtonWidthConstraint;
+@property (nonatomic, weak) IBOutlet UITextField *inputField;
+@property (nonatomic, weak) IBOutlet UIButton *resetButton;
 
 @property (nonatomic, assign) CGFloat resetButtonInitialWidth;
 
@@ -41,11 +40,10 @@
 - (void)setupVariable:(LUCVar *)variable
 {
     [super setupVariable:variable];
-    
-    _resetButtonInitialWidth = _resetButtonWidthConstraint.constant;
-    _inputField.text = variable.value;
+
+    self.inputField.text = variable.value;
     [self updateResetButton];
-    
+
     LU_SET_ACCESSIBILITY_IDENTIFIER(_inputField, @"Variable Input Field");
     LU_SET_ACCESSIBILITY_IDENTIFIER(_resetButton, @"Variable Reset Button");
 }
@@ -79,8 +77,7 @@
 
 - (void)updateResetButton
 {
-    _resetButtonWidthConstraint.constant = self.variable.isDefaultValue ? 0 : _resetButtonInitialWidth;
-    [self layoutIfNeeded];
+    self.resetButton.hidden = self.variable.isDefaultValue;
 }
 
 #pragma mark -
@@ -98,11 +95,11 @@
 {
     LUCVarEditController *controller = [[LUCVarEditController alloc] initWithVariable:self.variable];
     controller.delegate = self;
-    
+
     LUConsolePopupController *popupController = [[LUConsolePopupController alloc] initWithContentController:controller];
     popupController.popupDelegate = self;
     [popupController presentFromController:self.presentingController animated:YES];
-    
+
     return NO;
 }
 

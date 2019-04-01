@@ -31,6 +31,6 @@
 
 @interface UnityMessenger : NSObject
 
-- (instancetype)initWithDelegate:(id<UnityMessengerDelegate>)delegate;
+@property (nonatomic, weak) id <UnityMessengerDelegate> delegate;
 
 @end

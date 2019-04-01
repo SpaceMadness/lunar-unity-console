@@ -65,23 +65,121 @@ namespace LunarConsolePlugin
     delegate void LunarConsoleNativeMessageHandler(IDictionary<string, string> data);
 
     [Serializable]
+    public class LogEntryColors
+    {
+        [SerializeField]
+        public Color32 foreground;
+
+        [SerializeField]
+        public Color32 background;
+    }
+
+    [Serializable]
+    public class LogOverlayColors
+    {
+        [SerializeField]
+        public LogEntryColors exception = MakeColors(0xFFEA4646, 0xFF1E1E1E);
+
+        [SerializeField]
+        public LogEntryColors error = MakeColors(0xFFEA4646, 0xFF1E1E1E);
+
+        [SerializeField]
+        public LogEntryColors warning = MakeColors(0xFFCBCB40, 0xFF1E1E1E);
+
+        [SerializeField]
+        public LogEntryColors debug = MakeColors(0xFF9BDDFF, 0xFF1E1E1E);
+
+        static LogEntryColors MakeColors(uint foreground, uint background)
+        {
+            var colors = new LogEntryColors();
+            colors.foreground = MakeColor(foreground);
+            colors.background = MakeColor(background);
+            return colors;
+        }
+
+        static Color32 MakeColor(uint argb)
+        {
+            byte a = (byte)((argb >> 24) & 0xff);
+            byte r = (byte)((argb >> 16) & 0xff);
+            byte g = (byte)((argb >> 8) & 0xff);
+            byte b = (byte)(argb & 0xff);
+            return new Color32(r, g, b, a);
+        }
+    }
+
+    public enum ExceptionWarningDisplayMode
+    {
+        None,
+        Errors,
+        Exceptions,
+        All
+    }
+
+    [Serializable]
+    public class ExceptionWarningSettings
+    {
+        [SerializeField]
+        public ExceptionWarningDisplayMode displayMode = ExceptionWarningDisplayMode.All;
+    }
+
+    [Serializable]
+    public class LogOverlaySettings
+    {
+        [SerializeField]
+        public bool enabled = false;
+
+        [SerializeField]
+        [Tooltip("Maximum visible lines count")]
+        public int maxVisibleLines = 3;
+
+        [SerializeField]
+        [Tooltip("The amount of time each line would be diplayed")]
+        public float timeout = 1.0f;
+
+        [SerializeField]
+        public LogOverlayColors colors;
+    }
+
+    [Serializable]
     public class LunarConsoleSettings
     {
-        public bool exceptionWarning = true;
+        [SerializeField]
+        public ExceptionWarningSettings exceptionWarning;
 
         #if LUNAR_CONSOLE_FREE
         [HideInInspector]
         #endif
-        public bool transparentLogOverlay = false;
+        [SerializeField]
+        public LogOverlaySettings logOverlay;
+
+        [Range(128, 65536)]
+        [Tooltip("Log output will never become bigger than this capacity")]
+        [SerializeField]
+        public int capacity = 4096;
+
+        [Range(128, 65536)]
+        [Tooltip("Log output will be trimmed this many lines when overflown")]
+        [SerializeField]
+        public int trim = 512;
+
+        [Tooltip("Gesture type to open the console")]
+        [SerializeField]
+        public Gesture gesture = Gesture.SwipeDown;
+
+        [Tooltip("If checked - removes <color>, <b> and <i> rich text tags from the output (may cause performance overhead)")]
+        [SerializeField]
+        public bool removeRichTextTags;
 
         #if LUNAR_CONSOLE_FREE
         [HideInInspector]
         #endif
+        [SerializeField]
         public bool sortActions = true;
 
         #if LUNAR_CONSOLE_FREE
         [HideInInspector]
         #endif
+        [SerializeField]
         public bool sortVariables = true;
 
         [SerializeField]
@@ -94,25 +192,7 @@ namespace LunarConsolePlugin
         #pragma warning disable 0414
 
         [SerializeField]
-        LunarConsoleSettings m_settings = new LunarConsoleSettings();
-
-        [Range(128, 65536)]
-        [Tooltip("Logs will be trimmed to the capacity")]
-        [SerializeField]
-        int m_capacity = 4096;
-
-        [Range(128, 65536)]
-        [Tooltip("How many logs will be trimmed when console overflows")]
-        [SerializeField]
-        int m_trim = 512;
-
-        [Tooltip("Gesture type to open the console")]
-        [SerializeField]
-        Gesture m_gesture = Gesture.SwipeDown;
-
-        [Tooltip("If checked - removes <color>, <b> and <i> rich text tags from the output (may cause performance overhead)")]
-        [SerializeField]
-        bool m_removeRichTextTags;
+        LunarConsoleSettings m_settings;
 
         static LunarConsole s_instance;
 
@@ -194,7 +274,7 @@ namespace LunarConsolePlugin
         {
             if (s_instance != null)
             {
-                bool succeed = InitPlatform(m_capacity, m_trim, m_settings);
+                bool succeed = InitPlatform(m_settings);
                 Log.dev("Platform initialized successfully: {0}", succeed.ToString());
             }
         }
@@ -225,15 +305,13 @@ namespace LunarConsolePlugin
 
         #region Platforms
 
-        bool InitPlatform(int capacity, int trim, LunarConsoleSettings settings)
+        bool InitPlatform(LunarConsoleSettings settings)
         {
             try
             {
                 if (m_platform == null)
                 {
-                    trim = Math.Min(trim, capacity); // can't trim more that we have
-
-                    m_platform = CreatePlatform(capacity, trim, settings);
+                    m_platform = CreatePlatform(settings);
                     if (m_platform != null)
                     {
                         m_registry = new CRegistry();
@@ -279,19 +357,19 @@ namespace LunarConsolePlugin
             return false;
         }
 
-        IPlatform CreatePlatform(int capacity, int trim, LunarConsoleSettings settings)
+        IPlatform CreatePlatform(LunarConsoleSettings settings)
         {
             #if UNITY_IOS || UNITY_IPHONE
             if (Application.platform == RuntimePlatform.IPhonePlayer)
             {
                 LunarConsoleNativeMessageCallback callback = NativeMessageCallback;
-                return new PlatformIOS(gameObject.name, callback.Method.Name, Constants.Version, capacity, trim, GetGestureName(m_gesture), settings);
+                return new PlatformIOS(gameObject.name, callback.Method.Name, Constants.Version, settings);
             }
             #elif UNITY_ANDROID
             if (Application.platform == RuntimePlatform.Android)
             {
                 LunarConsoleNativeMessageCallback callback = NativeMessageCallback;
-                return new PlatformAndroid(gameObject.name, callback.Method.Name, Constants.Version, capacity, trim, GetGestureName(m_gesture), settings);
+                return new PlatformAndroid(gameObject.name, callback.Method.Name, Constants.Version, settings);
             }
             #endif
 
@@ -467,7 +545,7 @@ namespace LunarConsolePlugin
                                 var cvar = m_registry.FindVariable(name);
                                 if (cvar == null)
                                 {
-                                    Log.w("Ignoring variable '%s'", name);
+                                    Log.w("Variable '{0}' not registered. Ignoring...", name);
                                     continue;
                                 }
 
@@ -537,7 +615,7 @@ namespace LunarConsolePlugin
 
         void OnLogMessageReceived(string message, string stackTrace, LogType type)
         {
-            message = m_removeRichTextTags ? StringUtils.RemoveRichTextTags(message) : message;
+            message = m_settings.removeRichTextTags ? StringUtils.RemoveRichTextTags(message) : message;
             m_platform.OnLogMessageReceived(message, stackTrace, type);
         }
 
@@ -548,7 +626,7 @@ namespace LunarConsolePlugin
         class PlatformIOS : IPlatform
         {
             [DllImport("__Internal")]
-            private static extern void __lunar_console_initialize(string targetName, string methodName, string version, int capacity, int trim, string gesture, string settingsJson);
+            private static extern void __lunar_console_initialize(string targetName, string methodName, string version, string settingsJson);
 
             [DllImport("__Internal")]
             private static extern void __lunar_console_log_message(string message, string stackTrace, int type);
@@ -583,13 +661,11 @@ namespace LunarConsolePlugin
             /// <param name="targetName">The name of the game object which will receive native callbacks</param>
             /// <param name="methodName">The method of the game object which will be called from the native code</param>
             /// <param name="version">Plugin version</param>
-            /// <param name="capacity">Console capacity (elements over this amount will be trimmed)</param>
-            /// <param name="trim">Console trim amount (how many elements will be trimmed on the overflow)</param>
-            /// <param name="gesture">Gesture name to activate the console</param>
-            public PlatformIOS(string targetName, string methodName, string version, int capacity, int trim, string gesture, LunarConsoleSettings settings)
+            /// <param name="settings">Plugin settings</param>
+            public PlatformIOS(string targetName, string methodName, string version, LunarConsoleSettings settings)
             {
-                var settingsData = JsonUtility.ToJson(settings);
-                __lunar_console_initialize(targetName, methodName, version, capacity, trim, gesture, settingsData);
+                var settingsJson = JsonUtility.ToJson(settings);
+                __lunar_console_initialize(targetName, methodName, version, settingsJson);
             }
 
             public void Update()
@@ -662,7 +738,7 @@ namespace LunarConsolePlugin
             private readonly jvalue[] m_args3 = new jvalue[3];
             private readonly jvalue[] m_args9 = new jvalue[9];
 
-            private static readonly string kPluginClassName = "spacemadness.com.lunarconsole.console.ConsolePlugin";
+            private static readonly string kPluginClassName = "spacemadness.com.lunarconsole.console.NativeBridge";
 
             private readonly AndroidJavaClass m_pluginClass;
 
@@ -685,43 +761,38 @@ namespace LunarConsolePlugin
             /// <param name="targetName">The name of the game object which will receive native callbacks</param>
             /// <param name="methodName">The method of the game object which will be called from the native code</param>
             /// <param name="version">Plugin version</param>
-            /// <param name="capacity">Console capacity (elements over this amount will be trimmed)</param>
-            /// <param name="trim">Console trim amount (how many elements will be trimmed on the overflow)</param>
-            /// <param name="gesture">Gesture name to activate the console</param>
-            public PlatformAndroid(string targetName, string methodName, string version, int capacity, int trim, string gesture, LunarConsoleSettings settings)
+            /// <param name="settings">Plugin settings</param>
+            public PlatformAndroid(string targetName, string methodName, string version, LunarConsoleSettings settings)
             {
-                var settingsData = JsonUtility.ToJson(settings);
+                var settingsJson = JsonUtility.ToJson(settings);
 
                 m_mainThreadId = Thread.CurrentThread.ManagedThreadId;
                 m_pluginClass = new AndroidJavaClass(kPluginClassName);
                 m_pluginClassRaw = m_pluginClass.GetRawClass();
 
-                IntPtr methodInit = GetStaticMethod(m_pluginClassRaw, "init", "(Ljava.lang.String;Ljava.lang.String;Ljava.lang.String;IILjava.lang.String;Ljava.lang.String;)V");
+                IntPtr methodInit = GetStaticMethod(m_pluginClassRaw, "init", "(Ljava.lang.String;Ljava.lang.String;Ljava.lang.String;Ljava.lang.String;)V");
                 var methodInitParams = new jvalue[] {
                     jval(targetName),
                     jval(methodName),
                     jval(version),
-                    jval(capacity),
-                    jval(trim),
-                    jval(gesture),
-                    jval(settingsData)
+                    jval(settingsJson)
                 };
                 CallStaticVoidMethod(methodInit, methodInitParams);
 
                 AndroidJNI.DeleteLocalRef(methodInitParams[0].l);
                 AndroidJNI.DeleteLocalRef(methodInitParams[1].l);
                 AndroidJNI.DeleteLocalRef(methodInitParams[2].l);
-                AndroidJNI.DeleteLocalRef(methodInitParams[5].l);
+                AndroidJNI.DeleteLocalRef(methodInitParams[3].l);
 
                 m_methodLogMessage = GetStaticMethod(m_pluginClassRaw, "logMessage", "(Ljava.lang.String;Ljava.lang.String;I)V");
-                m_methodShowConsole = GetStaticMethod(m_pluginClassRaw, "show", "()V");
-                m_methodHideConsole = GetStaticMethod(m_pluginClassRaw, "hide", "()V");
-                m_methodClearConsole = GetStaticMethod(m_pluginClassRaw, "clear", "()V");
+                m_methodShowConsole = GetStaticMethod(m_pluginClassRaw, "showConsole", "()V");
+                m_methodHideConsole = GetStaticMethod(m_pluginClassRaw, "hideConsole", "()V");
+                m_methodClearConsole = GetStaticMethod(m_pluginClassRaw, "clearConsole", "()V");
                 m_methodRegisterAction = GetStaticMethod(m_pluginClassRaw, "registerAction", "(ILjava.lang.String;)V");
                 m_methodUnregisterAction = GetStaticMethod(m_pluginClassRaw, "unregisterAction", "(I)V");
                 m_methodRegisterVariable = GetStaticMethod(m_pluginClassRaw, "registerVariable", "(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IZFF)V");
                 m_methodUpdateVariable = GetStaticMethod(m_pluginClassRaw, "updateVariable", "(ILjava/lang/String;)V");
-                m_methodDestroy = GetStaticMethod(m_pluginClassRaw, "destroyInstance", "()V");
+                m_methodDestroy = GetStaticMethod(m_pluginClassRaw, "destroy", "()V");
 
                 m_messageQueue = new Queue<LogMessageEntry>();
             }

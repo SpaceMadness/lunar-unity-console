@@ -1,0 +1,29 @@
+{
+  "boolField": true,
+  "child": {
+    "bool": false,
+    "enum": "Two",
+    "float": 2.2,
+    "int": 2,
+    "string": "child"
+  },
+  "children": [
+    {
+      "bool": true,
+      "enum": "One",
+      "float": 3.3,
+      "int": 3,
+      "string": "child-1"
+    },
+    {
+      "bool": false,
+      "enum": "Three",
+      "float": 4.4,
+      "int": 4,
+      "string": "child-2"
+    }
+  ],
+  "floatField": 1.1,
+  "intField": 1,
+  "stringField": "parent"
+}

@@ -14,7 +14,7 @@ class ViewController: LUViewController {
     private let kConsoleTrimCount: UInt = 512
     private let kActionOverlayViewWidth: CGFloat = 32.0
     private let kActionOverlayViewHeight: CGFloat = 32.0
-    
+	
     private(set) var plugin: LUConsolePlugin!
     private var index: Int = 0
     private var logEntries: [FakeLogEntry]!
@@ -23,6 +23,7 @@ class ViewController: LUViewController {
     var nextActionId: Int = 0
     var nextVariableId: Int = 0
     var netPeer: NetPeer!
+	fileprivate let messenger = UnityMessenger()
     
     static var pluginInstance: LUConsolePlugin?
     
@@ -33,29 +34,19 @@ class ViewController: LUViewController {
     
     deinit {
         ViewController.pluginInstance = nil
+		messenger.delegate = nil
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        actionOverlaySwitch.setTestAccessibilityIdentifier("Action Overlay Switch")
-        
-        let settings = [
-            "exceptionWarning":true,
-            "transparentLogOverlay":true,
-            "sortActions":true,
-            "sortVariables":true,
-            "emails":["lunar.plugin@gmail.com","a.lementuev@gmail.com"]
-        ] as [String : Any]
-        var settingsJson = "{}"
-        do {
-            let jsonData = try JSONSerialization.data(withJSONObject: settings, options: .prettyPrinted)
-            settingsJson = String(data: jsonData, encoding: String.Encoding.utf8)!
-        } catch {
-            print(error.localizedDescription)
-        }
-        
-        plugin = LUConsolePlugin(targetName: "LunarConsole", methodName: "OnNativeMessage", version: "0.0.0", capacity: kConsoleCapacity, trimCount: kConsoleTrimCount, gestureName: "SwipeDown", settingsJson:settingsJson)
+		
+		actionOverlaySwitch.setTestAccessibilityIdentifier("Action Overlay Switch")
+		
+		guard let settingsJson = readJsonFile(name: "settings") else {
+			print("Unable to load settings")
+			return
+		}
+        plugin = LUConsolePlugin(targetName: "LunarConsole", methodName: "OnNativeMessage", version: "0.0.0", settingsJson:settingsJson)
         plugin.delegate = self
         
         capacityText.text = "\(kConsoleCapacity)"
@@ -144,10 +135,13 @@ class ViewController: LUViewController {
     }
     
     @IBAction func onClearConsole(sender: AnyObject) {
-        plugin.clear()
+        plugin.clearConsole()
     }
     
-    // MARK: - Log Entries
+	@IBAction func onClearState(sender: AnyObject) {
+		plugin.clearState()
+	}
+	// MARK: - Log Entries
     
     private func loadLogEntries() -> [FakeLogEntry] {
         let URL = Bundle.main.url(forResource: "input", withExtension: "txt")!
@@ -292,6 +286,16 @@ class ViewController: LUViewController {
     private func log(message: String, stackTrace: String?, type: LUConsoleLogType) {
         plugin.logMessage(message, stackTrace: stackTrace, type: type)
     }
+	
+	private func readJsonFile(name: String) -> String? {
+		if let url = Bundle.main.url(forResource: name, withExtension: "json") {
+			if let jsonData = try? Data(contentsOf: url) {
+				return String(data: jsonData, encoding: .utf8)
+			}
+		}
+		
+		return nil
+	}
 }
 
 extension ViewController: UITextFieldDelegate {
@@ -302,19 +306,35 @@ extension ViewController: UITextFieldDelegate {
 }
 
 extension ViewController: NetPeerDelegate {
-    
+	
+	func serverDidConnect() {
+		messenger.delegate = self
+	}
+	
     func peer(_ peer: NetPeer!, didReceive message: NetPeerMessage!) {
         runCommand(jsonObj: message.payload)
     }
     
     func createCommandLookup() -> Dictionary<String, (_ jsonObj: Dictionary<String, Any>) -> Void> {
         var dict = Dictionary<String, (_ jsonObj: Dictionary<String, Any>) -> Void>()
+		dict["log_messages"] = onLogMessages
         dict["add_actions"] = onAddActions
         dict["remove_actions"] = onRemoveActions
         dict["register_variable"] = onRegisterVariable
         dict["update_variable"] = onUpdateVariable
         return dict
     }
+	
+	func onLogMessages(jsonDict: Dictionary<String, Any>) {
+		let messages = jsonDict["messages"] as! Array<Dictionary<String, Any>>
+		for m in messages {
+			let message = m["message"] as! String
+			let stackTrace = m["stacktrace"] as? String
+			let type = LUConsoleLogType(rawValue: (m["type"] as! NSNumber).uint8Value)
+			
+			plugin.logMessage(message, stackTrace: stackTrace, type: type)
+		}
+	}
     
     func onAddActions(jsonDict: Dictionary<String, Any>) {
         let actions = jsonDict["actions"] as! Array<Dictionary<String, Any>>
@@ -367,7 +387,8 @@ extension ViewController: LUConsolePluginDelegate {
 
 extension ViewController: UnityMessengerDelegate {
     func onUnityMessage(_ message: String) {
-        
+        print("Send native callback \(message)")
+		
         let msg = NetPeerMessage(name: "native_callback")!
         msg["message"] = message
         netPeer.send(msg)

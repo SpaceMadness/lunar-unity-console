@@ -30,7 +30,6 @@ import android.util.AttributeSet;
  * Created by alementuev on 1/23/17.
  */
 
-@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 public class Switch extends android.widget.Switch
 {
     public Switch(Context context)

@@ -70,7 +70,7 @@ static const NSInteger kSectionCount = 2;
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
     self.filterBar.delegate = self;
-    self.noActionsWarningLabel.text = @"You don't have any actions or variables yet";
+    self.noActionsWarningLabel.text = @"No actions or variables";
 }
 
 #pragma mark -
@@ -334,13 +334,12 @@ static const NSInteger kSectionCount = 2;
 - (void)updateNoActionWarningView
 {
     BOOL hasContent = [self actionCount] > 0 || [self variableCount] > 0;
-    [self setNoActionsWarningViewHidden:hasContent];
+	[self setNoActionsWarningViewHidden:hasContent];
 }
 
 - (void)setNoActionsWarningViewHidden:(BOOL)hidden
 {
-    self.tableView.hidden = !hidden;
-    self.filterBar.hidden = !hidden;
+    self.actionsView.hidden = !hidden;
     self.noActionsWarningView.hidden = hidden;
 }
 

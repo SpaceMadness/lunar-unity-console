@@ -23,7 +23,7 @@
 #define __LunarConsole__unity_native_interface__
 
 // life cycle
-OBJC_EXTERN void __lunar_console_initialize(const char *targetName, const char *methodName, const char *version, int capacity, int trimCount, const char *gesture, const char *settingsJson);
+OBJC_EXTERN void __lunar_console_initialize(const char *targetName, const char *methodName, const char *version, const char *settingsJson);
 OBJC_EXTERN void __lunar_console_destroy(void);
 
 // show/hide

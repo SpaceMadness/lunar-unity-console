@@ -21,30 +21,104 @@
 
 package spacemadness.com.lunarconsole.utils;
 
+import java.lang.reflect.Array;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class ClassUtils
-{
-    public static List<Field> listFields(Class<?> cls, FieldFilter filter)
-    {
-        final Field[] fields = cls.getDeclaredFields();
-        final List<Field> result = new ArrayList<>(fields.length);
+import static spacemadness.com.lunarconsole.utils.ObjectUtils.checkNotNull;
+import static spacemadness.com.lunarconsole.utils.ObjectUtils.checkNotNullAndNotEmpty;
 
-        for (Field field : fields)
-        {
-            if (filter.accept(field))
-            {
-                result.add(field);
-            }
-        }
+public final class ClassUtils {
+	private static final Class<?>[] EMPTY_PARAMS_TYPES = new Class[0];
+	private static final Object[] EMPTY_ARGS = new Object[0];
 
-        return result;
-    }
+	public static <T> T newInstance(Class<T> cls) {
+		try {
+			Constructor<T> constructor = checkNotNull(cls, "cls").getDeclaredConstructor(EMPTY_PARAMS_TYPES);
+			constructor.setAccessible(true);
+			return constructor.newInstance(EMPTY_ARGS);
 
-    public interface FieldFilter
-    {
-        boolean accept(Field field);
-    }
+		} catch (Exception e) {
+			throw new RuntimeException(e); // TODO: custom class
+		}
+	}
+
+	public static Field[] listFields(Class<?> cls) {
+		return cls.getDeclaredFields();
+	}
+
+	public static List<Field> listFields(Class<?> cls, FieldFilter filter) {
+		final Field[] fields = cls.getDeclaredFields();
+		final List<Field> result = new ArrayList<>(fields.length);
+
+		for (Field field : fields) {
+			if (filter.accept(field)) {
+				result.add(field);
+			}
+		}
+
+		return result;
+	}
+
+	public static Field getField(Object target, String name) {
+		Class<?> cls = checkNotNull(target, "target").getClass();
+		try {
+			return cls.getDeclaredField(checkNotNullAndNotEmpty(name, "name"));
+		} catch (NoSuchFieldException e) {
+			return null;
+		}
+	}
+
+	public static Object getFieldValue(Object target, String name) {
+		Field field = getField(target, name);
+		if (field == null) {
+			throw new IllegalArgumentException("Field not found: " + name);
+		}
+		return getFieldValue(target, field);
+	}
+
+	public static Object getFieldValue(Object target, Field field) {
+		field.setAccessible(true);
+		try {
+			return field.get(target);
+		} catch (IllegalAccessException e) {
+			throw new RuntimeException("Unable to get field value: " + field);
+		}
+	}
+
+	public static Field setFieldValue(Object target, Field field, Object value) {
+		field.setAccessible(true);
+		try {
+			field.set(target, value);
+		} catch (IllegalAccessException e) {
+			throw new RuntimeException("Unable to set field value: " + field);
+		}
+		return field;
+	}
+
+	public static Object getEnumValue(Class<?> cls, int ordinal) {
+		try {
+			Field valuesField = cls.getDeclaredField("$VALUES");
+			valuesField.setAccessible(true);
+			Object values = valuesField.get(null);
+			return Array.get(values, ordinal);
+		} catch (Exception e) {
+			throw new RuntimeException("Unable to get enum values", e);
+		}
+	}
+
+	public static boolean isStatic(Field field) {
+		return Modifier.isStatic(field.getModifiers());
+	}
+
+	public static boolean isFinal(Field field) {
+		return Modifier.isFinal(field.getModifiers());
+	}
+
+	public interface FieldFilter {
+		boolean accept(Field field);
+	}
 }

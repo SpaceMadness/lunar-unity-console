@@ -23,9 +23,9 @@
 
 #import "Lunar.h"
 
-static NSString * const kStateFilename = @"com.spacemadness.lunarmobileconsole.state.bin";
+static NSString *const kStateFilename = @"com.spacemadness.lunarmobileconsole.state.bin";
 
-NSString * const LUConsoleControllerDidResizeNotification = @"LUConsoleControllerDidResizeNotification";
+NSString *const LUConsoleControllerDidResizeNotification = @"LUConsoleControllerDidResizeNotification";
 
 @interface LUConsoleController () <LUConsoleLogControllerResizeDelegate, LUConsoleResizeControllerDelegate>
 
@@ -49,17 +49,16 @@ NSString * const LUConsoleControllerDidResizeNotification = @"LUConsoleControlle
 
 + (void)load
 {
-    if (!LU_IOS_MIN_VERSION_AVAILABLE)
-    {
+    if (!LU_IOS_MIN_VERSION_AVAILABLE) {
         return;
     }
-    
-    if ([self class] == [LUConsoleLogController class])
-    {
+
+    if ([self class] == [LUConsoleLogController class]) {
         // force linker to add these classes for Interface Builder
+        [LUButton class];
         [LUConsoleLogTypeButton class];
-        [LUSwitch class];
         [LUSlider class];
+        [LUSwitch class];
         [LUTableView class];
         [LUPassTouchView class];
         [LUTextField class];
@@ -74,8 +73,7 @@ NSString * const LUConsoleControllerDidResizeNotification = @"LUConsoleControlle
 - (instancetype)initWithPlugin:(LUConsolePlugin *)plugin
 {
     self = [super initWithNibName:NSStringFromClass([self class]) bundle:nil];
-    if (self)
-    {
+    if (self) {
         _plugin = plugin;
         _state = [LUConsoleControllerState loadFromFile:kStateFilename];
     }
@@ -90,92 +88,94 @@ NSString * const LUConsoleControllerDidResizeNotification = @"LUConsoleControlle
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+
+    // background
+    self.view.opaque = YES;
+    self.view.backgroundColor = [UIColor clearColor];
+
+    // controllers
     LUConsoleLogController *logController = [LUConsoleLogController controllerWithPlugin:_plugin];
     logController.version = _plugin.version;
     logController.emails = _emails;
     logController.resizeDelegate = self;
-    
+
     LUActionController *actionController = [LUActionController controllerWithActionRegistry:_plugin.actionRegistry];
-    
-    _pageControllers = @[logController, actionController];
+
+    _pageControllers = @[ logController, actionController ];
     [self setPageControllers:_pageControllers];
-    
+
     // notify delegate
-    if ([_delegate respondsToSelector:@selector(consoleControllerDidOpen:)])
-    {
+    if ([_delegate respondsToSelector:@selector(consoleControllerDidOpen:)]) {
         [_delegate consoleControllerDidOpen:self];
     }
-    
+
     self.contentView.translatesAutoresizingMaskIntoConstraints = NO;
     self.scrollView.translatesAutoresizingMaskIntoConstraints = NO;
-    
+	
+	[self setControllerInsets:_state.controllerInsets];
+
     [self registerNotifications];
 }
 
 - (void)viewDidLayoutSubviews
 {
     [super viewDidLayoutSubviews];
-    
+
     // set paging
     CGSize pageSize = _scrollView.bounds.size;
     CGSize contentSize = CGSizeMake(_pageControllers.count * pageSize.width, pageSize.height);
     _scrollView.contentSize = contentSize;
-    
-    if (_state.hasCustomControllerFrame)
-    {
-        [self setControllerFrame:_state.controllerFrame];
-    }
 }
 
 - (void)setPageControllers:(NSArray<UIViewController *> *)controllers
 {
     NSMutableArray *constraints = [NSMutableArray new];
-    
-    for (NSUInteger idx = 0; idx < controllers.count; ++idx)
-    {
+
+    for (NSUInteger idx = 0; idx < controllers.count; ++idx) {
         UIViewController *controller = controllers[idx];
         UIViewController *prevController = idx > 0 ? controllers[idx - 1] : nil;
         UIViewController *nextController = idx < controllers.count - 1 ? controllers[idx + 1] : nil;
-        
+
         controller.view.translatesAutoresizingMaskIntoConstraints = NO;
-        
+
         // add child controller
         [self addChildViewController:controller];
-        
+
         // add view
         [_scrollView addSubview:controller.view];
-        
+
         // call notification
         [controller didMoveToParentViewController:controller];
-        
+
         // width
         [constraints addObject:[NSLayoutConstraint constraintWithItem:controller.view
                                                             attribute:NSLayoutAttributeWidth
                                                             relatedBy:NSLayoutRelationEqual
                                                                toItem:_scrollView
                                                             attribute:NSLayoutAttributeWidth
-                                                           multiplier:1.0                                      constant:0]];
-        
+                                                           multiplier:1.0
+                                                             constant:0]];
+
         // height
         [constraints addObject:[NSLayoutConstraint constraintWithItem:controller.view
                                                             attribute:NSLayoutAttributeHeight
                                                             relatedBy:NSLayoutRelationEqual
                                                                toItem:_scrollView
                                                             attribute:NSLayoutAttributeHeight
-                                                           multiplier:1.0                                      constant:0]];
-        
+                                                           multiplier:1.0
+                                                             constant:0]];
+
         // vertical center
         [constraints addObject:[NSLayoutConstraint constraintWithItem:controller.view
                                                             attribute:NSLayoutAttributeCenterY
                                                             relatedBy:NSLayoutRelationEqual
                                                                toItem:_scrollView
                                                             attribute:NSLayoutAttributeCenterY
-                                                           multiplier:1.0                                      constant:0]];
-        
+                                                           multiplier:1.0
+                                                             constant:0]];
+
         // left
-        if (prevController)
-        {
+        if (prevController) {
             [constraints addObject:[NSLayoutConstraint constraintWithItem:controller.view
                                                                 attribute:NSLayoutAttributeLeft
                                                                 relatedBy:NSLayoutRelationEqual
@@ -183,9 +183,7 @@ NSString * const LUConsoleControllerDidResizeNotification = @"LUConsoleControlle
                                                                 attribute:NSLayoutAttributeRight
                                                                multiplier:1.0
                                                                  constant:0]];
-        }
-        else
-        {
+        } else {
             [constraints addObject:[NSLayoutConstraint constraintWithItem:controller.view
                                                                 attribute:NSLayoutAttributeLeft
                                                                 relatedBy:NSLayoutRelationEqual
@@ -194,10 +192,9 @@ NSString * const LUConsoleControllerDidResizeNotification = @"LUConsoleControlle
                                                                multiplier:1.0
                                                                  constant:0]];
         }
-        
+
         // right
-        if (nextController)
-        {
+        if (nextController) {
             [constraints addObject:[NSLayoutConstraint constraintWithItem:controller.view
                                                                 attribute:NSLayoutAttributeRight
                                                                 relatedBy:NSLayoutRelationEqual
@@ -205,9 +202,7 @@ NSString * const LUConsoleControllerDidResizeNotification = @"LUConsoleControlle
                                                                 attribute:NSLayoutAttributeLeft
                                                                multiplier:1.0
                                                                  constant:0]];
-        }
-        else
-        {
+        } else {
             [constraints addObject:[NSLayoutConstraint constraintWithItem:controller.view
                                                                 attribute:NSLayoutAttributeRight
                                                                 relatedBy:NSLayoutRelationEqual
@@ -216,10 +211,8 @@ NSString * const LUConsoleControllerDidResizeNotification = @"LUConsoleControlle
                                                                multiplier:1.0
                                                                  constant:0]];
         }
-        
-        
     }
-    
+
     [NSLayoutConstraint activateConstraints:constraints];
 }
 
@@ -232,7 +225,7 @@ NSString * const LUConsoleControllerDidResizeNotification = @"LUConsoleControlle
                              selector:@selector(consolePopupControllerWillAppearNotification:)
                                  name:LUConsolePopupControllerWillAppearNotification
                                object:nil];
-    
+
     [LUNotificationCenter addObserver:self
                              selector:@selector(consolePopupControllerWillDisappearNotification:)
                                  name:LUConsolePopupControllerWillDisappearNotification
@@ -262,13 +255,12 @@ NSString * const LUConsoleControllerDidResizeNotification = @"LUConsoleControlle
     self.contentView.hidden = hidden;
 }
 
-- (void)setControllerFrame:(CGRect)frame
+- (void)setControllerInsets:(UIEdgeInsets)insets
 {
-    self.contentTopConstraint.constant = CGRectGetMinY(frame);
-    self.contentBottomConstraint.constant = frame.size.height;
-    self.contentLeadingConstraint.constant = CGRectGetMinX(frame);
-    self.contentTrailingConstraint.constant = frame.size.width;
-    [self.contentView layoutIfNeeded];
+	self.contentTopConstraint.constant = insets.top;
+	self.contentBottomConstraint.constant = insets.bottom;
+	self.contentLeadingConstraint.constant = insets.left;
+	self.contentTrailingConstraint.constant = insets.right;
 }
 
 #pragma mark -
@@ -276,8 +268,7 @@ NSString * const LUConsoleControllerDidResizeNotification = @"LUConsoleControlle
 
 - (IBAction)onClose:(id)sender
 {
-    if ([_delegate respondsToSelector:@selector(consoleControllerDidClose:)])
-    {
+    if ([_delegate respondsToSelector:@selector(consoleControllerDidClose:)]) {
         [_delegate consoleControllerDidClose:self];
     }
 }
@@ -288,10 +279,17 @@ NSString * const LUConsoleControllerDidResizeNotification = @"LUConsoleControlle
 - (void)consoleLogControllerDidRequestResize:(LUConsoleLogController *)controller
 {
     [self setContentHidden:YES];
-    
-    LUConsoleResizeController *resizeController = [LUConsoleResizeController new];
+
+	CGSize maxSize = [LUUIHelper safeAreaRect].size;
+	LUConsoleResizeController *resizeController = [[LUConsoleResizeController alloc] initWithMaxSize:maxSize
+																					   topConstraint:self.contentTopConstraint
+																				   leadingConstraint:self.contentLeadingConstraint
+																					bottomConstraint:self.contentBottomConstraint
+																				  trailingConstraint:self.contentTrailingConstraint];
     resizeController.delegate = self;
     [self addChildController:resizeController withFrame:self.contentView.frame];
+	
+	[LUUIHelper view:resizeController.view centerInParent:self.contentView];
 }
 
 #pragma mark -
@@ -299,19 +297,16 @@ NSString * const LUConsoleControllerDidResizeNotification = @"LUConsoleControlle
 
 - (void)consoleResizeControllerDidClose:(LUConsoleResizeController *)controller
 {
-    CGRect frame = controller.view.frame;
-    
     [self removeChildController:controller];
-    
-    CGSize size = self.view.bounds.size;
-    frame.size.width = size.width - CGRectGetMaxX(frame);
-    frame.size.height = size.height - CGRectGetMaxY(frame);
-    
-    [self setControllerFrame:frame];
     [self setContentHidden:NO];
-    
-    _state.controllerFrame = frame;
-    
+
+    _state.controllerInsets = UIEdgeInsetsMake(
+        self.contentTopConstraint.constant,
+        self.contentLeadingConstraint.constant,
+        self.contentBottomConstraint.constant,
+        self.contentTrailingConstraint.constant
+     );
+
     // post notification
     [LUNotificationCenter postNotificationName:LUConsoleControllerDidResizeNotification object:nil];
 }
@@ -338,8 +333,7 @@ NSString * const LUConsoleControllerDidResizeNotification = @"LUConsoleControlle
 
 + (void)initialize
 {
-    if ([self class] == [LUConsoleControllerState class])
-    {
+    if ([self class] == [LUConsoleControllerState class]) {
         [self setVersion:1];
     }
 }
@@ -349,45 +343,31 @@ NSString * const LUConsoleControllerDidResizeNotification = @"LUConsoleControlle
 
 - (void)initDefaults
 {
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
-    {
-        _hasCustomControllerFrame = YES;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         CGSize screenSize = LUGetScreenBounds().size;
-        if (LUIsPortraitInterfaceOrientation())
-        {
-            _controllerFrame = CGRectMake(0, 0, 0, 0.4 * screenSize.height);
-        }
-        else
-        {
-            _controllerFrame = CGRectMake(0, 0, 0, 0.25 * screenSize.height);
-        }
-    }
+		_controllerInsets = UIEdgeInsetsMake(0, 0, 0.5 * screenSize.height, 0);
+	} else {
+		_controllerInsets = UIEdgeInsetsZero;
+	}
 }
 
 - (void)serializeWithCoder:(NSCoder *)coder
 {
-    [coder encodeBool:_hasCustomControllerFrame forKey:@"hasCustomControllerFrame"];
-    [coder encodeCGRect:_controllerFrame forKey:@"controllerFrame"];
+    [coder encodeUIEdgeInsets:_controllerInsets forKey:@"controllerInsets"];
 }
 
 - (void)deserializeWithDecoder:(NSCoder *)decoder
 {
-    _hasCustomControllerFrame = [decoder decodeBoolForKey:@"hasCustomControllerFrame"];
-    if (_hasCustomControllerFrame)
-    {
-        _controllerFrame = [decoder decodeCGRectForKey:@"controllerFrame"];
-    }
+    _controllerInsets = [decoder decodeUIEdgeInsetsForKey:@"controllerInsets"];
 }
 
 #pragma mark -
 #pragma mark Properties
 
-- (void)setControllerFrame:(CGRect)controllerFrame
+- (void)setControllerInsets:(UIEdgeInsets)controllerInsets
 {
-    _hasCustomControllerFrame = YES;
-    _controllerFrame = controllerFrame;
-    
-    [self save];
+	_controllerInsets = controllerInsets;
+	[self save];
 }
 
 @end

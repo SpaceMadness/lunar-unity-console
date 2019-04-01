@@ -45,6 +45,9 @@
 
 @interface LUTheme : NSObject
 
+@property (nonatomic, readonly) UIColor *statusBarColor;
+@property (nonatomic, readonly) UIColor *statusBarTextColor;
+
 @property (nonatomic, readonly) UIColor *tableColor;
 @property (nonatomic, readonly) UIColor *logButtonTitleColor;
 @property (nonatomic, readonly) UIColor *logButtonTitleSelectedColor;
@@ -98,6 +101,9 @@
 @property (nonatomic, readonly) UIColor *variableEditBackground;
 @property (nonatomic, readonly) UIColor *variableTextColor;
 @property (nonatomic, readonly) UIColor *variableVolatileTextColor;
+
+@property (nonatomic, readonly) UIFont  *enumButtonFont;
+@property (nonatomic, readonly) UIColor *enumButtonTitleColor;
 
 @property (nonatomic, readonly) UIColor *switchTintColor;
 

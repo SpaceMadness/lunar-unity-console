@@ -51,7 +51,6 @@ public class Console implements
         }
     };
 
-    private final Options options;
     private final ConsoleLogEntryList entries;
 
     private LunarConsoleListener consoleListener;
@@ -63,7 +62,6 @@ public class Console implements
             throw new NullPointerException("Options is null");
         }
 
-        this.options = options.clone();
         this.entries = new ConsoleLogEntryList(options.getCapacity(), options.getTrimCount());
         this.consoleListener = NULL_LISTENER;
     }

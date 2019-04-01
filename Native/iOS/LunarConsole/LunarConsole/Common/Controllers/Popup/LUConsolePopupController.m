@@ -118,6 +118,8 @@ NSString * const LUConsolePopupControllerWillDisappearNotification = @"LUConsole
     
     // "Learn more..." button
     _learnMoreButton.hidden = YES;
+	
+	LU_SET_ACCESSIBILITY_IDENTIFIER(_closeButton, @"Popup Controller Close Button");
 }
 
 - (void)viewWillAppear:(BOOL)animated

@@ -27,14 +27,9 @@
 @class LUActionRegistry;
 @class LUConsole;
 @class LUConsolePlugin;
-@class LUConsolePluginSettings;
 @class LUCVar;
+@class LUPluginSettings;
 @class LUWindow;
-
-typedef enum : NSUInteger {
-    LUConsoleGestureNone,
-    LUConsoleGestureSwipe
-} LUConsoleGesture;
 
 @protocol LUConsolePluginDelegate <NSObject>
 
@@ -62,15 +57,12 @@ extern NSString * const LUConsoleCheckFullVersionNotificationSource;
 @property (nonatomic, assign) NSInteger capacity;
 @property (nonatomic, assign) NSInteger trim;
 
-@property (nonatomic, readonly) LUConsolePluginSettings *settings;
+@property (nonatomic, readonly) LUPluginSettings *settings;
 @property (nonatomic, weak) id<LUConsolePluginDelegate> delegate;
 
 - (instancetype)initWithTargetName:(NSString *)targetName
                         methodName:(NSString *)methodName
                            version:(NSString *)version
-                          capacity:(NSUInteger)capacity
-                         trimCount:(NSUInteger)trimCount
-                       gestureName:(NSString *)gestureName
                       settingsJson:(NSString *)settingsJson;
 
 - (void)start;
@@ -83,7 +75,8 @@ extern NSString * const LUConsoleCheckFullVersionNotificationSource;
 - (void)hideOverlay;
 
 - (void)logMessage:(NSString *)message stackTrace:(NSString *)stackTrace type:(LUConsoleLogType)type;
-- (void)clear;
+- (void)clearConsole;
+- (void)clearState;
 
 - (void)registerActionWithId:(int)actionId name:(NSString *)name;
 - (void)unregisterActionWithId:(int)actionId;

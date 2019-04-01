@@ -25,29 +25,30 @@
 
 void LUDisplayAlertView(NSString *title, NSString *message)
 {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
                                                         message:message
                                                        delegate:nil
                                               cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil];
     [alertView show];
+#pragma clang diagnostic pop
 }
 
 CGRect LUGetScreenBounds()
 {
-    if (LU_IOS_VERSION_AVAILABLE(__IPHONE_8_0))
-    {
+    if (LU_IOS_VERSION_AVAILABLE(__IPHONE_8_0)) {
         return [UIScreen mainScreen].bounds;
     }
-    
+
     CGRect screenSize = [UIScreen mainScreen].bounds;
-    if (LUIsLandscapeInterfaceOrientation())
-    {
+    if (LUIsLandscapeInterfaceOrientation()) {
         CGFloat width = CGRectGetWidth(screenSize);
         CGFloat height = CGRectGetHeight(screenSize);
         screenSize.size = CGSizeMake(height, width);
     }
-    
+
     return screenSize;
 }
 

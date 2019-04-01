@@ -42,6 +42,7 @@
 
 @optional
 - (void)clientDidConnect;
+- (void)serverDidConnect;
 - (void)peer:(NetPeer *)peer didReceiveMessage:(NetPeerMessage *)message;
 - (void)peerDidReceiveAck:(NetPeer *)peer;
 

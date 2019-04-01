@@ -23,9 +23,12 @@
 
 #import "Lunar.h"
 
-static LUTheme * _mainTheme;
+static LUTheme *_mainTheme;
 
 @interface LUTheme ()
+
+@property (nonatomic, strong) UIColor *statusBarColor;
+@property (nonatomic, strong) UIColor *statusBarTextColor;
 
 @property (nonatomic, strong) UIColor *tableColor;
 @property (nonatomic, strong) UIColor *logButtonTitleColor;
@@ -58,34 +61,37 @@ static LUTheme * _mainTheme;
 @property (nonatomic, strong) UIColor *collapseBackgroundColor;
 @property (nonatomic, strong) UIColor *collapseTextColor;
 
-@property (nonatomic, strong) UIFont  *actionsWarningFont;
+@property (nonatomic, strong) UIFont *actionsWarningFont;
 @property (nonatomic, strong) UIColor *actionsWarningTextColor;
-@property (nonatomic, strong) UIFont  *actionsFont;
+@property (nonatomic, strong) UIFont *actionsFont;
 @property (nonatomic, strong) UIColor *actionsTextColor;
 @property (nonatomic, strong) UIColor *actionsBackgroundColorLight;
 @property (nonatomic, strong) UIColor *actionsBackgroundColorDark;
-@property (nonatomic, strong) UIFont  *actionsGroupFont;
+@property (nonatomic, strong) UIFont *actionsGroupFont;
 @property (nonatomic, strong) UIColor *actionsGroupTextColor;
 @property (nonatomic, strong) UIColor *actionsGroupBackgroundColor;
 
-@property (nonatomic, strong) UIFont  *contextMenuFont;
+@property (nonatomic, strong) UIFont *contextMenuFont;
 @property (nonatomic, strong) UIColor *contextMenuBackgroundColor;
 @property (nonatomic, strong) UIColor *contextMenuTextColor;
 @property (nonatomic, strong) UIColor *contextMenuTextHighlightColor;
 @property (nonatomic, strong) UIColor *contextMenuTextProColor;
 @property (nonatomic, strong) UIColor *contextMenuTextProHighlightColor;
 
-@property (nonatomic, strong) UIFont  *variableEditFont;
+@property (nonatomic, strong) UIFont *variableEditFont;
 @property (nonatomic, strong) UIColor *variableEditTextColor;
 @property (nonatomic, strong) UIColor *variableEditBackground;
 @property (nonatomic, strong) UIColor *variableTextColor;
 @property (nonatomic, strong) UIColor *variableVolatileTextColor;
 
+@property (nonatomic, strong) UIFont *enumButtonFont;
+@property (nonatomic, strong) UIColor *enumButtonTitleColor;
+
 @property (nonatomic, strong) UIColor *switchTintColor;
 @property (nonatomic, strong) UIImage *settingsIconImage;
 @property (nonatomic, strong) UIColor *settingsTextColorUnavailable;
 
-@property (nonatomic, strong) UIFont  *logMessageDetailFont;
+@property (nonatomic, strong) UIFont *logMessageDetailFont;
 @property (nonatomic, strong) UIColor *logMessageStacktraceColor;
 
 @end
@@ -104,11 +110,11 @@ static LUTheme * _mainTheme;
 
 @property (nonatomic, strong) UIImage *normalImage;
 @property (nonatomic, strong) UIImage *selectedImage;
-@property (nonatomic, strong) UIFont  *font;
+@property (nonatomic, strong) UIFont *font;
 
 @end
 
-static UIColor * LUColorMake(int rgb)
+static UIColor *LUColorMake(int rgb)
 {
     CGFloat red = ((rgb >> 16) & 0xff) / 255.0;
     CGFloat green = ((rgb >> 8) & 0xff) / 255.0;
@@ -116,22 +122,21 @@ static UIColor * LUColorMake(int rgb)
     return [UIColor colorWithRed:red green:green blue:blue alpha:1.0f];
 }
 
-static UIImage * CreateCollapseBackgroundImage()
+static UIImage *CreateCollapseBackgroundImage()
 {
     UIImage *collapseImage = [UIImage imageNamed:@"lunar_console_collapse_background.png"];
 
-    if ([UIScreen mainScreen].scale == 2.0)
-    {
+    if ([UIScreen mainScreen].scale == 2.0) {
         CGFloat offset = 23 / 2.0;
         return [collapseImage resizableImageWithCapInsets:UIEdgeInsetsMake(offset, offset, offset, offset)];
     }
-    
+
     if ([UIScreen mainScreen].scale == 1.0) // should not get there - just a sanity check
     {
         CGFloat offset = 11;
         return [collapseImage resizableImageWithCapInsets:UIEdgeInsetsMake(offset, offset, offset, offset)];
     }
-    
+
     CGFloat offset = 35 / 3.0;
     return [collapseImage resizableImageWithCapInsets:UIEdgeInsetsMake(offset, offset, offset, offset)];
 }
@@ -140,30 +145,31 @@ static UIImage * CreateCollapseBackgroundImage()
 
 + (void)initialize
 {
-    if ([self class] == [LUTheme class])
-    {
+    if ([self class] == [LUTheme class]) {
         LUCellSkin *cellLog = [LUCellSkin cellSkin];
         cellLog.icon = [UIImage imageNamed:@"lunar_console_icon_log.png"];
         cellLog.textColor = LUColorMake(0xb1b1b1);
         cellLog.backgroundColorLight = LUColorMake(0x3c3c3c);
         cellLog.backgroundColorDark = LUColorMake(0x373737);
         cellLog.overlayTextColor = LUColorMake(0xadadad);
-        
+
         LUCellSkin *cellError = [LUCellSkin cellSkin];
         cellError.icon = [UIImage imageNamed:@"lunar_console_icon_log_error.png"];
         cellError.textColor = cellLog.textColor;
         cellError.backgroundColorLight = cellLog.backgroundColorLight;
         cellError.backgroundColorDark = cellLog.backgroundColorDark;
         cellError.overlayTextColor = LUColorMake(0xfc0000);
-        
+
         LUCellSkin *cellWarning = [LUCellSkin cellSkin];
         cellWarning.icon = [UIImage imageNamed:@"lunar_console_icon_log_warning.png"];
         cellWarning.textColor = cellLog.textColor;
         cellWarning.backgroundColorLight = cellLog.backgroundColorLight;
         cellWarning.backgroundColorDark = cellLog.backgroundColorDark;
         cellWarning.overlayTextColor = LUColorMake(0xf4f600);
-        
+
         _mainTheme = [LUTheme new];
+        _mainTheme.statusBarColor = [UIColor blackColor];
+        _mainTheme.statusBarTextColor = [UIColor whiteColor];
         _mainTheme.tableColor = LUColorMake(0x2c2c27);
         _mainTheme.logButtonTitleColor = LUColorMake(0xb1b1b1);
         _mainTheme.logButtonTitleSelectedColor = LUColorMake(0x595959);
@@ -210,10 +216,12 @@ static UIImage * CreateCollapseBackgroundImage()
         _mainTheme.variableEditBackground = LUColorMake(0x4d4d4d);
         _mainTheme.variableTextColor = _mainTheme.actionsTextColor;
         _mainTheme.variableVolatileTextColor = LUColorMake(0xfdd631);
-        
+        _mainTheme.enumButtonFont = _mainTheme.font;
+        _mainTheme.enumButtonTitleColor = _mainTheme.actionsTextColor;
+
         _mainTheme.logMessageDetailFont = [self createCustomFontWithSize:12];
         _mainTheme.logMessageStacktraceColor = LUColorMake(0x555555);
-        
+
         LUButtonSkin *actionButtonLargeSkin = [LUButtonSkin buttonSkin];
         actionButtonLargeSkin.normalImage = LUGet3SlicedImage(@"lunar_console_action_button_large_normal");
         actionButtonLargeSkin.selectedImage = LUGet3SlicedImage(@"lunar_console_action_button_large_selected");
@@ -224,11 +232,10 @@ static UIImage * CreateCollapseBackgroundImage()
 + (UIFont *)createCustomFontWithName:(NSString *)name size:(CGFloat)size
 {
     UIFont *font = [UIFont fontWithName:name size:size];
-    if (font != nil)
-    {
+    if (font != nil) {
         return font;
     }
-    
+
     return [UIFont systemFontOfSize:size];
 }
 

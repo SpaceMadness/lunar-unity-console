@@ -21,15 +21,11 @@
 
 #import <Foundation/Foundation.h>
 
-#ifndef __IPHONE_8_0
-#define __IPHONE_8_0     80000
-#endif
-
 #ifndef __IPHONE_9_0
 #define __IPHONE_9_0     90000
 #endif
 
-#define LU_SYSTEM_VERSION_MIN __IPHONE_8_0
+#define LU_SYSTEM_VERSION_MIN __IPHONE_9_0
 
 #define LU_IOS_VERSION_AVAILABLE(sys_ver) lunar_ios_version_available(sys_ver)
 #define LU_IOS_MIN_VERSION_AVAILABLE (LU_IOS_VERSION_AVAILABLE(LU_SYSTEM_VERSION_MIN))

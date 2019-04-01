@@ -24,6 +24,8 @@ package spacemadness.com.lunarconsole.utils;
 import android.os.Handler;
 import android.os.Looper;
 
+import spacemadness.com.lunarconsole.concurrent.DispatchQueue;
+
 public class ThreadUtils
 {
     private final Handler handler;
@@ -73,9 +75,10 @@ public class ThreadUtils
         handler.removeCallbacks(null);
     }
 
-    public static boolean isRunningOnMainThread()
-    {
-        return Thread.currentThread() == Looper.getMainLooper().getThread();
+    public static void checkQueue(DispatchQueue dispatchQueue) {
+        if (!dispatchQueue.isCurrent()) {
+            throw new IllegalStateException("Invalid dispatch queue");
+        }
     }
 
     private static class Holder

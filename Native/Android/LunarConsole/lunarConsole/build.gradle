@@ -1,13 +1,16 @@
 import org.apache.tools.ant.taskdefs.condition.Os
 
 apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-android'
 
 buildscript {
     repositories {
+        google()
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.3'
+        classpath 'com.android.tools.build:gradle:3.3.2'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -16,16 +19,16 @@ buildscript {
 
 allprojects {
     repositories {
+        google()
         jcenter()
     }
 }
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 26
     defaultConfig {
-        minSdkVersion 9 // it should be 14 but Unity build fails if it's more than 9
-        targetSdkVersion 23
+        minSdkVersion 14
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
     }
@@ -36,18 +39,32 @@ android {
         }
     }
     publishNonDefault true
+    flavorDimensions "version"
     productFlavors {
         full {
+            dimension "version"
         }
         free {
+            dimension "version"
         }
+    }
+
+    configurations {
+        fullDebug
+        fullRelease
+        freeDebug
+        freeRelease
     }
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
-    provided files(getUnityDependencyJar())
-    testCompile 'junit:junit:4.12'
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    compileOnly files(getUnityDependencyJar())
+    testImplementation 'junit:junit:4.12'
+    testImplementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+}
+repositories {
+    mavenCentral()
 }
 
 static def getUnityDependencyJar() {

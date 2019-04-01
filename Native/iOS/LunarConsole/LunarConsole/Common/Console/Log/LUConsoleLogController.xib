@@ -1,233 +1,221 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2659" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="LUConsoleLogController">
             <connections>
-                <outlet property="errorButton" destination="dmv-dc-ake" id="bzv-8h-7Xn"/>
-                <outlet property="filterBar" destination="vKS-zo-ZIz" id="MiC-f4-m7a"/>
-                <outlet property="lastToolbarButtonTrailingConstraintCompact" destination="f7P-pY-qir" id="gQf-bw-3bT"/>
-                <outlet property="logButton" destination="c7V-25-T5q" id="DkP-wt-c7L"/>
-                <outlet property="overflowLabelHeightConstraint" destination="ZcA-il-f8H" id="HZj-qG-BFe"/>
-                <outlet property="overflowWarningLabel" destination="k0I-ks-m0p" id="pZZ-6T-XYm"/>
-                <outlet property="scrollLockButton" destination="Yxu-k1-Kpx" id="4nO-YG-jYi"/>
-                <outlet property="statusBarView" destination="Ouu-Ne-nFv" id="cKb-7P-Jog"/>
-                <outlet property="tableView" destination="fve-SL-Ifu" id="qAk-M1-lqy"/>
-                <outlet property="view" destination="MJy-N8-UoI" id="7tl-ON-OeV"/>
-                <outlet property="warningButton" destination="jA1-cI-4L9" id="1Z9-uP-un7"/>
+                <outlet property="errorButton" destination="rVm-6B-7Pn" id="Xs1-38-vst"/>
+                <outlet property="filterBar" destination="tyr-JS-aHW" id="hxF-Cg-ELY"/>
+                <outlet property="logButton" destination="606-se-Duv" id="xmt-KW-Gx5"/>
+                <outlet property="overflowWarningLabel" destination="pS0-TO-fn1" id="M8M-6k-frn"/>
+                <outlet property="scrollLockButton" destination="S7e-Gk-FQ9" id="Wzs-zO-9rY"/>
+                <outlet property="statusBar" destination="d4L-R2-fM7" id="vWz-Cy-B0D"/>
+                <outlet property="tableView" destination="kme-n0-WnJ" id="pwL-1j-BZP"/>
+                <outlet property="view" destination="iN0-l3-epB" id="P0s-bf-EgU"/>
+                <outlet property="warningButton" destination="tx5-db-SeJ" id="4WG-mO-zTj"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <view contentMode="scaleToFill" id="MJy-N8-UoI">
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
             <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <label contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lunar Console" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ouu-Ne-nFv">
-                    <rect key="frame" x="0.0" y="0.0" width="375" height="20"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="20" id="pgQ-Me-QmY"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
-                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <tableView clipsSubviews="YES" contentMode="scaleToFill" bounces="NO" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="fve-SL-Ifu" customClass="LUTableView">
-                    <rect key="frame" x="0.0" y="64" width="375" height="537"/>
-                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <connections>
-                        <outlet property="dataSource" destination="-1" id="pCv-24-uaF"/>
-                        <outlet property="delegate" destination="-1" id="Wwa-3H-gpP"/>
-                    </connections>
-                </tableView>
-                <button contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="c7V-25-T5q" userLabel="Button Log" customClass="LUConsoleLogTypeButton">
-                    <rect key="frame" x="153" y="20" width="66" height="44"/>
-                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <accessibility key="accessibilityConfiguration" label="Type Debug"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="66" id="K1D-KQ-VAo"/>
-                        <constraint firstAttribute="height" constant="44" id="a83-gv-elc"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                    <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
-                    <inset key="imageEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
-                    <state key="normal" title="999+" image="lunar_console_icon_log" backgroundImage="lunar_console_log_button_background">
-                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    </state>
-                </button>
-                <button contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="jA1-cI-4L9" userLabel="Button Warning" customClass="LUConsoleLogTypeButton">
-                    <rect key="frame" x="219" y="20" width="66" height="44"/>
-                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <accessibility key="accessibilityConfiguration" label="Type Warning"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                    <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
-                    <inset key="imageEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
-                    <state key="normal" title="999+" image="lunar_console_icon_log_warning" backgroundImage="lunar_console_log_button_background">
-                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    </state>
-                </button>
-                <button contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dmv-dc-ake" userLabel="Button Error" customClass="LUConsoleLogTypeButton">
-                    <rect key="frame" x="285" y="20" width="66" height="44"/>
-                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <accessibility key="accessibilityConfiguration" label="Type Error"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
-                    <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
-                    <inset key="imageEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
-                    <state key="normal" title="999+" image="lunar_console_icon_log_error" backgroundImage="lunar_console_log_button_background">
-                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    </state>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9Gl-60-1dT" userLabel="Button More">
-                    <rect key="frame" x="351" y="20" width="24" height="44"/>
-                    <accessibility key="accessibilityConfiguration" label="Console Button More"/>
-                    <state key="normal" image="lunar_console_icon_button_more" backgroundImage="lunar_console_log_button_background"/>
-                    <connections>
-                        <action selector="onMoreButton:" destination="-1" eventType="touchUpInside" id="C9h-VG-7yE"/>
-                    </connections>
-                </button>
-                <searchBar contentMode="redraw" barStyle="black" placeholder="Filter" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vKS-zo-ZIz">
-                    <rect key="frame" x="0.0" y="20" width="153" height="44"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="44" id="Z1T-w0-kvT"/>
-                    </constraints>
-                    <color key="tintColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <textInputTraits key="textInputTraits"/>
-                    <connections>
-                        <outlet property="delegate" destination="-1" id="enh-d2-6gd"/>
-                    </connections>
-                </searchBar>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cXe-z7-jmy" userLabel="Button Clear">
-                    <rect key="frame" x="8" y="629" width="46" height="30"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="46" id="eww-nr-ZJm"/>
-                        <constraint firstAttribute="height" constant="30" id="hqP-BL-NQf"/>
-                    </constraints>
-                    <state key="normal" image="lunar_console_icon_button_clear">
-                        <color key="titleColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    </state>
-                    <connections>
-                        <action selector="onClear:" destination="-1" eventType="touchUpInside" id="RaA-b0-4Ng"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Yxu-k1-Kpx" userLabel="Button Lock/Unlock" customClass="LUToggleButton">
-                    <rect key="frame" x="62" y="629" width="46" height="30"/>
-                    <state key="normal" image="lunar_console_icon_button_unlock">
-                        <color key="titleColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    </state>
-                    <state key="selected" image="lunar_console_icon_button_lock"/>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WdV-vA-4jI" userLabel="Button Copy">
-                    <rect key="frame" x="116" y="629" width="46" height="30"/>
-                    <state key="normal" image="lunar_console_icon_button_clipboard">
-                        <color key="titleColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    </state>
-                    <connections>
-                        <action selector="onCopy:" destination="-1" eventType="touchUpInside" id="k4n-iq-ti3"/>
-                    </connections>
-                </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uTu-w2-mXe" userLabel="Button E-mail">
-                    <rect key="frame" x="170" y="629" width="46" height="30"/>
-                    <state key="normal" image="lunar_console_icon_button_email">
-                        <color key="titleColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    </state>
-                    <connections>
-                        <action selector="onEmail:" destination="-1" eventType="touchUpInside" id="VDJ-rW-K21"/>
-                    </connections>
-                </button>
-                <label userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Too much output: %d item(s) trimmed" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k0I-ks-m0p" userLabel="Overflow Warning">
-                    <rect key="frame" x="0.0" y="601" width="375" height="20"/>
-                    <color key="backgroundColor" red="0.36005657911300659" green="0.35887295007705688" blue="0.26414299011230469" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <accessibility key="accessibilityConfiguration" identifier="Console Overflow Warning"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="20" id="ZcA-il-f8H"/>
-                    </constraints>
-                    <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
-                    <color key="textColor" red="0.73257553577423096" green="0.73255372047424316" blue="0.73256611824035645" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    <nil key="highlightedColor"/>
-                </label>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NSV-Dn-alC" userLabel="Button Settings">
-                    <rect key="frame" x="224" y="629" width="46" height="30"/>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="46" id="DyS-x4-Au6"/>
-                        <constraint firstAttribute="height" constant="30" id="PTT-PP-pBa"/>
-                    </constraints>
-                    <state key="normal" image="lunar_console_icon_button_settings">
-                        <color key="titleColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                    </state>
-                    <connections>
-                        <action selector="onSettings:" destination="-1" eventType="touchUpInside" id="9n7-v8-Bca"/>
-                    </connections>
-                </button>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="3H2-7i-gLS">
+                    <rect key="frame" x="0.0" y="20" width="375" height="647"/>
+                    <subviews>
+                        <label contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Lunar Console" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="d4L-R2-fM7" userLabel="Status Bar">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="20"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="20" id="UWY-PL-wcT"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <stackView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="kaN-72-6tG">
+                            <rect key="frame" x="0.0" y="20" width="375" height="56"/>
+                            <subviews>
+                                <searchBar contentMode="redraw" barStyle="black" placeholder="Filter" translucent="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tyr-JS-aHW">
+                                    <rect key="frame" x="0.0" y="0.0" width="153" height="56"/>
+                                    <color key="tintColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <textInputTraits key="textInputTraits"/>
+                                </searchBar>
+                                <button contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="606-se-Duv" userLabel="Button Log" customClass="LUConsoleLogTypeButton">
+                                    <rect key="frame" x="153" y="0.0" width="66" height="56"/>
+                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <accessibility key="accessibilityConfiguration" label="Type Debug"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="66" id="C33-DM-1Ke"/>
+                                    </constraints>
+                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                    <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                    <inset key="imageEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                    <state key="normal" title="999+" image="lunar_console_icon_log" backgroundImage="lunar_console_log_button_background">
+                                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </state>
+                                </button>
+                                <button contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tx5-db-SeJ" userLabel="Button Warning" customClass="LUConsoleLogTypeButton">
+                                    <rect key="frame" x="219" y="0.0" width="66" height="56"/>
+                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <accessibility key="accessibilityConfiguration" label="Type Warning"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                    <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                    <inset key="imageEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                    <state key="normal" title="999+" image="lunar_console_icon_log_warning" backgroundImage="lunar_console_log_button_background">
+                                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </state>
+                                </button>
+                                <button contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rVm-6B-7Pn" userLabel="Button Error" customClass="LUConsoleLogTypeButton">
+                                    <rect key="frame" x="285" y="0.0" width="66" height="56"/>
+                                    <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <accessibility key="accessibilityConfiguration" label="Type Error"/>
+                                    <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                    <inset key="titleEdgeInsets" minX="10" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                    <inset key="imageEdgeInsets" minX="5" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                    <state key="normal" title="999+" image="lunar_console_icon_log_error" backgroundImage="lunar_console_log_button_background">
+                                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </state>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FBW-kN-sku" userLabel="Button More">
+                                    <rect key="frame" x="351" y="0.0" width="24" height="56"/>
+                                    <accessibility key="accessibilityConfiguration" label="Console Button More"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="24" id="aLn-1c-kvp"/>
+                                    </constraints>
+                                    <state key="normal" image="lunar_console_icon_button_more" backgroundImage="lunar_console_log_button_background"/>
+                                    <connections>
+                                        <action selector="onMoreButton:" destination="-1" eventType="touchUpInside" id="MB8-9J-dRQ"/>
+                                    </connections>
+                                </button>
+                            </subviews>
+                            <constraints>
+                                <constraint firstItem="tx5-db-SeJ" firstAttribute="width" secondItem="606-se-Duv" secondAttribute="width" id="5PJ-nW-tOp"/>
+                                <constraint firstItem="rVm-6B-7Pn" firstAttribute="width" secondItem="606-se-Duv" secondAttribute="width" id="R4u-m8-4cA"/>
+                            </constraints>
+                        </stackView>
+                        <tableView clipsSubviews="YES" contentMode="scaleToFill" horizontalHuggingPriority="249" verticalHuggingPriority="249" horizontalCompressionResistancePriority="749" verticalCompressionResistancePriority="749" bounces="NO" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="kme-n0-WnJ" customClass="LUTableView">
+                            <rect key="frame" x="0.0" y="76" width="375" height="505"/>
+                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </tableView>
+                        <label userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Too much output: %d item(s) trimmed" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pS0-TO-fn1" userLabel="Overflow Warning">
+                            <rect key="frame" x="0.0" y="581" width="375" height="20"/>
+                            <color key="backgroundColor" red="0.3600565791" green="0.35887295009999998" blue="0.26414299009999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <accessibility key="accessibilityConfiguration" identifier="Console Overflow Warning"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="20" id="rF0-hb-OKV"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
+                            <color key="textColor" red="0.73257553580000001" green="0.73255372050000001" blue="0.73256611819999995" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <stackView contentMode="scaleToFill" spacing="8" translatesAutoresizingMaskIntoConstraints="NO" id="FZL-vr-f2I">
+                            <rect key="frame" x="0.0" y="601" width="375" height="46"/>
+                            <subviews>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="8i5-UD-JJn" userLabel="Button Clear">
+                                    <rect key="frame" x="0.0" y="0.0" width="46" height="46"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="46" id="v6f-aB-IEu"/>
+                                    </constraints>
+                                    <state key="normal" image="lunar_console_icon_button_clear">
+                                        <color key="titleColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="onClear:" destination="-1" eventType="touchUpInside" id="C06-Zs-rAo"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="249" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S7e-Gk-FQ9" userLabel="Button Lock/Unlock" customClass="LUToggleButton">
+                                    <rect key="frame" x="54" y="0.0" width="46" height="46"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="46" id="G2U-zF-cQb"/>
+                                    </constraints>
+                                    <state key="normal" image="lunar_console_icon_button_unlock">
+                                        <color key="titleColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </state>
+                                    <state key="selected" image="lunar_console_icon_button_lock"/>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bVX-bX-HFm" userLabel="Button Copy">
+                                    <rect key="frame" x="108" y="0.0" width="46" height="46"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="46" id="QI9-2B-dLO"/>
+                                    </constraints>
+                                    <state key="normal" image="lunar_console_icon_button_clipboard">
+                                        <color key="titleColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="onCopy:" destination="-1" eventType="touchUpInside" id="kmy-Is-Fcy"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zPm-G2-81h" userLabel="Button E-mail">
+                                    <rect key="frame" x="162" y="0.0" width="46" height="46"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="46" id="bR3-kp-ppD"/>
+                                    </constraints>
+                                    <state key="normal" image="lunar_console_icon_button_email">
+                                        <color key="titleColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="onEmail:" destination="-1" eventType="touchUpInside" id="qz8-LH-DoT"/>
+                                    </connections>
+                                </button>
+                                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Joh-ec-bG0" userLabel="Button Settings">
+                                    <rect key="frame" x="216" y="0.0" width="46" height="46"/>
+                                    <constraints>
+                                        <constraint firstAttribute="width" constant="46" id="Ip2-Ws-P8b"/>
+                                    </constraints>
+                                    <state key="normal" image="lunar_console_icon_button_settings">
+                                        <color key="titleColor" red="0.66666666669999997" green="0.66666666669999997" blue="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                        <color key="titleShadowColor" red="0.5" green="0.5" blue="0.5" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </state>
+                                    <connections>
+                                        <action selector="onSettings:" destination="-1" eventType="touchUpInside" id="ooy-TM-ULq"/>
+                                    </connections>
+                                </button>
+                                <view autoresizesSubviews="NO" clearsContextBeforeDrawing="NO" userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uT1-JG-8gt" userLabel="Spacer">
+                                    <rect key="frame" x="270" y="0.0" width="105" height="46"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </view>
+                            </subviews>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="46" id="Vt1-xh-kEq"/>
+                            </constraints>
+                        </stackView>
+                    </subviews>
+                </stackView>
             </subviews>
-            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
-                <constraint firstItem="dmv-dc-ake" firstAttribute="width" secondItem="jA1-cI-4L9" secondAttribute="width" id="1o4-0S-o2O"/>
-                <constraint firstItem="cXe-z7-jmy" firstAttribute="leading" secondItem="MJy-N8-UoI" secondAttribute="leading" constant="8" id="2Tp-N5-OAo"/>
-                <constraint firstItem="Ouu-Ne-nFv" firstAttribute="top" secondItem="MJy-N8-UoI" secondAttribute="top" id="62Z-u8-Hhk"/>
-                <constraint firstItem="k0I-ks-m0p" firstAttribute="top" secondItem="fve-SL-Ifu" secondAttribute="bottom" id="7W2-ei-aTy"/>
-                <constraint firstItem="uTu-w2-mXe" firstAttribute="baseline" secondItem="WdV-vA-4jI" secondAttribute="baseline" id="AfV-op-1O3"/>
-                <constraint firstItem="c7V-25-T5q" firstAttribute="centerY" secondItem="vKS-zo-ZIz" secondAttribute="centerY" id="DWe-2c-aok"/>
-                <constraint firstItem="jA1-cI-4L9" firstAttribute="leading" secondItem="c7V-25-T5q" secondAttribute="trailing" id="Gof-Xu-0cT"/>
-                <constraint firstItem="dmv-dc-ake" firstAttribute="leading" secondItem="jA1-cI-4L9" secondAttribute="trailing" id="HsR-kU-ZxZ"/>
-                <constraint firstItem="cXe-z7-jmy" firstAttribute="baseline" secondItem="Yxu-k1-Kpx" secondAttribute="baseline" id="Kgq-vd-TdH"/>
-                <constraint firstItem="Yxu-k1-Kpx" firstAttribute="leading" secondItem="cXe-z7-jmy" secondAttribute="trailing" constant="8" id="Md0-lT-xCV"/>
-                <constraint firstItem="cXe-z7-jmy" firstAttribute="width" secondItem="Yxu-k1-Kpx" secondAttribute="width" id="Mze-kQ-tWT"/>
-                <constraint firstItem="NSV-Dn-alC" firstAttribute="leading" secondItem="uTu-w2-mXe" secondAttribute="trailing" constant="8" id="OW9-c3-3Zs"/>
-                <constraint firstItem="fve-SL-Ifu" firstAttribute="top" secondItem="vKS-zo-ZIz" secondAttribute="bottom" id="Rb9-0e-kLu"/>
-                <constraint firstAttribute="trailing" secondItem="Ouu-Ne-nFv" secondAttribute="trailing" id="UZN-94-PhZ"/>
-                <constraint firstItem="vKS-zo-ZIz" firstAttribute="leading" secondItem="MJy-N8-UoI" secondAttribute="leading" id="VCt-Nm-L6Q"/>
-                <constraint firstItem="fve-SL-Ifu" firstAttribute="width" secondItem="k0I-ks-m0p" secondAttribute="width" id="Wff-FC-NCP"/>
-                <constraint firstItem="dmv-dc-ake" firstAttribute="height" secondItem="jA1-cI-4L9" secondAttribute="height" id="X9L-Ad-mgV"/>
-                <constraint firstItem="WdV-vA-4jI" firstAttribute="width" secondItem="Yxu-k1-Kpx" secondAttribute="width" id="Xpn-6n-2at"/>
-                <constraint firstItem="uTu-w2-mXe" firstAttribute="height" secondItem="WdV-vA-4jI" secondAttribute="height" id="Xsv-MU-yFw"/>
-                <constraint firstItem="uTu-w2-mXe" firstAttribute="leading" secondItem="WdV-vA-4jI" secondAttribute="trailing" constant="8" id="Zco-CT-toH"/>
-                <constraint firstItem="fve-SL-Ifu" firstAttribute="centerX" secondItem="k0I-ks-m0p" secondAttribute="centerX" id="bxK-q1-tT5"/>
-                <constraint firstItem="NSV-Dn-alC" firstAttribute="centerY" secondItem="uTu-w2-mXe" secondAttribute="centerY" id="ckL-95-HJk"/>
-                <constraint firstItem="WdV-vA-4jI" firstAttribute="baseline" secondItem="Yxu-k1-Kpx" secondAttribute="baseline" id="dcw-Ms-fEf"/>
-                <constraint firstItem="c7V-25-T5q" firstAttribute="leading" secondItem="vKS-zo-ZIz" secondAttribute="trailing" id="de5-U6-ltd"/>
-                <constraint firstItem="cXe-z7-jmy" firstAttribute="top" secondItem="k0I-ks-m0p" secondAttribute="bottom" constant="8" id="eB7-aV-k9s"/>
-                <constraint firstItem="uTu-w2-mXe" firstAttribute="width" secondItem="WdV-vA-4jI" secondAttribute="width" id="f3M-jg-luu"/>
-                <constraint firstAttribute="trailing" secondItem="9Gl-60-1dT" secondAttribute="trailing" id="f7P-pY-qir"/>
-                <constraint firstItem="Ouu-Ne-nFv" firstAttribute="leading" secondItem="MJy-N8-UoI" secondAttribute="leading" id="f8x-BZ-nwU"/>
-                <constraint firstItem="9Gl-60-1dT" firstAttribute="centerY" secondItem="dmv-dc-ake" secondAttribute="centerY" id="fav-gp-Xbs"/>
-                <constraint firstItem="WdV-vA-4jI" firstAttribute="height" secondItem="Yxu-k1-Kpx" secondAttribute="height" id="feH-cj-FMx"/>
-                <constraint firstAttribute="bottom" secondItem="cXe-z7-jmy" secondAttribute="bottom" constant="8" id="gj4-8E-3kj"/>
-                <constraint firstItem="c7V-25-T5q" firstAttribute="height" secondItem="jA1-cI-4L9" secondAttribute="height" id="hgu-Rx-tC7"/>
-                <constraint firstItem="WdV-vA-4jI" firstAttribute="leading" secondItem="Yxu-k1-Kpx" secondAttribute="trailing" constant="8" id="kgx-iC-CYP"/>
-                <constraint firstAttribute="trailing" secondItem="fve-SL-Ifu" secondAttribute="trailing" id="krl-dB-ay7"/>
-                <constraint firstItem="c7V-25-T5q" firstAttribute="baseline" secondItem="jA1-cI-4L9" secondAttribute="baseline" id="lsL-b1-cDx"/>
-                <constraint firstItem="vKS-zo-ZIz" firstAttribute="top" secondItem="Ouu-Ne-nFv" secondAttribute="bottom" id="lxU-Fm-cMF"/>
-                <constraint firstItem="dmv-dc-ake" firstAttribute="baseline" secondItem="jA1-cI-4L9" secondAttribute="baseline" id="pCp-AZ-beB"/>
-                <constraint firstItem="9Gl-60-1dT" firstAttribute="leading" secondItem="dmv-dc-ake" secondAttribute="trailing" id="q7e-WI-sJG"/>
-                <constraint firstItem="fve-SL-Ifu" firstAttribute="leading" secondItem="MJy-N8-UoI" secondAttribute="leading" id="tUY-sq-S42"/>
-                <constraint firstItem="c7V-25-T5q" firstAttribute="width" secondItem="jA1-cI-4L9" secondAttribute="width" id="xgT-1T-4pl"/>
-                <constraint firstItem="cXe-z7-jmy" firstAttribute="height" secondItem="Yxu-k1-Kpx" secondAttribute="height" id="zHd-fc-078"/>
+                <constraint firstItem="3H2-7i-gLS" firstAttribute="centerY" secondItem="vUN-kp-3ea" secondAttribute="centerY" id="PDh-Xq-wJ6"/>
+                <constraint firstItem="3H2-7i-gLS" firstAttribute="height" secondItem="vUN-kp-3ea" secondAttribute="height" id="Up1-U4-F9A"/>
+                <constraint firstItem="3H2-7i-gLS" firstAttribute="centerX" secondItem="vUN-kp-3ea" secondAttribute="centerX" id="nbM-3t-GUN"/>
+                <constraint firstItem="3H2-7i-gLS" firstAttribute="width" secondItem="vUN-kp-3ea" secondAttribute="width" id="u7m-Pb-ida"/>
             </constraints>
-            <nil key="simulatedStatusBarMetrics"/>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <point key="canvasLocation" x="39.200000000000003" y="46.326836581709152"/>
         </view>
     </objects>
     <resources>
-        <image name="lunar_console_icon_button_clear" width="24" height="24"/>
-        <image name="lunar_console_icon_button_clipboard" width="24" height="24"/>
-        <image name="lunar_console_icon_button_email" width="24" height="24"/>
-        <image name="lunar_console_icon_button_lock" width="24" height="24"/>
-        <image name="lunar_console_icon_button_more" width="24" height="24"/>
-        <image name="lunar_console_icon_button_settings" width="24" height="24"/>
-        <image name="lunar_console_icon_button_unlock" width="24" height="24"/>
-        <image name="lunar_console_icon_log" width="24" height="24"/>
-        <image name="lunar_console_icon_log_error" width="24" height="24"/>
-        <image name="lunar_console_icon_log_warning" width="24" height="24"/>
-        <image name="lunar_console_log_button_background" width="1" height="44"/>
+        <image name="lunar_console_icon_button_clear" width="16" height="16"/>
+        <image name="lunar_console_icon_button_clipboard" width="16" height="16"/>
+        <image name="lunar_console_icon_button_email" width="16" height="16"/>
+        <image name="lunar_console_icon_button_lock" width="16" height="16"/>
+        <image name="lunar_console_icon_button_more" width="16" height="16"/>
+        <image name="lunar_console_icon_button_settings" width="16" height="16"/>
+        <image name="lunar_console_icon_button_unlock" width="16" height="16"/>
+        <image name="lunar_console_icon_log" width="16" height="16"/>
+        <image name="lunar_console_icon_log_error" width="16" height="16"/>
+        <image name="lunar_console_icon_log_warning" width="16" height="16"/>
+        <image name="lunar_console_log_button_background" width="16" height="16"/>
     </resources>
 </document>

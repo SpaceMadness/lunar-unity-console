@@ -36,7 +36,6 @@ import spacemadness.com.lunarconsole.console.ConsolePlugin;
 import spacemadness.com.lunarconsole.console.IdentityEntry;
 import spacemadness.com.lunarconsole.core.NotificationCenter;
 import spacemadness.com.lunarconsole.debug.TestHelper;
-import spacemadness.com.lunarconsoleapp.helpers.SyncDispatchQueue;
 
 import static android.support.test.espresso.Espresso.*;
 import static android.support.test.espresso.action.ViewActions.*;
@@ -979,7 +978,7 @@ public class ConsoleActionsViewTest extends ApplicationBaseUITest
         {
             Field dispatchQueueField = NotificationCenter.class.getDeclaredField("dispatchQueue");
             dispatchQueueField.setAccessible(true);
-            dispatchQueueField.set(NotificationCenter.defaultCenter(), new SyncDispatchQueue());
+            dispatchQueueField.set(NotificationCenter.defaultCenter(), new ImmediateDispatchQueue());
         }
         catch (Exception e)
         {

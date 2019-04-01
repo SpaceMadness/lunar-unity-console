@@ -1,5 +1,5 @@
 //
-//  PluginSettings.java
+//  EditorSettings.java
 //
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
@@ -21,207 +21,95 @@
 
 package spacemadness.com.lunarconsole.settings;
 
-import android.content.Context;
-import android.content.SharedPreferences;
+import java.util.Arrays;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-import java.lang.ref.WeakReference;
-import java.lang.reflect.Field;
-import java.util.List;
+import spacemadness.com.lunarconsole.json.Required;
 
-import spacemadness.com.lunarconsole.debug.Log;
-import spacemadness.com.lunarconsole.utils.ClassUtils;
+/**
+ * Global settings from Unity editor.
+ */
+public final class PluginSettings {
+	/**
+	 * Exception warning settings.
+	 */
+	public @Required ExceptionWarningSettings exceptionWarning;
 
-import static spacemadness.com.lunarconsole.debug.Tags.*;
-import static spacemadness.com.lunarconsole.utils.ClassUtils.FieldFilter;
+	/**
+	 * Log overlay settings
+	 */
+	public @Required @ProOnly LogOverlaySettings logOverlay;
 
-@Target(ElementType.FIELD)
-@Retention(RetentionPolicy.RUNTIME)
-@interface PluginSettingsEntry
-{
-    boolean proOnly() default false;
-}
+	/**
+	 * Log output would not grow bigger than this capacity.
+	 */
+	public @Required @Readonly int capacity;
 
-public class PluginSettings
-{
-    static final String PREFS_NAME = "spacemadness.com.lunarconsole.console.PluginSettings";
+	/**
+	 * Log output will be trimmed this many lines when overflown.
+	 */
+	public @Required @Readonly int trim;
 
-    private final WeakReference<Context> contextRef;
+	/**
+	 * Gesture type to open the console.
+	 */
+	public @Required @Readonly Gesture gesture;
 
-    private final FieldFilter fieldFilter = new FieldFilter()
-    {
-        @Override
-        public boolean accept(Field field)
-        {
-            return field.getAnnotation(PluginSettingsEntry.class) != null;
-        }
-    };
+	/**
+	 * Indicates if reach text tags should be ignored.
+	 */
+	public @Readonly boolean removeRichTextTags;
 
-    @PluginSettingsEntry
-    private boolean enableExceptionWarning;
+	/**
+	 * Indicates if actions should be sorted.
+	 */
+	public boolean sortActions;
 
-    @PluginSettingsEntry(proOnly = true)
-    private boolean enableTransparentLogOverlay;
+	/**
+	 * Indicates if variables should be sorted.
+	 */
+	public boolean sortVariables;
 
-    public PluginSettings(Context context)
-    {
-        if (context == null)
-        {
-            throw new NullPointerException("Context is null");
-        }
-        contextRef = new WeakReference<>(context);
-    }
+	/**
+	 * Optional list of the email recipients for sending a report.
+	 */
+	public @Readonly String[] emails;
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Save/Load
+	//region Equality
 
-    public boolean load()
-    {
-        final Context context = getContext();
-        if (context == null)
-        {
-            Log.e(SETTINGS, "Can't load settings: context reference is lost");
-            return false;
-        }
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
 
-        try
-        {
-            final SharedPreferences preferences = getSharedPreferences(context);
-            final List<Field> fields = listFields();
-            for (Field field : fields)
-            {
-                field.setAccessible(true);
+		PluginSettings settings = (PluginSettings) o;
 
-                final String name = field.getName();
-                if (!preferences.contains(name))
-                {
-                    continue;
-                }
+		if (capacity != settings.capacity) return false;
+		if (trim != settings.trim) return false;
+		if (removeRichTextTags != settings.removeRichTextTags) return false;
+		if (sortActions != settings.sortActions) return false;
+		if (sortVariables != settings.sortVariables) return false;
+		if (exceptionWarning != null ? !exceptionWarning.equals(settings.exceptionWarning) : settings.exceptionWarning != null)
+			return false;
+		if (logOverlay != null ? !logOverlay.equals(settings.logOverlay) : settings.logOverlay != null)
+			return false;
+		if (gesture != settings.gesture) return false;
+		// Probably incorrect - comparing Object[] arrays with Arrays.equals
+		return Arrays.equals(emails, settings.emails);
+	}
 
-                Object value;
+	@Override
+	public int hashCode() {
+		int result = exceptionWarning != null ? exceptionWarning.hashCode() : 0;
+		result = 31 * result + (logOverlay != null ? logOverlay.hashCode() : 0);
+		result = 31 * result + capacity;
+		result = 31 * result + trim;
+		result = 31 * result + (gesture != null ? gesture.hashCode() : 0);
+		result = 31 * result + (removeRichTextTags ? 1 : 0);
+		result = 31 * result + (sortActions ? 1 : 0);
+		result = 31 * result + (sortVariables ? 1 : 0);
+		result = 31 * result + Arrays.hashCode(emails);
+		return result;
+	}
 
-                final Class<?> type = field.getType();
-                if (type == boolean.class)
-                {
-                    value = preferences.getBoolean(name, false);
-                }
-                else if (type == int.class)
-                {
-                    value = preferences.getInt(name, 0);
-                }
-                else
-                {
-                    Log.e("Unexpected setting field type: %s", type);
-                    continue;
-                }
-
-                field.set(this, value);
-            }
-
-            return true;
-        }
-        catch (Exception e)
-        {
-            Log.e(e, "Can't load plugin settings");
-        }
-
-        return false;
-    }
-
-    public boolean save()
-    {
-        final Context context = getContext();
-        if (context == null)
-        {
-            Log.e(SETTINGS, "Can't save settings: context reference is lost");
-            return false;
-        }
-
-        try
-        {
-            final SharedPreferences preferences = getSharedPreferences(context);
-            final SharedPreferences.Editor editor = preferences.edit();
-
-            final List<Field> fields = listFields();
-            for (Field field : fields)
-            {
-                field.setAccessible(true);
-
-                final String name = field.getName();
-                Object value = field.get(this);
-
-                if (value instanceof Boolean)
-                {
-                    editor.putBoolean(name, (Boolean) value);
-                }
-                else if (value instanceof Integer)
-                {
-                    editor.putInt(name, (Integer) value);
-                }
-            }
-            editor.apply();
-            return true;
-        }
-        catch (Exception e)
-        {
-            Log.e(e, "Can't save plugin settings");
-        }
-
-        return false;
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Fields
-
-    public List<Field> listFields()
-    {
-        return ClassUtils.listFields(getClass(), fieldFilter);
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Helpers
-
-    static SharedPreferences getSharedPreferences(Context context)
-    {
-        return context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
-    }
-
-    public static void clear(Context context)
-    {
-        final SharedPreferences sharedPreferences = getSharedPreferences(context);
-        final SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear();
-        editor.apply();
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Getters/Setters
-
-    public boolean isEnableExceptionWarning()
-    {
-        return enableExceptionWarning;
-    }
-
-    public void setEnableExceptionWarning(boolean enableExceptionWarning)
-    {
-        this.enableExceptionWarning = enableExceptionWarning;
-    }
-
-    public boolean isEnableTransparentLogOverlay()
-    {
-        return enableTransparentLogOverlay;
-    }
-
-    public void setEnableTransparentLogOverlay(boolean enableTransparentLogOverlay)
-    {
-        this.enableTransparentLogOverlay = enableTransparentLogOverlay;
-    }
-
-    private Context getContext()
-    {
-        return contextRef.get();
-    }
+	//endregion
 }

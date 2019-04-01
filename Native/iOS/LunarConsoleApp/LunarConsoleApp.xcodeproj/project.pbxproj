@@ -19,7 +19,6 @@
 		4D02A7DA1E4979C7009F4998 /* LUCVarBooleanTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FCE31DFB93C600032A29 /* LUCVarBooleanTableViewCell.xib */; };
 		4D02A7DB1E4979C7009F4998 /* LUCVarInputTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FCE41DFB93C600032A29 /* LUCVarInputTableViewCell.xib */; };
 		4D02A7DC1E4979C7009F4998 /* LUExceptionWarningController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FCE51DFB93C600032A29 /* LUExceptionWarningController.xib */; };
-		4D02A81C1E4979C7009F4998 /* LUSettingsTableCellBool.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FCE61DFB93C600032A29 /* LUSettingsTableCellBool.xib */; };
 		4D02A8231E511680009F4998 /* LUActionController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D02A8221E511680009F4998 /* LUActionController.xib */; };
 		4D02A8241E511692009F4998 /* LUActionController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D02A8221E511680009F4998 /* LUActionController.xib */; };
 		4D02A84B1E5A9658009F4998 /* LUCVarEditController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4D02A84A1E5A9658009F4998 /* LUCVarEditController.xib */; };
@@ -174,8 +173,6 @@
 		4DD4FCF01DFB93C600032A29 /* LUCVarBooleanTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FCE31DFB93C600032A29 /* LUCVarBooleanTableViewCell.xib */; };
 		4DD4FCF11DFB93C600032A29 /* LUCVarInputTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FCE41DFB93C600032A29 /* LUCVarInputTableViewCell.xib */; };
 		4DD4FCF21DFB93C600032A29 /* LUExceptionWarningController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FCE51DFB93C600032A29 /* LUExceptionWarningController.xib */; };
-		4DD4FCF31DFB93C600032A29 /* LUSettingsTableCellBool.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4DD4FCE61DFB93C600032A29 /* LUSettingsTableCellBool.xib */; };
-		51B144EA7E36C3550CCEC344 /* Pods_LunarConsoleAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5ABF21795CAE69D20C71F843 /* Pods_LunarConsoleAppTests.framework */; };
 		5606C47D4C94359A3336A8B5 /* Pods_LunarConsoleAppFull.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1556D1C651C7B46DEDC60E0F /* Pods_LunarConsoleAppFull.framework */; };
 		840F07E71DE9001700E9F13D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840F07E61DE9001700E9F13D /* ViewController.swift */; };
 		840F07E91DE9105600E9F13D /* FakeLogEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 840F07E81DE9105600E9F13D /* FakeLogEntry.swift */; };
@@ -191,7 +188,16 @@
 		E6F740BE31A651A20991CAB6 /* Pods_LunarConsoleAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F1F69FE94F7692B28338C21 /* Pods_LunarConsoleAppUITests.framework */; };
 		EF0836B31B7ABD6D00DFB877 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 844741FA1B719DA500F5ABD3 /* LaunchScreen.xib */; };
 		EF0836B41B7ABD6D00DFB877 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 844741F51B719DA500F5ABD3 /* Main.storyboard */; };
+		EF10CA50224DAEFE00244236 /* LULog.m in Sources */ = {isa = PBXBuildFile; fileRef = EF2B7C9B224DABBB00F8FE09 /* LULog.m */; };
 		EF21AE1B1BF536FE0053D50B /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF21AE1A1BF536FE0053D50B /* MessageUI.framework */; };
+		EF2B7C9C224DABBB00F8FE09 /* LULog.m in Sources */ = {isa = PBXBuildFile; fileRef = EF2B7C9B224DABBB00F8FE09 /* LULog.m */; };
+		EF2B7C9D224DABBB00F8FE09 /* LULog.m in Sources */ = {isa = PBXBuildFile; fileRef = EF2B7C9B224DABBB00F8FE09 /* LULog.m */; };
+		EF30B2772241D56900898849 /* settings.json in Resources */ = {isa = PBXBuildFile; fileRef = EF30B2762241D56900898849 /* settings.json */; };
+		EF30B2782241D56A00898849 /* settings.json in Resources */ = {isa = PBXBuildFile; fileRef = EF30B2762241D56900898849 /* settings.json */; };
+		EF30B27E2241DB8C00898849 /* LUSettingsTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF30B27D2241DB8C00898849 /* LUSettingsTableCell.xib */; };
+		EF30B27F2241DB8C00898849 /* LUSettingsTableCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF30B27D2241DB8C00898849 /* LUSettingsTableCell.xib */; };
+		EF30B2882245961600898849 /* LUEnumPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF30B2872245961600898849 /* LUEnumPickerViewController.xib */; };
+		EF30B2892245962C00898849 /* LUEnumPickerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = EF30B2872245961600898849 /* LUEnumPickerViewController.xib */; };
 		EF64F8F21C03D86E008DCB8E /* input.txt in Resources */ = {isa = PBXBuildFile; fileRef = EF64F8F11C03D86E008DCB8E /* input.txt */; };
 		EF81893C1BE16E58008FFCB9 /* libLunarConsoleFull.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 844742171B719DB600F5ABD3 /* libLunarConsoleFull.a */; };
 		EFAE76481D2486D70072CCBF /* LUConsoleLogControllerUITest.m in Sources */ = {isa = PBXBuildFile; fileRef = EFAE76471D2486D70072CCBF /* LUConsoleLogControllerUITest.m */; };
@@ -213,13 +219,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 4DD4F5511DFB7F4B00032A29;
 			remoteInfo = LunarConsoleFree;
-		};
-		844742021B719DA500F5ABD3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 844741E01B719DA500F5ABD3 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 844741E71B719DA500F5ABD3;
-			remoteInfo = LunarConsoleApp;
 		};
 		844742161B719DB600F5ABD3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -351,7 +350,6 @@
 		4DD4FCE31DFB93C600032A29 /* LUCVarBooleanTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LUCVarBooleanTableViewCell.xib; path = ../../LunarConsole/LunarConsole/Full/Controllers/Variables/LUCVarBooleanTableViewCell.xib; sourceTree = "<group>"; };
 		4DD4FCE41DFB93C600032A29 /* LUCVarInputTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LUCVarInputTableViewCell.xib; path = ../../LunarConsole/LunarConsole/Full/Controllers/Variables/LUCVarInputTableViewCell.xib; sourceTree = "<group>"; };
 		4DD4FCE51DFB93C600032A29 /* LUExceptionWarningController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LUExceptionWarningController.xib; path = ../../LunarConsole/LunarConsole/Common/Controllers/Warning/LUExceptionWarningController.xib; sourceTree = "<group>"; };
-		4DD4FCE61DFB93C600032A29 /* LUSettingsTableCellBool.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = LUSettingsTableCellBool.xib; path = ../../LunarConsole/LunarConsole/Common/Controllers/Settings/LUSettingsTableCellBool.xib; sourceTree = "<group>"; };
 		5ABF21795CAE69D20C71F843 /* Pods_LunarConsoleAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LunarConsoleAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		79131A9E2218221891E3312E /* Pods-LunarConsoleAppFree.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LunarConsoleAppFree.release.xcconfig"; path = "Pods/Target Support Files/Pods-LunarConsoleAppFree/Pods-LunarConsoleAppFree.release.xcconfig"; sourceTree = "<group>"; };
 		7F1F69FE94F7692B28338C21 /* Pods_LunarConsoleAppUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LunarConsoleAppUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -374,13 +372,16 @@
 		844741F61B719DA500F5ABD3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		844741F81B719DA500F5ABD3 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		844741FB1B719DA500F5ABD3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
-		844742011B719DA500F5ABD3 /* LunarConsoleAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LunarConsoleAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		844742061B719DA500F5ABD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		844742111B719DB600F5ABD3 /* LunarConsole.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LunarConsole.xcodeproj; path = ../LunarConsole/LunarConsole.xcodeproj; sourceTree = "<group>"; };
 		BC423F2F7789F1813BD16F9D /* Pods-LunarConsoleAppUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LunarConsoleAppUITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-LunarConsoleAppUITests/Pods-LunarConsoleAppUITests.release.xcconfig"; sourceTree = "<group>"; };
 		C37C6C912F6BE95BC660ACDD /* Pods-LunarConsoleAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-LunarConsoleAppTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-LunarConsoleAppTests/Pods-LunarConsoleAppTests.debug.xcconfig"; sourceTree = "<group>"; };
 		E04BC23509F578BDFC1C6547 /* Pods_LunarConsoleAppFree.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_LunarConsoleAppFree.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF21AE1A1BF536FE0053D50B /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
+		EF2B7C9A224DABBB00F8FE09 /* LULog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LULog.h; sourceTree = "<group>"; };
+		EF2B7C9B224DABBB00F8FE09 /* LULog.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LULog.m; sourceTree = "<group>"; };
+		EF30B2762241D56900898849 /* settings.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; name = settings.json; path = ../../../Android/LunarConsole/lunarConsole/src/main/assets/settings.json; sourceTree = "<group>"; };
+		EF30B27D2241DB8C00898849 /* LUSettingsTableCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = LUSettingsTableCell.xib; path = ../../LunarConsole/LunarConsole/Common/Controllers/Settings/LUSettingsTableCell.xib; sourceTree = "<group>"; };
+		EF30B2872245961600898849 /* LUEnumPickerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LUEnumPickerViewController.xib; sourceTree = "<group>"; };
 		EF64F8F11C03D86E008DCB8E /* input.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = input.txt; sourceTree = "<group>"; };
 		EF81892E1BE16844008FFCB9 /* LunarConsoleAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LunarConsoleAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF8189321BE16844008FFCB9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -410,14 +411,6 @@
 				EF21AE1B1BF536FE0053D50B /* MessageUI.framework in Frameworks */,
 				8447421C1B719F3A00F5ABD3 /* libLunarConsoleFull.a in Frameworks */,
 				5606C47D4C94359A3336A8B5 /* Pods_LunarConsoleAppFull.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		844741FE1B719DA500F5ABD3 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				51B144EA7E36C3550CCEC344 /* Pods_LunarConsoleAppTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -535,7 +528,6 @@
 			children = (
 				844742111B719DB600F5ABD3 /* LunarConsole.xcodeproj */,
 				844741EA1B719DA500F5ABD3 /* LunarConsoleApp */,
-				844742041B719DA500F5ABD3 /* LunarConsoleAppTests */,
 				EF81892F1BE16844008FFCB9 /* LunarConsoleAppUITests */,
 				EF21AE1D1BF537EB0053D50B /* Frameworks */,
 				844741E91B719DA500F5ABD3 /* Products */,
@@ -547,7 +539,6 @@
 			isa = PBXGroup;
 			children = (
 				844741E81B719DA500F5ABD3 /* LunarConsoleAppFull.app */,
-				844742011B719DA500F5ABD3 /* LunarConsoleAppTests.xctest */,
 				EF81892E1BE16844008FFCB9 /* LunarConsoleAppUITests.xctest */,
 				4DD4FA261DFB8E5600032A29 /* LunarConsoleAppFree.app */,
 			);
@@ -565,18 +556,20 @@
 				844741F81B719DA500F5ABD3 /* Images.xcassets */,
 				EF64F8F11C03D86E008DCB8E /* input.txt */,
 				844741FA1B719DA500F5ABD3 /* LaunchScreen.xib */,
+				EF2B7C9A224DABBB00F8FE09 /* LULog.h */,
+				EF2B7C9B224DABBB00F8FE09 /* LULog.m */,
 				840F07E51DE9001600E9F13D /* LunarConsoleApp-Bridging-Header.h */,
 				844741F51B719DA500F5ABD3 /* Main.storyboard */,
+				4D9C35C51E3D840F003E0001 /* NetPeer.h */,
+				4D9C35C61E3D840F003E0001 /* NetPeer.m */,
 				844741EB1B719DA500F5ABD3 /* Supporting Files */,
 				840F08B31DEB8F6E00E9F13D /* TextInputView.h */,
 				840F08B41DEB8F6E00E9F13D /* TextInputView.m */,
 				840F08B61DEB934000E9F13D /* UIView+Accessibility.h */,
 				840F08B71DEB934000E9F13D /* UIView+Accessibility.m */,
-				840F07E61DE9001700E9F13D /* ViewController.swift */,
-				4D9C35C51E3D840F003E0001 /* NetPeer.h */,
-				4D9C35C61E3D840F003E0001 /* NetPeer.m */,
 				4D9C35CC1E3D97A0003E0001 /* UnityMessenger.h */,
 				4D9C35CD1E3D97A0003E0001 /* UnityMessenger.m */,
+				840F07E61DE9001700E9F13D /* ViewController.swift */,
 			);
 			path = LunarConsoleApp;
 			sourceTree = "<group>";
@@ -587,22 +580,6 @@
 				4DD4FA2A1DFB8EB100032A29 /* InfoFree.plist */,
 				844741EC1B719DA500F5ABD3 /* Info.plist */,
 				844741ED1B719DA500F5ABD3 /* main.m */,
-			);
-			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		844742041B719DA500F5ABD3 /* LunarConsoleAppTests */ = {
-			isa = PBXGroup;
-			children = (
-				844742051B719DA500F5ABD3 /* Supporting Files */,
-			);
-			path = LunarConsoleAppTests;
-			sourceTree = "<group>";
-		};
-		844742051B719DA500F5ABD3 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				844742061B719DA500F5ABD3 /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -635,7 +612,9 @@
 				4DD4FCE41DFB93C600032A29 /* LUCVarInputTableViewCell.xib */,
 				4D02A84A1E5A9658009F4998 /* LUCVarEditController.xib */,
 				4DD4FCE51DFB93C600032A29 /* LUExceptionWarningController.xib */,
-				4DD4FCE61DFB93C600032A29 /* LUSettingsTableCellBool.xib */,
+				EF30B2872245961600898849 /* LUEnumPickerViewController.xib */,
+				EF30B27D2241DB8C00898849 /* LUSettingsTableCell.xib */,
+				EF30B2762241D56900898849 /* settings.json */,
 			);
 			name = Assets;
 			sourceTree = "<group>";
@@ -680,7 +659,6 @@
 				4DD4F9D21DFB8E5600032A29 /* Frameworks */,
 				4DD4F9D51DFB8E5600032A29 /* Resources */,
 				C60A1C534CE800E65DE2711B /* [CP] Embed Pods Frameworks */,
-				4A94B3ABA98D80318B1A4B3B /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -701,7 +679,6 @@
 				844741E51B719DA500F5ABD3 /* Frameworks */,
 				844741E61B719DA500F5ABD3 /* Resources */,
 				08DE520C8C2E970D96B23B03 /* [CP] Embed Pods Frameworks */,
-				7C6E3320038E23B7B0AB1DE7 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -713,27 +690,6 @@
 			productReference = 844741E81B719DA500F5ABD3 /* LunarConsoleAppFull.app */;
 			productType = "com.apple.product-type.application";
 		};
-		844742001B719DA500F5ABD3 /* LunarConsoleAppTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 8447420E1B719DA500F5ABD3 /* Build configuration list for PBXNativeTarget "LunarConsoleAppTests" */;
-			buildPhases = (
-				FF2AECBDBCF96461C5F616DB /* [CP] Check Pods Manifest.lock */,
-				844741FD1B719DA500F5ABD3 /* Sources */,
-				844741FE1B719DA500F5ABD3 /* Frameworks */,
-				844741FF1B719DA500F5ABD3 /* Resources */,
-				6FF5A76AEB697AFA689DD3C1 /* [CP] Embed Pods Frameworks */,
-				596B16D65996F1B59A229325 /* [CP] Copy Pods Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				844742031B719DA500F5ABD3 /* PBXTargetDependency */,
-			);
-			name = LunarConsoleAppTests;
-			productName = LunarConsoleAppTests;
-			productReference = 844742011B719DA500F5ABD3 /* LunarConsoleAppTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 		EF81892D1BE16844008FFCB9 /* LunarConsoleAppUITests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = EF8189351BE16844008FFCB9 /* Build configuration list for PBXNativeTarget "LunarConsoleAppUITests" */;
@@ -743,7 +699,6 @@
 				EF81892B1BE16844008FFCB9 /* Frameworks */,
 				EF81892C1BE16844008FFCB9 /* Resources */,
 				836355178F90CBB4FC0D8EB0 /* [CP] Embed Pods Frameworks */,
-				2BA9C0843954D1D452E7BE3E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -766,19 +721,16 @@
 				ORGANIZATIONNAME = "Space Madness";
 				TargetAttributes = {
 					4DD4F9C71DFB8E5600032A29 = {
-						DevelopmentTeam = 94Z94R59HQ;
+						DevelopmentTeam = QKXHZM7Z5V;
 					};
 					844741E71B719DA500F5ABD3 = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = 94Z94R59HQ;
+						DevelopmentTeam = QKXHZM7Z5V;
 						LastSwiftMigration = 0810;
-					};
-					844742001B719DA500F5ABD3 = {
-						CreatedOnToolsVersion = 6.4;
-						TestTargetID = 844741E71B719DA500F5ABD3;
 					};
 					EF81892D1BE16844008FFCB9 = {
 						CreatedOnToolsVersion = 7.1;
+						DevelopmentTeam = QKXHZM7Z5V;
 						LastSwiftMigration = 0810;
 						TestTargetID = 844741E71B719DA500F5ABD3;
 					};
@@ -805,7 +757,6 @@
 			targets = (
 				844741E71B719DA500F5ABD3 /* LunarConsoleAppFull */,
 				4DD4F9C71DFB8E5600032A29 /* LunarConsoleAppFree */,
-				844742001B719DA500F5ABD3 /* LunarConsoleAppTests */,
 				EF81892D1BE16844008FFCB9 /* LunarConsoleAppUITests */,
 			);
 		};
@@ -842,6 +793,7 @@
 			files = (
 				4DBF2A061E654303006E2C8A /* lunar_console_icon_button_help@3x.png in Resources */,
 				4DBF2A181E654303006E2C8A /* lunar_console_icon_log_warning@3x.png in Resources */,
+				EF30B2892245962C00898849 /* LUEnumPickerViewController.xib in Resources */,
 				4DBF29FB1E654303006E2C8A /* lunar_console_icon_button_close.png in Resources */,
 				4DBF29F81E654303006E2C8A /* lunar_console_icon_button_clipboard.png in Resources */,
 				4DBF2A161E654303006E2C8A /* lunar_console_icon_log_warning.png in Resources */,
@@ -874,6 +826,7 @@
 				4DBF29F31E654303006E2C8A /* lunar_console_collapse_background@2x.png in Resources */,
 				4D02A7D71E4979C7009F4998 /* LUConsolePopupController.xib in Resources */,
 				4DBF29FD1E654303006E2C8A /* lunar_console_icon_button_close@3x.png in Resources */,
+				EF30B2782241D56A00898849 /* settings.json in Resources */,
 				4DBF2A1D1E654303006E2C8A /* lunar_console_icon_settings@2x.png in Resources */,
 				4DBF2A1C1E654303006E2C8A /* lunar_console_icon_settings.png in Resources */,
 				4D02A7D81E4979C7009F4998 /* LUConsoleResizeController.xib in Resources */,
@@ -901,7 +854,6 @@
 				4DBF2A221E654303006E2C8A /* lunar_console_resize_handle_horizontal.png in Resources */,
 				4DBF29F21E654303006E2C8A /* lunar_console_collapse_background.png in Resources */,
 				4DBF2A091E654303006E2C8A /* lunar_console_icon_button_lock@3x.png in Resources */,
-				4D02A81C1E4979C7009F4998 /* LUSettingsTableCellBool.xib in Resources */,
 				4DBF29FF1E654303006E2C8A /* lunar_console_icon_button_console@2x.png in Resources */,
 				4DBF29F11E654303006E2C8A /* lunar_console_actions_empty_warning@3x.png in Resources */,
 				4DD4FA1F1DFB8E5600032A29 /* LaunchScreen.xib in Resources */,
@@ -910,6 +862,7 @@
 				4DBF2A0C1E654303006E2C8A /* lunar_console_icon_button_more@3x.png in Resources */,
 				4DD4FA221DFB8E5600032A29 /* Images.xcassets in Resources */,
 				4DBF2A0F1E654303006E2C8A /* lunar_console_icon_button_settings@3x.png in Resources */,
+				EF30B27F2241DB8C00898849 /* LUSettingsTableCell.xib in Resources */,
 				4DBF29FA1E654303006E2C8A /* lunar_console_icon_button_clipboard@3x.png in Resources */,
 				4DBF2A261E654303006E2C8A /* lunar_console_resize_handle_vertical@2x.png in Resources */,
 				4DBF29F51E654303006E2C8A /* lunar_console_icon_button_clear.png in Resources */,
@@ -921,6 +874,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF30B2882245961600898849 /* LUEnumPickerViewController.xib in Resources */,
 				4DBF29B61E6542D7006E2C8A /* lunar_console_actions_empty_warning.png in Resources */,
 				4DBF29B71E6542D7006E2C8A /* lunar_console_actions_empty_warning@2x.png in Resources */,
 				4DBF29B81E6542D7006E2C8A /* lunar_console_actions_empty_warning@3x.png in Resources */,
@@ -963,6 +917,7 @@
 				4DBF29DB1E6542D7006E2C8A /* lunar_console_icon_log_error@2x.png in Resources */,
 				4DBF29DC1E6542D7006E2C8A /* lunar_console_icon_log_error@3x.png in Resources */,
 				4DBF29DD1E6542D7006E2C8A /* lunar_console_icon_log_warning.png in Resources */,
+				EF30B2772241D56900898849 /* settings.json in Resources */,
 				4DBF29DE1E6542D7006E2C8A /* lunar_console_icon_log_warning@2x.png in Resources */,
 				4DBF29DF1E6542D7006E2C8A /* lunar_console_icon_log_warning@3x.png in Resources */,
 				4DBF29E01E6542D7006E2C8A /* lunar_console_icon_log.png in Resources */,
@@ -995,9 +950,9 @@
 				4DD4FCEE1DFB93C600032A29 /* LUConsoleResizeController.xib in Resources */,
 				4DD4FCEF1DFB93C600032A29 /* LUConsoleSettingsController.xib in Resources */,
 				4DD4FCF01DFB93C600032A29 /* LUCVarBooleanTableViewCell.xib in Resources */,
+				EF30B27E2241DB8C00898849 /* LUSettingsTableCell.xib in Resources */,
 				4DD4FCF11DFB93C600032A29 /* LUCVarInputTableViewCell.xib in Resources */,
 				4DD4FCF21DFB93C600032A29 /* LUExceptionWarningController.xib in Resources */,
-				4DD4FCF31DFB93C600032A29 /* LUSettingsTableCellBool.xib in Resources */,
 				4DBF2A341E65434A006E2C8A /* lunar_console_action_button_large_normal@2x.png in Resources */,
 				4DBF2A361E65434A006E2C8A /* lunar_console_action_button_large_selected.png in Resources */,
 				4DBF2A3B1E65434A006E2C8A /* lunar_console_icon_button_variable_reset@3x.png in Resources */,
@@ -1005,13 +960,6 @@
 				EF0836B41B7ABD6D00DFB877 /* Main.storyboard in Resources */,
 				EF64F8F21C03D86E008DCB8E /* input.txt in Resources */,
 				844741F91B719DA500F5ABD3 /* Images.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		844741FF1B719DA500F5ABD3 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1031,9 +979,12 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-LunarConsoleAppFull/Pods-LunarConsoleAppFull-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/CocoaAsyncSocket/CocoaAsyncSocket.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaAsyncSocket.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1046,28 +997,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-LunarConsoleAppFree-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		2BA9C0843954D1D452E7BE3E /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LunarConsoleAppUITests/Pods-LunarConsoleAppUITests-resources.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		471CCBA117F58E75317FDE28 /* [CP] Check Pods Manifest.lock */ = {
@@ -1076,28 +1015,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-LunarConsoleAppUITests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		4A94B3ABA98D80318B1A4B3B /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LunarConsoleAppFree/Pods-LunarConsoleAppFree-resources.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		55D0A5CA33A0A655646BED75 /* [CP] Check Pods Manifest.lock */ = {
@@ -1106,58 +1033,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-LunarConsoleAppFull-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		596B16D65996F1B59A229325 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LunarConsoleAppTests/Pods-LunarConsoleAppTests-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		6FF5A76AEB697AFA689DD3C1 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LunarConsoleAppTests/Pods-LunarConsoleAppTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		7C6E3320038E23B7B0AB1DE7 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LunarConsoleAppFull/Pods-LunarConsoleAppFull-resources.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		836355178F90CBB4FC0D8EB0 /* [CP] Embed Pods Frameworks */ = {
@@ -1166,9 +1051,12 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-LunarConsoleAppUITests/Pods-LunarConsoleAppUITests-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/CocoaAsyncSocket/CocoaAsyncSocket.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaAsyncSocket.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1181,28 +1069,16 @@
 			files = (
 			);
 			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-LunarConsoleAppFree/Pods-LunarConsoleAppFree-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/CocoaAsyncSocket/CocoaAsyncSocket.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CocoaAsyncSocket.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-LunarConsoleAppFree/Pods-LunarConsoleAppFree-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		FF2AECBDBCF96461C5F616DB /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1221,6 +1097,7 @@
 				4DD4F9D01DFB8E5600032A29 /* ActionOverlayView.swift in Sources */,
 				4DD4F9D11DFB8E5600032A29 /* main.m in Sources */,
 				4D9C35C81E3D840F003E0001 /* NetPeer.m in Sources */,
+				EF2B7C9D224DABBB00F8FE09 /* LULog.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1237,13 +1114,7 @@
 				840F08AB1DEABA4500E9F13D /* ActionOverlayView.swift in Sources */,
 				844741EE1B719DA500F5ABD3 /* main.m in Sources */,
 				4D9C35C71E3D840F003E0001 /* NetPeer.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		844741FD1B719DA500F5ABD3 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
+				EF2B7C9C224DABBB00F8FE09 /* LULog.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1254,6 +1125,7 @@
 				EFAE764E1D24878B0072CCBF /* XCTestCase+Operations.m in Sources */,
 				EFAE764D1D24878B0072CCBF /* UITestCaseBase.m in Sources */,
 				EFAE76481D2486D70072CCBF /* LUConsoleLogControllerUITest.m in Sources */,
+				EF10CA50224DAEFE00244236 /* LULog.m in Sources */,
 				4D9C35C91E3D840F003E0001 /* NetPeer.m in Sources */,
 				840F08B01DEB7E3300E9F13D /* ActionControllerTest.swift in Sources */,
 			);
@@ -1266,11 +1138,6 @@
 			isa = PBXTargetDependency;
 			name = LunarConsoleFree;
 			targetProxy = 4D02A6231E495B00009F4998 /* PBXContainerItemProxy */;
-		};
-		844742031B719DA500F5ABD3 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 844741E71B719DA500F5ABD3 /* LunarConsoleAppFull */;
-			targetProxy = 844742021B719DA500F5ABD3 /* PBXContainerItemProxy */;
 		};
 		8447421B1B719DC700F5ABD3 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1316,7 +1183,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				DEVELOPMENT_TEAM = 94Z94R59HQ;
+				DEVELOPMENT_TEAM = QKXHZM7Z5V;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"COCOAPODS=1",
@@ -1340,7 +1207,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				DEVELOPMENT_TEAM = 94Z94R59HQ;
+				DEVELOPMENT_TEAM = QKXHZM7Z5V;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"COCOAPODS=1",
@@ -1395,7 +1262,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1436,7 +1303,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -1453,7 +1320,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				DEVELOPMENT_TEAM = 94Z94R59HQ;
+				DEVELOPMENT_TEAM = QKXHZM7Z5V;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"COCOAPODS=1",
@@ -1477,7 +1344,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
-				DEVELOPMENT_TEAM = 94Z94R59HQ;
+				DEVELOPMENT_TEAM = QKXHZM7Z5V;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
 					"COCOAPODS=1",
@@ -1493,46 +1360,6 @@
 			};
 			name = Release;
 		};
-		8447420F1B719DA500F5ABD3 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = C37C6C912F6BE95BC660ACDD /* Pods-LunarConsoleAppTests.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = LunarConsoleAppTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.spacemadness.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LunarConsoleAppFull.app/LunarConsoleAppFull";
-			};
-			name = Debug;
-		};
-		844742101B719DA500F5ABD3 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1FB3CA6156344729191554ED /* Pods-LunarConsoleAppTests.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(SDKROOT)/Developer/Library/Frameworks",
-					"$(inherited)",
-				);
-				INFOPLIST_FILE = LunarConsoleAppTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = "com.spacemadness.$(PRODUCT_NAME:rfc1034identifier)";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LunarConsoleAppFull.app/LunarConsoleAppFull";
-			};
-			name = Release;
-		};
 		EF8189361BE16844008FFCB9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 169FFACF0ADF72BBF3B95023 /* Pods-LunarConsoleAppUITests.debug.xcconfig */;
@@ -1541,6 +1368,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = QKXHZM7Z5V;
 				ENABLE_TESTABILITY = YES;
 				INFOPLIST_FILE = LunarConsoleAppUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
@@ -1563,6 +1391,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				DEVELOPMENT_TEAM = QKXHZM7Z5V;
 				INFOPLIST_FILE = LunarConsoleAppUITests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -1602,15 +1431,6 @@
 			buildConfigurations = (
 				8447420C1B719DA500F5ABD3 /* Debug */,
 				8447420D1B719DA500F5ABD3 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		8447420E1B719DA500F5ABD3 /* Build configuration list for PBXNativeTarget "LunarConsoleAppTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				8447420F1B719DA500F5ABD3 /* Debug */,
-				844742101B719DA500F5ABD3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
