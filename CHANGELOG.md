@@ -1,5 +1,16 @@
 # Lunar Console Changelog
 
+## v.1.6.0 - 3/31/2019
+
+**Changes:**
+
+* Added log overlay customization.
+* Added exception warning display modes.
+
+**Fixes:**
+
+* Fixed iPhone X notch safe area.
+
 ## v.1.5.7 - 1/25/2019
 
 **Fixes:**
