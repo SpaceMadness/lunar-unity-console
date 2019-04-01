@@ -19,6 +19,9 @@ public class PluginSettingsViewModelTest extends InstrumentationTestCase {
 			public void setSettings(PluginSettings settings) {
 
 			}
+			@Override public boolean isProVersion() {
+				return false;
+			}
 		};
 
 		PluginSettingsViewModel viewModel = new PluginSettingsViewModel(settingsEditor);
