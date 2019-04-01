@@ -45,26 +45,28 @@ public class LogOverlayView extends ListView implements Destroyable, DataSource,
 
 	private final LogOverlayAdapter adapter;
 
-	private final CycleArray<ConsoleLogEntry> entries;
+	private final CycleArray<OverlayEntry> entries;
 
 	private final Runnable entryRemovalCallback = new Runnable() {
 		@Override
 		public void run() {
-			if (entryRemovalScheduled) {
-				entryRemovalScheduled = false;
+			if (!entryRemovalScheduled) {
+				return;
+			}
 
-				// remove first visible row
-				if (entries.realLength() > 0) {
-					testEvent(TEST_EVENT_OVERLAY_REMOVE_ITEM, entries);
+			entryRemovalScheduled = false;
 
-					entries.trimHeadIndex(1);
-					reloadData();
-				}
+			// remove first visible row
+			if (entries.realLength() > 0) {
+				testEvent(TEST_EVENT_OVERLAY_REMOVE_ITEM, entries);
 
-				// if more entries are visible - schedule another removal
-				if (entries.realLength() > 0) {
-					scheduleEntryRemoval();
-				}
+				entries.trimHeadIndex(1);
+				reloadData();
+			}
+
+			// if more entries are visible - schedule another removal
+			if (entries.realLength() > 0) {
+				scheduleEntryRemoval(entries.get(entries.getHeadIndex()));
 			}
 		}
 	};
@@ -86,7 +88,7 @@ public class LogOverlayView extends ListView implements Destroyable, DataSource,
 
 		this.settings = settings;
 
-		entries = new CycleArray<>(ConsoleLogEntry.class, settings.maxVisibleLines);
+		entries = new CycleArray<>(OverlayEntry.class, settings.maxVisibleLines);
 		adapter = new LogOverlayAdapter(this, createLogViewStyle(settings.colors));
 
 		setDivider(null);
@@ -130,13 +132,16 @@ public class LogOverlayView extends ListView implements Destroyable, DataSource,
 
 	//region Entry removal
 
-	private void scheduleEntryRemoval() {
-		if (!entryRemovalScheduled) {
-			entryRemovalScheduled = true;
-			ThreadUtils.runOnUIThread(entryRemovalCallback, (long) (settings.timeout * 1000L));
-
-			testEvent(TEST_EVENT_OVERLAY_SCHEDULE_ITEM_REMOVAL);
+	private void scheduleEntryRemoval(OverlayEntry entry) {
+		if (entryRemovalScheduled) {
+			return;
 		}
+
+		entryRemovalScheduled = true;
+
+		long delay = Math.max(0, entry.removalTimeStamp - System.currentTimeMillis());
+		ThreadUtils.runOnUIThread(entryRemovalCallback, delay);
+		testEvent(TEST_EVENT_OVERLAY_SCHEDULE_ITEM_REMOVAL);
 	}
 
 	private void cancelEntryRemoval() {
@@ -163,7 +168,7 @@ public class LogOverlayView extends ListView implements Destroyable, DataSource,
 
 	@Override
 	public ConsoleLogEntry getEntry(int position) {
-		return entries.get(entries.getHeadIndex() + position);
+		return entries.get(entries.getHeadIndex() + position).entry;
 	}
 
 	@Override
@@ -177,12 +182,14 @@ public class LogOverlayView extends ListView implements Destroyable, DataSource,
 
 	@Override
 	public void onAddEntry(Console console, ConsoleLogEntry entry, boolean filtered) {
-		entries.add(entry); // cycle array will handle entries trim
+
+		OverlayEntry overlayEntry = new OverlayEntry(entry, System.currentTimeMillis() + (long) (1000L * settings.timeout));
+		entries.add(overlayEntry); // cycle array will handle entries trim
 		reloadData();
 
 		testEvent(TEST_EVENT_OVERLAY_ADD_ITEM, entries);
 
-		scheduleEntryRemoval();
+		scheduleEntryRemoval(overlayEntry);
 	}
 
 	@Override
@@ -200,6 +207,20 @@ public class LogOverlayView extends ListView implements Destroyable, DataSource,
 		cancelEntryRemoval();
 		entries.clear();
 		reloadData();
+	}
+
+	//endregion
+
+	//region Overlay Entry
+
+	private static class OverlayEntry {
+		final ConsoleLogEntry entry;
+		final long removalTimeStamp;
+
+		OverlayEntry(ConsoleLogEntry entry, long removalTimeStamp) {
+			this.entry = entry;
+			this.removalTimeStamp = removalTimeStamp;
+		}
 	}
 
 	//endregion
