@@ -37,6 +37,6 @@ public class GestureRecognizerFactory {
 			}
 		}
 
-		return new NullGestureRecorgizer();
+		return new NullGestureRecognizer();
 	}
 }
