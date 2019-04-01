@@ -24,7 +24,6 @@ package spacemadness.com.lunarconsole.utils;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 
 public class StringUtils {
