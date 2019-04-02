@@ -1,6 +1,6 @@
 {
   "status": "OK",
-  "version": "1.5.7",
-  "message": "**Fixes:**\n\n* Fixed resolving variables in Unity at runtime.",
+  "version": "1.6.0",
+  "message": "**Changes:**\n\n* Added log overlay customization.\n* Added exception warning display modes.\n\n**Fixes:**\n\n* Fixed iPhone X notch safe area.",
   "url": "https://www.assetstore.unity3d.com/en/#!/content/43800"
 }
