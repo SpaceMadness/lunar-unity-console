@@ -1,5 +1,12 @@
 # Lunar Console Changelog
 
+## v.1.6.1 - 4/4/2019
+
+**Fixes:**
+
+* Fixed iOS crash while using Log Overlay view with a custom filter.
+* Fixed ProGuard minification.
+
 ## v.1.6.0 - 3/31/2019
 
 **Changes:**
