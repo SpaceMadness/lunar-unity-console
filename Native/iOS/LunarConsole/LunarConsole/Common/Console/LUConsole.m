@@ -72,7 +72,7 @@
     {
         [_delegate lunarConsole:self didAddEntryAtIndex:index trimmedCount:trimmed];
     }
-    else
+    else if (index != -1)
     {
         [_delegate lunarConsole:self didUpdateEntryAtIndex:index trimmedCount:trimmed];
     }
