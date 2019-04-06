@@ -1,5 +1,16 @@
 # Lunar Console Changelog
 
+## v.1.6.2 - 4/5/2019
+
+**Fixes:**
+
+* Exceptions while resolving variables.
+* Properly disabling editor analytics.
+
+**Changes:**
+
+* Added ability to disable updater.
+
 ## v.1.6.1 - 4/4/2019
 
 **Fixes:**
