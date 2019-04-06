@@ -271,8 +271,7 @@ namespace LunarConsolePluginInternal
 
             try
             {
-                var types = assembly.GetTypes();
-                foreach (var type in types)
+                foreach (var type in GetAssemblyTypes(assembly))
                 {
                     if (filter(type))
                     {
@@ -286,6 +285,27 @@ namespace LunarConsolePluginInternal
             }
 
             return list;
+        }
+
+        private static IEnumerable<Type> GetAssemblyTypes(Assembly assembly)
+        {
+            try
+            {
+                return assembly.GetTypes();
+            }
+            catch (ReflectionTypeLoadException e)
+            {
+                List<Type> result = new List<Type>();
+                Type[] types = e.Types;
+                for (int i = 0; i < types.Length; ++i)
+                {
+                    if (types[i] != null)
+                    {
+                        result.Add(types[i]);
+                    }
+                }
+                return result;
+            }
         }
 
         #endregion
