@@ -1,4 +1,4 @@
-//
+﻿//
 //  MenuItems.cs
 //
 //  Lunar Unity Mobile Console
@@ -61,7 +61,7 @@ namespace LunarConsoleEditorInternal
             Application.OpenURL("https://github.com/SpaceMadness/lunar-unity-console/issues/new");
         }
 
-        #if LUNAR_DEVELOPMENT
+        #if LUNAR_CONSOLE_DEVELOPMENT
         [MenuItem("Window/Lunar Mobile Console/Reset")]
         static void Reset()
         {
