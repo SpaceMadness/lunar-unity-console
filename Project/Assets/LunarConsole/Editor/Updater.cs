@@ -125,7 +125,9 @@ namespace LunarConsoleEditorInternal
             }
         }
 
+        #pragma warning disable 0649
         private static LastCheckDate s_lastInstallCheckDate;
+        #pragma warning restore 0649
 
         public static void TryCheckForUpdates()
         {
