@@ -1,4 +1,4 @@
-//
+﻿//
 //  Log.cs
 //
 //  Lunar Unity Mobile Console
@@ -31,7 +31,7 @@ namespace LunarConsolePluginInternal
     {
         static readonly string TAG = "[" + Constants.PluginDisplayName + "]";
 
-        [System.Diagnostics.Conditional("LUNAR_DEVELOPMENT")]
+        [System.Diagnostics.Conditional("LUNAR_CONSOLE_DEVELOPMENT")]
         public static void dev(string format, params object[] args)
         {
             Debug.Log(TAG + " " + StringUtils.TryFormat(format, args));
