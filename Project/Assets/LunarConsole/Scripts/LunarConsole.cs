@@ -447,7 +447,8 @@ namespace LunarConsolePlugin
                        !assemblyName.StartsWith("ExCSS") &&
                        !assemblyName.StartsWith("nunit") &&
                        !assemblyName.StartsWith("netstandard") &&
-                       !assemblyName.StartsWith("mscorlib");
+                       !assemblyName.StartsWith("mscorlib") &&
+                        assemblyName != "Accessibility";
             });
         }
 
