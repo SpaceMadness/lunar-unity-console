@@ -2052,10 +2052,7 @@ public class Assert // FIXME: rename methods to assert*
     {
         if (IsEnabled && (collection != null && collection.contains(expected)))
         {
-            if (collection == null)
-                AssertHelper("Assertion failed: collection is null");
-            else
-                AssertHelper("Assertion failed: collection contains the item %s", expected);
+            AssertHelper("Assertion failed: collection contains the item %s", expected);
         }
     }
 
