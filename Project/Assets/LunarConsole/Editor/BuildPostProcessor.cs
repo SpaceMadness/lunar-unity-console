@@ -110,7 +110,8 @@ namespace LunarConsoleEditorInternal
             var mod = JsonUtility.FromJson<ProjMod>(json);
             var sourceDir = Directory.GetParent(modFile).FullName;
             var targetGroup = "Libraries/" + mod.group;
-            var targetGuid = project.TargetGuidByName(PBXProject.GetUnityTargetName());
+            var sourcesTargetGuid = GetSourcesTargetGuid(project);
+            var resourcesTargetGuid = GetResourcesTargetGuid(project);
             var dirProject = Directory.GetParent(PBXProject.GetPBXProjectPath(m_buildPath)).FullName;
             foreach (var file in mod.files)
             {
@@ -121,12 +122,37 @@ namespace LunarConsoleEditorInternal
                     continue;
                 }
 
+                var targetGuid = IsSourceFile(filename) ? sourcesTargetGuid : resourcesTargetGuid;
                 project.AddFileToBuild(targetGuid, fileGuid);
             }
             foreach (var framework in mod.frameworks)
             {
-                project.AddFrameworkToProject(targetGuid, framework, false);
+                project.AddFrameworkToProject(sourcesTargetGuid, framework, false);
             }
+        }
+
+        static bool IsSourceFile(string filename)
+        {
+            var ext = Path.GetExtension(filename).ToLower();
+            return ext == ".m" || ext == ".mm" || ext == ".swift" || ext == ".c" || ext == ".cpp";
+        }
+
+        static string GetResourcesTargetGuid(PBXProject project)
+        {
+#if UNITY_2019_3_OR_NEWER
+            return project.GetUnityMainTargetGuid();
+#else
+            return project.TargetGuidByName(PBXProject.GetUnityTargetName());
+#endif
+        }
+
+        static string GetSourcesTargetGuid(PBXProject project)
+        {
+#if UNITY_2019_3_OR_NEWER
+            return project.GetUnityFrameworkTargetGuid();
+#else
+            return project.TargetGuidByName(PBXProject.GetUnityTargetName());
+#endif
         }
     }
 

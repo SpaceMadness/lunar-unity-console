@@ -30,8 +30,18 @@ namespace LunarConsoleEditorInternal
 {
     static class AndroidPlugin
     {
-        public static void SetEnabled(bool enabled)
+        private static EditorApplication.CallbackFunction s_onRetry;
+
+        public static void SetEnabled(bool enabled, bool retrying = false)
         {
+            if (retrying)
+            {
+                EditorApplication.delayCall -= s_onRetry;
+                s_onRetry = null;
+
+                Log.d("Retrying Android Plugin import...");
+            }
+            
             var androidPathAAR = FileUtils.FixAssetPath(EditorConstants.EditorPathAndroidAAR);
             if (androidPathAAR == null || !FileUtils.AssetPathExists(androidPathAAR))
             {
@@ -45,6 +55,15 @@ namespace LunarConsoleEditorInternal
             var importer = (PluginImporter)AssetImporter.GetAtPath(androidPathAAR);
             if (importer == null)
             {
+                // mleenhardt: Added delayed retry attempt to fix error caused by the fact that importer is
+                // null the very first time the project is loaded when there is no Library folder yet.
+                if (!retrying)
+                {
+                    s_onRetry = () => SetEnabled(enabled, true);
+                    EditorApplication.delayCall += s_onRetry;
+                    return;
+                }
+                
                 Debug.LogErrorFormat("Can't {0} Android plugin: unable to create importer for '{1}'. Re-install {2} to fix the issue.",
                     enabled ? "enable" : "disable",
                     androidPathAAR,
