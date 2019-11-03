@@ -1,5 +1,11 @@
 # Lunar Console Changelog
 
+## v.1.6.3 - 11/3/2019
+
+**Fixes:**
+
+* Unity 2019.3 incompatibility fix.
+
 ## v.1.6.2 - 4/5/2019
 
 **Fixes:**
