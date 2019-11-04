@@ -137,20 +137,20 @@ namespace LunarConsolePlugin
         public float timeout = 1.0f;
 
         [SerializeField]
-        public LogOverlayColors colors;
+        public LogOverlayColors colors = new LogOverlayColors();
     }
 
     [Serializable]
     public class LunarConsoleSettings
     {
         [SerializeField]
-        public ExceptionWarningSettings exceptionWarning;
+        public ExceptionWarningSettings exceptionWarning = new ExceptionWarningSettings();
 
         #if LUNAR_CONSOLE_FREE
         [HideInInspector]
         #endif
         [SerializeField]
-        public LogOverlaySettings logOverlay;
+        public LogOverlaySettings logOverlay = new LogOverlaySettings();
 
         [Range(128, 65536)]
         [Tooltip("Log output will never become bigger than this capacity")]
@@ -192,7 +192,7 @@ namespace LunarConsolePlugin
         #pragma warning disable 0414
 
         [SerializeField]
-        LunarConsoleSettings m_settings;
+        LunarConsoleSettings m_settings = new LunarConsoleSettings();
 
         static LunarConsole s_instance;
 
