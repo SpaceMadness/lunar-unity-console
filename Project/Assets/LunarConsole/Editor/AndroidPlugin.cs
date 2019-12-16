@@ -26,11 +26,17 @@ using UnityEditor;
 
 using LunarConsolePluginInternal;
 
+#if UNITY_2020_1_OR_NEWER
+using CallbackFunction = System.Action;
+#else
+using CallbackFunction = UnityEditor.EditorApplication.CallbackFunction;
+#endif
+
 namespace LunarConsoleEditorInternal
 {
     static class AndroidPlugin
     {
-        private static EditorApplication.CallbackFunction s_onRetry;
+        private static CallbackFunction s_onRetry;
 
         public static void SetEnabled(bool enabled, bool retrying = false)
         {
