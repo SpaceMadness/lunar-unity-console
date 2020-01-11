@@ -1,0 +1,2 @@
+include ':app', ':lunarConsole'
+rootProject.name='Lunar Console'
