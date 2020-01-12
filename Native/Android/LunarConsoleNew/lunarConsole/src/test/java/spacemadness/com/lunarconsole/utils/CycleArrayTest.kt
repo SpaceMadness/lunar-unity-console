@@ -207,7 +207,6 @@ class CycleArrayTest {
         assertEquals(5, array.realLength())
     }
 
-    @Throws(Exception::class)
     @Test
     fun testContains() {
         val array = CycleArray<String>(3)
@@ -250,7 +249,6 @@ class CycleArrayTest {
         assertTrue(array.contains("7"))
     }
 
-    @Throws(Exception::class)
     @Test
     fun testRemovedItem() {
         val array = CycleArray<String>(3)
@@ -268,7 +266,6 @@ class CycleArrayTest {
         assertEquals("6", array.add("9"))
     }
 
-    @Throws(Exception::class)
     @Test
     fun testIterator() {
         val array = CycleArray<String>(3)
