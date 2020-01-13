@@ -1,4 +1,3 @@
 package spacemadness.com.lunarconsole.model
 
-interface Entry {
-}
+interface Entry

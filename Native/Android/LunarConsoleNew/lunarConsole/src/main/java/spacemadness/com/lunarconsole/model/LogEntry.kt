@@ -8,7 +8,7 @@ class LogEntry(
     val index: Int,
     val type: LogEntryType,
     val message: String,
-    val stacktrace: String?
+    val stacktrace: String? = null
 ) : Entry {
     init {
         require(index >= 0) { "Invalid index: $index" }
