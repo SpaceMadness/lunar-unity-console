@@ -1,6 +1,6 @@
 package spacemadness.com.lunarconsole.utils
 
-class LimitSizeList<T>(capacity: Int, private val trimSize: Int) : Iterable<T> {
+class LimitSizeList<T>(capacity: Int, val trimSize: Int) : Iterable<T> {
     private val internalArray: CycleArray<T>
 
     val isOverfloating: Boolean
