@@ -6,6 +6,8 @@ import spacemadness.com.lunarconsole.model.log.LogEntryType.*
 import java.lang.AssertionError
 
 class LogEntryListTest {
+    //region Filtering
+
     @Test
     fun testFilteringByText() {
         val list = createEntryListWithMessages(
@@ -16,85 +18,86 @@ class LogEntryListTest {
             "foo"
         )
 
-        assertTrue(!list.isFiltering)
+        listAssertMessages(list, "line1", "line11", "line111", "line1111", "foo")
+
+        assertFalse(list.isFiltering)
 
         assertTrue(list.setFilterByText("l"))
-        listAssertMessages(list, "line1", "line11", "line111", "line1111")
         assertTrue(list.isFiltering)
+        listAssertMessages(list, "line1", "line11", "line111", "line1111")
 
-        assertTrue(!list.setFilterByText("l"))
-        listAssertMessages(list, "line1", "line11", "line111", "line1111")
+        assertFalse(list.setFilterByText("l")) // list should not get modified with the same filter
         assertTrue(list.isFiltering)
+        listAssertMessages(list, "line1", "line11", "line111", "line1111")
 
         assertTrue(list.setFilterByText("li"))
-        listAssertMessages(list, "line1", "line11", "line111", "line1111")
         assertTrue(list.isFiltering)
+        listAssertMessages(list, "line1", "line11", "line111", "line1111")
 
         assertTrue(list.setFilterByText("lin"))
-        listAssertMessages(list, "line1", "line11", "line111", "line1111")
         assertTrue(list.isFiltering)
+        listAssertMessages(list, "line1", "line11", "line111", "line1111")
 
         assertTrue(list.setFilterByText("line"))
-        listAssertMessages(list, "line1", "line11", "line111", "line1111")
         assertTrue(list.isFiltering)
+        listAssertMessages(list, "line1", "line11", "line111", "line1111")
 
         assertTrue(list.setFilterByText("line1"))
-        listAssertMessages(list, "line1", "line11", "line111", "line1111")
         assertTrue(list.isFiltering)
+        listAssertMessages(list, "line1", "line11", "line111", "line1111")
 
         assertTrue(list.setFilterByText("line11"))
-        listAssertMessages(list, "line11", "line111", "line1111")
         assertTrue(list.isFiltering)
+        listAssertMessages(list, "line11", "line111", "line1111")
 
         assertTrue(list.setFilterByText("line111"))
-        listAssertMessages(list, "line111", "line1111")
         assertTrue(list.isFiltering)
+        listAssertMessages(list, "line111", "line1111")
 
         assertTrue(list.setFilterByText("line1111"))
-        listAssertMessages(list, "line1111")
         assertTrue(list.isFiltering)
+        listAssertMessages(list, "line1111")
 
         assertTrue(list.setFilterByText("line11111"))
-        listAssertMessages(list)
         assertTrue(list.isFiltering)
+        listAssertMessages(list)
 
         assertTrue(list.setFilterByText("line1111"))
-        listAssertMessages(list, "line1111")
         assertTrue(list.isFiltering)
+        listAssertMessages(list, "line1111")
 
         assertTrue(list.setFilterByText("line111"))
-        listAssertMessages(list, "line111", "line1111")
         assertTrue(list.isFiltering)
+        listAssertMessages(list, "line111", "line1111")
 
         assertTrue(list.setFilterByText("line11"))
-        listAssertMessages(list, "line11", "line111", "line1111")
         assertTrue(list.isFiltering)
+        listAssertMessages(list, "line11", "line111", "line1111")
 
         assertTrue(list.setFilterByText("line1"))
-        listAssertMessages(list, "line1", "line11", "line111", "line1111")
         assertTrue(list.isFiltering)
+        listAssertMessages(list, "line1", "line11", "line111", "line1111")
 
         assertTrue(list.setFilterByText("line"))
-        listAssertMessages(list, "line1", "line11", "line111", "line1111")
         assertTrue(list.isFiltering)
+        listAssertMessages(list, "line1", "line11", "line111", "line1111")
 
         assertTrue(list.setFilterByText("lin"))
-        listAssertMessages(list, "line1", "line11", "line111", "line1111")
         assertTrue(list.isFiltering)
+        listAssertMessages(list, "line1", "line11", "line111", "line1111")
 
         assertTrue(list.setFilterByText("li"))
-        listAssertMessages(list, "line1", "line11", "line111", "line1111")
         assertTrue(list.isFiltering)
+        listAssertMessages(list, "line1", "line11", "line111", "line1111")
 
         assertTrue(list.setFilterByText("l"))
-        listAssertMessages(list, "line1", "line11", "line111", "line1111")
         assertTrue(list.isFiltering)
+        listAssertMessages(list, "line1", "line11", "line111", "line1111")
 
         assertTrue(list.setFilterByText(""))
+        assertFalse(list.isFiltering)
         listAssertMessages(list, "line1", "line11", "line111", "line1111", "foo")
-        assertTrue(!list.isFiltering)
     }
-
 
     @Test
     fun testFilteringByLogType() {
@@ -111,110 +114,107 @@ class LogEntryListTest {
             makeEntry(EXCEPTION, "exception2")
         )
 
-        assertTrue(!list.isFiltering)
+        assertFalse(list.isFiltering)
 
         assertTrue(list.setFilterByLogType(ERROR, true))
+        assertTrue(list.isFiltering)
         listAssertMessages(
             list,
-            "assert1", "assert2",
-            "warning1", "warning2",
-            "log1", "log2",
-            "exception1", "exception2"
+            "assert1",
+            "assert2",
+            "warning1",
+            "warning2",
+            "log1",
+            "log2",
+            "exception1",
+            "exception2"
         )
-        assertTrue(list.isFiltering)
 
-        assertTrue(!list.setFilterByLogType(ERROR, true))
+        assertFalse(list.setFilterByLogType(ERROR, true))
+        assertTrue(list.isFiltering)
         listAssertMessages(
             list,
-            "assert1", "assert2",
-            "warning1", "warning2",
-            "log1", "log2",
-            "exception1", "exception2"
+            "assert1",
+            "assert2",
+            "warning1",
+            "warning2",
+            "log1",
+            "log2",
+            "exception1",
+            "exception2"
         )
-        assertTrue(list.isFiltering)
 
         assertTrue(list.setFilterByLogType(ASSERT, true))
-        listAssertMessages(
-            list,
-            "warning1", "warning2",
-            "log1", "log2",
-            "exception1", "exception2"
-        )
         assertTrue(list.isFiltering)
+        listAssertMessages(list, "warning1", "warning2", "log1", "log2", "exception1", "exception2")
 
         assertTrue(list.setFilterByLogType(WARNING, true))
-        listAssertMessages(
-            list,
-            "log1", "log2",
-            "exception1", "exception2"
-        )
         assertTrue(list.isFiltering)
+        listAssertMessages(list, "log1", "log2", "exception1", "exception2")
 
         assertTrue(list.setFilterByLogType(LOG, true))
-        listAssertMessages(
-            list,
-            "exception1", "exception2"
-        )
         assertTrue(list.isFiltering)
+        listAssertMessages(list, "exception1", "exception2")
 
         assertTrue(list.setFilterByLogType(EXCEPTION, true))
-        listAssertMessages(list)
         assertTrue(list.isFiltering)
+        listAssertMessages(list)
 
         assertTrue(list.setFilterByLogType(EXCEPTION, false))
-        listAssertMessages(
-            list,
-            "exception1", "exception2"
-        )
         assertTrue(list.isFiltering)
+        listAssertMessages(list, "exception1", "exception2")
 
         assertTrue(list.setFilterByLogType(LOG, false))
-        listAssertMessages(
-            list,
-            "log1", "log2",
-            "exception1", "exception2"
-        )
         assertTrue(list.isFiltering)
+        listAssertMessages(list, "log1", "log2", "exception1", "exception2")
 
         assertTrue(list.setFilterByLogType(WARNING, false))
-        listAssertMessages(
-            list,
-            "warning1", "warning2",
-            "log1", "log2",
-            "exception1", "exception2"
-        )
         assertTrue(list.isFiltering)
+        listAssertMessages(list, "warning1", "warning2", "log1", "log2", "exception1", "exception2")
 
         assertTrue(list.setFilterByLogType(ASSERT, false))
+        assertTrue(list.isFiltering)
         listAssertMessages(
             list,
-            "assert1", "assert2",
-            "warning1", "warning2",
-            "log1", "log2",
-            "exception1", "exception2"
+            "assert1",
+            "assert2",
+            "warning1",
+            "warning2",
+            "log1",
+            "log2",
+            "exception1",
+            "exception2"
         )
-        assertTrue(list.isFiltering)
 
-        assertTrue(!list.setFilterByLogType(ASSERT, false))
+        assertFalse(list.setFilterByLogType(ASSERT, false))
+        assertTrue(list.isFiltering)
         listAssertMessages(
             list,
-            "assert1", "assert2",
-            "warning1", "warning2",
-            "log1", "log2",
-            "exception1", "exception2"
+            "assert1",
+            "assert2",
+            "warning1",
+            "warning2",
+            "log1",
+            "log2",
+            "exception1",
+            "exception2"
         )
-        assertTrue(list.isFiltering)
 
         assertTrue(list.setFilterByLogType(ERROR, false))
+        assertFalse(list.isFiltering)
         listAssertMessages(
             list,
-            "error1", "error2",
-            "assert1", "assert2",
-            "warning1", "warning2",
-            "log1", "log2",
-            "exception1", "exception2"
+            "error1",
+            "error2",
+            "assert1",
+            "assert2",
+            "warning1",
+            "warning2",
+            "log1",
+            "log2",
+            "exception1",
+            "exception2"
         )
-        assertTrue(!list.isFiltering)
     }
 
     @Test
@@ -232,60 +232,66 @@ class LogEntryListTest {
             makeEntry(EXCEPTION, "exception2")
         )
 
-        assertTrue(!list.isFiltering)
+        assertFalse(list.isFiltering)
 
-        var mask = getMask(ERROR) or
-                getMask(EXCEPTION) or
-                getMask(ASSERT)
+        var mask = getMask(ERROR) or getMask(EXCEPTION) or getMask(ASSERT)
 
         assertTrue(list.setFilterByLogTypeMask(mask, true))
-        listAssertMessages(
-            list,
-            "warning1", "warning2",
-            "log1", "log2"
-        )
         assertTrue(list.isFiltering)
+        listAssertMessages(list, "warning1", "warning2", "log1", "log2")
 
         mask = getMask(ERROR) or getMask(ASSERT)
 
         assertTrue(list.setFilterByLogTypeMask(mask, false))
+        assertTrue(list.isFiltering)
         listAssertMessages(
             list,
-            "error1", "error2",
-            "assert1", "assert2",
-            "warning1", "warning2",
-            "log1", "log2"
+            "error1",
+            "error2",
+            "assert1",
+            "assert2",
+            "warning1",
+            "warning2",
+            "log1",
+            "log2"
         )
-        assertTrue(list.isFiltering)
 
-        assertTrue(!list.setFilterByLogTypeMask(mask, false))
+        assertFalse(list.setFilterByLogTypeMask(mask, false))
+        assertTrue(list.isFiltering)
         listAssertMessages(
             list,
-            "error1", "error2",
-            "assert1", "assert2",
-            "warning1", "warning2",
-            "log1", "log2"
+            "error1",
+            "error2",
+            "assert1",
+            "assert2",
+            "warning1",
+            "warning2",
+            "log1",
+            "log2"
         )
-        assertTrue(list.isFiltering)
 
-        mask = getMask(ERROR) or
-                getMask(EXCEPTION) or
-                getMask(ASSERT)
+        mask = getMask(ERROR) or getMask(EXCEPTION) or getMask(ASSERT)
 
         assertTrue(list.setFilterByLogTypeMask(mask, false))
+        assertFalse(list.isFiltering)
         listAssertMessages(
             list,
-            "error1", "error2",
-            "assert1", "assert2",
-            "warning1", "warning2",
-            "log1", "log2",
-            "exception1", "exception2"
+            "error1",
+            "error2",
+            "assert1",
+            "assert2",
+            "warning1",
+            "warning2",
+            "log1",
+            "log2",
+            "exception1",
+            "exception2"
         )
-        assertTrue(!list.isFiltering)
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Collapse items
+    //endregion
+
+    //region Collapse items
 
     @Test
     fun testCollapseEntries() {
@@ -307,7 +313,7 @@ class LogEntryListTest {
         assertEntry(list, 1, "message12", 2)
 
         list.setCollapsed(false)
-        assertTrue(!list.isFiltering)
+        assertFalse(list.isFiltering)
 
         listAssertMessages(list, "message1", "message1", "message1", "message12", "message12")
     }
@@ -361,7 +367,7 @@ class LogEntryListTest {
         assertEntry(list, 2, "message2", 2)
 
         list.setCollapsed(false)
-        assertTrue(!list.isFiltering)
+        assertFalse(list.isFiltering)
 
         listAssertMessages(
             list,
@@ -398,7 +404,7 @@ class LogEntryListTest {
         assertEntry(list, 0, "message1", 6)
 
         list.setCollapsed(false)
-        assertTrue(!list.isFiltering)
+        assertFalse(list.isFiltering)
 
         listAssertMessages(list, "message1", "message1", "message1")
     }
@@ -424,7 +430,7 @@ class LogEntryListTest {
         assertEntry(list, 1, "message12", 2)
 
         list.setCollapsed(false)
-        assertTrue(!list.isFiltering)
+        assertFalse(list.isFiltering)
 
         listAssertMessages(list, "message1", "message12", "message12")
     }
@@ -531,7 +537,7 @@ class LogEntryListTest {
         )
 
         list.setFilterByText("")
-        assertTrue(!list.isFiltering)
+        assertFalse(list.isFiltering)
 
         listAssertMessages(
             list,
@@ -604,7 +610,7 @@ class LogEntryListTest {
         )
 
         list.setFilterByText("")
-        assertTrue(!list.isFiltering)
+        assertFalse(list.isFiltering)
 
         listAssertMessages(
             list,
@@ -650,7 +656,7 @@ class LogEntryListTest {
         assertEntry(list, 2, "message2", 3)
 
         list.setCollapsed(false)
-        assertTrue(!list.isFiltering)
+        assertFalse(list.isFiltering)
 
         listAssertMessages(
             list,
@@ -722,7 +728,7 @@ class LogEntryListTest {
         assertEntry(list, 2, "message2", 2)
 
         list.setCollapsed(false)
-        assertTrue(!list.isFiltering)
+        assertFalse(list.isFiltering)
 
         listAssertMessages(
             list,
@@ -795,7 +801,7 @@ class LogEntryListTest {
         assertEntry(list, 1, "message12", 1)
 
         list.setCollapsed(false)
-        assertTrue(!list.isFiltering)
+        assertFalse(list.isFiltering)
 
         listAssertMessages(list, "message1", "message12", "message2")
     }
@@ -804,7 +810,7 @@ class LogEntryListTest {
 
     private fun listAssertMessages(list: ConsoleLogEntryList, vararg expected: String) {
         assertEquals(
-            "Expected:${list.entries.joinToString { it.message }}\nActual:${expected.joinToString()}",
+            "\nExpected:${list.entries.joinToString { it.message }}\n  Actual:${expected.joinToString()}",
             expected.size,
             list.count()
         )
