@@ -1,4 +1,4 @@
-package spacemadness.com.lunarconsole.model.log
+package spacemadness.com.lunarconsole.console
 
 import spacemadness.com.lunarconsole.utils.LimitSizeList
 import spacemadness.com.lunarconsole.utils.hasPrefix
@@ -27,7 +27,8 @@ class ConsoleLogEntryList(capacity: Int, trimSize: Int) {
         private set
 
     /** Collapsed entries lookup */
-    private val entryLookup: LogEntryLookup = LogEntryHashTableLookup()
+    private val entryLookup: LogEntryLookup =
+        LogEntryHashTableLookup()
 
     /** Holds disabled log entryList types bit mask  */
     private var logDisabledTypesMask: Int = 0
@@ -187,7 +188,10 @@ class ConsoleLogEntryList(capacity: Int, trimSize: Int) {
      * @return true if list was changed
      */
     fun setFilterByLogType(logType: LogEntryType, disabled: Boolean): Boolean {
-        return setFilterByLogTypeMask(getMask(logType), disabled)
+        return setFilterByLogTypeMask(
+            getMask(
+                logType
+            ), disabled)
     }
 
     /**
@@ -224,7 +228,9 @@ class ConsoleLogEntryList(capacity: Int, trimSize: Int) {
      * @return true if log type is enabled
      */
     fun isFilterLogTypeEnabled(type: LogEntryType): Boolean {
-        return logDisabledTypesMask and getMask(type) == 0
+        return logDisabledTypesMask and getMask(
+            type
+        ) == 0
     }
 
     /**
@@ -336,7 +342,9 @@ class ConsoleLogEntryList(capacity: Int, trimSize: Int) {
      */
     private fun filterEntry(entry: LogEntry): Boolean {
         // filter by log type
-        if (logDisabledTypesMask and getMask(entry.type) != 0) {
+        if (logDisabledTypesMask and getMask(
+                entry.type
+            ) != 0) {
             return false
         }
         // filter by message

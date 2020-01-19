@@ -1,11 +1,12 @@
-package spacemadness.com.lunarconsole.model.log
+package spacemadness.com.lunarconsole.console
 
 interface LogEntryLookup {
     fun addEntry(entry: LogEntry): CollapsedLogEntry
     fun clear()
 }
 
-internal class LogEntryHashTableLookup : LogEntryLookup {
+internal class LogEntryHashTableLookup :
+    LogEntryLookup {
     private val lookup = mutableMapOf<String, CollapsedLogEntry>()
 
     override fun addEntry(entry: LogEntry): CollapsedLogEntry {

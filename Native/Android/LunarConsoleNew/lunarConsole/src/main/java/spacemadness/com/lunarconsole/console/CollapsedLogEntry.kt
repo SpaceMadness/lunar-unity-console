@@ -1,4 +1,4 @@
-package spacemadness.com.lunarconsole.model.log
+package spacemadness.com.lunarconsole.console
 
 class CollapsedLogEntry(
     index: Int,
@@ -18,4 +18,10 @@ class CollapsedLogEntry(
     }
 }
 
-fun LogEntry.asCollapsedEntry() = CollapsedLogEntry(index, type, message, stackTrace)
+fun LogEntry.asCollapsedEntry() =
+    CollapsedLogEntry(
+        index,
+        type,
+        message,
+        stackTrace
+    )

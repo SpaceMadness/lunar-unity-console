@@ -1,4 +1,4 @@
-package spacemadness.com.lunarconsole.model.log
+package spacemadness.com.lunarconsole.console
 
 import spacemadness.com.lunarconsole.model.Entry
 
