@@ -26,9 +26,9 @@ class LogEntryBufferTest : TestCase() {
 
 private fun LogEntryBuffer.add(message: String) = add(
     LogEntry(
-        0,
-        LogEntryType.LOG,
-        message,
-        null
+        index = 0,
+        type = LogEntryType.LOG,
+        message = message,
+        stackTrace = null
     )
 )
