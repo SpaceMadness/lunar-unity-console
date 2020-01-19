@@ -17,11 +17,11 @@ internal class SerialExecutorQueue private constructor(
         handler.removeCallbacksAndMessages(null)
     }
 
-    override fun execute(callback: () -> Unit, delay: TimeInterval) {
+    override fun execute(task: Runnable, delay: TimeInterval) {
         if (delay > 0) {
-            handler.postDelayed(callback, delay)
+            handler.postDelayed(task, delay)
         } else {
-            handler.post(callback)
+            handler.post(task)
         }
     }
 

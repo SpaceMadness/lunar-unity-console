@@ -1,11 +1,7 @@
 package spacemadness.com.lunarconsole.concurrent
 
 import spacemadness.com.lunarconsole.core.Destroyable
-import spacemadness.com.lunarconsole.di.Providers
-
-enum class ExecutorQueueType {
-    Serial, Concurrent
-}
+import spacemadness.com.lunarconsole.di.DependencyProvider
 
 abstract class ExecutorQueue(val name: String? = null) : Executor, Destroyable {
     abstract val isCurrent: Boolean
@@ -13,8 +9,8 @@ abstract class ExecutorQueue(val name: String? = null) : Executor, Destroyable {
     abstract fun cancelAll()
 
     companion object {
-        private val provider = Providers.of<ExecutorQueueProvider>()
+        private val provider = DependencyProvider.of<ExecutorQueueFactory>()
         val main = provider.createMainQueue()
-        val state = provider.createQueue(ExecutorQueueType.Serial, "Lunar Console")
+        val state = provider.createSerialQueue("Lunar Console")
     }
 }
