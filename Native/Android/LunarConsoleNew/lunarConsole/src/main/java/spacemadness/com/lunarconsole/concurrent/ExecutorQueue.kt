@@ -1,16 +1,20 @@
 package spacemadness.com.lunarconsole.concurrent
 
 import spacemadness.com.lunarconsole.core.Destroyable
-import spacemadness.com.lunarconsole.di.DependencyProvider
 
+/**
+ * An [Executor] object which also provides an ability to cancel all tasks and check if the current
+ * code is running on a specific queue.
+ * @param name - an optional name for the queue.
+ */
 abstract class ExecutorQueue(val name: String? = null) : Executor, Destroyable {
+    /**
+     * @returns true, if the code is running on this queue.
+     */
     abstract val isCurrent: Boolean
 
+    /**
+     * Cancels all pending tasks
+     */
     abstract fun cancelAll()
-
-    companion object {
-        private val provider = DependencyProvider.of<ExecutorQueueFactory>()
-        val main = provider.createMainQueue()
-        val state = provider.createSerialQueue("Lunar Console")
-    }
 }
