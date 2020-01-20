@@ -626,15 +626,6 @@ namespace LunarConsolePlugin
         }
     }
 
-    [AttributeUsage (AttributeTargets.Field)]
-    public sealed class CVarProxyAttribute : Attribute
-    {
-        public CVarProxyAttribute(CVar _var)
-        {
-
-        }
-    }
-
     [AttributeUsage(AttributeTargets.Class)]
     public class CVarContainerAttribute : Attribute
     {
