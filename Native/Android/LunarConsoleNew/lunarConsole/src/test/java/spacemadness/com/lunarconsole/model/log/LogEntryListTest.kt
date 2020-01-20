@@ -2,7 +2,9 @@ package spacemadness.com.lunarconsole.model.log
 
 import org.junit.Assert.*
 import org.junit.Test
-import spacemadness.com.lunarconsole.model.log.LogEntryType.*
+import spacemadness.com.lunarconsole.console.LogEntryType
+import spacemadness.com.lunarconsole.console.LogEntryType.*
+import spacemadness.com.lunarconsole.console.getMask
 import java.lang.AssertionError
 
 class LogEntryListTest {
