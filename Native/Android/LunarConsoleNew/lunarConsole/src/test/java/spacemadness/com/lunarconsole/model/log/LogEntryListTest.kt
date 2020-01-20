@@ -2,6 +2,8 @@ package spacemadness.com.lunarconsole.model.log
 
 import org.junit.Assert.*
 import org.junit.Test
+import spacemadness.com.lunarconsole.console.ConsoleLogEntryList
+import spacemadness.com.lunarconsole.console.LogEntry
 import spacemadness.com.lunarconsole.console.LogEntryType
 import spacemadness.com.lunarconsole.console.LogEntryType.*
 import spacemadness.com.lunarconsole.console.getMask

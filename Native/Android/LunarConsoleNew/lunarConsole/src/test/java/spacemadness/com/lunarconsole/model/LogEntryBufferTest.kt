@@ -21,6 +21,23 @@ class LogEntryBufferTest : TestCase() {
 
         buffer.add("1")
         assertResults("scheduled")
+
+        buffer.add("2")
+        buffer.add("3")
+        assertResults()
+
+        executor.dispatch()
+        assertResults("1", "2", "3")
+
+        buffer.add("4")
+        assertResults("scheduled")
+
+        buffer.add("5")
+        buffer.add("6")
+        assertResults()
+
+        executor.dispatch()
+        assertResults("4", "5", "6")
     }
 }
 
