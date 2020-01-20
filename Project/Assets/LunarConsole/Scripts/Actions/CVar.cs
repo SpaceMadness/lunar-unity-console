@@ -40,17 +40,79 @@ namespace LunarConsolePlugin
         String
     }
 
-    public struct CValue
+    public class CValue
     {
         public string stringValue;
         public int intValue;
         public float floatValue;
+        public bool boolValue;
+
+        public CVarType Type { get; }
+
+        public CValue(CVarType type, string value)
+        {
+            Type = type;
+
+            stringValue = value;
+            floatValue = IsInt || IsFloat ? StringUtils.ParseFloat(value, 0.0f) : 0.0f;
+            intValue = IsInt || IsFloat ? (int) floatValue : 0;
+        }
+
+        public CValue(CVarType type, int value)
+        {
+            Type = type;
+
+            stringValue = StringUtils.ToString(value);
+            intValue = value;
+            floatValue = value;
+        }
+
+        public CValue(CVarType type, float value)
+        {
+            Type = type;
+
+            stringValue = StringUtils.ToString(value);
+            intValue = (int) value;
+            floatValue = value;
+        }
+
+
+        public CValue(CVarType type, bool value)
+        {
+            Type = type;
+
+            boolValue = value;
+            intValue = value ? 1 : 0;
+            floatValue = intValue;
+            stringValue = intValue.ToString();
+        }
 
         public bool Equals(ref CValue other)
         {
             return other.intValue == intValue &&
             other.floatValue == floatValue &&
-            other.stringValue == stringValue;
+            other.stringValue == stringValue &&
+            other.boolValue == boolValue;
+        }
+
+        public bool IsInt
+        {
+            get { return Type == CVarType.Integer || Type == CVarType.Boolean; }
+        }
+
+        public bool IsString
+        {
+            get { return Type == CVarType.String; }
+        }
+
+        public bool IsFloat
+        {
+            get { return Type == CVarType.Float; }
+        }
+
+        public bool IsBool
+        {
+            get { return Type == CVarType.Boolean; }
         }
     }
 
@@ -121,6 +183,11 @@ namespace LunarConsolePlugin
                     return (T) Convert.ChangeType(_value.stringValue, typeof(T));
                 }
 
+                if (typeof(T) == typeof(bool))
+                {
+                    return (T) Convert.ChangeType(_value.boolValue, typeof(T));
+                }
+
                 throw new ArgumentException();
             };
 
@@ -141,15 +208,19 @@ namespace LunarConsolePlugin
 
                 if (typeof(T) == typeof(int))
                 {
-                    _value.intValue = (int) Convert.ChangeType(value, typeof(int));
+                    _value = new CValue(CVarType.Integer, (int) Convert.ChangeType(value, typeof(int)));
                 }
                 else if (typeof(T) == typeof(float))
                 {
-                    _value.floatValue = (float) Convert.ChangeType(value, typeof(float));
+                    _value = new CValue(CVarType.Float, (float) Convert.ChangeType(value, typeof(float)));
                 }
                 else if (typeof(T) == typeof(string))
                 {
-                    _value.stringValue = (string) Convert.ChangeType(value, typeof(string));
+                    _value = new CValue(CVarType.String, (string) Convert.ChangeType(value, typeof(string)));
+                }
+                else if (typeof(T) == typeof(bool))
+                {
+                    _value = new CValue(CVarType.Boolean, (bool) Convert.ChangeType(value, typeof(bool)));
                 }
                 else
                 {
@@ -180,6 +251,12 @@ namespace LunarConsolePlugin
                     return;
                 }
 
+                if (typeof(T) == typeof(bool))
+                {
+                    SetFunc.Invoke((T) Convert.ChangeType(_value.boolValue, typeof(T)));
+                    return;
+                }
+
                 throw new ArgumentException();
             }
         }
@@ -199,52 +276,54 @@ namespace LunarConsolePlugin
 
         private CVarChangedDelegateList m_delegateList;
 
-        private CVarProxy<int> _intProxy;
-        private CVarProxy<float> _floatProxy;
-        private CVarProxy<string> _stringProxy;
+        private CVarProxy<int> m_intProxy;
+        private CVarProxy<bool> m_boolProxy;
+        private CVarProxy<float> m_floatProxy;
+        private CVarProxy<string> m_stringProxy;
 
         private ICVarProxy Proxy
         {
             get
             {
-                if (_intProxy != null) return _intProxy;
-                if (_floatProxy != null) return _floatProxy;
-                if (_stringProxy != null) return _stringProxy;
+                if (m_intProxy != null) return m_intProxy;
+                if (m_boolProxy != null) return m_boolProxy;
+                if (m_floatProxy != null) return m_floatProxy;
+                if (m_stringProxy != null) return m_stringProxy;
 
                 throw new ArgumentException();
             }
         }
 
-        public CVar(string name, bool defaultValue, CFlags flags = CFlags.None, CVarProxy<int> proxy = null)
+        public CVar(string name, bool defaultValue, CFlags flags = CFlags.None, CVarProxy<bool> proxy = null)
             : this(name, CVarType.Boolean, flags)
         {
-            _intProxy = proxy ?? new CVarProxy<int>();
-            IntValue = defaultValue ? 1 : 0;
-            m_defaultValue = new CValue { intValue = defaultValue ? 1 : 0 };
+            m_boolProxy = proxy ?? new CVarProxy<bool>();
+            BoolValue = defaultValue;
+            m_defaultValue = new CValue(m_type, defaultValue);
         }
 
         public CVar(string name, int defaultValue, CFlags flags = CFlags.None, CVarProxy<int> proxy = null)
             : this(name, CVarType.Integer, flags)
         {
-            _intProxy = proxy ?? new CVarProxy<int>();
+            m_intProxy = proxy ?? new CVarProxy<int>();
             IntValue = defaultValue;
-            m_defaultValue = new CValue { intValue = defaultValue };
+            m_defaultValue = new CValue(m_type, defaultValue);
         }
 
         public CVar(string name, float defaultValue, CFlags flags = CFlags.None, CVarProxy<float> proxy = null)
             : this(name, CVarType.Float, flags)
         {
-            _floatProxy = proxy ?? new CVarProxy<float>();
+            m_floatProxy = proxy ?? new CVarProxy<float>();
             FloatValue = defaultValue;
-            m_defaultValue = new CValue { floatValue = defaultValue };
+            m_defaultValue = new CValue(m_type, defaultValue);
         }
 
         public CVar(string name, string defaultValue, CFlags flags = CFlags.None, CVarProxy<string> proxy = null)
             : this(name, CVarType.String, flags)
         {
-            _stringProxy = proxy ?? new CVarProxy<string>();
+            m_stringProxy = proxy ?? new CVarProxy<string>();
             Value = defaultValue;
-            m_defaultValue = new CValue { stringValue = defaultValue };
+            m_defaultValue = new CValue(m_type, defaultValue);
         }
 
         private CVar(string name, CVarType type, CFlags flags)
@@ -377,7 +456,7 @@ namespace LunarConsolePlugin
 
         public bool IsString
         {
-            get { return m_type == CVarType.String; }
+            get { return Proxy.Value.IsString; }
         }
 
         public string Value
@@ -387,12 +466,7 @@ namespace LunarConsolePlugin
             {
                 var changed = Proxy.Value.stringValue != value;
 
-                Proxy.Value = new CValue
-                {
-                    stringValue = value,
-                    floatValue = IsInt || IsFloat ? StringUtils.ParseFloat(value, 0.0f) : 0.0f,
-                    intValue = IsInt || IsFloat ? (int)FloatValue : 0
-                };
+                Proxy.Value = new CValue(m_type, value);
 
                 if (changed)
                 {
@@ -414,7 +488,7 @@ namespace LunarConsolePlugin
 
         public bool IsInt
         {
-            get { return m_type == CVarType.Integer || m_type == CVarType.Boolean; }
+            get { return Proxy.Value.IsInt; }
         }
 
         public int IntValue
@@ -424,12 +498,7 @@ namespace LunarConsolePlugin
             {
                 var changed = Proxy.Value.intValue != value;
 
-                Proxy.Value = new CValue
-                {
-                    stringValue = StringUtils.ToString(value),
-                    intValue = value,
-                    floatValue = value
-                };
+                Proxy.Value = new CValue(m_type, value);
 
                 if (changed)
                 {
@@ -440,7 +509,7 @@ namespace LunarConsolePlugin
 
         public bool IsFloat
         {
-            get { return m_type == CVarType.Float; }
+            get { return Proxy.Value.Type == CVarType.Float; }
         }
 
         public float FloatValue
@@ -450,12 +519,7 @@ namespace LunarConsolePlugin
             {
                 var changed = Proxy.Value.floatValue != value;
 
-                Proxy.Value = new CValue
-                {
-                    stringValue = StringUtils.ToString(value),
-                    intValue = (int) value,
-                    floatValue = value
-                };
+                Proxy.Value = new CValue(m_type, value);
 
                 if (changed)
                 {
@@ -466,7 +530,7 @@ namespace LunarConsolePlugin
 
         public bool IsBool
         {
-            get { return m_type == CVarType.Boolean; }
+            get { return Proxy.Value.IsBool; }
         }
 
         public bool BoolValue
@@ -474,10 +538,7 @@ namespace LunarConsolePlugin
             get { return Proxy.Value.intValue != 0; }
             set
             {
-                Proxy.Value = new CValue
-                {
-                    intValue = value ? 1 : 0
-                };
+                Proxy.Value = new CValue(m_type, value);
             }
         }
 
