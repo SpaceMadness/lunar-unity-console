@@ -1,29 +1,27 @@
 package spacemadness.com.lunarconsole.utils
 
-class LimitSizeList<T>(capacity: Int, val trimSize: Int) : Iterable<T> {
-    private val data: CycleArray<T>
+class LimitSizeList<E>(capacity: Int, val trimSize: Int) : Iterable<E> {
+    private val data: CycleArray<E> = CycleArray(capacity)
 
     val isOverfloating: Boolean
-        get() = data.headIndex > 0 && willOverflow()
+        get() = data.headIndex > 0 && data.realLength() == data.capacity
 
     val isTrimmed: Boolean
         get() = trimmedCount() > 0
 
     init {
-        require(capacity >= 0) { "Illegal capacity: $capacity" }
-
-        this.data = CycleArray(capacity)
+        require(trimSize > 0) { "Invalid trim size: $trimSize" }
     }
 
-    fun objectAtIndex(index: Int): T {
+    fun objectAtIndex(index: Int): E {
         return data[data.headIndex + index]
     }
 
-    fun addObject(obj: T) {
-        if (willOverflow()) {
+    fun addObject(e: E) {
+        if (willOverflow(addCount = 1)) {
             trimHead(trimSize)
         }
-        data.add(obj)
+        data.add(e)
     }
 
     fun trimHead(count: Int) {
@@ -34,7 +32,7 @@ class LimitSizeList<T>(capacity: Int, val trimSize: Int) : Iterable<T> {
         data.clear()
     }
 
-    override fun iterator(): Iterator<T> {
+    override fun iterator(): Iterator<E> {
         return data.iterator()
     }
 
@@ -58,9 +56,11 @@ class LimitSizeList<T>(capacity: Int, val trimSize: Int) : Iterable<T> {
         return data.headIndex
     }
 
-    // TODO: make property
-    fun willOverflow(): Boolean {
-        return data.realLength() == data.capacity
+    /**
+     * Returns true if the list would overflow after adding additional elements
+     */
+    fun willOverflow(addCount: Int): Boolean {
+        return data.realLength() + addCount > data.capacity
     }
 
     // TODO: make property
