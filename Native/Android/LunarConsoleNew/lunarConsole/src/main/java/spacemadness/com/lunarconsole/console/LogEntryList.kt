@@ -81,7 +81,7 @@ class ConsoleLogEntryList(capacity: Int, trimSize: Int) {
         get() = filteredEntryList != null
 
     val isOverfloating: Boolean
-        get() = currentEntryList.isOverfloating
+        get() = currentEntryList.isOverflowing
 
     val isTrimmed: Boolean
         get() = currentEntryList.isTrimmed

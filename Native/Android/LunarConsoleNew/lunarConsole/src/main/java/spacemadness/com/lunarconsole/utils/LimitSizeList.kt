@@ -6,8 +6,7 @@ import kotlin.math.max
 class LimitSizeList<E>(capacity: Int, val trimSize: Int) : Iterable<E> {
     private val data = CycleArray<E>(capacity)
 
-    // TODO: rename to 'isOverflow'
-    val isOverfloating: Boolean
+    val isOverflowing: Boolean
         get() = data.headIndex > 0 && data.realLength() == data.capacity
 
     val isTrimmed: Boolean
