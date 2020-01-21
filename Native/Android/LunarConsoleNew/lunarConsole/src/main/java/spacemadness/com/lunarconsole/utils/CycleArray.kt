@@ -60,9 +60,9 @@ class CycleArray<E>(val capacity: Int) : Iterable<E> {
         val rightSize = min(capacity - start, copySize)
         val leftSize = copySize - rightSize
         val off = elements.size - copySize
-        data.replaceRange(pos = start, elements = elements, off = off, len = rightSize)
+        replaceDataRange(pos = start, elements = elements, off = off, len = rightSize)
         if (leftSize > 0) {
-            data.replaceRange(pos = 0, elements = elements, off = off + rightSize, len = leftSize)
+            replaceDataRange(pos = 0, elements = elements, off = off + rightSize, len = leftSize)
         }
 
         length += elements.size
@@ -161,6 +161,25 @@ class CycleArray<E>(val capacity: Int) : Iterable<E> {
         return length - headIndex
     }
 
+    private fun replaceDataRange(pos: Int, elements: List<E>, off: Int, len: Int) {
+        require(pos >= 0 && pos + len <= capacity) {
+            "pos ($pos) and len ($len) should be within range [0..$capacity]"
+        }
+        require(off >= 0 && off + len <= elements.size) {
+            "off ($off) and len ($len) should be within range [0..${elements.size}]"
+        }
+
+        var i = 0
+        while (i < len && pos + i < data.size) {
+            data[pos + i] = elements[off + i]
+            i += 1
+        }
+        while (i < len) {
+            data.add(elements[off + i])
+            i += 1
+        }
+    }
+
     //region Iterable
 
     override fun iterator(): Iterator<E> {
@@ -180,12 +199,4 @@ class CycleArray<E>(val capacity: Int) : Iterable<E> {
     }
 
     //endregion
-}
-
-private fun <E> ArrayList<E>.replaceRange(pos: Int, elements: List<E>, off: Int, len: Int) {
-    var i = 0
-    while (i < len) {
-        this[pos + i] = elements[off + i]
-        i += 1
-    }
 }

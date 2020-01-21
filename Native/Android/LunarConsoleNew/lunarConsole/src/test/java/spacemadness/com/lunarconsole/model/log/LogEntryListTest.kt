@@ -819,8 +819,7 @@ class LogEntryListTest {
             list.count()
         )
         for (i in expected.indices) {
-            val entry = list.getEntry(i)
-            assertEquals(expected[i], entry.message)
+            assertEquals(expected[i], list[i].message)
         }
     }
 

@@ -134,10 +134,11 @@ class ConsoleLogEntryList(capacity: Int, trimSize: Int) {
         return entryList.totalCount() - 1 // entry was added at the end of the list
     }
 
+    operator fun get(index: Int) = currentEntryList[index]
+
     /** Returns entry at index  */
-    fun getEntry(index: Int): LogEntry {
-        return currentEntryList.objectAtIndex(index)
-    }
+    // TODO: remove this function
+    fun getEntry(index: Int) = this[index]
 
     /** Return collapsed entry at index or null if entry is not collapsed  */
     fun getCollapsedEntry(index: Int) = getEntry(index) as? CollapsedLogEntry

@@ -174,41 +174,71 @@ class CycleArrayTest {
     //region Multiple Elements
 
     @Test
-    fun testAddMultipleElements() {
+    fun testAddMultipleElements1() {
         val array = CycleArray<Int>(9)
-        assertEquals(0, array.addAll(range(1, 3)))
+        assertEquals(0, array.addAll(rangeList(1, 3)))
         assertEquals(3, array.length())
         assertEquals(3, array.realLength())
         assertArray(array, 1, 2, 3)
 
-        assertEquals(0, array.addAll(range(4, 6)))
+        assertEquals(0, array.addAll(rangeList(4, 6)))
         assertEquals(6, array.length())
         assertEquals(6, array.realLength())
         assertArray(array, 1, 2, 3, 4, 5, 6)
 
-        assertEquals(0, array.addAll(range(7, 9)))
+        assertEquals(0, array.addAll(rangeList(7, 9)))
         assertEquals(9, array.length())
         assertEquals(9, array.realLength())
         assertArray(array, 1, 2, 3, 4, 5, 6, 7, 8, 9)
 
-        assertEquals(3, array.addAll(range(10, 12)))
+        assertEquals(3, array.addAll(rangeList(10, 12)))
         assertEquals(12, array.length())
         assertEquals(9, array.realLength())
         assertArray(array, 4, 5, 6, 7, 8, 9, 10, 11, 12)
 
 
-        assertEquals(7, array.addAll(range(13, 19)))
+        assertEquals(7, array.addAll(rangeList(13, 19)))
         assertEquals(19, array.length())
         assertEquals(9, array.realLength())
         assertArray(array, 11, 12, 13, 14, 15, 16, 17, 18, 19)
 
 
-        assertEquals(21, array.addAll(range(20, 40)))
+        assertEquals(21, array.addAll(rangeList(20, 40)))
         assertEquals(40, array.length())
         assertEquals(9, array.realLength())
         assertArray(array, 32, 33, 34, 35, 36, 37, 38, 39, 40)
 
-        assertEquals(20, array.addAll(range(41, 60)))
+        assertEquals(20, array.addAll(rangeList(41, 60)))
+        assertEquals(60, array.length())
+        assertEquals(9, array.realLength())
+        assertArray(array, 52, 53, 54, 55, 56, 57, 58, 59, 60)
+    }
+
+    @Test
+    fun testAddMultipleElements2() {
+        val array = CycleArray<Int>(9)
+        assertEquals(0, array.addAll(rangeList(1, 6)))
+        assertEquals(6, array.length())
+        assertEquals(6, array.realLength())
+        assertArray(array, 1, 2, 3, 4, 5, 6)
+
+        assertEquals(3, array.addAll(rangeList(7, 12)))
+        assertEquals(12, array.length())
+        assertEquals(9, array.realLength())
+        assertArray(array, 4, 5, 6, 7, 8, 9, 10, 11, 12)
+
+        assertEquals(7, array.addAll(rangeList(13, 19)))
+        assertEquals(19, array.length())
+        assertEquals(9, array.realLength())
+        assertArray(array, 11, 12, 13, 14, 15, 16, 17, 18, 19)
+
+
+        assertEquals(21, array.addAll(rangeList(20, 40)))
+        assertEquals(40, array.length())
+        assertEquals(9, array.realLength())
+        assertArray(array, 32, 33, 34, 35, 36, 37, 38, 39, 40)
+
+        assertEquals(20, array.addAll(rangeList(41, 60)))
         assertEquals(60, array.length())
         assertEquals(9, array.realLength())
         assertArray(array, 52, 53, 54, 55, 56, 57, 58, 59, 60)
@@ -260,8 +290,5 @@ class CycleArrayTest {
         }
         assertEquals(expected.size, index)
     }
-
-    private fun range(lo: Int, hi: Int) = (lo..hi).toList()
-
     //endregion
 }
