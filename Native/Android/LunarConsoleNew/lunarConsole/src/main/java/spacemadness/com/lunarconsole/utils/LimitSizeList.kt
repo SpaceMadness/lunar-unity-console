@@ -1,5 +1,6 @@
 package spacemadness.com.lunarconsole.utils
 
+// TODO: rename to 'TrimList'
 class LimitSizeList<E>(capacity: Int, val trimSize: Int) : Iterable<E> {
     private val data: CycleArray<E> = CycleArray(capacity)
 
@@ -10,13 +11,16 @@ class LimitSizeList<E>(capacity: Int, val trimSize: Int) : Iterable<E> {
         get() = trimmedCount() > 0
 
     init {
-        require(trimSize > 0) { "Invalid trim size: $trimSize" }
+        require(trimSize > 0 && trimSize <= capacity) {
+            "Invalid trim size: $trimSize. Should be within range [1..$capacity]"
+        }
     }
 
     fun objectAtIndex(index: Int): E {
         return data[data.headIndex + index]
     }
 
+    // TODO: rename to 'add'
     fun addObject(e: E) {
         if (willOverflow(addCount = 1)) {
             trimHead(trimSize)
