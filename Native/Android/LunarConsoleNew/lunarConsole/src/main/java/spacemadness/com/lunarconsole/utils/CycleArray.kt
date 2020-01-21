@@ -33,6 +33,7 @@ class CycleArray<E>(val capacity: Int) : Iterable<E> {
         require(capacity > 0) { "Invalid capacity: $capacity" }
     }
 
+    // FIXME: store nullable types in order to free items when trimming head
     private val data = ArrayList<E>(capacity)
 
     var headIndex: Int = 0

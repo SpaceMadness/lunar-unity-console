@@ -1,9 +1,12 @@
 package spacemadness.com.lunarconsole.utils
 
+import kotlin.math.max
+
 // TODO: rename to 'TrimList'
 class LimitSizeList<E>(capacity: Int, val trimSize: Int) : Iterable<E> {
-    private val data: CycleArray<E> = CycleArray(capacity)
+    private val data = CycleArray<E>(capacity)
 
+    // TODO: rename to 'isOverflow'
     val isOverfloating: Boolean
         get() = data.headIndex > 0 && data.realLength() == data.capacity
 
@@ -20,12 +23,31 @@ class LimitSizeList<E>(capacity: Int, val trimSize: Int) : Iterable<E> {
         return data[data.headIndex + index]
     }
 
-    // TODO: rename to 'add'
-    fun addObject(e: E) {
-        if (willOverflow(addCount = 1)) {
-            trimHead(trimSize)
+    /**
+     * Add elements from the list.
+     * @return number of trimmed elements (or 0 if no elements were trimmed)
+     */
+    fun addAll(elements: List<E>): Int {
+        val trimCount = data.addAll(elements)
+        if (trimCount > 0) {
+            val additionalTrim = max(0, trimSize - trimCount)
+            trimHead(additionalTrim)
+            return trimCount + additionalTrim
         }
-        data.add(e)
+
+        return 0
+    }
+
+    // TODO: rename to 'add'
+    fun addObject(e: E): Int {
+        val trimCount = data.add(e)
+        if (trimCount > 0) {
+            val additionalTrim = max(0, trimSize - trimCount)
+            trimHead(additionalTrim)
+            return trimCount + additionalTrim
+        }
+
+        return 0
     }
 
     fun trimHead(count: Int) {
