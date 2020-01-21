@@ -21,11 +21,18 @@
 
 package spacemadness.com.lunarconsole.utils
 
+import kotlin.math.max
+import kotlin.math.min
+
 /**
- * "Endless" cyclic array.
- * Once the item count reaches the maximum capacity - the items which were added first are evicted.
+ * "Endless" cyclic array
+ * @param capacity - maximum number of elements the list can hold before trimming.
  */
 class CycleArray<E>(val capacity: Int) : Iterable<E> {
+    init {
+        require(capacity > 0) { "Invalid capacity: $capacity" }
+    }
+
     private val data = ArrayList<E>(capacity)
 
     var headIndex: Int = 0
@@ -34,31 +41,56 @@ class CycleArray<E>(val capacity: Int) : Iterable<E> {
     var length: Int = 0
         private set
 
-    init {
-        require(capacity > 0) { "Invalid capacity: $capacity" }
+    /**
+     * Add elements from the list.
+     * @return number of trimmed elements (or 0 if no elements were trimmed)
+     */
+    fun addAll(elements: List<E>): Int {
+        // add all elements if they fit into the array
+        if (data.size + elements.size <= capacity) {
+            length += elements.size
+            data.addAll(elements)
+            return 0
+        }
+
+        val copySize = min(elements.size, capacity)
+        val discardSize = elements.size - copySize
+        val start = (length + discardSize) % capacity
+        val rightSize = min(capacity - start, copySize)
+        val leftSize = copySize - rightSize
+        val off = elements.size - copySize
+        data.replaceRange(pos = start, elements = elements, off = off, len = rightSize)
+        if (leftSize > 0) {
+            data.replaceRange(pos = 0, elements = elements, off = off + rightSize, len = leftSize)
+        }
+
+        length += elements.size
+        val oldHeadIndex = headIndex
+        headIndex = max(oldHeadIndex, length - capacity)
+        return headIndex - oldHeadIndex
     }
 
     /**
      * Adds new entry to the array and returns the "evicted" entry in case of an overflow.
      */
-    fun add(e: E): E? {
+    fun add(e: E): Int {
         ++length
 
         if (data.size < capacity) {
             data.add(e)
-        } else {
-            val arrayIndex = toArrayIndex(length - 1)
-            val oldItem = data[arrayIndex]
-            data[arrayIndex] = e
-
-            // array "overflows"
-            if (length - headIndex > data.size) {
-                ++headIndex
-                return oldItem
-            }
+            return 0
         }
 
-        return null // no items were evicted
+        val arrayIndex = toArrayIndex(length - 1)
+        data[arrayIndex] = e
+
+        // array "overflows"
+        if (length - headIndex > capacity) {
+            ++headIndex
+            return 1
+        }
+
+        return 0
     }
 
     /**
@@ -135,14 +167,10 @@ class CycleArray<E>(val capacity: Int) : Iterable<E> {
     }
 
     private class CycleIterator<E>(private val arr: CycleArray<E>, headIndex: Int) : Iterator<E> {
-        private var index: Int = 0
-
-        init {
-            index = headIndex
-        }
+        private var index: Int = headIndex
 
         override fun hasNext(): Boolean {
-            return index < arr.length()
+            return index < arr.length
         }
 
         override fun next(): E {
@@ -151,4 +179,12 @@ class CycleArray<E>(val capacity: Int) : Iterable<E> {
     }
 
     //endregion
+}
+
+private fun <E> ArrayList<E>.replaceRange(pos: Int, elements: List<E>, off: Int, len: Int) {
+    var i = 0
+    while (i < len) {
+        this[pos + i] = elements[off + i]
+        i += 1
+    }
 }
