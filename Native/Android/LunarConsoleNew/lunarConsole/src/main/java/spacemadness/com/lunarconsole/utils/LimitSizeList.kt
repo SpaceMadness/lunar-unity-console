@@ -1,10 +1,10 @@
 package spacemadness.com.lunarconsole.utils
 
 class LimitSizeList<T>(capacity: Int, val trimSize: Int) : Iterable<T> {
-    private val internalArray: CycleArray<T>
+    private val data: CycleArray<T>
 
     val isOverfloating: Boolean
-        get() = internalArray.headIndex > 0 && willOverflow()
+        get() = data.headIndex > 0 && willOverflow()
 
     val isTrimmed: Boolean
         get() = trimmedCount() > 0
@@ -12,55 +12,55 @@ class LimitSizeList<T>(capacity: Int, val trimSize: Int) : Iterable<T> {
     init {
         require(capacity >= 0) { "Illegal capacity: $capacity" }
 
-        this.internalArray = CycleArray(capacity)
+        this.data = CycleArray(capacity)
     }
 
     fun objectAtIndex(index: Int): T {
-        return internalArray[internalArray.headIndex + index]
+        return data[data.headIndex + index]
     }
 
     fun addObject(obj: T) {
         if (willOverflow()) {
             trimHead(trimSize)
         }
-        internalArray.add(obj)
+        data.add(obj)
     }
 
     fun trimHead(count: Int) {
-        internalArray.trimHeadIndex(count)
+        data.trimHeadIndex(count)
     }
 
     fun clear() {
-        internalArray.clear()
+        data.clear()
     }
 
     override fun iterator(): Iterator<T> {
-        return internalArray.iterator()
+        return data.iterator()
     }
 
     // TODO: make property
     fun capacity(): Int {
-        return internalArray.capacity
+        return data.capacity
     }
 
     // TODO: make property
     fun totalCount(): Int {
-        return internalArray.length()
+        return data.length()
     }
 
     // TODO: make property
     fun count(): Int {
-        return internalArray.realLength()
+        return data.realLength()
     }
 
     // TODO: make property
     fun overflowCount(): Int {
-        return internalArray.headIndex
+        return data.headIndex
     }
 
     // TODO: make property
     fun willOverflow(): Boolean {
-        return internalArray.realLength() == internalArray.capacity
+        return data.realLength() == data.capacity
     }
 
     // TODO: make property
