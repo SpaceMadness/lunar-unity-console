@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/lunar_console_log_entry_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/lunar_console_color_cell_background_dark">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/lunar_console_log_entry_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/lunar_layout_console_entry_margin"
+            android:src="@drawable/lunar_console_icon_log" />
+
+        <TextView
+            android:id="@+id/lunar_console_log_entry_message"
+            style="@style/lunar_console_log_details_message_style"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            tools:text="Message" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/lunar_console_log_collapsed_count"
+        style="@style/lunar_console_log_details_collapsed_style"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:gravity="center"
+        tools:text="999+" />
+
+</RelativeLayout>

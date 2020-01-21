@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="lunar_console_color_base_button_highlighted">#595959</color>
+    <color name="lunar_console_color_fake_status_bar">#000000</color>
+    <color name="lunar_console_color_fake_status_bar_text">#ffffff</color>
+    <color name="lunar_console_color_cell_text">#b1b1b1</color>
+    <color name="lunar_console_color_cell_text_location">#666666</color>
+    <color name="lunar_console_color_cell_background_light">#3c3c3c</color>
+    <color name="lunar_console_color_cell_background_dark">#373737</color>
+    <color name="lunar_console_color_table_title_background">#2d2e29</color>
+    <color name="lunar_console_color_table_background">#373737</color>
+    <color name="lunar_console_color_log_button_background">#b1b1b1</color>
+    <color name="lunar_console_color_log_button_selected_background">#595959</color>
+    <color name="lunar_console_color_exception_bar_background">#3C2C2C</color>
+    <color name="lunar_console_color_exception_bar_text">#A27374</color>
+    <color name="lunar_console_color_filter_text">#b1b1b1</color>
+    <color name="lunar_console_color_filter_text_highlight">#ffffff</color>
+    <color name="lunar_console_color_filter_hint">#3c3c3c</color>
+    <color name="lunar_console_color_warning_background">#6F6E55</color>
+    <color name="lunar_console_color_warning_text">#C7C7C7</color>
+    <color name="lunar_console_color_collapsed_background">#424242</color>
+    <color name="lunar_console_color_overlay_entry_log">#000000</color>
+    <color name="lunar_console_color_overlay_entry_log_warning">#f4f600</color>
+    <color name="lunar_console_color_overlay_entry_log_error">#fc0000</color>
+    <color name="lunar_console_color_overlay_entry_shadow">#adadad</color>
+    <color name="lunar_console_color_border_color">#979797</color>
+    <color name="lunar_console_color_hyperlink">#679BEF</color>
+    <color name="lunar_console_color_action_header">#262626</color>
+    <color name="lunar_console_color_action_text">#FFFFFF</color>
+    <color name="lunar_console_color_variable_value_background">#4D4D4D</color>
+    <color name="lunar_console_color_variable_value_text">#B4B4B4</color>
+    <color name="lunar_console_color_variable_value_text_disabled">#5A5A5A</color>
+    <color name="lunar_console_color_variable_volatile_text">#FDD631</color>
+</resources>
