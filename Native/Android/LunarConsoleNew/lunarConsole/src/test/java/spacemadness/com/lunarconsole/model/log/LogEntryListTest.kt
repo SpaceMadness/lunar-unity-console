@@ -2,7 +2,7 @@ package spacemadness.com.lunarconsole.model.log
 
 import org.junit.Assert.*
 import org.junit.Test
-import spacemadness.com.lunarconsole.console.ConsoleLogEntryList
+import spacemadness.com.lunarconsole.console.LogEntryList
 import spacemadness.com.lunarconsole.console.LogEntry
 import spacemadness.com.lunarconsole.console.LogEntryType
 import spacemadness.com.lunarconsole.console.LogEntryType.*
@@ -812,7 +812,7 @@ class LogEntryListTest {
 
     //region Helpers
 
-    private fun listAssertMessages(list: ConsoleLogEntryList, vararg expected: String) {
+    private fun listAssertMessages(list: LogEntryList, vararg expected: String) {
         assertEquals(
             "\nExpected:${list.entries.joinToString { it.message }}\n  Actual:${expected.joinToString()}",
             expected.size,
@@ -823,15 +823,15 @@ class LogEntryListTest {
         }
     }
 
-    private fun createEntryListWithMessages(vararg messages: String): ConsoleLogEntryList {
-        val list = ConsoleLogEntryList(100, 1)
+    private fun createEntryListWithMessages(vararg messages: String): LogEntryList {
+        val list = LogEntryList(100, 1)
         for (message in messages) {
             list.addEntry(makeEntry(LOG, message))
         }
         return list
     }
 
-    private fun createEntryListWithEntries(vararg entries: LogEntry): ConsoleLogEntryList {
+    private fun createEntryListWithEntries(vararg entries: LogEntry): LogEntryList {
         return createEntryListWithEntries(kDefaultCapacity, kDefaultTrim, *entries)
     }
 
@@ -839,20 +839,20 @@ class LogEntryListTest {
         capacity: Int,
         trimSize: Int,
         vararg entries: LogEntry
-    ): ConsoleLogEntryList {
-        val list = ConsoleLogEntryList(capacity, trimSize)
+    ): LogEntryList {
+        val list = LogEntryList(capacity, trimSize)
         for (entry in entries) {
             list.addEntry(entry)
         }
         return list
     }
 
-    private fun assertEntry(list: ConsoleLogEntryList, index: Int, message: String, count: Int) {
+    private fun assertEntry(list: LogEntryList, index: Int, message: String, count: Int) {
         assertEntry(list, index, message, count, index)
     }
 
     private fun assertEntry(
-        list: ConsoleLogEntryList,
+        list: LogEntryList,
         index: Int,
         expectedMessage: String,
         expectedCount: Int,

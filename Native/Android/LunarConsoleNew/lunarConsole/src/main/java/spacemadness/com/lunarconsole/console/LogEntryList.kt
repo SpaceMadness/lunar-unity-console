@@ -11,8 +11,7 @@ import java.lang.IllegalStateException
  * @param capacity the maximum amount of entries the list can store
  * @param trimSize the number of entries trimmed when the list overflows
  */
-// TODO: rename to LogEntryList
-class ConsoleLogEntryList(capacity: Int, trimSize: Int) {
+class LogEntryList(capacity: Int, trimSize: Int) {
     /** Stores all entries  */
     private val entryList = LimitSizeList<LogEntry>(capacity, trimSize)
 
