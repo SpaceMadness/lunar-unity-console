@@ -26,6 +26,8 @@ class ConsoleLogEntryList(capacity: Int, trimSize: Int) {
     var filterText: String? = null
         private set
 
+    private val filterTempList = mutableListOf<LogEntry>()
+
     /** Collapsed entries lookup */
     private val entryLookup: LogEntryLookup =
         LogEntryHashTableLookup()
@@ -88,20 +90,31 @@ class ConsoleLogEntryList(capacity: Int, trimSize: Int) {
 
     //region Entries
 
+    fun addAll(entries: List<LogEntry>): Int {
+        // count types
+        updateTypeCounters(entries)
+
+        val oldRealSize = entryList.totalCount()
+        val trimSize = entryList.addAll(entries)
+        if (isFiltering) {
+            filterEntries(entries, filterTempList)
+            if (filterTempList.size > 0) {
+
+                filterTempList.clear()
+            }
+        }
+
+        TODO()
+    }
+
+
     /**
      * Adds new log entry
      * @return total number of entries in the list
      */
     fun addEntry(entry: LogEntry): Int {
         // count types
-        val entryType = entry.type
-        if (entryType == LogEntryType.LOG) {
-            ++logCount
-        } else if (entryType == LogEntryType.WARNING) {
-            ++warningCount
-        } else if (entryType.isErrorType) {
-            ++errorCount
-        }
+        updateTypeCounters(entry)
 
         // add entry
         entryList.addObject(entry)
@@ -154,6 +167,25 @@ class ConsoleLogEntryList(capacity: Int, trimSize: Int) {
         errorCount = 0
     }
 
+    private fun updateTypeCounters(entries: List<LogEntry>) {
+        var i = 0
+        while (i < entries.size) {
+            updateTypeCounters(entries[i])
+            ++i
+        }
+    }
+
+    private fun updateTypeCounters(entry: LogEntry) {
+        val entryType = entry.type
+        if (entryType == LogEntryType.LOG) {
+            ++logCount
+        } else if (entryType == LogEntryType.WARNING) {
+            ++warningCount
+        } else if (entryType.isErrorType) {
+            ++errorCount
+        }
+    }
+
     //region Filtering
 
     /**
@@ -189,10 +221,7 @@ class ConsoleLogEntryList(capacity: Int, trimSize: Int) {
      * @return true if list was changed
      */
     fun setFilterByLogType(logType: LogEntryType, disabled: Boolean): Boolean {
-        return setFilterByLogTypeMask(
-            getMask(
-                logType
-            ), disabled)
+        return setFilterByLogTypeMask(getMask(logType), disabled)
     }
 
     /**
@@ -229,9 +258,7 @@ class ConsoleLogEntryList(capacity: Int, trimSize: Int) {
      * @return true if log type is enabled
      */
     fun isFilterLogTypeEnabled(type: LogEntryType): Boolean {
-        return logDisabledTypesMask and getMask(
-            type
-        ) == 0
+        return logDisabledTypesMask and getMask(type) == 0
     }
 
     /**
@@ -258,9 +285,7 @@ class ConsoleLogEntryList(capacity: Int, trimSize: Int) {
         val needsFiltering =
             isCollapsed || filterText.length() > 0 || hasLogTypeFilters() // needs filtering?
         if (needsFiltering) {
-            if (entryLookup != null) {
-                entryLookup!!.clear() // if we have collapsed items - we need to rebuild the lookup
-            }
+            entryLookup.clear()
 
             useFilteredFromEntries(entryList)
             return true
@@ -336,6 +361,17 @@ class ConsoleLogEntryList(capacity: Int, trimSize: Int) {
         return list
     }
 
+    private fun filterEntries(entries: List<LogEntry>, result: MutableList<LogEntry>) {
+        var i = 0
+        while (i < entries.size) {
+            val entry = entries[i]
+            if (filterEntry(entry)) {
+                result.add(entry)
+            }
+            ++i
+        }
+    }
+
     /**
      * Checks if entry passes the current filter
      * @param entry entry to check
@@ -343,9 +379,7 @@ class ConsoleLogEntryList(capacity: Int, trimSize: Int) {
      */
     private fun filterEntry(entry: LogEntry): Boolean {
         // filter by log type
-        if (logDisabledTypesMask and getMask(
-                entry.type
-            ) != 0) {
+        if (logDisabledTypesMask and getMask(entry.type) != 0) {
             return false
         }
         // filter by message
