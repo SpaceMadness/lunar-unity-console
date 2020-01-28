@@ -1,6 +1,7 @@
 package spacemadness.com.lunarconsole.model.log
 
 import org.junit.Assert.*
+import org.junit.Before
 import org.junit.Test
 import spacemadness.com.lunarconsole.console.LogEntryList
 import spacemadness.com.lunarconsole.console.LogEntry
@@ -10,6 +11,17 @@ import spacemadness.com.lunarconsole.console.getMask
 import java.lang.AssertionError
 
 class LogEntryListTest {
+    private var nextEntryIndex = 0
+
+    //region Setup
+
+    @Before
+    fun setup() {
+        nextEntryIndex = 0
+    }
+
+    //endregion
+
     //region Filtering
 
     @Test
@@ -337,34 +349,35 @@ class LogEntryListTest {
         listAssertMessages(list, "message1")
         assertEntry(list, 0, "message1", 3)
 
-        list.addEntry(makeEntry("message1"))
+        val message = "message1"
+        list.add(message)
         listAssertMessages(list, "message1")
         assertEntry(list, 0, "message1", 4)
 
-        list.addEntry(makeEntry("message12"))
+        list.add("message12")
         listAssertMessages(list, "message1", "message12")
         assertEntry(list, 0, "message1", 4)
         assertEntry(list, 1, "message12", 1)
 
-        list.addEntry(makeEntry("message2"))
+        list.add("message2")
         listAssertMessages(list, "message1", "message12", "message2")
         assertEntry(list, 0, "message1", 4)
         assertEntry(list, 1, "message12", 1)
         assertEntry(list, 2, "message2", 1)
 
-        list.addEntry(makeEntry("message1"))
+        list.add("message1")
         listAssertMessages(list, "message1", "message12", "message2")
         assertEntry(list, 0, "message1", 5)
         assertEntry(list, 1, "message12", 1)
         assertEntry(list, 2, "message2", 1)
 
-        list.addEntry(makeEntry("message12"))
+        list.add("message12")
         listAssertMessages(list, "message1", "message12", "message2")
         assertEntry(list, 0, "message1", 5)
         assertEntry(list, 1, "message12", 2)
         assertEntry(list, 2, "message2", 1)
 
-        list.addEntry(makeEntry("message2"))
+        list.add("message2")
         listAssertMessages(list, "message1", "message12", "message2")
         assertEntry(list, 0, "message1", 5)
         assertEntry(list, 1, "message12", 2)
@@ -399,9 +412,7 @@ class LogEntryListTest {
         list.setCollapsed(true)
         assertTrue(list.isFiltering)
 
-        list.addEntry(makeEntry("message1"))
-        list.addEntry(makeEntry("message1"))
-        list.addEntry(makeEntry("message1"))
+        list.addAll("message1", "message1", "message1")
 
         listAssertMessages(list, "message1")
 
@@ -425,8 +436,7 @@ class LogEntryListTest {
         list.setCollapsed(true)
         assertTrue(list.isFiltering)
 
-        list.addEntry(makeEntry("message12"))
-        list.addEntry(makeEntry("message12"))
+        list.addAll("message12", "message12")
 
         listAssertMessages(list, "message1", "message12")
 
@@ -497,31 +507,31 @@ class LogEntryListTest {
         listAssertMessages(list, "message1")
         assertEntry(list, 0, "message1", 3)
 
-        list.addEntry(makeEntry("message1"))
+        list.add("message1")
         listAssertMessages(list, "message1")
         assertEntry(list, 0, "message1", 4)
 
-        list.addEntry(makeEntry("message12"))
+        list.add("message12")
         listAssertMessages(list, "message1", "message12")
         assertEntry(list, 0, "message1", 4)
         assertEntry(list, 1, "message12", 1)
 
-        list.addEntry(makeEntry("message2"))
+        list.add("message2")
         listAssertMessages(list, "message1", "message12")
         assertEntry(list, 0, "message1", 4)
         assertEntry(list, 1, "message12", 1)
 
-        list.addEntry(makeEntry("message1"))
+        list.add("message1")
         listAssertMessages(list, "message1", "message12")
         assertEntry(list, 0, "message1", 5)
         assertEntry(list, 1, "message12", 1)
 
-        list.addEntry(makeEntry("message12"))
+        list.add("message12")
         listAssertMessages(list, "message1", "message12")
         assertEntry(list, 0, "message1", 5)
         assertEntry(list, 1, "message12", 2)
 
-        list.addEntry(makeEntry("message2"))
+        list.add("message2")
         listAssertMessages(list, "message1", "message12")
         assertEntry(list, 0, "message1", 5)
         assertEntry(list, 1, "message12", 2)
@@ -575,31 +585,31 @@ class LogEntryListTest {
         listAssertMessages(list, "message1")
         assertEntry(list, 0, "message1", 3)
 
-        list.addEntry(makeEntry("message1"))
+        list.add("message1")
         listAssertMessages(list, "message1")
         assertEntry(list, 0, "message1", 4)
 
-        list.addEntry(makeEntry("message12"))
+        list.add("message12")
         listAssertMessages(list, "message1", "message12")
         assertEntry(list, 0, "message1", 4)
         assertEntry(list, 1, "message12", 1)
 
-        list.addEntry(makeEntry("message2"))
+        list.add("message2")
         listAssertMessages(list, "message1", "message12")
         assertEntry(list, 0, "message1", 4)
         assertEntry(list, 1, "message12", 1)
 
-        list.addEntry(makeEntry("message1"))
+        list.add("message1")
         listAssertMessages(list, "message1", "message12")
         assertEntry(list, 0, "message1", 5)
         assertEntry(list, 1, "message12", 1)
 
-        list.addEntry(makeEntry("message12"))
+        list.add("message12")
         listAssertMessages(list, "message1", "message12")
         assertEntry(list, 0, "message1", 5)
         assertEntry(list, 1, "message12", 2)
 
-        list.addEntry(makeEntry("message2"))
+        list.add("message2")
         listAssertMessages(list, "message1", "message12")
         assertEntry(list, 0, "message1", 5)
         assertEntry(list, 1, "message12", 2)
@@ -694,31 +704,31 @@ class LogEntryListTest {
         listAssertMessages(list, "message1")
         assertEntry(list, 0, "message1", 3)
 
-        list.addEntry(makeEntry("message1"))
+        list.add("message1")
         listAssertMessages(list, "message1")
         assertEntry(list, 0, "message1", 4)
 
-        list.addEntry(makeEntry("message12"))
+        list.add("message12")
         listAssertMessages(list, "message1", "message12")
         assertEntry(list, 0, "message1", 4)
         assertEntry(list, 1, "message12", 1)
 
-        list.addEntry(makeEntry("message2"))
+        list.add("message2")
         listAssertMessages(list, "message1", "message12")
         assertEntry(list, 0, "message1", 4)
         assertEntry(list, 1, "message12", 1)
 
-        list.addEntry(makeEntry("message1"))
+        list.add("message1")
         listAssertMessages(list, "message1", "message12")
         assertEntry(list, 0, "message1", 5)
         assertEntry(list, 1, "message12", 1)
 
-        list.addEntry(makeEntry("message12"))
+        list.add("message12")
         listAssertMessages(list, "message1", "message12")
         assertEntry(list, 0, "message1", 5)
         assertEntry(list, 1, "message12", 2)
 
-        list.addEntry(makeEntry("message2"))
+        list.add("message2")
         listAssertMessages(list, "message1", "message12")
         assertEntry(list, 0, "message1", 5)
         assertEntry(list, 1, "message12", 2)
@@ -766,31 +776,31 @@ class LogEntryListTest {
         listAssertMessages(list, "message1")
         assertEntry(list, 0, "message1", 3)
 
-        list.addEntry(makeEntry("message1"))
+        list.add("message1")
         listAssertMessages(list, "message1")
         assertEntry(list, 0, "message1", 4)
 
-        list.addEntry(makeEntry("message12"))
+        list.add("message12")
         listAssertMessages(list, "message1", "message12")
         assertEntry(list, 0, "message1", 4)
         assertEntry(list, 1, "message12", 1)
 
-        list.addEntry(makeEntry("message2"))
+        list.add("message2")
         listAssertMessages(list, "message1", "message12")
         assertEntry(list, 0, "message1", 4)
         assertEntry(list, 1, "message12", 1)
 
-        list.addEntry(makeEntry("message1"))
+        list.add("message1")
         listAssertMessages(list, "message1", "message12")
         assertEntry(list, 0, "message1", 5)
         assertEntry(list, 1, "message12", 1)
 
-        list.addEntry(makeEntry("message12"))
+        list.add("message12")
         listAssertMessages(list, "message1", "message12")
         assertEntry(list, 0, "message1", 5)
         assertEntry(list, 1, "message12", 2)
 
-        list.addEntry(makeEntry("message2"))
+        list.add("message2")
         listAssertMessages(list, "message1", "message12")
         assertEntry(list, 0, "message1", 5)
         assertEntry(list, 1, "message12", 2)
@@ -866,12 +876,26 @@ class LogEntryListTest {
     companion object {
         private const val kDefaultCapacity = 100
         private const val kDefaultTrim = 1
-
-        private fun makeEntry(type: LogEntryType, message: String) = LogEntry(0, type, message)
-        private fun makeEntry(message: String) = makeEntry(LOG, message)
     }
 
     //endregion
-}
 
-private fun LogEntryList.addEntry(entry: LogEntry) = addAll(listOf(entry))
+    //region Helpers
+
+    private fun makeEntry(message: String) = makeEntry(LOG, message)
+
+    private fun makeEntry(type: LogEntryType, message: String) =
+        LogEntry(nextEntryIndex++, type, message)
+
+    //endregion
+
+    //region Extensions
+
+    private fun LogEntryList.add(message: String) = add(makeEntry(message))
+
+    private fun LogEntryList.add(entry: LogEntry) = addAll(listOf(entry))
+
+    private fun LogEntryList.addAll(vararg messages: String) = addAll(messages.map { makeEntry(it) })
+
+    //endregion
+}

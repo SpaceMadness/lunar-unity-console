@@ -1,10 +1,8 @@
 package spacemadness.com.lunarconsole.console
 
-import org.jetbrains.annotations.TestOnly
 import spacemadness.com.lunarconsole.utils.LimitSizeList
 import spacemadness.com.lunarconsole.utils.hasPrefix
 import spacemadness.com.lunarconsole.utils.length
-import kotlin.IllegalStateException
 
 /**
  * Represents a list of console log entries.
@@ -137,6 +135,7 @@ class LogEntryList(capacity: Int, trimSize: Int) {
         diff?.let {
             diff.trimCount = currentEntryList.overflowCount() - oldHeadIndex
             diff.addCount = currentEntryList.totalCount() - oldSize
+            diff.dirtyCollapsedEntries.clear()
             var i = 0
             while (i < collapsedTempList.size) {
                 val collapsedEntry = collapsedTempList[i++]

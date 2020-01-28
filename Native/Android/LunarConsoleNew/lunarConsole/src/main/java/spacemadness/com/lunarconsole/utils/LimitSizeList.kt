@@ -20,9 +20,6 @@ class LimitSizeList<E>(capacity: Int, val trimSize: Int) : Iterable<E> {
 
     operator fun get(index: Int) = data[data.headIndex + index]
 
-    // TODO: get rid of this function
-    fun objectAtIndex(index: Int) = this[index]
-
     /**
      * Add elements from the list.
      * @return number of trimmed elements (or 0 if no elements were trimmed)
