@@ -1,9 +1,10 @@
 package spacemadness.com.lunarconsole.console
 
+import org.jetbrains.annotations.TestOnly
 import spacemadness.com.lunarconsole.utils.LimitSizeList
 import spacemadness.com.lunarconsole.utils.hasPrefix
 import spacemadness.com.lunarconsole.utils.length
-import java.lang.IllegalStateException
+import kotlin.IllegalStateException
 
 /**
  * Represents a list of console log entries.
@@ -25,7 +26,8 @@ class LogEntryList(capacity: Int, trimSize: Int) {
     var filterText: String? = null
         private set
 
-    private val filterTempList = mutableListOf<LogEntry>()
+    private val filteredTempList = mutableListOf<LogEntry>()
+    private val collapsedTempList = mutableListOf<CollapsedLogEntry>()
 
     /** Collapsed entries lookup */
     private val entryLookup: LogEntryLookup =
@@ -47,6 +49,7 @@ class LogEntryList(capacity: Int, trimSize: Int) {
         private set
 
     /** Returns true if similar entries are collapsed */
+    // TODO: rename to 'isCollapsing'
     var isCollapsed: Boolean = false
         private set
 
@@ -89,61 +92,60 @@ class LogEntryList(capacity: Int, trimSize: Int) {
 
     //region Entries
 
-    fun addAll(entries: List<LogEntry>): Int {
+    fun addAll(entries: List<LogEntry>, diff: Diff? = null) {
+        // remember old state
+        val oldHeadIndex = currentEntryList.overflowCount()
+        val oldSize = currentEntryList.totalCount()
+
         // count types
         updateTypeCounters(entries)
 
-        val oldRealSize = entryList.totalCount()
-        val trimSize = entryList.addAll(entries)
+        // we need to retain all entries before filtering (otherwise they might be lost)
+        entryList.addAll(entries)
+
         if (isFiltering) {
-            filterEntries(entries, filterTempList)
-            if (filterTempList.size > 0) {
+            // filter entries into a temporary list to avoid unnecessary allocations
+            filterEntries(entries, filteredTempList)
 
-                filterTempList.clear()
-            }
-        }
+            // check if any items passed the filter
+            if (filteredTempList.size > 0) {
+                val filteredList = filteredEntryList!!
 
-        TODO()
-    }
-
-
-    /**
-     * Adds new log entry
-     * @return total number of entries in the list
-     */
-    fun addEntry(entry: LogEntry): Int {
-        // count types
-        updateTypeCounters(entry)
-
-        // add entry
-        entryList.addObject(entry)
-
-        // filter entry
-        if (isFiltering) {
-            if (filterEntry(entry)) {
-                val filteredEntries =
-                    filteredEntryList
-                        ?: throw IllegalStateException("Filtered entryList can't be null")
+                // we need to "collapse" similar items and store them in a separate list
                 if (isCollapsed) {
-                    val collapsedEntry = entryLookup.addEntry(entry)
-
-                    // first encounter or trimmed?
-                    if (collapsedEntry.count == 1 || collapsedEntry.index < filteredEntries.trimmedCount()) {
-                        collapsedEntry.index = filteredEntries.totalCount() // we use total count in case if list overflows
-                        filteredEntries.addObject(collapsedEntry)
+                    var entryIndex = 0
+                    while (entryIndex < filteredTempList.size) {
+                        val collapsedEntry = entryLookup.addEntry(filteredTempList[entryIndex++])
+                        // check if the entry was not collapsed before or if it was trimmed
+                        if (collapsedEntry.count == 1 || collapsedEntry.index < filteredList.trimmedCount()) {
+                            collapsedEntry.index = filteredList.totalCount()
+                            filteredList.addObject(collapsedEntry)
+                        }
+                        // remember each updated collapsed item for the diff result
+                        if (diff != null) {
+                            collapsedTempList.add(collapsedEntry)
+                        }
                     }
-
-                    return collapsedEntry.index - filteredEntries.trimmedCount()
+                } else {
+                    filteredList.addAll(filteredTempList)
                 }
-
-                filteredEntries.addObject(entry)
-                return filteredEntries.totalCount() - 1
+                filteredTempList.clear()
             }
-
-            return -1 // if item was rejected - we don't need to update table cells
         }
 
-        return entryList.totalCount() - 1 // entry was added at the end of the list
+        // update diff
+        diff?.let {
+            diff.trimCount = currentEntryList.overflowCount() - oldHeadIndex
+            diff.addCount = currentEntryList.totalCount() - oldSize
+            var i = 0
+            while (i < collapsedTempList.size) {
+                val collapsedEntry = collapsedTempList[i++]
+                if (collapsedEntry.index >= currentEntryList.overflowCount()) {
+                    diff.dirtyCollapsedEntries.add(collapsedEntry)
+                }
+            }
+            collapsedTempList.clear()
+        }
     }
 
     operator fun get(index: Int) = currentEntryList[index]
@@ -435,5 +437,11 @@ class LogEntryList(capacity: Int, trimSize: Int) {
     // FIXME: replace with property
     fun trimmedCount(): Int {
         return currentEntryList.trimmedCount()
+    }
+
+    class Diff {
+        var trimCount = 0
+        var addCount = 0
+        val dirtyCollapsedEntries = mutableListOf<CollapsedLogEntry>()
     }
 }

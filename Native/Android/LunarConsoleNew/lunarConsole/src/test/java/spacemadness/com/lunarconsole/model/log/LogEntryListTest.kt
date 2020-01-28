@@ -313,8 +313,8 @@ class LogEntryListTest {
 
         listAssertMessages(list, "message1", "message12")
 
-        assertEntry(list, 0, "message1", 3)
-        assertEntry(list, 1, "message12", 2)
+        assertEntry(list, index = 0, message = "message1", count = 3)
+        assertEntry(list, index = 1, message = "message12", count = 2)
 
         list.setCollapsed(false)
         assertFalse(list.isFiltering)
@@ -748,7 +748,6 @@ class LogEntryListTest {
         )
     }
 
-
     @Test
     fun testFilterCollapsedEntriesAndAddEntriesOverflow() {
         val list = createEntryListWithEntries(
@@ -825,9 +824,7 @@ class LogEntryListTest {
 
     private fun createEntryListWithMessages(vararg messages: String): LogEntryList {
         val list = LogEntryList(100, 1)
-        for (message in messages) {
-            list.addEntry(makeEntry(LOG, message))
-        }
+        list.addAll(messages.map { makeEntry(LOG, it) })
         return list
     }
 
@@ -841,9 +838,7 @@ class LogEntryListTest {
         vararg entries: LogEntry
     ): LogEntryList {
         val list = LogEntryList(capacity, trimSize)
-        for (entry in entries) {
-            list.addEntry(entry)
-        }
+        list.addAll(entries.asList())
         return list
     }
 
@@ -878,3 +873,5 @@ class LogEntryListTest {
 
     //endregion
 }
+
+private fun LogEntryList.addEntry(entry: LogEntry) = addAll(listOf(entry))
