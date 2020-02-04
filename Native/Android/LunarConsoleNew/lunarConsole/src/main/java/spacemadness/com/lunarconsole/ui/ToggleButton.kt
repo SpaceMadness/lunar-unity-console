@@ -1,13 +1,14 @@
 package spacemadness.com.lunarconsole.ui
 
 import android.content.Context
+import android.util.AttributeSet
 import android.widget.Button
 
-class ToggleButton(context: Context) : Button(context) {
+class ToggleButton(context: Context, attrs: AttributeSet) : Button(context, attrs) {
     var onStateChangeListener: OnStateChangeListener? = null
     private var on = false
 
-    fun init() {
+    init {
         setOnClickListener { setOn(!on) }
     }
 
