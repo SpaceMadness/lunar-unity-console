@@ -2,6 +2,7 @@ package spacemadness.com.lunarconsole.console
 
 import android.content.Context
 import android.widget.LinearLayout
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import spacemadness.com.lunarconsole.R
 
@@ -11,5 +12,11 @@ class LogConsoleView(
 ) : LinearLayout(context) {
     init {
         inflate(context, R.layout.lunar_console_layout_console_log_view, this)
+
+        val adapter = LogEntryListAdapter(viewModel.dataSource)
+
+        val recyclerView = findViewById<RecyclerView>(R.id.lunar_console_log_view_recycler_view)
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.adapter = adapter
     }
 }
