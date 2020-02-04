@@ -37,5 +37,6 @@
     <string name="lunar_console_settings_lock_dialog_title">Not available in FREE version</string>
     <string name="lunar_console_settings_lock_dialog_learn_more">Learn More</string>
     <string name="lunar_console_settings_lock_dialog_learn_more_url">https://goo.gl/UHej7v</string>
+    <string name="lunar_console_filter_edit_text_hint">Filter</string>
 
 </resources>
