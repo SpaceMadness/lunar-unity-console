@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:id="@+id/lunar_console_log_view"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/lunar_console_log_view"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
               android:background="@color/lunar_console_color_table_background"
@@ -44,7 +45,7 @@
         <ImageButton
             android:id="@+id/lunar_console_button_more"
             style="@style/lunar_console_base_button_style"
-            android:src="@drawable/lunar_console_icon_button_more"/>
+            app:srcCompat="@drawable/lunar_console_icon_button_more"/>
 
     </LinearLayout>
 
@@ -78,7 +79,7 @@
         <ImageButton
             android:id="@+id/lunar_console_button_clear"
             style="@style/lunar_console_base_button_style"
-            android:src="@drawable/lunar_console_icon_button_clear"/>
+            app:srcCompat="@drawable/lunar_console_icon_button_clear"/>
 
         <ImageButton
             android:id="@+id/lunar_console_button_lock"
@@ -86,7 +87,7 @@
             android:layout_alignParentTop="true"
             android:layout_toEndOf="@+id/lunar_console_button_clear"
             android:layout_toRightOf="@+id/lunar_console_button_clear"
-            android:src="@drawable/lunar_console_icon_button_lock"/>
+            app:srcCompat="@drawable/lunar_console_icon_button_lock"/>
 
         <ImageButton
             android:id="@+id/lunar_console_button_copy"
@@ -94,7 +95,7 @@
             android:layout_alignParentTop="true"
             android:layout_toEndOf="@+id/lunar_console_button_lock"
             android:layout_toRightOf="@+id/lunar_console_button_lock"
-            android:src="@drawable/lunar_console_icon_button_clipboard"/>
+            app:srcCompat="@drawable/lunar_console_icon_button_clipboard"/>
 
         <ImageButton
             android:id="@+id/lunar_console_button_email"
@@ -102,7 +103,7 @@
             android:layout_alignParentTop="true"
             android:layout_toEndOf="@+id/lunar_console_button_copy"
             android:layout_toRightOf="@+id/lunar_console_button_copy"
-            android:src="@drawable/lunar_console_icon_button_email"/>
+            app:srcCompat="@drawable/lunar_console_icon_button_email"/>
 
     </RelativeLayout>
 
