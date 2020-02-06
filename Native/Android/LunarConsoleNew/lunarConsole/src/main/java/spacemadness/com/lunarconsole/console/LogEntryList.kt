@@ -133,6 +133,7 @@ class LogEntryList(capacity: Int, trimSize: Int) {
 
         // update diff
         diff?.let {
+            diff.totalCount = currentEntryList.count()
             diff.trimCount = currentEntryList.overflowCount() - oldHeadIndex
             diff.addCount = currentEntryList.totalCount() - oldSize
             diff.dirtyCollapsedEntries.clear()
@@ -438,9 +439,11 @@ class LogEntryList(capacity: Int, trimSize: Int) {
         return currentEntryList.trimmedCount()
     }
 
+    // TODO: make this immutable
     class Diff {
         var trimCount = 0
         var addCount = 0
+        var totalCount = 0
         val dirtyCollapsedEntries = mutableListOf<CollapsedLogEntry>()
     }
 }
