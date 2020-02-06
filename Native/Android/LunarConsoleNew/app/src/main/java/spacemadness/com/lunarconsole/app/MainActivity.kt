@@ -41,5 +41,5 @@ class MainActivity : AppCompatActivity() {
 }
 
 private fun LogConsole.logMessages(vararg messages: LogEntry) {
-    logMessages(messages.asList())
+    add(messages.asList())
 }

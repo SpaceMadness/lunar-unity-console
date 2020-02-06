@@ -1,5 +1,7 @@
 package spacemadness.com.lunarconsole.core
 
+typealias Observer<T> = (T) -> Unit
+
 interface Observable<T> {
-    fun subscribe(observer: (T) -> Unit): Disposable
+    fun subscribe(observer: Observer<T>): Disposable
 }
