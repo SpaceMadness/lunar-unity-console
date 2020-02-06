@@ -115,8 +115,8 @@ class LogEntryList(capacity: Int, trimSize: Int) {
                     while (entryIndex < filteredTempList.size) {
                         val collapsedEntry = entryLookup.addEntry(filteredTempList[entryIndex++])
                         // check if the entry was not collapsed before or if it was trimmed
-                        if (collapsedEntry.count == 1 || collapsedEntry.index < filteredList.trimmedCount()) {
-                            collapsedEntry.index = filteredList.totalCount()
+                        if (collapsedEntry.count == 1 || collapsedEntry.position < filteredList.trimmedCount()) {
+                            collapsedEntry.position = filteredList.totalCount()
                             filteredList.addObject(collapsedEntry)
                         }
                         // remember each updated collapsed item for the diff result
@@ -140,7 +140,7 @@ class LogEntryList(capacity: Int, trimSize: Int) {
             var i = 0
             while (i < collapsedTempList.size) {
                 val collapsedEntry = collapsedTempList[i++]
-                if (collapsedEntry.index >= currentEntryList.overflowCount()) {
+                if (collapsedEntry.position >= currentEntryList.overflowCount()) {
                     diff.dirtyCollapsedEntries.add(collapsedEntry)
                 }
             }
@@ -340,12 +340,12 @@ class LogEntryList(capacity: Int, trimSize: Int) {
                 if (filterEntry(entry)) {
                     var collapsedEntry = entry as? CollapsedLogEntry
                     if (collapsedEntry != null) {
-                        collapsedEntry.index = list.totalCount() // update item's position
+                        collapsedEntry.position = list.totalCount() // update item's position
                         list.addObject(collapsedEntry)
                     } else {
                         collapsedEntry = entryLookup.addEntry(entry)
                         if (collapsedEntry.count == 1) { // first encounter
-                            collapsedEntry.index = list.totalCount()
+                            collapsedEntry.position = list.totalCount()
                             list.addObject(collapsedEntry)
                         }
                     }

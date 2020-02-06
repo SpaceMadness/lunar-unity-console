@@ -43,7 +43,6 @@ class LogEntryBufferTest : TestCase() {
 
 private fun LogEntryBuffer.add(message: String) = add(
     LogEntry(
-        index = 0,
         type = LogEntryType.LOG,
         message = message,
         stackTrace = null

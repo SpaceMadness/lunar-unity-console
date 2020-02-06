@@ -30,7 +30,7 @@ class LogConsoleView(
             if (diff.dirtyCollapsedEntries.size > 0) {
                 var i = 0
                 while (i < diff.dirtyCollapsedEntries.size) {
-                    adapter.notifyItemChanged(diff.dirtyCollapsedEntries[i].index)
+                    adapter.notifyItemChanged(diff.dirtyCollapsedEntries[i].position)
                     ++i
                 }
             }

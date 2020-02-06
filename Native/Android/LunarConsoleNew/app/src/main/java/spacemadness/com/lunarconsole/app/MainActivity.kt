@@ -14,9 +14,9 @@ class MainActivity : AppCompatActivity() {
 
         val console = LogConsole(capacity = 4096, trimSize = 512)
         console.logMessages(
-            LogEntry(0, LogEntryType.LOG, "Log", null),
-            LogEntry(1, LogEntryType.WARNING, "Warning", null),
-            LogEntry(2, LogEntryType.ERROR, "Error", null)
+            LogEntry(LogEntryType.LOG, "Log", null),
+            LogEntry(LogEntryType.WARNING, "Warning", null),
+            LogEntry(LogEntryType.ERROR, "Error", null)
         )
 
         val consoleViewModel = LogConsoleViewModel(console)
@@ -24,9 +24,9 @@ class MainActivity : AppCompatActivity() {
         containerView.addView(consoleView, FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT))
 
         console.logMessages(
-            LogEntry(3, LogEntryType.LOG, "Log-2", null),
-            LogEntry(4, LogEntryType.WARNING, "Warning-2", null),
-            LogEntry(5, LogEntryType.ERROR, "Error-2", null)
+            LogEntry(LogEntryType.LOG, "Log-2", null),
+            LogEntry(LogEntryType.WARNING, "Warning-2", null),
+            LogEntry(LogEntryType.ERROR, "Error-2", null)
         )
 
 //        val list = LogEntryList(10, 5)

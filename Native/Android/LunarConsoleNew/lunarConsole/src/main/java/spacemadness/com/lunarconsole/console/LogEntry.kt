@@ -8,19 +8,14 @@ enum class LogEntryType {
 
 /** Represents a single console log entry */
 open class LogEntry(
-    var index: Int, // FIXME: make immutable
     val type: LogEntryType,
     val message: String,
     val stackTrace: String? = null
 ) : Entry {
     val hasStackTrace = !stackTrace.isNullOrEmpty()
 
-    init {
-        require(index >= 0) { "Invalid index: $index" }
-    }
-
     override fun toString(): String {
-        return "index=$index type=$type message=\"$message\" stackTrace=$stackTrace"
+        return "type=$type message=\"$message\" stackTrace=$stackTrace"
     }
 }
 

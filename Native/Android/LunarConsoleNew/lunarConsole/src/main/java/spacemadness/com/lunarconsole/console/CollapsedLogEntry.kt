@@ -1,11 +1,11 @@
 package spacemadness.com.lunarconsole.console
 
 class CollapsedLogEntry(
-    index: Int,
+    var position: Int, // TODO: make immutable
     type: LogEntryType,
     message: String,
     stackTrace: String? = null
-) : LogEntry(index, type, message, stackTrace) {
+) : LogEntry(type, message, stackTrace) {
     var count: Int = 1
         private set
 
@@ -20,8 +20,8 @@ class CollapsedLogEntry(
 
 fun LogEntry.asCollapsedEntry() =
     CollapsedLogEntry(
-        index,
-        type,
-        message,
-        stackTrace
+        position = -1,
+        type = type,
+        message = message,
+        stackTrace = stackTrace
     )

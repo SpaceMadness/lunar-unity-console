@@ -5,7 +5,6 @@ import org.junit.Before
 import org.junit.Test
 import spacemadness.com.lunarconsole.console.LogEntryList
 import spacemadness.com.lunarconsole.console.LogEntry
-import spacemadness.com.lunarconsole.console.LogEntryType
 import spacemadness.com.lunarconsole.console.LogEntryType.*
 import spacemadness.com.lunarconsole.console.getMask
 import java.lang.AssertionError
@@ -118,16 +117,16 @@ class LogEntryListTest {
     @Test
     fun testFilteringByLogType() {
         val list = createEntryListWithEntries(
-            makeEntry(ERROR, "error1"),
-            makeEntry(ERROR, "error2"),
-            makeEntry(ASSERT, "assert1"),
-            makeEntry(ASSERT, "assert2"),
-            makeEntry(WARNING, "warning1"),
-            makeEntry(WARNING, "warning2"),
-            makeEntry(LOG, "log1"),
-            makeEntry(LOG, "log2"),
-            makeEntry(EXCEPTION, "exception1"),
-            makeEntry(EXCEPTION, "exception2")
+            LogEntry(ERROR, "error1"),
+            LogEntry(ERROR, "error2"),
+            LogEntry(ASSERT, "assert1"),
+            LogEntry(ASSERT, "assert2"),
+            LogEntry(WARNING, "warning1"),
+            LogEntry(WARNING, "warning2"),
+            LogEntry(LOG, "log1"),
+            LogEntry(LOG, "log2"),
+            LogEntry(EXCEPTION, "exception1"),
+            LogEntry(EXCEPTION, "exception2")
         )
 
         assertFalse(list.isFiltering)
@@ -236,16 +235,16 @@ class LogEntryListTest {
     @Test
     fun testFilteringByLogTypeMask() {
         val list = createEntryListWithEntries(
-            makeEntry(ERROR, "error1"),
-            makeEntry(ERROR, "error2"),
-            makeEntry(ASSERT, "assert1"),
-            makeEntry(ASSERT, "assert2"),
-            makeEntry(WARNING, "warning1"),
-            makeEntry(WARNING, "warning2"),
-            makeEntry(LOG, "log1"),
-            makeEntry(LOG, "log2"),
-            makeEntry(EXCEPTION, "exception1"),
-            makeEntry(EXCEPTION, "exception2")
+            LogEntry(ERROR, "error1"),
+            LogEntry(ERROR, "error2"),
+            LogEntry(ASSERT, "assert1"),
+            LogEntry(ASSERT, "assert2"),
+            LogEntry(WARNING, "warning1"),
+            LogEntry(WARNING, "warning2"),
+            LogEntry(LOG, "log1"),
+            LogEntry(LOG, "log2"),
+            LogEntry(EXCEPTION, "exception1"),
+            LogEntry(EXCEPTION, "exception2")
         )
 
         assertFalse(list.isFiltering)
@@ -834,7 +833,7 @@ class LogEntryListTest {
 
     private fun createEntryListWithMessages(vararg messages: String): LogEntryList {
         val list = LogEntryList(100, 1)
-        list.addAll(messages.map { makeEntry(LOG, it) })
+        list.addAll(messages.map { LogEntry(LOG, it) })
         return list
     }
 
@@ -866,7 +865,7 @@ class LogEntryListTest {
         val entry = list.getCollapsedEntry(index) ?: throw AssertionError("Missing collapsed entry")
         assertEquals(expectedMessage, entry.message)
         assertEquals(expectedCount, entry.count)
-        assertEquals(expectedIndex, entry.index)
+        assertEquals(expectedIndex, entry.position)
     }
 
     //endregion
@@ -882,10 +881,7 @@ class LogEntryListTest {
 
     //region Helpers
 
-    private fun makeEntry(message: String) = makeEntry(LOG, message)
-
-    private fun makeEntry(type: LogEntryType, message: String) =
-        LogEntry(nextEntryIndex++, type, message)
+    private fun makeEntry(message: String) = LogEntry(LOG, message)
 
     //endregion
 
