@@ -10,10 +10,7 @@ import spacemadness.com.lunarconsole.core.CompositeDisposable
 import spacemadness.com.lunarconsole.core.Disposable
 import spacemadness.com.lunarconsole.core.Observer
 
-class LogConsoleView(
-    context: Context,
-    viewModel: LogConsoleViewModel
-) : LinearLayout(context), Disposable {
+class LogConsoleView(context: Context, viewModel: LogConsoleViewModel) : LinearLayout(context), Disposable {
     private val disposables = CompositeDisposable()
 
     init {
