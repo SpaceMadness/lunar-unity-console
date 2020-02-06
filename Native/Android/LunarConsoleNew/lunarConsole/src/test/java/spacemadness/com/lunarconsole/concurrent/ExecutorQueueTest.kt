@@ -37,7 +37,7 @@ class ImmediateExecutorQueue(
         }
     }
 
-    override fun destroy() {
+    override fun dispose() {
         cancelAll()
     }
 }

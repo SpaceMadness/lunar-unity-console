@@ -25,7 +25,7 @@ internal class SerialExecutorQueue private constructor(
         }
     }
 
-    override fun destroy() {
+    override fun dispose() {
         cancelAll()
         handlerThread?.quit()
     }

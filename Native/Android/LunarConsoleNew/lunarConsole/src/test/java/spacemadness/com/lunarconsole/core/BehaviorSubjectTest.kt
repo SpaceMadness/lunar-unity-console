@@ -3,18 +3,18 @@ package spacemadness.com.lunarconsole.core
 import org.junit.Test
 import spacemadness.com.lunarconsole.TestCase
 
-class ObservableTest : TestCase() {
+class BehaviorSubjectTest : TestCase() {
     @Test
     fun testValue() {
         val observable = BehaviorSubject("1")
         // new observer should get current value
-        val subscriptionA = observable.observe {
+        val subscriptionA = observable.subscribe {
             addResult("A$it")
         }
         assertResults("A1")
 
         // new observer should get current value (but others - won't)
-        val subscriptionB = observable.observe {
+        val subscriptionB = observable.subscribe {
             addResult("B$it")
         }
         assertResults("B1")
@@ -24,18 +24,18 @@ class ObservableTest : TestCase() {
         assertResults("A2", "B2")
 
         // remove subscription
-        subscriptionA.unsubscribe()
+        subscriptionA.dispose()
 
         observable.value = "3"
         assertResults("B3")
 
         // remove subscription
-        subscriptionB.unsubscribe()
+        subscriptionB.dispose()
 
         observable.value = "4"
         assertResults()
 
-        observable.observe {
+        observable.subscribe {
             addResult("C$it")
         }
         assertResults("C4")
@@ -48,7 +48,7 @@ class ObservableTest : TestCase() {
         }
 
         val observable = BehaviorSubject("1")
-        observable.observe(observer)
+        observable.subscribe(observer)
 
         assertResults("1")
 
@@ -56,5 +56,23 @@ class ObservableTest : TestCase() {
 
         observable.value = "2"
         assertResults()
+    }
+
+    @Test
+    fun testRemoveObserverWhileNotifying() {
+        val observable = BehaviorSubject("1")
+        val subscriptionA = observable.subscribe {
+            addResult("A$it")
+        }
+        assertResults("A1")
+
+        observable.subscribe {
+            addResult("B$it")
+            subscriptionA.dispose()
+        }
+        assertResults("B1")
+
+        observable.value = "2"
+        assertResults("B2")
     }
 }
