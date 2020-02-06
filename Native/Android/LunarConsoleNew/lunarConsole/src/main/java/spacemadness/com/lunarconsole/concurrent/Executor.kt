@@ -14,5 +14,7 @@ interface Executor {
      * @param task - runnable task for the execution.
      * @param delay - [TimeInterval] delay for the execution.
      */
-    fun execute(task: Runnable, delay: TimeInterval = 0)
+    fun execute(delay: TimeInterval, task: () -> Unit)
+
+    fun execute(task: () -> Unit) = execute(0, task)
 }

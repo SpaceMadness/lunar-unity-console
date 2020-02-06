@@ -2,16 +2,18 @@ package spacemadness.com.lunarconsole.concurrent
 
 import spacemadness.com.lunarconsole.core.TimeInterval
 
+typealias Task = () -> Unit
+
 class ImmediateExecutorQueue(
     name: String? = null,
     private val dispatchImmediately: Boolean = true
 ) : ExecutorQueue(name ?: "immediate") {
     override val isCurrent = true
 
-    var onTaskSchedule: (task: Runnable) -> Unit = {}
-    var onTaskDispatch: (task: Runnable) -> Unit = {}
+    var onTaskSchedule: (task: Task) -> Unit = {}
+    var onTaskDispatch: (task: Task) -> Unit = {}
 
-    private val tasks = mutableListOf<Runnable>()
+    private val tasks = mutableListOf<Task>()
 
     fun dispatch() {
         for (task in tasks) {
@@ -19,8 +21,8 @@ class ImmediateExecutorQueue(
         }
     }
 
-    private fun dispatch(task: Runnable) {
-        task.run()
+    private fun dispatch(task: Task) {
+        task.invoke()
         onTaskDispatch.invoke(task)
     }
 
@@ -28,7 +30,7 @@ class ImmediateExecutorQueue(
         tasks.clear()
     }
 
-    override fun execute(task: Runnable, delay: TimeInterval) {
+    override fun execute(delay: TimeInterval, task: Task) {
         if (dispatchImmediately) {
             dispatch(task)
         } else {

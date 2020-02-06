@@ -17,7 +17,7 @@ internal class SerialExecutorQueue private constructor(
         handler.removeCallbacksAndMessages(null)
     }
 
-    override fun execute(task: Runnable, delay: TimeInterval) {
+    override fun execute(delay: TimeInterval, task: () -> Unit) {
         if (delay > 0) {
             handler.postDelayed(task, delay)
         } else {
@@ -31,13 +31,13 @@ internal class SerialExecutorQueue private constructor(
     }
 
     companion object {
-        fun create(name: String?): SerialExecutorQueue {
+        fun create(name: String?): ExecutorQueue {
             val handlerThread = HandlerThread(name).apply { start() }
             val handler = Handler(handlerThread.looper)
             return SerialExecutorQueue(name, handler, handlerThread)
         }
 
-        fun create(looper: Looper, name: String?): SerialExecutorQueue {
+        fun create(looper: Looper, name: String?): ExecutorQueue {
             val handler = Handler(looper)
             return SerialExecutorQueue(name, handler, null)
         }

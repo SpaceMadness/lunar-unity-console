@@ -1,7 +1,6 @@
 package spacemadness.com.lunarconsole.console
 
 import spacemadness.com.lunarconsole.concurrent.Executor
-import spacemadness.com.lunarconsole.console.LogEntry
 
 class LogEntryBuffer(
     private val executor: Executor,
@@ -9,7 +8,7 @@ class LogEntryBuffer(
 ) {
     private val queue = mutableListOf<LogEntry>()
 
-    private val task = Runnable {
+    private val task = {
         synchronized(queue) {
             callback(queue)
             queue.clear()
