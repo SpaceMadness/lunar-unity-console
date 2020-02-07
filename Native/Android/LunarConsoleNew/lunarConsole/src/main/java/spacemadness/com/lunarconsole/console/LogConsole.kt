@@ -21,17 +21,42 @@ class LogConsole(capacity: Int, trimSize: Int) {
     fun add(messages: List<LogEntry>) {
         entries.addAll(messages, reusableDiff)
 
-        // post diff
-        diffSubject.post(reusableDiff)
+        // diff
+        postDiff()
 
-        // post counter
+        // counter
+        postCounter()
+    }
+
+    fun getEntry(position: Int) = entries[position]
+
+    fun clear() {
+        val oldSize = entries.count()
+        entries.clear()
+
+        // diff
+        reusableDiff.trimCount = oldSize
+        postDiff()
+
+        // counter
+        postCounter()
+    }
+
+    //endregion
+
+    //region Helpers
+
+    private fun postDiff() {
+        diffSubject.post(reusableDiff)
+        reusableDiff.clear()
+    }
+
+    private fun postCounter() {
         reusableCounter.log = entries.logCount
         reusableCounter.warn = entries.warningCount
         reusableCounter.error = entries.errorCount
         counterSubject.value = reusableCounter
     }
-
-    fun getEntry(position: Int) = entries[position]
 
     //endregion
 }

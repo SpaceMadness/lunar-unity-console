@@ -445,5 +445,12 @@ class LogEntryList(capacity: Int, trimSize: Int) {
         var addCount = 0
         var totalCount = 0
         val dirtyCollapsedEntries = mutableListOf<CollapsedLogEntry>()
+
+        fun clear() {
+            trimCount = 0
+            addCount = 0
+            totalCount = 0
+            dirtyCollapsedEntries.clear()
+        }
     }
 }

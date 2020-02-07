@@ -2,14 +2,17 @@ package spacemadness.com.lunarconsole.console
 
 import android.content.Context
 import android.widget.LinearLayout
+import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.lunar_console_layout_console_log_view.view.*
 import spacemadness.com.lunarconsole.R
 import spacemadness.com.lunarconsole.core.CompositeDisposable
 import spacemadness.com.lunarconsole.core.Disposable
 import spacemadness.com.lunarconsole.core.Observer
 
-class LogConsoleView(context: Context, viewModel: LogConsoleViewModel) : LinearLayout(context), Disposable {
+class LogConsoleView(context: Context, viewModel: LogConsoleViewModel) : LinearLayout(context),
+    Disposable {
     private val disposables = CompositeDisposable()
 
     init {
@@ -18,6 +21,7 @@ class LogConsoleView(context: Context, viewModel: LogConsoleViewModel) : LinearL
         // setup recycler view
         val adapter = LogEntryListAdapter(viewModel.dataSource)
         val recyclerView = lunar_console_log_view_recycler_view
+        recyclerView.itemAnimator = null // disable animation
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
 
@@ -30,6 +34,20 @@ class LogConsoleView(context: Context, viewModel: LogConsoleViewModel) : LinearL
         disposables.add(
             viewModel.counterStream.subscribe(createCounterObserver())
         )
+
+        // setup buttons
+        lunar_console_button_clear.setOnClickListener {
+            viewModel.clearLogs()
+        }
+        lunar_console_button_lock.setOnClickListener {
+            viewModel.toggleLock()
+        }
+        lunar_console_button_copy.setOnClickListener {
+            viewModel.copyLogs()
+        }
+        lunar_console_button_email.setOnClickListener {
+            viewModel.emailLogs()
+        }
     }
 
     //region Observers

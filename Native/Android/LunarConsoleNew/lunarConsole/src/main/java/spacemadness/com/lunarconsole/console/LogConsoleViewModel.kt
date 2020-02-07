@@ -10,4 +10,17 @@ class LogConsoleViewModel(private val console: LogConsole) {
 
     val diffStream: Observable<LogEntryList.Diff> = console.diffStream
     val counterStream: Observable<LogCounter> = console.counterStream
+
+    fun clearLogs() {
+        console.clear()
+    }
+
+    fun toggleLock() {
+    }
+
+    fun copyLogs() {
+    }
+
+    fun emailLogs() {
+    }
 }
