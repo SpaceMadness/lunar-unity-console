@@ -18,6 +18,8 @@ interface ExecutorQueueFactory {
     fun createSerialQueue(name: String? = null): ExecutorQueue
 }
 
+fun createDefaultExecutorQueueFactory(): ExecutorQueueFactory = DefaultExecutorQueueFactory()
+
 /**
  * Default [ExecutorQueueFactory] factory implementation.
  */
@@ -25,5 +27,3 @@ private class DefaultExecutorQueueFactory : ExecutorQueueFactory {
     override fun createMainQueue() = SerialExecutorQueue.create(Looper.getMainLooper(), "Main")
     override fun createSerialQueue(name: String?) = SerialExecutorQueue.create(name)
 }
-
-fun createExecutorQueueFactory(): ExecutorQueueFactory = DefaultExecutorQueueFactory()
