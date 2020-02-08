@@ -82,7 +82,7 @@
             android:layout_alignParentTop="true"
             android:layout_toEndOf="@+id/lunar_console_button_clear"
             android:layout_toRightOf="@+id/lunar_console_button_clear"
-            app:srcCompat="@drawable/lunar_console_icon_button_lock" />
+            app:srcCompat="@drawable/lunar_console_icon_button_scroll" />
 
         <ImageButton
             android:id="@+id/lunar_console_button_copy"
