@@ -14,7 +14,7 @@
     <string name="lunar_console_title_fake_status_bar">Lunar Console v%1$s</string>
     <string name="lunar_console_title_actions_view">Actions &amp; Variables</string>
 
-    <string name="lunar_console_overflow_warning_text">Too much output: %1$d item(s) trimmed</string>
+    <string name="lunar_console_overflow_warning_text">Too much output: %1$s item(s) trimmed</string>
     <string name="lunar_console_log_details_dialog_no_stacktrace_warning">No stack trace
         found.\n\nMake sure \"Development Build\" checkbox is checked under \"Build Settings\"
         (File ▶ Build Settings…)

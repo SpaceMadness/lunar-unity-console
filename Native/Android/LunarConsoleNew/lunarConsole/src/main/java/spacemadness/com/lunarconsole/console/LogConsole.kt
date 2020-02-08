@@ -1,8 +1,8 @@
 package spacemadness.com.lunarconsole.console
 
-import spacemadness.com.lunarconsole.core.BehaviorSubject
-import spacemadness.com.lunarconsole.core.Observable
-import spacemadness.com.lunarconsole.core.PublishSubject
+import spacemadness.com.lunarconsole.reactive.BehaviorSubject
+import spacemadness.com.lunarconsole.reactive.Observable
+import spacemadness.com.lunarconsole.reactive.PublishSubject
 
 class LogConsole(capacity: Int, trimSize: Int) {
     private val entries = LogEntryList(capacity, trimSize)

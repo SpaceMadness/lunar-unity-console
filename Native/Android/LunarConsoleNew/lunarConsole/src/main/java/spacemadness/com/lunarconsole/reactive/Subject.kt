@@ -1,5 +1,6 @@
-package spacemadness.com.lunarconsole.core
+package spacemadness.com.lunarconsole.reactive
 
+import spacemadness.com.lunarconsole.core.Disposable
 import spacemadness.com.lunarconsole.utils.concurrentListOf
 
 abstract class Subject<T> : Observable<T> {

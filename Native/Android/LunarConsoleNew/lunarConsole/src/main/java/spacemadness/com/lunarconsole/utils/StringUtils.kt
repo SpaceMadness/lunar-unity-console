@@ -47,6 +47,8 @@ object StringUtils {
         return str.hasPrefix(prefix, ignoreCase = ignoreCase)
     }
 
+    //endregion
+
     //region Transformations
 
     fun camelCaseToWords(string: String): String? {
@@ -64,6 +66,14 @@ object StringUtils {
         }
 
         return result.toString()
+    }
+
+    fun toPrettyCounter(count: Int, max: Int = Int.MAX_VALUE): String {
+        if (count < max) {
+            return count.toString()
+        }
+
+        return "$count+"
     }
 
     //endregion

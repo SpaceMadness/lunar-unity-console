@@ -1,4 +1,6 @@
-package spacemadness.com.lunarconsole.core
+package spacemadness.com.lunarconsole.reactive
+
+import spacemadness.com.lunarconsole.core.Disposable
 
 typealias Observer<T> = (T) -> Unit
 

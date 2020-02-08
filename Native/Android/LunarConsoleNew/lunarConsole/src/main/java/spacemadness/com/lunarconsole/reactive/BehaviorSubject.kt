@@ -1,4 +1,6 @@
-package spacemadness.com.lunarconsole.core
+package spacemadness.com.lunarconsole.reactive
+
+import spacemadness.com.lunarconsole.core.Disposable
 
 class BehaviorSubject<T>(value: T) : Subject<T>() {
     var value: T = value

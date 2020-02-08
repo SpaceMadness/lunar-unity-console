@@ -5,9 +5,9 @@ import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.lunar_console_layout_console_log_view.view.*
 import spacemadness.com.lunarconsole.R
-import spacemadness.com.lunarconsole.core.CompositeDisposable
 import spacemadness.com.lunarconsole.core.Disposable
-import spacemadness.com.lunarconsole.core.Observer
+import spacemadness.com.lunarconsole.reactive.CompositeDisposable
+import spacemadness.com.lunarconsole.reactive.Observer
 
 class LogConsoleView(
     context: Context,
@@ -30,9 +30,11 @@ class LogConsoleView(
             viewModel.diffStream.subscribe(createDiffObserver(adapter))
         )
 
-        // setup counter
+        // setup counter buttons
         disposables.add(
-            viewModel.counterStream.subscribe(createCounterObserver())
+            viewModel.logCounterStream.subscribe { lunar_console_log_button.text = it },
+            viewModel.warnCounterStream.subscribe { lunar_console_warning_button.text = it },
+            viewModel.errorCounterStream.subscribe { lunar_console_error_button.text = it }
         )
 
         // clear button
@@ -78,26 +80,18 @@ class LogConsoleView(
                     ++i
                 }
             }
-        }
-    }
-
-    private fun createCounterObserver(): Observer<LogCounter> {
-        var prevLog = -1
-        var prevWarn = -1
-        var prevError = -1
-        return { counter ->
-            if (prevLog != counter.log) {
-                lunar_console_log_button.text = toCounterString(counter.log)
-                prevLog = counter.log
-            }
-            if (prevWarn != counter.warn) {
-                lunar_console_warning_button.text = toCounterString(counter.warn)
-                prevWarn = counter.warn
-            }
-            if (prevError != counter.error) {
-                lunar_console_error_button.text = toCounterString(counter.error)
-                prevError = counter.error
-            }
+//            if (diff.totalTrimCount != prevTotalTrimCount) {
+//                if (diff.totalTrimCount > 0) {
+//                    lunar_console_text_overflow.visibility = View.VISIBLE
+//                    lunar_console_text_overflow.text = resources.getString(
+//                        R.string.lunar_console_overflow_warning_text,
+//                        toCounterString(diff.totalTrimCount)
+//                    )
+//                } else {
+//                    lunar_console_text_overflow.visibility = View.INVISIBLE
+//                }
+//                prevTotalTrimCount = diff.totalTrimCount
+//            }
         }
     }
 
@@ -109,17 +103,5 @@ class LogConsoleView(
         disposables.dispose()
     }
 
-    //endregion
-
-    companion object {
-        private const val MAX_COUNTER = 999
-
-        private fun toCounterString(count: Int): String {
-            if (count < MAX_COUNTER) {
-                return count.toString()
-            }
-
-            return "$count+"
-        }
-    }
+    //endregion\
 }
