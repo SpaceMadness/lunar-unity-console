@@ -14,7 +14,7 @@ private class ObservableDistinctIntUntilChanged<T>(
     override fun subscribe(observer: Observer<T>): Disposable {
         // var prev: Int? = null - all nullable types are translated into objects for JVM
         var prev = 0
-        var firstTime = false
+        var firstTime = true
         val subscription = source.subscribe {
             val curr = function.map(it)
             if (prev != curr || firstTime) {

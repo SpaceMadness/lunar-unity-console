@@ -12,6 +12,11 @@ class LogConsole(capacity: Int, trimSize: Int) {
     private val diffSubject = PublishSubject<LogEntryList.Diff>()
     private val counterSubject = BehaviorSubject(reusableCounter)
 
+    var collapsed: Boolean
+        get() = entries.isCollapsed
+        set(value) {
+            entries.setCollapsed(value)
+        }
     val itemCount get() = entries.count()
     val diffStream: Observable<LogEntryList.Diff> = diffSubject
     val counterStream: Observable<LogCounter> = counterSubject
