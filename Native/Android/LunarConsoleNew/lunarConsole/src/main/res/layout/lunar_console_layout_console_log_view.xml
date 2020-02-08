@@ -24,19 +24,19 @@
             style="@style/lunar_console_filter_edit_text_style"
             android:hint="@string/lunar_console_filter_edit_text_hint" />
 
-        <spacemadness.com.lunarconsole.ui.ToggleButton
+        <Button
             android:id="@+id/lunar_console_log_button"
             style="@style/lunar_console_log_button_style"
             android:drawableStart="@drawable/lunar_console_icon_log"
             android:drawableLeft="@drawable/lunar_console_icon_log" />
 
-        <spacemadness.com.lunarconsole.ui.ToggleButton
+        <Button
             android:id="@+id/lunar_console_warning_button"
             style="@style/lunar_console_log_button_style"
             android:drawableStart="@drawable/lunar_console_icon_log_warning"
             android:drawableLeft="@drawable/lunar_console_icon_log_warning" />
 
-        <spacemadness.com.lunarconsole.ui.ToggleButton
+        <Button
             android:id="@+id/lunar_console_error_button"
             style="@style/lunar_console_log_button_style"
             android:drawableStart="@drawable/lunar_console_icon_log_error"
