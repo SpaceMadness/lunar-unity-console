@@ -3,6 +3,7 @@ package spacemadness.com.lunarconsole.console
 import android.content.Context
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.lunar_console_layout_console_log_view.view.*
 import spacemadness.com.lunarconsole.R
 import spacemadness.com.lunarconsole.core.Disposable
@@ -15,12 +16,16 @@ class LogConsoleView(
 ) : LinearLayout(context), Disposable {
     private val disposables = CompositeDisposable()
 
+    private val recyclerView: RecyclerView
+    private var scrollLocked = true
+
     init {
         inflate(context, R.layout.lunar_console_layout_console_log_view, this)
 
         // setup recycler view
         val adapter = LogEntryListAdapter(viewModel.dataSource)
-        val recyclerView = lunar_console_log_view_recycler_view
+
+        recyclerView = lunar_console_log_view_recycler_view
         recyclerView.itemAnimator = null // disable animation
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.adapter = adapter
@@ -46,6 +51,8 @@ class LogConsoleView(
         disposables.add(
             viewModel.toggleLockStream.subscribe { locked ->
                 lunar_console_button_lock.isSelected = locked
+                scrollLocked = locked
+                scrollToBottom()
             }
         )
         lunar_console_button_lock.setOnClickListener {
@@ -92,10 +99,23 @@ class LogConsoleView(
 //                }
 //                prevTotalTrimCount = diff.totalTrimCount
 //            }
+
+            scrollToBottom()
         }
     }
 
     //endregion
+
+    //region Scroll
+
+    private fun scrollToBottom() {
+        if (scrollLocked) {
+            recyclerView.scrollToBottom()
+        }
+    }
+
+    //endregion
+
 
     //region Disposable
 
@@ -104,4 +124,11 @@ class LogConsoleView(
     }
 
     //endregion\
+}
+
+private fun RecyclerView.scrollToBottom() {
+    val itemCount = adapter?.itemCount ?: 0
+    if (itemCount > 0) {
+        scrollToPosition(itemCount - 1)
+    }
 }

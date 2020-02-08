@@ -15,6 +15,8 @@ class LogConsoleViewModel(private val console: LogConsole) {
     }
 
     val diffStream: Observable<LogEntryList.Diff> = console.diffStream
+
+    // counter streams
     val logCounterStream =
         createCounterStream(console.counterStream, mapper = object : IntMapper<LogCounter> {
             override fun map(counter: LogCounter): Int {

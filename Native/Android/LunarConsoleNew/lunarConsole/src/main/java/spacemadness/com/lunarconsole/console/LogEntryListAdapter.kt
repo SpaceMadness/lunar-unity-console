@@ -67,7 +67,7 @@ class LogEntryListAdapter(
                 R.color.lunar_console_color_overlay_entry_log_warning
             )
 
-            private val STYLE_LOOKUP = Array<LogEntryStyle>(LogEntryType.values().size) { ordinal ->
+            private val STYLE_LOOKUP = Array(LogEntryType.values().size) { ordinal ->
                 when (ordinal) {
                     LogEntryType.LOG.ordinal -> STYLE_LOG
                     LogEntryType.WARNING.ordinal -> STYLE_WARNING
