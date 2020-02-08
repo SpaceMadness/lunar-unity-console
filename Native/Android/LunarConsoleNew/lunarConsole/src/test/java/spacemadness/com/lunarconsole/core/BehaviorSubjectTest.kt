@@ -2,6 +2,7 @@ package spacemadness.com.lunarconsole.core
 
 import org.junit.Test
 import spacemadness.com.lunarconsole.TestCase
+import spacemadness.com.lunarconsole.reactive.BehaviorSubject
 
 class BehaviorSubjectTest : TestCase() {
     @Test
