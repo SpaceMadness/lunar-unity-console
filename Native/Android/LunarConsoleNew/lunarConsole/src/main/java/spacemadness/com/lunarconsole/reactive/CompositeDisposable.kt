@@ -6,12 +6,14 @@ class CompositeDisposable : Disposable {
     private val children = mutableListOf<Disposable>()
 
     fun add(disposable: Disposable): CompositeDisposable {
-        children.add(disposable)
+        if (!children.contains(disposable)) {
+            children.add(disposable)
+        }
         return this
     }
 
     fun add(vararg disposables: Disposable): CompositeDisposable {
-        children.addAll(disposables)
+        disposables.forEach { add(it) }
         return this
     }
 

@@ -53,6 +53,18 @@ class CompositeDisposableTest : TestCase() {
         assertResults("d", "e")
     }
 
+    @Test
+    fun testAddDuplicates() {
+        val a = createDisposable("a")
+        val b = createDisposable("b")
+        val c = createDisposable("c")
+
+        val disposable = CompositeDisposable()
+        disposable.add(a, a, b, b, c)
+        disposable.dispose()
+        assertResults("a", "b", "c")
+    }
+
     private fun createDisposable(name: String): Disposable {
         return object : Disposable {
             override fun dispose() {
