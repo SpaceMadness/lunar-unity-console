@@ -2,6 +2,10 @@ package spacemadness.com.lunarconsole.reactive
 
 import spacemadness.com.lunarconsole.core.Disposable
 
+/**
+ * Transform the items emitted by an Observable by applying a function to each item
+ * @param function - transformation function
+ */
 fun <T, R> Observable<T>.map(function: (T) -> R): Observable<R> {
     return ObservableMap(this, function)
 }
