@@ -17,5 +17,6 @@ class CompositeDisposable : Disposable {
 
     override fun dispose() {
         children.forEach { it.dispose() }
+        children.clear()
     }
 }
