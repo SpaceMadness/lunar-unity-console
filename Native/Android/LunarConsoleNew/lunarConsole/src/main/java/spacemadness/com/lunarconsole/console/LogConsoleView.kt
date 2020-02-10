@@ -1,6 +1,7 @@
 package spacemadness.com.lunarconsole.console
 
 import android.content.Context
+import android.view.View
 import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -33,6 +34,20 @@ class LogConsoleView(
         // subscribe to diff stream
         disposables.add(
             viewModel.diffStream.subscribe(createDiffObserver(adapter))
+        )
+
+        // subscribe to overflow stream
+        disposables.add(
+            viewModel.overflowStream.subscribe {
+                if (it != null) {
+                    lunar_console_text_overflow.visibility = View.VISIBLE
+                    lunar_console_text_overflow.text = resources.getString(
+                        R.string.lunar_console_overflow_warning_text, it
+                    )
+                } else {
+                    lunar_console_text_overflow.visibility = View.GONE
+                }
+            }
         )
 
         // setup counter buttons

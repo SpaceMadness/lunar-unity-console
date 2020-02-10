@@ -36,6 +36,9 @@ class LogConsoleViewModel(private val console: LogConsole) {
             }
         })
 
+    // overflow streams
+    val overflowStream: Observable<String?> = createOverflowStream(console.diffStream)
+
     private val toggleLockSubject = BehaviorSubject(false)
     val toggleLockStream: Observable<Boolean> = toggleLockSubject
 
@@ -59,6 +62,7 @@ class LogConsoleViewModel(private val console: LogConsole) {
         private const val MAX_COUNTER = 999
 
         // this is done to prevent unnecessary int boxing and code duplication
+        // FIXME: explain it better!
         private fun createCounterStream(
             stream: Observable<LogCounter>,
             mapper: IntMapper<LogCounter>
@@ -66,10 +70,30 @@ class LogConsoleViewModel(private val console: LogConsole) {
             // don't count past MAX_COUNTER
             .distinctIntUntilChanged(object : IntMapper<LogCounter> {
                 override fun map(counter: LogCounter): Int {
-                    return min(MAX_COUNTER, mapper(counter))
+                    return min(mapper(counter), MAX_COUNTER)
                 }
             })
             // make it pretty
-            .map { counter -> StringUtils.toPrettyCounter(mapper(counter), MAX_COUNTER) }
+            .map { counter ->
+                StringUtils.toPrettyCounter(
+                    min(mapper(counter), MAX_COUNTER),
+                    MAX_COUNTER
+                )
+            }
+
+        private fun createOverflowStream(stream: Observable<LogEntryList.Diff>): Observable<String?> {
+            return stream
+                // don't count past MAX_COUNTER
+                .distinctIntUntilChanged(object : IntMapper<LogEntryList.Diff> {
+                    override fun map(diff: LogEntryList.Diff): Int {
+                        return min(diff.overflowCount, MAX_COUNTER)
+                    }
+                })
+                // make it pretty
+                .map { diff ->
+                    val count = min(diff.overflowCount, MAX_COUNTER)
+                    if (count > 0) StringUtils.toPrettyCounter(count, MAX_COUNTER) else null
+                }
+        }
     }
 }
