@@ -79,13 +79,6 @@ class LimitSizeList<E>(capacity: Int, val trimSize: Int) : Iterable<E> {
         return data.headIndex
     }
 
-    /**
-     * Returns true if the list would overflow after adding additional elements
-     */
-    fun willOverflow(addCount: Int): Boolean {
-        return data.realLength() + addCount > data.capacity
-    }
-
     // TODO: make property
     fun trimmedCount(): Int {
         return totalCount() - count()

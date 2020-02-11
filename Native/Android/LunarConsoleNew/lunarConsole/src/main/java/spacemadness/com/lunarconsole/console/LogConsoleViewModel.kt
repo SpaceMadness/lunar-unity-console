@@ -37,7 +37,12 @@ class LogConsoleViewModel(private val console: LogConsole) {
         })
 
     // overflow streams
-    val overflowStream: Observable<String?> = createOverflowStream(console.diffStream)
+    val overflowStream: Observable<String?> =
+        createOverflowStream(console.counterStream, mapper = object : IntMapper<LogCounter> {
+            override fun map(counter: LogCounter): Int {
+                return counter.overflow
+            }
+        })
 
     private val toggleLockSubject = BehaviorSubject(true)
     val toggleLockStream: Observable<Boolean> = toggleLockSubject
@@ -87,19 +92,20 @@ class LogConsoleViewModel(private val console: LogConsole) {
                 )
             }
 
-        private fun createOverflowStream(stream: Observable<LogEntryList.Diff>): Observable<String?> {
-            return stream
-                // don't count past MAX_COUNTER
-                .distinctIntUntilChanged(object : IntMapper<LogEntryList.Diff> {
-                    override fun map(diff: LogEntryList.Diff): Int {
-                        return min(diff.overflowCount, MAX_COUNTER)
-                    }
-                })
-                // make it pretty
-                .map { diff ->
-                    val count = min(diff.overflowCount, MAX_COUNTER)
-                    if (count > 0) StringUtils.toPrettyCounter(count, MAX_COUNTER) else null
+        private fun createOverflowStream(
+            stream: Observable<LogCounter>,
+            mapper: IntMapper<LogCounter>
+        ) = stream
+            // don't count past MAX_COUNTER
+            .distinctIntUntilChanged(object : IntMapper<LogCounter> {
+                override fun map(counter: LogCounter): Int {
+                    return min(mapper(counter), MAX_COUNTER)
                 }
-        }
+            })
+            // make it pretty
+            .map { counter ->
+                val count = min(mapper(counter), MAX_COUNTER)
+                if (count > 0) StringUtils.toPrettyCounter(count, MAX_COUNTER) else null
+            }
     }
 }

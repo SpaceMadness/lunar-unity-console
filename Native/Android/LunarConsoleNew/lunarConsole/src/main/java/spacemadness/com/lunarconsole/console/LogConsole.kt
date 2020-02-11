@@ -36,11 +36,9 @@ class LogConsole(capacity: Int, trimSize: Int) {
     fun getEntry(position: Int) = entries[position]
 
     fun clear() {
-        val oldSize = entries.count()
         entries.clear()
 
         // diff
-        reusableDiff.trimCount = oldSize
         postDiff()
 
         // counter
@@ -60,10 +58,11 @@ class LogConsole(capacity: Int, trimSize: Int) {
         reusableCounter.log = entries.logCount
         reusableCounter.warn = entries.warningCount
         reusableCounter.error = entries.errorCount
+        reusableCounter.overflow = entries.overflowAmount()
         counterSubject.value = reusableCounter
     }
 
     //endregion
 }
 
-data class LogCounter(var log: Int = 0, var warn: Int = 0, var error: Int = 0)
+data class LogCounter(var log: Int = 0, var warn: Int = 0, var error: Int = 0, var overflow: Int = 0)
