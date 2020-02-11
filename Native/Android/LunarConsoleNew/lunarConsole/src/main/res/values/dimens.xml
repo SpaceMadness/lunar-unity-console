@@ -1,6 +1,6 @@
 <resources>
-    <dimen name="lunar_layout_console_entry_margin">6dp</dimen>
-    <dimen name="lunar_layout_console_stacktrace_margin">6dp</dimen>
+    <dimen name="lunar_layout_console_entry_margin">8dp</dimen>
+    <dimen name="lunar_layout_console_stacktrace_margin">8dp</dimen>
     <dimen name="lunar_console_move_resize_min_width">320dp</dimen>
     <dimen name="lunar_console_move_resize_min_height">320dp</dimen>
     <dimen name="lunar_console_dimen_switch_track_width">50dp</dimen>
