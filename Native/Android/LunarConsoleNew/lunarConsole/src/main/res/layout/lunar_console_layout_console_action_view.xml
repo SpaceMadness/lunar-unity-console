@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/lunar_console_color_table_background"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/lunar_console_fake_status_bar"
+        style="@style/lunar_console_fake_status_bar_style"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/lunar_console_title_actions_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/lunar_console_action_view_text_edit_filter"
+        style="@style/lunar_console_filter_edit_text_style"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:hint="@string/lunar_console_filter_edit_text_hint"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lunar_console_fake_status_bar" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
+        tools:listitem="@layout/lunar_console_layout_console_action_entry"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lunar_console_action_view_text_edit_filter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <!--    <LinearLayout-->
+    <!--        android:id="@+id/lunar_console_actions_view"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="0dp"-->
+    <!--        android:layout_weight="1"-->
+    <!--        android:orientation="vertical">-->
+
+    <!--        &lt;!&ndash; TODO: use styles &ndash;&gt;-->
+    <!--        <LinearLayout-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="48dp"-->
+    <!--            android:background="@color/lunar_console_color_table_title_background"-->
+    <!--            android:orientation="horizontal">-->
+
+    <!--            <EditText-->
+    <!--                android:id="@+id/lunar_console_action_view_text_edit_filter"-->
+    <!--                style="@style/lunar_console_filter_edit_text_style"-->
+    <!--                android:hint="Filter" />-->
+
+    <!--        </LinearLayout>-->
+
+    <!--        <androidx.recyclerview.widget.RecyclerView-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="0dp" />-->
+    <!--    </LinearLayout>-->
+
+    <!--    <RelativeLayout-->
+    <!--        android:id="@+id/lunar_console_actions_warning_view"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent">-->
+
+    <!--        <TextView-->
+    <!--            style="@style/lunar_console_no_actions_style"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_alig-->
+    <!--            android:drawableTop="@drawable/lunar_console_actions_empty_warning"-->
+    <!--            android:paddingLeft="16dp"-->
+    <!--            android:paddingRight="16dp"-->
+    <!--            tools:text="Something is missing..." />-->
+
+    <!--        <Button-->
+    <!--            android:id="@+id/lunar_console_no_actions_button_help"-->
+    <!--            style="@style/lunar_console_hyperlink_button_style"-->
+    <!--            android:layout_alignParentBottom="true"-->
+    <!--            android:layout_centerHorizontal="true"-->
+    <!--            android:layout_marginBottom="12dp"-->
+    <!--            tools:text="Learn more..." />-->
+
+    <!--    </RelativeLayout>-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>

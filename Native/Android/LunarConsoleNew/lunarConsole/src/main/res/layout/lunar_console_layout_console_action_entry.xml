@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/lunar_console_action_entry_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/lunar_console_color_cell_background_dark">
+
+    <TextView
+        android:id="@+id/lunar_console_action_entry_name"
+        style="@style/lunar_console_action_entry_style"
+        tools:text="Action" />
+</LinearLayout>
