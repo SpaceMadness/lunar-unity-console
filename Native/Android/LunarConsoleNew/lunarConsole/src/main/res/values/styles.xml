@@ -49,6 +49,7 @@
         </item>
         <item name="android:textColorHint">@color/lunar_console_color_filter_hint</item>
         <item name="android:imeOptions">actionSearch</item>
+        <item name="android:inputType">textFilter</item>
     </style>
 
     <style name="lunar_console_variable_value_edit_text_style"
