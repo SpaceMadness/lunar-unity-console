@@ -3,8 +3,8 @@ package spacemadness.com.lunarconsole.utils
 import spacemadness.com.lunarconsole.log.Log
 
 object StackTrace {
-    const val MARKER_AT = " (at "
-    const val MARKER_ASSETS = "/Assets/"
+    private const val MARKER_AT = " (at "
+    private const val MARKER_ASSETS = "/Assets/"
 
     fun optimize(stackTrace: String?): String? {
         try {
