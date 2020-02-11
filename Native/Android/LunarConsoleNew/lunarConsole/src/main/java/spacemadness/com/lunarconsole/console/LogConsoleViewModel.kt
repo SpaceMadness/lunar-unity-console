@@ -5,10 +5,14 @@ import spacemadness.com.lunarconsole.reactive.BehaviorSubject
 import spacemadness.com.lunarconsole.reactive.Observable
 import spacemadness.com.lunarconsole.reactive.distinctIntUntilChanged
 import spacemadness.com.lunarconsole.reactive.map
+import spacemadness.com.lunarconsole.ui.Router
 import spacemadness.com.lunarconsole.utils.StringUtils
 import kotlin.math.min
 
-class LogConsoleViewModel(private val console: LogConsole) {
+class LogConsoleViewModel(
+    private val console: LogConsole,
+    private val router: Router
+) {
     val dataSource = object : DataSource<LogEntry> {
         override fun getItemCount() = console.itemCount
         override fun getItem(position: Int) = console.getEntry(position)
@@ -64,6 +68,7 @@ class LogConsoleViewModel(private val console: LogConsole) {
     }
 
     fun onEntryClick(entry: LogEntry, position: Int) {
+        router.showLogDetails(entry)
     }
 
     fun onEntryLongClick(entry: LogEntry, position: Int) {

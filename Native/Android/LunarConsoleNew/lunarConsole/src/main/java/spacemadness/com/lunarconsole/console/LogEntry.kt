@@ -17,6 +17,9 @@ open class LogEntry(
     override fun toString(): String {
         return "type=$type message=\"$message\" stackTrace=$stackTrace"
     }
+
+    // FIXME: inline this
+    fun hasStackTrace() = hasStackTrace
 }
 
 val LogEntryType.isErrorType: Boolean

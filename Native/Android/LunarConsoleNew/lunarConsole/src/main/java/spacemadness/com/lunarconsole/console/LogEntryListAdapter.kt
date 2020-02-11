@@ -1,14 +1,14 @@
 package spacemadness.com.lunarconsole.console
 
 import android.content.Context
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import spacemadness.com.lunarconsole.R
+import spacemadness.com.lunarconsole.ui.LogEntryStyle
+import spacemadness.com.lunarconsole.ui.setDrawables
 
 class LogEntryListAdapter(
     private val dataSource: DataSource<LogEntry>
@@ -69,8 +69,9 @@ class LogEntryListAdapter(
         }
 
         fun bind(entry: LogEntry, position: Int) {
+            val style = LogEntryStyle.of(entry.type)
             layout.setBackgroundColor(getBackgroundColor(context, position))
-            messageView.setCompoundDrawablesWithIntrinsicBounds(getIcon(context, entry.type), null, null, null)
+            messageView.setDrawables(left = style.getIcon(context))
             messageView.text = entry.message
 
             if (entry is CollapsedLogEntry && entry.count > 1) {
@@ -82,30 +83,6 @@ class LogEntryListAdapter(
         }
 
         companion object {
-            private val STYLE_LOG = LogEntryStyle(
-                R.drawable.lunar_console_icon_log,
-                R.color.lunar_console_color_overlay_entry_log
-            )
-            private val STYLE_WARNING = LogEntryStyle(
-                R.drawable.lunar_console_icon_log_error,
-                R.color.lunar_console_color_overlay_entry_log_error
-            )
-            private val STYLE_ERROR = LogEntryStyle(
-                R.drawable.lunar_console_icon_log_warning,
-                R.color.lunar_console_color_overlay_entry_log_warning
-            )
-
-            private val STYLE_LOOKUP = Array(LogEntryType.values().size) { ordinal ->
-                when (ordinal) {
-                    LogEntryType.LOG.ordinal -> STYLE_LOG
-                    LogEntryType.WARNING.ordinal -> STYLE_WARNING
-                    LogEntryType.ERROR.ordinal -> STYLE_ERROR
-                    LogEntryType.EXCEPTION.ordinal -> STYLE_ERROR
-                    LogEntryType.ASSERT.ordinal -> STYLE_ERROR
-                    else -> STYLE_LOG
-                }
-            }
-
             private fun getBackgroundColor(context: Context, position: Int): Int {
                 val colorId = if (position % 2 == 0)
                     R.color.lunar_console_color_cell_background_dark else
@@ -114,15 +91,6 @@ class LogEntryListAdapter(
                 @Suppress("DEPRECATION")
                 return context.resources.getColor(colorId)
             }
-
-            private fun getIcon(context: Context, type: LogEntryType): Drawable? {
-                @Suppress("DEPRECATION")
-                return context.resources.getDrawable(getStyle(type).iconId)
-            }
-
-            private fun getStyle(type: LogEntryType) = STYLE_LOOKUP[type.ordinal]
         }
     }
 }
-
-private data class LogEntryStyle(val iconId: Int, val colorId: Int)
