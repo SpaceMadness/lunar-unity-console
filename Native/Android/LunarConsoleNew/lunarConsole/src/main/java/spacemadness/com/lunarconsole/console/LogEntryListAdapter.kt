@@ -13,10 +13,17 @@ import spacemadness.com.lunarconsole.R
 class LogEntryListAdapter(
     private val dataSource: DataSource<LogEntry>
 ) : RecyclerView.Adapter<LogEntryListAdapter.ViewHolder>() {
+    var onClickListener: ((entry: LogEntry, position: Int) -> Unit)? = null
+    var onLongClickListener: ((entry: LogEntry, position: Int) -> Unit)? = null
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val itemView = LayoutInflater.from(parent.context)
             .inflate(R.layout.lunar_console_layout_console_log_entry, parent, false)
-        return ViewHolder(itemView)
+        return ViewHolder(
+            itemView = itemView,
+            onClickListener = ::onClick,
+            onLongClickListener = ::onLongClick
+        )
     }
 
     override fun getItemCount(): Int = dataSource.getItemCount()
@@ -31,18 +38,39 @@ class LogEntryListAdapter(
         holder.bind(getItem(position), position)
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    private fun onClick(position: Int) {
+        onClickListener?.invoke(getItem(position), position)
+    }
+
+    private fun onLongClick(position: Int): Boolean {
+        onLongClickListener?.invoke(getItem(position), position)
+        return onLongClickListener != null
+    }
+
+    class ViewHolder(
+        itemView: View,
+        private val onClickListener: (position: Int) -> Unit,
+        private val onLongClickListener: (position: Int) -> Boolean
+    ) : RecyclerView.ViewHolder(itemView) {
         private val layout: View = itemView.findViewById(R.id.lunar_console_log_entry_layout)
-        private val iconView: ImageView = itemView.findViewById(R.id.lunar_console_log_entry_icon)
         private val messageView: TextView =
             itemView.findViewById(R.id.lunar_console_log_entry_message)
         private val collapsedCountView: TextView =
             itemView.findViewById(R.id.lunar_console_log_collapsed_count)
         private val context = itemView.context
 
+        init {
+            itemView.setOnClickListener {
+                onClickListener(adapterPosition)
+            }
+            itemView.setOnLongClickListener {
+                onLongClickListener(adapterPosition)
+            }
+        }
+
         fun bind(entry: LogEntry, position: Int) {
             layout.setBackgroundColor(getBackgroundColor(context, position))
-            iconView.setImageDrawable(getIcon(context, entry.type))
+            messageView.setCompoundDrawablesWithIntrinsicBounds(getIcon(context, entry.type), null, null, null)
             messageView.text = entry.message
 
             if (entry is CollapsedLogEntry && entry.count > 1) {

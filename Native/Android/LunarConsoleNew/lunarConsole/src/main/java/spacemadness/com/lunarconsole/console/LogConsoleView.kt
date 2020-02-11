@@ -25,6 +25,12 @@ class LogConsoleView(
 
         // setup recycler view
         val adapter = LogEntryListAdapter(viewModel.dataSource)
+        adapter.onClickListener = { entry, position ->
+            viewModel.onEntryClick(entry, position)
+        }
+        adapter.onLongClickListener = { entry, position ->
+            viewModel.onEntryLongClick(entry, position)
+        }
 
         recyclerView = lunar_console_log_view_recycler_view
         recyclerView.itemAnimator = null // disable animation

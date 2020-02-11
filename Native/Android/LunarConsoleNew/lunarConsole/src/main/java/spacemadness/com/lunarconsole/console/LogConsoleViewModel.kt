@@ -58,6 +58,12 @@ class LogConsoleViewModel(private val console: LogConsole) {
         TODO("Implement me")
     }
 
+    fun onEntryClick(entry: LogEntry, position: Int) {
+    }
+
+    fun onEntryLongClick(entry: LogEntry, position: Int) {
+    }
+
     companion object {
         private const val MAX_COUNTER = 999
 
