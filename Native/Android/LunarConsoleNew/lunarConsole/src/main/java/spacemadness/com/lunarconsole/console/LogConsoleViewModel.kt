@@ -39,7 +39,7 @@ class LogConsoleViewModel(private val console: LogConsole) {
     // overflow streams
     val overflowStream: Observable<String?> = createOverflowStream(console.diffStream)
 
-    private val toggleLockSubject = BehaviorSubject(false)
+    private val toggleLockSubject = BehaviorSubject(true)
     val toggleLockStream: Observable<Boolean> = toggleLockSubject
 
     fun clearLogs() {
