@@ -1,17 +1,13 @@
 package spacemadness.com.lunarconsole.console
 
 import spacemadness.com.lunarconsole.core.IntMapper
-import spacemadness.com.lunarconsole.reactive.BehaviorSubject
-import spacemadness.com.lunarconsole.reactive.Observable
-import spacemadness.com.lunarconsole.reactive.distinctIntUntilChanged
-import spacemadness.com.lunarconsole.reactive.map
+import spacemadness.com.lunarconsole.reactive.*
 import spacemadness.com.lunarconsole.ui.Router
 import spacemadness.com.lunarconsole.utils.StringUtils
 import kotlin.math.min
 
 class LogConsoleViewModel(
-    private val console: LogConsole,
-    private val router: Router
+    private val console: LogConsole
 ) {
     val dataSource = object : DataSource<LogEntry> {
         override fun getItemCount() = console.itemCount
@@ -48,8 +44,13 @@ class LogConsoleViewModel(
             }
         })
 
+    // toggle lock stream
     private val toggleLockSubject = BehaviorSubject(true)
     val toggleLockStream: Observable<Boolean> = toggleLockSubject
+
+    // toggle lock stream
+    private val selectedEntrySubject = PublishSubject<LogEntry>()
+    val selectedEntryStream: Observable<LogEntry> = selectedEntrySubject
 
     fun clearLogs() {
         console.clear()
@@ -68,7 +69,7 @@ class LogConsoleViewModel(
     }
 
     fun onEntryClick(entry: LogEntry, position: Int) {
-        router.showLogDetails(entry)
+        selectedEntrySubject.post(entry)
     }
 
     fun onEntryLongClick(entry: LogEntry, position: Int) {

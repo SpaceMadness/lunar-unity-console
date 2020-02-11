@@ -9,12 +9,12 @@ import spacemadness.com.lunarconsole.console.LogEntry
 import spacemadness.com.lunarconsole.utils.StackTrace
 
 interface Router {
-    fun showLogDetails(entry: LogEntry)
+    fun showLogDetails(context: Context, entry: LogEntry)
 }
 
-class DefaultRouter(private val context: Context) : Router {
+class DefaultRouter : Router {
     // TODO: refactor this code
-    override fun showLogDetails(entry: LogEntry) {
+    override fun showLogDetails(context: Context, entry: LogEntry) {
         val builder = AlertDialog.Builder(context)
 
         val inflater = LayoutInflater.from(context)
@@ -24,19 +24,18 @@ class DefaultRouter(private val context: Context) : Router {
         val stacktraceView =
             contentView.findViewById<TextView>(R.id.lunar_console_log_details_stacktrace)
 
-        val message = entry.message
         val stackTrace = if (entry.hasStackTrace) StackTrace.optimize(entry.stackTrace)
         else context.resources.getString(R.string.lunar_console_log_details_dialog_no_stacktrace_warning)
 
         val style = LogEntryStyle.of(entry.type)
 
-        messageView.text = message
+        messageView.text = entry.message
         messageView.setDrawables(left = style.getIcon(context))
         stacktraceView.text = stackTrace
 
         builder.setView(contentView)
         builder.setPositiveButton(R.string.lunar_console_log_details_dialog_button_copy_to_clipboard) { _, _ ->
-            var text = message
+            var text = entry.message
             if (entry.hasStackTrace) {
                 text += "\n\n" + stackTrace
             }

@@ -10,10 +10,13 @@ import spacemadness.com.lunarconsole.R
 import spacemadness.com.lunarconsole.core.Disposable
 import spacemadness.com.lunarconsole.reactive.CompositeDisposable
 import spacemadness.com.lunarconsole.reactive.Observer
+import spacemadness.com.lunarconsole.ui.DefaultRouter
+import spacemadness.com.lunarconsole.ui.Router
 
 class LogConsoleView(
     context: Context,
-    viewModel: LogConsoleViewModel
+    viewModel: LogConsoleViewModel,
+    router: Router
 ) : LinearLayout(context), Disposable {
     private val disposables = CompositeDisposable()
 
@@ -53,6 +56,13 @@ class LogConsoleView(
                 } else {
                     lunar_console_text_overflow.visibility = View.GONE
                 }
+            }
+        )
+
+        // subscribe to selected entry stream
+        disposables.add(
+            viewModel.selectedEntryStream.subscribe { entry ->
+                router.showLogDetails(context, entry)
             }
         )
 

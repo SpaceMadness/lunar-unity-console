@@ -8,6 +8,7 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/lunar_console_log_details_message"
         style="@style/lunar_console_log_details_message_style"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -21,29 +22,19 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_margin="@dimen/lunar_layout_console_stacktrace_margin"
+        android:layout_marginStart="@dimen/lunar_layout_console_stacktrace_margin"
+        android:layout_marginLeft="@dimen/lunar_layout_console_stacktrace_margin"
+        android:layout_marginEnd="@dimen/lunar_layout_console_stacktrace_margin"
+        android:layout_marginRight="@dimen/lunar_layout_console_stacktrace_margin"
+        android:layout_marginBottom="@dimen/lunar_layout_console_stacktrace_margin"
         android:layout_weight="1">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/lunar_console_log_details_stacktrace"
+            style="@style/lunar_console_log_details_stacktrace_style"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/lunar_console_log_details_message"
-                style="@style/lunar_console_log_details_message_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:text="Message" />
-
-            <TextView
-                android:id="@+id/lunar_console_log_details_stacktrace"
-                style="@style/lunar_console_log_details_stacktrace_style"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/lunar_layout_console_stacktrace_margin"
-                tools:text="Stacktrace" />
-        </LinearLayout>
+            tools:text="@string/lunar_console_log_details_dialog_no_stacktrace_warning" />
     </ScrollView>
 
 </LinearLayout>
