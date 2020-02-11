@@ -60,10 +60,10 @@ class CycleArray<E>(val capacity: Int) : Iterable<E> {
         val rightSize = min(capacity - start, copySize)
         val leftSize = copySize - rightSize
         val off = elements.size - copySize
-        replaceDataRange(pos = start, elements = elements, off = off, len = rightSize)
         if (leftSize > 0) {
             replaceDataRange(pos = 0, elements = elements, off = off + rightSize, len = leftSize)
         }
+        replaceDataRange(pos = start, elements = elements, off = off, len = rightSize)
 
         length += elements.size
         val oldHeadIndex = headIndex

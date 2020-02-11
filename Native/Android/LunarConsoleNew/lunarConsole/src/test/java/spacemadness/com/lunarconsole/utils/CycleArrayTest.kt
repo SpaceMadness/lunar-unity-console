@@ -2,6 +2,7 @@ package spacemadness.com.lunarconsole.utils
 
 import org.junit.Assert.*
 import org.junit.Test
+import java.util.*
 
 class CycleArrayTest {
     //region Single item
@@ -244,6 +245,33 @@ class CycleArrayTest {
         assertArray(array, 52, 53, 54, 55, 56, 57, 58, 59, 60)
     }
 
+    @Test
+    fun testAddOverflow1() {
+        val array = CycleArray<Int>(5)
+        assertEquals(1, array.addAll(rangeList(1, 6)))
+        assertEquals(6, array.length())
+        assertEquals(5, array.realLength())
+        assertArray(array, 2, 3, 4, 5, 6)
+    }
+
+    @Test
+    fun testAddOverflow2() {
+        val array = CycleArray<Int>(5)
+        assertEquals(5, array.addAll(rangeList(1, 10)))
+        assertEquals(10, array.length())
+        assertEquals(5, array.realLength())
+        assertArray(array, 6, 7, 8, 9, 10)
+    }
+
+    @Test
+    fun testAddOverflow3() {
+        val array = CycleArray<Int>(5)
+        assertEquals(7, array.addAll(rangeList(1, 12)))
+        assertEquals(12, array.length())
+        assertEquals(5, array.realLength())
+        assertArray(array, 8, 9, 10, 11, 12)
+    }
+
     //endregion
 
     //region Iterator
@@ -275,11 +303,12 @@ class CycleArrayTest {
     //region Helpers
 
     private fun <T> assertArray(actual: CycleArray<T>, vararg expected: T) {
-        assertEquals(expected.size, actual.realLength())
+        val message = "Expected: ${expected.contentToString()}\nActual:${actual.contentToString()}"
+        assertEquals(message, expected.size, actual.realLength())
         var i = 0
         var j = actual.headIndex
         while (i < expected.size) {
-            assertEquals(expected[i++], actual[j++])
+            assertEquals(message, expected[i++], actual[j++])
         }
     }
 
@@ -291,4 +320,12 @@ class CycleArrayTest {
         assertEquals(expected.size, index)
     }
     //endregion
+}
+
+private fun <E> CycleArray<E>.contentToString(): String {
+    val list = mutableListOf<String>()
+    for (e in this) {
+        list.add(e.toString())
+    }
+    return list.joinToString(prefix = "[", postfix = "]")
 }
