@@ -2,24 +2,19 @@ package spacemadness.com.lunarconsole.console
 
 import android.content.Context
 import android.view.View
-import android.widget.LinearLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.lunar_console_layout_console_log_view.view.*
 import spacemadness.com.lunarconsole.R
-import spacemadness.com.lunarconsole.core.Disposable
-import spacemadness.com.lunarconsole.reactive.CompositeDisposable
 import spacemadness.com.lunarconsole.reactive.Observer
-import spacemadness.com.lunarconsole.ui.DefaultRouter
+import spacemadness.com.lunarconsole.ui.AbstractLayout
 import spacemadness.com.lunarconsole.ui.Router
 
 class LogConsoleView(
     context: Context,
     viewModel: LogConsoleViewModel,
     router: Router
-) : LinearLayout(context), Disposable {
-    private val disposables = CompositeDisposable()
-
+) : AbstractLayout(context) {
     private val recyclerView: RecyclerView
     private var scrollLocked = true
 
@@ -41,12 +36,12 @@ class LogConsoleView(
         recyclerView.adapter = adapter
 
         // subscribe to diff stream
-        disposables.add(
+        register(
             viewModel.diffStream.subscribe(createDiffObserver(adapter))
         )
 
         // subscribe to overflow stream
-        disposables.add(
+        register(
             viewModel.overflowStream.subscribe {
                 if (it != null) {
                     lunar_console_text_overflow.visibility = View.VISIBLE
@@ -60,14 +55,14 @@ class LogConsoleView(
         )
 
         // subscribe to selected entry stream
-        disposables.add(
+        register(
             viewModel.selectedEntryStream.subscribe { entry ->
                 router.showLogDetails(context, entry)
             }
         )
 
         // setup counter buttons
-        disposables.add(
+        register(
             viewModel.logCounterStream.subscribe { lunar_console_log_button.text = it },
             viewModel.warnCounterStream.subscribe { lunar_console_warning_button.text = it },
             viewModel.errorCounterStream.subscribe { lunar_console_error_button.text = it }
@@ -79,7 +74,7 @@ class LogConsoleView(
         }
 
         // lock button
-        disposables.add(
+        register(
             viewModel.toggleLockStream.subscribe { locked ->
                 lunar_console_button_lock.isSelected = locked
                 scrollLocked = locked
@@ -146,15 +141,6 @@ class LogConsoleView(
     }
 
     //endregion
-
-
-    //region Disposable
-
-    override fun dispose() {
-        disposables.dispose()
-    }
-
-    //endregion\
 }
 
 private fun RecyclerView.scrollToBottom() {
