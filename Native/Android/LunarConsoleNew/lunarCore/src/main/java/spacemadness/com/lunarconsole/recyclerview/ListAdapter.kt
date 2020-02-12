@@ -10,8 +10,8 @@ class ListAdapter : androidx.recyclerview.widget.ListAdapter<ListItem, ViewHolde
         viewHolderFactoryLookup[viewType] = factory
     }
 
-    fun register(factory: LayoutViewHolderFactory) {
-        viewHolderFactoryLookup[factory.layoutId] = factory
+    fun register(viewType: Enum<*>, factory: ViewHolderFactory) {
+        viewHolderFactoryLookup[viewType.ordinal] = factory
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder<*> {

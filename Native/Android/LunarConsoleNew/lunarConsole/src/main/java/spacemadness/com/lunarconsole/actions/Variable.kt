@@ -1,7 +1,4 @@
-package spacemadness.com.lunarconsole.variables
-
-import spacemadness.com.lunarconsole.actions.ItemId
-import spacemadness.com.lunarconsole.actions.Item
+package spacemadness.com.lunarconsole.actions
 
 typealias VariableFlags = Int
 
