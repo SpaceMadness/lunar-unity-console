@@ -1,17 +1,17 @@
 package spacemadness.com.lunarconsole.variables
 
-import spacemadness.com.lunarconsole.model.EntryId
-import spacemadness.com.lunarconsole.model.IdentifiableEntry
+import spacemadness.com.lunarconsole.actions.ItemId
+import spacemadness.com.lunarconsole.actions.Item
 
 typealias VariableFlags = Int
 
 class Variable<T>(
-    id: EntryId,
+    id: ItemId,
     name: String,
     val value: T,
     val defaultValue: T,
     flags: VariableFlags,
     group: String? = null
-) : IdentifiableEntry(id = id, name = name, group = group)
+) : Item(id = id, name = name, group = group)
 
 

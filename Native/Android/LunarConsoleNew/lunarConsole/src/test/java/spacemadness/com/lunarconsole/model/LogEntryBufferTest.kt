@@ -2,16 +2,17 @@ package spacemadness.com.lunarconsole.model
 
 import org.junit.Test
 
-import spacemadness.com.lunarconsole.TestCase
-import spacemadness.com.lunarconsole.concurrent.ImmediateExecutorQueue
+import spacemadness.com.lunarconsole.test.concurrent.ImmediateExecutorQueue
 import spacemadness.com.lunarconsole.console.LogEntry
 import spacemadness.com.lunarconsole.console.LogEntryBuffer
 import spacemadness.com.lunarconsole.console.LogEntryType
 
-class LogEntryBufferTest : TestCase() {
+class LogEntryBufferTest : spacemadness.com.lunarconsole.test.TestCase() {
     @Test
     fun add() {
-        val executor = ImmediateExecutorQueue(dispatchImmediately = false).apply {
+        val executor = ImmediateExecutorQueue(
+            dispatchImmediately = false
+        ).apply {
             onTaskSchedule = { addResult("scheduled") }
         }
         val buffer =

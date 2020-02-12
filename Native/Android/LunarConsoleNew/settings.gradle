@@ -1,2 +1,2 @@
-include ':app', ':lunarConsole'
+include ':app', ':lunarConsole', ':lunarCore', ':lunarCoreTest'
 rootProject.name='Lunar Console'

@@ -1,7 +1,5 @@
 package spacemadness.com.lunarconsole.console
 
-import spacemadness.com.lunarconsole.model.Entry
-
 enum class LogEntryType {
     ERROR, ASSERT, WARNING, LOG, EXCEPTION
 }
@@ -11,7 +9,7 @@ open class LogEntry(
     val type: LogEntryType,
     val message: String,
     val stackTrace: String? = null
-) : Entry {
+) {
     val hasStackTrace = !stackTrace.isNullOrEmpty()
 
     override fun toString(): String {

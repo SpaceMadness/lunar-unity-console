@@ -1,7 +1,12 @@
 package spacemadness.com.lunarconsole.actions
 
-import spacemadness.com.lunarconsole.model.EntryId
-import spacemadness.com.lunarconsole.model.IdentifiableEntry
+class Action(id: ItemId, name: String, group: String? = null) :
+    Item(id = id, name = name, group = group), Comparable<Action> {
+    override fun compareTo(other: Action): Int {
+        val group1 = group ?: ""
+        val group2 = other.group ?: ""
 
-class Action(id: EntryId, name: String, group: String? = null) :
-    IdentifiableEntry(id = id, name = name, group = group)
+        val cmp = group1.compareTo(group2)
+        return if (cmp == 0) name.compareTo(other.name) else cmp
+    }
+}
