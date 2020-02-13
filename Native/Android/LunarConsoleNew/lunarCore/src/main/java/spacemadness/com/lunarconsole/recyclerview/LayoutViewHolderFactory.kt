@@ -10,7 +10,7 @@ class LayoutViewHolderFactory(
 ) : ViewHolderFactory {
     override fun createViewHolder(parent: ViewGroup): ViewHolder<*> {
         val itemView = LayoutInflater.from(parent.context)
-            .inflate(layoutId, null)
+            .inflate(layoutId, parent, false)
         return creator(itemView)
     }
 }
