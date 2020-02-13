@@ -2,8 +2,8 @@ package spacemadness.com.lunarconsole.reactive
 
 import spacemadness.com.lunarconsole.core.Disposable
 
-class CompositeDisposable : Disposable {
-    private val children = mutableListOf<Disposable>()
+class CompositeDisposable(list: List<Disposable> = emptyList()) : Disposable {
+    private val children = list.toMutableList()
 
     fun add(disposable: Disposable): CompositeDisposable {
         if (!children.contains(disposable)) {

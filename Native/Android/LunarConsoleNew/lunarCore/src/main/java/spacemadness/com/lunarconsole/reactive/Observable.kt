@@ -4,6 +4,6 @@ import spacemadness.com.lunarconsole.core.Disposable
 
 typealias Observer<T> = (T) -> Unit
 
-interface Observable<T> {
+interface Observable<out T> {
     fun subscribe(observer: Observer<T>): Disposable
 }
