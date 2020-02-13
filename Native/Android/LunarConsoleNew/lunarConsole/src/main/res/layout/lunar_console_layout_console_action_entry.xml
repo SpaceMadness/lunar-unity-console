@@ -1,13 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/lunar_console_action_entry_layout"
+    android:id="@+id/lunar_console_action_entry_name"
+    style="@style/lunar_console_action_entry_style"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/lunar_console_color_cell_background_dark">
-
-    <TextView
-        android:id="@+id/lunar_console_action_entry_name"
-        style="@style/lunar_console_action_entry_style"
-        tools:text="Action" />
-</LinearLayout>
+    android:background="@color/lunar_console_color_cell_background_dark"
+    android:gravity="center_vertical"
+    android:minHeight="?android:attr/listPreferredItemHeightSmall"
+    android:paddingStart="?android:attr/listPreferredItemPaddingStart"
+    android:paddingLeft="?android:attr/listPreferredItemPaddingLeft"
+    android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"
+    android:paddingRight="?android:attr/listPreferredItemPaddingRight"
+    android:textAppearance="?android:attr/textAppearanceListItemSmall"
+    tools:text="Action" />
