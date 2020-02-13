@@ -5,10 +5,7 @@ import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
-import spacemadness.com.lunarconsole.actions.Action
-import spacemadness.com.lunarconsole.actions.ActionRegistry
-import spacemadness.com.lunarconsole.actions.ActionsView
-import spacemadness.com.lunarconsole.actions.ActionsViewModel
+import spacemadness.com.lunarconsole.actions.*
 import spacemadness.com.lunarconsole.concurrent.ExecutorQueueFactory
 import spacemadness.com.lunarconsole.console.LogConsole
 import spacemadness.com.lunarconsole.console.LogEntry
@@ -39,7 +36,9 @@ class MainActivity : AppCompatActivity() {
         actions.register(Action(2, "Action-2", "Group-2"))
         actions.register(Action(3, "Action-3", "Group-3"))
 
-        val viewModel = ActionsViewModel(actions)
+        val variables = VariableRegistry()
+
+        val viewModel = ActionsViewModel(actions, variables)
         val actionsView = ActionsView(this, viewModel)
         containerView.addView(actionsView, FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT))
 
