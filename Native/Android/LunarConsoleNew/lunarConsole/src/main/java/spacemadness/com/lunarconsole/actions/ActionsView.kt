@@ -13,7 +13,7 @@ import spacemadness.com.lunarconsole.recyclerview.ViewHolder
 import spacemadness.com.lunarconsole.recyclerview.ViewHolderFactory
 import spacemadness.com.lunarconsole.ui.AbstractLayout
 
-class ActionsView(context: Context) : AbstractLayout(context) {
+class ActionsView(context: Context, viewModel: ActionsViewModel) : AbstractLayout(context) {
     init {
         View.inflate(context, R.layout.lunar_console_layout_console_action_view, this)
 
@@ -23,6 +23,8 @@ class ActionsView(context: Context) : AbstractLayout(context) {
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.setHasFixedSize(true)
         recyclerView.adapter = adapter
+
+        viewModel.items.subscribe { adapter.submitList(it) }
     }
 
     private fun createListAdapter() =
@@ -42,20 +44,3 @@ class ActionsView(context: Context) : AbstractLayout(context) {
                 })
         }
 }
-
-private enum class ItemType {
-    Header,
-    Group,
-    Action,
-    Variable
-}
-
-private abstract class ListItem(type: ItemType) :
-    spacemadness.com.lunarconsole.recyclerview.ListItem() {
-    override val viewType = type.ordinal
-}
-
-private object HeaderItem : ListItem(ItemType.Header)
-private data class GroupItem(val title: String, val collapsed: Boolean) : ListItem(ItemType.Group)
-private data class ActionItem(val action: Action) : ListItem(ItemType.Action)
-private data class VariableItem(val variable: Variable<*>) : ListItem(ItemType.Variable)
