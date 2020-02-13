@@ -46,7 +46,7 @@
         <ImageButton
             android:id="@+id/lunar_console_button_more"
             style="@style/lunar_console_base_button_style"
-            app:srcCompat="@drawable/lunar_console_icon_button_more" />
+            android:src="@drawable/lunar_console_icon_button_more" />
 
     </LinearLayout>
 

@@ -37,6 +37,11 @@ class MainActivity : AppCompatActivity() {
         actions.register(Action(3, "Action-3", "Group-3"))
 
         val variables = VariableRegistry()
+        variables.register(StringVariable(0,"String", "value", "default value"))
+        variables.register(BooleanVariable(1,"Boolean", true, false))
+        variables.register(IntVariable(2,"Int", 0, 0))
+        variables.register(FloatVariable(3,"Int", 0.0f, 0.0f))
+        variables.register(EnumVariable(4,"Enum", "One", "Two", values = listOf("One", "Two", "Three")))
 
         val viewModel = ActionsViewModel(actions, variables)
         val actionsView = ActionsView(this, viewModel)

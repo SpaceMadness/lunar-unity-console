@@ -7,7 +7,7 @@ typealias VariableFlags = Int
 abstract class Variable<T>(
     id: ItemId,
     name: String,
-    val value: T,
+    var value: T,
     val defaultValue: T,
     val flags: VariableFlags,
     group: String?
@@ -16,6 +16,16 @@ abstract class Variable<T>(
     name = name,
     group = group
 ) {
+    fun isDefault() = value == defaultValue
+
+    fun reset(): Boolean {
+        if (isDefault()) {
+            value = defaultValue
+            return true
+        }
+        return false
+    }
+
     override fun toString() = value.toString()
 }
 

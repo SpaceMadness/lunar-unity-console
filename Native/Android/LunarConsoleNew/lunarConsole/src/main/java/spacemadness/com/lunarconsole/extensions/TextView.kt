@@ -1,4 +1,4 @@
-package spacemadness.com.lunarconsole.ui
+package spacemadness.com.lunarconsole.extensions
 
 import android.graphics.drawable.Drawable
 import android.widget.TextView

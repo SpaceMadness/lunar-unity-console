@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import spacemadness.com.lunarconsole.R
 import spacemadness.com.lunarconsole.ui.LogEntryStyle
-import spacemadness.com.lunarconsole.ui.setDrawables
+import spacemadness.com.lunarconsole.extensions.setDrawables
 
 class LogEntryListAdapter(
     private val dataSource: DataSource<LogEntry>

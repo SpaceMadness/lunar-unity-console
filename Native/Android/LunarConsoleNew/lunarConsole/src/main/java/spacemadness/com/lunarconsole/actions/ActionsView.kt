@@ -2,15 +2,14 @@ package spacemadness.com.lunarconsole.actions
 
 import android.content.Context
 import android.view.View
-import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.lunar_console_layout_console_action_view.view.*
 import spacemadness.com.lunarconsole.R
+import spacemadness.com.lunarconsole.extensions.isVisible
 import spacemadness.com.lunarconsole.recyclerview.LayoutViewHolderFactory
 import spacemadness.com.lunarconsole.recyclerview.ListAdapter
 import spacemadness.com.lunarconsole.recyclerview.ViewHolder
-import spacemadness.com.lunarconsole.recyclerview.ViewHolderFactory
 import spacemadness.com.lunarconsole.ui.AbstractLayout
 
 class ActionsView(context: Context, viewModel: ActionsViewModel) : AbstractLayout(context) {
@@ -55,6 +54,58 @@ class ActionsView(context: Context, viewModel: ActionsViewModel) : AbstractLayou
                         }
                     }
                 })
+            // variables
+            register(
+                viewType = ItemType.Variable,
+                factory = LayoutViewHolderFactory(R.layout.lunar_console_layout_console_variable_entry) { itemView ->
+                    object : ViewHolder<VariableItem>(itemView) {
+                        private val nameText =
+                            itemView.findViewById<TextView>(R.id.lunar_console_variable_entry_name)
 
+                        private val valueEdit =
+                            itemView.findViewById<EditText>(R.id.lunar_console_variable_entry_value)
+
+                        private val valueSwitch =
+                            itemView.findViewById<Switch>(R.id.lunar_console_variable_entry_switch)
+
+                        private val saveButton =
+                            itemView.findViewById<ImageButton>(R.id.lunar_console_variable_button_save)
+
+                        private val discardButton =
+                            itemView.findViewById<ImageButton>(R.id.lunar_console_variable_button_discard)
+
+                        private val resetButton =
+                            itemView.findViewById<ImageButton>(R.id.lunar_console_variable_button_reset)
+
+                        override fun onBind(item: VariableItem, position: Int) {
+                            val variable = item.variable
+
+                            // name
+                            nameText.text = variable.name
+
+                            // value
+                            if (variable is NumericVariable<*> ||
+                                variable is StringVariable ||
+                                variable is EnumVariable
+                            ) {
+                                valueEdit.setText(variable.value.toString())
+                                valueSwitch.isVisible = false
+                            } else if (variable is BooleanVariable) {
+                                valueEdit.isVisible = false
+                                valueSwitch.isChecked = variable.value
+                            } else {
+                                // TODO: don't crash in production - just show some error in UI
+                                throw IllegalStateException("Unexpected variable: $variable")
+                            }
+
+                            // default value
+                            resetButton.isVisible = !variable.isDefault()
+
+                            // control buttons
+                            saveButton.isVisible = false
+                            discardButton.isVisible = false
+                        }
+                    }
+                })
         }
 }

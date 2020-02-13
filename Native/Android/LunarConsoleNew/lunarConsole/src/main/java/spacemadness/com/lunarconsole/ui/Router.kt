@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.widget.TextView
 import spacemadness.com.lunarconsole.R
 import spacemadness.com.lunarconsole.console.LogEntry
+import spacemadness.com.lunarconsole.extensions.setDrawables
 import spacemadness.com.lunarconsole.utils.StackTrace
 
 interface Router {
