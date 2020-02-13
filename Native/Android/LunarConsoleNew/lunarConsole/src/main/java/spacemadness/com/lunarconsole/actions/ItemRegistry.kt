@@ -23,6 +23,10 @@ abstract class ItemRegistry<T : Item>(comparator: (Comparator<T>)? = null) {
         itemsSubject.value = items
     }
 
+    fun find(id: ItemId): Item? {
+        return items.find { it.id == id }
+    }
+
     fun unregister(id: ItemId): Boolean {
         val updated = items.removeAll { it.id == id }
         if (updated) {
