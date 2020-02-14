@@ -7,7 +7,6 @@
     android:layout_height="wrap_content"
     android:drawableStart="@drawable/lunar_console_icon_group_expanded"
     android:drawableLeft="@drawable/lunar_console_icon_group_expanded"
-    android:drawablePadding="8dp"
     android:gravity="center_vertical"
     android:minHeight="?android:attr/listPreferredItemHeightSmall"
     android:paddingEnd="?android:attr/listPreferredItemPaddingEnd"

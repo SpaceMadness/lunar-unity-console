@@ -29,15 +29,14 @@ class ActionsViewModel(
 
         val groups = LinkedHashMap<String, MutableList<ListItem>>()
         items.forEach { item ->
-            val listItem = createListItem(item)
             val group = item.group ?: ""
             var groupList = groups[group]
             if (groupList == null) {
-                groupList = mutableListOf(listItem)
+                groupList = mutableListOf()
                 groups[group] = groupList
-            } else {
-                groupList.add(listItem)
             }
+            val listItem = createListItem(item, index = groupList.size)
+            groupList.add(listItem)
         }
 
         groups.forEach { (group, list) ->
@@ -48,9 +47,9 @@ class ActionsViewModel(
         }
     }
 
-    private fun createListItem(item: Item) = when (item) {
-        is Action -> ActionItem(item)
-        is Variable<*> -> VariableItem(item)
+    private fun createListItem(item: Item, index: Int) = when (item) {
+        is Action -> ActionItem(item, index)
+        is Variable<*> -> VariableItem(item, index)
         else -> throw IllegalArgumentException("Unexpected item: $item")
     }
 }

@@ -6,4 +6,6 @@ abstract class Item(
     val id: ItemId,
     val name: String,
     val group: String? = null
-)
+) {
+    val hasGroup = !group.isNullOrEmpty()
+}

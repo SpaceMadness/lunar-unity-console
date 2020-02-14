@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.lunar_console_layout_console_action_view.view.*
 import spacemadness.com.lunarconsole.R
 import spacemadness.com.lunarconsole.extensions.isVisible
+import spacemadness.com.lunarconsole.extensions.setPadding
 import spacemadness.com.lunarconsole.recyclerview.LayoutViewHolderFactory
 import spacemadness.com.lunarconsole.recyclerview.ListAdapter
 import spacemadness.com.lunarconsole.recyclerview.ViewHolder
@@ -50,7 +51,13 @@ class ActionsView(context: Context, viewModel: ActionsViewModel) : AbstractLayou
                             itemView.findViewById<TextView>(R.id.lunar_console_action_entry_name)
 
                         override fun onBind(item: ActionItem, position: Int) {
+                            // name
                             nameText.text = item.action.name
+
+                            // indent
+                            if (item.action.hasGroup) {
+                                nameText.setPadding(left = 2 * nameText.paddingLeft)
+                            }
                         }
                     }
                 })
@@ -94,7 +101,7 @@ class ActionsView(context: Context, viewModel: ActionsViewModel) : AbstractLayou
                                 valueEdit.isVisible = false
                                 valueSwitch.isChecked = variable.value
                             } else {
-                                // TODO: don't crash in production - just show some error in UI
+                                // FIXME: don't crash in production - just show some error in UI
                                 throw IllegalStateException("Unexpected variable: $variable")
                             }
 
