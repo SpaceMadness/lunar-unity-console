@@ -32,9 +32,9 @@ abstract class ItemRegistry<T : Item>(sorted: Boolean) {
         return updated
     }
 
-    private fun indexOf(id: ItemId): Int {
-        return items.indexOfFirst { it.id == id }
-    }
+    fun find(id: ItemId) = items.find { it.id == id }
+
+    private fun indexOf(id: ItemId) = items.indexOfFirst { it.id == id }
 
     //endregion
 

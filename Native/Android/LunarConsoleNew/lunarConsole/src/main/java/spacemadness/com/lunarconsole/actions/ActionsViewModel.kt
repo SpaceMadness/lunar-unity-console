@@ -4,6 +4,7 @@ import spacemadness.com.lunarconsole.reactive.combineLatest
 
 class ActionsViewModel(
     actions: ActionRegistry,
+    private val actionRunner: ActionRunner,
     variables: VariableRegistry
 ) {
     val items =
@@ -21,6 +22,7 @@ class ActionsViewModel(
         }
 
     fun runAction(id: ItemId) {
+        actionRunner.runAction(id)
     }
 
     private fun addListItems(title: String, items: List<Item>, output: MutableList<ListItem>) {

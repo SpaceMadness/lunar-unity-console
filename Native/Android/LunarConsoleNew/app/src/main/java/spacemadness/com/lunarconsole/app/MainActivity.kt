@@ -3,6 +3,8 @@ package spacemadness.com.lunarconsole.app
 import android.os.Bundle
 import android.view.ViewGroup.LayoutParams.MATCH_PARENT
 import android.widget.FrameLayout
+import android.widget.Toast
+import android.widget.Toast.LENGTH_SHORT
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 import spacemadness.com.lunarconsole.actions.*
@@ -30,20 +32,34 @@ class MainActivity : AppCompatActivity() {
 //        val consoleView = LogConsoleView(this, consoleViewModel, router)
 //        containerView.addView(consoleView, FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT))
 
-        val actions = ActionRegistry()
-        actions.register(Action(0, "Action-0", "Group-0"))
+        val actions = ActionRegistry(sorted = true)
+        actions.register(Action(0, "Action-0"))
         actions.register(Action(1, "Action-1", "Group-1"))
         actions.register(Action(2, "Action-2", "Group-2"))
-        actions.register(Action(3, "Action-3", "Group-3"))
+        actions.register(Action(3, "Action-3", "Group-1"))
 
-        val variables = VariableRegistry()
-        variables.register(StringVariable(0,"String", "value", "default value"))
-        variables.register(BooleanVariable(1,"Boolean", true, false))
-        variables.register(IntVariable(2,"Int", 0, 0))
-        variables.register(FloatVariable(3,"Int", 0.0f, 0.0f))
-        variables.register(EnumVariable(4,"Enum", "One", "Two", values = listOf("One", "Two", "Three")))
+        val actionRunner = object : ActionRunner {
+            override fun runAction(id: ItemId) {
+                Toast.makeText(this@MainActivity, actions.find(id)?.name.toString(), LENGTH_SHORT).show()
+            }
+        }
 
-        val viewModel = ActionsViewModel(actions, variables)
+        val variables = VariableRegistry(sorted = false)
+        variables.register(StringVariable(0, "String", "value", "default value"))
+        variables.register(BooleanVariable(1, "Boolean", true, false))
+        variables.register(IntVariable(2, "Int", 0, 0))
+        variables.register(FloatVariable(3, "Int", 0.0f, 0.0f))
+        variables.register(
+            EnumVariable(
+                4,
+                "Enum",
+                "One",
+                "Two",
+                values = listOf("One", "Two", "Three")
+            )
+        )
+
+        val viewModel = ActionsViewModel(actions, actionRunner, variables)
         val actionsView = ActionsView(this, viewModel)
         containerView.addView(actionsView, FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT))
 
