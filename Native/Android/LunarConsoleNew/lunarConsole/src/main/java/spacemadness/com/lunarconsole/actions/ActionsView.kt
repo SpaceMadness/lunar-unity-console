@@ -58,6 +58,9 @@ class ActionsView(context: Context, viewModel: ActionsViewModel) : AbstractLayou
                             if (item.action.hasGroup) {
                                 nameText.setPadding(left = 2 * nameText.paddingLeft)
                             }
+
+                            // click listener
+                            itemView.setOnClickListener {  }
                         }
                     }
                 })
