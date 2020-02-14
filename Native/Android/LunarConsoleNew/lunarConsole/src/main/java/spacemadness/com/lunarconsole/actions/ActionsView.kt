@@ -17,7 +17,7 @@ class ActionsView(context: Context, viewModel: ActionsViewModel) : AbstractLayou
     init {
         View.inflate(context, R.layout.lunar_console_layout_console_action_view, this)
 
-        val adapter = createListAdapter()
+        val adapter = createListAdapter(viewModel)
 
         val recyclerView = recycler_view
         recyclerView.layoutManager = LinearLayoutManager(context)
@@ -27,7 +27,7 @@ class ActionsView(context: Context, viewModel: ActionsViewModel) : AbstractLayou
         viewModel.items.subscribe { adapter.submitList(it) }
     }
 
-    private fun createListAdapter() =
+    private fun createListAdapter(viewModel: ActionsViewModel) =
         ListAdapter().apply {
             // group
             register(
@@ -60,7 +60,9 @@ class ActionsView(context: Context, viewModel: ActionsViewModel) : AbstractLayou
                             }
 
                             // click listener
-                            itemView.setOnClickListener {  }
+                            itemView.setOnClickListener {
+                                viewModel.runAction(item.action.id)
+                            }
                         }
                     }
                 })

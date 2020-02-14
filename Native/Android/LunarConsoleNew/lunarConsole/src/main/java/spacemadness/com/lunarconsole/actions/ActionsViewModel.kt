@@ -20,6 +20,9 @@ class ActionsViewModel(
             output as List<ListItem>
         }
 
+    fun runAction(id: ItemId) {
+    }
+
     private fun addListItems(title: String, items: List<Item>, output: MutableList<ListItem>) {
         if (items.isEmpty()) {
             return
