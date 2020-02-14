@@ -28,19 +28,6 @@ class ActionsView(context: Context, viewModel: ActionsViewModel) : AbstractLayou
 
     private fun createListAdapter() =
         ListAdapter().apply {
-            // header
-            register(
-                viewType = ItemType.Header,
-                factory = LayoutViewHolderFactory(R.layout.lunar_console_layout_console_header_entry) { itemView ->
-                    object : ViewHolder<HeaderItem>(itemView) {
-                        private val nameText =
-                            itemView.findViewById<TextView>(R.id.lunar_console_header_entry_name)
-
-                        override fun onBind(item: HeaderItem, position: Int) {
-                            nameText.text = item.title
-                        }
-                    }
-                })
             // group
             register(
                 viewType = ItemType.Group,

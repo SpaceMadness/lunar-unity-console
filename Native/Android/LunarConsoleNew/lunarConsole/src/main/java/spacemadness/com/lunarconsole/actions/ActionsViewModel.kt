@@ -25,7 +25,7 @@ class ActionsViewModel(
             return
         }
 
-        output.add(HeaderItem(title))
+        output.add(GroupItem(title, collapsed = false))
 
         val groups = LinkedHashMap<String, MutableList<ListItem>>()
         items.forEach { item ->
