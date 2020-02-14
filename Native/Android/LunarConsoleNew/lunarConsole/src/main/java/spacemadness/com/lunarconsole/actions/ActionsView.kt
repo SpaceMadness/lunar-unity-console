@@ -41,6 +41,19 @@ class ActionsView(context: Context, viewModel: ActionsViewModel) : AbstractLayou
                         }
                     }
                 })
+            // group
+            register(
+                viewType = ItemType.Group,
+                factory = LayoutViewHolderFactory(R.layout.lunar_console_layout_console_group_entry) { itemView ->
+                    object : ViewHolder<GroupItem>(itemView) {
+                        private val nameText =
+                            itemView.findViewById<TextView>(R.id.lunar_console_action_group_name)
+
+                        override fun onBind(item: GroupItem, position: Int) {
+                            nameText.text = item.title
+                        }
+                    }
+                })
             // actions
             register(
                 viewType = ItemType.Action,

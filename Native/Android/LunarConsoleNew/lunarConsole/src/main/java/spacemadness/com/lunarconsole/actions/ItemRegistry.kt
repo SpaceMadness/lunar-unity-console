@@ -3,10 +3,11 @@ package spacemadness.com.lunarconsole.actions
 import spacemadness.com.lunarconsole.reactive.BehaviorSubject
 import spacemadness.com.lunarconsole.reactive.Observable
 import spacemadness.com.lunarconsole.utils.SortedList
+import java.util.Comparator
 
-abstract class ItemRegistry<T : Item>(comparator: (Comparator<T>)? = null) {
+abstract class ItemRegistry<T : Item>(sorted: Boolean) {
     private val items: MutableList<T> =
-        if (comparator != null) SortedList(comparator) else mutableListOf()
+        if (sorted) SortedList(createComparator()) else mutableListOf()
 
     private val itemsSubject = BehaviorSubject<List<T>>(items)
     val itemsStream: Observable<List<T>> = itemsSubject
@@ -14,7 +15,7 @@ abstract class ItemRegistry<T : Item>(comparator: (Comparator<T>)? = null) {
     //region Items
 
     fun register(item: T) {
-        val index = items.indexOf(item)
+        val index = indexOf(item.id)
         if (index != -1) {
             items[index] = item
         } else {
@@ -23,16 +24,29 @@ abstract class ItemRegistry<T : Item>(comparator: (Comparator<T>)? = null) {
         itemsSubject.value = items
     }
 
-    fun find(id: ItemId): Item? {
-        return items.find { it.id == id }
-    }
-
     fun unregister(id: ItemId): Boolean {
         val updated = items.removeAll { it.id == id }
         if (updated) {
             itemsSubject.value = items
         }
         return updated
+    }
+
+    private fun indexOf(id: ItemId): Int {
+        return items.indexOfFirst { it.id == id }
+    }
+
+    //endregion
+
+    //region Helpers
+
+    private fun createComparator(): Comparator<T> {
+        return Comparator { o1, o2 ->
+            val group1 = o1.group ?: ""
+            val group2 = o2.group ?: ""
+            val cmp = group1.compareTo(group2)
+            if (cmp != 0) cmp else o1.name.compareTo(o2.name)
+        }
     }
 
     //endregion

@@ -8,23 +8,45 @@ class ActionsViewModel(
 ) {
     val items =
         combineLatest(actions.itemsStream, variables.itemsStream) { result ->
-            val items = mutableListOf<ListItem>()
+            val output = mutableListOf<ListItem>()
 
             // actions
-            val actionList = result[0]
-            if (actionList.isNotEmpty()) {
-                items.add(HeaderItem("Actions"))
-                actionList.forEach { items.add(createListItem(it)) }
-            }
+            addListItems("Actions", result[0], output)
 
             // variables
-            val variableList = result[1]
-            if (variableList.isNotEmpty()) {
-                items.add(HeaderItem("Variables"))
-                variableList.forEach { items.add(createListItem(it)) }
-            }
-            items as List<ListItem>
+            addListItems("Variables", result[1], output)
+
+            // result
+            output as List<ListItem>
         }
+
+    private fun addListItems(title: String, items: List<Item>, output: MutableList<ListItem>) {
+        if (items.isEmpty()) {
+            return
+        }
+
+        output.add(HeaderItem(title))
+
+        val groups = LinkedHashMap<String, MutableList<ListItem>>()
+        items.forEach { item ->
+            val listItem = createListItem(item)
+            val group = item.group ?: ""
+            var groupList = groups[group]
+            if (groupList == null) {
+                groupList = mutableListOf(listItem)
+                groups[group] = groupList
+            } else {
+                groupList.add(listItem)
+            }
+        }
+
+        groups.forEach { (group, list) ->
+            if (group.isNotEmpty()) {
+                output.add(GroupItem(group, collapsed = false))
+            }
+            output.addAll(list)
+        }
+    }
 
     private fun createListItem(item: Item) = when (item) {
         is Action -> ActionItem(item)
