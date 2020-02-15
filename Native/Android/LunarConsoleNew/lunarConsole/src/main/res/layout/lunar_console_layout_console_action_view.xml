@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/lunar_console_color_table_background"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:focusable="true">
 
     <TextView
         android:id="@+id/lunar_console_fake_status_bar"

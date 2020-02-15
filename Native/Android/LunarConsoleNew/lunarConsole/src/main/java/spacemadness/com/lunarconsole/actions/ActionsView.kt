@@ -160,6 +160,7 @@ class ActionsView(context: Context, viewModel: ActionsViewModel) : AbstractLayou
                                                 is EnumVariable -> viewModel.updateVariable(variable, value)
                                                 else -> throw IllegalArgumentException("Illegal variable type: ${variable.javaClass}")
                                             }
+                                            v.clearFocus()
                                             false
                                         } else {
                                             v.error = "Invalid value"
