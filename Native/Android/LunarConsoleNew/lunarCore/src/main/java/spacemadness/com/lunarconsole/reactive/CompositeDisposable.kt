@@ -12,6 +12,8 @@ class CompositeDisposable(list: List<Disposable> = emptyList()) : Disposable {
         return this
     }
 
+    fun remove(disposable: Disposable) = children.remove(disposable)
+
     fun add(vararg disposables: Disposable): CompositeDisposable {
         disposables.forEach { add(it) }
         return this

@@ -33,7 +33,7 @@ class ActionsView(context: Context, viewModel: ActionsViewModel) : AbstractLayou
         recyclerView.setHasFixedSize(true)
         recyclerView.adapter = adapter
 
-        viewModel.items.subscribe { adapter.submitList(it) }
+        subscribe(viewModel.items) { adapter.submitList(it) }
     }
 
     private fun createListAdapter(viewModel: ActionsViewModel) =
@@ -133,14 +133,15 @@ class ActionsView(context: Context, viewModel: ActionsViewModel) : AbstractLayou
                     discardButton.isVisible = false
 
                     // remove old subscription
-                    subscription?.dispose()
+                    subscription?.let {
+                        dispose(it)
+                    }
 
-                    // update UI when
-                    subscription = viewModel.variableStream
-                        .filter { it.id == variable.id }
-                        .subscribe(::updateValue)
-
-                    // FIXME: dispose subscription!!!
+                    // update UI when the target variable changes
+                    subscription = subscribe(
+                        observable = viewModel.variableStream.filter { it.id == variable.id },
+                        observer = ::updateValue
+                    )
                 }
 
                 private fun updateValue(variable: Variable<*>) {

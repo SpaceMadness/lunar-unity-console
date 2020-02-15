@@ -36,37 +36,29 @@ class LogConsoleView(
         recyclerView.adapter = adapter
 
         // subscribe to diff stream
-        register(
-            viewModel.diffStream.subscribe(createDiffObserver(adapter))
-        )
+        subscribe(viewModel.diffStream, createDiffObserver(adapter))
 
         // subscribe to overflow stream
-        register(
-            viewModel.overflowStream.subscribe {
-                if (it != null) {
-                    lunar_console_text_overflow.visibility = View.VISIBLE
-                    lunar_console_text_overflow.text = resources.getString(
-                        R.string.lunar_console_overflow_warning_text, it
-                    )
-                } else {
-                    lunar_console_text_overflow.visibility = View.GONE
-                }
+        subscribe(viewModel.overflowStream) {
+            if (it != null) {
+                lunar_console_text_overflow.visibility = View.VISIBLE
+                lunar_console_text_overflow.text = resources.getString(
+                    R.string.lunar_console_overflow_warning_text, it
+                )
+            } else {
+                lunar_console_text_overflow.visibility = View.GONE
             }
-        )
+        }
 
         // subscribe to selected entry stream
-        register(
-            viewModel.selectedEntryStream.subscribe { entry ->
-                router.showLogDetails(context, entry)
-            }
-        )
+        subscribe(viewModel.selectedEntryStream) { entry ->
+            router.showLogDetails(context, entry)
+        }
 
         // setup counter buttons
-        register(
-            viewModel.logCounterStream.subscribe { lunar_console_log_button.text = it },
-            viewModel.warnCounterStream.subscribe { lunar_console_warning_button.text = it },
-            viewModel.errorCounterStream.subscribe { lunar_console_error_button.text = it }
-        )
+        subscribe(viewModel.logCounterStream) { lunar_console_log_button.text = it }
+        subscribe(viewModel.warnCounterStream) { lunar_console_warning_button.text = it }
+        subscribe(viewModel.errorCounterStream) { lunar_console_error_button.text = it }
 
         // clear button
         lunar_console_button_clear.setOnClickListener {
@@ -74,13 +66,12 @@ class LogConsoleView(
         }
 
         // lock button
-        register(
-            viewModel.toggleLockStream.subscribe { locked ->
-                lunar_console_button_lock.isSelected = locked
-                scrollLocked = locked
-                scrollToBottom()
-            }
-        )
+        subscribe(viewModel.toggleLockStream) { locked ->
+            lunar_console_button_lock.isSelected = locked
+            scrollLocked = locked
+            scrollToBottom()
+        }
+        
         lunar_console_button_lock.setOnClickListener {
             viewModel.toggleLock()
         }
