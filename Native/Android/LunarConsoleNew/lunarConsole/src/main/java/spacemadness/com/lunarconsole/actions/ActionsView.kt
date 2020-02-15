@@ -6,8 +6,11 @@ import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.lunar_console_layout_console_action_view.view.*
 import spacemadness.com.lunarconsole.R
+import spacemadness.com.lunarconsole.core.Disposable
 import spacemadness.com.lunarconsole.extensions.isVisible
 import spacemadness.com.lunarconsole.extensions.setPadding
+import spacemadness.com.lunarconsole.reactive.CompositeDisposable
+import spacemadness.com.lunarconsole.reactive.filter
 import spacemadness.com.lunarconsole.recyclerview.LayoutViewHolderFactory
 import spacemadness.com.lunarconsole.recyclerview.ListAdapter
 import spacemadness.com.lunarconsole.recyclerview.ViewHolder
@@ -89,6 +92,8 @@ class ActionsView(context: Context, viewModel: ActionsViewModel) : AbstractLayou
                         private val resetButton =
                             itemView.findViewById<ImageButton>(R.id.lunar_console_variable_button_reset)
 
+                        private var subscription: Disposable? = null
+
                         override fun onBind(item: VariableItem, position: Int) {
                             val variable = item.variable
 
@@ -96,6 +101,23 @@ class ActionsView(context: Context, viewModel: ActionsViewModel) : AbstractLayou
                             nameText.text = variable.name
 
                             // value
+                            updateValue(variable)
+
+                            // control buttons
+                            saveButton.isVisible = false
+                            discardButton.isVisible = false
+
+                            // remove old subscription
+                            subscription?.dispose()
+
+                            // update UI when
+                            subscription = viewModel
+                                .variableStream
+                                .filter { it.id == variable.id }
+                                .subscribe(::updateValue)
+                        }
+
+                        private fun updateValue(variable: Variable<*>) {
                             if (variable is NumericVariable<*> ||
                                 variable is StringVariable ||
                                 variable is EnumVariable
@@ -105,17 +127,23 @@ class ActionsView(context: Context, viewModel: ActionsViewModel) : AbstractLayou
                             } else if (variable is BooleanVariable) {
                                 valueEdit.isVisible = false
                                 valueSwitch.isChecked = variable.value
+                                valueSwitch.setOnCheckedChangeListener { _, isChecked ->
+                                    viewModel.updateVariable(variable.id, isChecked)
+                                }
                             } else {
                                 // FIXME: don't crash in production - just show some error in UI
                                 throw IllegalStateException("Unexpected variable: $variable")
                             }
 
                             // default value
-                            resetButton.isVisible = !variable.isDefault()
-
-                            // control buttons
-                            saveButton.isVisible = false
-                            discardButton.isVisible = false
+                            if (variable.isDefault()) {
+                                resetButton.isVisible = false
+                            } else {
+                                resetButton.isVisible = true
+                                resetButton.setOnClickListener {
+                                    viewModel.resetVariable(variable.id)
+                                }
+                            }
                         }
                     }
                 })

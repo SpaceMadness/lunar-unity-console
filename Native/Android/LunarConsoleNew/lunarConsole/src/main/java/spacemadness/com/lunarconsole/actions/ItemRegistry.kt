@@ -34,6 +34,14 @@ abstract class ItemRegistry<T : Item>(sorted: Boolean) {
 
     fun find(id: ItemId) = items.find { it.id == id }
 
+    protected fun update(id: ItemId, item: T) {
+        val index = indexOf(id)
+        if (index == -1) {
+            throw IllegalArgumentException("Item not registered: $id")
+        }
+        items[id] = item
+    }
+
     private fun indexOf(id: ItemId) = items.indexOfFirst { it.id == id }
 
     //endregion

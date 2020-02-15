@@ -7,23 +7,42 @@ typealias VariableFlags = Int
 abstract class Variable<T>(
     id: ItemId,
     name: String,
-    var value: T,
+    val value: T,
     val defaultValue: T,
     val flags: VariableFlags,
     group: String?
-) : Item(
-    id = id,
-    name = name,
-    group = group
-) {
+) : Item(id = id, name = name, group = group) {
     fun isDefault() = value == defaultValue
 
-    fun reset(): Boolean {
-        if (isDefault()) {
-            value = defaultValue
-            return true
+    fun reset() = update(defaultValue)
+
+    fun update(value: T): Variable<T> {
+        if (this.value != value) {
+            return copy(value)
         }
-        return false
+        return this
+    }
+
+    protected abstract fun copy(value: T): Variable<T>
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Variable<*>
+
+        if (value != other.value) return false
+        if (defaultValue != other.defaultValue) return false
+        if (flags != other.flags) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = value?.hashCode() ?: 0
+        result = 31 * result + (defaultValue?.hashCode() ?: 0)
+        result = 31 * result + flags
+        return result
     }
 
     override fun toString() = value.toString()
@@ -43,7 +62,16 @@ class StringVariable(
     defaultValue = defaultValue,
     flags = flags,
     group = group
-)
+) {
+    override fun copy(value: String?) = StringVariable(
+        id = id,
+        name = name,
+        value = value,
+        defaultValue = defaultValue,
+        flags = flags,
+        group = group
+    )
+}
 
 class BooleanVariable(
     id: ItemId,
@@ -59,7 +87,16 @@ class BooleanVariable(
     defaultValue = defaultValue,
     flags = flags,
     group = group
-)
+) {
+    override fun copy(value: Boolean) = BooleanVariable(
+        id = id,
+        name = name,
+        value = value,
+        defaultValue = defaultValue,
+        flags = flags,
+        group = group
+    )
+}
 
 sealed class NumericVariable<T : Comparable<T>>(
     id: ItemId,
@@ -78,6 +115,24 @@ sealed class NumericVariable<T : Comparable<T>>(
     group = group
 ) {
     val hasRange = range != null
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+        if (!super.equals(other)) return false
+
+        other as NumericVariable<*>
+
+        if (range != other.range) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = super.hashCode()
+        result = 31 * result + (range?.hashCode() ?: 0)
+        return result
+    }
 }
 
 class IntVariable(
@@ -96,7 +151,17 @@ class IntVariable(
     flags = flags,
     range = range,
     group = group
-)
+) {
+    override fun copy(value: Int) = IntVariable(
+        id = id,
+        name = name,
+        value = value,
+        defaultValue = defaultValue,
+        flags = flags,
+        range = range,
+        group = group
+    )
+}
 
 class FloatVariable(
     id: ItemId,
@@ -114,7 +179,17 @@ class FloatVariable(
     flags = flags,
     range = range,
     group = group
-)
+) {
+    override fun copy(value: Float) = FloatVariable(
+        id = id,
+        name = name,
+        value = value,
+        defaultValue = defaultValue,
+        flags = flags,
+        range = range,
+        group = group
+    )
+}
 
 class EnumVariable(
     id: ItemId,
@@ -131,5 +206,33 @@ class EnumVariable(
     defaultValue = defaultValue,
     flags = flags,
     group = group
-)
+) {
+    override fun copy(value: String) = EnumVariable(
+        id = id,
+        name = name,
+        value = value,
+        defaultValue = defaultValue,
+        values = values,
+        flags = flags,
+        group = group
+    )
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+        if (!super.equals(other)) return false
+
+        other as EnumVariable
+
+        if (values != other.values) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        var result = super.hashCode()
+        result = 31 * result + values.hashCode()
+        return result
+    }
+}
 

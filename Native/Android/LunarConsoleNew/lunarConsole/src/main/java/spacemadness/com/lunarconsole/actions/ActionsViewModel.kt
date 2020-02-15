@@ -1,11 +1,12 @@
 package spacemadness.com.lunarconsole.actions
 
+import spacemadness.com.lunarconsole.reactive.Observable
 import spacemadness.com.lunarconsole.reactive.combineLatest
 
 class ActionsViewModel(
     actions: ActionRegistry,
     private val actionRunner: ActionRunner,
-    variables: VariableRegistry
+    private val variables: VariableRegistry
 ) {
     val items =
         combineLatest(actions.itemsStream, variables.itemsStream) { result ->
@@ -21,8 +22,18 @@ class ActionsViewModel(
             output as List<ListItem>
         }
 
+    val variableStream: Observable<Variable<*>> = variables.variableStream
+
     fun runAction(id: ItemId) {
         actionRunner.runAction(id)
+    }
+
+    fun resetVariable(id: ItemId) {
+        variables.resetVariable(id)
+    }
+
+    fun <T> updateVariable(id: ItemId, value: T) {
+        variables.updateVariable(id, value)
     }
 
     private fun addListItems(title: String, items: List<Item>, output: MutableList<ListItem>) {
@@ -57,4 +68,6 @@ class ActionsViewModel(
         is Variable<*> -> VariableItem(item, index)
         else -> throw IllegalArgumentException("Unexpected item: $item")
     }
+
+
 }
