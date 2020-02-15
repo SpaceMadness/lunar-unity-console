@@ -119,10 +119,7 @@ class ActionsView(context: Context, viewModel: ActionsViewModel) : AbstractLayou
                 override fun onBind(item: VariableItem, position: Int) {
                     val variable = item.variable
 
-                    // name
-                    nameText.text = variable.name
-
-                    // value
+                    // value edit
                     valueEdit.setSelectAllOnFocus(true)
 
                     // update value
@@ -149,6 +146,9 @@ class ActionsView(context: Context, viewModel: ActionsViewModel) : AbstractLayou
                         variable is StringVariable ||
                         variable is EnumVariable
                     ) {
+                        // name
+                        nameText.text = variable.name
+
                         // hide boolean switch
                         valueSwitch.isVisible = false
 
