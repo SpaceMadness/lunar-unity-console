@@ -1,9 +1,7 @@
 package spacemadness.com.lunarconsole.actions
 
 import android.content.Context
-import android.text.Editable
 import android.text.InputType
-import android.text.TextWatcher
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
@@ -17,7 +15,6 @@ import spacemadness.com.lunarconsole.R
 import spacemadness.com.lunarconsole.core.Disposable
 import spacemadness.com.lunarconsole.extensions.isVisible
 import spacemadness.com.lunarconsole.extensions.setPadding
-import spacemadness.com.lunarconsole.log.Log
 import spacemadness.com.lunarconsole.reactive.filter
 import spacemadness.com.lunarconsole.recyclerview.LayoutViewHolderFactory
 import spacemadness.com.lunarconsole.recyclerview.ListAdapter
@@ -42,157 +39,198 @@ class ActionsView(context: Context, viewModel: ActionsViewModel) : AbstractLayou
     private fun createListAdapter(viewModel: ActionsViewModel) =
         ListAdapter().apply {
             // group
-            register(
-                viewType = ItemType.Group,
-                factory = LayoutViewHolderFactory(R.layout.lunar_console_layout_console_group_entry) { itemView ->
-                    object : ViewHolder<GroupItem>(itemView) {
-                        private val nameText =
-                            itemView.findViewById<TextView>(R.id.lunar_console_action_group_name)
-
-                        override fun onBind(item: GroupItem, position: Int) {
-                            nameText.text = item.title
-                        }
-                    }
-                })
+            register(ItemType.Group, createGroupViewHolderFactory())
             // actions
-            register(
-                viewType = ItemType.Action,
-                factory = LayoutViewHolderFactory(R.layout.lunar_console_layout_console_action_entry) { itemView ->
-                    object : ViewHolder<ActionItem>(itemView) {
-                        private val nameText =
-                            itemView.findViewById<TextView>(R.id.lunar_console_action_entry_name)
-
-                        override fun onBind(item: ActionItem, position: Int) {
-                            // name
-                            nameText.text = item.action.name
-
-                            // indent
-                            if (item.action.hasGroup) {
-                                nameText.setPadding(left = 2 * nameText.paddingLeft)
-                            }
-
-                            // click listener
-                            itemView.setOnClickListener {
-                                viewModel.runAction(item.action.id)
-                            }
-                        }
-                    }
-                })
+            register(ItemType.Action, createActionViewHolderFactory(viewModel))
             // variables
-            register(
-                viewType = ItemType.Variable,
-                factory = LayoutViewHolderFactory(R.layout.lunar_console_layout_console_variable_entry) { itemView ->
-                    object : ViewHolder<VariableItem>(itemView) {
-                        private val nameText =
-                            itemView.findViewById<TextView>(R.id.lunar_console_variable_entry_name)
+            register(ItemType.Variable, createVariableViewHolderFactory(viewModel))
+        }
 
-                        private val valueEdit =
-                            itemView.findViewById<EditText>(R.id.lunar_console_variable_entry_value)
+    //region Groups
 
-                        private val valueSwitch =
-                            itemView.findViewById<Switch>(R.id.lunar_console_variable_entry_switch)
+    private fun createGroupViewHolderFactory(): LayoutViewHolderFactory {
+        return LayoutViewHolderFactory(R.layout.lunar_console_layout_console_group_entry) { itemView ->
+            object : ViewHolder<GroupItem>(itemView) {
+                private val nameText =
+                    itemView.findViewById<TextView>(R.id.lunar_console_action_group_name)
 
-                        private val saveButton =
-                            itemView.findViewById<ImageButton>(R.id.lunar_console_variable_button_save)
+                override fun onBind(item: GroupItem, position: Int) {
+                    nameText.text = item.title
+                }
+            }
+        }
+    }
 
-                        private val discardButton =
-                            itemView.findViewById<ImageButton>(R.id.lunar_console_variable_button_discard)
+    //endregion
 
-                        private val resetButton =
-                            itemView.findViewById<ImageButton>(R.id.lunar_console_variable_button_reset)
+    //region Actions
 
-                        private var subscription: Disposable? = null
+    private fun createActionViewHolderFactory(viewModel: ActionsViewModel): LayoutViewHolderFactory {
+        return LayoutViewHolderFactory(R.layout.lunar_console_layout_console_action_entry) { itemView ->
+            object : ViewHolder<ActionItem>(itemView) {
+                private val nameText =
+                    itemView.findViewById<TextView>(R.id.lunar_console_action_entry_name)
 
-                        override fun onBind(item: VariableItem, position: Int) {
-                            val variable = item.variable
+                override fun onBind(item: ActionItem, position: Int) {
+                    // name
+                    nameText.text = item.action.name
 
-                            // name
-                            nameText.text = variable.name
+                    // indent items in inner groups
+                    if (item.action.hasGroup) {
+                        nameText.setPadding(left = 2 * nameText.paddingLeft)
+                    }
 
-                            // value
-                            valueEdit.setSelectAllOnFocus(true)
-                            updateValue(variable)
+                    // click listener
+                    itemView.setOnClickListener {
+                        viewModel.runAction(item.action.id)
+                    }
+                }
+            }
+        }
+    }
 
-                            // control buttons
-                            saveButton.isVisible = false
-                            discardButton.isVisible = false
+    //endregion
 
-                            // remove old subscription
-                            subscription?.dispose()
+    //region Variables
 
-                            // update UI when
-                            subscription = viewModel
-                                .variableStream
-                                .filter { it.id == variable.id }
-                                .subscribe(::updateValue)
+    private fun createVariableViewHolderFactory(viewModel: ActionsViewModel) =
+        LayoutViewHolderFactory(R.layout.lunar_console_layout_console_variable_entry) { itemView ->
+            object : ViewHolder<VariableItem>(itemView) {
+                private val nameText =
+                    itemView.findViewById<TextView>(R.id.lunar_console_variable_entry_name)
+
+                private val valueEdit =
+                    itemView.findViewById<EditText>(R.id.lunar_console_variable_entry_value)
+
+                private val valueSwitch =
+                    itemView.findViewById<Switch>(R.id.lunar_console_variable_entry_switch)
+
+                private val saveButton =
+                    itemView.findViewById<ImageButton>(R.id.lunar_console_variable_button_save)
+
+                private val discardButton =
+                    itemView.findViewById<ImageButton>(R.id.lunar_console_variable_button_discard)
+
+                private val resetButton =
+                    itemView.findViewById<ImageButton>(R.id.lunar_console_variable_button_reset)
+
+                private var subscription: Disposable? = null
+
+                override fun onBind(item: VariableItem, position: Int) {
+                    val variable = item.variable
+
+                    // name
+                    nameText.text = variable.name
+
+                    // value
+                    valueEdit.setSelectAllOnFocus(true)
+
+                    // update value
+                    updateValue(variable)
+
+                    // control buttons
+                    saveButton.isVisible = false
+                    discardButton.isVisible = false
+
+                    // remove old subscription
+                    subscription?.dispose()
+
+                    // update UI when
+                    subscription = viewModel.variableStream
+                        .filter { it.id == variable.id }
+                        .subscribe(::updateValue)
+
+                    // FIXME: dispose subscription!!!
+                }
+
+                private fun updateValue(variable: Variable<*>) {
+                    if (variable is NumericVariable<*> ||
+                        variable is StringVariable ||
+                        variable is EnumVariable
+                    ) {
+                        // hide boolean switch
+                        valueSwitch.isVisible = false
+
+                        // set value text
+                        valueEdit.setText(variable.value.toString())
+
+                        // setup InputType to avoid invalid input
+                        setInputType(variable)
+
+                        // handle text actions
+                        valueEdit.setOnEditorActionListener(createValueEditorActionListener(variable))
+                    } else if (variable is BooleanVariable) {
+                        // hide value edit text
+                        valueEdit.isVisible = false
+
+                        // set boolean value
+                        valueSwitch.isChecked = variable.value
+
+                        // update boolean value
+                        valueSwitch.setOnCheckedChangeListener { _, isChecked ->
+                            viewModel.updateVariable(variable, isChecked)
                         }
+                    } else {
+                        // FIXME: don't crash in production - just show some error in UI
+                        throw IllegalStateException("Unexpected variable: $variable")
+                    }
 
-                        private fun updateValue(variable: Variable<*>) {
-                            if (variable is NumericVariable<*> ||
-                                variable is StringVariable ||
-                                variable is EnumVariable
-                            ) {
-                                if (variable is NumericVariable<*>) {
-                                    var inputType =
-                                        InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED
-                                    if (variable is FloatVariable) {
-                                        inputType = inputType or InputType.TYPE_NUMBER_FLAG_DECIMAL
-                                    }
-                                    valueEdit.inputType = inputType
-                                }
-
-                                valueEdit.setText(variable.value.toString())
-                                valueEdit.addTextChangedListener(object : TextWatcher {
-                                    override fun afterTextChanged(s: Editable?) {}
-                                    override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-                                    override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                                        Log.i("Text changed: $s")
-                                    }
-                                })
-                                valueEdit.setOnEditorActionListener { v, actionId, event ->
-                                    if (actionId == EditorInfo.IME_ACTION_DONE || event != null && event.action == KeyEvent.ACTION_DOWN && event.keyCode == KeyEvent.KEYCODE_ENTER) {
-                                        val value = v.text.toString()
-                                        if (variable.isValid(value)) {
-                                            when (variable) {
-                                                is StringVariable -> viewModel.updateVariable(variable, value)
-                                                is IntVariable -> viewModel.updateVariable(variable, value.toInt())
-                                                is FloatVariable -> viewModel.updateVariable(variable, value.toFloat())
-                                                is EnumVariable -> viewModel.updateVariable(variable, value)
-                                                else -> throw IllegalArgumentException("Illegal variable type: ${variable.javaClass}")
-                                            }
-                                            v.clearFocus()
-                                            false
-                                        } else {
-                                            v.error = "Invalid value"
-                                            true
-                                        }
-                                    } else {
-                                        false
-                                    }
-                                }
-                                valueSwitch.isVisible = false
-                            } else if (variable is BooleanVariable) {
-                                valueEdit.isVisible = false
-                                valueSwitch.isChecked = variable.value
-                                valueSwitch.setOnCheckedChangeListener { _, isChecked ->
-                                    viewModel.updateVariable(variable, isChecked)
-                                }
-                            } else {
-                                // FIXME: don't crash in production - just show some error in UI
-                                throw IllegalStateException("Unexpected variable: $variable")
-                            }
-
-                            // default value
-                            if (variable.isDefault()) {
-                                resetButton.isVisible = false
-                            } else {
-                                resetButton.isVisible = true
-                                resetButton.setOnClickListener {
-                                    viewModel.resetVariable(variable.id)
-                                }
-                            }
+                    // hide/show reset button for default values
+                    if (variable.isDefault()) {
+                        resetButton.isVisible = false
+                    } else {
+                        resetButton.isVisible = true
+                        resetButton.setOnClickListener {
+                            viewModel.resetVariable(variable.id)
                         }
                     }
-                })
+                }
+
+                private fun createValueEditorActionListener(variable: Variable<*>) =
+                    { v: TextView, actionId: Int, event: KeyEvent? ->
+                        if (actionId == EditorInfo.IME_ACTION_DONE || event != null && event.action == KeyEvent.ACTION_DOWN && event.keyCode == KeyEvent.KEYCODE_ENTER) {
+                            val value = v.text.toString()
+
+                            // update value if text is valid
+                            if (variable.isValid(value)) {
+                                when (variable) {
+                                    is StringVariable -> viewModel.updateVariable(variable, value)
+                                    is IntVariable -> viewModel.updateVariable(variable, value.toInt())
+                                    is FloatVariable -> viewModel.updateVariable(variable, value.toFloat())
+                                    is EnumVariable -> viewModel.updateVariable(variable, value)
+                                    else -> throw IllegalArgumentException("Illegal variable type: ${variable.javaClass}")
+                                }
+                                // clear focus to remove the cursor from EditText
+                                v.clearFocus()
+
+                                // don't consume the event so the system can hide the keyboard
+                                false
+                            } else {
+                                // show error
+                                v.error = "Invalid value"
+
+                                // consume the event to keep the keyboard on the screen
+                                true
+                            }
+                        } else {
+                            false
+                        }
+                    }
+
+                private fun setInputType(variable: Variable<*>) {
+                    if (variable is NumericVariable<*>) {
+                        // allow negative numbers
+                        var inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED
+
+                        // allow decimal point for float numbers
+                        if (variable is FloatVariable) {
+                            inputType = inputType or InputType.TYPE_NUMBER_FLAG_DECIMAL
+                        }
+                        valueEdit.inputType = inputType
+                    }
+                }
+            }
         }
+
+    //endregion
 }

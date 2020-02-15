@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/lunar_console_color_table_background"
-    android:orientation="vertical"
-    android:focusable="true">
+    android:focusable="true"
+    android:orientation="vertical">
+    <!--hack: we need to set the root view focusable: otherwise, every time we clear
+    the focus from the variable EditText - the filter EditText becomes focused-->
 
     <TextView
         android:id="@+id/lunar_console_fake_status_bar"
@@ -34,11 +36,11 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="8dp"
-        tools:listitem="@layout/lunar_console_layout_console_action_entry"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/lunar_console_action_view_text_edit_filter"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/lunar_console_action_view_text_edit_filter"
+        tools:listitem="@layout/lunar_console_layout_console_action_entry" />
 
     <!--    <LinearLayout-->
     <!--        android:id="@+id/lunar_console_actions_view"-->
