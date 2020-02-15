@@ -14,7 +14,13 @@ class VariableRegistry(sorted: Boolean) : ItemRegistry<Variable<*>>(sorted) {
         }
     }
 
-    fun <T> updateVariable(id: ItemId, value: T) {
+    fun updateVariable(variable: StringVariable, value: String) = updateVariable(variable.id, value)
+    fun updateVariable(variable: IntVariable, value: Int) = updateVariable(variable.id, value)
+    fun updateVariable(variable: FloatVariable, value: Float) = updateVariable(variable.id, value)
+    fun updateVariable(variable: BooleanVariable, value: Boolean) = updateVariable(variable.id, value)
+    fun updateVariable(variable: EnumVariable, value: String) = updateVariable(variable.id, value)
+
+    private fun <T> updateVariable(id: ItemId, value: T) {
         // find variable
         val variable = find(id) ?: throw IllegalArgumentException("Variable not registered: $id")
 

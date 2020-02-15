@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity() {
 
         val actionRunner = object : ActionRunner {
             override fun runAction(id: ItemId) {
-                Toast.makeText(this@MainActivity, actions.find(id)?.name.toString(), LENGTH_SHORT).show()
+                showToast(actions.find(id)?.name)
             }
         }
 
@@ -71,6 +71,10 @@ class MainActivity : AppCompatActivity() {
             console.logMessages(LogEntry(LogEntryType.LOG, "Log-${index + 1}", null))
             logMessage(console, index + 1)
         }
+    }
+
+    private fun showToast(obj: Any?) {
+        Toast.makeText(this@MainActivity, obj.toString(), LENGTH_SHORT).show()
     }
 }
 

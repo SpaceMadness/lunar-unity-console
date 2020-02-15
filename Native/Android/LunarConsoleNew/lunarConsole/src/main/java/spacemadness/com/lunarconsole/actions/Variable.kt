@@ -23,6 +23,8 @@ abstract class Variable<T>(
         return this
     }
 
+    abstract fun isValid(value: String): Boolean
+
     protected abstract fun copy(value: T): Variable<T>
 
     override fun equals(other: Any?): Boolean {
@@ -63,6 +65,8 @@ class StringVariable(
     flags = flags,
     group = group
 ) {
+    override fun isValid(value: String) = true
+
     override fun copy(value: String?) = StringVariable(
         id = id,
         name = name,
@@ -88,6 +92,8 @@ class BooleanVariable(
     flags = flags,
     group = group
 ) {
+    override fun isValid(value: String) = true
+
     override fun copy(value: Boolean) = BooleanVariable(
         id = id,
         name = name,
@@ -152,6 +158,10 @@ class IntVariable(
     range = range,
     group = group
 ) {
+    override fun isValid(value: String): Boolean {
+        return value.toIntOrNull() != null
+    }
+
     override fun copy(value: Int) = IntVariable(
         id = id,
         name = name,
@@ -180,6 +190,8 @@ class FloatVariable(
     range = range,
     group = group
 ) {
+    override fun isValid(value: String) = value.toFloatOrNull() != null
+
     override fun copy(value: Float) = FloatVariable(
         id = id,
         name = name,
@@ -207,6 +219,8 @@ class EnumVariable(
     flags = flags,
     group = group
 ) {
+    override fun isValid(value: String) = values.contains(value)
+
     override fun copy(value: String) = EnumVariable(
         id = id,
         name = name,

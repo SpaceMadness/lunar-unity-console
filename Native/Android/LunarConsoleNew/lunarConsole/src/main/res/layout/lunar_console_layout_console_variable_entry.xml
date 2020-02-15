@@ -1,13 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- TODO: migrate to ConstraintLayout -->
+<?xml version="1.0" encoding="utf-8"?><!-- TODO: migrate to ConstraintLayout -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/lunar_console_action_entry_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:minHeight="?android:attr/listPreferredItemHeightSmall"
     android:background="@color/lunar_console_color_cell_background_dark"
-    android:gravity="center">
+    android:gravity="center"
+    android:minHeight="?android:attr/listPreferredItemHeightSmall">
 
     <TextView
         android:id="@+id/lunar_console_variable_entry_name"
@@ -30,7 +29,8 @@
 
     <EditText
         android:id="@+id/lunar_console_variable_entry_value"
-        style="@style/lunar_console_variable_value_style" />
+        style="@style/lunar_console_variable_value_style"
+        android:imeOptions="actionDone" />
 
     <Switch
         android:id="@+id/lunar_console_variable_entry_switch"

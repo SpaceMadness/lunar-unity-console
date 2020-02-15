@@ -32,9 +32,11 @@ class ActionsViewModel(
         variables.resetVariable(id)
     }
 
-    fun <T> updateVariable(id: ItemId, value: T) {
-        variables.updateVariable(id, value)
-    }
+    fun updateVariable(variable: StringVariable, value: String) = variables.updateVariable(variable, value)
+    fun updateVariable(variable: IntVariable, value: Int) = variables.updateVariable(variable, value)
+    fun updateVariable(variable: FloatVariable, value: Float) = variables.updateVariable(variable, value)
+    fun updateVariable(variable: BooleanVariable, value: Boolean) = variables.updateVariable(variable, value)
+    fun updateVariable(variable: EnumVariable, value: String) = variables.updateVariable(variable, value)
 
     private fun addListItems(title: String, items: List<Item>, output: MutableList<ListItem>) {
         if (items.isEmpty()) {
