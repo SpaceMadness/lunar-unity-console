@@ -2,8 +2,9 @@ package spacemadness.com.lunarconsole.recyclerview
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 
-class ListAdapter : androidx.recyclerview.widget.ListAdapter<ListItem, ViewHolder<*>>(diff) {
+class RegistryListAdapter : ListAdapter<ListItem, ViewHolder<*>>(diff) {
     private val viewHolderFactoryLookup = mutableMapOf<Int, ViewHolderFactory>()
 
     fun register(viewType: Int, factory: ViewHolderFactory) {

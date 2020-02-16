@@ -18,7 +18,7 @@ import spacemadness.com.lunarconsole.extensions.isVisible
 import spacemadness.com.lunarconsole.extensions.setPadding
 import spacemadness.com.lunarconsole.reactive.filter
 import spacemadness.com.lunarconsole.recyclerview.LayoutViewHolderFactory
-import spacemadness.com.lunarconsole.recyclerview.ListAdapter
+import spacemadness.com.lunarconsole.recyclerview.RegistryListAdapter
 import spacemadness.com.lunarconsole.recyclerview.ViewHolder
 import spacemadness.com.lunarconsole.ui.AbstractLayout
 
@@ -38,7 +38,7 @@ class ActionsView(context: Context, viewModel: ActionsViewModel) : AbstractLayou
     }
 
     private fun createListAdapter(viewModel: ActionsViewModel) =
-        ListAdapter().apply {
+        RegistryListAdapter().apply {
             // group
             register(ItemType.Group, createGroupViewHolderFactory())
             // actions
