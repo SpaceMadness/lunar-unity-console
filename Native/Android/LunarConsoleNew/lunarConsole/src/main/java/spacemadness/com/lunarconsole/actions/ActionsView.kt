@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.lunar_console_layout_console_action_view.view.*
 import spacemadness.com.lunarconsole.R
 import spacemadness.com.lunarconsole.core.Disposable
+import spacemadness.com.lunarconsole.extensions.clearFocusAndHideKeyboard
 import spacemadness.com.lunarconsole.extensions.isVisible
 import spacemadness.com.lunarconsole.extensions.setPadding
 import spacemadness.com.lunarconsole.reactive.filter
@@ -125,10 +126,6 @@ class ActionsView(context: Context, viewModel: ActionsViewModel) : AbstractLayou
                     // update value
                     updateValue(variable)
 
-                    // control buttons
-                    saveButton.isVisible = false
-                    discardButton.isVisible = false
-
                     // remove old subscription
                     subscription?.let {
                         dispose(it)
@@ -136,9 +133,17 @@ class ActionsView(context: Context, viewModel: ActionsViewModel) : AbstractLayou
 
                     // update UI when the target variable changes
                     subscription = subscribe(
-                        observable = viewModel.variableStream.filter { it.id == variable.id },
-                        observer = ::updateValue
+                        observable = viewModel.variableOpStream.filter { it.id == variable.id },
+                        observer = ::handleOperation
                     )
+                }
+
+                private fun handleOperation(op: VariableOperation) {
+                    when (op) {
+                        is VariableOperation.Update -> updateValue(op.variable)
+                        is VariableOperation.EditStart -> onEditStart()
+                        is VariableOperation.EditStop -> onEditStop(op.modified)
+                    }
                 }
 
                 private fun updateValue(variable: Variable<*>) {
@@ -160,6 +165,14 @@ class ActionsView(context: Context, viewModel: ActionsViewModel) : AbstractLayou
 
                         // handle text actions
                         valueEdit.setOnEditorActionListener(createValueEditorActionListener(variable))
+
+                        // handle focus changes
+                        valueEdit.setOnFocusChangeListener(
+                            createFocusChangeListener(viewModel, variable)
+                        )
+
+                        valueEdit.clearFocusAndHideKeyboard()
+
                     } else if (variable is BooleanVariable) {
                         // hide value edit text
                         valueEdit.isVisible = false
@@ -169,7 +182,7 @@ class ActionsView(context: Context, viewModel: ActionsViewModel) : AbstractLayou
 
                         // update boolean value
                         valueSwitch.setOnCheckedChangeListener { _, isChecked ->
-                            viewModel.updateVariable(variable, isChecked)
+                            viewModel.updateVariable(variable.id, isChecked)
                         }
                     } else {
                         // FIXME: don't crash in production - just show some error in UI
@@ -185,34 +198,56 @@ class ActionsView(context: Context, viewModel: ActionsViewModel) : AbstractLayou
                             viewModel.resetVariable(variable.id)
                         }
                     }
+
+                    // hide control buttons
+                    saveButton.isVisible = false
+                    saveButton.setOnClickListener {
+                        val newValue = valueEdit.text.toString()
+                        if (variable.stringValue != newValue) {
+                            viewModel.updateVariable(variable.id, newValue)
+                        } else {
+                            valueEdit.clearFocusAndHideKeyboard()
+                        }
+                    }
+
+                    discardButton.isVisible = false
+                    discardButton.setOnClickListener {
+                        valueEdit.setText(variable.stringValue)
+                        valueEdit.clearFocusAndHideKeyboard()
+                    }
                 }
+
+                private fun onEditStart() {
+                    saveButton.isVisible = true
+                    discardButton.isVisible = true
+                }
+
+                private fun onEditStop(modified: Boolean) {
+                    saveButton.isVisible = modified
+                    discardButton.isVisible = modified
+                }
+
+                private fun createFocusChangeListener(
+                    viewModel: ActionsViewModel,
+                    variable: Variable<*>
+                ) =
+                    { v: View, hasFocus: Boolean ->
+                        if (hasFocus) {
+                            viewModel.startEditing(variable.id)
+                        } else {
+                            require(v is EditText) { "Unexpected view type: $v" }
+                            viewModel.endEditing(variable.id, v.text.toString())
+                        }
+                    }
 
                 private fun createValueEditorActionListener(variable: Variable<*>) =
                     { v: TextView, actionId: Int, event: KeyEvent? ->
                         if (actionId == EditorInfo.IME_ACTION_DONE || event != null && event.action == KeyEvent.ACTION_DOWN && event.keyCode == KeyEvent.KEYCODE_ENTER) {
                             val value = v.text.toString()
-
-                            // update value if text is valid
-                            if (variable.isValid(value)) {
-                                when (variable) {
-                                    is StringVariable -> viewModel.updateVariable(variable, value)
-                                    is IntVariable -> viewModel.updateVariable(variable, value.toInt())
-                                    is FloatVariable -> viewModel.updateVariable(variable, value.toFloat())
-                                    is EnumVariable -> viewModel.updateVariable(variable, value)
-                                    else -> throw IllegalArgumentException("Illegal variable type: ${variable.javaClass}")
-                                }
-                                // clear focus to remove the cursor from EditText
-                                v.clearFocus()
-
-                                // don't consume the event so the system can hide the keyboard
-                                false
-                            } else {
-                                // show error
+                            if (!viewModel.updateVariable(variable.id, value)) {
                                 v.error = "Invalid value"
-
-                                // consume the event to keep the keyboard on the screen
-                                true
                             }
+                            true
                         } else {
                             false
                         }
@@ -221,7 +256,8 @@ class ActionsView(context: Context, viewModel: ActionsViewModel) : AbstractLayou
                 private fun setInputType(variable: Variable<*>) {
                     if (variable is NumericVariable<*>) {
                         // allow negative numbers
-                        var inputType = InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED
+                        var inputType =
+                            InputType.TYPE_CLASS_NUMBER or InputType.TYPE_NUMBER_FLAG_SIGNED
 
                         // allow decimal point for float numbers
                         if (variable is FloatVariable) {

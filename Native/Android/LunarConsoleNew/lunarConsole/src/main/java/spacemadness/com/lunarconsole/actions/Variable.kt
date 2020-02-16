@@ -12,6 +12,8 @@ abstract class Variable<T>(
     val flags: VariableFlags,
     group: String?
 ) : Item(id = id, name = name, group = group) {
+    val stringValue = value.toString()
+
     fun isDefault() = value == defaultValue
 
     fun reset() = update(defaultValue)
@@ -47,7 +49,7 @@ abstract class Variable<T>(
         return result
     }
 
-    override fun toString() = value.toString()
+    override fun toString() = stringValue
 }
 
 class StringVariable(
