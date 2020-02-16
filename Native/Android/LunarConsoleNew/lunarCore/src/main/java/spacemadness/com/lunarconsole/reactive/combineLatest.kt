@@ -21,10 +21,11 @@ fun <T, R> combineLatest(
                 observable.subscribe { value ->
                     // there was no value but got it now
                     if (!latestValuesUpdated[index]) {
+                        latestValuesUpdated[index] = true
                         ++updatedCount
                     }
 
-                    if (index < latestValues.size)  {
+                    if (index < latestValues.size) {
                         latestValues[index] = value
                     } else {
                         // hack: duplicate the value in the list until it gets filled-up enough to set element at index
@@ -35,20 +36,19 @@ fun <T, R> combineLatest(
 
                     // if latest values are received - notify the observer
                     if (updatedCount == observables.size) {
-                        try {
-                            val combinedValue = combiner(latestValues)
-                            observer(combinedValue)
-                        } finally {
-                            // wipe everything
-                            latestValues.clear()
-                            latestValuesUpdated.fill(false)
-                            updatedCount = 0
-                        }
+                        val combinedValue = combiner(latestValues)
+                        observer(combinedValue)
                     }
                 }
             }
 
-            return CompositeDisposable(subscriptions)
+            val disposables = CompositeDisposable(subscriptions)
+            return object : Disposable {
+                override fun dispose() {
+                    latestValues.clear()
+                    disposables.dispose()
+                }
+            }
         }
     }
 }

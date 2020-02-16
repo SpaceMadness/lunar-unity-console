@@ -14,28 +14,28 @@ class CombineLatestTest : TestCase() {
             .subscribe { addResult(it) }
 
         a.post("a1")
-        b.post("b1")
-        c.post("c1")
+        assertResults()
 
+        b.post("b1")
+        assertResults()
+
+        c.post("c1")
         assertResults("a1 b1 c1")
 
         c.post("c2")
-        b.post("b2")
+        assertResults("a1 b1 c2")
+
         a.post("a2")
+        assertResults("a2 b1 c2")
 
+        b.post("b2")
         assertResults("a2 b2 c2")
-
-        a.post("a3")
-        c.post("c3")
-        b.post("b3")
-
-        assertResults("a3 b3 c3")
 
         subscription.dispose()
 
-        a.post("a4")
-        b.post("b4")
-        c.post("c4")
+        a.post("a3")
+        b.post("b3")
+        c.post("c3")
 
         assertResults()
     }
