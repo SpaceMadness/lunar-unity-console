@@ -24,6 +24,10 @@ class ListAdapter : androidx.recyclerview.widget.ListAdapter<ListItem, ViewHolde
         holder.bind(getItem(position), position)
     }
 
+    override fun onViewRecycled(holder: ViewHolder<*>) {
+        holder.dispose()
+    }
+
     override fun getItemViewType(position: Int): Int {
         return getItem(position).viewType
     }
