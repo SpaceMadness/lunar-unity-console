@@ -14,17 +14,19 @@ sealed class ListItem(type: ItemType) : ListItemLib() {
 
 abstract class ListItemWithId(
     type: ItemType,
-    private val itemId: ItemId
+    val id: ItemId
 ) : ListItem(type) {
     override fun isSame(newItem: ListItemLib): Boolean {
-        return newItem is ListItemWithId && itemId == newItem.itemId
+        return newItem is ListItemWithId && id == newItem.id
     }
 }
 
 data class GroupItem(val title: String, val collapsed: Boolean) : ListItem(ItemType.Group)
 
-data class ActionItem(val action: Action, val index: Int) :
+data class ActionItem(val action: Action) :
     ListItemWithId(ItemType.Action, action.id)
 
-data class VariableItem(val variable: Variable<*>, val index: Int) :
-    ListItemWithId(ItemType.Variable, variable.id)
+data class VariableItem(val variable: Variable<*>, val editorVisible: Boolean = false) :
+    ListItemWithId(ItemType.Variable, variable.id) {
+    val name = variable.name
+}

@@ -21,11 +21,11 @@ class ActionsViewModel(
             output as List<ListItem>
         }
 
-    private val variableOpSubject = PublishSubject<VariableOperation>()
+    private val variablesSubject = PublishSubject<VariableItem>()
 
-    val variableOpStream: Observable<VariableOperation> = merge(
-        variables.variableStream.map { VariableOperation.Update(it) }, // update operations
-        variableOpSubject // all other operations
+    val variableStream = merge(
+        variables.variableStream.map { VariableItem(it) },
+        variablesSubject
     )
 
     fun runAction(id: ItemId) {
@@ -36,7 +36,7 @@ class ActionsViewModel(
         variables.resetVariable(id)
     }
 
-    fun updateVariable(id: ItemId, value: String) : Boolean {
+    fun updateVariable(id: ItemId, value: String): Boolean {
         val variable = findVariable(id)
         if (variable.isValid(value)) {
             when (variable) {
@@ -57,15 +57,20 @@ class ActionsViewModel(
         variables.updateVariable(variable, value)
     }
 
+    fun discardVariable(variableId: Int) {
+        val variable = findVariable(variableId)
+        variablesSubject.post(VariableItem(variable))
+    }
+
     fun startEditing(variableId: ItemId) {
         val variable = findVariable(variableId)
-        variableOpSubject.post(VariableOperation.EditStart(variable))
+        variablesSubject.post(VariableItem(variable, editorVisible = true))
     }
 
     fun endEditing(variableId: ItemId, value: String) {
         val variable = findVariable(variableId)
         val modified = value != variable.stringValue
-        variableOpSubject.post(VariableOperation.EditStop(variable, modified))
+        variablesSubject.post(VariableItem(variable))
     }
 
     private fun addListItems(title: String, items: List<Item>, output: MutableList<ListItem>) {
@@ -83,8 +88,7 @@ class ActionsViewModel(
                 groupList = mutableListOf()
                 groups[group] = groupList
             }
-            val listItem = createListItem(item, index = groupList.size)
-            groupList.add(listItem)
+            groupList.add(createListItem(item))
         }
 
         groups.forEach { (group, list) ->
@@ -95,20 +99,12 @@ class ActionsViewModel(
         }
     }
 
-    private fun createListItem(item: Item, index: Int) = when (item) {
-        is Action -> ActionItem(item, index)
-        is Variable<*> -> VariableItem(item, index)
+    private fun createListItem(item: Item) = when (item) {
+        is Action -> ActionItem(item)
+        is Variable<*> -> VariableItem(item)
         else -> throw IllegalArgumentException("Unexpected item: $item")
     }
 
     private fun findVariable(id: ItemId) = variables.find(id)
         ?: throw IllegalArgumentException("Variable not found: $id")
-}
-
-sealed class VariableOperation(val variable: Variable<*>) {
-    val id = variable.id
-
-    class Update(variable: Variable<*>) : VariableOperation(variable)
-    class EditStart(variable: Variable<*>) : VariableOperation(variable)
-    class EditStop(variable: Variable<*>, val modified: Boolean) : VariableOperation(variable)
 }

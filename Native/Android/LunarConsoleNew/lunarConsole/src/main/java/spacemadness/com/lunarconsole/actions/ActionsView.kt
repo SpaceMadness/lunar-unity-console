@@ -12,7 +12,6 @@ import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.lunar_console_layout_console_action_view.view.*
 import spacemadness.com.lunarconsole.R
-import spacemadness.com.lunarconsole.core.Disposable
 import spacemadness.com.lunarconsole.extensions.clearFocusAndHideKeyboard
 import spacemadness.com.lunarconsole.extensions.isVisible
 import spacemadness.com.lunarconsole.extensions.setPadding
@@ -115,136 +114,121 @@ class ActionsView(context: Context, viewModel: ActionsViewModel) : AbstractLayou
                 private val resetButton =
                     itemView.findViewById<ImageButton>(R.id.lunar_console_variable_button_reset)
 
-                private var subscription: Disposable? = null
+                private var variableId: Int = -1
 
-                override fun onBind(item: VariableItem, position: Int) {
-                    val variable = item.variable
+                init {
+                    // handle text actions
+                    valueEdit.setOnEditorActionListener(createValueEditorActionListener())
 
-                    // value edit
-                    valueEdit.setSelectAllOnFocus(true)
+                    // handle focus changes
+                    valueEdit.setOnFocusChangeListener(createFocusChangeListener(viewModel))
 
-                    // update value
-                    updateValue(variable)
+                    // update boolean value
+                    valueSwitch.setOnCheckedChangeListener { _, isChecked ->
+                        viewModel.updateVariable(variableId, isChecked)
+                    }
 
-                    // remove old subscription
-                    subscription?.let {
-                        dispose(it)
+                    // reset button
+                    resetButton.setOnClickListener {
+                        viewModel.resetVariable(variableId)
+                    }
+
+                    // save button
+                    saveButton.setOnClickListener {
+                        val newValue = valueEdit.text.toString()
+                        viewModel.updateVariable(variableId, newValue)
+                    }
+
+                    // discard button
+                    discardButton.setOnClickListener {
+                        viewModel.discardVariable(variableId)
                     }
 
                     // update UI when the target variable changes
-                    subscription = subscribe(
-                        observable = viewModel.variableOpStream.filter { it.id == variable.id },
-                        observer = ::handleOperation
+                    subscribe(
+                        observable = viewModel.variableStream.filter { it.id == variableId },
+                        observer = ::update
                     )
                 }
 
-                private fun handleOperation(op: VariableOperation) {
-                    when (op) {
-                        is VariableOperation.Update -> updateValue(op.variable)
-                        is VariableOperation.EditStart -> onEditStart()
-                        is VariableOperation.EditStop -> onEditStop(op.modified)
-                    }
-                }
+                override fun onBind(item: VariableItem, position: Int) {
+                    // setup target
+                    variableId = item.id
 
-                private fun updateValue(variable: Variable<*>) {
-                    if (variable is NumericVariable<*> ||
-                        variable is StringVariable ||
-                        variable is EnumVariable
-                    ) {
-                        // name
-                        nameText.text = variable.name
+                    // name
+                    nameText.text = item.name
 
+                    val variable = item.variable
+                    if (item.variable is NumericVariable<*> || item.variable is StringVariable || item.variable is EnumVariable) {
                         // hide boolean switch
                         valueSwitch.isVisible = false
-
-                        // set value text
-                        valueEdit.setText(variable.value.toString())
 
                         // setup InputType to avoid invalid input
                         setInputType(variable)
 
-                        // handle text actions
-                        valueEdit.setOnEditorActionListener(createValueEditorActionListener(variable))
-
-                        // handle focus changes
-                        valueEdit.setOnFocusChangeListener(
-                            createFocusChangeListener(viewModel, variable)
-                        )
-
-                        valueEdit.clearFocusAndHideKeyboard()
-
                     } else if (variable is BooleanVariable) {
                         // hide value edit text
                         valueEdit.isVisible = false
+                    } else {
+                        // FIXME: don't crash in production - just show some error in UI
+                        throw IllegalStateException("Unexpected variable: $variable")
+                    }
 
+                    // editor
+                    saveButton.isVisible = false
+                    discardButton.isVisible = false
+
+                    // update value
+                    update(item)
+                }
+
+                private fun update(item: VariableItem) {
+                    val variable = item.variable
+                    if (variable is NumericVariable<*> ||
+                        variable is StringVariable ||
+                        variable is EnumVariable
+                    ) {
+                        // set value text
+                        valueEdit.setText(variable.value.toString())
+
+                        // editor
+                        saveButton.isVisible = item.editorVisible
+                        discardButton.isVisible = item.editorVisible
+
+                        if (item.editorVisible) {
+                            valueEdit.requestFocus()
+                            valueEdit.selectAll()
+                        } else {
+                            valueEdit.clearFocusAndHideKeyboard()
+                        }
+
+                    } else if (variable is BooleanVariable) {
                         // set boolean value
                         valueSwitch.isChecked = variable.value
-
-                        // update boolean value
-                        valueSwitch.setOnCheckedChangeListener { _, isChecked ->
-                            viewModel.updateVariable(variable.id, isChecked)
-                        }
                     } else {
                         // FIXME: don't crash in production - just show some error in UI
                         throw IllegalStateException("Unexpected variable: $variable")
                     }
 
                     // hide/show reset button for default values
-                    if (variable.isDefault()) {
-                        resetButton.isVisible = false
-                    } else {
-                        resetButton.isVisible = true
-                        resetButton.setOnClickListener {
-                            viewModel.resetVariable(variable.id)
-                        }
-                    }
-
-                    // hide control buttons
-                    saveButton.isVisible = false
-                    saveButton.setOnClickListener {
-                        val newValue = valueEdit.text.toString()
-                        if (variable.stringValue != newValue) {
-                            viewModel.updateVariable(variable.id, newValue)
-                        } else {
-                            valueEdit.clearFocusAndHideKeyboard()
-                        }
-                    }
-
-                    discardButton.isVisible = false
-                    discardButton.setOnClickListener {
-                        valueEdit.setText(variable.stringValue)
-                        valueEdit.clearFocusAndHideKeyboard()
-                    }
+                    resetButton.isVisible = !variable.isDefault()
                 }
 
-                private fun onEditStart() {
-                    saveButton.isVisible = true
-                    discardButton.isVisible = true
-                }
-
-                private fun onEditStop(modified: Boolean) {
-                    saveButton.isVisible = modified
-                    discardButton.isVisible = modified
-                }
-
-                private fun createFocusChangeListener(
-                    viewModel: ActionsViewModel,
-                    variable: Variable<*>
-                ) =
+                private fun createFocusChangeListener(viewModel: ActionsViewModel) =
                     { v: View, hasFocus: Boolean ->
                         if (hasFocus) {
-                            viewModel.startEditing(variable.id)
+                            viewModel.startEditing(variableId)
                         } else {
                             require(v is EditText) { "Unexpected view type: $v" }
-                            viewModel.endEditing(variable.id, v.text.toString())
+                            viewModel.endEditing(variableId, v.text.toString())
                         }
                     }
 
-                private fun createValueEditorActionListener(variable: Variable<*>) =
+                private fun createValueEditorActionListener() =
                     { v: TextView, actionId: Int, event: KeyEvent? ->
                         if (actionId == EditorInfo.IME_ACTION_DONE || event != null && event.action == KeyEvent.ACTION_DOWN && event.keyCode == KeyEvent.KEYCODE_ENTER) {
                             val value = v.text.toString()
-                            if (!viewModel.updateVariable(variable.id, value)) {
+                            if (!viewModel.updateVariable(variableId, value)) {
                                 v.error = "Invalid value"
                             }
                             true

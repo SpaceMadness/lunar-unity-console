@@ -26,7 +26,7 @@ class RegistryListAdapter : ListAdapter<ListItem, ViewHolder<*>>(diff) {
     }
 
     override fun onViewRecycled(holder: ViewHolder<*>) {
-        holder.dispose()
+        holder.recycle()
     }
 
     override fun getItemViewType(position: Int): Int {
