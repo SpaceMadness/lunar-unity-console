@@ -26,7 +26,7 @@ data class GroupItem(val title: String, val collapsed: Boolean) : ListItem(ItemT
 data class ActionItem(val action: Action) :
     ListItemWithId(ItemType.Action, action.id)
 
-data class VariableItem(val variable: Variable<*>, val editorVisible: Boolean = false) :
+data class VariableItem(val variable: Variable<*>) :
     ListItemWithId(ItemType.Variable, variable.id) {
     val name = variable.name
 }

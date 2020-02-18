@@ -105,11 +105,8 @@ class ActionsView(context: Context, viewModel: ActionsViewModel) : AbstractLayou
                 private val valueSwitch =
                     itemView.findViewById<Switch>(R.id.lunar_console_variable_entry_switch)
 
-                private val saveButton =
-                    itemView.findViewById<ImageButton>(R.id.lunar_console_variable_button_save)
-
-                private val discardButton =
-                    itemView.findViewById<ImageButton>(R.id.lunar_console_variable_button_discard)
+                private val applyButton =
+                    itemView.findViewById<ImageButton>(R.id.lunar_console_variable_button_apply)
 
                 private val resetButton =
                     itemView.findViewById<ImageButton>(R.id.lunar_console_variable_button_reset)
@@ -128,26 +125,28 @@ class ActionsView(context: Context, viewModel: ActionsViewModel) : AbstractLayou
                         viewModel.updateVariable(variableId, isChecked)
                     }
 
+                    // update UI when the target variable changes
+                    subscribe(
+                        observable = viewModel.variableStream.filter { it.id == variableId },
+                        observer = ::update
+                    )
+
                     // reset button
                     resetButton.setOnClickListener {
                         viewModel.resetVariable(variableId)
                     }
 
-                    // save button
-                    saveButton.setOnClickListener {
+                    // apply button
+                    applyButton.isVisible = false
+                    applyButton.setOnClickListener {
                         val newValue = valueEdit.text.toString()
                         viewModel.updateVariable(variableId, newValue)
                     }
 
-                    // discard button
-                    discardButton.setOnClickListener {
-                        viewModel.discardVariable(variableId)
-                    }
-
-                    // update UI when the target variable changes
+                    // show editor UI
                     subscribe(
-                        observable = viewModel.variableStream.filter { it.id == variableId },
-                        observer = ::update
+                        observable = viewModel.editorStream.filter { it.id == variableId },
+                        observer = ::updateEditor
                     )
                 }
 
@@ -175,8 +174,7 @@ class ActionsView(context: Context, viewModel: ActionsViewModel) : AbstractLayou
                     }
 
                     // editor
-                    saveButton.isVisible = false
-                    discardButton.isVisible = false
+                    applyButton.isVisible = false
 
                     // update value
                     update(item)
@@ -190,18 +188,6 @@ class ActionsView(context: Context, viewModel: ActionsViewModel) : AbstractLayou
                     ) {
                         // set value text
                         valueEdit.setText(variable.value.toString())
-
-                        // editor
-                        saveButton.isVisible = item.editorVisible
-                        discardButton.isVisible = item.editorVisible
-
-                        if (item.editorVisible) {
-                            valueEdit.requestFocus()
-                            valueEdit.selectAll()
-                        } else {
-                            valueEdit.clearFocusAndHideKeyboard()
-                        }
-
                     } else if (variable is BooleanVariable) {
                         // set boolean value
                         valueSwitch.isChecked = variable.value
@@ -214,13 +200,32 @@ class ActionsView(context: Context, viewModel: ActionsViewModel) : AbstractLayou
                     resetButton.isVisible = !variable.isDefault()
                 }
 
+                private fun updateEditor(op: EditOperation) {
+                    when (op) {
+                        is EditOperation.Start -> {
+                            applyButton.isVisible = true
+                            valueEdit.requestFocus()
+                            valueEdit.selectAll()
+                        }
+                        is EditOperation.Commit -> {
+                            applyButton.isVisible = false
+                            valueEdit.clearFocusAndHideKeyboard()
+                        }
+                        is EditOperation.Discard -> {
+                            applyButton.isVisible = false
+                            valueEdit.setText(op.oldValue)
+                            valueEdit.clearFocusAndHideKeyboard()
+                        }
+                    }
+                }
+
                 private fun createFocusChangeListener(viewModel: ActionsViewModel) =
                     { v: View, hasFocus: Boolean ->
                         if (hasFocus) {
                             viewModel.startEditing(variableId)
                         } else {
                             require(v is EditText) { "Unexpected view type: $v" }
-                            viewModel.endEditing(variableId, v.text.toString())
+                            viewModel.endEditing(variableId, apply = false)
                         }
                     }
 

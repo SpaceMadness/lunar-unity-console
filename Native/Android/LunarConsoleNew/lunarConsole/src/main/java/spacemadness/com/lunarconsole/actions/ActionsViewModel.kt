@@ -21,12 +21,10 @@ class ActionsViewModel(
             output as List<ListItem>
         }
 
-    private val variablesSubject = PublishSubject<VariableItem>()
+    private val editorSubject = PublishSubject<EditOperation>()
+    val editorStream : Observable<EditOperation> = editorSubject
 
-    val variableStream = merge(
-        variables.variableStream.map { VariableItem(it) },
-        variablesSubject
-    )
+    val variableStream = variables.variableStream.map { VariableItem(it) }
 
     fun runAction(id: ItemId) {
         actionRunner.runAction(id)
@@ -39,14 +37,17 @@ class ActionsViewModel(
     fun updateVariable(id: ItemId, value: String): Boolean {
         val variable = findVariable(id)
         if (variable.isValid(value)) {
-            when (variable) {
+            val updated = when (variable) {
                 is StringVariable -> variables.updateVariable(variable, value)
                 is IntVariable -> variables.updateVariable(variable, value.toInt())
                 is FloatVariable -> variables.updateVariable(variable, value.toFloat())
                 is EnumVariable -> variables.updateVariable(variable, value)
                 else -> throw IllegalArgumentException("Unexpected variable: ${variable.javaClass}")
             }
-            return true
+            // stop editing if variable value was changed
+            endEditing(id, apply = true)
+
+            return updated
         }
         return false
     }
@@ -57,20 +58,17 @@ class ActionsViewModel(
         variables.updateVariable(variable, value)
     }
 
-    fun discardVariable(variableId: Int) {
-        val variable = findVariable(variableId)
-        variablesSubject.post(VariableItem(variable))
-    }
-
     fun startEditing(variableId: ItemId) {
-        val variable = findVariable(variableId)
-        variablesSubject.post(VariableItem(variable, editorVisible = true))
+        editorSubject.post(EditOperation.Start(variableId))
     }
 
-    fun endEditing(variableId: ItemId, value: String) {
-        val variable = findVariable(variableId)
-        val modified = value != variable.stringValue
-        variablesSubject.post(VariableItem(variable))
+    fun endEditing(variableId: ItemId, apply: Boolean) {
+        if (apply) {
+            editorSubject.post(EditOperation.Commit(variableId))
+        } else {
+            val variable = findVariable(variableId)
+            editorSubject.post(EditOperation.Discard(variableId, variable.stringValue))
+        }
     }
 
     private fun addListItems(title: String, items: List<Item>, output: MutableList<ListItem>) {
@@ -107,4 +105,10 @@ class ActionsViewModel(
 
     private fun findVariable(id: ItemId) = variables.find(id)
         ?: throw IllegalArgumentException("Variable not found: $id")
+}
+
+sealed class EditOperation(val id: ItemId) {
+    class Start(id: ItemId) : EditOperation(id)
+    class Commit(id: ItemId) : EditOperation(id)
+    class Discard(id: ItemId, val oldValue: String) : EditOperation(id)
 }

@@ -20,7 +20,7 @@ class VariableRegistry(sorted: Boolean) : ItemRegistry<Variable<*>>(sorted) {
     fun updateVariable(variable: BooleanVariable, value: Boolean) = updateVariable(variable.id, value)
     fun updateVariable(variable: EnumVariable, value: String) = updateVariable(variable.id, value)
 
-    private fun <T> updateVariable(id: ItemId, value: T) {
+    private fun <T> updateVariable(id: ItemId, value: T): Boolean {
         // find variable
         val variable = find(id) ?: throw IllegalArgumentException("Variable not registered: $id")
 
@@ -33,6 +33,9 @@ class VariableRegistry(sorted: Boolean) : ItemRegistry<Variable<*>>(sorted) {
             val newVariable = variable.update(value)
             update(id, newVariable)
             variableSubject.post(newVariable)
+            return true
         }
+
+        return false
     }
 }

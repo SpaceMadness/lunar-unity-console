@@ -28,18 +28,11 @@
         android:src="@drawable/lunar_console_icon_variable_reset" />
 
     <ImageButton
-        android:id="@+id/lunar_console_variable_button_save"
+        android:id="@+id/lunar_console_variable_button_apply"
         style="@style/lunar_console_base_button_style"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/lunar_console_icon_variable_save" />
-
-    <ImageButton
-        android:id="@+id/lunar_console_variable_button_discard"
-        style="@style/lunar_console_base_button_style"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/lunar_console_icon_variable_discard" />
 
     <EditText
         android:id="@+id/lunar_console_variable_entry_value"
