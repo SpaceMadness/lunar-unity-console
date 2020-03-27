@@ -1602,6 +1602,16 @@ namespace LunarConsolePlugin
 
         #endif // LUNAR_CONSOLE_ENABLED
 
+        public static bool isConsoleEnabled {
+            get {
+                #if LUNAR_CONSOLE_ENABLED
+                return instance != null;
+                #else
+                return false;
+                #endif
+            }
+        }
+
         public static LunarConsole instance
         {
             get { return s_instance; }
