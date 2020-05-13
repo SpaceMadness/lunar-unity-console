@@ -51,6 +51,7 @@ import spacemadness.com.lunarconsole.ui.gestures.GestureRecognizer;
 import spacemadness.com.lunarconsole.ui.gestures.GestureRecognizerFactory;
 import spacemadness.com.lunarconsole.utils.DictionaryUtils;
 import spacemadness.com.lunarconsole.utils.NotImplementedException;
+import spacemadness.com.lunarconsole.utils.StringUtils;
 
 import static android.widget.FrameLayout.LayoutParams;
 import static spacemadness.com.lunarconsole.console.Console.Options;
@@ -339,6 +340,7 @@ public class ConsolePluginImpl implements ConsolePlugin, NotificationCenter.OnNo
 		try
 		{
 			if (!settings.removeRichTextTags) {
+				message = StringUtils.transformRichText(message);
 				return Html.fromHtml(message);
 			}
 		}
