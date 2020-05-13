@@ -23,6 +23,7 @@ package spacemadness.com.lunarconsole.console;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.text.Spanned;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -35,75 +36,73 @@ import static spacemadness.com.lunarconsole.console.ConsoleLogType.*;
 /**
  * Class for representing console log messages
  */
-public class ConsoleLogEntry extends BaseEntry
-{
-    private static final Appearance APPEARANCE_LOG          = new Appearance(R.drawable.lunar_console_icon_log, R.color.lunar_console_color_overlay_entry_log);
-    private static final Appearance APPEARANCE_LOG_ERROR    = new Appearance(R.drawable.lunar_console_icon_log_error, R.color.lunar_console_color_overlay_entry_log_error);
-    private static final Appearance APPEARANCE_LOG_WARNING  = new Appearance(R.drawable.lunar_console_icon_log_warning, R.color.lunar_console_color_overlay_entry_log_warning);
+public class ConsoleLogEntry extends BaseEntry {
+    private static final Appearance APPEARANCE_LOG = new Appearance(R.drawable.lunar_console_icon_log, R.color.lunar_console_color_overlay_entry_log);
+    private static final Appearance APPEARANCE_LOG_ERROR = new Appearance(R.drawable.lunar_console_icon_log_error, R.color.lunar_console_color_overlay_entry_log_error);
+    private static final Appearance APPEARANCE_LOG_WARNING = new Appearance(R.drawable.lunar_console_icon_log_warning, R.color.lunar_console_color_overlay_entry_log_warning);
 
     private static final Appearance[] LOG_ENTRY_ICON_RES_LOOKUP = new Appearance[COUNT];
 
-    static
-    {
-        LOG_ENTRY_ICON_RES_LOOKUP[ERROR]        = APPEARANCE_LOG_ERROR;
-        LOG_ENTRY_ICON_RES_LOOKUP[ASSERT]       = APPEARANCE_LOG_ERROR;
-        LOG_ENTRY_ICON_RES_LOOKUP[WARNING]      = APPEARANCE_LOG_WARNING;
-        LOG_ENTRY_ICON_RES_LOOKUP[LOG]          = APPEARANCE_LOG;
-        LOG_ENTRY_ICON_RES_LOOKUP[EXCEPTION]    = APPEARANCE_LOG_ERROR;
+    static {
+        LOG_ENTRY_ICON_RES_LOOKUP[ERROR] = APPEARANCE_LOG_ERROR;
+        LOG_ENTRY_ICON_RES_LOOKUP[ASSERT] = APPEARANCE_LOG_ERROR;
+        LOG_ENTRY_ICON_RES_LOOKUP[WARNING] = APPEARANCE_LOG_WARNING;
+        LOG_ENTRY_ICON_RES_LOOKUP[LOG] = APPEARANCE_LOG;
+        LOG_ENTRY_ICON_RES_LOOKUP[EXCEPTION] = APPEARANCE_LOG_ERROR;
     }
 
     public int index;
     public final byte type;
     public final String message;
+    public final /* Nullable */ Spanned spannedMessage;
     public final String stackTrace;
 
-    /** For testing purposes */
-    ConsoleLogEntry(String message)
-    {
+    /**
+     * For testing purposes
+     */
+    ConsoleLogEntry(String message) {
         this(ConsoleLogType.LOG, message, "");
     }
 
-    public ConsoleLogEntry(byte type, String message)
-    {
+    public ConsoleLogEntry(byte type, String message) {
         this(type, message, null);
     }
 
-    public ConsoleLogEntry(byte type, String message, String stackTrace)
-    {
+    public ConsoleLogEntry(byte type, String message, String stackTrace) {
+        this(type, message, null, stackTrace);
+    }
+
+    public ConsoleLogEntry(byte type, String message, Spanned spannedMessage, String stackTrace) {
         this.type = type;
         this.message = message;
+        this.spannedMessage = spannedMessage;
         this.stackTrace = stackTrace;
     }
 
     @Override
-    public long getItemId()
-    {
+    public long getItemId() {
         return type;
     }
 
     @SuppressWarnings("deprecation")
-    public Drawable getIconDrawable(Context context)
-    {
+    public Drawable getIconDrawable(Context context) {
         int id = getAppearance(type).iconId;
         return context.getResources().getDrawable(id);
     }
 
     @SuppressWarnings("deprecation")
-    public int getBackgroundColor(Context context, int position)
-    {
+    public int getBackgroundColor(Context context, int position) {
         int colorId = position % 2 == 0 ?
                 R.color.lunar_console_color_cell_background_dark :
                 R.color.lunar_console_color_cell_background_light;
         return context.getResources().getColor(colorId);
     }
 
-    public boolean hasStackTrace()
-    {
+    public boolean hasStackTrace() {
         return stackTrace != null && stackTrace.length() > 0;
     }
 
-    static Appearance getAppearance(int type)
-    {
+    static Appearance getAppearance(int type) {
         return type >= 0 && type < LOG_ENTRY_ICON_RES_LOOKUP.length ?
                 LOG_ENTRY_ICON_RES_LOOKUP[type] : APPEARANCE_LOG;
     }
@@ -111,13 +110,11 @@ public class ConsoleLogEntry extends BaseEntry
     //////////////////////////////////////////////////////////////////////////////
     // Entry appearance
 
-    static class Appearance
-    {
+    static class Appearance {
         public final int iconId;
         public final int overlayColorId;
 
-        Appearance(int iconId, int overlayColorId)
-        {
+        Appearance(int iconId, int overlayColorId) {
             this.iconId = iconId;
             this.overlayColorId = overlayColorId;
         }
@@ -126,15 +123,13 @@ public class ConsoleLogEntry extends BaseEntry
     //////////////////////////////////////////////////////////////////////////////
     // View holder
 
-    public static class ViewHolder extends ConsoleLogAdapter.ViewHolder<ConsoleLogEntry>
-    {
+    public static class ViewHolder extends ConsoleLogAdapter.ViewHolder<ConsoleLogEntry> {
         private final View layout;
         private final ImageView iconView;
         private final TextView messageView;
         private final TextView collapsedCountView;
 
-        public ViewHolder(View itemView)
-        {
+        public ViewHolder(View itemView) {
             super(itemView);
 
             layout = itemView.findViewById(R.id.lunar_console_log_entry_layout);
@@ -144,21 +139,21 @@ public class ConsoleLogEntry extends BaseEntry
         }
 
         @Override
-        public void onBindViewHolder(ConsoleLogEntry entry, int position)
-        {
+        public void onBindViewHolder(ConsoleLogEntry entry, int position) {
             Context context = getContext();
             layout.setBackgroundColor(entry.getBackgroundColor(context, position));
             iconView.setImageDrawable(entry.getIconDrawable(context));
-            messageView.setText(entry.message);
+            if (entry.spannedMessage != null) {
+                messageView.setText(entry.spannedMessage);
+            } else {
+                messageView.setText(entry.message);
+            }
 
             ConsoleCollapsedLogEntry collapsedEntry = ObjectUtils.as(entry, ConsoleCollapsedLogEntry.class);
-            if (collapsedEntry != null && collapsedEntry.count > 1)
-            {
+            if (collapsedEntry != null && collapsedEntry.count > 1) {
                 collapsedCountView.setVisibility(View.VISIBLE);
                 collapsedCountView.setText(Integer.toString(collapsedEntry.count));
-            }
-            else
-            {
+            } else {
                 collapsedCountView.setVisibility(View.GONE);
             }
         }

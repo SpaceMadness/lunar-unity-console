@@ -23,6 +23,8 @@ package spacemadness.com.lunarconsole.console;
 
 import android.app.Activity;
 import android.app.Application;
+import android.text.Html;
+import android.text.Spanned;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -144,7 +146,7 @@ public class ConsolePluginImpl implements ConsolePlugin, NotificationCenter.OnNo
 
 	@Override
 	public void logMessage(String message, String stackTrace, int logType) {
-		entryDispatcher.add(new ConsoleLogEntry((byte) logType, message, stackTrace));
+		entryDispatcher.add(new ConsoleLogEntry((byte) logType, message, CreateSpanned(message), stackTrace));
 	}
 
 	@Override
@@ -331,6 +333,20 @@ public class ConsolePluginImpl implements ConsolePlugin, NotificationCenter.OnNo
 			consoleView.destroy();
 			consoleView = null;
 		}
+	}
+
+	private Spanned CreateSpanned(String message) {
+		try
+		{
+			if (!settings.removeRichTextTags) {
+				return Html.fromHtml(message);
+			}
+		}
+		catch (Exception e)
+		{
+		}
+
+		return null;
 	}
 
 	//endregion
