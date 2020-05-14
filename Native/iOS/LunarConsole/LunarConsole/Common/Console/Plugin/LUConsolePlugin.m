@@ -131,7 +131,7 @@ static NSString *const kScriptMessageTrackEvent = @"track_event";
 
         [UIView animateWithDuration:kWindowAnimationDuration
                          animations:^{
-                             _consoleWindow.frame = windowFrame;
+                            self->_consoleWindow.frame = windowFrame;
                          }];
 
         [self registerNotifications];
@@ -191,7 +191,7 @@ static NSString *const kScriptMessageTrackEvent = @"track_event";
 
     // TODO: use batching
     lunar_dispatch_main(^{
-        [_console logMessage:message stackTrace:stackTrace type:type];
+        [self->_console logMessage:message stackTrace:stackTrace type:type];
     });
 }
 
