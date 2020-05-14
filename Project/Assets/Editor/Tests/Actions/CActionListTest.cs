@@ -19,7 +19,7 @@
 //  limitations under the License.
 //
 
-﻿using System;
+using System;
 using System.Threading;
 using System.Collections.Generic;
 
@@ -30,8 +30,6 @@ using LunarConsolePluginInternal;
 
 namespace Actions
 {
-    using Assert = NUnit.Framework.Assert;
-    
     [TestFixture]
     public class CActionListTest : TestFixtureBase
     {
@@ -57,9 +55,9 @@ namespace Actions
             CAction a2 = new CAction("a2", del2);
             CAction a3 = new CAction("a3", del3);
 
-            actionList.Add(a3);
             actionList.Add(a1);
             actionList.Add(a2);
+            actionList.Add(a3);
 
             CAction[] actions = { a1, a2, a3 };
             int index = 0;
@@ -85,10 +83,10 @@ namespace Actions
             CAction a2 = new CAction("a2", del2);
             CAction a3 = new CAction("a3", del3);
             
-            actionList.Add(a3);
             actionList.Add(a1);
             actionList.Add(a2);
-            
+            actionList.Add(a3);
+
             Assert.AreSame(a1, actionList.Find(a1.Id));
             Assert.AreSame(a2, actionList.Find(a2.Id));
             Assert.AreSame(a3, actionList.Find(a3.Id));
@@ -131,9 +129,9 @@ namespace Actions
             CAction a2 = new CAction("a2", del2);
             CAction a3 = new CAction("a3", del3);
             
-            actionList.Add(a3);
             actionList.Add(a1);
             actionList.Add(a2);
+            actionList.Add(a3);
 
             Assert.AreSame(a1, actionList.Find(a1.Id));
             Assert.AreSame(a2, actionList.Find(a2.Id));
