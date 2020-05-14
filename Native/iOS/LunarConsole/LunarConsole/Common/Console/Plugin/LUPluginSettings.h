@@ -118,8 +118,8 @@ typedef enum : NSUInteger {
 /** Gesture type to open the console. */
 @property (nonatomic, assign) LUConsoleGesture gesture;
 
-/** Indicates if reach text tags should be ignored. */
-@property (nonatomic, assign) BOOL removeRichTextTags;
+/** Indicates if reach text tags should be supported. */
+@property (nonatomic, assign) BOOL richTextTags;
 
 /** Indicates if actions should be sorted. */
 @property (nonatomic, assign) BOOL sortActions;
