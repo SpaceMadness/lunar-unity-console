@@ -162,7 +162,7 @@ public class WarningView extends FrameLayout implements Destroyable
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Getters/Setters
 
-    public void setMessage(String message)
+    public void setMessage(CharSequence message)
     {
         messageText.setText(message);
     }

@@ -54,7 +54,7 @@ public class ConsoleLogEntry extends BaseEntry {
     public int index;
     public final byte type;
     public final String message;
-    public final /* Nullable */ Spanned spannedMessage;
+    final /* Nullable */ Spanned spannedMessage;
     public final String stackTrace;
 
     /**
@@ -77,6 +77,11 @@ public class ConsoleLogEntry extends BaseEntry {
         this.message = message;
         this.spannedMessage = spannedMessage;
         this.stackTrace = stackTrace;
+    }
+
+    public CharSequence getMessage()
+    {
+        return spannedMessage != null ? spannedMessage : message;
     }
 
     @Override
@@ -143,11 +148,7 @@ public class ConsoleLogEntry extends BaseEntry {
             Context context = getContext();
             layout.setBackgroundColor(entry.getBackgroundColor(context, position));
             iconView.setImageDrawable(entry.getIconDrawable(context));
-            if (entry.spannedMessage != null) {
-                messageView.setText(entry.spannedMessage);
-            } else {
-                messageView.setText(entry.message);
-            }
+            messageView.setText(entry.getMessage());
 
             ConsoleCollapsedLogEntry collapsedEntry = ObjectUtils.as(entry, ConsoleCollapsedLogEntry.class);
             if (collapsedEntry != null && collapsedEntry.count > 1) {

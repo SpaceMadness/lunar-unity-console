@@ -33,8 +33,6 @@ namespace LunarConsolePluginInternal
     {
         private static readonly char[] kSpaceSplitChars = { ' ' };
 
-        private static readonly Regex kRichTagRegex = new Regex("(<color=.*?>)|(<b>)|(<i>)|(</color>)|(</b>)|(</i>)");
-
         internal static string TryFormat(string format, params object[] args)
         {
             if (format != null && args != null && args.Length > 0)
@@ -394,15 +392,6 @@ namespace LunarConsolePluginInternal
         }
 
         #endregion
-
-        //////////////////////////////////////////////////////////////////////////////
-
-        public static string RemoveRichTextTags(string line)
-        {
-            return kRichTagRegex.Replace(line, String.Empty);
-        }
-
-        //////////////////////////////////////////////////////////////////////////////
 
         #region Suggestion
 

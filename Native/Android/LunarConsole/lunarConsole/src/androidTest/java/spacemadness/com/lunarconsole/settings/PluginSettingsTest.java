@@ -51,7 +51,7 @@ public class PluginSettingsTest extends InstrumentationTestCase {
 		expected.capacity = 4096;
 		expected.trim = 512;
 		expected.gesture = Gesture.SWIPE_DOWN;
-		expected.removeRichTextTags = false;
+		expected.richTextTags = false;
 		expected.sortActions = true;
 		expected.sortVariables = false;
 		expected.emails = new String[]{

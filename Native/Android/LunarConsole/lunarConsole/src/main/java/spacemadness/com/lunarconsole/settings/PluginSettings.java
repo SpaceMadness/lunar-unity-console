@@ -57,7 +57,7 @@ public final class PluginSettings {
 	/**
 	 * Indicates if reach text tags should be ignored.
 	 */
-	public @Readonly boolean removeRichTextTags;
+	public @Readonly boolean richTextTags;
 
 	/**
 	 * Indicates if actions should be sorted.
@@ -85,7 +85,7 @@ public final class PluginSettings {
 
 		if (capacity != settings.capacity) return false;
 		if (trim != settings.trim) return false;
-		if (removeRichTextTags != settings.removeRichTextTags) return false;
+		if (richTextTags != settings.richTextTags) return false;
 		if (sortActions != settings.sortActions) return false;
 		if (sortVariables != settings.sortVariables) return false;
 		if (exceptionWarning != null ? !exceptionWarning.equals(settings.exceptionWarning) : settings.exceptionWarning != null)
@@ -104,7 +104,7 @@ public final class PluginSettings {
 		result = 31 * result + capacity;
 		result = 31 * result + trim;
 		result = 31 * result + (gesture != null ? gesture.hashCode() : 0);
-		result = 31 * result + (removeRichTextTags ? 1 : 0);
+		result = 31 * result + (richTextTags ? 1 : 0);
 		result = 31 * result + (sortActions ? 1 : 0);
 		result = 31 * result + (sortVariables ? 1 : 0);
 		result = 31 * result + Arrays.hashCode(emails);

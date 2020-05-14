@@ -166,9 +166,9 @@ namespace LunarConsolePlugin
         [SerializeField]
         public Gesture gesture = Gesture.SwipeDown;
 
-        [Tooltip("If checked - removes <color>, <b> and <i> rich text tags from the output (may cause performance overhead)")]
+        [Tooltip("If checked - enables Unity Rich Text in log output")]
         [SerializeField]
-        public bool removeRichTextTags;
+        public bool richTextTags;
 
         #if LUNAR_CONSOLE_FREE
         [HideInInspector]
@@ -614,9 +614,8 @@ namespace LunarConsolePlugin
 
         #region Messages
 
-        void OnLogMessageReceived(string message, string stackTrace, LogType type)
+        private void OnLogMessageReceived(string message, string stackTrace, LogType type)
         {
-            message = m_settings.removeRichTextTags ? StringUtils.RemoveRichTextTags(message) : message;
             m_platform.OnLogMessageReceived(message, stackTrace, type);
         }
 

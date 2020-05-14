@@ -147,7 +147,7 @@ public class ConsolePluginImpl implements ConsolePlugin, NotificationCenter.OnNo
 
 	@Override
 	public void logMessage(String message, String stackTrace, int logType) {
-		entryDispatcher.add(new ConsoleLogEntry((byte) logType, message, CreateSpanned(message), stackTrace));
+		entryDispatcher.add(new ConsoleLogEntry((byte) logType, message, createSpannedMessage(message), stackTrace));
 	}
 
 	@Override
@@ -319,7 +319,7 @@ public class ConsolePluginImpl implements ConsolePlugin, NotificationCenter.OnNo
 
 			// show warning
 			if (shouldShowWarning(entry.type) && !isConsoleShown()) {
-				showWarning(entry.message);
+				showWarning(entry);
 			}
 		}
 	}
@@ -336,12 +336,11 @@ public class ConsolePluginImpl implements ConsolePlugin, NotificationCenter.OnNo
 		}
 	}
 
-	private Spanned CreateSpanned(String message) {
+	private Spanned createSpannedMessage(String message) {
 		try
 		{
-			if (!settings.removeRichTextTags) {
-				message = StringUtils.transformRichText(message);
-				return Html.fromHtml(message);
+			if (settings.richTextTags) {
+				return Html.fromHtml(StringUtils.richTextToHtml(message));
 			}
 		}
 		catch (Exception e)
@@ -372,7 +371,7 @@ public class ConsolePluginImpl implements ConsolePlugin, NotificationCenter.OnNo
 		return true;
 	}
 
-	private void showWarning(final String message) {
+	private void showWarning(final ConsoleLogEntry entry) {
 		try {
 			if (warningView == null) {
 				Log.d(WARNING_VIEW, "Show warning");
@@ -400,7 +399,7 @@ public class ConsolePluginImpl implements ConsolePlugin, NotificationCenter.OnNo
 				addOverlayView(activity, warningView, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
 			}
 
-			warningView.setMessage(message);
+			warningView.setMessage(entry.getMessage());
 		} catch (Exception e) {
 			Log.e(e, "Can't show warning");
 		}

@@ -23,43 +23,41 @@ package spacemadness.com.lunarconsole.utils;
 
 import junit.framework.TestCase;
 
-import static spacemadness.com.lunarconsole.utils.StringUtils.*;
-
 public class StringUtilsTest extends TestCase
 {
     public void testLength() throws Exception
     {
-        assertEquals(5, length("12345"));
-        assertEquals(0, length(""));
-        assertEquals(0, length(null));
+        assertEquals(5, StringUtils.length("12345"));
+        assertEquals(0, StringUtils.length(""));
+        assertEquals(0, StringUtils.length(null));
     }
 
     public void testContains() throws Exception
     {
-        assertTrue(contains("12345", "34"));
-        assertFalse(contains("12345", null));
-        assertFalse(contains(null, "34"));
-        assertFalse(contains(null, null));
+        assertTrue(StringUtils.contains("12345", "34"));
+        assertFalse(StringUtils.contains("12345", null));
+        assertFalse(StringUtils.contains(null, "34"));
+        assertFalse(StringUtils.contains(null, null));
     }
 
     public void testContainsIgnoreCase() throws Exception
     {
-        assertTrue(containsIgnoreCase("TEST", "es"));
-        assertTrue(containsIgnoreCase("TEST", "test"));
-        assertFalse(containsIgnoreCase("TEST", "test!"));
-        assertFalse(containsIgnoreCase("TEST", null));
-        assertFalse(containsIgnoreCase(null, "es"));
-        assertFalse(containsIgnoreCase(null, null));
+        assertTrue(StringUtils.containsIgnoreCase("TEST", "es"));
+        assertTrue(StringUtils.containsIgnoreCase("TEST", "test"));
+        assertFalse(StringUtils.containsIgnoreCase("TEST", "test!"));
+        assertFalse(StringUtils.containsIgnoreCase("TEST", null));
+        assertFalse(StringUtils.containsIgnoreCase(null, "es"));
+        assertFalse(StringUtils.containsIgnoreCase(null, null));
     }
 
     public void testHasPrefix() throws Exception
     {
-        assertTrue(hasPrefix("12345", "123"));
-        assertTrue(hasPrefix("12345", "12345"));
-        assertFalse(hasPrefix("12345", "12345!"));
-        assertFalse(hasPrefix("12345", null));
-        assertFalse(hasPrefix(null, "12345!"));
-        assertFalse(hasPrefix(null, null));
+        assertTrue(StringUtils.hasPrefix("12345", "123"));
+        assertTrue(StringUtils.hasPrefix("12345", "12345"));
+        assertFalse(StringUtils.hasPrefix("12345", "12345!"));
+        assertFalse(StringUtils.hasPrefix("12345", null));
+        assertFalse(StringUtils.hasPrefix(null, "12345!"));
+        assertFalse(StringUtils.hasPrefix(null, null));
     }
 
     public void testCamelCaseToWords() throws Exception
@@ -69,5 +67,13 @@ public class StringUtilsTest extends TestCase
 
         string = "word";
         assertEquals("Word", StringUtils.camelCaseToWords(string));
+    }
+
+    public void testRichTextToHtml()
+    {
+        assertNull(StringUtils.richTextToHtml(null));
+        assertEquals("", StringUtils.richTextToHtml(""));
+        assertEquals("This is string", StringUtils.richTextToHtml("This is string"));
+        assertEquals("This is <font color=red>red</font> text", StringUtils.richTextToHtml("This is <color=red>red</color> text"));
     }
 }

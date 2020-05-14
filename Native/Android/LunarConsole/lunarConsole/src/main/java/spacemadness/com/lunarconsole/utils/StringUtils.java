@@ -23,7 +23,6 @@ package spacemadness.com.lunarconsole.utils;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -310,7 +309,7 @@ public class StringUtils {
         return result.toString();
     }
 
-    public static String transformRichText(String message) {
+    public static String richTextToHtml(String message) {
         if (!IsNullOrEmpty(message) && message.contains("<color=")) {
             return message
                     .replaceAll("<color=", "<font color=")

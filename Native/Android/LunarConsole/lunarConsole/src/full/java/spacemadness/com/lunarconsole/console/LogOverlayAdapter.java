@@ -29,40 +29,40 @@ import android.widget.TextView;
 import spacemadness.com.lunarconsole.R;
 
 public class LogOverlayAdapter extends BaseConsoleLogAdapter {
-	private final LogViewStyle style;
+    private final LogViewStyle style;
 
-	public LogOverlayAdapter(DataSource dataSource, LogViewStyle style) {
-		super(dataSource);
-		this.style = style;
-	}
+    public LogOverlayAdapter(DataSource dataSource, LogViewStyle style) {
+        super(dataSource);
+        this.style = style;
+    }
 
-	@Override
-	protected ViewHolder createViewHolder(View convertView, int position) {
-		return new OverlayViewHolder(convertView);
-	}
+    @Override
+    protected ViewHolder createViewHolder(View convertView, int position) {
+        return new OverlayViewHolder(convertView);
+    }
 
-	@Override
-	protected View createConvertView(ViewGroup parent, int position) {
-		LayoutInflater inflater = LayoutInflater.from(parent.getContext());
-		return inflater.inflate(R.layout.lunar_console_layout_overlay_log_entry, parent, false);
-	}
+    @Override
+    protected View createConvertView(ViewGroup parent, int position) {
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+        return inflater.inflate(R.layout.lunar_console_layout_overlay_log_entry, parent, false);
+    }
 
-	private class OverlayViewHolder extends ViewHolder<ConsoleLogEntry> {
-		private final TextView messageView;
+    private class OverlayViewHolder extends ViewHolder<ConsoleLogEntry> {
+        private final TextView messageView;
 
-		public OverlayViewHolder(View itemView) {
-			super(itemView);
-			messageView = itemView.findViewById(R.id.lunar_console_overlay_log_entry_message);
-		}
+        public OverlayViewHolder(View itemView) {
+            super(itemView);
+            messageView = itemView.findViewById(R.id.lunar_console_overlay_log_entry_message);
+        }
 
-		@Override
-		public void onBindViewHolder(ConsoleLogEntry entry, int position) {
-			final LogEntryStyle entryStyle = style.getEntryStyle(entry.type);
-			messageView.setText(entry.message);
-			messageView.setTextColor(entryStyle.textColor);
-			if (entryStyle.hasBackground()) {
-				messageView.setBackgroundColor(entryStyle.backgroundColor);
-			}
-		}
-	}
+        @Override
+        public void onBindViewHolder(ConsoleLogEntry entry, int position) {
+            final LogEntryStyle entryStyle = style.getEntryStyle(entry.type);
+            messageView.setTextColor(entryStyle.textColor);
+            messageView.setText(entry.getMessage());
+            if (entryStyle.hasBackground()) {
+                messageView.setBackgroundColor(entryStyle.backgroundColor);
+            }
+        }
+    }
 }
