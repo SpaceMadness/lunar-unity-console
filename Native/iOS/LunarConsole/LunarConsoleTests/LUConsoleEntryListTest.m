@@ -793,7 +793,7 @@ static LUConsoleLogEntryList *createEntryListWithEntries(NSUInteger capacity, NS
     NSMutableArray *actual = [NSMutableArray array];
     for (int i = 0; i < list.count; ++i)
     {
-        [actual addObject:[list entryAtIndex:i].message];
+        [actual addObject:[list entryAtIndex:i].message.text];
     }
     
     XCTAssertEqual(expected.count, list.count, @"Expected [%@] but was [%@]", [expected componentsJoinedByString:@","], [actual componentsJoinedByString:@","]);
@@ -820,7 +820,7 @@ static LUConsoleLogEntryList *createEntryListWithEntries(NSUInteger capacity, NS
                                         expectedIndex:(NSInteger)expectedIndex
 {
     LUConsoleCollapsedLogEntry *entry = [list collapsedEntryAtIndex:index];
-    XCTAssertEqualObjects(expectedMessage, entry.message, @"Expected '%@' but was '%@", expectedMessage, entry.message);
+    XCTAssertEqualObjects(expectedMessage, entry.message.text, @"Expected '%@' but was '%@", expectedMessage, entry.message);
     XCTAssertEqual(expectedCount, entry.count);
     XCTAssertEqual(expectedIndex, entry.index);
 }
@@ -831,7 +831,8 @@ static LUConsoleLogEntryList *createEntryListWithEntries(NSUInteger capacity, NS
 
 + (instancetype)entryWithType:(LUConsoleLogType)type message:(NSString *)message
 {
-    return [self entryWithType:type message:message stackTrace:nil];
+    LULogMessage *logMessage = [[LULogMessage alloc] initWithText:message attributedText:nil];
+    return [self entryWithType:type message:logMessage stackTrace:nil];
 }
 
 + (instancetype)entryWithMessage:(NSString *)message

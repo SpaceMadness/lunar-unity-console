@@ -448,7 +448,7 @@ static const CGFloat kMinWidthToResizeSearchBar = 480;
 - (void)tableView:(UITableView *)tableView performAction:(SEL)action forRowAtIndexPath:(NSIndexPath *)indexPath withSender:(id)sender
 {
     LUConsoleLogEntry *entry = [self entryForRowAtIndexPath:indexPath];
-    [self copyTextToClipboard:entry.message];
+    [self copyTextToClipboard:entry.message.text];
 }
 
 #pragma mark -

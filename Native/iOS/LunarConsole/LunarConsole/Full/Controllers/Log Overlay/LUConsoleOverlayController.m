@@ -132,9 +132,9 @@ inline static LUOverlayCellSkin *LUOverlayCellSkinMake(LULogEntryColors *colors)
     // this is not an approprite place to customize but we're kinda on a tight budget
     LUOverlayCellSkin *skin = [self cellSkinForLogType:entry.type];
     if (skin.stringAttributes != nil) {
-        [cell setMessage:entry.message attributes:skin.stringAttributes];
+        [cell setMessage:entry.message.text attributes:skin.stringAttributes];
     } else {
-        cell.message = entry.message;
+        cell.message = entry.message.text;
         cell.messageColor = skin.textColor;
     }
     return cell;

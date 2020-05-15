@@ -136,6 +136,8 @@
 		EF30B272223C7C1900898849 /* editor-settings.json in Resources */ = {isa = PBXBuildFile; fileRef = EF30B271223C7C1900898849 /* editor-settings.json */; };
 		EF30B2842245913900898849 /* LUEnumPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF30B2822245913900898849 /* LUEnumPickerViewController.m */; };
 		EF30B2852245913900898849 /* LUEnumPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = EF30B2822245913900898849 /* LUEnumPickerViewController.m */; };
+		EF58E2AF246E159D008353E9 /* LULogMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = EF58E2AE246E159D008353E9 /* LULogMessage.m */; };
+		EF58E2B0246E159D008353E9 /* LULogMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = EF58E2AE246E159D008353E9 /* LULogMessage.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -405,6 +407,8 @@
 		EF30B2822245913900898849 /* LUEnumPickerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LUEnumPickerViewController.m; sourceTree = "<group>"; };
 		EF30B286224591EB00898849 /* LUEnumPickerViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LUEnumPickerViewController.xib; sourceTree = "<group>"; };
 		EF35AAD5224C3BCA00267126 /* LUConsoleLogController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LUConsoleLogController.xib; sourceTree = "<group>"; };
+		EF58E2AD246E159D008353E9 /* LULogMessage.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LULogMessage.h; sourceTree = "<group>"; };
+		EF58E2AE246E159D008353E9 /* LULogMessage.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LULogMessage.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -736,6 +740,8 @@
 				4DD4FB401DFB932B00032A29 /* LUConsoleLogMenuController.xib */,
 				4DD4FB411DFB932B00032A29 /* LUConsoleLogTypeButton.h */,
 				4DD4FB421DFB932B00032A29 /* LUConsoleLogTypeButton.m */,
+				EF58E2AD246E159D008353E9 /* LULogMessage.h */,
+				EF58E2AE246E159D008353E9 /* LULogMessage.m */,
 			);
 			path = Log;
 			sourceTree = "<group>";
@@ -1028,6 +1034,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 			);
 			mainGroup = 844741A01B719C3100F5ABD3;
@@ -1069,6 +1076,7 @@
 				4DD4FBF41DFB932C00032A29 /* LUExceptionWarningController.m in Sources */,
 				4DD4FC1A1DFB932C00032A29 /* LUSerializationUtils.m in Sources */,
 				4DE389EB1DFCAC0E003A2B6B /* LUNotificationCenter.m in Sources */,
+				EF58E2B0246E159D008353E9 /* LULogMessage.m in Sources */,
 				4DD4FC0C1DFB932C00032A29 /* LUAvailability.m in Sources */,
 				4DD4FC041DFB932C00032A29 /* LUToggleButton.m in Sources */,
 				4DD4FC0E1DFB932C00032A29 /* LUFileUtils.m in Sources */,
@@ -1167,6 +1175,7 @@
 				4DD4FBFD1DFB932C00032A29 /* LUSwitch.m in Sources */,
 				4DD4FC1F1DFB932C00032A29 /* LUStringUtils.m in Sources */,
 				4D02A7B11E496C93009F4998 /* LUAction.m in Sources */,
+				EF58E2AF246E159D008353E9 /* LULogMessage.m in Sources */,
 				4DD4FBED1DFB932C00032A29 /* LUConsolePopupController.m in Sources */,
 				4DD4FBFF1DFB932C00032A29 /* LUTableView.m in Sources */,
 				4DD4FC131DFB932C00032A29 /* LUMutableArray.m in Sources */,

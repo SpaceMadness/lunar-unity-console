@@ -185,13 +185,15 @@ static NSString *const kScriptMessageTrackEvent = @"track_event";
 
 - (void)logMessage:(NSString *)message stackTrace:(NSString *)stackTrace type:(LUConsoleLogType)type
 {
+    LULogMessage *logMessage = [[LULogMessage alloc] initWithText:message attributedText:nil]; // TODO: attributed text
+    
     if ([self shouldDisplayErrorType:type] && _consoleWindow == nil) {
         [self showWarningWithMessage:message];
     }
 
     // TODO: use batching
     lunar_dispatch_main(^{
-        [self->_console logMessage:message stackTrace:stackTrace type:type];
+        [self->_console logMessage:logMessage stackTrace:stackTrace type:type];
     });
 }
 

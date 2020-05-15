@@ -47,7 +47,7 @@
 {
     LUAssert(entry);
     
-    NSString *message = entry.message;
+    NSString *message = entry.message.text;
     if (message)
     {
         LUConsoleCollapsedLogEntry *collapsedEntry = [_table objectForKey:message];
@@ -72,7 +72,7 @@
 {
     LUAssert(entry);
     
-    NSString *message = entry.message;
+    NSString *message = entry.message.text;
     if (message)
     {
         [_table removeObjectForKey:message];
