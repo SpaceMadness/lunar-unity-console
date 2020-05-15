@@ -61,6 +61,42 @@ BOOL LUStringTryParseFloat(NSString *str, float *outResult)
     return NO;
 }
 
+BOOL LUStringContainsRichTextTags(NSString *str)
+{
+    return [str containsString:@"</color>"] || [str containsString:@"</b>"] || [str containsString:@"</i>"];
+}
+
+NSString *LUStringRemoveRichTextTags(NSString *string)
+{
+    static NSArray * tokens = nil;
+    if (tokens == nil)
+    {
+        tokens = @[@"<b>", @"</b>", @"<i>", @"</i>", @"</color>"];
+    }
+    
+    for (int i = 0; i < tokens.count; ++i) {
+        string = [string stringByReplacingOccurrencesOfString:tokens[i] withString:@""];
+    }
+    
+    static NSRegularExpression *regex;
+    if (regex == nil)
+    {
+        NSError *error = nil;
+        regex = [NSRegularExpression regularExpressionWithPattern:@"\\<color\\=\\w+\\>"
+                                                          options:NSRegularExpressionCaseInsensitive
+                                                            error:&error];
+    }
+    return [regex stringByReplacingMatchesInString:string
+                                           options:0
+                                             range:NSMakeRange(0, [string length])
+                                      withTemplate:@""];
+}
+
+NSAttributedString *LUStringCreateRichTextString(NSString *str)
+{
+    return nil;
+}
+
 NSString *LUSerializeDictionaryToString(NSDictionary *data)
 {
     if (data.count == 0) return @"";
