@@ -92,9 +92,11 @@ NSString *LUStringRemoveRichTextTags(NSString *string)
                                       withTemplate:@""];
 }
 
-NSAttributedString *LUStringCreateRichTextString(NSString *str)
+NSString *LUStringRichTextToHtml(NSString *string)
 {
-    return nil;
+    string = [string stringByReplacingOccurrencesOfString:@"<color=" withString:@"<font color="];
+    string = [string stringByReplacingOccurrencesOfString:@"</color>" withString:@"</font>"];
+    return string;
 }
 
 NSString *LUSerializeDictionaryToString(NSDictionary *data)

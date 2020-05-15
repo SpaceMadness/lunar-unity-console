@@ -25,5 +25,5 @@ BOOL LUStringTryParseInteger(NSString *str, NSInteger *outResult);
 BOOL LUStringTryParseFloat(NSString *str, float *outResult);
 BOOL LUStringContainsRichTextTags(NSString *str);
 NSString *LUStringRemoveRichTextTags(NSString *str);
-NSAttributedString *LUStringCreateRichTextString(NSString *str);
+NSString *LUStringRichTextToHtml(NSString *str);
 NSString *LUSerializeDictionaryToString(NSDictionary *data);

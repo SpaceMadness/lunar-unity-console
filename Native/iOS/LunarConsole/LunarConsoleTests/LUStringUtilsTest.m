@@ -115,6 +115,14 @@ inline static BOOL isEpsilonEqual(float a, float b)
     XCTAssertEqualObjects(@"We are green with envy.", LUStringRemoveRichTextTags(@"We are <color=green>green</color> with envy."));
 }
 
+- (void)testRichTextToHtml
+{
+    XCTAssertEqualObjects(@"We are <b>not</b> amused.", LUStringRichTextToHtml(@"We are <b>not</b> amused."));
+    XCTAssertEqualObjects(@"We are <b><i>definitely not</i></b> amused.", LUStringRichTextToHtml(@"We are <b><i>definitely not</i></b> amused."));
+    XCTAssertEqualObjects(@"We are <b>absolutely <i>definitely</i> not</b> amused.", LUStringRichTextToHtml(@"We are <b>absolutely <i>definitely</i> not</b> amused."));
+    XCTAssertEqualObjects(@"We are <font color=green>green</font> with envy.", LUStringRichTextToHtml(@"We are <color=green>green</color> with envy."));
+}
+
 #pragma mark -
 #pragma mark Serialization
 
