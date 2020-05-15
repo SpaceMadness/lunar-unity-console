@@ -133,7 +133,7 @@ namespace LunarConsolePlugin
         public int maxVisibleLines = 3;
 
         [SerializeField]
-        [Tooltip("The amount of time each line would be diplayed")]
+        [Tooltip("The amount of time each line would be displayed")]
         public float timeout = 1.0f;
 
         [SerializeField]
@@ -389,7 +389,7 @@ namespace LunarConsolePlugin
             }
         }
 
-        static string GetGestureName(Gesture gesture)
+        private static string GetGestureName(Gesture gesture)
         {
             return gesture.ToString();
         }
@@ -457,7 +457,7 @@ namespace LunarConsolePlugin
             try
             {
                 var fields = type.GetFields(BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
-                if (fields != null && fields.Length > 0)
+                if (fields.Length > 0)
                 {
                     foreach (var field in fields)
                     {
@@ -501,7 +501,7 @@ namespace LunarConsolePlugin
             try
             {
                 var attributes = field.GetCustomAttributes(typeof(CVarRangeAttribute), true);
-                if (attributes != null && attributes.Length > 0)
+                if (attributes.Length > 0)
                 {
                     var rangeAttribute = attributes[0] as CVarRangeAttribute;
                     if (rangeAttribute != null)
@@ -771,7 +771,7 @@ namespace LunarConsolePlugin
                 m_pluginClassRaw = m_pluginClass.GetRawClass();
 
                 IntPtr methodInit = GetStaticMethod(m_pluginClassRaw, "init", "(Ljava.lang.String;Ljava.lang.String;Ljava.lang.String;Ljava.lang.String;)V");
-                var methodInitParams = new jvalue[] {
+                var methodInitParams = new[] {
                     jval(targetName),
                     jval(methodName),
                     jval(version),
