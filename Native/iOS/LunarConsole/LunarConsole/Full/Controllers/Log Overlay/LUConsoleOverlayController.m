@@ -134,7 +134,7 @@ inline static LUOverlayCellSkin *LUOverlayCellSkinMake(LULogEntryColors *colors)
     if (skin.stringAttributes != nil) {
         [cell setMessage:entry.message.text attributes:skin.stringAttributes];
     } else {
-        cell.message = entry.message.text;
+        [cell setMessage:entry.message];
         cell.messageColor = skin.textColor;
     }
     return cell;

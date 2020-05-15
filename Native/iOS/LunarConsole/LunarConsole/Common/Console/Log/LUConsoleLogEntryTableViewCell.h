@@ -23,16 +23,18 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class LULogMessage;
+
 @interface LUConsoleLogEntryTableViewCell : UITableViewCell
 
-@property (nonatomic, strong, nullable) UIImage  * icon;
-@property (nonatomic, strong, nullable) NSString * message;
-@property (nonatomic, strong, nullable) UIColor  * messageColor;
-@property (nonatomic, strong, nullable) UIColor  * cellColor;
+@property (nonatomic, strong, nullable) UIImage      * icon;
+@property (nonatomic, strong, nullable) UIColor      * messageColor;
+@property (nonatomic, strong, nullable) UIColor      * cellColor;
 
 + (nonnull instancetype)cellWithFrame:(CGRect)frame cellIdentifier:(nullable NSString *)cellIdentifier;
 - (nonnull instancetype)initWithFrame:(CGRect)frame cellIdentifier:(nullable NSString *)cellIdentifier;
 
+- (void)setMessage:(LULogMessage *)message;
 - (void)setSize:(CGSize)size;
 
 + (CGFloat)heightForCellWithText:(nullable NSString *)text width:(CGFloat)width;

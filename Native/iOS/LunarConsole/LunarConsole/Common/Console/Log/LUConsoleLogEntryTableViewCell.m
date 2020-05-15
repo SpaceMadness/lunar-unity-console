@@ -182,14 +182,16 @@ static UIEdgeInsets _messageInsets;
     _iconView.image = icon;
 }
 
-- (NSString *)message
+- (void)setMessage:(LULogMessage *)message
 {
-    return _messageLabel.text;
-}
-
-- (void)setMessage:(NSString *)message
-{
-    _messageLabel.text = message;
+    if (message.attributedText)
+    {
+        _messageLabel.attributedText = message.attributedText;
+    }
+    else
+    {
+        _messageLabel.text = message.text;
+    }
 }
 
 - (UIColor *)messageColor

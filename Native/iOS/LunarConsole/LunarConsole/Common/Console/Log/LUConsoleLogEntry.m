@@ -102,7 +102,7 @@ static NSArray *_cellSkinLookup;
 
     LUCellSkin *cellSkin = [self cellSkinForLogType:_type];
 
-    cell.message = _message.text;
+    [cell setMessage:_message];
     cell.messageColor = cellSkin.textColor;
     cell.cellColor = index % 2 == 0 ? cellSkin.backgroundColorDark : cellSkin.backgroundColorLight;
     cell.icon = cellSkin.icon;
@@ -181,7 +181,7 @@ static NSArray *_cellSkinLookup;
 
     LUCellSkin *cellSkin = [self cellSkinForLogType:self.type];
 
-    cell.message = self.message.text;
+    [cell setMessage:self.message];
     cell.messageColor = cellSkin.textColor;
     cell.cellColor = index % 2 == 0 ? cellSkin.backgroundColorDark : cellSkin.backgroundColorLight;
     cell.icon = cellSkin.icon;
