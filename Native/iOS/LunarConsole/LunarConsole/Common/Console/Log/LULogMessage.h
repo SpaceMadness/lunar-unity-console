@@ -12,11 +12,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface LULogMessage : NSObject
 
-@property (nonatomic, readonly) NSString *text;
+@property (nonatomic, readonly, nullable) NSString *text;
 @property (nonatomic, readonly, nullable) NSAttributedString *attributedText;
 @property (nonatomic, readonly) NSUInteger length;
 
-- (instancetype)initWithText:(NSString *)text attributedText:(nullable NSAttributedString *)attributedText;
+- (instancetype)initWithText:(nullable NSString *)text attributedText:(nullable NSAttributedString *)attributedText;
+
++ (instancetype)fromRichText:(nullable NSString *)text;
 
 @end
 
