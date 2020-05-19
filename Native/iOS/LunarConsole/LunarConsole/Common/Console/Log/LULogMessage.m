@@ -11,23 +11,23 @@
 @interface LURichTextTagInfo : NSObject
 
 @property (nonatomic, readonly) NSString *name;
-@property (nonatomic, readonly) NSDictionary *attributes;
+@property (nonatomic, readonly) NSString *attribute;
 @property (nonatomic, readonly, getter=isOpen) BOOL open;
 @property (nonatomic, readonly) NSUInteger position;
 
-- (instancetype)initWithName:(NSString *)name attributes:(NSDictionary *)attributes open:(BOOL)open position:(NSUInteger)position;
+- (instancetype)initWithName:(NSString *)name attribute:(NSString *)attributes open:(BOOL)open position:(NSUInteger)position;
 
 @end
 
 @implementation LURichTextTagInfo
 
-- (instancetype)initWithName:(NSString *)name attributes:(NSDictionary *)attributes open:(BOOL)open position:(NSUInteger)position
+- (instancetype)initWithName:(NSString *)name attribute:(NSString *)attribute open:(BOOL)open position:(NSUInteger)position
 {
     self = [super init];
     if (self)
     {
-        _name = [name copy];
-        _attributes = attributes;
+        _name = name;
+        _attribute = attribute;
         _open = open;
         _position = position;
     }
@@ -36,9 +36,48 @@
 
 @end
 
-static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger pos, NSUInteger* iPtr)
+static inline BOOL _isvalidTagName(NSString *name)
 {
-    return nil;
+    return [name isEqualToString:@"b"] || [name isEqualToString:@"i"] || [name isEqualToString:@"color"];
+}
+
+static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger pos, NSUInteger* iterPtr)
+{
+    NSUInteger iter = *iterPtr;
+    BOOL isOpen = YES;
+    if (iter < str.length && [str characterAtIndex:iter] == '/')
+    {
+        isOpen = NO;
+        ++iter;
+    }
+    
+    NSUInteger start = iter;
+    while (iter < str.length)
+    {
+        unichar chr = [str characterAtIndex:iter++];
+        if (chr == '>')
+        {
+            break;
+        }
+    }
+    
+    NSString *token = [str substringWithRange:NSMakeRange(start, iter - 1 - start)];
+    NSArray<NSString *> *tokens = [token componentsSeparatedByString:@"="];
+    if (tokens.count != 1 && tokens.count != 2)
+    {
+        return nil;
+    }
+    
+    NSString *name = tokens[0];
+    if (!_isvalidTagName(name))
+    {
+        return nil;
+    }
+    
+    NSString *attribute = tokens.count > 1 ? tokens[1] : nil;
+    
+    *iterPtr = iter;
+    return [[LURichTextTagInfo alloc] initWithName:name attribute:attribute open:isOpen position:start];
 }
 
 @implementation LULogMessage
@@ -75,12 +114,13 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger pos, NSUInte
             {
                 // copy string chunk to raw output
                 if (raw == nil) raw = [NSMutableString new];
-                NSInteger len = end + 1 - start;
-                if (len > 0) [raw appendString:[text substringWithRange:NSMakeRange(start, end + 1 - start)]];
-                start = iter;
+                NSInteger len = end - start;
+                if (len > 0) [raw appendString:[text substringWithRange:NSMakeRange(start, len)]];
+                start = end = iter;
                 
                 if (tag.isOpen)
                 {
+                    if (tags == nil) tags = [NSMutableArray new];
                     [tags addObject:tag];
                 }
                 else if (tags.count > 0)
@@ -109,6 +149,9 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger pos, NSUInte
     
     if (attributes)
     {
+        NSInteger len = end - start;
+        if (len > 0) [raw appendString:[text substringWithRange:NSMakeRange(start, len)]];
+        
         NSAttributedString *attributedString =  [[NSAttributedString alloc] initWithString:raw attributes:attributes];
         return [[self alloc] initWithText:raw attributedText:attributedString];
     }
