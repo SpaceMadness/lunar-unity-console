@@ -56,4 +56,16 @@ class LULogMessageText: XCTestCase {
         let actual = LULogMessage.fromRichText("This is <b>text.</b>");
         XCTAssertEqual(expected, actual);
     }
+    
+    func testBoldTags4() throws {
+        let expected = LULogMessage(text: "This is text.", tags: nil);
+        let actual = LULogMessage.fromRichText("This is <b></b>text.");
+        XCTAssertEqual(expected, actual);
+    }
+    
+    func testBoldTags5() throws {
+        let expected = LULogMessage(text: "This is text.", tags: nil);
+        let actual = LULogMessage.fromRichText("This is <b><b></b></b>text.");
+        XCTAssertEqual(expected, actual);
+    }
 }

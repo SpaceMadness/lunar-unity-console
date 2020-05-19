@@ -209,14 +209,15 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger pos, NSUInte
         }
     }
     
+    NSInteger len = end - start;
+    if (len > 0) [raw appendString:[text substringWithRange:NSMakeRange(start, len)]];
+    
     if (tags)
     {
-        NSInteger len = end - start;
-        if (len > 0) [raw appendString:[text substringWithRange:NSMakeRange(start, len)]];
         return [[self alloc] initWithText:raw tags:tags];
     }
     
-    return [[self alloc] initWithText:text tags:nil];
+    return [[self alloc] initWithText:raw tags:nil];
 }
 
 #pragma mark -
