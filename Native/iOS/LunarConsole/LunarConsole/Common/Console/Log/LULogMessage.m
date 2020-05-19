@@ -217,7 +217,7 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger pos, NSUInte
         return [[self alloc] initWithText:raw tags:tags];
     }
     
-    return [[self alloc] initWithText:raw tags:nil];
+    return [[self alloc] initWithText:raw && raw.length < text.length ? raw : text tags:nil];
 }
 
 #pragma mark -

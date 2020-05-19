@@ -68,4 +68,37 @@ class LULogMessageText: XCTestCase {
         let actual = LULogMessage.fromRichText("This is <b><b></b></b>text.");
         XCTAssertEqual(expected, actual);
     }
+    
+    func testItalicTags1() throws {
+        let tags = [LURichTextTag(type: LURichTextTagTypeItalic, attribute: nil, range: NSMakeRange(5, 2))];
+        let expected = LULogMessage(text: "This is text.", tags: tags);
+        let actual = LULogMessage.fromRichText("This <i>is</i> text.");
+        XCTAssertEqual(expected, actual);
+    }
+    
+    func testItalicTags2() throws {
+        let tags = [LURichTextTag(type: LURichTextTagTypeItalic, attribute: nil, range: NSMakeRange(0, 7))];
+        let expected = LULogMessage(text: "This is text.", tags: tags);
+        let actual = LULogMessage.fromRichText("<i>This is</i> text.");
+        XCTAssertEqual(expected, actual);
+    }
+    
+    func testItalicTags3() throws {
+        let tags = [LURichTextTag(type: LURichTextTagTypeItalic, attribute: nil, range: NSMakeRange(8, 5))];
+        let expected = LULogMessage(text: "This is text.", tags: tags);
+        let actual = LULogMessage.fromRichText("This is <i>text.</i>");
+        XCTAssertEqual(expected, actual);
+    }
+    
+    func testItalicTags4() throws {
+        let expected = LULogMessage(text: "This is text.", tags: nil);
+        let actual = LULogMessage.fromRichText("This is <i></i>text.");
+        XCTAssertEqual(expected, actual);
+    }
+    
+    func testItalicTags5() throws {
+        let expected = LULogMessage(text: "This is text.", tags: nil);
+        let actual = LULogMessage.fromRichText("This is <i><i></i></i>text.");
+        XCTAssertEqual(expected, actual);
+    }
 }
