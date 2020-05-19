@@ -184,7 +184,7 @@ static UIEdgeInsets _messageInsets;
 
 - (void)setMessage:(LULogMessage *)message
 {
-    if (message.attributedText)
+    if (message.tags)
     {
         _messageLabel.attributedText = message.attributedText;
     }

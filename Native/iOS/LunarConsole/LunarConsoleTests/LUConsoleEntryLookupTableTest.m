@@ -68,7 +68,7 @@
                                   message:(NSString *)message
                                stackTrace:(NSString *)stackTrace
 {
-    LULogMessage *logMessage = [[LULogMessage alloc] initWithText:message attributedText:nil];
+    LULogMessage *logMessage = [[LULogMessage alloc] initWithText:message tags:nil];
     LUConsoleLogEntry *entry = [LUConsoleLogEntry entryWithType:type
                                                   message:logMessage
                                                stackTrace:stackTrace];

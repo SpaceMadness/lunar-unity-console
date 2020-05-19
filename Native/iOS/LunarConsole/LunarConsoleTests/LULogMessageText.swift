@@ -19,26 +19,41 @@ class LULogMessageText: XCTestCase {
     }
 
     func testNilString() throws {
-        let expected = LULogMessage(text: nil, attributedText: nil);
+        let expected = LULogMessage(text: nil, tags: nil);
         let actual = LULogMessage.fromRichText(nil);
         XCTAssertEqual(expected, actual);
     }
     
     func testEmptyString() throws {
-        let expected = LULogMessage(text: "", attributedText: nil);
+        let expected = LULogMessage(text: "", tags: nil);
         let actual = LULogMessage.fromRichText("");
         XCTAssertEqual(expected, actual);
     }
     
     func testNoRichTags() throws {
-        let expected = LULogMessage(text: "This is text.", attributedText: nil);
+        let expected = LULogMessage(text: "This is text.", tags: nil);
         let actual = LULogMessage.fromRichText("This is text.");
         XCTAssertEqual(expected, actual);
     }
     
-    func testBoldTags() throws {
-        let expected = LULogMessage(text: "This is text.", attributedText: nil);
+    func testBoldTags1() throws {
+        let tags = [LURichTextTag(type: LURichTextTagTypeBold, attribute: nil, range: NSMakeRange(5, 2))];
+        let expected = LULogMessage(text: "This is text.", tags: tags);
         let actual = LULogMessage.fromRichText("This <b>is</b> text.");
+        XCTAssertEqual(expected, actual);
+    }
+    
+    func testBoldTags2() throws {
+        let tags = [LURichTextTag(type: LURichTextTagTypeBold, attribute: nil, range: NSMakeRange(0, 7))];
+        let expected = LULogMessage(text: "This is text.", tags: tags);
+        let actual = LULogMessage.fromRichText("<b>This is</b> text.");
+        XCTAssertEqual(expected, actual);
+    }
+    
+    func testBoldTags3() throws {
+        let tags = [LURichTextTag(type: LURichTextTagTypeBold, attribute: nil, range: NSMakeRange(8, 5))];
+        let expected = LULogMessage(text: "This is text.", tags: tags);
+        let actual = LULogMessage.fromRichText("This is <b>text.</b>");
         XCTAssertEqual(expected, actual);
     }
 }

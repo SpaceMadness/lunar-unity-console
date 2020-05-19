@@ -831,7 +831,7 @@ static LUConsoleLogEntryList *createEntryListWithEntries(NSUInteger capacity, NS
 
 + (instancetype)entryWithType:(LUConsoleLogType)type message:(NSString *)message
 {
-    LULogMessage *logMessage = [[LULogMessage alloc] initWithText:message attributedText:nil];
+    LULogMessage *logMessage = [[LULogMessage alloc] initWithText:message tags:nil];
     return [self entryWithType:type message:logMessage stackTrace:nil];
 }
 

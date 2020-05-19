@@ -80,15 +80,54 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger pos, NSUInte
     return [[LURichTextTagInfo alloc] initWithName:name attribute:attribute open:isOpen position:start];
 }
 
+@implementation LURichTextTag
+
+- (instancetype)initWithType:(LURichTextTagType)type attribute:(NSString * _Nullable)attribute range:(NSRange)range
+{
+    self = [super init];
+    if (self)
+    {
+        _type = type;
+        _attribute = attribute;
+        _range = range;
+    }
+    return self;
+}
+
+#pragma mark -
+#pragma mark Equality
+
+- (BOOL)isEqual:(id)object
+{
+    if ([object isKindOfClass:[self class]]) {
+        LURichTextTag *other = object;
+        return _type == other.type &&
+        ((_attribute == nil && other.attribute == nil) || [_attribute isEqualToString:other.attribute]) &&
+        NSEqualRanges(_range, other.range);
+    }
+    
+    return NO;
+}
+
+#pragma mark -
+#pragma mark Description
+
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"type=%ld attribute=%@ range=%@", _type, _attribute, NSStringFromRange(_range)];
+}
+
+@end
+
 @implementation LULogMessage
 
-- (instancetype)initWithText:(NSString *)text attributedText:(NSAttributedString *)attributedText
+- (instancetype)initWithText:(nullable NSString *)text tags:(NSArray<LURichTextTag *> *)tags
 {
     self = [super init];
     if (self)
     {
         _text = text;
-        _attributedText = attributedText;
+        _tags = tags;
     }
     return self;
 }
@@ -98,12 +137,13 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger pos, NSUInte
 
 + (instancetype)fromRichText:(NSString *)text
 {
-    NSMutableDictionary *attributes = nil;
-    NSMutableArray<LURichTextTagInfo *> *tags = nil;
+    NSMutableArray<LURichTextTag *> *tags = nil;
+    NSMutableArray<LURichTextTagInfo *> *stack = nil;
     NSMutableString *raw = nil;;
     NSUInteger iter = 0;
     NSUInteger start = 0;
     NSUInteger end = 0;
+    
     while (iter < text.length)
     {
         unichar chr = [text characterAtIndex:iter++];
@@ -112,29 +152,51 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger pos, NSUInte
             LURichTextTagInfo *tag = _tryCaptureTag(text, end, &iter);
             if (tag)
             {
-                // copy string chunk to raw output
-                if (raw == nil) raw = [NSMutableString new];
                 NSInteger len = end - start;
-                if (len > 0) [raw appendString:[text substringWithRange:NSMakeRange(start, len)]];
-                start = end = iter;
                 
                 if (tag.isOpen)
                 {
-                    if (tags == nil) tags = [NSMutableArray new];
-                    [tags addObject:tag];
+                    if (stack == nil) stack = [NSMutableArray new];
+                    [stack addObject:tag];
                 }
-                else if (tags.count > 0)
+                else if (stack.count > 0)
                 {
-                    LURichTextTagInfo *openTag = tags.lastObject;
+                    LURichTextTagInfo *openTag = stack.lastObject;
                     
                     // if tags don't match - just use raw string
                     if (![tag.name isEqualToString:openTag.name])
                     {
-                        return [[self alloc] initWithText:text attributedText:nil];
+                        return [[self alloc] initWithText:text tags:nil];
                     }
                     
-                    // apply attributes
+                    // create rich text tag
+                    if (len > 0)
+                    {
+                        NSRange range = NSMakeRange(raw.length, len);
+                        if (tags == nil) tags = [NSMutableArray new];
+                        if ([tag.name isEqualToString:@"b"])
+                        {
+                            [tags addObject:[[LURichTextTag alloc] initWithType:LURichTextTagTypeBold attribute:nil range:range]];
+                        }
+                        else if ([tag.name isEqualToString:@"i"])
+                        {
+                            [tags addObject:[[LURichTextTag alloc] initWithType:LURichTextTagTypeItalic attribute:nil range:range]];
+                        }
+                        else if ([tag.name isEqualToString:@"color"])
+                        {
+                            NSString *color = tag.attribute;
+                            if (color != nil)
+                            {
+                                [tags addObject:[[LURichTextTag alloc] initWithType:LURichTextTagTypeColor attribute:color range:range]];
+                            }
+                        }
+                    }
                 }
+                         
+                // copy string chunk to raw output
+                if (raw == nil) raw = [NSMutableString new];
+                if (len > 0) [raw appendString:[text substringWithRange:NSMakeRange(start, len)]];
+                start = end = iter;
             }
             else
             {
@@ -147,16 +209,14 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger pos, NSUInte
         }
     }
     
-    if (attributes)
+    if (tags)
     {
         NSInteger len = end - start;
         if (len > 0) [raw appendString:[text substringWithRange:NSMakeRange(start, len)]];
-        
-        NSAttributedString *attributedString =  [[NSAttributedString alloc] initWithString:raw attributes:attributes];
-        return [[self alloc] initWithText:raw attributedText:attributedString];
+        return [[self alloc] initWithText:raw tags:tags];
     }
     
-    return [[self alloc] initWithText:text attributedText:nil];
+    return [[self alloc] initWithText:text tags:nil];
 }
 
 #pragma mark -
@@ -167,7 +227,7 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger pos, NSUInte
     if ([object isKindOfClass:[self class]]) {
         LULogMessage *other = object;
         return ((_text == nil && other.text == nil) || [_text isEqual:other.text]) &&
-               ((_attributedText == nil && other.attributedText == nil) || [_attributedText isEqual:other.attributedText]);
+               ((_tags == nil && other.tags == nil) || [_tags isEqualToArray:other.tags]);
     }
     
     if ([object isKindOfClass:[NSString class]])

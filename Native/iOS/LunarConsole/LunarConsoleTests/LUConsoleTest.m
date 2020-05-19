@@ -31,7 +31,7 @@
 
 - (void)logText:(NSString *)message stackTrace:(NSString *)stackTrace type:(LUConsoleLogType)type
 {
-    [self logMessage:[[LULogMessage alloc] initWithText:message attributedText:nil] stackTrace:stackTrace type:type];
+    [self logMessage:[[LULogMessage alloc] initWithText:message tags:nil] stackTrace:stackTrace type:type];
 }
 
 @end
