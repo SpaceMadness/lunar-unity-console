@@ -134,4 +134,14 @@ class LULogMessageText: XCTestCase {
         let actual = LULogMessage.fromRichText("This is <color=red><color=red></color></color>text.");
         XCTAssertEqual(expected, actual);
     }
+    
+    func testMultipleTags1() throws {
+        let tags = [
+            LURichTextTag(type: LURichTextTagTypeBold, attribute: nil, range: NSMakeRange(5, 2)),
+            LURichTextTag(type: LURichTextTagTypeColor, attribute: "red", range: NSMakeRange(5, 2))
+        ];
+        let expected = LULogMessage(text: "This is text.", tags: tags);
+        let actual = LULogMessage.fromRichText("This <color=red><b>is</b></color> text.");
+        XCTAssertEqual(expected, actual);
+    }
 }

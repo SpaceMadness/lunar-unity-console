@@ -162,6 +162,7 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger pos, NSUInte
                 else if (stack.count > 0)
                 {
                     LURichTextTagInfo *openTag = stack.lastObject;
+                    [stack removeLastObject];
                     
                     // if tags don't match - just use raw string
                     if (![tag.name isEqualToString:openTag.name])
