@@ -184,7 +184,7 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger pos, NSUInte
                         }
                         else if ([tag.name isEqualToString:@"color"])
                         {
-                            NSString *color = tag.attribute;
+                            NSString *color = openTag.attribute;
                             if (color != nil)
                             {
                                 [tags addObject:[[LURichTextTag alloc] initWithType:LURichTextTagTypeColor attribute:color range:range]];

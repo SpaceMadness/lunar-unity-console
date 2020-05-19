@@ -101,4 +101,37 @@ class LULogMessageText: XCTestCase {
         let actual = LULogMessage.fromRichText("This is <i><i></i></i>text.");
         XCTAssertEqual(expected, actual);
     }
+    
+    func testColorTags1() throws {
+        let tags = [LURichTextTag(type: LURichTextTagTypeColor, attribute: "red", range: NSMakeRange(5, 2))];
+        let expected = LULogMessage(text: "This is text.", tags: tags);
+        let actual = LULogMessage.fromRichText("This <color=red>is</color> text.");
+        XCTAssertEqual(expected, actual);
+    }
+    
+    func testColorTags2() throws {
+        let tags = [LURichTextTag(type: LURichTextTagTypeColor, attribute: "red", range: NSMakeRange(0, 7))];
+        let expected = LULogMessage(text: "This is text.", tags: tags);
+        let actual = LULogMessage.fromRichText("<color=red>This is</color> text.");
+        XCTAssertEqual(expected, actual);
+    }
+    
+    func testColorTags3() throws {
+        let tags = [LURichTextTag(type: LURichTextTagTypeColor, attribute: "red", range: NSMakeRange(8, 5))];
+        let expected = LULogMessage(text: "This is text.", tags: tags);
+        let actual = LULogMessage.fromRichText("This is <color=red>text.</color>");
+        XCTAssertEqual(expected, actual);
+    }
+    
+    func testColorTags4() throws {
+        let expected = LULogMessage(text: "This is text.", tags: nil);
+        let actual = LULogMessage.fromRichText("This is <color=red></color>text.");
+        XCTAssertEqual(expected, actual);
+    }
+    
+    func testColorTags5() throws {
+        let expected = LULogMessage(text: "This is text.", tags: nil);
+        let actual = LULogMessage.fromRichText("This is <color=red><color=red></color></color>text.");
+        XCTAssertEqual(expected, actual);
+    }
 }
