@@ -144,4 +144,32 @@ class LULogMessageText: XCTestCase {
         let actual = LULogMessage.fromRichText("This <color=red><b>is</b></color> text.");
         XCTAssertEqual(expected, actual);
     }
+    
+    func testMultipleTags2() throws {
+        let tags = [
+            LURichTextTag(flags: LURichTextTagFlagBold, attribute: nil, range: NSMakeRange(12, 4)),
+            LURichTextTag(flags: LURichTextTagFlagColor, attribute: "red", range: NSMakeRange(8, 19))
+        ];
+        let expected = LULogMessage(text: "This is red bold attributed text.", tags: tags);
+        let actual = LULogMessage.fromRichText("This is <color=red>red <b>bold</b> attributed</color> text.");
+        XCTAssertEqual(expected, actual);
+    }
+    
+    func testMalformedTags1() throws {
+        let expected = LULogMessage(text: "This is text.", tags: nil);
+        let actual = LULogMessage.fromRichText("This <b>is text.");
+        XCTAssertEqual(expected, actual);
+    }
+    
+    func testMalformedTags2() throws {
+        let expected = LULogMessage(text: "This is text.", tags: nil);
+        let actual = LULogMessage.fromRichText("This <b>is<b> text.");
+        XCTAssertEqual(expected, actual);
+    }
+    
+    func testMalformedTags3() throws {
+        let expected = LULogMessage(text: "This is text.", tags: nil);
+        let actual = LULogMessage.fromRichText("This <b>is</i> text.");
+        XCTAssertEqual(expected, actual);
+    }
 }

@@ -41,28 +41,35 @@ static inline BOOL _isvalidTagName(NSString *name)
     return [name isEqualToString:@"b"] || [name isEqualToString:@"i"] || [name isEqualToString:@"color"];
 }
 
-static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger pos, NSUInteger* iterPtr)
+static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger position, NSUInteger* iterPtr)
 {
-    NSUInteger iter = *iterPtr;
+    NSUInteger end = *iterPtr;
     BOOL isOpen = YES;
-    if (iter < str.length && [str characterAtIndex:iter] == '/')
+    if (end < str.length && [str characterAtIndex:end] == '/')
     {
         isOpen = NO;
-        ++iter;
+        ++end;
     }
     
-    NSUInteger start = iter;
-    while (iter < str.length)
+    NSUInteger start = end;
+    BOOL found = NO;
+    while (end < str.length)
     {
-        unichar chr = [str characterAtIndex:iter++];
+        unichar chr = [str characterAtIndex:end++];
         if (chr == '>')
         {
+            found = YES;
             break;
         }
     }
     
-    NSString *token = [str substringWithRange:NSMakeRange(start, iter - 1 - start)];
-    NSArray<NSString *> *tokens = [token componentsSeparatedByString:@"="];
+    if (!found)
+    {
+        return nil;
+    }
+    
+    NSString *capture = [str substringWithRange:NSMakeRange(start, end - 1 - start)];
+    NSArray<NSString *> *tokens = [capture componentsSeparatedByString:@"="];
     if (tokens.count != 1 && tokens.count != 2)
     {
         return nil;
@@ -76,8 +83,8 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger pos, NSUInte
     
     NSString *attribute = tokens.count > 1 ? tokens[1] : nil;
     
-    *iterPtr = iter;
-    return [[LURichTextTagInfo alloc] initWithName:name attribute:attribute open:isOpen position:start];
+    *iterPtr = end;
+    return [[LURichTextTagInfo alloc] initWithName:name attribute:attribute open:isOpen position:position];
 }
 
 @implementation LURichTextTag
@@ -139,21 +146,19 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger pos, NSUInte
 {
     NSMutableArray<LURichTextTag *> *tags = nil;
     NSMutableArray<LURichTextTagInfo *> *stack = nil;
-    NSMutableString *raw = nil;;
-    NSUInteger iter = 0;
-    NSUInteger start = 0;
-    NSUInteger end = 0;
+    NSUInteger i = 0;
     
-    while (iter < text.length)
+    unichar buffer[text.length];
+    NSUInteger bufferSize = 0;
+    
+    while (i < text.length)
     {
-        unichar chr = [text characterAtIndex:iter++];
+        unichar chr = [text characterAtIndex:i++];
         if (chr == '<')
         {
-            LURichTextTagInfo *tag = _tryCaptureTag(text, end, &iter);
+            LURichTextTagInfo *tag = _tryCaptureTag(text, bufferSize, &i);
             if (tag)
             {
-                NSInteger len = end - start;
-                
                 if (tag.isOpen)
                 {
                     if (stack == nil) stack = [NSMutableArray new];
@@ -161,19 +166,20 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger pos, NSUInte
                 }
                 else if (stack.count > 0)
                 {
-                    LURichTextTagInfo *openTag = stack.lastObject;
+                    LURichTextTagInfo *opposingTag = stack.lastObject;
                     [stack removeLastObject];
                     
                     // if tags don't match - just use raw string
-                    if (![tag.name isEqualToString:openTag.name])
+                    if (![tag.name isEqualToString:opposingTag.name])
                     {
-                        return [[self alloc] initWithText:text tags:nil];
+                        continue;
                     }
                     
                     // create rich text tag
+                    NSInteger len = bufferSize - opposingTag.position;
                     if (len > 0)
                     {
-                        NSRange range = NSMakeRange(raw.length, len);
+                        NSRange range = NSMakeRange(opposingTag.position, len);
                         if (tags == nil) tags = [NSMutableArray new];
                         if ([tag.name isEqualToString:@"b"])
                         {
@@ -185,7 +191,7 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger pos, NSUInte
                         }
                         else if ([tag.name isEqualToString:@"color"])
                         {
-                            NSString *color = openTag.attribute;
+                            NSString *color = opposingTag.attribute;
                             if (color != nil)
                             {
                                 [tags addObject:[[LURichTextTag alloc] initWithFlags:LURichTextTagFlagColor attribute:color range:range]];
@@ -193,32 +199,29 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger pos, NSUInte
                         }
                     }
                 }
-                         
-                // copy string chunk to raw output
-                if (raw == nil) raw = [NSMutableString new];
-                if (len > 0) [raw appendString:[text substringWithRange:NSMakeRange(start, len)]];
-                start = end = iter;
             }
             else
             {
-                ++end;
+                buffer[bufferSize++] = chr;
             }
         }
         else
         {
-            ++end;
+            buffer[bufferSize++] = chr;
         }
     }
     
-    NSInteger len = end - start;
-    if (len > 0) [raw appendString:[text substringWithRange:NSMakeRange(start, len)]];
-    
-    if (tags)
+    if (tags && bufferSize > 0)
     {
-        return [[self alloc] initWithText:raw tags:tags];
+        return [[self alloc] initWithText:[[NSString alloc] initWithCharacters:buffer length:bufferSize] tags:tags];
     }
     
-    return [[self alloc] initWithText:raw && raw.length < text.length ? raw : text tags:nil];
+    if (bufferSize < text.length)
+    {
+        text = [[NSString alloc] initWithCharacters:buffer length:bufferSize];
+    }
+    
+    return [[self alloc] initWithText:text tags:nil];
 }
 
 #pragma mark -
