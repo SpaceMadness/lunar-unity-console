@@ -11,18 +11,18 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef enum : NSUInteger {
-    LURichTextTagTypeBold,
-    LURichTextTagTypeItalic,
-    LURichTextTagTypeColor,
-} LURichTextTagType;
+    LURichTextTagFlagBold   = 0x01,
+    LURichTextTagFlagItalic = 0x02,
+    LURichTextTagFlagColor  = 0x04,
+} LURichTextTagFlags;
 
 @interface LURichTextTag : NSObject
 
-@property (nonatomic, readonly) LURichTextTagType type;
+@property (nonatomic, readonly) LURichTextTagFlags flags;
 @property (nonatomic, readonly, nullable) NSString *attribute;
 @property (nonatomic, readonly) NSRange range;
 
-- (instancetype)initWithType:(LURichTextTagType)type attribute:(NSString * _Nullable)attribute range:(NSRange)range;
+- (instancetype)initWithFlags:(LURichTextTagFlags)flags attribute:(NSString * _Nullable)attribute range:(NSRange)range;
 
 @end
 
