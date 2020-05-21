@@ -19,13 +19,10 @@
 //  limitations under the License.
 //
 
-﻿using System;
-using System.Collections;
+using System;
 using System.Collections.Generic;
-using UnityEngine;
-
-using NUnit.Framework;
 using LunarConsolePluginInternal;
+using NUnit.Framework;
 
 public class TestFixtureBase
 {
@@ -41,10 +38,11 @@ public class TestFixtureBase
         result = null;
     }
 
-    protected void AssertList<T>(IList<T> actual, params T[] expected) 
+    protected void AssertList<T>(IList<T> actual, params T[] expected)
         where T : IEquatable<T>
     {
-        Assert.AreEqual(expected.Length, actual.Count, "Expected: [{0}]\nActual: [{1}]", Join(", ", expected), Join(", ", actual));
+        Assert.AreEqual(expected.Length, actual.Count, "Expected: [{0}]\nActual: [{1}]", Join(", ", expected),
+            Join(", ", actual));
         for (int i = 0; i < expected.Length; ++i)
         {
             Assert.AreEqual(expected[i], actual[i]);
@@ -57,7 +55,8 @@ public class TestFixtureBase
         Assert.IsNotNull(actual);
         Assert.IsNotNull(expected);
 
-        Assert.AreEqual(actual.Length, expected.Length, "Expected: [{0}]\nActual: [{1}]", Join(", ", expected), Join(", ", actual));
+        Assert.AreEqual(actual.Length, expected.Length, "Expected: [{0}]\nActual: [{1}]", Join(", ", expected),
+            Join(", ", actual));
         for (int i = 0; i < expected.Length; ++i)
         {
             Assert.AreEqual(expected[i], actual[i]);
@@ -66,7 +65,8 @@ public class TestFixtureBase
 
     protected void AssertTypes<T>(IList<T> actual, params Type[] expected)
     {
-        Assert.AreEqual(actual.Count, expected.Length, "Expected: [{0}]\nActual: [{1}]", Join(", ", expected), JoinTypes(", ", actual));
+        Assert.AreEqual(actual.Count, expected.Length, "Expected: [{0}]\nActual: [{1}]", Join(", ", expected),
+            JoinTypes(", ", actual));
         for (int i = 0; i < expected.Length; ++i)
         {
             Assert.AreEqual(actual[i].GetType(), expected[i]);

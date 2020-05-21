@@ -30,8 +30,6 @@ using LunarConsolePluginInternal;
 
 namespace Actions
 {
-    using Assert = NUnit.Framework.Assert;
-
     [TestFixture]
     public class CActionRegistryTest : TestFixtureBase, ICRegistryDelegate
     {
@@ -55,8 +53,8 @@ namespace Actions
         [Test]
         public void TestRegisterActions()
         {
-            RegisterAction("a2", Del2);
             RegisterAction("a1", Del1);
+            RegisterAction("a2", Del2);
             RegisterAction("a3", Del3);
 
             AssertActions(
@@ -69,9 +67,9 @@ namespace Actions
         [Test]
         public void TestRegisterMultipleActionsWithSameName()
         {
+            RegisterAction("a1", Del1);
             RegisterAction("a2", Del2);
             RegisterAction("a3", Del3);
-            RegisterAction("a1", Del1);
             RegisterAction("a3", Del4);
 
             AssertActions(
@@ -88,8 +86,8 @@ namespace Actions
         [Test]
         public void TestUnregisterActionByName()
         {
-            RegisterAction("a2", Del2);
             RegisterAction("a1", Del1);
+            RegisterAction("a2", Del2);
             RegisterAction("a3", Del3);
 
             UnregisterAction("a2");
@@ -117,8 +115,8 @@ namespace Actions
         [Test]
         public void TestUnregisterActionByDelegate()
         {
-            RegisterAction("a2", Del2);
             RegisterAction("a1", Del1);
+            RegisterAction("a2", Del2);
             RegisterAction("a3", Del3);
 
             UnregisterAction(Del2);
@@ -155,8 +153,8 @@ namespace Actions
             Action del2 = delClass2.Del2;
             Action del3 = delClass3.Del3;
 
-            RegisterAction("a2", del2);
             RegisterAction("a1", del1);
+            RegisterAction("a2", del2);
             RegisterAction("a3", del3);
 
             UnregisterAllActions(delClass2);
@@ -254,7 +252,7 @@ namespace Actions
 
         #endregion
 
-        #region IQuickActionRegistryDelegate implementation
+        #region ICRegistryDelegate implementation
 
         public void OnActionRegistered(CRegistry registry, CAction action)
         {
@@ -280,41 +278,45 @@ namespace Actions
         {
         }
 
+        public void OnVariableUpdated(CRegistry registry, CVar cvar)
+        {
+        }
+
         #endregion
 
         #region Helpers
 
-        CAction FindAction(int id)
+        private CAction FindAction(int id)
         {
             return m_registry.FindAction(id);
         }
 
-        CAction RegisterAction(string name, Action actionDelegate)
+        private CAction RegisterAction(string name, Action actionDelegate)
         {
             return m_registry.RegisterAction(name, actionDelegate);
         }
 
-        void UnregisterAction(string name)
+        private void UnregisterAction(string name)
         {
             m_registry.Unregister(name);
         }
 
-        void UnregisterAction(int id)
+        private void UnregisterAction(int id)
         {
             m_registry.Unregister(id);
         }
 
-        void UnregisterAction(Action actionDelegate)
+        private void UnregisterAction(Action actionDelegate)
         {
             m_registry.Unregister(actionDelegate);
         }
 
-        void UnregisterAllActions(object target)
+        private void UnregisterAllActions(object target)
         {
             m_registry.UnregisterAll(target);
         }
 
-        void AssertActions(params CActionInfo[] expected)
+        private void AssertActions(params CActionInfo[] expected)
         {
             int index = 0;
             foreach (var action in m_registry.actions)

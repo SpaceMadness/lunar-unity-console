@@ -1,0 +1,51 @@
+trackSelection = false
+fetchPreview = true
+wantsMore = true
+dockable = false
+debug = false
+itemIconSize = 1
+assetIndexing = 2
+queryFolder = "Assets/Editor/Queries"
+onBoardingDoNotAskAgain = true
+filters = {
+	asset = true
+	menu = true
+	object = true
+	scene = true
+	settings = true
+}
+scopes = {
+	"last_search.AB59B443" = "main"
+}
+providers = {
+	asset = {
+		active = true
+		priority = 25
+		defaultAction = null
+	}
+	log = {
+		active = false
+		priority = 210
+		defaultAction = null
+	}
+	object = {
+		active = true
+		priority = 55
+		defaultAction = null
+	}
+	packages = {
+		active = true
+		priority = 90
+		defaultAction = null
+	}
+	scene = {
+		active = true
+		priority = 50
+		defaultAction = null
+	}
+	query = {
+		active = true
+		priority = 100
+		defaultAction = null
+	}
+}
