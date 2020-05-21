@@ -48,4 +48,14 @@ providers = {
 		priority = 100
 		defaultAction = null
 	}
+	store = {
+		active = true
+		priority = 100
+		defaultAction = null
+	}
+	res = {
+		active = true
+		priority = 100
+		defaultAction = null
+	}
 }
