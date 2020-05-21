@@ -42,7 +42,6 @@ class OverlayDialog extends Dialog
     private final FrameLayout contentView;
     private BackButtonListener backButtonListener;
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     public OverlayDialog(Activity activity, int themeResId)
     {
         super(activity, themeResId);
@@ -60,6 +59,13 @@ class OverlayDialog extends Dialog
         View decorView = activity.getWindow().getDecorView();
         systemUIVisibilityFlags = decorView.getSystemUiVisibility();
         window.getDecorView().setSystemUiVisibility(systemUIVisibilityFlags);
+
+        // disable cutouts
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            WindowManager.LayoutParams attributes = window.getAttributes();
+            attributes.layoutInDisplayCutoutMode = WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_NEVER;
+            window.setAttributes(attributes);
+        }
 
         // set content view
         contentView = new FrameLayout(activity);

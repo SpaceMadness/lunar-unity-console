@@ -69,10 +69,7 @@ public class LogTypeButton extends ToggleButton
     {
         super.setOn(flag);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
-        {
-            setAlpha(flag ? 1.0f : offAlpha);
-        }
+        setAlpha(flag ? 1.0f : offAlpha);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
