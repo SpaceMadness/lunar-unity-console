@@ -35,6 +35,7 @@ import android.widget.RelativeLayout;
 
 import spacemadness.com.lunarconsole.R;
 import spacemadness.com.lunarconsole.core.Destroyable;
+import spacemadness.com.lunarconsole.utils.Margins;
 import spacemadness.com.lunarconsole.utils.MathUtils;
 
 public class MoveResizeView extends LinearLayout implements Destroyable
@@ -59,34 +60,18 @@ public class MoveResizeView extends LinearLayout implements Destroyable
     /** The target layout for resizing */
     private RelativeLayout targetView;
 
-    public MoveResizeView(Context context)
+    private final Margins margins;
+
+    public MoveResizeView(Context context, Margins margins)
     {
         super(context);
-        loadViewFromXml(context);
-    }
 
-    public MoveResizeView(Context context, AttributeSet attrs)
-    {
-        super(context, attrs);
-        loadViewFromXml(context);
-    }
+        if (margins == null) {
+            throw new IllegalArgumentException("Margins is null");
+        }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public MoveResizeView(Context context, AttributeSet attrs, int defStyleAttr)
-    {
-        super(context, attrs, defStyleAttr);
-        loadViewFromXml(context);
-    }
+        this.margins = margins;
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public MoveResizeView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes)
-    {
-        super(context, attrs, defStyleAttr, defStyleRes);
-        loadViewFromXml(context);
-    }
-
-    private void loadViewFromXml(Context context)
-    {
         minWidth = context.getResources().getDimensionPixelSize(R.dimen.lunar_console_move_resize_min_width);
         minHeight = context.getResources().getDimensionPixelSize(R.dimen.lunar_console_move_resize_min_height);
 
@@ -94,14 +79,7 @@ public class MoveResizeView extends LinearLayout implements Destroyable
         targetView = (RelativeLayout) inflater.inflate(R.layout.lunar_console_layout_move_resize, null, false);
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         addView(targetView, layoutParams);
-        setupUI();
-    }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // UI setup
-
-    private void setupUI()
-    {
         // close button
         targetView.findViewById(R.id.lunar_console_resize_button_close)
                 .setOnClickListener(new OnClickListener()
@@ -189,22 +167,22 @@ public class MoveResizeView extends LinearLayout implements Destroyable
 
         if (operation == OPERATION_MOVE)
         {
-            if (dx > 0 && layoutParams.rightMargin - dx < 0)
+            if (dx > 0 && layoutParams.rightMargin - dx < margins.right)
             {
-                dx = layoutParams.rightMargin;
+                dx = layoutParams.rightMargin - margins.right;
             }
-            else if (dx < 0 && layoutParams.leftMargin + dx < 0)
+            else if (dx < 0 && layoutParams.leftMargin + dx < margins.left)
             {
-                dx = -layoutParams.leftMargin;
+                dx = -layoutParams.leftMargin + margins.left;
             }
 
-            if (dy > 0 && layoutParams.bottomMargin - dy < 0)
+            if (dy > 0 && layoutParams.bottomMargin - dy < margins.bottom)
             {
-                dy = layoutParams.bottomMargin;
+                dy = layoutParams.bottomMargin - margins.bottom;
             }
-            else if (dy < 0 && layoutParams.topMargin + dy < 0)
+            else if (dy < 0 && layoutParams.topMargin + dy < margins.top)
             {
-                dy = -layoutParams.topMargin;
+                dy = -layoutParams.topMargin + margins.top;
             }
 
             layoutParams.leftMargin += dx;
@@ -216,20 +194,20 @@ public class MoveResizeView extends LinearLayout implements Destroyable
         {
             if ((operation & OPERATION_RESIZE_TOP) != 0)
             {
-                layoutParams.topMargin = MathUtils.clamp(layoutParams.topMargin + dy, 0, height - (minHeight + layoutParams.bottomMargin));
+                layoutParams.topMargin = MathUtils.clamp(layoutParams.topMargin + dy, margins.top, height - (minHeight + layoutParams.bottomMargin));
             }
             else if ((operation & OPERATION_RESIZE_BOTTOM) != 0)
             {
-                layoutParams.bottomMargin = MathUtils.clamp(layoutParams.bottomMargin - dy, 0, height - (minHeight + layoutParams.topMargin));
+                layoutParams.bottomMargin = MathUtils.clamp(layoutParams.bottomMargin - dy, margins.bottom, height - (minHeight + layoutParams.topMargin));
             }
 
             if ((operation & OPERATION_RESIZE_LEFT) != 0)
             {
-                layoutParams.leftMargin = MathUtils.clamp(layoutParams.leftMargin + dx, 0, width - (minWidth + layoutParams.rightMargin));
+                layoutParams.leftMargin = MathUtils.clamp(layoutParams.leftMargin + dx, margins.left, width - (minWidth + layoutParams.rightMargin));
             }
             else if ((operation & OPERATION_RESIZE_RIGHT) != 0)
             {
-                layoutParams.rightMargin = MathUtils.clamp(layoutParams.rightMargin - dx, 0, width - (minWidth + layoutParams.leftMargin));
+                layoutParams.rightMargin = MathUtils.clamp(layoutParams.rightMargin - dx, margins.right, width - (minWidth + layoutParams.leftMargin));
             }
         }
 

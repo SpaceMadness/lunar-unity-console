@@ -37,17 +37,20 @@ import spacemadness.com.lunarconsole.core.Destroyable;
 import spacemadness.com.lunarconsole.debug.Assert;
 import spacemadness.com.lunarconsole.ui.MoveResizeView;
 import spacemadness.com.lunarconsole.ui.ViewPager;
+import spacemadness.com.lunarconsole.utils.DisplayCutoutHelper;
+import spacemadness.com.lunarconsole.utils.Margins;
 import spacemadness.com.lunarconsole.utils.ObjectUtils;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
-public class ConsoleView extends LinearLayout implements BackButtonListener, Destroyable
-{
+public class ConsoleView extends LinearLayout implements BackButtonListener, Destroyable {
     private final ConsoleViewState consoleViewState;
     private final ConsoleLogView consoleLogView;
     private final ConsoleActionView consoleActionView;
 
-    /** An overlay layout for move/resize operations */
+    /**
+     * An overlay layout for move/resize operations
+     */
     private MoveResizeView moveResizeView;
 
     private Listener listener;
@@ -55,12 +58,10 @@ public class ConsoleView extends LinearLayout implements BackButtonListener, Des
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Constructors
 
-    public ConsoleView(Activity activity, ConsolePluginImpl consolePlugin)
-    {
+    public ConsoleView(final Activity activity, ConsolePluginImpl consolePlugin) {
         super(activity);
 
-        if (consolePlugin == null)
-        {
+        if (consolePlugin == null) {
             throw new NullPointerException("Console plugin is null");
         }
 
@@ -69,7 +70,7 @@ public class ConsoleView extends LinearLayout implements BackButtonListener, Des
         View rootView = LayoutInflater.from(activity).inflate(R.layout.lunar_console_layout_console_view, this, false);
         addView(rootView, new LinearLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT));
 
-        ViewPager viewPager = (ViewPager) rootView.findViewById(R.id.lunar_console_view_pager);
+        ViewPager viewPager = rootView.findViewById(R.id.lunar_console_view_pager);
 
         consoleLogView = new ConsoleLogView(activity, consolePlugin.getConsole());
         consoleLogView.setEmails(consolePlugin.getEmails());
@@ -78,12 +79,10 @@ public class ConsoleView extends LinearLayout implements BackButtonListener, Des
         consoleActionView = new ConsoleActionView(activity, consolePlugin); // FIXME: these classes know too much about each other
         viewPager.addPageView(consoleActionView);
 
-        consoleLogView.setOnMoveSizeListener(new ConsoleLogView.OnMoveSizeListener()
-        {
+        consoleLogView.setOnMoveSizeListener(new ConsoleLogView.OnMoveSizeListener() {
             @Override
-            public void onMoveResize(ConsoleLogView consoleLogView)
-            {
-                showMoveResizeView(getContext());
+            public void onMoveResize(ConsoleLogView consoleLogView) {
+                showMoveResizeView(getContext(), DisplayCutoutHelper.getSafeMargins(activity));
             }
         });
 
@@ -92,12 +91,10 @@ public class ConsoleView extends LinearLayout implements BackButtonListener, Des
         setFocusableInTouchMode(true);
 
         // setup close button
-        ImageButton closeButton = (ImageButton) rootView.findViewById(R.id.lunar_console_button_close);
-        closeButton.setOnClickListener(new OnClickListener()
-        {
+        ImageButton closeButton = rootView.findViewById(R.id.lunar_console_button_close);
+        closeButton.setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 notifyClose();
             }
         });
@@ -106,18 +103,14 @@ public class ConsoleView extends LinearLayout implements BackButtonListener, Des
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Move/Resize
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    private void showMoveResizeView(Context context)
-    {
+    private void showMoveResizeView(Context context, Margins margins) {
         Assert.IsNull(moveResizeView);
-        if (moveResizeView == null)
-        {
+        if (moveResizeView == null) {
             final FrameLayout parentLayout = ObjectUtils.as(getParent(), FrameLayout.class);
             Assert.IsNotNull(parentLayout);
 
-            if (parentLayout != null)
-            {
-                moveResizeView = new MoveResizeView(context);
+            if (parentLayout != null) {
+                moveResizeView = new MoveResizeView(context, margins);
                 FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(MATCH_PARENT, MATCH_PARENT);
                 parentLayout.addView(moveResizeView, layoutParams);
 
@@ -128,11 +121,9 @@ public class ConsoleView extends LinearLayout implements BackButtonListener, Des
                 setPageViewsVisible(false);
 
                 // handle close button
-                moveResizeView.setOnCloseListener(new MoveResizeView.OnCloseListener()
-                {
+                moveResizeView.setOnCloseListener(new MoveResizeView.OnCloseListener() {
                     @Override
-                    public void onClose(MoveResizeView view)
-                    {
+                    public void onClose(MoveResizeView view) {
                         hideMoveResizeView();
                     }
                 });
@@ -141,11 +132,9 @@ public class ConsoleView extends LinearLayout implements BackButtonListener, Des
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    private void hideMoveResizeView()
-    {
+    private void hideMoveResizeView() {
         Assert.IsNotNull(moveResizeView);
-        if (moveResizeView != null)
-        {
+        if (moveResizeView != null) {
             final MarginLayoutParams parentLayoutParams = (MarginLayoutParams) getLayoutParams();
 
             parentLayoutParams.topMargin = moveResizeView.getTopMargin();
@@ -172,16 +161,14 @@ public class ConsoleView extends LinearLayout implements BackButtonListener, Des
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    private void setPageViewsVisible(boolean visible)
-    {
+    private void setPageViewsVisible(boolean visible) {
         int visibility = visible ? VISIBLE : GONE;
 
         consoleLogView.setVisibility(visibility);
         consoleActionView.setVisibility(visibility);
     }
 
-    private boolean isMoveResizeViewVisible()
-    {
+    private boolean isMoveResizeViewVisible() {
         return moveResizeView != null;
     }
 
@@ -189,14 +176,10 @@ public class ConsoleView extends LinearLayout implements BackButtonListener, Des
     // Back button
 
     @Override
-    public void onBackPressed()
-    {
-        if (isMoveResizeViewVisible())
-        {
+    public void onBackPressed() {
+        if (isMoveResizeViewVisible()) {
             hideMoveResizeView();
-        }
-        else
-        {
+        } else {
             notifyClose();
         }
     }
@@ -205,8 +188,7 @@ public class ConsoleView extends LinearLayout implements BackButtonListener, Des
     // Destroyable
 
     @Override
-    public void destroy()
-    {
+    public void destroy() {
         consoleLogView.destroy();
         consoleActionView.destroy();
     }
@@ -214,18 +196,14 @@ public class ConsoleView extends LinearLayout implements BackButtonListener, Des
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Listener notifications
 
-    void notifyOpen()
-    {
-        if (listener != null)
-        {
+    void notifyOpen() {
+        if (listener != null) {
             listener.onOpen(this);
         }
     }
 
-    void notifyClose()
-    {
-        if (listener != null)
-        {
+    void notifyClose() {
+        if (listener != null) {
             listener.onClose(this);
         }
     }
@@ -233,22 +211,20 @@ public class ConsoleView extends LinearLayout implements BackButtonListener, Des
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Getters/Setters
 
-    public Listener getListener()
-    {
+    public Listener getListener() {
         return listener;
     }
 
-    public void setListener(Listener listener)
-    {
+    public void setListener(Listener listener) {
         this.listener = listener;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Listener
 
-    public interface Listener
-    {
+    public interface Listener {
         void onOpen(ConsoleView view);
+
         void onClose(ConsoleView view);
     }
 }
