@@ -186,7 +186,7 @@ static UIEdgeInsets _messageInsets;
 {
     if (message.tags)
     {
-        _messageLabel.attributedText = message.attributedText;
+        // _messageLabel.attributedText = message.attributedText;
     }
     else
     {

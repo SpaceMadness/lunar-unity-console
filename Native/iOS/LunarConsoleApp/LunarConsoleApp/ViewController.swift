@@ -72,6 +72,10 @@ class ViewController: LUViewController {
         volatileVariable?.flags = LUCVarFlagsNoArchive
         */
         
+        plugin.logMessage("This <color=red>is</color> string", stackTrace: "", type: LUConsoleLogTypeLog);
+        plugin.logMessage("This <b>is</b> string", stackTrace: "", type: LUConsoleLogTypeLog);
+        plugin.logMessage("This <i>is</i> string", stackTrace: "", type: LUConsoleLogTypeLog);
+        
         netPeer = NetPeer()
         netPeer.delegate = self
         netPeer.connect(toHost: "localhost", port: 10500)
