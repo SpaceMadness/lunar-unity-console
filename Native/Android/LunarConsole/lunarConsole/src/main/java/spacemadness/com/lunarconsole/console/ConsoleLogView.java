@@ -88,7 +88,7 @@ public class ConsoleLogView extends AbstractConsoleView implements
     private OnMoveSizeListener onMoveSizeListener;
     private String[] emails;
 
-    public ConsoleLogView(Activity activity, final Console console)
+    public ConsoleLogView(Activity activity, final Console console, String version)
     {
         super(activity, R.layout.lunar_console_layout_console_log_view);
 
@@ -204,7 +204,7 @@ public class ConsoleLogView extends AbstractConsoleView implements
         setupMoreButton();
 
         // setup fake status bar
-        setupFakeStatusBar();
+        setupFakeStatusBar(version);
 
         // setup overflow warning
         overflowText = findExistingViewById(R.id.lunar_console_text_overflow);
@@ -439,10 +439,10 @@ public class ConsoleLogView extends AbstractConsoleView implements
         });
     }
 
-    private void setupFakeStatusBar()
+    private void setupFakeStatusBar(String version)
     {
         String title = String.format(getResources().
-                getString(R.string.lunar_console_title_fake_status_bar), ConsolePluginImpl.getVersion());
+                getString(R.string.lunar_console_title_fake_status_bar), version);
 
         TextView statusBar = findExistingViewById(R.id.lunar_console_fake_status_bar);
         statusBar.setText(title);

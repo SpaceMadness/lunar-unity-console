@@ -72,7 +72,7 @@ public class ConsoleView extends LinearLayout implements BackButtonListener, Des
 
         ViewPager viewPager = rootView.findViewById(R.id.lunar_console_view_pager);
 
-        consoleLogView = new ConsoleLogView(activity, consolePlugin.getConsole());
+        consoleLogView = new ConsoleLogView(activity, consolePlugin.getConsole(), consolePlugin.getVersion());
         consoleLogView.setEmails(consolePlugin.getEmails());
         viewPager.addPageView(consoleLogView);
 

@@ -682,8 +682,8 @@ public class ConsolePluginImpl implements ConsolePlugin, NotificationCenter.OnNo
         return consoleView != null;
     }
 
-    public static String getVersion() {
-        return "?.?.?";
+    public String getVersion() {
+        return version;
     }
 
     public static void setCapacity(int capacity) {
