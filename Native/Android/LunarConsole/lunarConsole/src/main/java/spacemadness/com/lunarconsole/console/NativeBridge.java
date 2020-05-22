@@ -88,7 +88,7 @@ public final class NativeBridge {
                 final Activity activity = UnityPlayer.currentActivity;
                 final Platform platform = new ManagedPlatform(activity, targetName, methodName);
                 final PluginSettings settings = JsonDecoder.decode(settingsJson, PluginSettings.class);
-                plugin = new ConsolePluginImpl(activity, platform, version, settings);
+                plugin = new ConsolePlugin(activity, platform, version, settings);
                 plugin.start();
             }
         });

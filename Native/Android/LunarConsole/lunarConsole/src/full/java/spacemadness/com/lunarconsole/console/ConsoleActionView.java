@@ -58,11 +58,11 @@ public class ConsoleActionView extends AbstractConsoleView implements
 
     private final ConsoleViewState consoleViewState;
 
-    public ConsoleActionView(Activity activity, ConsolePluginImpl consolePlugin) {
+    public ConsoleActionView(Activity activity, ConsolePlugin consolePlugin) {
         this(activity, consolePlugin, DispatchQueue.mainQueue());
     }
 
-    public ConsoleActionView(Activity activity, ConsolePluginImpl consolePlugin, final DispatchQueue dispatchQueue) {
+    public ConsoleActionView(Activity activity, ConsolePlugin consolePlugin, final DispatchQueue dispatchQueue) {
         super(activity, R.layout.lunar_console_layout_console_action_view);
 
         contentView = findViewById(R.id.lunar_console_actions_view);

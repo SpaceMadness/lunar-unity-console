@@ -58,7 +58,7 @@ public class ConsoleView extends LinearLayout implements BackButtonListener, Des
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Constructors
 
-    public ConsoleView(final Activity activity, ConsolePluginImpl consolePlugin) {
+    public ConsoleView(final Activity activity, ConsolePlugin consolePlugin) {
         super(activity);
 
         if (consolePlugin == null) {
