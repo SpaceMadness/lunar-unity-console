@@ -50,6 +50,8 @@ import android.widget.TextView;
 import java.lang.ref.WeakReference;
 
 import spacemadness.com.lunarconsole.R;
+import spacemadness.com.lunarconsole.concurrent.DispatchQueue;
+import spacemadness.com.lunarconsole.concurrent.DispatchTask;
 import spacemadness.com.lunarconsole.debug.Log;
 import spacemadness.com.lunarconsole.settings.PluginSettingsActivity;
 import spacemadness.com.lunarconsole.ui.ConsoleListView;
@@ -58,7 +60,6 @@ import spacemadness.com.lunarconsole.ui.ToggleButton;
 import spacemadness.com.lunarconsole.ui.ToggleImageButton;
 import spacemadness.com.lunarconsole.utils.StackTrace;
 import spacemadness.com.lunarconsole.utils.StringUtils;
-import spacemadness.com.lunarconsole.utils.ThreadUtils;
 import spacemadness.com.lunarconsole.utils.UIUtils;
 
 import static android.widget.LinearLayout.LayoutParams.MATCH_PARENT;
@@ -67,10 +68,10 @@ import static spacemadness.com.lunarconsole.debug.Tags.*;
 
 public class ConsoleLogView extends AbstractConsoleView implements
         LunarConsoleListener,
-        LogTypeButton.OnStateChangeListener
-{
+        LogTypeButton.OnStateChangeListener {
     private final WeakReference<Activity> activityRef;
 
+    private final DispatchQueue dispatchQueue;
     private final Console console;
     private final ListView listView;
     private final ConsoleLogAdapter consoleLogAdapter;
@@ -88,17 +89,24 @@ public class ConsoleLogView extends AbstractConsoleView implements
     private OnMoveSizeListener onMoveSizeListener;
     private String[] emails;
 
-    public ConsoleLogView(Activity activity, final Console console, String version)
-    {
+    public ConsoleLogView(Activity activity, Console console, String version) {
+        this(activity, console, version, DispatchQueue.mainQueue());
+    }
+
+    public ConsoleLogView(Activity activity, final Console console, String version, final DispatchQueue dispatchQueue) {
         super(activity, R.layout.lunar_console_layout_console_log_view);
 
-        if (console == null)
-        {
-            throw new NullPointerException("Console is null");
+        if (console == null) {
+            throw new IllegalArgumentException("Console is null");
+        }
+
+        if (dispatchQueue == null) {
+            throw new IllegalArgumentException("Dispatch queue is null");
         }
 
         this.activityRef = new WeakReference<>(activity);
         this.console = console;
+        this.dispatchQueue = dispatchQueue;
         this.console.setConsoleListener(this);
 
         scrollLocked = true; // scroll is locked by default
@@ -111,27 +119,22 @@ public class ConsoleLogView extends AbstractConsoleView implements
 
         listView = new ConsoleListView(activity);
         listView.setAdapter(consoleLogAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, final View view, final int position, long id)
-            {
+            public void onItemClick(AdapterView<?> parent, final View view, final int position, long id) {
                 final Context ctx = getContext();
                 final ConsoleLogEntry entry = console.getEntry(position);
 
                 // TODO: user color resource and animation
                 view.setBackgroundColor(0xff000000);
-                ThreadUtils.runOnUIThread(new Runnable()
-                {
+
+                // show highlight effect
+                dispatchQueue.dispatchOnce(new DispatchTask() {
                     @Override
-                    public void run()
-                    {
-                        try
-                        {
+                    protected void execute() {
+                        try {
                             view.setBackgroundColor(entry.getBackgroundColor(ctx, position));
-                        }
-                        catch (Exception e)
-                        {
+                        } catch (Exception e) {
                             Log.e(e, "Error while settings entry background color");
                         }
                     }
@@ -157,14 +160,11 @@ public class ConsoleLogView extends AbstractConsoleView implements
 
                 builder.setView(contentView);
                 builder.setPositiveButton(R.string.lunar_console_log_details_dialog_button_copy_to_clipboard,
-                        new DialogInterface.OnClickListener()
-                        {
+                        new DialogInterface.OnClickListener() {
                             @Override
-                            public void onClick(DialogInterface dialog, int which)
-                            {
+                            public void onClick(DialogInterface dialog, int which) {
                                 String text = message;
-                                if (entry.hasStackTrace())
-                                {
+                                if (entry.hasStackTrace()) {
                                     text += "\n\n" + stackTrace;
                                 }
                                 copyToClipboard(text);
@@ -176,13 +176,10 @@ public class ConsoleLogView extends AbstractConsoleView implements
             }
         });
 
-        listView.setOnTouchListener(new OnTouchListener()
-        {
+        listView.setOnTouchListener(new OnTouchListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event)
-            {
-                if (scrollLocked && event.getAction() == MotionEvent.ACTION_DOWN)
-                {
+            public boolean onTouch(View v, MotionEvent event) {
+                if (scrollLocked && event.getAction() == MotionEvent.ACTION_DOWN) {
                     scrollLockButton.setOn(false);
                 }
 
@@ -217,12 +214,10 @@ public class ConsoleLogView extends AbstractConsoleView implements
     }
 
     @Override
-    public void destroy()
-    {
+    public void destroy() {
         Log.d(CONSOLE, "Destroy console");
 
-        if (console.getConsoleListener() == this)
-        {
+        if (console.getConsoleListener() == this) {
             console.setConsoleListener(null);
         }
     }
@@ -230,20 +225,16 @@ public class ConsoleLogView extends AbstractConsoleView implements
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Filtering
 
-    private void filterByText(String text)
-    {
+    private void filterByText(String text) {
         boolean shouldReload = console.entries().setFilterByText(text);
-        if (shouldReload)
-        {
+        if (shouldReload) {
             reloadData();
         }
     }
 
-    private void setFilterByLogTypeMask(int logTypeMask, boolean disabled)
-    {
+    private void setFilterByLogTypeMask(int logTypeMask, boolean disabled) {
         boolean shouldReload = console.entries().setFilterByLogTypeMask(logTypeMask, disabled);
-        if (shouldReload)
-        {
+        if (shouldReload) {
             reloadData();
         }
     }
@@ -251,26 +242,21 @@ public class ConsoleLogView extends AbstractConsoleView implements
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Data
 
-    private void reloadData()
-    {
+    private void reloadData() {
         consoleLogAdapter.notifyDataSetChanged();
         updateOverflowText();
     }
 
-    private void clearConsole()
-    {
+    private void clearConsole() {
         console.clear();
     }
 
-    private boolean copyConsoleOutputToClipboard()
-    {
+    private boolean copyConsoleOutputToClipboard() {
         return copyToClipboard(console.getText());
     }
 
-    private boolean sendConsoleOutputByEmail()
-    {
-        try
-        {
+    private boolean sendConsoleOutputByEmail() {
+        try {
             String packageName = getContext().getPackageName();
             String subject = StringUtils.format("'%s' console log", packageName);
 
@@ -280,22 +266,18 @@ public class ConsoleLogView extends AbstractConsoleView implements
             intent.setData(Uri.parse("mailto:")); // only email apps should handle this
             intent.putExtra(Intent.EXTRA_SUBJECT, subject);
             intent.putExtra(Intent.EXTRA_TEXT, outputText);
-            if (emails != null && emails.length > 0)
-            {
+            if (emails != null && emails.length > 0) {
                 intent.putExtra(Intent.EXTRA_EMAIL, emails);
             }
 
-            if (intent.resolveActivity(getContext().getPackageManager()) != null)
-            {
+            if (intent.resolveActivity(getContext().getPackageManager()) != null) {
                 getContext().startActivity(intent);
                 return true;
             }
 
             UIUtils.showToast(getContext(), "Can't send email");
             return false;
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             Log.e(e, "Error while trying to send console output by email");
         }
 
@@ -305,29 +287,23 @@ public class ConsoleLogView extends AbstractConsoleView implements
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Scrolling
 
-    private void toggleScrollLock()
-    {
+    private void toggleScrollLock() {
         scrollLocked = !scrollLocked;
         scrollToBottom(console);
     }
 
-    private void scrollToBottom(Console console)
-    {
-        if (scrollLocked)
-        {
+    private void scrollToBottom(Console console) {
+        if (scrollLocked) {
             int entryCount = console.getEntryCount();
-            if (entryCount > 0)
-            {
+            if (entryCount > 0) {
                 listView.setSelection(entryCount - 1);
             }
         }
     }
 
-    private void scrollToTop(Console console)
-    {
+    private void scrollToTop(Console console) {
         int entryCount = console.getEntryCount();
-        if (entryCount > 0)
-        {
+        if (entryCount > 0) {
             listView.setSelection(0);
         }
     }
@@ -335,32 +311,26 @@ public class ConsoleLogView extends AbstractConsoleView implements
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // UI elements
 
-    private EditText setupFilterTextEdit()
-    {
+    private EditText setupFilterTextEdit() {
         // TODO: make a custom class
         EditText editText = findExistingViewById(R.id.lunar_console_log_view_text_edit_filter);
         String filterText = console.entries().getFilterText();
-        if (!StringUtils.IsNullOrEmpty(filterText))
-        {
+        if (!StringUtils.IsNullOrEmpty(filterText)) {
             editText.setText(filterText);
             editText.setSelection(filterText.length());
         }
 
-        editText.addTextChangedListener(new TextWatcher()
-        {
+        editText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after)
-            {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count)
-            {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
 
             @Override
-            public void afterTextChanged(Editable s)
-            {
+            public void afterTextChanged(Editable s) {
                 filterByText(s.toString());
             }
         });
@@ -368,8 +338,7 @@ public class ConsoleLogView extends AbstractConsoleView implements
         return editText;
     }
 
-    private void setupLogTypeButtons()
-    {
+    private void setupLogTypeButtons() {
         setupLogTypeButton(logButton, LOG);
         setupLogTypeButton(warningButton, WARNING);
         setupLogTypeButton(errorButton, ERROR);
@@ -377,19 +346,15 @@ public class ConsoleLogView extends AbstractConsoleView implements
         updateLogButtons();
     }
 
-    private void setupLogTypeButton(LogTypeButton button, int logType)
-    {
+    private void setupLogTypeButton(LogTypeButton button, int logType) {
         button.setOn(console.entries().isFilterLogTypeEnabled(logType));
         button.setOnStateChangeListener(this);
     }
 
-    private void setupOperationsButtons()
-    {
-        setOnClickListener(R.id.lunar_console_button_clear, new View.OnClickListener()
-        {
+    private void setupOperationsButtons() {
+        setOnClickListener(R.id.lunar_console_button_clear, new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 clearConsole();
             }
         });
@@ -399,66 +364,53 @@ public class ConsoleLogView extends AbstractConsoleView implements
         scrollLockButton.setOnDrawable(resources.getDrawable(R.drawable.lunar_console_icon_button_lock));
         scrollLockButton.setOffDrawable(resources.getDrawable(R.drawable.lunar_console_icon_button_unlock));
         scrollLockButton.setOn(scrollLocked);
-        scrollLockButton.setOnStateChangeListener(new ToggleImageButton.OnStateChangeListener()
-        {
+        scrollLockButton.setOnStateChangeListener(new ToggleImageButton.OnStateChangeListener() {
             @Override
-            public void onStateChanged(ToggleImageButton button)
-            {
+            public void onStateChanged(ToggleImageButton button) {
                 toggleScrollLock();
             }
         });
 
-        setOnClickListener(R.id.lunar_console_button_copy, new View.OnClickListener()
-        {
+        setOnClickListener(R.id.lunar_console_button_copy, new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 copyConsoleOutputToClipboard();
             }
         });
 
-        setOnClickListener(R.id.lunar_console_button_email, new View.OnClickListener()
-        {
+        setOnClickListener(R.id.lunar_console_button_email, new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 sendConsoleOutputByEmail();
             }
         });
     }
 
-    private void setupMoreButton()
-    {
-        setOnClickListener(R.id.lunar_console_button_more, new OnClickListener()
-        {
+    private void setupMoreButton() {
+        setOnClickListener(R.id.lunar_console_button_more, new OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 showMoreOptionsMenu(v);
             }
         });
     }
 
-    private void setupFakeStatusBar(String version)
-    {
+    private void setupFakeStatusBar(String version) {
         String title = String.format(getResources().
                 getString(R.string.lunar_console_title_fake_status_bar), version);
 
         TextView statusBar = findExistingViewById(R.id.lunar_console_fake_status_bar);
         statusBar.setText(title);
-        statusBar.setOnClickListener(new OnClickListener()
-        {
+        statusBar.setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 scrollLockButton.setOn(false);
                 scrollToTop(console);
             }
         });
     }
 
-    private void updateLogButtons()
-    {
+    private void updateLogButtons() {
         final ConsoleLogEntryList entries = console.entries();
         logButton.setCount(entries.getLogCount());
         warningButton.setCount(entries.getWarningCount());
@@ -469,54 +421,43 @@ public class ConsoleLogView extends AbstractConsoleView implements
     // More options context menu
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    private void showMoreOptionsMenu(View v)
-    {
+    private void showMoreOptionsMenu(View v) {
         PopupMenu popup = new PopupMenu(getContext(), v);
         MenuInflater inflater = popup.getMenuInflater();
         Menu menu = popup.getMenu();
         inflater.inflate(R.menu.lunar_console_more_options_menu, menu);
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener()
-        {
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
             @Override
-            public boolean onMenuItemClick(MenuItem item)
-            {
+            public boolean onMenuItemClick(MenuItem item) {
                 final int itemId = item.getItemId();
-                if (itemId == R.id.lunar_console_menu_toggle_collapse)
-                {
+                if (itemId == R.id.lunar_console_menu_toggle_collapse) {
                     console.setCollapsed(!console.isCollapsed());
                     return true;
                 }
 
-                if (itemId == R.id.lunar_console_menu_settings)
-                {
+                if (itemId == R.id.lunar_console_menu_settings) {
                     final Activity activity = getActivity();
-                    if (activity == null)
-                    {
+                    if (activity == null) {
                         Log.e(CONSOLE, "Unable to show settings activity: root activity context is lost");
                         return true;
                     }
 
-                    try
-                    {
+                    try {
                         Intent intent = new Intent(activity, PluginSettingsActivity.class);
                         activity.startActivity(intent);
-                    }
-                    catch (Exception e)
-                    {
+                    } catch (Exception e) {
                         Log.e(e, "Unable to show settings activity");
                     }
 
                     return true;
                 }
 
-                if (itemId == R.id.lunar_console_menu_move_resize)
-                {
+                if (itemId == R.id.lunar_console_menu_move_resize) {
                     notifyMoveResize();
                     return true;
                 }
 
-                if (itemId == R.id.lunar_console_menu_help)
-                {
+                if (itemId == R.id.lunar_console_menu_help) {
                     openHelpPage();
                     return true;
                 }
@@ -527,14 +468,11 @@ public class ConsoleLogView extends AbstractConsoleView implements
         MenuItem collapseItem = menu.findItem(R.id.lunar_console_menu_toggle_collapse);
         collapseItem.setChecked(console.isCollapsed());
 
-        if (LunarConsoleConfig.isFree)
-        {
+        if (LunarConsoleConfig.isFree) {
             MenuItem menuItem = menu.add(R.string.lunar_console_more_menu_get_pro);
-            menuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener()
-            {
+            menuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                 @Override
-                public boolean onMenuItemClick(MenuItem item)
-                {
+                public boolean onMenuItemClick(MenuItem item) {
                     Context context = getContext();
                     return UIUtils.openURL(context, context.getString(R.string.lunar_console_url_menu_get_pro_version));
                 }
@@ -548,10 +486,8 @@ public class ConsoleLogView extends AbstractConsoleView implements
     // LunarConsoleListener
 
     @Override
-    public void onAddEntry(Console console, ConsoleLogEntry entry, boolean filtered)
-    {
-        if (filtered)
-        {
+    public void onAddEntry(Console console, ConsoleLogEntry entry, boolean filtered) {
+        if (filtered) {
             consoleLogAdapter.notifyDataSetChanged();
             scrollToBottom(console);
         }
@@ -560,8 +496,7 @@ public class ConsoleLogView extends AbstractConsoleView implements
     }
 
     @Override
-    public void onRemoveEntries(Console console, int start, int length)
-    {
+    public void onRemoveEntries(Console console, int start, int length) {
         consoleLogAdapter.notifyDataSetChanged();
         scrollToBottom(console);
         updateLogButtons();
@@ -569,8 +504,7 @@ public class ConsoleLogView extends AbstractConsoleView implements
     }
 
     @Override
-    public void onChangeEntries(Console console)
-    {
+    public void onChangeEntries(Console console) {
         consoleLogAdapter.notifyDataSetChanged();
         scrollToBottom(console);
         updateLogButtons();
@@ -578,8 +512,7 @@ public class ConsoleLogView extends AbstractConsoleView implements
     }
 
     @Override
-    public void onClearEntries(Console console)
-    {
+    public void onClearEntries(Console console) {
         reloadData();
         updateLogButtons();
     }
@@ -587,17 +520,13 @@ public class ConsoleLogView extends AbstractConsoleView implements
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Overflow
 
-    private void updateOverflowText()
-    {
+    private void updateOverflowText() {
         int trimmedCount = console.trimmedCount();
-        if (trimmedCount > 0)
-        {
+        if (trimmedCount > 0) {
             overflowText.setVisibility(View.VISIBLE);
             String text = getResources().getString(R.string.lunar_console_overflow_warning_text, trimmedCount);
             overflowText.setText(text);
-        }
-        else
-        {
+        } else {
             overflowText.setVisibility(View.GONE);
         }
     }
@@ -606,19 +535,13 @@ public class ConsoleLogView extends AbstractConsoleView implements
     // LULogTypeButton.OnStateChangeListener
 
     @Override
-    public void onStateChanged(ToggleButton button)
-    {
+    public void onStateChanged(ToggleButton button) {
         int mask = 0;
-        if (button == logButton)
-        {
+        if (button == logButton) {
             mask |= getMask(LOG);
-        }
-        else if (button == warningButton)
-        {
+        } else if (button == warningButton) {
             mask |= getMask(WARNING);
-        }
-        else if (button == errorButton)
-        {
+        } else if (button == errorButton) {
             mask |= getMask(EXCEPTION) |
                     getMask(ERROR) |
                     getMask(ASSERT);
@@ -631,19 +554,15 @@ public class ConsoleLogView extends AbstractConsoleView implements
     // Clipboard
 
     @SuppressWarnings("deprecation")
-    private boolean copyToClipboard(String outputText)
-    {
-        try
-        {
+    private boolean copyToClipboard(String outputText) {
+        try {
             ClipboardManager cm = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
             cm.setText(outputText);
 
             UIUtils.showToast(getContext(), "Copied to clipboard");
 
             return true;
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             Log.e(e, "Exception while trying to copy text to clipboard");
         }
 
@@ -652,19 +571,16 @@ public class ConsoleLogView extends AbstractConsoleView implements
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Help
-    
-    private void openHelpPage()
-    {
+
+    private void openHelpPage() {
         UIUtils.openURL(getContext(), "https://goo.gl/5Z8ovV");
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Listener notifications
 
-    private void notifyMoveResize()
-    {
-        if (onMoveSizeListener != null)
-        {
+    private void notifyMoveResize() {
+        if (onMoveSizeListener != null) {
             onMoveSizeListener.onMoveResize(this);
         }
     }
@@ -672,26 +588,22 @@ public class ConsoleLogView extends AbstractConsoleView implements
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Getters/Setters
 
-    public Activity getActivity()
-    {
+    public Activity getActivity() {
         return activityRef.get();
     }
 
-    public void setOnMoveSizeListener(OnMoveSizeListener onMoveSizeListener)
-    {
+    public void setOnMoveSizeListener(OnMoveSizeListener onMoveSizeListener) {
         this.onMoveSizeListener = onMoveSizeListener;
     }
 
-    public void setEmails(String[] emails)
-    {
+    public void setEmails(String[] emails) {
         this.emails = emails;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Move resize listener
 
-    public interface OnMoveSizeListener
-    {
+    public interface OnMoveSizeListener {
         void onMoveResize(ConsoleLogView consoleLogView);
     }
 }

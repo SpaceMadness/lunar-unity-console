@@ -23,8 +23,6 @@ package spacemadness.com.lunarconsole.console;
 
 import android.app.Activity;
 import android.app.Application;
-import android.os.Build;
-import android.view.DisplayCutout;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -43,7 +41,6 @@ import spacemadness.com.lunarconsole.core.Notification;
 import spacemadness.com.lunarconsole.core.NotificationCenter;
 import spacemadness.com.lunarconsole.debug.Assert;
 import spacemadness.com.lunarconsole.debug.Log;
-import spacemadness.com.lunarconsole.dependency.DefaultDependencies;
 import spacemadness.com.lunarconsole.dependency.PluginSettingsEditorProvider;
 import spacemadness.com.lunarconsole.dependency.Provider;
 import spacemadness.com.lunarconsole.settings.PluginSettings;
@@ -73,7 +70,6 @@ import static spacemadness.com.lunarconsole.debug.Tags.WARNING_VIEW;
 import static spacemadness.com.lunarconsole.ui.gestures.GestureRecognizer.OnGestureListener;
 import static spacemadness.com.lunarconsole.utils.ObjectUtils.checkNotNull;
 import static spacemadness.com.lunarconsole.utils.ObjectUtils.checkNotNullAndNotEmpty;
-import static spacemadness.com.lunarconsole.utils.ThreadUtils.runOnUIThread;
 
 public class ConsolePluginImpl implements ConsolePlugin, NotificationCenter.OnNotificationListener, Destroyable, PluginSettingsEditorProvider {
     private static final String SCRIPT_MESSAGE_CONSOLE_OPEN = "console_open";
@@ -625,17 +621,6 @@ public class ConsolePluginImpl implements ConsolePlugin, NotificationCenter.OnNo
 
     //endregion
 
-    //region Tasks
-
-    private final Runnable hideConsoleTask = new MainQueueTask("hide console") {
-        @Override
-        protected void execute() {
-
-        }
-    };
-
-    //endregion
-
     //region PluginSettingsEditorProvider
 
     @Override
@@ -703,34 +688,6 @@ public class ConsolePluginImpl implements ConsolePlugin, NotificationCenter.OnNo
 
     public String[] getEmails() {
         return settings.emails;
-    }
-
-    //endregion
-
-    //region Main Queue Task
-
-    private static abstract class MainQueueTask extends DispatchTask {
-        private final String description;
-
-        protected MainQueueTask(String description) {
-            this.description = description;
-        }
-
-        @Override
-        public void run() {
-            if (!DispatchQueue.isMainQueue()) {
-                DispatchQueue.mainQueue().dispatch(this);
-                return;
-            }
-
-            try {
-                execute();
-            } catch (Exception e) {
-                Log.e(e, "Exception while trying to " + description);
-            }
-        }
-
-        protected abstract void execute();
     }
 
     //endregion

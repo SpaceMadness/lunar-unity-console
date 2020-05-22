@@ -24,92 +24,84 @@ package spacemadness.com.lunarconsole.console;
 import java.util.ArrayList;
 import java.util.List;
 
+import spacemadness.com.lunarconsole.concurrent.DispatchQueue;
+import spacemadness.com.lunarconsole.concurrent.DispatchTask;
 import spacemadness.com.lunarconsole.debug.Log;
-import spacemadness.com.lunarconsole.utils.ThreadUtils;
 
-/** Class for handling batches of console entries on UI-thread */
-class ConsoleLogEntryDispatcher
-{
+/**
+ * Class for handling batches of console entries on UI-thread
+ */
+class ConsoleLogEntryDispatcher {
     private final OnDispatchListener listener;
     private final List<ConsoleLogEntry> entries;
-    private final Runnable dispatchRunnable;
+    private final DispatchQueue dispatchQueue;
+    private final DispatchTask dispatchTask;
 
-    public ConsoleLogEntryDispatcher(OnDispatchListener listener)
-    {
-        if (listener == null)
-        {
+    public ConsoleLogEntryDispatcher(OnDispatchListener listener) {
+        this(DispatchQueue.mainQueue(), listener);
+    }
+
+    public ConsoleLogEntryDispatcher(DispatchQueue dispatchQueue, OnDispatchListener listener) {
+        if (dispatchQueue == null) {
+            throw new NullPointerException("Dispatch queue is null");
+        }
+        if (listener == null) {
             throw new NullPointerException("Listener is null");
         }
 
+        this.dispatchQueue = dispatchQueue;
         this.listener = listener;
         this.entries = new ArrayList<>();
-        this.dispatchRunnable = createDispatchRunnable();
+        this.dispatchTask = createDispatchTask();
     }
 
-    public void add(ConsoleLogEntry entry)
-    {
-        synchronized (entries)
-        {
+    public void add(ConsoleLogEntry entry) {
+        synchronized (entries) {
             entries.add(entry);
 
-            if (entries.size() == 1)
-            {
+            if (entries.size() == 1) {
                 postEntriesDispatch();
             }
         }
     }
 
-    protected void postEntriesDispatch()
-    {
-        ThreadUtils.runOnUIThread(dispatchRunnable);
+    protected void postEntriesDispatch() {
+        dispatchQueue.dispatchOnce(dispatchTask);
     }
 
-    protected void cancelEntriesDispatch()
-    {
-        ThreadUtils.cancel(dispatchRunnable);
+    protected void cancelEntriesDispatch() {
+        dispatchTask.cancel();
     }
 
-    protected void dispatchEntries()
-    {
-        synchronized (entries)
-        {
-            try
-            {
+    protected void dispatchEntries() {
+        synchronized (entries) {
+            try {
                 listener.onDispatchEntries(entries);
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 Log.e(e, "Can't dispatch entries");
             }
             entries.clear();
         }
     }
 
-    private Runnable createDispatchRunnable()
-    {
-        return new Runnable()
-        {
+    private DispatchTask createDispatchTask() {
+        return new DispatchTask() {
             @Override
-            public void run()
-            {
+            protected void execute() {
                 dispatchEntries();
             }
         };
     }
 
-
-    public void cancelAll()
-    {
+    public void cancelAll() {
         cancelEntriesDispatch();
 
-        synchronized (entries)
-        {
+        synchronized (entries) {
             entries.clear();
         }
     }
 
-    public interface OnDispatchListener
-    {
+    public interface OnDispatchListener {
         void onDispatchEntries(List<ConsoleLogEntry> entries);
     }
 }

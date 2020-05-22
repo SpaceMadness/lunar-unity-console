@@ -25,13 +25,14 @@ import android.content.Context;
 import android.view.MotionEvent;
 import android.widget.ListView;
 
+import spacemadness.com.lunarconsole.concurrent.DispatchQueue;
+import spacemadness.com.lunarconsole.concurrent.DispatchTask;
 import spacemadness.com.lunarconsole.core.Destroyable;
 import spacemadness.com.lunarconsole.debug.Log;
 import spacemadness.com.lunarconsole.settings.LogColors;
 import spacemadness.com.lunarconsole.settings.LogEntryColors;
 import spacemadness.com.lunarconsole.settings.LogOverlaySettings;
 import spacemadness.com.lunarconsole.utils.CycleArray;
-import spacemadness.com.lunarconsole.utils.ThreadUtils;
 
 import static spacemadness.com.lunarconsole.console.BaseConsoleLogAdapter.DataSource;
 import static spacemadness.com.lunarconsole.debug.Tags.OVERLAY_VIEW;
@@ -39,189 +40,184 @@ import static spacemadness.com.lunarconsole.debug.Tags.OVERLAY_VIEW;
 import static spacemadness.com.lunarconsole.debug.TestHelper.*;
 
 public class LogOverlayView extends ListView implements Destroyable, DataSource, LunarConsoleListener {
-	private final Console console;
+    private final Console console;
 
-	private final LogOverlaySettings settings;
+    private final DispatchQueue dispatchQueue;
 
-	private final LogOverlayAdapter adapter;
+    private final LogOverlaySettings settings;
 
-	private final CycleArray<OverlayEntry> entries;
+    private final LogOverlayAdapter adapter;
 
-	private final Runnable entryRemovalCallback = new Runnable() {
-		@Override
-		public void run() {
-			if (!entryRemovalScheduled) {
-				return;
-			}
+    private final CycleArray<OverlayEntry> entries;
 
-			entryRemovalScheduled = false;
+    private final DispatchTask entryRemovalTask = new DispatchTask() {
+        @Override
+        protected void execute() {
+            // remove first visible row
+            if (entries.realLength() > 0) {
+                testEvent(TEST_EVENT_OVERLAY_REMOVE_ITEM, entries);
 
-			// remove first visible row
-			if (entries.realLength() > 0) {
-				testEvent(TEST_EVENT_OVERLAY_REMOVE_ITEM, entries);
+                entries.trimHeadIndex(1);
+                reloadData();
+            }
 
-				entries.trimHeadIndex(1);
-				reloadData();
-			}
+            // if more entries are visible - schedule another removal
+            if (entries.realLength() > 0) {
+                scheduleEntryRemoval(entries.get(entries.getHeadIndex()));
+            }
+        }
+    };
 
-			// if more entries are visible - schedule another removal
-			if (entries.realLength() > 0) {
-				scheduleEntryRemoval(entries.get(entries.getHeadIndex()));
-			}
-		}
-	};
-	private boolean entryRemovalScheduled;
+    public LogOverlayView(Context context, Console console, LogOverlaySettings settings) {
+        this(context, console, settings, DispatchQueue.mainQueue());
+    }
 
-	public LogOverlayView(Context context, Console console, LogOverlaySettings settings) {
-		super(context);
+    public LogOverlayView(Context context, Console console, LogOverlaySettings settings, DispatchQueue dispatchQueue) {
+        super(context);
 
-		if (console == null) {
-			throw new NullPointerException("Console is null");
-		}
+        if (console == null) {
+            throw new NullPointerException("Console is null");
+        }
 
-		if (settings == null) {
-			throw new NullPointerException("Settings is null");
-		}
+        if (settings == null) {
+            throw new NullPointerException("Settings is null");
+        }
 
-		this.console = console;
-		this.console.setConsoleListener(this);
+        this.console = console;
+        this.dispatchQueue = dispatchQueue;
+        this.console.setConsoleListener(this);
 
-		this.settings = settings;
+        this.settings = settings;
 
-		entries = new CycleArray<>(OverlayEntry.class, settings.maxVisibleLines);
-		adapter = new LogOverlayAdapter(this, createLogViewStyle(settings.colors));
+        entries = new CycleArray<>(OverlayEntry.class, settings.maxVisibleLines);
+        adapter = new LogOverlayAdapter(this, createLogViewStyle(settings.colors));
 
-		setDivider(null);
-		setDividerHeight(0);
-		setAdapter(adapter);
-		setOverScrollMode(ListView.OVER_SCROLL_NEVER);
-		setScrollingCacheEnabled(false);
+        setDivider(null);
+        setDividerHeight(0);
+        setAdapter(adapter);
+        setOverScrollMode(ListView.OVER_SCROLL_NEVER);
+        setScrollingCacheEnabled(false);
 
-		reloadData();
-	}
+        reloadData();
+    }
 
-	private static LogViewStyle createLogViewStyle(LogColors colors) {
-		return new LogViewStyle(
-			createLogEntryStyle(colors.exception),
-			createLogEntryStyle(colors.error),
-			createLogEntryStyle(colors.warning),
-			createLogEntryStyle(colors.debug)
-		);
-	}
+    private static LogViewStyle createLogViewStyle(LogColors colors) {
+        return new LogViewStyle(
+                createLogEntryStyle(colors.exception),
+                createLogEntryStyle(colors.error),
+                createLogEntryStyle(colors.warning),
+                createLogEntryStyle(colors.debug)
+        );
+    }
 
-	private static LogEntryStyle createLogEntryStyle(LogEntryColors colors) {
-		return new LogEntryStyle(colors.foreground.toARGB(), colors.background.toARGB());
-	}
+    private static LogEntryStyle createLogEntryStyle(LogEntryColors colors) {
+        return new LogEntryStyle(colors.foreground.toARGB(), colors.background.toARGB());
+    }
 
-	//region Events
+    //region Events
 
-	@Override
-	public boolean onTouchEvent(MotionEvent ev) {
-		return false; // no touch events
-	}
+    @Override
+    public boolean onTouchEvent(MotionEvent ev) {
+        return false; // no touch events
+    }
 
-	//endregion
+    //endregion
 
-	//region Data
+    //region Data
 
-	private void reloadData() {
-		adapter.notifyDataSetChanged();
-	}
+    private void reloadData() {
+        adapter.notifyDataSetChanged();
+    }
 
-	//endregion
+    //endregion
 
-	//region Entry removal
+    //region Entry removal
 
-	private void scheduleEntryRemoval(OverlayEntry entry) {
-		if (entryRemovalScheduled) {
-			return;
-		}
+    private void scheduleEntryRemoval(OverlayEntry entry) {
+        long delay = Math.max(0, entry.removalTimeStamp - System.currentTimeMillis());
 
-		entryRemovalScheduled = true;
+        dispatchQueue.dispatchOnce(entryRemovalTask, delay);
 
-		long delay = Math.max(0, entry.removalTimeStamp - System.currentTimeMillis());
-		ThreadUtils.runOnUIThread(entryRemovalCallback, delay);
-		testEvent(TEST_EVENT_OVERLAY_SCHEDULE_ITEM_REMOVAL);
-	}
+        testEvent(TEST_EVENT_OVERLAY_SCHEDULE_ITEM_REMOVAL);
+    }
 
-	private void cancelEntryRemoval() {
-		entryRemovalScheduled = false;
-		ThreadUtils.cancel(entryRemovalCallback);
-	}
+    private void cancelEntryRemoval() {
+        entryRemovalTask.cancel();
+    }
 
-	//endregion
+    //endregion
 
-	//region Destroyable
+    //region Destroyable
 
-	@Override
-	public void destroy() {
-		Log.d(OVERLAY_VIEW, "Destroy overlay view");
-		if (console.getConsoleListener() == this) {
-			console.setConsoleListener(null);
-		}
-		cancelEntryRemoval();
-	}
+    @Override
+    public void destroy() {
+        Log.d(OVERLAY_VIEW, "Destroy overlay view");
+        if (console.getConsoleListener() == this) {
+            console.setConsoleListener(null);
+        }
+        cancelEntryRemoval();
+    }
 
-	//endregion
+    //endregion
 
-	//region DataSource
+    //region DataSource
 
-	@Override
-	public ConsoleLogEntry getEntry(int position) {
-		return entries.get(entries.getHeadIndex() + position).entry;
-	}
+    @Override
+    public ConsoleLogEntry getEntry(int position) {
+        return entries.get(entries.getHeadIndex() + position).entry;
+    }
 
-	@Override
-	public int getEntryCount() {
-		return entries.realLength();
-	}
+    @Override
+    public int getEntryCount() {
+        return entries.realLength();
+    }
 
-	//endregion
+    //endregion
 
-	//region LunarConsoleListener
+    //region LunarConsoleListener
 
-	@Override
-	public void onAddEntry(Console console, ConsoleLogEntry entry, boolean filtered) {
+    @Override
+    public void onAddEntry(Console console, ConsoleLogEntry entry, boolean filtered) {
 
-		OverlayEntry overlayEntry = new OverlayEntry(entry, System.currentTimeMillis() + (long) (1000L * settings.timeout));
-		entries.add(overlayEntry); // cycle array will handle entries trim
-		reloadData();
+        OverlayEntry overlayEntry = new OverlayEntry(entry, System.currentTimeMillis() + (long) (1000L * settings.timeout));
+        entries.add(overlayEntry); // cycle array will handle entries trim
+        reloadData();
 
-		testEvent(TEST_EVENT_OVERLAY_ADD_ITEM, entries);
+        testEvent(TEST_EVENT_OVERLAY_ADD_ITEM, entries);
 
-		scheduleEntryRemoval(overlayEntry);
-	}
+        scheduleEntryRemoval(overlayEntry);
+    }
 
-	@Override
-	public void onRemoveEntries(Console console, int start, int length) {
-		// just do nothing
-	}
+    @Override
+    public void onRemoveEntries(Console console, int start, int length) {
+        // just do nothing
+    }
 
-	@Override
-	public void onChangeEntries(Console console) {
-		// just do nothing
-	}
+    @Override
+    public void onChangeEntries(Console console) {
+        // just do nothing
+    }
 
-	@Override
-	public void onClearEntries(Console console) {
-		cancelEntryRemoval();
-		entries.clear();
-		reloadData();
-	}
+    @Override
+    public void onClearEntries(Console console) {
+        cancelEntryRemoval();
+        entries.clear();
+        reloadData();
+    }
 
-	//endregion
+    //endregion
 
-	//region Overlay Entry
+    //region Overlay Entry
 
-	private static class OverlayEntry {
-		final ConsoleLogEntry entry;
-		final long removalTimeStamp;
+    private static class OverlayEntry {
+        final ConsoleLogEntry entry;
+        final long removalTimeStamp;
 
-		OverlayEntry(ConsoleLogEntry entry, long removalTimeStamp) {
-			this.entry = entry;
-			this.removalTimeStamp = removalTimeStamp;
-		}
-	}
+        OverlayEntry(ConsoleLogEntry entry, long removalTimeStamp) {
+            this.entry = entry;
+            this.removalTimeStamp = removalTimeStamp;
+        }
+    }
 
-	//endregion
+    //endregion
 }

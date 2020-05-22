@@ -34,12 +34,13 @@ import android.widget.ListView;
 import java.util.List;
 
 import spacemadness.com.lunarconsole.R;
+import spacemadness.com.lunarconsole.concurrent.DispatchQueue;
+import spacemadness.com.lunarconsole.concurrent.DispatchTask;
 import spacemadness.com.lunarconsole.core.Destroyable;
 import spacemadness.com.lunarconsole.core.NotificationCenter;
 import spacemadness.com.lunarconsole.debug.Log;
 import spacemadness.com.lunarconsole.ui.ConsoleListView;
 import spacemadness.com.lunarconsole.utils.StringUtils;
-import spacemadness.com.lunarconsole.utils.ThreadUtils;
 import spacemadness.com.lunarconsole.utils.UIUtils;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
@@ -48,8 +49,7 @@ import static spacemadness.com.lunarconsole.console.Notifications.*;
 import static spacemadness.com.lunarconsole.utils.ObjectUtils.*;
 
 public class ConsoleActionView extends AbstractConsoleView implements
-        ActionRegistryFilter.Delegate, Destroyable
-{
+        ActionRegistryFilter.Delegate, Destroyable {
     private final View contentView; // contains the whole view hierarchy
     private final View warningView; // contains "no actions" warning view
 
@@ -58,8 +58,11 @@ public class ConsoleActionView extends AbstractConsoleView implements
 
     private final ConsoleViewState consoleViewState;
 
-    public ConsoleActionView(Activity activity, ConsolePluginImpl consolePlugin)
-    {
+    public ConsoleActionView(Activity activity, ConsolePluginImpl consolePlugin) {
+        this(activity, consolePlugin, DispatchQueue.mainQueue());
+    }
+
+    public ConsoleActionView(Activity activity, ConsolePluginImpl consolePlugin, final DispatchQueue dispatchQueue) {
         super(activity, R.layout.lunar_console_layout_console_action_view);
 
         contentView = findViewById(R.id.lunar_console_actions_view);
@@ -80,15 +83,12 @@ public class ConsoleActionView extends AbstractConsoleView implements
 
         ListView listView = new ConsoleListView(activity);
         listView.setAdapter(consoleActionAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener()
-        {
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, final View view, final int position, long id)
-            {
+            public void onItemClick(AdapterView<?> parent, final View view, final int position, long id) {
                 final Context ctx = getContext();
                 final Action action = as(dataSource.getEntry(position), Action.class);
-                if (action == null)
-                {
+                if (action == null) {
                     return;
                 }
 
@@ -98,17 +98,13 @@ public class ConsoleActionView extends AbstractConsoleView implements
                 // visual feedback
                 // TODO: user color resource and animation
                 view.setBackgroundColor(0xff000000);
-                ThreadUtils.runOnUIThread(new Runnable()
-                {
+
+                dispatchQueue.dispatch(new DispatchTask() {
                     @Override
-                    public void run()
-                    {
-                        try
-                        {
+                    protected void execute() {
+                        try {
                             view.setBackgroundColor(action.getBackgroundColor(ctx, position));
-                        }
-                        catch (Exception e)
-                        {
+                        } catch (Exception e) {
                             Log.e(e, "Error while settings entry background color");
                         }
                     }
@@ -128,11 +124,9 @@ public class ConsoleActionView extends AbstractConsoleView implements
         updateNoActionWarningView();
 
         // "help" button
-        setOnClickListener(R.id.lunar_console_no_actions_button_help, new OnClickListener()
-        {
+        setOnClickListener(R.id.lunar_console_no_actions_button_help, new OnClickListener() {
             @Override
-            public void onClick(View view)
-            {
+            public void onClick(View view) {
                 UIUtils.openURL(getContext(), "https://goo.gl/in0obv");
             }
         });
@@ -141,32 +135,26 @@ public class ConsoleActionView extends AbstractConsoleView implements
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // UI elements
 
-    private EditText setupFilterTextEdit()
-    {
+    private EditText setupFilterTextEdit() {
         // TODO: make a custom class
         EditText editText = findExistingViewById(R.id.lunar_console_action_view_text_edit_filter);
         String filterText = registryFilter.getFilterText();
-        if (!StringUtils.IsNullOrEmpty(filterText))
-        {
+        if (!StringUtils.IsNullOrEmpty(filterText)) {
             editText.setText(filterText);
             editText.setSelection(filterText.length());
         }
 
-        editText.addTextChangedListener(new TextWatcher()
-        {
+        editText.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after)
-            {
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count)
-            {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
 
             @Override
-            public void afterTextChanged(Editable s)
-            {
+            public void afterTextChanged(Editable s) {
                 String filterText = s.toString();
                 filterByText(filterText);
                 consoleViewState.setActionFilterText(filterText);
@@ -180,11 +168,9 @@ public class ConsoleActionView extends AbstractConsoleView implements
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Filtering
 
-    private void filterByText(String filterText)
-    {
+    private void filterByText(String filterText) {
         boolean changed = registryFilter.setFilterText(filterText);
-        if (changed)
-        {
+        if (changed) {
             reloadData();
         }
     }
@@ -192,15 +178,13 @@ public class ConsoleActionView extends AbstractConsoleView implements
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // No actions warning
 
-    private void updateNoActionWarningView()
-    {
+    private void updateNoActionWarningView() {
         boolean hasContent = registryFilter.getAllActions().size() > 0 ||
-                             registryFilter.getAllVariables().size() > 0;
+                registryFilter.getAllVariables().size() > 0;
         setNoActionsWarningViewHidden(hasContent);
     }
 
-    private void setNoActionsWarningViewHidden(boolean hidden)
-    {
+    private void setNoActionsWarningViewHidden(boolean hidden) {
         warningView.setVisibility(hidden ? GONE : VISIBLE);
         contentView.setVisibility(hidden ? VISIBLE : GONE);
     }
@@ -208,13 +192,11 @@ public class ConsoleActionView extends AbstractConsoleView implements
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Data
 
-    private void reloadData()
-    {
+    private void reloadData() {
         consoleActionAdapter.notifyDataSetChanged();
     }
 
-    private void notifyDataChanged()
-    {
+    private void notifyDataChanged() {
         consoleActionAdapter.notifyDataSetChanged();
     }
 
@@ -222,8 +204,7 @@ public class ConsoleActionView extends AbstractConsoleView implements
     // Destroyable
 
     @Override
-    public void destroy()
-    {
+    public void destroy() {
         // TODO: destroy stuff
     }
 
@@ -231,59 +212,50 @@ public class ConsoleActionView extends AbstractConsoleView implements
     // ActionRegistryFilter.Delegate
 
     @Override
-    public void actionRegistryFilterDidAddAction(ActionRegistryFilter registryFilter, Action action, int index)
-    {
+    public void actionRegistryFilterDidAddAction(ActionRegistryFilter registryFilter, Action action, int index) {
         notifyDataChanged();
         updateNoActionWarningView();
     }
 
     @Override
-    public void actionRegistryFilterDidRemoveAction(ActionRegistryFilter registryFilter, Action action, int index)
-    {
+    public void actionRegistryFilterDidRemoveAction(ActionRegistryFilter registryFilter, Action action, int index) {
         notifyDataChanged();
         updateNoActionWarningView();
     }
 
     @Override
-    public void actionRegistryFilterDidRegisterVariable(ActionRegistryFilter registryFilter, Variable variable, int index)
-    {
+    public void actionRegistryFilterDidRegisterVariable(ActionRegistryFilter registryFilter, Variable variable, int index) {
         notifyDataChanged();
         updateNoActionWarningView();
     }
 
     @Override
-    public void actionRegistryFilterDidChangeVariable(ActionRegistryFilter registryFilter, Variable variable, int index)
-    {
+    public void actionRegistryFilterDidChangeVariable(ActionRegistryFilter registryFilter, Variable variable, int index) {
         notifyDataChanged();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Data Source
 
-    private static class ActionDataSource implements DataSource<IdentityEntry>
-    {
+    private static class ActionDataSource implements DataSource<IdentityEntry> {
         private final ActionRegistryFilter actionRegistryFilter;
         private final IdentityEntry actionsHeader;
         private final IdentityEntry variablesHeader;
 
-        private ActionDataSource(Context context, ActionRegistryFilter actionRegistryFilter)
-        {
+        private ActionDataSource(Context context, ActionRegistryFilter actionRegistryFilter) {
             this.actionRegistryFilter = actionRegistryFilter;
             actionsHeader = new HeaderEntry(context.getString(R.string.lunar_console_header_actions));
             variablesHeader = new HeaderEntry(context.getString(R.string.lunar_console_header_variables));
         }
 
         @Override
-        public IdentityEntry getEntry(int position)
-        {
+        public IdentityEntry getEntry(int position) {
             List<Action> actions = getActions();
-            if (actions.size() > 0)
-            {
+            if (actions.size() > 0) {
                 if (position == 0) return actionsHeader;
 
                 int actionIndex = position - 1;
-                if (actionIndex < actions.size())
-                {
+                if (actionIndex < actions.size()) {
                     return actions.get(actionIndex);
                 }
 
@@ -294,8 +266,7 @@ public class ConsoleActionView extends AbstractConsoleView implements
         }
 
         @Override
-        public int getEntryCount()
-        {
+        public int getEntryCount() {
             int count = 0;
 
             List<Action> actions = getActions();
@@ -307,12 +278,11 @@ public class ConsoleActionView extends AbstractConsoleView implements
             return count;
         }
 
-        private List<Action> getActions()
-        {
+        private List<Action> getActions() {
             return actionRegistryFilter.actions();
         }
-        private List<Variable> getVariables()
-        {
+
+        private List<Variable> getVariables() {
             return actionRegistryFilter.variables();
         }
     }
