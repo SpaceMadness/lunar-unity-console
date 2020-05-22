@@ -67,6 +67,8 @@ public abstract class DispatchTask implements Runnable {
     }
 
     public synchronized void cancel() {
-        this.cancelled = true;
+        if (scheduled) {
+            cancelled = true;
+        }
     }
 }

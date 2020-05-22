@@ -31,7 +31,7 @@ import spacemadness.com.lunarconsole.utils.StringUtils
 import org.junit.Assert.assertEquals
 
 abstract class TestCase {
-    private var results: MutableList<String>? = null
+    private lateinit var results: MutableList<String>
 
     val resultList: List<String>?
         get() = results
@@ -42,7 +42,7 @@ abstract class TestCase {
     @Before
     @Throws(Exception::class)
     fun setUp() {
-        results = ArrayList()
+        results = mutableListOf()
     }
 
     @After
@@ -55,7 +55,7 @@ abstract class TestCase {
 
     protected fun assertResults(vararg expected: String) {
         assertResults(results, *expected)
-        results!!.clear()
+        results.clear()
     }
 
     protected fun assertResults(actual: List<String>?, vararg expected: String) {
@@ -123,10 +123,10 @@ abstract class TestCase {
     }
 
     protected fun addResult(result: String) {
-        results!!.add(result)
+        results.add(result)
     }
 
     protected fun clearResult() {
-        results!!.clear()
+        results.clear()
     }
 }

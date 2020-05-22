@@ -45,7 +45,7 @@ public class SerialDispatchQueue extends DispatchQueue {
 	}
 
 	@Override
-	public void dispatch(DispatchTask task, long delay) {
+	protected void schedule(DispatchTask task, long delay) {
 		if (delay > 0) {
 			handler.postDelayed(task, delay);
 		} else {
