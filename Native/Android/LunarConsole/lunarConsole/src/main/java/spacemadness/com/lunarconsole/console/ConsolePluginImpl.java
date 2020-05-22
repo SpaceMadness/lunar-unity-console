@@ -37,6 +37,7 @@ import java.util.Map;
 
 import spacemadness.com.lunarconsole.R;
 import spacemadness.com.lunarconsole.concurrent.DispatchQueue;
+import spacemadness.com.lunarconsole.concurrent.DispatchTask;
 import spacemadness.com.lunarconsole.core.Destroyable;
 import spacemadness.com.lunarconsole.core.Notification;
 import spacemadness.com.lunarconsole.core.NotificationCenter;
@@ -119,14 +120,46 @@ public class ConsolePluginImpl implements ConsolePlugin, NotificationCenter.OnNo
 
     //endregion
 
-    //region Lifecycle
+    public ConsolePluginImpl(Activity activity, Platform platform, String version, PluginSettings settings) {
+        this.activityRef = new WeakReference<>(checkNotNull(activity, "activity"));
 
-    static {
-        // register default providers
-        DefaultDependencies.register();
+        PluginSettings existingSettings = PluginSettingsIO.load(activity);
+        if (existingSettings != null) {
+            settings = existingSettings;
+        }
+
+        this.platform = checkNotNull(platform, "platform");
+        this.settings = checkNotNull(settings, "settings");
+        this.version = checkNotNullAndNotEmpty(version, "version");
+
+        Application application = activity.getApplication();
+        if (application == null) {
+            throw new IllegalStateException("Application is null");
+        }
+        activityLifecycleHandler = new ActivityLifecycleHandler(application);
+
+        // make settings available as a dependency
+        Provider.register(PluginSettingsEditorProvider.class, this);
+
+        consoleViewState = new ConsoleViewState(activity.getApplicationContext());
+
+        Options options = new Options(settings.capacity);
+        options.setTrimCount(settings.trim);
+        console = new Console(options);
+        actionRegistry = new ActionRegistry();
+        actionRegistry.setActionSortingEnabled(settings.sortActions);
+        actionRegistry.setVariableSortingEnabled(settings.sortVariables);
+
+        gestureDetector = GestureRecognizerFactory.create(activity, settings.gesture);
+        gestureDetector.setListener(new OnGestureListener() {
+            @Override
+            public void onGesture(GestureRecognizer gestureRecognizer) {
+                showConsole();
+            }
+        });
+
+        registerNotifications();
     }
-
-    //endregion
 
     //region ConsolePlugin
 
@@ -135,12 +168,7 @@ public class ConsolePluginImpl implements ConsolePlugin, NotificationCenter.OnNo
         enableGestureRecognition();
 
         if (settings.logOverlay.enabled) {
-            runOnUIThread(new Runnable() {
-                @Override
-                public void run() {
-                    showLogOverlayView();
-                }
-            });
+            showLogOverlayView();
         }
     }
 
@@ -151,22 +179,30 @@ public class ConsolePluginImpl implements ConsolePlugin, NotificationCenter.OnNo
 
     @Override
     public void showConsole() {
-        showConsoleTask.run();
+        try {
+            showConsoleGuarded();
+        } catch (Exception e) {
+            Log.e(e, "Exception while showing console");
+        }
     }
 
     @Override
     public void hideConsole() {
-        hideConsoleTask.run();
+        try {
+            hideConsoleGuarded();
+        } catch (Exception e) {
+            Log.e(e, "Exception while hiding console");
+        }
     }
 
     @Override
     public void showOverlay() {
-        throw new NotImplementedException();
+        showLogOverlayView();
     }
 
     @Override
     public void hideOverlay() {
-        throw new NotImplementedException();
+        removeLogOverlayView();
     }
 
     @Override
@@ -212,51 +248,6 @@ public class ConsolePluginImpl implements ConsolePlugin, NotificationCenter.OnNo
 
     //endregion
 
-    //region Constructor
-
-    public ConsolePluginImpl(Activity activity, Platform platform, String version, PluginSettings settings) {
-        this.activityRef = new WeakReference<>(checkNotNull(activity, "activity"));
-
-        PluginSettings existingSettings = PluginSettingsIO.load(activity);
-        if (existingSettings != null) {
-            settings = existingSettings;
-        }
-
-        this.platform = checkNotNull(platform, "platform");
-        this.settings = checkNotNull(settings, "settings");
-        this.version = checkNotNullAndNotEmpty(version, "version");
-
-        Application application = activity.getApplication();
-        if (application == null) {
-            throw new IllegalStateException("Application is null");
-        }
-        activityLifecycleHandler = new ActivityLifecycleHandler(application);
-
-        // make settings available as a dependency
-        Provider.register(PluginSettingsEditorProvider.class, this);
-
-        consoleViewState = new ConsoleViewState(activity.getApplicationContext());
-
-        Options options = new Options(settings.capacity);
-        options.setTrimCount(settings.trim);
-        console = new Console(options);
-        actionRegistry = new ActionRegistry();
-        actionRegistry.setActionSortingEnabled(settings.sortActions);
-        actionRegistry.setVariableSortingEnabled(settings.sortVariables);
-
-        gestureDetector = GestureRecognizerFactory.create(activity, settings.gesture);
-        gestureDetector.setListener(new OnGestureListener() {
-            @Override
-            public void onGesture(GestureRecognizer gestureRecognizer) {
-                showConsole();
-            }
-        });
-
-        registerNotifications();
-    }
-
-    //endregion
-
     //region Destroyable
 
     @Override
@@ -272,9 +263,6 @@ public class ConsolePluginImpl implements ConsolePlugin, NotificationCenter.OnNo
         if (activityLifecycleHandler != null) {
             activityLifecycleHandler.destroy();
         }
-        if (console != null) {
-            console.destroy();
-        }
         entryDispatcher.cancelAll();
 
         Log.d(PLUGIN, "Plugin destroyed");
@@ -288,9 +276,9 @@ public class ConsolePluginImpl implements ConsolePlugin, NotificationCenter.OnNo
         FrameLayout content = activity.getWindow().findViewById(android.R.id.content);
 
         // get layout margins
-		Margins margins = DisplayCutoutHelper.getSafeMargins(activity);
+        Margins margins = DisplayCutoutHelper.getSafeMargins(activity);
 
-		// set layout margins
+        // set layout margins
         layoutParams.topMargin = Math.max(margins.top, layoutParams.topMargin);
         layoutParams.bottomMargin = Math.max(margins.bottom, layoutParams.bottomMargin);
         layoutParams.leftMargin = Math.max(margins.left, layoutParams.leftMargin);
@@ -302,12 +290,114 @@ public class ConsolePluginImpl implements ConsolePlugin, NotificationCenter.OnNo
     private void removeOverlayView(View overlayView) {
         FrameLayout content = getActivity().getWindow().findViewById(android.R.id.content);
         content.removeView(overlayView);
-
     }
 
     //endregion
 
     //region Console
+
+    private boolean showConsoleGuarded() {
+        try {
+            if (consoleView == null) {
+                Log.d(CONSOLE, "Show console");
+
+                final Activity activity = getActivity();
+                if (activity == null) {
+                    Log.e("Can't show console: activity reference is lost");
+                    return false;
+                }
+
+                // create console view
+                consoleView = new ConsoleView(activity, ConsolePluginImpl.this);
+                consoleView.setListener(new ConsoleView.Listener() {
+                    @Override
+                    public void onOpen(ConsoleView view) {
+                        sendNativeCallback(SCRIPT_MESSAGE_CONSOLE_OPEN);
+                    }
+
+                    @Override
+                    public void onClose(ConsoleView view) {
+                        hideConsole();
+                    }
+                });
+
+                // place console log view into console layout
+                LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+
+                // set layout margins
+                params.topMargin = consoleViewState.getTopMargin();
+                params.bottomMargin = consoleViewState.getBottomMargin();
+                params.leftMargin = consoleViewState.getLeftMargin();
+                params.rightMargin = consoleViewState.getRightMargin();
+
+                addOverlayView(activity, consoleView, params);
+
+                // show animation
+                Animation animation = AnimationUtils.loadAnimation(activity, R.anim.lunar_console_slide_in_top);
+                consoleView.startAnimation(animation);
+
+                // notify delegates
+                consoleView.notifyOpen();
+
+                // don't handle gestures if console is shown
+                disableGestureRecognition();
+
+                // request focus
+                consoleView.requestFocus();
+
+                return true;
+            } else {
+                Log.w("Console is already open");
+            }
+        } finally {
+            removeLogOverlayView();
+        }
+        return false;
+    }
+
+    private boolean hideConsoleGuarded() {
+        if (consoleView == null) {
+            return false;
+        }
+
+        Log.d(CONSOLE, "Hide console");
+
+        Activity activity = getActivity();
+        if (activity == null) {
+            Log.w("Can't properly hide console: activity reference is lost");
+            removeConsoleView();
+            return false;
+        }
+
+        Animation animation = AnimationUtils.loadAnimation(activity, R.anim.lunar_console_slide_out_top);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                removeConsoleView();
+
+                if (settings.logOverlay.enabled) {
+                    showLogOverlayView();
+                }
+
+                // start listening for gestures
+                enableGestureRecognition();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+
+        consoleView.startAnimation(animation);
+        sendNativeCallback(SCRIPT_MESSAGE_CONSOLE_CLOSE);
+
+        return true;
+    }
 
     private void logEntries(List<ConsoleLogEntry> entries) {
         for (int i = 0; i < entries.size(); ++i) {
@@ -537,103 +627,10 @@ public class ConsolePluginImpl implements ConsolePlugin, NotificationCenter.OnNo
 
     //region Tasks
 
-    private final Runnable showConsoleTask = new MainQueueTask("show console") {
-        @Override
-        protected void execute() {
-            try {
-                if (consoleView == null) {
-                    Log.d(CONSOLE, "Show console");
-
-                    final Activity activity = getActivity();
-                    if (activity == null) {
-                        Log.e("Can't show console: activity reference is lost");
-                        return;
-                    }
-
-                    // create console view
-                    consoleView = new ConsoleView(activity, ConsolePluginImpl.this);
-                    consoleView.setListener(new ConsoleView.Listener() {
-                        @Override
-                        public void onOpen(ConsoleView view) {
-                            sendNativeCallback(SCRIPT_MESSAGE_CONSOLE_OPEN);
-                        }
-
-                        @Override
-                        public void onClose(ConsoleView view) {
-                            hideConsole();
-                        }
-                    });
-
-                    // place console log view into console layout
-                    LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-
-                    // set layout margins
-					params.topMargin = consoleViewState.getTopMargin();
-					params.bottomMargin = consoleViewState.getBottomMargin();
-					params.leftMargin = consoleViewState.getLeftMargin();
-					params.rightMargin = consoleViewState.getRightMargin();
-
-                    addOverlayView(activity, consoleView, params);
-
-                    // show animation
-                    Animation animation = AnimationUtils.loadAnimation(activity, R.anim.lunar_console_slide_in_top);
-                    consoleView.startAnimation(animation);
-
-                    // notify delegates
-                    consoleView.notifyOpen();
-
-                    // don't handle gestures if console is shown
-                    disableGestureRecognition();
-
-                    // request focus
-                    consoleView.requestFocus();
-                } else {
-                    Log.w("Console is already open");
-                }
-            } finally {
-                removeLogOverlayView();
-            }
-        }
-    };
-
     private final Runnable hideConsoleTask = new MainQueueTask("hide console") {
         @Override
         protected void execute() {
-            if (consoleView != null) {
-                Log.d(CONSOLE, "Hide console");
 
-                Activity activity = getActivity();
-                if (activity != null) {
-                    Animation animation = AnimationUtils.loadAnimation(activity, R.anim.lunar_console_slide_out_top);
-                    animation.setAnimationListener(new Animation.AnimationListener() {
-                        @Override
-                        public void onAnimationStart(Animation animation) {
-                        }
-
-                        @Override
-                        public void onAnimationEnd(Animation animation) {
-                            removeConsoleView();
-
-                            if (settings.logOverlay.enabled) {
-                                showLogOverlayView();
-                            }
-
-                            // start listening for gestures
-                            enableGestureRecognition();
-                        }
-
-                        @Override
-                        public void onAnimationRepeat(Animation animation) {
-
-                        }
-                    });
-                    consoleView.startAnimation(animation);
-                    sendNativeCallback(SCRIPT_MESSAGE_CONSOLE_CLOSE);
-                } else {
-                    Log.w("Can't properly hide console: activity reference is lost");
-                    removeConsoleView();
-                }
-            }
         }
     };
 
@@ -712,7 +709,7 @@ public class ConsolePluginImpl implements ConsolePlugin, NotificationCenter.OnNo
 
     //region Main Queue Task
 
-    private static abstract class MainQueueTask implements Runnable {
+    private static abstract class MainQueueTask extends DispatchTask {
         private final String description;
 
         protected MainQueueTask(String description) {

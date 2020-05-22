@@ -25,7 +25,10 @@ import android.app.Activity;
 
 import com.unity3d.player.UnityPlayer;
 
+import spacemadness.com.lunarconsole.concurrent.DispatchQueue;
+import spacemadness.com.lunarconsole.concurrent.DispatchTask;
 import spacemadness.com.lunarconsole.debug.Log;
+import spacemadness.com.lunarconsole.dependency.DefaultDependencies;
 import spacemadness.com.lunarconsole.json.JsonDecoder;
 import spacemadness.com.lunarconsole.settings.PluginSettings;
 
@@ -33,110 +36,134 @@ import spacemadness.com.lunarconsole.settings.PluginSettings;
  * Class representing a bridge between native and managed code.
  */
 public final class NativeBridge {
-	private static ConsolePlugin plugin;
+    private static ConsolePlugin plugin;
+	private static final DispatchQueue dispatchQueue;
 
-	private NativeBridge() {
+	static {
+		// register default providers
+		DefaultDependencies.register();
+
+		// use main queue as default queue
+		dispatchQueue = DispatchQueue.mainQueue();
 	}
 
-	/**
-	 * This method is called by a managed code. Do not rename or change params types of order
-	 *
-	 * @param targetName   name of game object which would receive native callbacks
-	 * @param methodName   name of the method of the game object to be called
-	 * @param version      plugin version
-	 * @param settingsJson JSON settings of the plugin
-	 */
-	public static void init(String targetName, String methodName, String version, String settingsJson) {
-		if (plugin != null) {
-			Log.w("Plugin already initialized");
-			return;
-		}
+    private NativeBridge() {
+    }
 
-		try {
-			final Activity activity = UnityPlayer.currentActivity;
-			final Platform platform = new ManagedPlatform(activity, targetName, methodName);
-			final PluginSettings settings = JsonDecoder.decode(settingsJson, PluginSettings.class);
-			plugin = new ConsolePluginImpl(activity, platform, version, settings);
-			plugin.start();
-		} catch (Exception e) {
-			Log.e(e, "Exception while initializing plugin");
-		}
-	}
+    /**
+     * This method is called by a managed code. Do not rename or change params types of order
+     *
+     * @param targetName   name of game object which would receive native callbacks
+     * @param methodName   name of the method of the game object to be called
+     * @param version      plugin version
+     * @param settingsJson JSON settings of the plugin
+     */
+    public static void init(
+            final String targetName,
+            final String methodName,
+            final String version,
+            final String settingsJson
+    ) {
+        dispatchQueue.dispatch(new DispatchTask("plugin initialization") {
+            @Override
+            protected void execute() {
+                if (plugin != null) {
+                    Log.w("Plugin already initialized");
+                    return;
+                }
 
-	public static void logMessage(String message, String stackTrace, int logType) {
-		try {
-			plugin.logMessage(message, stackTrace, logType);
-		} catch (Exception e) {
-			Log.e(e, "Exception while logging a message");
-		}
-	}
+                final Activity activity = UnityPlayer.currentActivity;
+                final Platform platform = new ManagedPlatform(activity, targetName, methodName);
+                final PluginSettings settings = JsonDecoder.decode(settingsJson, PluginSettings.class);
+                plugin = new ConsolePluginImpl(activity, platform, version, settings);
+                plugin.start();
+            }
+        });
+    }
 
-	public static void showConsole() {
-		try {
-			plugin.showConsole();
-		} catch (Exception e) {
-			Log.e(e, "Exception while showing console");
-		}
-	}
+    public static void logMessage(String message, String stackTrace, int logType) {
+        try {
+            // this code is safe to call from unity thread
+            plugin.logMessage(message, stackTrace, logType);
+        } catch (Exception e) {
+            Log.e(e, "Exception while logging a message");
+        }
+    }
 
-	public static void hideConsole() {
-		try {
-			plugin.hideConsole();
-		} catch (Exception e) {
-			Log.e(e, "Exception while hiding console");
-		}
-	}
+    public static void showConsole() {
+        dispatchQueue.dispatch(new DispatchTask("show console") {
+            @Override
+            protected void execute() {
+                plugin.showConsole();
+            }
+        });
+    }
 
-	public static void clearConsole() {
-		try {
-			plugin.clearConsole();
-		} catch (Exception e) {
-			Log.e(e, "Exception while clearing console");
-		}
-	}
+    public static void hideConsole() {
+        dispatchQueue.dispatch(new DispatchTask("hide console") {
+            @Override
+            protected void execute() {
+                plugin.hideConsole();
+            }
+        });
+    }
 
-	public static void registerAction(int actionId, String actionName) {
-		try {
-			plugin.registerAction(actionId, actionName);
-		} catch (Exception e) {
-			Log.e(e, "Exception while registering action");
-		}
-	}
+    public static void clearConsole() {
+        dispatchQueue.dispatch(new DispatchTask("clear console") {
+            @Override
+            protected void execute() {
+                plugin.clearConsole();
+            }
+        });
+    }
 
-	public static void unregisterAction(int actionId) {
-		try {
-			plugin.unregisterAction(actionId);
-		} catch (Exception e) {
-			Log.e(e, "Exception while un-registering action");
-		}
-	}
+    public static void registerAction(final int actionId, final String actionName) {
+        dispatchQueue.dispatch(new DispatchTask("register action") {
+            @Override
+            protected void execute() {
+                plugin.registerAction(actionId, actionName);
+            }
+        });
+    }
 
-	public static void registerVariable(int variableId, String name, String type, String value, String defaultValue, int flags, boolean hasRange, float rangeMin, float rangeMax) {
-		try {
-			plugin.registerVariable(variableId, name, type, value, defaultValue, flags, hasRange, rangeMin, rangeMax);
-		} catch (Exception e) {
-			Log.e(e, "Exception while registering variable");
-		}
-	}
+    public static void unregisterAction(final int actionId) {
+        dispatchQueue.dispatch(new DispatchTask("unregister action") {
+            @Override
+            protected void execute() {
+                plugin.unregisterAction(actionId);
+            }
+        });
+    }
 
-	public static void updateVariable(final int variableId, final String value) {
-		try {
-			plugin.updateVariable(variableId, value);
-		} catch (Exception e) {
-			Log.e(e, "Exception while updating variable");
-		}
-	}
+    public static void registerVariable(final int variableId, final String name, final String type, final String value, final String defaultValue, final int flags, final boolean hasRange, final float rangeMin, final float rangeMax) {
+        dispatchQueue.dispatch(new DispatchTask("register variable") {
+            @Override
+            protected void execute() {
+                plugin.registerVariable(variableId, name, type, value, defaultValue, flags, hasRange, rangeMin, rangeMax);
+            }
+        });
+    }
 
-	public static void destroy() {
-		try {
-			if (plugin != null) {
-				plugin.destroy();
-				plugin = null;
-			} else {
-				Log.w("Plugin already destroyed");
+    public static void updateVariable(final int variableId, final String value) {
+        dispatchQueue.dispatch(new DispatchTask("update variable") {
+            @Override
+            protected void execute() {
+                plugin.updateVariable(variableId, value);
+            }
+        });
+    }
+
+    public static void destroy() {
+		dispatchQueue.dispatch(new DispatchTask("destroy plugin") {
+			@Override
+			protected void execute() {
+				if (plugin != null) {
+					plugin.destroy();
+					plugin = null;
+				} else {
+					Log.w("Plugin already destroyed");
+				}
 			}
-		} catch (Exception e) {
-			Log.e(e, "Exception while destroying instance");
-		}
-	}
+		});
+    }
 }

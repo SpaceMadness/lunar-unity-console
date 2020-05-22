@@ -33,12 +33,24 @@ public abstract class DispatchQueue implements Dispatcher {
 		this.name = checkNotNull(name, "name");
 	}
 
-	@Override
-	public void dispatch(Runnable r) {
-		dispatch(r, 0L);
+	public boolean dispatchOnce(DispatchTask task) {
+		return dispatchOnce(task, 0L);
 	}
 
-	public abstract void dispatch(Runnable r, long delay);
+	public boolean dispatchOnce(DispatchTask task, long delayMillis) {
+		if (!task.isScheduled()) {
+			dispatch(task, delayMillis);
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public void dispatch(DispatchTask task) {
+		dispatch(task, 0L);
+	}
+
+	public abstract void dispatch(DispatchTask r, long delay);
 
 	public abstract void stop();
 
