@@ -24,7 +24,7 @@ package spacemadness.com.lunarconsole.console;
 public interface ConsolePlugin {
 	void start();
 
-	void logMessage(String message, String stackTrace, int logType);
+	void logMessage(ConsoleLogEntry entry);
 
 	void showConsole();
 

@@ -37,10 +37,6 @@ class ConsoleLogEntryDispatcher {
     private final DispatchQueue dispatchQueue;
     private final DispatchTask dispatchTask;
 
-    public ConsoleLogEntryDispatcher(OnDispatchListener listener) {
-        this(DispatchQueue.mainQueue(), listener);
-    }
-
     public ConsoleLogEntryDispatcher(DispatchQueue dispatchQueue, OnDispatchListener listener) {
         if (dispatchQueue == null) {
             throw new NullPointerException("Dispatch queue is null");

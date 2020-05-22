@@ -101,21 +101,6 @@ public class ConsolePluginImpl implements ConsolePlugin, NotificationCenter.OnNo
         }
     };
 
-    //region Static initialization
-
-    /* Since the game can log many console entries on the secondary thread, we need an efficient
-     * way to batch them on the main thread
-     */
-    private final ConsoleLogEntryDispatcher entryDispatcher = new ConsoleLogEntryDispatcher(
-            new ConsoleLogEntryDispatcher.OnDispatchListener() {
-                @Override
-                public void onDispatchEntries(List<ConsoleLogEntry> entries) {
-                    logEntries(entries);
-                }
-            });
-
-    //endregion
-
     public ConsolePluginImpl(Activity activity, Platform platform, String version, PluginSettings settings) {
         this.activityRef = new WeakReference<>(checkNotNull(activity, "activity"));
 
@@ -169,8 +154,14 @@ public class ConsolePluginImpl implements ConsolePlugin, NotificationCenter.OnNo
     }
 
     @Override
-    public void logMessage(String message, String stackTrace, int logType) {
-        entryDispatcher.add(new ConsoleLogEntry((byte) logType, message, stackTrace));
+    public void logMessage(ConsoleLogEntry entry) {
+        // add to console
+        console.logMessage(entry);
+
+        // show warning
+        if (shouldShowWarning(entry.type) && !isConsoleShown()) {
+            showWarning(entry.message);
+        }
     }
 
     @Override
@@ -259,7 +250,6 @@ public class ConsolePluginImpl implements ConsolePlugin, NotificationCenter.OnNo
         if (activityLifecycleHandler != null) {
             activityLifecycleHandler.destroy();
         }
-        entryDispatcher.cancelAll();
 
         Log.d(PLUGIN, "Plugin destroyed");
     }
@@ -393,20 +383,6 @@ public class ConsolePluginImpl implements ConsolePlugin, NotificationCenter.OnNo
         sendNativeCallback(SCRIPT_MESSAGE_CONSOLE_CLOSE);
 
         return true;
-    }
-
-    private void logEntries(List<ConsoleLogEntry> entries) {
-        for (int i = 0; i < entries.size(); ++i) {
-            ConsoleLogEntry entry = entries.get(i);
-
-            // add to console
-            console.logMessage(entry);
-
-            // show warning
-            if (shouldShowWarning(entry.type) && !isConsoleShown()) {
-                showWarning(entry.message);
-            }
-        }
     }
 
     private void removeConsoleView() {

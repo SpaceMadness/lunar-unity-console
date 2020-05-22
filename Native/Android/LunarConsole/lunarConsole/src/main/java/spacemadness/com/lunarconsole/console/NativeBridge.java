@@ -25,6 +25,8 @@ import android.app.Activity;
 
 import com.unity3d.player.UnityPlayer;
 
+import java.util.List;
+
 import spacemadness.com.lunarconsole.concurrent.DispatchQueue;
 import spacemadness.com.lunarconsole.concurrent.DispatchTask;
 import spacemadness.com.lunarconsole.debug.Log;
@@ -37,15 +39,26 @@ import spacemadness.com.lunarconsole.settings.PluginSettings;
  */
 public final class NativeBridge {
     private static ConsolePlugin plugin;
-	private static final DispatchQueue dispatchQueue;
 
-	static {
-		// register default providers
-		DefaultDependencies.register();
+    private static final DispatchQueue dispatchQueue;
+    private static final ConsoleLogEntryDispatcher entryDispatcher;
 
-		// use main queue as default queue
-		dispatchQueue = DispatchQueue.mainQueue();
-	}
+    static {
+        // register default providers
+        DefaultDependencies.register();
+
+        // use main queue as default queue
+        dispatchQueue = DispatchQueue.mainQueue();
+
+        // initialize dispatcher
+        entryDispatcher = new ConsoleLogEntryDispatcher(dispatchQueue, new ConsoleLogEntryDispatcher.OnDispatchListener() {
+            @Override
+            public void onDispatchEntries(List<ConsoleLogEntry> entries) {
+                logEntries(entries);
+            }
+        });
+    }
+
 
     private NativeBridge() {
     }
@@ -83,8 +96,8 @@ public final class NativeBridge {
 
     public static void logMessage(String message, String stackTrace, int logType) {
         try {
-            // this code is safe to call from unity thread
-            plugin.logMessage(message, stackTrace, logType);
+            // unity logs message on its own thread - we batch them and log to the main thread
+            entryDispatcher.add(new ConsoleLogEntry((byte) logType, message, stackTrace));
         } catch (Exception e) {
             Log.e(e, "Exception while logging a message");
         }
@@ -154,16 +167,28 @@ public final class NativeBridge {
     }
 
     public static void destroy() {
-		dispatchQueue.dispatch(new DispatchTask("destroy plugin") {
-			@Override
-			protected void execute() {
-				if (plugin != null) {
-					plugin.destroy();
-					plugin = null;
-				} else {
-					Log.w("Plugin already destroyed");
-				}
-			}
-		});
+        dispatchQueue.dispatch(new DispatchTask("destroy plugin") {
+            @Override
+            protected void execute() {
+                entryDispatcher.cancelAll();
+
+                if (plugin != null) {
+                    plugin.destroy();
+                    plugin = null;
+                } else {
+                    Log.w("Plugin already destroyed");
+                }
+            }
+        });
     }
+
+    //region Entry Dispatcher
+
+    private static void logEntries(List<ConsoleLogEntry> entries) {
+        for (int i = 0; i < entries.size(); ++i) {
+            plugin.logMessage(entries.get(i));
+        }
+    }
+
+    //endregion
 }
