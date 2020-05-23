@@ -27,40 +27,58 @@ import spacemadness.com.lunarconsole.dependency.Provider;
 import static spacemadness.com.lunarconsole.utils.ObjectUtils.checkNotNull;
 
 public abstract class DispatchQueue implements Dispatcher {
-	private final String name;
+    private final String name;
 
-	public DispatchQueue(String name) {
-		this.name = checkNotNull(name, "name");
-	}
+    public DispatchQueue(String name) {
+        this.name = checkNotNull(name, "name");
+    }
 
-	@Override
-	public void dispatch(Runnable r) {
-		dispatch(r, 0L);
-	}
+    public boolean dispatchOnce(DispatchTask task) {
+        return dispatchOnce(task, 0L);
+    }
 
-	public abstract void dispatch(Runnable r, long delay);
+    public boolean dispatchOnce(DispatchTask task, long delayMillis) {
+        if (!task.isScheduled()) {
+            dispatch(task, delayMillis);
+            return true;
+        }
+        return false;
+    }
 
-	public abstract void stop();
+    @Override
+    public void dispatch(DispatchTask task) {
+        dispatch(task, 0L);
+    }
 
-	public abstract boolean isCurrent();
+    public void dispatch(DispatchTask task, long delay) {
+		task.setScheduled(true);
+		schedule(task, delay);
+    }
 
-	public String getName() {
-		return name;
-	}
+    protected abstract void schedule(DispatchTask task, long delay);
 
-	public static DispatchQueue mainQueue() {
-		return Holder.MAIN_QUEUE;
-	}
-	public static DispatchQueue createSerialQueue(String name) {
-		return Holder.provider.createSerialQueue(name);
-	}
+    public abstract void stop();
 
-	public static boolean isMainQueue() {
-		return Holder.provider.isMainQueue();
-	}
+    public abstract boolean isCurrent();
 
-	private static final class Holder {
-		private static final DispatchQueueProvider provider = Provider.of(DispatchQueueProvider.class);
-		private static final DispatchQueue MAIN_QUEUE = provider.createMainQueue();
-	}
+    public String getName() {
+        return name;
+    }
+
+    public static DispatchQueue mainQueue() {
+        return Holder.MAIN_QUEUE;
+    }
+
+    public static DispatchQueue createSerialQueue(String name) {
+        return Holder.provider.createSerialQueue(name);
+    }
+
+    public static boolean isMainQueue() {
+        return Holder.provider.isMainQueue();
+    }
+
+    private static final class Holder {
+        private static final DispatchQueueProvider provider = Provider.of(DispatchQueueProvider.class);
+        private static final DispatchQueue MAIN_QUEUE = provider.createMainQueue();
+    }
 }

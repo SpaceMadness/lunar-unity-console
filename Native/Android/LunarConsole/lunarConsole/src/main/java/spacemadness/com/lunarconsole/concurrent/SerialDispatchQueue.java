@@ -45,11 +45,11 @@ public class SerialDispatchQueue extends DispatchQueue {
 	}
 
 	@Override
-	public void dispatch(Runnable r, long delay) {
+	protected void schedule(DispatchTask task, long delay) {
 		if (delay > 0) {
-			handler.postDelayed(r, delay);
+			handler.postDelayed(task, delay);
 		} else {
-			handler.post(r);
+			handler.post(task);
 		}
 	}
 
