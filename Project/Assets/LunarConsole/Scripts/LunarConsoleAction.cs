@@ -19,7 +19,7 @@
 //  limitations under the License.
 //
 
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
@@ -420,7 +420,7 @@ namespace LunarConsolePluginInternal
 
         void OnValidate()
         {
-            if (m_calls.Count > 0)
+            if (m_calls != null && m_calls.Count > 0)
             {
                 foreach (var call in m_calls)
                 {
