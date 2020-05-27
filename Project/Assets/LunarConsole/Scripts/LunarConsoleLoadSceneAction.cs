@@ -8,6 +8,9 @@ namespace LunarConsolePluginInternal
     {
         [SerializeField]
         private string m_sceneName;
+        
+        [SerializeField]
+        private string m_actionName;
 
         [SerializeField]
         private LoadSceneMode m_mode = LoadSceneMode.Single;
@@ -28,7 +31,8 @@ namespace LunarConsolePluginInternal
             }
             else
             {
-                LunarConsole.RegisterAction(string.Format("Load '{0}'", m_sceneName), LoadScene);
+                string title = string.IsNullOrEmpty(m_actionName) ? string.Format("Load '{0}'", m_sceneName) : m_actionName;
+                LunarConsole.RegisterAction(title, LoadScene);
             }
         }
 
