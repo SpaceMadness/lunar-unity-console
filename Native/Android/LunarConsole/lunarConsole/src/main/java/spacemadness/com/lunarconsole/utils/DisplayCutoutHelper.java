@@ -38,7 +38,7 @@ public final class DisplayCutoutHelper {
         }
 
         try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
                 DisplayCutout displayCutout = activity.getWindow().getDecorView().getRootWindowInsets().getDisplayCutout();
                 if (displayCutout != null) {
                     return cachedMargins = new Margins(
