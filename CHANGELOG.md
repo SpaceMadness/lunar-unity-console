@@ -1,5 +1,11 @@
 # Lunar Console Changelog
 
+## v.1.6.6 - 06/10/2019
+
+**Fixes:**
+
+* **Android**: Fixed crash on older Android devices.
+
 ## v.1.6.4 - 12/15/2019
 
 **Fixes:**
