@@ -523,7 +523,7 @@ public class ApplicationBaseUITest implements TestHelper.EventListener
 
     protected void logMessage(String message, String stackTrace, int logType)
     {
-        ConsolePlugin.logMessage(message, stackTrace, logType);
+        ConsolePlugin.logMessage(logType, stackTrace, message);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

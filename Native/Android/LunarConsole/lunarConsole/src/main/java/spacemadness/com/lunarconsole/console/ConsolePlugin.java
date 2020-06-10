@@ -150,6 +150,10 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
         }
     }
 
+    public void logMessage(byte type, String stackTrace, String message) {
+        logMessage(new ConsoleLogEntry(type, message, stackTrace));
+    }
+
     public void logMessage(ConsoleLogEntry entry) {
         // add to console
         console.logMessage(entry);
