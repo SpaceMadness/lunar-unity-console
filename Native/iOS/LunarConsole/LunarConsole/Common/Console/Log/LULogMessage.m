@@ -87,7 +87,7 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger position, NS
     return [[LURichTextTagInfo alloc] initWithName:name attribute:attribute open:isOpen position:position];
 }
 
-@implementation LURichTextTag
+@implementation LURichTextTagOld
 
 - (instancetype)initWithFlags:(LURichTextTagFlags)flags attribute:(NSString * _Nullable)attribute range:(NSRange)range
 {
@@ -107,7 +107,7 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger position, NS
 - (BOOL)isEqual:(id)object
 {
     if ([object isKindOfClass:[self class]]) {
-        LURichTextTag *other = object;
+        LURichTextTagOld *other = object;
         return _flags == other.flags &&
         ((_attribute == nil && other.attribute == nil) || [_attribute isEqualToString:other.attribute]) &&
         NSEqualRanges(_range, other.range);
@@ -164,7 +164,7 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger position, NS
 
 @implementation LULogMessage
 
-- (instancetype)initWithText:(nullable NSString *)text tags:(NSArray<LURichTextTag *> *)tags
+- (instancetype)initWithText:(nullable NSString *)text tags:(NSArray<LURichTextTagOld *> *)tags
 {
     self = [super init];
     if (self)
@@ -180,7 +180,7 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger position, NS
 
 + (instancetype)fromRichText:(NSString *)text
 {
-    NSMutableArray<LURichTextTag *> *tags = nil;
+    NSMutableArray<LURichTextTagOld *> *tags = nil;
     NSMutableArray<LURichTextTagInfo *> *stack = nil;
     NSUInteger i = 0;
     
@@ -219,18 +219,18 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger position, NS
                         if (tags == nil) tags = [NSMutableArray new];
                         if ([tag.name isEqualToString:@"b"])
                         {
-                            [tags addObject:[[LURichTextTag alloc] initWithFlags:LURichTextTagFlagBold attribute:nil range:range]];
+                            [tags addObject:[[LURichTextTagOld alloc] initWithFlags:LURichTextTagFlagBold attribute:nil range:range]];
                         }
                         else if ([tag.name isEqualToString:@"i"])
                         {
-                            [tags addObject:[[LURichTextTag alloc] initWithFlags:LURichTextTagFlagItalic attribute:nil range:range]];
+                            [tags addObject:[[LURichTextTagOld alloc] initWithFlags:LURichTextTagFlagItalic attribute:nil range:range]];
                         }
                         else if ([tag.name isEqualToString:@"color"])
                         {
                             NSString *color = opposingTag.attribute;
                             if (color != nil)
                             {
-                                [tags addObject:[[LURichTextTag alloc] initWithFlags:LURichTextTagFlagColor attribute:color range:range]];
+                                [tags addObject:[[LURichTextTagOld alloc] initWithFlags:LURichTextTagFlagColor attribute:color range:range]];
                             }
                         }
                     }

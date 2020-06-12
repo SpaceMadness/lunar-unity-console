@@ -16,7 +16,7 @@ typedef enum : NSUInteger {
     LURichTextTagFlagColor  = 0x04,
 } LURichTextTagFlags;
 
-@interface LURichTextTag : NSObject
+@interface LURichTextTagOld : NSObject
 
 @property (nonatomic, readonly) LURichTextTagFlags flags;
 @property (nonatomic, readonly, nullable) NSString *attribute;
@@ -43,10 +43,10 @@ typedef enum : NSUInteger {
 @interface LULogMessage : NSObject
 
 @property (nonatomic, readonly, nullable) NSString *text;
-@property (nonatomic, readonly, nullable) NSArray<LURichTextTag *> *tags;
+@property (nonatomic, readonly, nullable) NSArray<LURichTextTagOld *> *tags;
 @property (nonatomic, readonly) NSUInteger length;
 
-- (instancetype)initWithText:(nullable NSString *)text tags:(NSArray<LURichTextTag *> * _Nullable)tags;
+- (instancetype)initWithText:(nullable NSString *)text tags:(NSArray<LURichTextTagOld *> * _Nullable)tags;
 
 + (instancetype)fromRichText:(nullable NSString *)text;
 
