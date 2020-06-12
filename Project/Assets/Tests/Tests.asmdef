@@ -5,9 +5,7 @@
         "UnityEditor.TestRunner",
         "LunarConsole"
     ],
-    "includePlatforms": [
-        "Editor"
-    ],
+    "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": true,
