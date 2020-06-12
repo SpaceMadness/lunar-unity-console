@@ -126,6 +126,42 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger position, NS
 
 @end
 
+@implementation LURichTextStyleTag
+
+- (instancetype)initWithStyle:(LURichTextStyle)style range:(NSRange)range
+{
+    self = [super init];
+    if (self)
+    {
+        _style = style;
+        _range = range;
+    }
+    return self;
+}
+
+#pragma mark -
+#pragma mark Equality
+
+- (BOOL)isEqual:(id)object
+{
+    if ([object isKindOfClass:[self class]]) {
+        LURichTextStyleTag *other = object;
+        return _style == other.style && NSEqualRanges(_range, other.range);
+    }
+    
+    return NO;
+}
+
+#pragma mark -
+#pragma mark Description
+
+- (NSString *)description
+{
+    return [NSString stringWithFormat:@"style=%ld range=%@", _style, NSStringFromRange(_range)];
+}
+
+@end
+
 @implementation LULogMessage
 
 - (instancetype)initWithText:(nullable NSString *)text tags:(NSArray<LURichTextTag *> *)tags

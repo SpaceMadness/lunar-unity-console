@@ -26,6 +26,20 @@ typedef enum : NSUInteger {
 
 @end
 
+typedef enum : NSUInteger {
+    LURichTextStyleBold,
+    LURichTextStyleItalic
+} LURichTextStyle;
+
+@interface LURichTextStyleTag : NSObject
+
+@property (nonatomic, readonly) LURichTextStyle style;
+@property (nonatomic, readonly) NSRange range;
+
+- (instancetype)initWithStyle:(LURichTextStyle)style range:(NSRange)range;
+
+@end
+
 @interface LULogMessage : NSObject
 
 @property (nonatomic, readonly, nullable) NSString *text;
