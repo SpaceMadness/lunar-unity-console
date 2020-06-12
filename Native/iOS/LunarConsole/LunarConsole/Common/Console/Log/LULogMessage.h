@@ -6,7 +6,7 @@
 //  Copyright © 2020 Space Madness. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -26,17 +26,32 @@ typedef enum : NSUInteger {
 
 @end
 
+@interface LURichTextTag : NSObject
+
+@property (nonatomic, readonly) NSRange range;
+
+- (instancetype)initWithRange:(NSRange)range;
+
+@end
+
 typedef enum : NSUInteger {
     LURichTextStyleBold,
     LURichTextStyleItalic
 } LURichTextStyle;
 
-@interface LURichTextStyleTag : NSObject
+@interface LURichTextStyleTag : LURichTextTag
 
 @property (nonatomic, readonly) LURichTextStyle style;
-@property (nonatomic, readonly) NSRange range;
 
 - (instancetype)initWithStyle:(LURichTextStyle)style range:(NSRange)range;
+
+@end
+
+@interface LURichTextColorTag : LURichTextTag
+
+@property (nonatomic, readonly) UIColor *color;
+
+- (instancetype)initWithColor:(UIColor *)color range:(NSRange)range;
 
 @end
 

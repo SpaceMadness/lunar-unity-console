@@ -126,14 +126,11 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger position, NS
 
 @end
 
-@implementation LURichTextStyleTag
+@implementation LURichTextTag
 
-- (instancetype)initWithStyle:(LURichTextStyle)style range:(NSRange)range
-{
+- (instancetype)initWithRange:(NSRange)range {
     self = [super init];
-    if (self)
-    {
-        _style = style;
+    if (self) {
         _range = range;
     }
     return self;
@@ -142,11 +139,10 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger position, NS
 #pragma mark -
 #pragma mark Equality
 
-- (BOOL)isEqual:(id)object
-{
+- (BOOL)isEqual:(id)object {
     if ([object isKindOfClass:[self class]]) {
-        LURichTextStyleTag *other = object;
-        return _style == other.style && NSEqualRanges(_range, other.range);
+        LURichTextTag *other = object;
+        return NSEqualRanges(_range, other.range);
     }
     
     return NO;
@@ -155,9 +151,70 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger position, NS
 #pragma mark -
 #pragma mark Description
 
-- (NSString *)description
-{
-    return [NSString stringWithFormat:@"style=%ld range=%@", _style, NSStringFromRange(_range)];
+- (NSString *)description {
+    return [NSString stringWithFormat:@"range=%@", NSStringFromRange(_range)];
+}
+
+@end
+
+@implementation LURichTextStyleTag
+
+- (instancetype)initWithStyle:(LURichTextStyle)style range:(NSRange)range {
+    self = [super initWithRange:range];
+    if (self) {
+        _style = style;
+    }
+    return self;
+}
+
+#pragma mark -
+#pragma mark Equality
+
+- (BOOL)isEqual:(id)object {
+    if ([object isKindOfClass:[self class]]) {
+        LURichTextStyleTag *other = object;
+        return _style == other.style && [super isEqual:object];
+    }
+    
+    return NO;
+}
+
+#pragma mark -
+#pragma mark Description
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"style=%ld range=%@", _style, NSStringFromRange(self.range)];
+}
+
+@end
+
+@implementation LURichTextColorTag
+
+- (instancetype)initWithColor:(UIColor *)color range:(NSRange)range {
+    self = [super initWithRange:range];
+    if (self) {
+        _color = color;
+    }
+    return self;
+}
+
+#pragma mark -
+#pragma mark Equality
+
+- (BOOL)isEqual:(id)object {
+    if ([object isKindOfClass:[self class]]) {
+        LURichTextColorTag *other = object;
+        return [_color isEqual:other.color] && [super isEqual:object];
+    }
+    
+    return NO;
+}
+
+#pragma mark -
+#pragma mark Description
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"color=%@ range=%@", _color, NSStringFromRange(self.range)];
 }
 
 @end
