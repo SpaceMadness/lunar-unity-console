@@ -7,6 +7,9 @@
 //
 
 #import "LULogMessage.h"
+#import "LUStringUtils.h"
+
+static NSUInteger _parseColor(NSString *value);
 
 @interface LURichTextTagInfo : NSObject
 
@@ -87,45 +90,6 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger position, NS
     return [[LURichTextTagInfo alloc] initWithName:name attribute:attribute open:isOpen position:position];
 }
 
-@implementation LURichTextTagOld
-
-- (instancetype)initWithFlags:(LURichTextTagFlags)flags attribute:(NSString * _Nullable)attribute range:(NSRange)range
-{
-    self = [super init];
-    if (self)
-    {
-        _flags = flags;
-        _attribute = attribute;
-        _range = range;
-    }
-    return self;
-}
-
-#pragma mark -
-#pragma mark Equality
-
-- (BOOL)isEqual:(id)object
-{
-    if ([object isKindOfClass:[self class]]) {
-        LURichTextTagOld *other = object;
-        return _flags == other.flags &&
-        ((_attribute == nil && other.attribute == nil) || [_attribute isEqualToString:other.attribute]) &&
-        NSEqualRanges(_range, other.range);
-    }
-    
-    return NO;
-}
-
-#pragma mark -
-#pragma mark Description
-
-- (NSString *)description
-{
-    return [NSString stringWithFormat:@"flags=%ld attribute=%@ range=%@", _flags, _attribute, NSStringFromRange(_range)];
-}
-
-@end
-
 @implementation LURichTextTag
 
 - (instancetype)initWithRange:(NSRange)range {
@@ -190,7 +154,7 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger position, NS
 
 @implementation LURichTextColorTag
 
-- (instancetype)initWithColor:(UIColor *)color range:(NSRange)range {
+- (instancetype)initWithColor:(NSUInteger)color range:(NSRange)range {
     self = [super initWithRange:range];
     if (self) {
         _color = color;
@@ -204,7 +168,7 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger position, NS
 - (BOOL)isEqual:(id)object {
     if ([object isKindOfClass:[self class]]) {
         LURichTextColorTag *other = object;
-        return [_color isEqual:other.color] && [super isEqual:object];
+        return _color == other.color && [super isEqual:object];
     }
     
     return NO;
@@ -214,14 +178,14 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger position, NS
 #pragma mark Description
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"color=%@ range=%@", _color, NSStringFromRange(self.range)];
+    return [NSString stringWithFormat:@"color=0x%02lx range=%@", (unsigned long)_color, NSStringFromRange(self.range)];
 }
 
 @end
 
 @implementation LULogMessage
 
-- (instancetype)initWithText:(nullable NSString *)text tags:(NSArray<LURichTextTagOld *> *)tags
+- (instancetype)initWithText:(nullable NSString *)text tags:(NSArray<LURichTextTag *> *)tags
 {
     self = [super init];
     if (self)
@@ -237,7 +201,7 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger position, NS
 
 + (instancetype)fromRichText:(NSString *)text
 {
-    NSMutableArray<LURichTextTagOld *> *tags = nil;
+    NSMutableArray<LURichTextTag*> *tags = nil;
     NSMutableArray<LURichTextTagInfo *> *stack = nil;
     NSUInteger i = 0;
     
@@ -276,18 +240,19 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger position, NS
                         if (tags == nil) tags = [NSMutableArray new];
                         if ([tag.name isEqualToString:@"b"])
                         {
-                            [tags addObject:[[LURichTextTagOld alloc] initWithFlags:LURichTextTagFlagBold attribute:nil range:range]];
+                            [tags addObject:[[LURichTextStyleTag alloc] initWithStyle:LURichTextStyleBold range:range]];
                         }
                         else if ([tag.name isEqualToString:@"i"])
                         {
-                            [tags addObject:[[LURichTextTagOld alloc] initWithFlags:LURichTextTagFlagItalic attribute:nil range:range]];
+                            [tags addObject:[[LURichTextStyleTag alloc] initWithStyle:LURichTextStyleItalic range:range]];
                         }
                         else if ([tag.name isEqualToString:@"color"])
                         {
-                            NSString *color = opposingTag.attribute;
-                            if (color != nil)
+                            NSString *colorValue = opposingTag.attribute;
+                            if (colorValue != nil)
                             {
-                                [tags addObject:[[LURichTextTagOld alloc] initWithFlags:LURichTextTagFlagColor attribute:color range:range]];
+                                NSUInteger color = _parseColor(colorValue);
+                                [tags addObject:[[LURichTextColorTag alloc] initWithColor:color range:range]];
                             }
                         }
                     }
@@ -354,3 +319,52 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger position, NS
 }
 
 @end
+
+static NSUInteger _parseColor(NSString *value) {
+    if (value == nil) {
+        return 0xff00ffff;
+    }
+    
+    if ([value hasPrefix:@"#"]) {
+        NSInteger result;
+        if (LUStringTryParseHex([value substringFromIndex:1], &result)) {
+            return result;
+        }
+        return 0xff00ffff;
+    }
+    
+    static NSDictionary * colorLookup = nil;
+    if (colorLookup == nil) {
+        colorLookup = @{
+            @"aqua"      : @0x00ffffff,
+            @"black"     : @0x000000ff,
+            @"blue"      : @0x0000ffff,
+            @"brown"     : @0xa52a2aff,
+            @"cyan"      : @0x00ffffff,
+            @"darkblue"  : @0x0000a0ff,
+            @"fuchsia"   : @0xff00ffff,
+            @"green"     : @0x008000ff,
+            @"grey"      : @0x808080ff,
+            @"lightblue" : @0xadd8e6ff,
+            @"lime"      : @0x00ff00ff,
+            @"magenta"   : @0xff00ffff,
+            @"maroon"    : @0x800000ff,
+            @"navy"      : @0x000080ff,
+            @"olive"     : @0x808000ff,
+            @"orange"    : @0xffa500ff,
+            @"purple"    : @0x800080ff,
+            @"red"       : @0xff0000ff,
+            @"silver"    : @0xc0c0c0ff,
+            @"teal"      : @0x008080ff,
+            @"white"     : @0xffffffff,
+            @"yellow"    : @0xffff00ff
+        };
+    }
+    
+    NSNumber *colorNumber = colorLookup[value];
+    if (colorNumber) {
+        return [colorNumber integerValue];
+    }
+    
+    return 0xff00ffff;
+}

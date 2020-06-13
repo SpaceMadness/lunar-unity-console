@@ -23,6 +23,7 @@
 #import <Foundation/Foundation.h>
 
 BOOL LUStringTryParseInteger(NSString *str, NSInteger *outResult);
+BOOL LUStringTryParseHex(NSString *str, NSInteger *outResult);
 BOOL LUStringTryParseFloat(NSString *str, float *outResult);
 BOOL LUStringContainsRichTextTags(NSString *str);
 NSString *LUStringRemoveRichTextTags(NSString *str);

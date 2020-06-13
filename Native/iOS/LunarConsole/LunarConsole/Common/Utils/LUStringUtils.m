@@ -50,6 +50,15 @@ BOOL LUStringTryParseInteger(NSString *str, NSInteger *outResult)
     return NO;
 }
 
+BOOL LUStringTryParseHex(NSString *str, NSInteger *outResult) {
+    if (str.length > 0) {
+        NSScanner *scanner = [[NSScanner alloc] initWithString:str];
+        return [scanner scanInteger:outResult];
+    }
+    
+    return NO;
+}
+
 BOOL LUStringTryParseFloat(NSString *str, float *outResult)
 {
     NSNumber *number = LUNumberFromString(str);
