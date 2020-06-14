@@ -72,7 +72,7 @@ class ViewController: LUViewController {
         volatileVariable?.flags = LUCVarFlagsNoArchive
         */
         
-        plugin.logMessage("This <color=red>is</color> string", stackTrace: "", type: LUConsoleLogTypeLog);
+        plugin.logMessage("This is <color=red>red</color> string", stackTrace: "", type: LUConsoleLogTypeLog);
         plugin.logMessage("This <b>is</b> string", stackTrace: "", type: LUConsoleLogTypeLog);
         plugin.logMessage("This <i>is</i> string", stackTrace: "", type: LUConsoleLogTypeLog);
         

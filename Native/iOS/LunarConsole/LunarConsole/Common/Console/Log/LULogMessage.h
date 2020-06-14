@@ -42,6 +42,7 @@ typedef enum : NSUInteger {
 @interface LULogMessage : NSObject
 
 @property (nonatomic, readonly, nullable) NSString *text;
+@property (nonatomic, readonly, nullable) NSAttributedString *attributedText;
 @property (nonatomic, readonly, nullable) NSArray<LURichTextTag *> *tags;
 @property (nonatomic, readonly) NSUInteger length;
 

@@ -186,17 +186,13 @@ static NSString *const kScriptMessageTrackEvent = @"track_event";
 
 - (void)logMessage:(NSString *)message stackTrace:(NSString *)stackTrace type:(LUConsoleLogType)type
 {
-//    NSAttributedString *attributedText = nil;
-//    if (_settings.richTextTags && LUStringContainsRichTextTags(message))
-//    {
-//        NSString *htmlString = LUStringRichTextToHtml(message);
-//        attributedText = [[NSAttributedString alloc] initWithData:[htmlString dataUsingEncoding:NSUTF8StringEncoding]
-//                                                          options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType }
-//                                               documentAttributes:nil
-//                                                            error:nil];
-//        message = LUStringRemoveRichTextTags(message);
-//    }
-    LULogMessage *logMessage = [[LULogMessage alloc] initWithText:message tags:nil];
+    LULogMessage *logMessage;
+    if (_settings.richTextTags) {
+        logMessage = [LULogMessage fromRichText:message];
+    }
+    else {
+        logMessage = [[LULogMessage alloc] initWithText:message tags:nil];
+    }
     
     if ([self shouldDisplayErrorType:type] && _consoleWindow == nil) {
         [self showWarningWithMessage:message];

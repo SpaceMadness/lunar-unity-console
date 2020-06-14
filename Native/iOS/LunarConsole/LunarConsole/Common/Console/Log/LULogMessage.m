@@ -9,6 +9,8 @@
 #import "LULogMessage.h"
 #import "LUStringUtils.h"
 
+#import <UIKit/UIKit.h>
+
 static NSUInteger _parseColor(NSString *value);
 
 @interface LURichTextTagInfo : NSObject
@@ -183,7 +185,9 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger position, NS
 
 @end
 
-@implementation LULogMessage
+@implementation LULogMessage {
+    NSAttributedString * _attributedText;
+}
 
 - (instancetype)initWithText:(nullable NSString *)text tags:(NSArray<LURichTextTag *> *)tags
 {
@@ -316,6 +320,20 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger position, NS
 - (NSUInteger)length
 {
     return _text.length;
+}
+
+- (NSAttributedString *)attributedText {
+    if (_tags.count > 0 && _attributedText == nil) {
+        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:_text];
+        for (LURichTextTag *tag in _tags) {
+            if ([tag isKindOfClass:[LURichTextColorTag class]]) {
+                [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:tag.range];
+            }
+        }
+        _attributedText = attributedString;
+    }
+    
+    return _attributedText;
 }
 
 @end
