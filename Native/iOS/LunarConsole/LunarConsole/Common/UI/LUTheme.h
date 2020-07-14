@@ -44,7 +44,20 @@
 
 @end
 
+@interface LUAttributedTextSkin : NSObject
+
+@property (nonatomic, readonly) UIFont *regularFont;
+@property (nonatomic, readonly) UIFont *boldFont;
+@property (nonatomic, readonly) UIFont *italicFont;
+@property (nonatomic, readonly) UIFont *boldItalicFont;
+
+- (UIColor *)colorForName:(NSString *)name;
+
+@end
+
 @interface LUTheme : NSObject
+
+@property (nonatomic, readonly) LUAttributedTextSkin *attributedTextSkin;
 
 @property (nonatomic, readonly) UIColor *statusBarColor;
 @property (nonatomic, readonly) UIColor *statusBarTextColor;

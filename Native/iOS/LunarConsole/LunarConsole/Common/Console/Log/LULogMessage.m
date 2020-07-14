@@ -8,6 +8,7 @@
 
 #import "LULogMessage.h"
 #import "LUStringUtils.h"
+#import "LUTheme.h"
 
 #import <UIKit/UIKit.h>
 
@@ -322,12 +323,26 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger position, NS
     return _text.length;
 }
 
-- (NSAttributedString *)attributedText {
+- (NSAttributedString *)createAttributedTextWithSkin:(LUAttributedTextSkin *)skin {
     if (_tags.count > 0 && _attributedText == nil) {
         NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:_text];
+        [attributedString addAttribute:NSFontAttributeName value:skin.regularFont range:NSMakeRange(0, _text.length)];
         for (LURichTextTag *tag in _tags) {
             if ([tag isKindOfClass:[LURichTextColorTag class]]) {
                 [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:tag.range];
+            }
+            else if ([tag isKindOfClass:[LURichTextStyleTag class]]) {
+                LURichTextStyleTag *styleTag = (LURichTextStyleTag *) tag;
+                
+                UIFont *font;
+                if (styleTag.style == LURichTextStyleBold)
+                    font = skin.boldFont;
+                else if (styleTag.style == LURichTextStyleItalic)
+                    font = skin.italicFont;
+                else
+                    font = skin.regularFont;
+                
+                [attributedString addAttribute:NSFontAttributeName value:font range:tag.range];
             }
         }
         _attributedText = attributedString;

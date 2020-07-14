@@ -187,7 +187,7 @@ static UIEdgeInsets _messageInsets;
 {
     if (message.tags.count > 0)
     {
-        _messageLabel.attributedText = message.attributedText;
+        _messageLabel.attributedText = [message createAttributedTextWithSkin:self.theme.attributedTextSkin];
     }
     else
     {

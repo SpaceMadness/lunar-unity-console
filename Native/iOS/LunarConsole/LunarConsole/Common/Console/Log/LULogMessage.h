@@ -10,6 +10,8 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+@class LUAttributedTextSkin;
+
 @interface LURichTextTag : NSObject
 
 @property (nonatomic, readonly) NSRange range;
@@ -42,13 +44,18 @@ typedef enum : NSUInteger {
 @interface LULogMessage : NSObject
 
 @property (nonatomic, readonly, nullable) NSString *text;
-@property (nonatomic, readonly, nullable) NSAttributedString *attributedText;
 @property (nonatomic, readonly, nullable) NSArray<LURichTextTag *> *tags;
 @property (nonatomic, readonly) NSUInteger length;
 
 - (instancetype)initWithText:(nullable NSString *)text tags:(NSArray<LURichTextTag *> * _Nullable)tags;
 
 + (instancetype)fromRichText:(nullable NSString *)text;
+
+@end
+
+@interface LULogMessage (AttributedString)
+
+- (NSAttributedString *)createAttributedTextWithSkin:(LUAttributedTextSkin *)skin;
 
 @end
 
