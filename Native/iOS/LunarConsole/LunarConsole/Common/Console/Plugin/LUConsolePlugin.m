@@ -195,7 +195,7 @@ static NSString *const kScriptMessageTrackEvent = @"track_event";
     }
     
     if ([self shouldDisplayErrorType:type] && _consoleWindow == nil) {
-        [self showWarningWithMessage:message];
+        [self showWarningWithMessage:logMessage];
     }
 
     // TODO: use batching
@@ -255,7 +255,7 @@ static NSString *const kScriptMessageTrackEvent = @"track_event";
 #pragma mark -
 #pragma mark Warnings
 
-- (BOOL)showWarningWithMessage:(NSString *)message
+- (BOOL)showWarningWithMessage:(LULogMessage *)message
 {
     if (_warningWindow == nil) {
 		CGRect safeRect = [LUUIHelper safeAreaRect];

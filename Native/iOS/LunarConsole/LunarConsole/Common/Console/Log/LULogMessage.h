@@ -56,6 +56,8 @@ typedef enum : NSUInteger {
 @interface LULogMessage (AttributedString)
 
 - (NSAttributedString *)createAttributedTextWithSkin:(LUAttributedTextSkin *)skin;
+- (NSAttributedString *)createAttributedTextWithSkin:(LUAttributedTextSkin *)skin attributes:(nullable NSDictionary<NSAttributedStringKey, id> *)attrs;
+
 
 @end
 

@@ -186,9 +186,7 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger position, NS
 
 @end
 
-@implementation LULogMessage {
-    NSAttributedString * _attributedText;
-}
+@implementation LULogMessage
 
 - (instancetype)initWithText:(nullable NSString *)text tags:(NSArray<LURichTextTag *> *)tags
 {
@@ -324,8 +322,12 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger position, NS
 }
 
 - (NSAttributedString *)createAttributedTextWithSkin:(LUAttributedTextSkin *)skin {
-    if (_tags.count > 0 && _attributedText == nil) {
-        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:_text];
+    return [self createAttributedTextWithSkin:skin attributes:nil];
+}
+
+- (NSAttributedString *)createAttributedTextWithSkin:(LUAttributedTextSkin *)skin attributes:(nullable NSDictionary<NSAttributedStringKey, id> *)attrs {
+    if (_tags.count > 0) {
+        NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:_text attributes:attrs];
         [attributedString addAttribute:NSFontAttributeName value:skin.regularFont range:NSMakeRange(0, _text.length)];
         for (LURichTextTag *tag in _tags) {
             if ([tag isKindOfClass:[LURichTextColorTag class]]) {
@@ -345,10 +347,10 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger position, NS
                 [attributedString addAttribute:NSFontAttributeName value:font range:tag.range];
             }
         }
-        _attributedText = attributedString;
+        return attributedString;
     }
     
-    return _attributedText;
+    return nil;
 }
 
 @end

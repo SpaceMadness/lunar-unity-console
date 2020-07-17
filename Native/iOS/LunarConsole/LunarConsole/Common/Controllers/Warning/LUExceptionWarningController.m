@@ -25,7 +25,7 @@
 #import "Lunar.h"
 
 @interface LUExceptionWarningController () {
-    NSString *_message;
+    LULogMessage *_message;
 }
 
 @property (nonatomic, weak) IBOutlet UILabel *errorLabel;
@@ -34,7 +34,7 @@
 
 @implementation LUExceptionWarningController
 
-- (instancetype)initWithMessage:(NSString *)message
+- (instancetype)initWithMessage:(LULogMessage *)message
 {
     self = [super initWithNibName:NSStringFromClass([self class]) bundle:nil];
     if (self) {
@@ -48,7 +48,14 @@
 {
     [super viewDidLoad];
 
-    _errorLabel.text = _message;
+    if (_message.tags.count > 0)
+    {
+        _errorLabel.attributedText = [_message createAttributedTextWithSkin:[LUTheme mainTheme].attributedTextSkin];
+    }
+    else
+    {
+        _errorLabel.text = _message.text;
+    }
 }
 
 #pragma mark -

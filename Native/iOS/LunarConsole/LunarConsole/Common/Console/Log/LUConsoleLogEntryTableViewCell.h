@@ -52,7 +52,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 + (CGFloat)heightForCellWithText:(nullable NSString *)text width:(CGFloat)width;
 
-- (void)setMessage:(NSString *)message attributes:(NSDictionary<NSAttributedStringKey, id> *)attributes;
+- (void)setMessage:(LULogMessage *)message attributes:(NSDictionary<NSAttributedStringKey, id> *)attributes;
 
 @end
 
