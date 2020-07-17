@@ -13,6 +13,7 @@
 #import <UIKit/UIKit.h>
 
 static NSUInteger _parseColor(NSString *value);
+static UIColor * _UIColorFromRGB(NSUInteger value);
 
 @interface LURichTextTagInfo : NSObject
 
@@ -157,7 +158,7 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger position, NS
 
 @implementation LURichTextColorTag
 
-- (instancetype)initWithColor:(NSUInteger)color range:(NSRange)range {
+- (instancetype)initWithColor:(UIColor *)color range:(NSRange)range {
     self = [super initWithRange:range];
     if (self) {
         _color = color;
@@ -255,7 +256,7 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger position, NS
                             if (colorValue != nil)
                             {
                                 NSUInteger color = _parseColor(colorValue);
-                                [tags addObject:[[LURichTextColorTag alloc] initWithColor:color range:range]];
+                                [tags addObject:[[LURichTextColorTag alloc] initWithColor:_UIColorFromRGB(color) range:range]];
                             }
                         }
                     }
@@ -331,7 +332,8 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger position, NS
         [attributedString addAttribute:NSFontAttributeName value:skin.regularFont range:NSMakeRange(0, _text.length)];
         for (LURichTextTag *tag in _tags) {
             if ([tag isKindOfClass:[LURichTextColorTag class]]) {
-                [attributedString addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:tag.range];
+                LURichTextColorTag *colorTag = (LURichTextColorTag *) tag;
+                [attributedString addAttribute:NSForegroundColorAttributeName value:colorTag.color range:tag.range];
             }
             else if ([tag isKindOfClass:[LURichTextStyleTag class]]) {
                 LURichTextStyleTag *styleTag = (LURichTextStyleTag *) tag;
@@ -354,6 +356,14 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger position, NS
 }
 
 @end
+
+static UIColor * _UIColorFromRGB(NSUInteger value) {
+    static const float multipler = 1.0 / 255.0;
+    return [UIColor colorWithRed:((float)((value & 0xFF000000) >> 24)) * multipler
+                           green:((float)((value & 0xFF0000) >> 16)) * multipler
+                            blue:((float)((value & 0xFF00) >> 8)) * multipler
+                           alpha:((float)(value & 0xFF)) * multipler];
+}
 
 static NSUInteger _parseColor(NSString *value) {
     if (value == nil) {
