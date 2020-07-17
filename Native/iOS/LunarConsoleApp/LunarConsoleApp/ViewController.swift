@@ -72,7 +72,31 @@ class ViewController: LUViewController {
         volatileVariable?.flags = LUCVarFlagsNoArchive
         */
         
-        plugin.logMessage("This is <color=red>red</color> string", stackTrace: "", type: LUConsoleLogTypeLog);
+        let colorLookup = [
+            "aqua"      : 0x00ffffff,
+            "black"     : 0x000000ff,
+            "blue"      : 0x0000ffff,
+            "brown"     : 0xa52a2aff,
+            "cyan"      : 0x00ffffff,
+            "darkblue"  : 0x0000a0ff,
+            "fuchsia"   : 0xff00ffff,
+            "green"     : 0x008000ff,
+            "lightblue" : 0xadd8e6ff,
+            "lime"      : 0x00ff00ff,
+            "magenta"   : 0xff00ffff,
+            "maroon"    : 0x800000ff,
+            "navy"      : 0x000080ff,
+            "orange"    : 0xffa500ff,
+            "red"       : 0xff0000ff,
+            "silver"    : 0xc0c0c0ff,
+            "teal"      : 0x008080ff,
+            "white"     : 0xffffffff
+        ];
+        
+        for color in colorLookup
+        {
+            plugin.logMessage("This is <color=\(color.key)>\(color.key)</color> string", stackTrace: "", type: LUConsoleLogTypeLog);
+        }
         plugin.logMessage("This is <b>bold</b> string", stackTrace: "", type: LUConsoleLogTypeLog);
         plugin.logMessage("This is <i>italic</i> string", stackTrace: "", type: LUConsoleLogTypeLog);
         plugin.logMessage("This is <b><color=yellow>bold yellow</color></b> string", stackTrace: "", type: LUConsoleLogTypeLog);
