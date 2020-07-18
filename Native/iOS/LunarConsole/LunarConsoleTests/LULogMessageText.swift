@@ -103,21 +103,21 @@ class LULogMessageText: XCTestCase {
     }
     
     func testColorTags1() throws {
-        let tags = [LURichTextColorTag(color: 0xff0000ff, range: NSMakeRange(5, 2))];
+        let tags = [LURichTextColorTag(color: LUUIColorFromRGB(0xff0000ff), range: NSMakeRange(5, 2))];
         let expected = LULogMessage(text: "This is text.", tags: tags);
         let actual = LULogMessage.fromRichText("This <color=red>is</color> text.");
         XCTAssertEqual(expected, actual);
     }
     
     func testColorTags2() throws {
-        let tags = [LURichTextColorTag(color: 0xff0000ff, range: NSMakeRange(0, 7))];
+        let tags = [LURichTextColorTag(color: LUUIColorFromRGB(0xff0000ff), range: NSMakeRange(0, 7))];
         let expected = LULogMessage(text: "This is text.", tags: tags);
         let actual = LULogMessage.fromRichText("<color=red>This is</color> text.");
         XCTAssertEqual(expected, actual);
     }
     
     func testColorTags3() throws {
-        let tags = [LURichTextColorTag(color: 0xff0000ff, range: NSMakeRange(8, 5))];
+        let tags = [LURichTextColorTag(color: LUUIColorFromRGB(0xff0000ff), range: NSMakeRange(8, 5))];
         let expected = LULogMessage(text: "This is text.", tags: tags);
         let actual = LULogMessage.fromRichText("This is <color=red>text.</color>");
         XCTAssertEqual(expected, actual);
@@ -138,7 +138,7 @@ class LULogMessageText: XCTestCase {
     func testMultipleTags1() throws {
         let tags = [
             LURichTextStyleTag(style: LURichTextStyleBold, range: NSMakeRange(5, 2)),
-            LURichTextColorTag(color: 0xff0000ff, range: NSMakeRange(5, 2))
+            LURichTextColorTag(color: LUUIColorFromRGB(0xff0000ff), range: NSMakeRange(5, 2))
         ];
         let expected = LULogMessage(text: "This is text.", tags: tags);
         let actual = LULogMessage.fromRichText("This <color=red><b>is</b></color> text.");
@@ -148,7 +148,7 @@ class LULogMessageText: XCTestCase {
     func testMultipleTags2() throws {
         let tags = [
             LURichTextStyleTag(style: LURichTextStyleBold, range: NSMakeRange(12, 4)),
-            LURichTextColorTag(color: 0xff0000ff, range: NSMakeRange(8, 19))
+            LURichTextColorTag(color: LUUIColorFromRGB(0xff0000ff), range: NSMakeRange(8, 19))
         ];
         let expected = LULogMessage(text: "This is red bold attributed text.", tags: tags);
         let actual = LULogMessage.fromRichText("This is <color=red>red <b>bold</b> attributed</color> text.");
@@ -157,10 +157,9 @@ class LULogMessageText: XCTestCase {
     
     func testMultipleTags3() throws {
         let tags = [
-            LURichTextStyleTag(style: LURichTextStyleBold, range: NSMakeRange(12, 5)),
             LURichTextStyleTag(style: LURichTextStyleBoldItalic, range: NSMakeRange(17, 3)),
-            LURichTextStyleTag(style: LURichTextStyleBold, range: NSMakeRange(20, 3)),
-            LURichTextColorTag(color: 0xff0000ff, range: NSMakeRange(8, 33))
+            LURichTextStyleTag(style: LURichTextStyleBold, range: NSMakeRange(12, 11)),
+            LURichTextColorTag(color: LUUIColorFromRGB(0xff0000ff), range: NSMakeRange(8, 26))
         ];
         let expected = LULogMessage(text: "This is red bold italic attributed text.", tags: tags);
         let actual = LULogMessage.fromRichText("This is <color=red>red <b>bold <i>ita</i>lic</b> attributed</color> text.");

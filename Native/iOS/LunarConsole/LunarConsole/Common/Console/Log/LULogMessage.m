@@ -9,11 +9,11 @@
 #import "LULogMessage.h"
 #import "LUStringUtils.h"
 #import "LUTheme.h"
+#import "LUImageUtils.h"
 
 #import <UIKit/UIKit.h>
 
 static NSUInteger _parseColor(NSString *value);
-static UIColor * _UIColorFromRGB(NSUInteger value);
 
 @interface LURichTextTagInfo : NSObject
 
@@ -172,7 +172,7 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger position, NS
 - (BOOL)isEqual:(id)object {
     if ([object isKindOfClass:[self class]]) {
         LURichTextColorTag *other = object;
-        return _color == other.color && [super isEqual:object];
+        return [_color isEqual:other.color] && [super isEqual:object];
     }
     
     return NO;
@@ -212,6 +212,9 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger position, NS
     unichar buffer[text.length];
     NSUInteger bufferSize = 0;
     
+    NSUInteger boldCount = 0;
+    NSUInteger italicCount = 0;
+    
     while (i < text.length)
     {
         unichar chr = [text characterAtIndex:i++];
@@ -222,6 +225,15 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger position, NS
             {
                 if (tag.isOpen)
                 {
+                    if ([tag.name isEqualToString:@"b"])
+                    {
+                        boldCount++;
+                    }
+                    else if ([tag.name isEqualToString:@"i"])
+                    {
+                        italicCount++;
+                    }
+                    
                     if (stack == nil) stack = [NSMutableArray new];
                     [stack addObject:tag];
                 }
@@ -236,6 +248,23 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger position, NS
                         continue;
                     }
                     
+                    if ([tag.name isEqualToString:@"b"])
+                    {
+                        boldCount--;
+                        if (boldCount > 0)
+                        {
+                            continue;
+                        }
+                    }
+                    else if ([tag.name isEqualToString:@"i"])
+                    {
+                        italicCount--;
+                        if (italicCount > 0)
+                        {
+                            continue;
+                        }
+                    }
+                    
                     // create rich text tag
                     NSInteger len = bufferSize - opposingTag.position;
                     if (len > 0)
@@ -244,11 +273,13 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger position, NS
                         if (tags == nil) tags = [NSMutableArray new];
                         if ([tag.name isEqualToString:@"b"])
                         {
-                            [tags addObject:[[LURichTextStyleTag alloc] initWithStyle:LURichTextStyleBold range:range]];
+                            LURichTextStyle style = italicCount > 0 ? LURichTextStyleBoldItalic : LURichTextStyleBold;
+                            [tags addObject:[[LURichTextStyleTag alloc] initWithStyle:style range:range]];
                         }
                         else if ([tag.name isEqualToString:@"i"])
                         {
-                            [tags addObject:[[LURichTextStyleTag alloc] initWithStyle:LURichTextStyleItalic range:range]];
+                            LURichTextStyle style = boldCount > 0 ? LURichTextStyleBoldItalic : LURichTextStyleItalic;
+                            [tags addObject:[[LURichTextStyleTag alloc] initWithStyle:style range:range]];
                         }
                         else if ([tag.name isEqualToString:@"color"])
                         {
@@ -256,7 +287,7 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger position, NS
                             if (colorValue != nil)
                             {
                                 NSUInteger color = _parseColor(colorValue);
-                                [tags addObject:[[LURichTextColorTag alloc] initWithColor:_UIColorFromRGB(color) range:range]];
+                                [tags addObject:[[LURichTextColorTag alloc] initWithColor:LUUIColorFromRGB(color) range:range]];
                             }
                         }
                     }
@@ -330,7 +361,8 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger position, NS
     if (_tags.count > 0) {
         NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:_text attributes:attrs];
         [attributedString addAttribute:NSFontAttributeName value:skin.regularFont range:NSMakeRange(0, _text.length)];
-        for (LURichTextTag *tag in _tags) {
+        for (NSInteger index = _tags.count - 1; index >= 0; --index) {
+            LURichTextTag *tag = _tags[index];
             if ([tag isKindOfClass:[LURichTextColorTag class]]) {
                 LURichTextColorTag *colorTag = (LURichTextColorTag *) tag;
                 [attributedString addAttribute:NSForegroundColorAttributeName value:colorTag.color range:tag.range];
@@ -343,6 +375,8 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger position, NS
                     font = skin.boldFont;
                 else if (styleTag.style == LURichTextStyleItalic)
                     font = skin.italicFont;
+                else if (styleTag.style == LURichTextStyleBoldItalic)
+                    font = skin.boldItalicFont;
                 else
                     font = skin.regularFont;
                 
@@ -356,14 +390,6 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger position, NS
 }
 
 @end
-
-static UIColor * _UIColorFromRGB(NSUInteger value) {
-    static const float multipler = 1.0 / 255.0;
-    return [UIColor colorWithRed:((float)((value & 0xFF000000) >> 24)) * multipler
-                           green:((float)((value & 0xFF0000) >> 16)) * multipler
-                            blue:((float)((value & 0xFF00) >> 8)) * multipler
-                           alpha:((float)(value & 0xFF)) * multipler];
-}
 
 static NSUInteger _parseColor(NSString *value) {
     if (value == nil) {

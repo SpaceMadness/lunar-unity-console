@@ -101,6 +101,7 @@ class ViewController: LUViewController {
         plugin.logMessage("This is <i>italic</i> string", stackTrace: "", type: LUConsoleLogTypeLog);
         plugin.logMessage("This is <b><color=yellow>bold yellow</color></b> string", stackTrace: "", type: LUConsoleLogTypeLog);
         plugin.logMessage("This is <i><color=blue>italic blue</color></i> string", stackTrace: "", type: LUConsoleLogTypeLog);
+        plugin.logMessage("This <color=green>is green <b>bold <i>italic</i> string</b></color>.", stackTrace: "", type: LUConsoleLogTypeLog);
         
         netPeer = NetPeer()
         netPeer.delegate = self

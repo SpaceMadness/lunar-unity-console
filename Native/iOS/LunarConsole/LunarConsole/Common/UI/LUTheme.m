@@ -26,9 +26,9 @@
 
 static LUTheme *_mainTheme;
 
-static NSString const * _fontStyleBold = @"bold";
-static NSString const * _fontStyleItalic = @"italic";
-static NSString const * _fontStyleBoldItalic = @"bold-italic";
+static NSString const * _fontStyleBold = @"Bold";
+static NSString const * _fontStyleItalic = @"Italic";
+static NSString const * _fontStyleBoldItalic = @"BoldItalic";
 
 @interface LUTheme ()
 
