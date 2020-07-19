@@ -127,7 +127,7 @@
 		840F08871DEA6B7400E9F13D /* LUStacktraceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F087D1DEA6B7400E9F13D /* LUStacktraceTest.m */; };
 		840F08881DEA6B7400E9F13D /* LUStringUtilsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 840F087E1DEA6B7400E9F13D /* LUStringUtilsTest.m */; };
 		844741B51B719C3100F5ABD3 /* libLunarConsoleFull.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 844741A91B719C3100F5ABD3 /* libLunarConsoleFull.a */; };
-		EF02C6E42472256D00398B9D /* LULogMessageText.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF02C6E32472256D00398B9D /* LULogMessageText.swift */; };
+		EF02C6E42472256D00398B9D /* LULogMessageTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF02C6E32472256D00398B9D /* LULogMessageTest.swift */; };
 		EF0944C9224EE8DE00F5F3BF /* LUUIHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = EF0944C8224EE8DE00F5F3BF /* LUUIHelper.m */; };
 		EF0944CA224EE8DE00F5F3BF /* LUUIHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = EF0944C8224EE8DE00F5F3BF /* LUUIHelper.m */; };
 		EF1D47A81E04A60B005BEC07 /* LUActionRegistryFilterTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF1D47A71E04A60B005BEC07 /* LUActionRegistryFilterTest.swift */; };
@@ -395,7 +395,7 @@
 		844741A91B719C3100F5ABD3 /* libLunarConsoleFull.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libLunarConsoleFull.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		844741B41B719C3100F5ABD3 /* LunarConsoleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LunarConsoleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		844741BA1B719C3100F5ABD3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		EF02C6E32472256D00398B9D /* LULogMessageText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LULogMessageText.swift; sourceTree = "<group>"; };
+		EF02C6E32472256D00398B9D /* LULogMessageTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LULogMessageTest.swift; sourceTree = "<group>"; };
 		EF0944C7224EE8DE00F5F3BF /* LUUIHelper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LUUIHelper.h; sourceTree = "<group>"; };
 		EF0944C8224EE8DE00F5F3BF /* LUUIHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LUUIHelper.m; sourceTree = "<group>"; };
 		EF1D47A61E04A60A005BEC07 /* LunarConsoleTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LunarConsoleTests-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -936,7 +936,7 @@
 				840F087D1DEA6B7400E9F13D /* LUStacktraceTest.m */,
 				840F087E1DEA6B7400E9F13D /* LUStringUtilsTest.m */,
 				844741B91B719C3100F5ABD3 /* Supporting Files */,
-				EF02C6E32472256D00398B9D /* LULogMessageText.swift */,
+				EF02C6E32472256D00398B9D /* LULogMessageTest.swift */,
 			);
 			path = LunarConsoleTests;
 			sourceTree = "<group>";
@@ -1206,7 +1206,7 @@
 				840F08811DEA6B7400E9F13D /* LUActionRegistryTest.m in Sources */,
 				EF30B26B223C6CAC00898849 /* LUPluginSettingsTest.swift in Sources */,
 				840F08821DEA6B7400E9F13D /* LUConsoleEntryListTest.m in Sources */,
-				EF02C6E42472256D00398B9D /* LULogMessageText.swift in Sources */,
+				EF02C6E42472256D00398B9D /* LULogMessageTest.swift in Sources */,
 				840F08861DEA6B7400E9F13D /* LUSortedListTest.m in Sources */,
 				840F08851DEA6B7400E9F13D /* LUMutableArrayTest.m in Sources */,
 				840F087F1DEA6B7400E9F13D /* TestCase.m in Sources */,
