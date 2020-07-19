@@ -183,4 +183,10 @@ class LULogMessageTest: XCTestCase {
         let actual = LULogMessage.fromRichText("This <b>is</i> text.");
         XCTAssertEqual(expected, actual);
     }
+    
+    func testMalformedTags4() throws {
+        let expected = LULogMessage(text: "This is malfored text.", tags: nil);
+        let actual = LULogMessage.fromRichText("This <b>is <b>malfored</b> text.");
+        XCTAssertEqual(expected, actual);
+    }
 }
