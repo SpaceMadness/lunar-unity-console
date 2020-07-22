@@ -1631,7 +1631,7 @@ namespace LunarConsolePluginInternal
 {
     public static class LunarConsoleConfig
     {
-        public static readonly bool consoleEnabled;
+        public static bool consoleEnabled;
         public static readonly bool consoleSupported;
         public static readonly bool freeVersion;
         public static readonly bool fullVersion;
@@ -1683,20 +1683,6 @@ namespace LunarConsolePluginInternal
 
     public static class LunarConsolePluginEditorHelper
     {
-        #if LUNAR_CONSOLE_ENABLED
-        [UnityEditor.MenuItem("Window/Lunar Mobile Console/Disable")]
-        static void Disable()
-        {
-            SetLunarConsoleEnabled(false);
-        }
-        #else
-        [UnityEditor.MenuItem("Window/Lunar Mobile Console/Enable")]
-        static void Enable()
-        {
-            SetLunarConsoleEnabled(true);
-        }
-        #endif // LUNAR_CONSOLE_ENABLED
-
         #if LUNAR_CONSOLE_FREE
         [UnityEditor.MenuItem("Window/Lunar Mobile Console/Get PRO version...")]
         static void GetProVersion()
@@ -1705,34 +1691,7 @@ namespace LunarConsolePluginInternal
         }
         #endif
 
-        public static void SetLunarConsoleEnabled(bool enabled)
-        {
-            string pluginFile = ResolvePluginFile();
-            if (pluginFile == null)
-            {
-                PrintError(enabled, "can't resolve plugin file");
-                return;
-            }
-
-            string sourceCode = File.ReadAllText(pluginFile);
-
-            string oldToken = "#define " + (enabled ? "LUNAR_CONSOLE_DISABLED" : "LUNAR_CONSOLE_ENABLED");
-            string newToken = "#define " + (enabled ? "LUNAR_CONSOLE_ENABLED" : "LUNAR_CONSOLE_DISABLED");
-
-            string newSourceCode = sourceCode.Replace(oldToken, newToken);
-            if (newSourceCode == sourceCode)
-            {
-                PrintError(enabled, "can't find '" + oldToken + "' token");
-                return;
-            }
-
-            File.WriteAllText(pluginFile, newSourceCode);
-
-            // re-import asset to apply changes
-            AssetDatabase.ImportAsset(FileUtils.GetAssetPath(pluginFile));
-        }
-
-        static string ResolvePluginFile()
+        public static string ResolvePluginFile()
         {
             try
             {
@@ -1748,11 +1707,6 @@ namespace LunarConsolePluginInternal
             }
 
             return null;
-        }
-
-        static void PrintError(bool flag, string message)
-        {
-            Debug.LogError("Can't " + (flag ? "enable" : "disable") + " Lunar Console: " + message);
         }
     }
 
