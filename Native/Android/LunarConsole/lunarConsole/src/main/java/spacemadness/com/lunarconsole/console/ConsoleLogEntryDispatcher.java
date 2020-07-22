@@ -34,9 +34,11 @@ import spacemadness.com.lunarconsole.debug.Log;
  */
 class ConsoleLogEntryDispatcher {
     private final OnDispatchListener listener;
-    private final List<ConsoleLogEntry> entries;
     private final DispatchQueue dispatchQueue;
     private final DispatchTask dispatchTask;
+
+    private final List<Entry> entries;
+    private final List<Entry> freeList;
 
     public ConsoleLogEntryDispatcher(DispatchQueue dispatchQueue, OnDispatchListener listener) {
         if (dispatchQueue == null) {
@@ -49,12 +51,14 @@ class ConsoleLogEntryDispatcher {
         this.dispatchQueue = dispatchQueue;
         this.listener = listener;
         this.entries = new ArrayList<>();
+        this.freeList = new ArrayList<>();
         this.dispatchTask = createDispatchTask();
     }
 
-    public void add(ConsoleLogEntry entry) {
+    public void add(byte type, String message, String stackTrace) {
         synchronized (entries) {
-            entries.add(entry);
+            Entry data = createEntryData(type, message, stackTrace);
+            entries.add(data);
 
             if (entries.size() == 1) {
                 postEntriesDispatch();
@@ -77,6 +81,7 @@ class ConsoleLogEntryDispatcher {
             } catch (Exception e) {
                 Log.e(e, "Can't dispatch entries");
             }
+            freeList.addAll(entries);
             entries.clear();
         }
     }
@@ -99,6 +104,30 @@ class ConsoleLogEntryDispatcher {
     }
 
     public interface OnDispatchListener {
-        void onDispatchEntries(List<ConsoleLogEntry> entries);
+        void onDispatchEntries(List<Entry> entries);
+    }
+
+    private Entry createEntryData(byte type, String message, String stackTrack)
+    {
+        Entry data;
+        if (freeList.size() > 0)
+        {
+            data = freeList.remove(freeList.size() - 1);
+        }
+        else
+        {
+            data = new Entry();
+        }
+        data.type = type;
+        data.message = message;
+        data.stackTrace = stackTrack;
+        return data;
+    }
+
+    public static class Entry
+    {
+        public byte type;
+        public String message;
+        public String stackTrace;
     }
 }

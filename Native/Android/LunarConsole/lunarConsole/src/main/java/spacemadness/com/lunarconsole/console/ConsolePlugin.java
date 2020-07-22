@@ -24,6 +24,7 @@ package spacemadness.com.lunarconsole.console;
 
 import android.app.Activity;
 import android.app.Application;
+import android.text.Spanned;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -81,6 +82,7 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
     private final Platform platform;
     private final String version;
     private PluginSettings settings;
+    private final RichTextFactory richTextFactory;
 
     private final ConsoleViewState consoleViewState;
 
@@ -99,8 +101,9 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
         }
     };
 
-    public ConsolePlugin(Activity activity, Platform platform, String version, PluginSettings settings) {
+    public ConsolePlugin(Activity activity, Platform platform, String version, PluginSettings settings, RichTextFactory richTextFactory) {
         this.activityRef = new WeakReference<>(checkNotNull(activity, "activity"));
+        this.richTextFactory = richTextFactory;
 
         PluginSettings existingSettings = PluginSettingsIO.load(activity);
         if (existingSettings != null) {
@@ -152,6 +155,20 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
 
     public void logMessage(byte type, String stackTrace, String message) {
         logMessage(new ConsoleLogEntry(type, message, stackTrace));
+    }
+
+    public void logMessage(ConsoleLogEntryDispatcher.Entry entry) {
+        logMessage(createLogEntry(entry));
+    }
+
+    private ConsoleLogEntry createLogEntry(ConsoleLogEntryDispatcher.Entry entry) {
+        if (settings.richTextTags) {
+            CharSequence text = richTextFactory.createRichText(entry.message);
+            String message = text.toString();
+            Spanned spannedMessage = text instanceof Spanned ? (Spanned) text : null;
+            return new ConsoleLogEntry(entry.type, message, spannedMessage, entry.stackTrace);
+        }
+        return new ConsoleLogEntry(entry.type, entry.message, entry.stackTrace);
     }
 
     public void logMessage(ConsoleLogEntry entry) {

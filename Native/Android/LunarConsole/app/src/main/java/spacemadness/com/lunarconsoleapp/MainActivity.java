@@ -50,7 +50,10 @@ import spacemadness.com.lunarconsole.concurrent.DispatchTask;
 import spacemadness.com.lunarconsole.console.ConsoleLogType;
 import spacemadness.com.lunarconsole.console.ConsolePlugin;
 import spacemadness.com.lunarconsole.console.ConsoleViewState;
+import spacemadness.com.lunarconsole.console.DefaultColorFactory;
+import spacemadness.com.lunarconsole.console.DefaultRichTextFactory;
 import spacemadness.com.lunarconsole.console.NativePlatform;
+import spacemadness.com.lunarconsole.console.RichTextFactory;
 import spacemadness.com.lunarconsole.dependency.DefaultDependencies;
 import spacemadness.com.lunarconsole.json.JsonDecoder;
 import spacemadness.com.lunarconsole.settings.PluginSettings;
@@ -121,7 +124,9 @@ public class MainActivity extends Activity {
                 final String settingsJson = readTextAsset("settings.json");
                 final PluginSettings settings = JsonDecoder.decode(settingsJson, PluginSettings.class);
                 final Activity activity = MainActivity.this;
-                consolePlugin = new ConsolePlugin(activity, new NativePlatform(activity), "0.0.0", settings);
+
+                RichTextFactory richTextFactory = new DefaultRichTextFactory(new DefaultColorFactory(activity));
+                consolePlugin = new ConsolePlugin(activity, new NativePlatform(activity), "0.0.0", settings, richTextFactory);
 				/*
 				consolePlugin.registerAction(1, "Action - A");
 				consolePlugin.registerAction(3, "Action - B");
