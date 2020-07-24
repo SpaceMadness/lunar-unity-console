@@ -33,6 +33,7 @@
     <color name="lunar_console_color_variable_volatile_text">#FDD631</color>
 
     <!-- rich text colors -->
+    <color name="lunar_console_color_rich_text_error">#ff00ff</color>
     <color name="lunar_console_color_rich_text_aqua">#00ffff</color>
     <color name="lunar_console_color_rich_text_black">#000000</color>
     <color name="lunar_console_color_rich_text_blue">#0000ff</color>
