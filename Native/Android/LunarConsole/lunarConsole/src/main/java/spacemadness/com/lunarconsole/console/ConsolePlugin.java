@@ -154,21 +154,21 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
     }
 
     public void logMessage(byte type, String stackTrace, String message) {
-        logMessage(new ConsoleLogEntry(type, message, stackTrace));
+        logMessage(createLogEntry(type, message, stackTrace));
     }
 
     public void logMessage(ConsoleLogEntryDispatcher.Entry entry) {
-        logMessage(createLogEntry(entry));
+        logMessage(createLogEntry(entry.type, entry.message, entry.stackTrace));
     }
 
-    private ConsoleLogEntry createLogEntry(ConsoleLogEntryDispatcher.Entry entry) {
+    private ConsoleLogEntry createLogEntry(byte type, String message, String stackTrace) {
         if (settings.richTextTags) {
-            CharSequence text = richTextFactory.createRichText(entry.message);
-            String message = text.toString();
+            CharSequence text = richTextFactory.createRichText(message);
+            String rawMessage = text.toString();
             Spanned spannedMessage = text instanceof Spanned ? (Spanned) text : null;
-            return new ConsoleLogEntry(entry.type, message, spannedMessage, entry.stackTrace);
+            return new ConsoleLogEntry(type, rawMessage, spannedMessage, stackTrace);
         }
-        return new ConsoleLogEntry(entry.type, entry.message, entry.stackTrace);
+        return new ConsoleLogEntry(type, message, stackTrace);
     }
 
     public void logMessage(ConsoleLogEntry entry) {
