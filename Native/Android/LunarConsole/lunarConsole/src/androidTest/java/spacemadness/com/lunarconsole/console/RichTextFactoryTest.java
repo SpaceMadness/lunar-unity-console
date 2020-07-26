@@ -232,6 +232,7 @@ public class RichTextFactoryTest {
     }
 
     private CharacterStyle createCharacterStyle(String value) {
+        // we need to re-use the same style objects (otherwise SpannedString equality fails)
         return richTextFactory.styleFromColorValue(value);
     }
 }
