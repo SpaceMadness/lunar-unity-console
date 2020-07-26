@@ -8,6 +8,7 @@ import android.text.style.StyleSpan;
 import org.junit.Before;
 import org.junit.Test;
 
+import static android.support.test.InstrumentationRegistry.getContext;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static spacemadness.com.lunarconsole.console.DefaultRichTextFactory.*;
@@ -21,12 +22,7 @@ public class RichTextFactoryTest {
 
     @Before
     public void setup() {
-        ColorFactory colorFactory = new ColorFactory() {
-            @Override
-            public int fromValue(String value) {
-                return 0xff0000;
-            }
-        };
+        ColorFactory colorFactory = new DefaultColorFactory(getContext());
         richTextFactory = new DefaultRichTextFactory(colorFactory);
 
         // need to use exact styles: otherwise SpannedString equality fails
@@ -62,70 +58,73 @@ public class RichTextFactoryTest {
         assertEquals(expected, actual);
     }
 
-    /*
-
-    @Test public void testBoldTags2() {
-        ConsoleLogEntry tags = [LURichTextStyleTag(style: LURichTextStyleBold, range: NSMakeRange(0, 7))];
-        CharSequence expected = createSpanned("This is text.");
+    @Test
+    public void testBoldTags2() {
+        CharSequence expected = createSpanned("This is text.", new Span(bold, 0, 7));
         CharSequence actual = fromRichText("<b>This is</b> text.");
         assertEquals(expected, actual);
     }
-    
-    @Test public void testBoldTags3() {
-        ConsoleLogEntry tags = [LURichTextStyleTag(style: LURichTextStyleBold, range: NSMakeRange(8, 5))];
-        CharSequence expected = createSpanned("This is text.");
+
+    @Test
+    public void testBoldTags3() {
+        CharSequence expected = createSpanned("This is text.", new Span(bold, 8, 5));
         CharSequence actual = fromRichText("This is <b>text.</b>");
         assertEquals(expected, actual);
     }
-    
-    @Test public void testBoldTags4() {
+
+    @Test
+    public void testBoldTags4() {
         CharSequence expected = "This is text.";
         CharSequence actual = fromRichText("This is <b></b>text.");
         assertEquals(expected, actual);
     }
-    
-    @Test public void testBoldTags5() {
+
+    @Test
+    public void testBoldTags5() {
         CharSequence expected = "This is text.";
         CharSequence actual = fromRichText("This is <b><b></b></b>text.");
         assertEquals(expected, actual);
     }
-    
-    @Test public void testItalicTags1() {
-        ConsoleLogEntry tags = [LURichTextStyleTag(style: LURichTextStyleItalic, range: NSMakeRange(5, 2))];
-        CharSequence expected = createSpanned("This is text.");
+
+    @Test
+    public void testItalicTags1() {
+        CharSequence expected = createSpanned("This is text.", new Span(italic, 5, 2));
         CharSequence actual = fromRichText("This <i>is</i> text.");
         assertEquals(expected, actual);
     }
-    
-    @Test public void testItalicTags2() {
-        ConsoleLogEntry tags = [LURichTextStyleTag(style: LURichTextStyleItalic, range: NSMakeRange(0, 7))];
-        CharSequence expected = createSpanned("This is text.");
+
+    @Test
+    public void testItalicTags2() {
+        CharSequence expected = createSpanned("This is text.", new Span(italic, 0, 7));
         CharSequence actual = fromRichText("<i>This is</i> text.");
         assertEquals(expected, actual);
     }
-    
-    @Test public void testItalicTags3() {
-        ConsoleLogEntry tags = [LURichTextStyleTag(style: LURichTextStyleItalic, range: NSMakeRange(8, 5))];
-        CharSequence expected = createSpanned("This is text.");
+
+    @Test
+    public void testItalicTags3() {
+        CharSequence expected = createSpanned("This is text.", new Span(italic, 8, 5));
         CharSequence actual = fromRichText("This is <i>text.</i>");
         assertEquals(expected, actual);
     }
-    
-    @Test public void testItalicTags4() {
+
+    @Test
+    public void testItalicTags4() {
         CharSequence expected = "This is text.";
         CharSequence actual = fromRichText("This is <i></i>text.");
         assertEquals(expected, actual);
     }
-    
-    @Test public void testItalicTags5() {
+
+    @Test
+    public void testItalicTags5() {
         CharSequence expected = "This is text.";
         CharSequence actual = fromRichText("This is <i><i></i></i>text.");
         assertEquals(expected, actual);
     }
-    
+
+    /*
     @Test public void testColorTags1() {
         ConsoleLogEntry tags = [LURichTextColorTag(color: LUUIColorFromRGB(0xff0000ff), range: NSMakeRange(5, 2))];
-        CharSequence expected = createSpanned("This is text.");
+        CharSequence expected = createSpanned("This is text.", new );
         CharSequence actual = fromRichText("This <color=red>is</color> text.");
         assertEquals(expected, actual);
     }
@@ -187,30 +186,36 @@ public class RichTextFactoryTest {
         assertEquals(expected, actual);
     }
     
-    @Test public void testMalformedTags1() {
+     */
+
+    @Test
+    public void testMalformedTags1() {
         CharSequence expected = "This is text.";
         CharSequence actual = fromRichText("This <b>is text.");
         assertEquals(expected, actual);
     }
-    
-    @Test public void testMalformedTags2() {
+
+    @Test
+    public void testMalformedTags2() {
         CharSequence expected = "This is text.";
         CharSequence actual = fromRichText("This <b>is<b> text.");
         assertEquals(expected, actual);
     }
-    
-    @Test public void testMalformedTags3() {
+
+    @Test
+    public void testMalformedTags3() {
         CharSequence expected = "This is text.";
         CharSequence actual = fromRichText("This <b>is</i> text.");
         assertEquals(expected, actual);
     }
-    
-    @Test public void testMalformedTags4() {
+
+
+    @Test
+    public void testMalformedTags4() {
         CharSequence expected = "This is malformed text.";
-        CharSequence actual = fromRichText("This <b>is <b>malfored</b> text.");
+        CharSequence actual = fromRichText("This <b>is <b>malformed</b> text.");
         assertEquals(expected, actual);
-    } 
-    */
+    }
 
     private CharSequence fromRichText(String text) {
         return richTextFactory.createRichText(text);
