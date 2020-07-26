@@ -1,8 +1,8 @@
 package spacemadness.com.lunarconsole.console;
 
-import android.graphics.Typeface;
 import android.text.SpannableString;
 import android.text.Spanned;
+import android.text.style.CharacterStyle;
 import android.text.style.StyleSpan;
 
 import org.junit.Before;
@@ -19,10 +19,11 @@ public class RichTextFactoryTest {
     private StyleSpan boldItalic;
 
     private DefaultRichTextFactory richTextFactory;
+    private ColorFactory colorFactory;
 
     @Before
     public void setup() {
-        ColorFactory colorFactory = new DefaultColorFactory(getContext());
+        colorFactory = new DefaultColorFactory(getContext());
         richTextFactory = new DefaultRichTextFactory(colorFactory);
 
         // need to use exact styles: otherwise SpannedString equality fails
@@ -121,72 +122,74 @@ public class RichTextFactoryTest {
         assertEquals(expected, actual);
     }
 
-    /*
-    @Test public void testColorTags1() {
-        ConsoleLogEntry tags = [LURichTextColorTag(color: LUUIColorFromRGB(0xff0000ff), range: NSMakeRange(5, 2))];
-        CharSequence expected = createSpanned("This is text.", new );
+    @Test
+    public void testColorTags1() {
+        CharSequence expected = createSpanned("This is text.", new Span(createCharacterStyle("red"), 5, 2));
         CharSequence actual = fromRichText("This <color=red>is</color> text.");
         assertEquals(expected, actual);
     }
-    
-    @Test public void testColorTags2() {
-        ConsoleLogEntry tags = [LURichTextColorTag(color: LUUIColorFromRGB(0xff0000ff), range: NSMakeRange(0, 7))];
-        CharSequence expected = createSpanned("This is text.");
+
+    @Test
+    public void testColorTags2() {
+        CharSequence expected = createSpanned("This is text.", new Span(createCharacterStyle("red"), 0, 7));
         CharSequence actual = fromRichText("<color=red>This is</color> text.");
         assertEquals(expected, actual);
     }
-    
-    @Test public void testColorTags3() {
-        ConsoleLogEntry tags = [LURichTextColorTag(color: LUUIColorFromRGB(0xff0000ff), range: NSMakeRange(8, 5))];
-        CharSequence expected = createSpanned("This is text.");
+
+    @Test
+    public void testColorTags3() {
+        CharSequence expected = createSpanned("This is text.", new Span(createCharacterStyle("red"), 8, 5));
         CharSequence actual = fromRichText("This is <color=red>text.</color>");
         assertEquals(expected, actual);
     }
-    
-    @Test public void testColorTags4() {
+
+    @Test
+    public void testColorTags4() {
         CharSequence expected = "This is text.";
         CharSequence actual = fromRichText("This is <color=red></color>text.");
         assertEquals(expected, actual);
     }
-    
-    @Test public void testColorTags5() {
+
+    @Test
+    public void testColorTags5() {
         CharSequence expected = "This is text.";
         CharSequence actual = fromRichText("This is <color=red><color=red></color></color>text.");
         assertEquals(expected, actual);
     }
-    
-    @Test public void testMultipleTags1() {
-        ConsoleLogEntry tags = [
-            LURichTextStyleTag(style: LURichTextStyleBold, range: NSMakeRange(5, 2)),
-            LURichTextColorTag(color: LUUIColorFromRGB(0xff0000ff), range: NSMakeRange(5, 2))
-        ];
-        CharSequence expected = createSpanned("This is text.");
+
+    @Test
+    public void testMultipleTags1() {
+        Span[] spans = {
+                new Span(bold, 5, 2),
+                new Span(createCharacterStyle("red"), 5, 2)
+        };
+        CharSequence expected = createSpanned("This is text.", spans);
         CharSequence actual = fromRichText("This <color=red><b>is</b></color> text.");
         assertEquals(expected, actual);
     }
-    
-    @Test public void testMultipleTags2() {
-        ConsoleLogEntry tags = [
-            LURichTextStyleTag(style: LURichTextStyleBold, range: NSMakeRange(12, 4)),
-            LURichTextColorTag(color: LUUIColorFromRGB(0xff0000ff), range: NSMakeRange(8, 19))
-        ];
-        CharSequence expected = createSpanned("This is red bold attributed text.");
+
+    @Test
+    public void testMultipleTags2() {
+        Span[] spans = {
+                new Span(bold, 12, 4),
+                new Span(createCharacterStyle("red"), 8, 19)
+        };
+        CharSequence expected = createSpanned("This is red bold attributed text.", spans);
         CharSequence actual = fromRichText("This is <color=red>red <b>bold</b> attributed</color> text.");
         assertEquals(expected, actual);
     }
-    
-    @Test public void testMultipleTags3() {
-        ConsoleLogEntry tags = [
-            LURichTextStyleTag(style: LURichTextStyleBoldItalic, range: NSMakeRange(17, 3)),
-            LURichTextStyleTag(style: LURichTextStyleBold, range: NSMakeRange(12, 11)),
-            LURichTextColorTag(color: LUUIColorFromRGB(0xff0000ff), range: NSMakeRange(8, 26))
-        ];
-        CharSequence expected = createSpanned("This is red bold italic attributed text.");
+
+    @Test
+    public void testMultipleTags3() {
+        Span[] spans = {
+                new Span(boldItalic, 17, 3),
+                new Span(bold, 12, 11),
+                new Span(createCharacterStyle("red"), 8, 26)
+        };
+        CharSequence expected = createSpanned("This is red bold italic attributed text.", spans);
         CharSequence actual = fromRichText("This is <color=red>red <b>bold <i>ita</i>lic</b> attributed</color> text.");
         assertEquals(expected, actual);
     }
-    
-     */
 
     @Test
     public void testMalformedTags1() {
@@ -209,7 +212,6 @@ public class RichTextFactoryTest {
         assertEquals(expected, actual);
     }
 
-
     @Test
     public void testMalformedTags4() {
         CharSequence expected = "This is malformed text.";
@@ -227,5 +229,9 @@ public class RichTextFactoryTest {
             string.setSpan(tag.style, tag.startIndex, tag.startIndex + tag.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
         return string;
+    }
+
+    private CharacterStyle createCharacterStyle(String value) {
+        return richTextFactory.styleFromColorValue(value);
     }
 }

@@ -101,7 +101,7 @@ public class DefaultRichTextFactory implements RichTextFactory {
                                 case "color":
                                     String colorValue = opposingTag.attribute;
                                     if (colorValue != null) {
-                                        CharacterStyle style = styleFromValue(colorValue);
+                                        CharacterStyle style = styleFromColorValue(colorValue);
                                         tags.add(new Span(style, opposingTag.position, len));
                                     }
                                     break;
@@ -176,7 +176,7 @@ public class DefaultRichTextFactory implements RichTextFactory {
         return new LURichTextTagInfo(name, attribute, isOpen, position);
     }
 
-    private CharacterStyle styleFromValue(String value) {
+    CharacterStyle styleFromColorValue(String value) {
         CharacterStyle style = colorStyleMap.get(value);
         if (style == null) {
             int color = colorFactory.fromValue(value);
