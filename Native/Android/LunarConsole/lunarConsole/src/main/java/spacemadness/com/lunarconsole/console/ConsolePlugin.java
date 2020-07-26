@@ -161,16 +161,6 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
         logMessage(createLogEntry(entry.type, entry.message, entry.stackTrace));
     }
 
-    private ConsoleLogEntry createLogEntry(byte type, String message, String stackTrace) {
-        if (settings.richTextTags) {
-            CharSequence text = richTextFactory.createRichText(message);
-            String rawMessage = text.toString();
-            Spanned spannedMessage = text instanceof Spanned ? (Spanned) text : null;
-            return new ConsoleLogEntry(type, rawMessage, spannedMessage, stackTrace);
-        }
-        return new ConsoleLogEntry(type, message, stackTrace);
-    }
-
     public void logMessage(ConsoleLogEntry entry) {
         // add to console
         console.logMessage(entry);
@@ -626,6 +616,29 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
                 return LunarConsoleConfig.isPro;
             }
         };
+    }
+
+    //endregion
+
+    //region Helpers
+
+    private ConsoleLogEntry createLogEntry(byte type, String message, String stackTrace) {
+        if (settings.richTextTags) {
+            CharSequence text = createRichText(message);
+            String rawMessage = text.toString();
+            Spanned spannedMessage = text instanceof Spanned ? (Spanned) text : null;
+            return new ConsoleLogEntry(type, rawMessage, spannedMessage, stackTrace);
+        }
+        return new ConsoleLogEntry(type, message, stackTrace);
+    }
+
+    private CharSequence createRichText(String text) {
+        try {
+            return richTextFactory.createRichText(text);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return text;
     }
 
     //endregion
