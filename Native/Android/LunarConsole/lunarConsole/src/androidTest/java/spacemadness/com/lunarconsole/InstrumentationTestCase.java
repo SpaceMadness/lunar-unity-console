@@ -22,14 +22,23 @@
 
 package spacemadness.com.lunarconsole;
 
+import android.content.Context;
+import android.support.test.InstrumentationRegistry;
+
+import junit.framework.TestCase;
+
 import java.io.IOException;
 
-public class InstrumentationTestCase extends android.test.InstrumentationTestCase {
+public class InstrumentationTestCase extends TestCase {
 	protected String readTextAsset(String path) {
 		try {
-			return TestUtils.readTextAsset(getInstrumentation().getContext(), path);
+			return TestUtils.readTextAsset(getContext(), path);
 		} catch (IOException e) {
 			throw new AssertionError("Unable to read text asset: " + path, e);
 		}
+	}
+
+	private Context getContext() {
+		return InstrumentationRegistry.getInstrumentation().getContext();
 	}
 }

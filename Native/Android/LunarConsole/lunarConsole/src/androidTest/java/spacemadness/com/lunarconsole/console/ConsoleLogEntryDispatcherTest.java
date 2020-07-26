@@ -25,12 +25,10 @@ package spacemadness.com.lunarconsole.console;
 import java.util.List;
 
 import spacemadness.com.lunarconsole.TestCaseEx;
+import spacemadness.com.lunarconsole.concurrent.ImmediateDispatchQueue;
 
-public class ConsoleLogEntryDispatcherTest extends TestCaseEx implements
-        ConsoleLogEntryDispatcher.OnDispatchListener
-{
-    public void testAddEntries() throws Exception
-    {
+public class ConsoleLogEntryDispatcherTest extends TestCaseEx implements ConsoleLogEntryDispatcher.OnDispatchListener {
+    public void testAddEntries() throws Exception {
         MockConsoleLogEntryDispatcher dispatcher = new MockConsoleLogEntryDispatcher();
         dispatcher.add("1");
         dispatcher.add("2");
@@ -57,8 +55,7 @@ public class ConsoleLogEntryDispatcherTest extends TestCaseEx implements
         assertResult();
     }
 
-    public void testRemoveEntries() throws Exception
-    {
+    public void testRemoveEntries() throws Exception {
         MockConsoleLogEntryDispatcher dispatcher = new MockConsoleLogEntryDispatcher();
         dispatcher.add("1");
         dispatcher.add("2");
@@ -71,11 +68,10 @@ public class ConsoleLogEntryDispatcherTest extends TestCaseEx implements
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // ConsoleLogEntryDispatcher.OnDispatchListener
 
+
     @Override
-    public void onDispatchEntries(List<ConsoleLogEntry> entries)
-    {
-        for (int i = 0; i < entries.size(); ++i)
-        {
+    public void onDispatchEntries(List<ConsoleLogEntryDispatcher.Entry> entries) {
+        for (int i = 0; i < entries.size(); ++i) {
             addResult(entries.get(i).message);
         }
     }
@@ -84,8 +80,7 @@ public class ConsoleLogEntryDispatcherTest extends TestCaseEx implements
     // Helpers
 
     @Override
-    protected void assertResult(String... expected)
-    {
+    protected void assertResult(String... expected) {
         super.assertResult(expected);
         clearResult();
     }
@@ -94,31 +89,25 @@ public class ConsoleLogEntryDispatcherTest extends TestCaseEx implements
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Mocks
 
-    private class MockConsoleLogEntryDispatcher extends ConsoleLogEntryDispatcher
-    {
-        public MockConsoleLogEntryDispatcher()
-        {
-            super(ConsoleLogEntryDispatcherTest.this);
+    private class MockConsoleLogEntryDispatcher extends ConsoleLogEntryDispatcher {
+        public MockConsoleLogEntryDispatcher() {
+            super(new ImmediateDispatchQueue(), ConsoleLogEntryDispatcherTest.this);
         }
 
-        public void add(String message)
-        {
-            add(new ConsoleLogEntry((byte) 0, message));
+        public void add(String message) {
+            add(ConsoleLogType.LOG, message, "");
         }
 
-        public void runDispatch()
-        {
+        public void runDispatch() {
             dispatchEntries();
         }
 
         @Override
-        protected void postEntriesDispatch()
-        {
+        protected void postEntriesDispatch() {
         }
 
         @Override
-        protected void cancelEntriesDispatch()
-        {
+        protected void cancelEntriesDispatch() {
         }
     }
 }

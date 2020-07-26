@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Stack;
 
 import spacemadness.com.lunarconsole.utils.IntReference;
+import spacemadness.com.lunarconsole.utils.StringUtils;
 
 /* This class is not thread-safe */
 public class DefaultRichTextFactory implements RichTextFactory {
@@ -35,7 +36,11 @@ public class DefaultRichTextFactory implements RichTextFactory {
 
     @Override
     public CharSequence createRichText(String text) {
-        List<LURichTextTag> tags = null;
+        if (StringUtils.IsNullOrEmpty(text)) {
+            return text;
+        }
+
+        List<Span> tags = null;
         Stack<LURichTextTagInfo> stack = null;
         IntReference i = new IntReference(0);
 
@@ -49,7 +54,7 @@ public class DefaultRichTextFactory implements RichTextFactory {
             char chr = text.charAt(i.value++);
             if (chr == '<')
             {
-                LURichTextTagInfo tag = _tryCaptureTag(text, buffer.length(), i);
+                LURichTextTagInfo tag = tryCaptureTag(text, buffer.length(), i);
                 if (tag != null)
                 {
                     if (tag.open)
@@ -101,19 +106,19 @@ public class DefaultRichTextFactory implements RichTextFactory {
                             switch (tag.name) {
                                 case "b": {
                                     StyleSpan style = italicCount > 0 ? boldItalic : bold;
-                                    tags.add(new LURichTextTag(style, opposingTag.position, len));
+                                    tags.add(new Span(style, opposingTag.position, len));
                                     break;
                                 }
                                 case "i": {
                                     StyleSpan style = boldCount > 0 ? boldItalic : italic;
-                                    tags.add(new LURichTextTag(style, opposingTag.position, len));
+                                    tags.add(new Span(style, opposingTag.position, len));
                                     break;
                                 }
                                 case "color":
                                     String colorValue = opposingTag.attribute;
                                     if (colorValue != null) {
                                         CharacterStyle style = styleFromValue(colorValue);
-                                        tags.add(new LURichTextTag(style, opposingTag.position, len));
+                                        tags.add(new Span(style, opposingTag.position, len));
                                     }
                                     break;
                             }
@@ -144,10 +149,10 @@ public class DefaultRichTextFactory implements RichTextFactory {
         return text;
     }
 
-    private SpannableString createSpannedString(String text, List<LURichTextTag> tags) {
+    private SpannableString createSpannedString(String text, List<Span> tags) {
         SpannableString string = new SpannableString(text);
         for (int i = 0; i < tags.size(); i++) {
-            LURichTextTag tag = tags.get(i);
+            Span tag = tags.get(i);
             string.setSpan(tag.style, tag.startIndex, tag.startIndex + tag.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
         return string;
@@ -155,12 +160,12 @@ public class DefaultRichTextFactory implements RichTextFactory {
 
     //region Rich Text
 
-    private static boolean _isvalidTagName(String name)
+    private static boolean isValidTagName(String name)
     {
         return name.equals("b") || name.equals("i") || name.equals("color");
     }
 
-    private static LURichTextTagInfo _tryCaptureTag(String str, int position, IntReference iterPtr)
+    private static LURichTextTagInfo tryCaptureTag(String str, int position, IntReference iterPtr)
     {
         int end = iterPtr.value;
         boolean isOpen = true;
@@ -190,7 +195,7 @@ public class DefaultRichTextFactory implements RichTextFactory {
         String capture = str.substring(start, end - 1);
         int index = capture.lastIndexOf('=');
         String name = index != -1 ? capture.substring(0, index) : capture;
-        if (!_isvalidTagName(name))
+        if (!isValidTagName(name))
         {
             return null;
         }
@@ -211,21 +216,21 @@ public class DefaultRichTextFactory implements RichTextFactory {
         return style;
     }
 
-    private static class LURichTextTag
+    public static class Span
     {
         public final Object style;
         public final int startIndex;
         public final int length;
 
-        public LURichTextTag(CharacterStyle style, int startIndex, int length) {
+        public Span(CharacterStyle style, int startIndex, int length) {
             this((Object) style, startIndex, length);
         }
 
-        public LURichTextTag(StyleSpan style, int startIndex, int length) {
+        public Span(StyleSpan style, int startIndex, int length) {
             this((Object) style, startIndex, length);
         }
 
-        private LURichTextTag(Object style, int startIndex, int length) {
+        private Span(Object style, int startIndex, int length) {
             this.style = style;
             this.startIndex = startIndex;
             this.length = length;
