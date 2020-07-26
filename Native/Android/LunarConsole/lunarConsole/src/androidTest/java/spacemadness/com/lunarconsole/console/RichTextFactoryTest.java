@@ -13,11 +13,11 @@ import static org.junit.Assert.assertNull;
 import static spacemadness.com.lunarconsole.console.DefaultRichTextFactory.*;
 
 public class RichTextFactoryTest {
-    private final StyleSpan bold = new StyleSpan(Typeface.BOLD);
-    private final StyleSpan italic = new StyleSpan(Typeface.ITALIC);
-    private final StyleSpan boldItalic = new StyleSpan(Typeface.BOLD_ITALIC);
+    private StyleSpan bold;
+    private StyleSpan italic;
+    private StyleSpan boldItalic;
 
-    private RichTextFactory richTextFactory;
+    private DefaultRichTextFactory richTextFactory;
 
     @Before
     public void setup() {
@@ -28,6 +28,11 @@ public class RichTextFactoryTest {
             }
         };
         richTextFactory = new DefaultRichTextFactory(colorFactory);
+
+        // need to use exact styles: otherwise SpannedString equality fails
+        bold = richTextFactory.bold;
+        italic = richTextFactory.italic;
+        boldItalic = richTextFactory.boldItalic;
     }
 
     @Test

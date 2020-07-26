@@ -18,16 +18,16 @@ import spacemadness.com.lunarconsole.utils.StringUtils;
 
 /* This class is not thread-safe */
 public class DefaultRichTextFactory implements RichTextFactory {
-    private final StyleSpan bold = new StyleSpan(Typeface.BOLD);
-    private final StyleSpan italic = new StyleSpan(Typeface.ITALIC);
-    private final StyleSpan boldItalic = new StyleSpan(Typeface.BOLD_ITALIC);
+    final StyleSpan bold = new StyleSpan(Typeface.BOLD);
+    final StyleSpan italic = new StyleSpan(Typeface.ITALIC);
+    final StyleSpan boldItalic = new StyleSpan(Typeface.BOLD_ITALIC);
+
     private final Map<String, CharacterStyle> colorStyleMap;
 
     private final ColorFactory colorFactory;
 
     public DefaultRichTextFactory(ColorFactory colorFactory) {
-        if (colorFactory == null)
-        {
+        if (colorFactory == null) {
             throw new IllegalArgumentException("Color factory is null");
         }
         this.colorFactory = colorFactory;
@@ -49,59 +49,43 @@ public class DefaultRichTextFactory implements RichTextFactory {
         int boldCount = 0;
         int italicCount = 0;
 
-        while (i.value < text.length())
-        {
+        while (i.value < text.length()) {
             char chr = text.charAt(i.value++);
-            if (chr == '<')
-            {
+            if (chr == '<') {
                 LURichTextTagInfo tag = tryCaptureTag(text, buffer.length(), i);
-                if (tag != null)
-                {
-                    if (tag.open)
-                    {
-                        if ("b".equals(tag.name))
-                        {
+                if (tag != null) {
+                    if (tag.open) {
+                        if ("b".equals(tag.name)) {
                             boldCount++;
-                        }
-                        else if ("i".equals(tag.name))
-                        {
+                        } else if ("i".equals(tag.name)) {
                             italicCount++;
                         }
 
                         if (stack == null) stack = new Stack<>();
                         stack.add(tag);
-                    }
-                    else if (stack != null && stack.size() > 0)
-                    {
+                    } else if (stack != null && stack.size() > 0) {
                         LURichTextTagInfo opposingTag = stack.pop();
 
                         // if tags don't match - just use raw string
-                        if (!tag.name.equals(opposingTag.name))
-                        {
+                        if (!tag.name.equals(opposingTag.name)) {
                             continue;
                         }
 
-                        if ("b".equals(tag.name))
-                        {
+                        if ("b".equals(tag.name)) {
                             boldCount--;
-                            if (boldCount > 0)
-                            {
+                            if (boldCount > 0) {
                                 continue;
                             }
-                        }
-                        else if ("i".equals(tag.name))
-                        {
+                        } else if ("i".equals(tag.name)) {
                             italicCount--;
-                            if (italicCount > 0)
-                            {
+                            if (italicCount > 0) {
                                 continue;
                             }
                         }
 
                         // create rich text tag
                         int len = buffer.length() - opposingTag.position;
-                        if (len > 0)
-                        {
+                        if (len > 0) {
                             if (tags == null) tags = new ArrayList<>();
                             switch (tag.name) {
                                 case "b": {
@@ -124,25 +108,19 @@ public class DefaultRichTextFactory implements RichTextFactory {
                             }
                         }
                     }
-                }
-                else
-                {
+                } else {
                     buffer.append(chr);
                 }
-            }
-            else
-            {
+            } else {
                 buffer.append(chr);
             }
         }
 
-        if (tags != null && buffer.length() > 0)
-        {
+        if (tags != null && buffer.length() > 0) {
             return createSpannedString(buffer.toString(), tags);
         }
 
-        if (buffer.length() < text.length())
-        {
+        if (buffer.length() < text.length()) {
             return buffer.toString();
         }
 
@@ -160,43 +138,36 @@ public class DefaultRichTextFactory implements RichTextFactory {
 
     //region Rich Text
 
-    private static boolean isValidTagName(String name)
-    {
+    private static boolean isValidTagName(String name) {
         return name.equals("b") || name.equals("i") || name.equals("color");
     }
 
-    private static LURichTextTagInfo tryCaptureTag(String str, int position, IntReference iterPtr)
-    {
+    private static LURichTextTagInfo tryCaptureTag(String str, int position, IntReference iterPtr) {
         int end = iterPtr.value;
         boolean isOpen = true;
-        if (end < str.length() && str.charAt(end) == '/')
-        {
+        if (end < str.length() && str.charAt(end) == '/') {
             isOpen = false;
             ++end;
         }
 
         int start = end;
         boolean found = false;
-        while (end < str.length())
-        {
+        while (end < str.length()) {
             char chr = str.charAt(end++);
-            if (chr == '>')
-            {
+            if (chr == '>') {
                 found = true;
                 break;
             }
         }
 
-        if (!found)
-        {
+        if (!found) {
             return null;
         }
 
         String capture = str.substring(start, end - 1);
         int index = capture.lastIndexOf('=');
         String name = index != -1 ? capture.substring(0, index) : capture;
-        if (!isValidTagName(name))
-        {
+        if (!isValidTagName(name)) {
             return null;
         }
 
@@ -207,8 +178,7 @@ public class DefaultRichTextFactory implements RichTextFactory {
 
     private CharacterStyle styleFromValue(String value) {
         CharacterStyle style = colorStyleMap.get(value);
-        if (style == null)
-        {
+        if (style == null) {
             int color = colorFactory.fromValue(value);
             style = new ForegroundColorSpan(color);
             colorStyleMap.put(value, style);
@@ -216,8 +186,7 @@ public class DefaultRichTextFactory implements RichTextFactory {
         return style;
     }
 
-    public static class Span
-    {
+    public static class Span {
         public final Object style;
         public final int startIndex;
         public final int length;
@@ -237,8 +206,7 @@ public class DefaultRichTextFactory implements RichTextFactory {
         }
     }
 
-    private static final class LURichTextTagInfo
-    {
+    private static final class LURichTextTagInfo {
         public final String name;
         public final String attribute;
         public final boolean open;
