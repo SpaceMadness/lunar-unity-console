@@ -177,7 +177,7 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
 
         // show warning
         if (shouldShowWarning(entry.type) && !isConsoleShown()) {
-            showWarning(entry.message);
+            showWarning(entry.getMessage());
         }
     }
 
@@ -422,7 +422,7 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
         return true;
     }
 
-    private void showWarning(final String message) {
+    private void showWarning(final CharSequence message) {
         try {
             if (warningView == null) {
                 Log.d(WARNING_VIEW, "Show warning");

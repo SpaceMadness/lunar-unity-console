@@ -83,7 +83,7 @@ public class WarningView extends FrameLayout implements Destroyable
 
     private void setupUI(View view)
     {
-        messageText = (TextView) view.findViewById(R.id.lunar_console_warning_text_message);
+        messageText = view.findViewById(R.id.lunar_console_warning_text_message);
         view.setOnTouchListener(new OnTouchListener()
         {
             @Override
