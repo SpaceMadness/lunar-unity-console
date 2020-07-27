@@ -41,7 +41,7 @@ public class DefaultRichTextFactory implements RichTextFactory {
         }
 
         List<Span> tags = null;
-        Stack<LURichTextTagInfo> stack = null;
+        Stack<Tag> stack = null;
         IntReference i = new IntReference(0);
 
         StringBuilder buffer = new StringBuilder(text.length());
@@ -52,7 +52,7 @@ public class DefaultRichTextFactory implements RichTextFactory {
         while (i.value < text.length()) {
             char chr = text.charAt(i.value++);
             if (chr == '<') {
-                LURichTextTagInfo tag = tryCaptureTag(text, buffer.length(), i);
+                Tag tag = tryCaptureTag(text, buffer.length(), i);
                 if (tag != null) {
                     if (tag.open) {
                         if ("b".equals(tag.name)) {
@@ -64,7 +64,7 @@ public class DefaultRichTextFactory implements RichTextFactory {
                         if (stack == null) stack = new Stack<>();
                         stack.add(tag);
                     } else if (stack != null && stack.size() > 0) {
-                        LURichTextTagInfo opposingTag = stack.pop();
+                        Tag opposingTag = stack.pop();
 
                         // if tags don't match - just use raw string
                         if (!tag.name.equals(opposingTag.name)) {
@@ -142,7 +142,7 @@ public class DefaultRichTextFactory implements RichTextFactory {
         return name.equals("b") || name.equals("i") || name.equals("color");
     }
 
-    private static LURichTextTagInfo tryCaptureTag(String str, int position, IntReference iterPtr) {
+    private static Tag tryCaptureTag(String str, int position, IntReference iterPtr) {
         int end = iterPtr.value;
         boolean isOpen = true;
         if (end < str.length() && str.charAt(end) == '/') {
@@ -173,7 +173,7 @@ public class DefaultRichTextFactory implements RichTextFactory {
 
         String attribute = index != -1 ? capture.substring(index + 1) : null;
         iterPtr.value = end;
-        return new LURichTextTagInfo(name, attribute, isOpen, position);
+        return new Tag(name, attribute, isOpen, position);
     }
 
     CharacterStyle styleFromColorValue(String value) {
@@ -206,13 +206,13 @@ public class DefaultRichTextFactory implements RichTextFactory {
         }
     }
 
-    private static final class LURichTextTagInfo {
+    private static final class Tag {
         public final String name;
         public final String attribute;
         public final boolean open;
         public final int position;
 
-        private LURichTextTagInfo(String name, String attribute, boolean open, int position) {
+        private Tag(String name, String attribute, boolean open, int position) {
             this.name = name;
             this.attribute = attribute;
             this.open = open;
