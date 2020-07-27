@@ -69,12 +69,4 @@ public class StringUtilsTest extends TestCase
         string = "word";
         assertEquals("Word", StringUtils.camelCaseToWords(string));
     }
-
-    public void testRichTextToHtml()
-    {
-        assertNull(StringUtils.richTextToHtml(null));
-        assertEquals("", StringUtils.richTextToHtml(""));
-        assertEquals("This is string", StringUtils.richTextToHtml("This is string"));
-        assertEquals("This is <font color=red>red</font> text", StringUtils.richTextToHtml("This is <color=red>red</color> text"));
-    }
 }

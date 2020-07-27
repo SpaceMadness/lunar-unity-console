@@ -125,14 +125,6 @@ public class StringUtils {
         return str == null || str.length() == 0;
     }
 
-    public static String nullOrNonEmpty(String str) {
-        return IsNullOrEmpty(str) ? null : str;
-    }
-
-    public static String NonNullOrEmpty(String str) {
-        return str != null ? str : "";
-    }
-
     //endregion
 
     public static String toString(Object value) {
@@ -188,63 +180,11 @@ public class StringUtils {
         return builder.toString();
     }
 
-    public static String Join(byte[] array) {
-        return Join(array, ",");
-    }
-
-    public static String Join(byte[] array, String separator) {
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < array.length; ++i) {
-            builder.append(array[i]);
-            if (i < array.length - 1) builder.append(separator);
-        }
-        return builder.toString();
-    }
-
-    public static String Join(short[] array) {
-        return Join(array, ",");
-    }
-
-    public static String Join(short[] array, String separator) {
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < array.length; ++i) {
-            builder.append(array[i]);
-            if (i < array.length - 1) builder.append(separator);
-        }
-        return builder.toString();
-    }
-
-    public static String Join(char[] array) {
-        return Join(array, ",");
-    }
-
-    public static String Join(char[] array, String separator) {
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < array.length; ++i) {
-            builder.append(array[i]);
-            if (i < array.length - 1) builder.append(separator);
-        }
-        return builder.toString();
-    }
-
     public static String Join(int[] array) {
         return Join(array, ",");
     }
 
     public static String Join(int[] array, String separator) {
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < array.length; ++i) {
-            builder.append(array[i]);
-            if (i < array.length - 1) builder.append(separator);
-        }
-        return builder.toString();
-    }
-
-    public static String Join(long[] array) {
-        return Join(array, ",");
-    }
-
-    public static String Join(long[] array, String separator) {
         StringBuilder builder = new StringBuilder();
         for (int i = 0; i < array.length; ++i) {
             builder.append(array[i]);
@@ -266,25 +206,12 @@ public class StringUtils {
         return builder.toString();
     }
 
-    public static String Join(double[] array) {
-        return Join(array, ",");
-    }
-
-    public static String Join(double[] array, String separator) {
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < array.length; ++i) {
-            builder.append(array[i]);
-            if (i < array.length - 1) builder.append(separator);
-        }
-        return builder.toString();
-    }
-
     public static String format(String format, Object... args) {
         if (format != null && args != null && args.length > 0) {
             try {
                 return String.format(format, args);
             } catch (Exception e) {
-                android.util.Log.e("Lunar", "Error while formatting String: " + e.getMessage()); // FIXME: better system loggingb
+                android.util.Log.e("Lunar", "Error while formatting String: " + e.getMessage()); // FIXME: better system logging
             }
         }
 
@@ -308,15 +235,5 @@ public class StringUtils {
         }
 
         return result.toString();
-    }
-
-    public static String richTextToHtml(String message) {
-        if (!IsNullOrEmpty(message) && message.contains("<color=")) {
-            return message
-                    .replaceAll("<color=", "<font color=")
-                    .replaceAll("</color>", "</font>");
-        }
-
-        return message;
     }
 }
