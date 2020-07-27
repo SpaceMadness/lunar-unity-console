@@ -58,7 +58,7 @@ public final class PluginSettings {
 	/**
 	 * Indicates if reach text tags should be ignored.
 	 */
-	public @Readonly boolean richTextTags;
+	public boolean richTextTags;
 
 	/**
 	 * Indicates if actions should be sorted.

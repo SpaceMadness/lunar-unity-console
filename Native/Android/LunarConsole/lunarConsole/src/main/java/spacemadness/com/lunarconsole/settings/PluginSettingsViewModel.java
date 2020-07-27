@@ -45,6 +45,7 @@ class PluginSettingsViewModel {
 		PluginSettings settings = settingsEditor.getSettings();
 
 		List<ListViewItem> items = new ArrayList<>();
+		items.add(new PropertyItem(PropertyHelper.getProperty(settings, "richTextTags")));
 		items.add(new HeaderItem("Exception Warning"));
 		items.add(new PropertyItem(PropertyHelper.getProperty(settings, "exceptionWarning.displayMode")));
 		items.add(new HeaderItem("Log Overlay"));
