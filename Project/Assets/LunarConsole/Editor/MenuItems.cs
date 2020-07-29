@@ -51,6 +51,33 @@ namespace LunarConsoleEditorInternal
 {
     static class MenuItems
     {
+        private const string DisableMenuItem = "Window/Lunar Mobile Console/Disable";
+        private const string EnableMenuItem = "Window/Lunar Mobile Console/Enable";
+        
+        [MenuItem(DisableMenuItem)]
+        static void DisablePlugin()
+        {
+            Installer.SetLunarConsoleEnabled(false);
+        }
+
+        [MenuItem(DisableMenuItem, true)]
+        static bool DisablePluginValidation()
+        {
+            return LunarConsoleConfig.consoleEnabled;
+        }
+        
+        [MenuItem(EnableMenuItem)]
+        static void EnablePlugin()
+        {
+            Installer.SetLunarConsoleEnabled(true);
+        }
+
+        [MenuItem(EnableMenuItem, true)]
+        static bool EnablePluginValidation()
+        {
+            return !LunarConsoleConfig.consoleEnabled;
+        }
+
         [MenuItem("Window/Lunar Mobile Console/Install...")]
         static void Install()
         {
