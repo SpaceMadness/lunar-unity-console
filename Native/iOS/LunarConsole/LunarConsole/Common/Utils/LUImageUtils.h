@@ -24,3 +24,5 @@
 
 UIImage *LUGetImage(NSString *name);
 UIImage *LUGet3SlicedImage(NSString *name);
+
+UIColor * LUUIColorFromRGB(NSUInteger value);

@@ -24,6 +24,7 @@
 
 #import "LUViewController.h"
 
+@class LULogMessage;
 @class LUExceptionWarningController;
 
 @protocol LUExceptionWarningControllerDelegate <NSObject>
@@ -37,6 +38,6 @@
 
 @property (nonatomic, weak) id<LUExceptionWarningControllerDelegate> delegate;
 
-- (instancetype)initWithMessage:(NSString *)message;
+- (instancetype)initWithMessage:(LULogMessage *)message;
 
 @end

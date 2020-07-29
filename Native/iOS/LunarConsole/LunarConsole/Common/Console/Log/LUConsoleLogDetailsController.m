@@ -90,7 +90,7 @@
 {
     UIPasteboard *pastboard = [UIPasteboard generalPasteboard];
     
-    NSString *text = _entry.message;
+    NSString *text = _entry.message.text;
     if ([_entry hasStackTrace])
     {
         text = [text stringByAppendingFormat:@"\n\n%@", _entry.stackTrace];

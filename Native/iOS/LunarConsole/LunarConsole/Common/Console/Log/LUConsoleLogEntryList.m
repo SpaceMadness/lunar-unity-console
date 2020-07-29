@@ -303,7 +303,7 @@
     }
     
     // filter by message
-    return _filterText.length == 0 || [entry.message rangeOfString:_filterText options:NSCaseInsensitiveSearch].location != NSNotFound;
+    return _filterText.length == 0 || [entry.message.text rangeOfString:_filterText options:NSCaseInsensitiveSearch].location != NSNotFound;
 }
 
 #pragma mark -
@@ -317,7 +317,7 @@
     NSUInteger count = _currentEntries.count;
     for (LUConsoleLogEntry *entry in _currentEntries)
     {
-        [text appendString:entry.message];
+        [text appendString:entry.message.text];
         if (entry.type == LUConsoleLogTypeException && entry.hasStackTrace)
         {
             [text appendString:@"\n"];

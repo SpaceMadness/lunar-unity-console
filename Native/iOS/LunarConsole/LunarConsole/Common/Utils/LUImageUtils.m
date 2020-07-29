@@ -36,3 +36,11 @@ UIImage *LUGet3SlicedImage(NSString *name)
     LUAssertMsgv(((int)image.size.width) % 3 == 0, @"3 sliced image has wrong width: %g", image.size.width);
     return [image stretchableImageWithLeftCapWidth:image.size.width / 3 topCapHeight:0];
 }
+
+UIColor * LUUIColorFromRGB(NSUInteger value) {
+    static const float multipler = 1.0 / 255.0;
+    return [UIColor colorWithRed:((float)((value & 0xFF000000) >> 24)) * multipler
+                           green:((float)((value & 0xFF0000) >> 16)) * multipler
+                            blue:((float)((value & 0xFF00) >> 8)) * multipler
+                           alpha:((float)(value & 0xFF)) * multipler];
+}

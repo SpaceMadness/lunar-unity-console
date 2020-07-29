@@ -135,7 +135,7 @@ inline static LUOverlayCellSkin *LUOverlayCellSkinMake(LULogEntryColors *colors)
     if (skin.stringAttributes != nil) {
         [cell setMessage:entry.message attributes:skin.stringAttributes];
     } else {
-        cell.message = entry.message;
+        [cell setMessage:entry.message];
         cell.messageColor = skin.textColor;
     }
     return cell;
@@ -161,20 +161,20 @@ inline static LUOverlayCellSkin *LUOverlayCellSkinMake(LULogEntryColors *colors)
     entry.removalDate = [[NSDate alloc] initWithTimeIntervalSinceNow:_settings.timeout];
 
     [UIView performWithoutAnimation:^{
-        if (_entries.count < _settings.maxVisibleLines) {
-            [_entries addObject:entry];
-            [_tableView insertRowsAtIndexPaths:@[ [NSIndexPath indexPathForRow:_entries.count - 1 inSection:0] ]
+        if (self->_entries.count < self->_settings.maxVisibleLines) {
+            [self->_entries addObject:entry];
+            [self->_tableView insertRowsAtIndexPaths:@[ [NSIndexPath indexPathForRow:self->_entries.count - 1 inSection:0] ]
                               withRowAnimation:UITableViewRowAnimationNone];
         } else {
-            [_tableView beginUpdates];
+            [self->_tableView beginUpdates];
 
             [self removeFirstRow];
 
-            [_entries addObject:entry];
-            [_tableView insertRowsAtIndexPaths:@[ [NSIndexPath indexPathForRow:_entries.count - 1 inSection:0] ]
+            [self->_entries addObject:entry];
+            [self->_tableView insertRowsAtIndexPaths:@[ [NSIndexPath indexPathForRow:self->_entries.count - 1 inSection:0] ]
                               withRowAnimation:UITableViewRowAnimationNone];
 
-            [_tableView endUpdates];
+            [self->_tableView endUpdates];
         }
 
         // remove row after the delay
@@ -224,13 +224,13 @@ inline static LUOverlayCellSkin *LUOverlayCellSkinMake(LULogEntryColors *colors)
 
     NSTimeInterval timeout = MAX(0.0, [entry.removalDate timeIntervalSinceNow]);
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(timeout * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        _entryRemovalScheduled = NO;
+        self->_entryRemovalScheduled = NO;
 
-        if (_entryRemovalCancelled) {
+        if (self->_entryRemovalCancelled) {
             return;
         }
 
-        LUConsoleOverlayLogEntry *firstEntry = _entries.firstObject;
+        LUConsoleOverlayLogEntry *firstEntry = self->_entries.firstObject;
         if (firstEntry == nil) {
             return;
         }
@@ -239,7 +239,7 @@ inline static LUOverlayCellSkin *LUOverlayCellSkinMake(LULogEntryColors *colors)
             [UIView performWithoutAnimation:^{
                 [self removeFirstRow];
             }];
-            firstEntry = _entries.firstObject;
+            firstEntry = self->_entries.firstObject;
         }
 
         [self scheduleEntryRemoval:firstEntry];

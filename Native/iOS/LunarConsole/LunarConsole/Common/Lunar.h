@@ -45,6 +45,7 @@
 #import "LUEntryTableViewCell.h"
 #import "LUEnumPickerViewController.h"
 #import "LUExceptionWarningController.h"
+#import "LULogMessage.h"
 #import "LUPanViewGestureRecognizer.h"
 #import "LUPassTouchView.h"
 #import "LUPluginSettings.h"

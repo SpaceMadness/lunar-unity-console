@@ -26,6 +26,7 @@
 
 @class LUConsole;
 @class LUConsoleLogEntryList;
+@class LULogMessage;
 
 @protocol LunarConsoleDelegate <NSObject>
 
@@ -55,7 +56,7 @@
 
 - (LUConsoleLogEntry *)entryAtIndex:(NSUInteger)index;
 
-- (void)logMessage:(NSString *)message stackTrace:(NSString *)stackTrace type:(LUConsoleLogType)type;
+- (void)logMessage:(LULogMessage *)message stackTrace:(NSString *)stackTrace type:(LUConsoleLogType)type;
 - (void)clear;
 
 - (NSString *)getText;

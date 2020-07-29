@@ -340,11 +340,11 @@ NSString * const LUConsolePopupControllerWillDisappearNotification = @"LUConsole
 {
     // FIXME: store button details and set params in viewDidLoad
     dispatch_async(dispatch_get_main_queue(), ^{
-        _learnMoreButton.hidden = NO;
-        [_learnMoreButton setTitle:title forState:UIControlStateNormal];
-        [_learnMoreButton addTarget:target
-                             action:action
-                   forControlEvents:UIControlEventTouchUpInside];
+        self->_learnMoreButton.hidden = NO;
+        [self->_learnMoreButton setTitle:title forState:UIControlStateNormal];
+        [self->_learnMoreButton addTarget:target
+                                   action:action
+                         forControlEvents:UIControlEventTouchUpInside];
     });
 }
 

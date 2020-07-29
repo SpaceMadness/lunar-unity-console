@@ -22,12 +22,15 @@
 
 package spacemadness.com.lunarconsole.console;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
-public class LimitSizeListTest extends TestCase
-{
-    public void testAddElements()
-    {
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+public class LimitSizeListTest {
+    @Test
+    public void testAddElements() {
         TestList list = new TestList(10);
         list.addObject("1");
         list.addObject("2");
@@ -36,8 +39,8 @@ public class LimitSizeListTest extends TestCase
         listAssertObjects(list, "1", "2", "3");
     }
 
-    public void testTrimElements()
-    {
+    @Test
+    public void testTrimElements() {
         TestList list = new TestList(3, 2);
         assertEquals(0, list.count());
         assertEquals(0, list.totalCount());
@@ -95,8 +98,8 @@ public class LimitSizeListTest extends TestCase
         listAssertObjects(list, "5", "6", "7");
     }
 
-    public void testTrimElementsAndClear()
-    {
+    @Test
+    public void testTrimElementsAndClear() {
         TestList list = new TestList(3, 2);
         list.addObject("1");
         list.addObject("2");
@@ -142,24 +145,19 @@ public class LimitSizeListTest extends TestCase
         listAssertObjects(list, "7", "8");
     }
 
-    private void listAssertObjects(TestList list, String... expected)
-    {
+    private void listAssertObjects(TestList list, String... expected) {
         assertEquals(expected.length, list.count());
-        for (int i = 0; i < expected.length; ++i)
-        {
+        for (int i = 0; i < expected.length; ++i) {
             assertEquals(expected[i], list.objectAtIndex(i));
         }
     }
 
-    private static class TestList extends LimitSizeList<String>
-    {
-        public TestList(int capacity)
-        {
+    private static class TestList extends LimitSizeList<String> {
+        public TestList(int capacity) {
             this(capacity, 1);
         }
 
-        public TestList(int capacity, int trimSize)
-        {
+        public TestList(int capacity, int trimSize) {
             super(String.class, capacity, trimSize);
         }
     }

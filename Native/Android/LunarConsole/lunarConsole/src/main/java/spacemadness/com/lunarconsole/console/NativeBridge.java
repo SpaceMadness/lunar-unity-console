@@ -54,7 +54,7 @@ public final class NativeBridge {
         // initialize dispatcher
         entryDispatcher = new ConsoleLogEntryDispatcher(dispatchQueue, new ConsoleLogEntryDispatcher.OnDispatchListener() {
             @Override
-            public void onDispatchEntries(List<ConsoleLogEntry> entries) {
+            public void onDispatchEntries(List<ConsoleLogEntryDispatcher.Entry> entries) {
                 logEntries(entries);
             }
         });
@@ -89,7 +89,9 @@ public final class NativeBridge {
                 final Activity activity = UnityPlayer.currentActivity;
                 final Platform platform = new ManagedPlatform(activity, targetName, methodName);
                 final PluginSettings settings = JsonDecoder.decode(settingsJson, PluginSettings.class);
-                plugin = new ConsolePlugin(activity, platform, version, settings);
+                final ColorFactory colorFactory = new DefaultColorFactory(activity);
+                final RichTextFactory richTextFactory = new DefaultRichTextFactory(colorFactory);
+                plugin = new ConsolePlugin(activity, platform, version, settings, richTextFactory);
                 plugin.start();
             }
         });
@@ -98,7 +100,7 @@ public final class NativeBridge {
     public static void logMessage(String message, String stackTrace, int logType) {
         try {
             // unity logs message on its own thread - we batch them and log to the main thread
-            entryDispatcher.add(new ConsoleLogEntry((byte) logType, message, stackTrace));
+            entryDispatcher.add((byte) logType, message, stackTrace);
         } catch (Exception e) {
             Log.e(e, "Exception while logging a message");
         }
@@ -185,7 +187,7 @@ public final class NativeBridge {
 
     //region Entry Dispatcher
 
-    private static void logEntries(List<ConsoleLogEntry> entries) {
+    private static void logEntries(List<ConsoleLogEntryDispatcher.Entry> entries) {
         for (int i = 0; i < entries.size(); ++i) {
             plugin.logMessage(entries.get(i));
         }

@@ -373,7 +373,7 @@ static LUDisplayMode parseDisplayMode(id value)
         _capacity = [dict[@"capacity"] intValue];
         _trim = [dict[@"trim"] intValue];
         _gesture = parseGesture(dict[@"gesture"]);
-        _removeRichTextTags = [dict[@"removeRichTextTags"] boolValue];
+        _richTextTags = [dict[@"richTextTags"] boolValue];
         _sortActions = [dict[@"sortActions"] boolValue];
         _sortVariables = [dict[@"sortVariables"] boolValue];
         _emails = dict[@"emails"];
@@ -391,7 +391,7 @@ static LUDisplayMode parseDisplayMode(id value)
     [coder encodeInteger:self.capacity forKey:@"capacity"];
     [coder encodeInteger:self.trim forKey:@"trim"];
     [coder encodeObject:NSStringFromGesture(self.gesture) forKey:@"gesture"];
-    [coder encodeBool:self.removeRichTextTags forKey:@"removeRichTextTags"];
+    [coder encodeBool:self.richTextTags forKey:@"richTextTags"];
     [coder encodeBool:self.sortActions forKey:@"sortActions"];
     [coder encodeBool:self.sortVariables forKey:@"sortVariables"];
     [coder encodeObject:self.emails forKey:@"emails"];
@@ -406,7 +406,7 @@ static LUDisplayMode parseDisplayMode(id value)
         _capacity = [decoder decodeIntegerForKey:@"capacity"];
         _trim = [decoder decodeIntegerForKey:@"trim"];
         _gesture = parseGesture([decoder decodeObjectForKey:@"gesture"]);
-        _removeRichTextTags = [decoder decodeBoolForKey:@"removeRichTextTags"];
+        _richTextTags = [decoder decodeBoolForKey:@"richTextTags"];
         _sortActions = [decoder decodeBoolForKey:@"sortActions"];
         _sortVariables = [decoder decodeBoolForKey:@"sortVariables"];
         _emails = [decoder decodeObjectForKey:@"emails"];
@@ -433,7 +433,7 @@ static LUDisplayMode parseDisplayMode(id value)
            self.capacity == other.capacity &&
            self.trim == other.trim &&
            self.gesture == other.gesture &&
-           self.removeRichTextTags == other.removeRichTextTags &&
+           self.richTextTags == other.richTextTags &&
            self.sortActions == other.sortActions &&
            self.sortVariables == other.sortVariables &&
            [self.emails isEqualToArray:other.emails];

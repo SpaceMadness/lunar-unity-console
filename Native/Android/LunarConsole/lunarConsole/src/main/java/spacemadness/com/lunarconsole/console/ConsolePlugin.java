@@ -24,6 +24,7 @@ package spacemadness.com.lunarconsole.console;
 
 import android.app.Activity;
 import android.app.Application;
+import android.text.Spanned;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -81,6 +82,7 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
     private final Platform platform;
     private final String version;
     private PluginSettings settings;
+    private final RichTextFactory richTextFactory;
 
     private final ConsoleViewState consoleViewState;
 
@@ -99,8 +101,9 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
         }
     };
 
-    public ConsolePlugin(Activity activity, Platform platform, String version, PluginSettings settings) {
+    public ConsolePlugin(Activity activity, Platform platform, String version, PluginSettings settings, RichTextFactory richTextFactory) {
         this.activityRef = new WeakReference<>(checkNotNull(activity, "activity"));
+        this.richTextFactory = richTextFactory;
 
         PluginSettings existingSettings = PluginSettingsIO.load(activity);
         if (existingSettings != null) {
@@ -151,7 +154,11 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
     }
 
     public void logMessage(byte type, String stackTrace, String message) {
-        logMessage(new ConsoleLogEntry(type, message, stackTrace));
+        logMessage(createLogEntry(type, message, stackTrace));
+    }
+
+    public void logMessage(ConsoleLogEntryDispatcher.Entry entry) {
+        logMessage(createLogEntry(entry.type, entry.message, entry.stackTrace));
     }
 
     public void logMessage(ConsoleLogEntry entry) {
@@ -160,7 +167,7 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
 
         // show warning
         if (shouldShowWarning(entry.type) && !isConsoleShown()) {
-            showWarning(entry.message);
+            showWarning(entry.getMessage());
         }
     }
 
@@ -405,7 +412,7 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
         return true;
     }
 
-    private void showWarning(final String message) {
+    private void showWarning(final CharSequence message) {
         try {
             if (warningView == null) {
                 Log.d(WARNING_VIEW, "Show warning");
@@ -609,6 +616,29 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
                 return LunarConsoleConfig.isPro;
             }
         };
+    }
+
+    //endregion
+
+    //region Helpers
+
+    private ConsoleLogEntry createLogEntry(byte type, String message, String stackTrace) {
+        if (settings.richTextTags) {
+            CharSequence text = createRichText(message);
+            String rawMessage = text.toString();
+            Spanned spannedMessage = text instanceof Spanned ? (Spanned) text : null;
+            return new ConsoleLogEntry(type, rawMessage, spannedMessage, stackTrace);
+        }
+        return new ConsoleLogEntry(type, message, stackTrace);
+    }
+
+    private CharSequence createRichText(String text) {
+        try {
+            return richTextFactory.createRichText(text);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return text;
     }
 
     //endregion

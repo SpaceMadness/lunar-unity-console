@@ -32,7 +32,7 @@ public class ConsoleCollapsedLogEntry extends ConsoleLogEntry
 
     public ConsoleCollapsedLogEntry(ConsoleLogEntry entry)
     {
-        super(entry.type, entry.message, entry.stackTrace);
+        super(entry.type, entry.message, entry.spannedMessage, entry.stackTrace);
 
         count = 1;
         index = -1;

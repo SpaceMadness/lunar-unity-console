@@ -132,7 +132,7 @@ static NSString *const kScriptMessageTrackEvent = @"track_event";
 
         [UIView animateWithDuration:kWindowAnimationDuration
                          animations:^{
-                             _consoleWindow.frame = windowFrame;
+                            self->_consoleWindow.frame = windowFrame;
                          }];
 
         [self registerNotifications];
@@ -186,13 +186,21 @@ static NSString *const kScriptMessageTrackEvent = @"track_event";
 
 - (void)logMessage:(NSString *)message stackTrace:(NSString *)stackTrace type:(LUConsoleLogType)type
 {
+    LULogMessage *logMessage;
+    if (_settings.richTextTags) {
+        logMessage = [LULogMessage fromRichText:message];
+    }
+    else {
+        logMessage = [[LULogMessage alloc] initWithText:message tags:nil];
+    }
+    
     if ([self shouldDisplayErrorType:type] && _consoleWindow == nil) {
-        [self showWarningWithMessage:message];
+        [self showWarningWithMessage:logMessage];
     }
 
     // TODO: use batching
     lunar_dispatch_main(^{
-        [_console logMessage:message stackTrace:stackTrace type:type];
+        [self->_console logMessage:logMessage stackTrace:stackTrace type:type];
     });
 }
 
@@ -247,7 +255,7 @@ static NSString *const kScriptMessageTrackEvent = @"track_event";
 #pragma mark -
 #pragma mark Warnings
 
-- (BOOL)showWarningWithMessage:(NSString *)message
+- (BOOL)showWarningWithMessage:(LULogMessage *)message
 {
     if (_warningWindow == nil) {
 		CGRect safeRect = [LUUIHelper safeAreaRect];

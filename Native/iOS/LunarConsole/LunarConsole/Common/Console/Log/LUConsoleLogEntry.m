@@ -56,12 +56,12 @@ static NSArray *_cellSkinLookup;
     }
 }
 
-+ (instancetype)entryWithType:(LUConsoleLogType)type message:(NSString *)message stackTrace:(NSString *)stackTrace
++ (instancetype)entryWithType:(LUConsoleLogType)type message:(LULogMessage *)message stackTrace:(NSString *)stackTrace
 {
     return [[[self class] alloc] initWithType:type message:message stackTrace:stackTrace];
 }
 
-- (instancetype)initWithType:(LUConsoleLogType)type message:(NSString *)message stackTrace:(NSString *)stackTrace
+- (instancetype)initWithType:(LUConsoleLogType)type message:(LULogMessage *)message stackTrace:(NSString *)stackTrace
 {
     self = [super init];
     if (self) {
@@ -80,7 +80,7 @@ static NSArray *_cellSkinLookup;
 {
     if ([object isKindOfClass:[self class]]) {
         LUConsoleLogEntry *other = object;
-        return other.type == _type && [other.message isEqualToString:_message];
+        return other.type == _type && [other.message isEqual:_message];
     }
 
     return false;
@@ -103,10 +103,10 @@ static NSArray *_cellSkinLookup;
 
     LUCellSkin *cellSkin = [self cellSkinForLogType:_type];
 
-    cell.message = _message;
     cell.messageColor = cellSkin.textColor;
     cell.cellColor = index % 2 == 0 ? cellSkin.backgroundColorDark : cellSkin.backgroundColorLight;
     cell.icon = cellSkin.icon;
+    [cell setMessage:_message];
 
     return cell;
 }
@@ -116,7 +116,7 @@ static NSArray *_cellSkinLookup;
     CGFloat cellWidth = CGRectGetWidth(tableView.bounds);
     if (!LUFloatApprox(_cachedWidth, cellWidth)) {
         _cachedWidth = cellWidth;
-        _cachedHeight = [LUConsoleLogEntryTableViewCell heightForCellWithText:_message width:cellWidth];
+        _cachedHeight = [LUConsoleLogEntryTableViewCell heightForCellWithText:_message.text width:cellWidth];
     }
 
     return CGSizeMake(cellWidth, _cachedHeight);
@@ -182,7 +182,7 @@ static NSArray *_cellSkinLookup;
 
     LUCellSkin *cellSkin = [self cellSkinForLogType:self.type];
 
-    cell.message = self.message;
+    [cell setMessage:self.message];
     cell.messageColor = cellSkin.textColor;
     cell.cellColor = index % 2 == 0 ? cellSkin.backgroundColorDark : cellSkin.backgroundColorLight;
     cell.icon = cellSkin.icon;
@@ -236,7 +236,7 @@ static NSArray *_cellSkinLookup;
     CGFloat cellWidth = CGRectGetWidth(tableView.bounds);
     if (!LUFloatApprox(self.cachedWidth, cellWidth)) {
         self.cachedWidth = cellWidth;
-        self.cachedHeight = [LUConsoleOverlayLogEntryTableViewCell heightForCellWithText:self.message width:cellWidth];
+        self.cachedHeight = [LUConsoleOverlayLogEntryTableViewCell heightForCellWithText:self.message.text width:cellWidth];
     }
 
     return CGSizeMake(cellWidth, self.cachedHeight);

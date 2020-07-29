@@ -31,4 +31,30 @@
     <color name="lunar_console_color_variable_value_text">#B4B4B4</color>
     <color name="lunar_console_color_variable_value_text_disabled">#5A5A5A</color>
     <color name="lunar_console_color_variable_volatile_text">#FDD631</color>
+
+    <!-- rich text colors -->
+    <color name="lunar_console_color_rich_text_error">#ff00ff</color>
+    <color name="lunar_console_color_rich_text_aqua">#00ffff</color>
+    <color name="lunar_console_color_rich_text_black">#000000</color>
+    <color name="lunar_console_color_rich_text_blue">#0000ff</color>
+    <color name="lunar_console_color_rich_text_brown">#a52a2a</color>
+    <color name="lunar_console_color_rich_text_cyan">#00ffff</color>
+    <color name="lunar_console_color_rich_text_darkblue">#0000a0</color>
+    <color name="lunar_console_color_rich_text_fuchsia">#ff00ff</color>
+    <color name="lunar_console_color_rich_text_green">#008000</color>
+    <color name="lunar_console_color_rich_text_grey">#808080</color>
+    <color name="lunar_console_color_rich_text_lightblue">#add8e6</color>
+    <color name="lunar_console_color_rich_text_lime">#00ff00</color>
+    <color name="lunar_console_color_rich_text_magenta">#ff00ff</color>
+    <color name="lunar_console_color_rich_text_maroon">#800000</color>
+    <color name="lunar_console_color_rich_text_navy">#000080</color>
+    <color name="lunar_console_color_rich_text_olive">#808000</color>
+    <color name="lunar_console_color_rich_text_orange">#ffa500</color>
+    <color name="lunar_console_color_rich_text_purple">#800080</color>
+    <color name="lunar_console_color_rich_text_red">#ff0000</color>
+    <color name="lunar_console_color_rich_text_silver">#c0c0c0</color>
+    <color name="lunar_console_color_rich_text_teal">#008080</color>
+    <color name="lunar_console_color_rich_text_white">#ffffff</color>
+    <color name="lunar_console_color_rich_text_yellow">#ffff00</color>
+
 </resources>

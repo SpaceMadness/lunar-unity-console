@@ -22,6 +22,21 @@
 
 #import "TestCase.h"
 
+@interface LUConsole (Testing)
+
+- (void)logText:(NSString *)message stackTrace:(NSString *)stackTrace type:(LUConsoleLogType)type;
+
+@end
+
+@implementation LUConsole (Testing)
+
+- (void)logText:(NSString *)message stackTrace:(NSString *)stackTrace type:(LUConsoleLogType)type
+{
+    [self logMessage:[[LULogMessage alloc] initWithText:message tags:nil] stackTrace:stackTrace type:type];
+}
+
+@end
+
 @interface LUConsoleTest : TestCase <LunarConsoleDelegate>
 
 @end
@@ -33,9 +48,9 @@
     LUConsole *console = [[LUConsole alloc] initWithCapacity:100 trimCount:10];
     console.delegate = self;
     
-    [console logMessage:@"1" stackTrace:@"s1" type:LUConsoleLogTypeLog];
-    [console logMessage:@"2" stackTrace:@"s2" type:LUConsoleLogTypeLog];
-    [console logMessage:@"3" stackTrace:@"s3" type:LUConsoleLogTypeLog];
+    [console logText:@"1" stackTrace:@"s1" type:LUConsoleLogTypeLog];
+    [console logText:@"2" stackTrace:@"s2" type:LUConsoleLogTypeLog];
+    [console logText:@"3" stackTrace:@"s3" type:LUConsoleLogTypeLog];
     
     [self assertResult:@"1", @"2", @"3", nil];
     
@@ -47,13 +62,13 @@
     LUConsole *console = [[LUConsole alloc] initWithCapacity:5 trimCount:3];
     console.delegate = self;
     
-    [console logMessage:@"1" stackTrace:@"s1" type:LUConsoleLogTypeLog];
-    [console logMessage:@"2" stackTrace:@"s2" type:LUConsoleLogTypeLog];
-    [console logMessage:@"3" stackTrace:@"s3" type:LUConsoleLogTypeLog];
-    [console logMessage:@"4" stackTrace:@"s4" type:LUConsoleLogTypeLog];
-    [console logMessage:@"5" stackTrace:@"s5" type:LUConsoleLogTypeLog];
-    [console logMessage:@"6" stackTrace:@"s6" type:LUConsoleLogTypeLog];
-    [console logMessage:@"7" stackTrace:@"s7" type:LUConsoleLogTypeLog];
+    [console logText:@"1" stackTrace:@"s1" type:LUConsoleLogTypeLog];
+    [console logText:@"2" stackTrace:@"s2" type:LUConsoleLogTypeLog];
+    [console logText:@"3" stackTrace:@"s3" type:LUConsoleLogTypeLog];
+    [console logText:@"4" stackTrace:@"s4" type:LUConsoleLogTypeLog];
+    [console logText:@"5" stackTrace:@"s5" type:LUConsoleLogTypeLog];
+    [console logText:@"6" stackTrace:@"s6" type:LUConsoleLogTypeLog];
+    [console logText:@"7" stackTrace:@"s7" type:LUConsoleLogTypeLog];
     
     [self assertResult:@"4", @"5", @"6", @"7", nil];
     
@@ -65,11 +80,11 @@
     LUConsole *console = [[LUConsole alloc] initWithCapacity:10 trimCount:3];
     console.delegate = self;
     
-    [console logMessage:@"1" stackTrace:@"s1" type:LUConsoleLogTypeLog];
-    [console logMessage:@"2" stackTrace:@"s2" type:LUConsoleLogTypeLog];
-    [console logMessage:@"3" stackTrace:@"s3" type:LUConsoleLogTypeLog];
-    [console logMessage:@"4" stackTrace:@"s4" type:LUConsoleLogTypeLog];
-    [console logMessage:@"5" stackTrace:@"s5" type:LUConsoleLogTypeLog];
+    [console logText:@"1" stackTrace:@"s1" type:LUConsoleLogTypeLog];
+    [console logText:@"2" stackTrace:@"s2" type:LUConsoleLogTypeLog];
+    [console logText:@"3" stackTrace:@"s3" type:LUConsoleLogTypeLog];
+    [console logText:@"4" stackTrace:@"s4" type:LUConsoleLogTypeLog];
+    [console logText:@"5" stackTrace:@"s5" type:LUConsoleLogTypeLog];
     
     [console clear];
     
@@ -83,7 +98,7 @@
 
 - (void)lunarConsole:(LUConsole *)console didAddEntryAtIndex:(NSInteger)index trimmedCount:(NSUInteger)trimmedCount
 {
-    [self addResult:[console entryAtIndex:index].message];
+    [self addResult:[console entryAtIndex:index].message.text];
 }
 
 - (void)lunarConsole:(LUConsole *)console didUpdateEntryAtIndex:(NSInteger)index trimmedCount:(NSUInteger)trimmedCount

@@ -34,7 +34,7 @@ class LUPluginSettingsTest: TestCase {
 		expected.capacity = 4096;
 		expected.trim = 512;
 		expected.gesture = LUConsoleGestureSwipeDown;
-		expected.removeRichTextTags = false;
+		expected.richTextTags = true;
 		expected.sortActions = true;
 		expected.sortVariables = false;
 		expected.emails = [
@@ -94,7 +94,7 @@ class LUPluginSettingsTest: TestCase {
 		expected.capacity = 4096;
 		expected.trim = 512;
 		expected.gesture = LUConsoleGestureSwipeDown;
-		expected.removeRichTextTags = false;
+		expected.richTextTags = true;
 		expected.sortActions = true;
 		expected.sortVariables = false;
 		expected.emails = [

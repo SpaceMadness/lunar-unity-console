@@ -183,14 +183,16 @@ static UIEdgeInsets _messageInsets;
     _iconView.image = icon;
 }
 
-- (NSString *)message
+- (void)setMessage:(LULogMessage *)message
 {
-    return _messageLabel.text;
-}
-
-- (void)setMessage:(NSString *)message
-{
-    _messageLabel.text = message;
+    if (message.tags.count > 0)
+    {
+        _messageLabel.attributedText = [message createAttributedTextWithSkin:self.theme.attributedTextSkin];
+    }
+    else
+    {
+        _messageLabel.text = message.text;
+    }
 }
 
 - (UIColor *)messageColor
@@ -340,9 +342,12 @@ static UIEdgeInsets _messageInsets;
     self.messageLabel.frame = CGRectMake(messageX, messageY, messageWidth, messageHeight);
 }
 
-- (void)setMessage:(NSString *)message attributes:(NSDictionary<NSAttributedStringKey, id> *)attributes
+- (void)setMessage:(LULogMessage *)message attributes:(NSDictionary<NSAttributedStringKey, id> *)attributes
 {
-    self.messageLabel.attributedText = [[NSAttributedString alloc] initWithString:message attributes:attributes];
+    self.messageLabel.attributedText = message.tags.count > 0
+        ? [message createAttributedTextWithSkin:[LUTheme mainTheme].attributedTextSkin attributes:attributes]
+        : [[NSAttributedString alloc] initWithString:message.text attributes:attributes];
+    
 }
 
 @end

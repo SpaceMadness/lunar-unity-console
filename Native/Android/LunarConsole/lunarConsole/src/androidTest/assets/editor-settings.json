@@ -68,7 +68,7 @@
    "capacity":4096,
    "trim":512,
    "gesture":1,
-   "removeRichTextTags":false,
+   "richTextTags":false,
    "sortActions":true,
    "sortVariables":false,
    "emails":[

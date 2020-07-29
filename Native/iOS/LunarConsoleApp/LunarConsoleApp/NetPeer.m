@@ -136,9 +136,9 @@ const static int kTagMessage = 1;
         else
         {
             dispatch_async(dispatch_get_main_queue(), ^{
-                if ([_delegate respondsToSelector:@selector(peer:didReceiveMessage:)])
+                if ([self->_delegate respondsToSelector:@selector(peer:didReceiveMessage:)])
                 {
-                    [_delegate peer:self didReceiveMessage:message];
+                    [self->_delegate peer:self didReceiveMessage:message];
                 }
                 
                 NetPeerMessage *msg = [[NetPeerMessage alloc] initWithName:@"_ack_"];

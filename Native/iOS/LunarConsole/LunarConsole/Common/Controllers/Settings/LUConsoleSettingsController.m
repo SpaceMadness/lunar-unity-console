@@ -419,6 +419,14 @@ static id<LUTextFieldInputValidator> _floatValidator;
 - (NSArray<LUConsoleSettingsSection *> *)listSections:(LUPluginSettings *)settings
 {
     NSArray *sections = @[
+        [[LUConsoleSettingsSection alloc] initWithTitle:@"Common"
+        entries:@[
+            [[LUConsoleSetting alloc] initWithTarget:settings
+                                                name:@"richTextTags"
+                                                type:LUSettingTypeBool
+                                               title:@"Enable Rich Text Tags"
+                                             proOnly:NO]
+        ]],
         [[LUConsoleSettingsSection alloc] initWithTitle:@"Exception Warning"
                                                 entries:@[
                                                     [[LUConsoleSetting alloc] initWithTarget:settings.exceptionWarning
