@@ -94,37 +94,6 @@ inline static BOOL isEpsilonEqual(float a, float b)
 }
 
 #pragma mark -
-#pragma Rich Text
-
-- (void)testContainsRichTextTags
-{
-    XCTAssertFalse(LUStringContainsRichTextTags(nil));
-    XCTAssertFalse(LUStringContainsRichTextTags(@""));
-    XCTAssertFalse(LUStringContainsRichTextTags(@"We are not amused."));
-    
-    XCTAssertTrue(LUStringContainsRichTextTags(@"We are <b>not</b> amused."));
-    XCTAssertTrue(LUStringContainsRichTextTags(@"We are <b><i>definitely not</i></b> amused."));
-    XCTAssertTrue(LUStringContainsRichTextTags(@"We are <b>absolutely <i>definitely</i> not</b> amused."));
-    XCTAssertTrue(LUStringContainsRichTextTags(@"We are <color=green>green</color> with envy."));
-}
-
-- (void)testRemoveRichTextTags
-{
-    XCTAssertEqualObjects(@"We are not amused.", LUStringRemoveRichTextTags(@"We are <b>not</b> amused."));
-    XCTAssertEqualObjects(@"We are definitely not amused.", LUStringRemoveRichTextTags(@"We are <b><i>definitely not</i></b> amused."));
-    XCTAssertEqualObjects(@"We are absolutely definitely not amused.", LUStringRemoveRichTextTags(@"We are <b>absolutely <i>definitely</i> not</b> amused."));
-    XCTAssertEqualObjects(@"We are green with envy.", LUStringRemoveRichTextTags(@"We are <color=green>green</color> with envy."));
-}
-
-- (void)testRichTextToHtml
-{
-    XCTAssertEqualObjects(@"We are <b>not</b> amused.", LUStringRichTextToHtml(@"We are <b>not</b> amused."));
-    XCTAssertEqualObjects(@"We are <b><i>definitely not</i></b> amused.", LUStringRichTextToHtml(@"We are <b><i>definitely not</i></b> amused."));
-    XCTAssertEqualObjects(@"We are <b>absolutely <i>definitely</i> not</b> amused.", LUStringRichTextToHtml(@"We are <b>absolutely <i>definitely</i> not</b> amused."));
-    XCTAssertEqualObjects(@"We are <font color=green>green</font> with envy.", LUStringRichTextToHtml(@"We are <color=green>green</color> with envy."));
-}
-
-#pragma mark -
 #pragma mark Serialization
 
 - (void)testDictionaryToStringSerialization
