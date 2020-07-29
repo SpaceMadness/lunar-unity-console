@@ -1,5 +1,12 @@
 # Lunar Console Changelog
 
+## v.1.7.0 - 07/29/2019
+
+**Changes:**
+
+* Rich Text support.
+* Ability to toggle the plugin from a BuildPostProcessor.
+
 ## v.1.6.6 - 06/10/2019
 
 **Fixes:**
