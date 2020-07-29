@@ -51,8 +51,6 @@
 @property (nonatomic, readonly) UIFont *italicFont;
 @property (nonatomic, readonly) UIFont *boldItalicFont;
 
-- (UIColor *)colorForName:(NSString *)name;
-
 @end
 
 @interface LUTheme : NSObject

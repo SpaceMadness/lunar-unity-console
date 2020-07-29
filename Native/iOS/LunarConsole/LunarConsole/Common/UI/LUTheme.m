@@ -159,10 +159,6 @@ static UIImage *CreateCollapseBackgroundImage()
 
 @implementation LUAttributedTextSkin
 
-- (UIColor *)colorForName:(NSString *)name {
-    return nil;
-}
-
 @end
 
 @implementation LUTheme
