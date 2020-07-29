@@ -10,14 +10,6 @@ import XCTest
 
 class LULogMessageTest: XCTestCase {
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
-    }
-
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
-    }
-
     func testNilString() throws {
         let expected = LULogMessage(text: nil, tags: nil);
         let actual = LULogMessage.fromRichText(nil);
