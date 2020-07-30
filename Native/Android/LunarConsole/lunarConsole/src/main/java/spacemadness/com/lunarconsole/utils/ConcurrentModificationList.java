@@ -16,7 +16,7 @@ public abstract class ConcurrentModificationList<E> {
         data.add(element);
     }
 
-    public boolean Remove(E element) {
+    public boolean remove(E element) {
         int index = data.indexOf(element);
         if (index != -1) {
             if (updating) {
@@ -32,7 +32,7 @@ public abstract class ConcurrentModificationList<E> {
         return false;
     }
 
-    public void Clear() {
+    public void clear() {
         if (updating) {
             int i = 0;
             while (i < data.size()) {
@@ -45,11 +45,11 @@ public abstract class ConcurrentModificationList<E> {
         }
     }
 
-    public int Count() {
+    public int size() {
         return data.size();
     }
 
-    public boolean IsEmpty() {
+    public boolean isEmpty() {
         return data.size() == 0;
     }
 }

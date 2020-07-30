@@ -16,11 +16,11 @@ public abstract class Subject<T> implements Observable<T> {
     }
 
     public void removeObserver(Observer<T> observer) {
-        observers.Remove(observer);
+        observers.remove(observer);
     }
 
     public void removeAllObservers() {
-        observers.Clear();
+        observers.clear();
     }
 
     protected void notifyObservers(T value) {

@@ -15,8 +15,8 @@ public class ObserverListTest extends TestCase {
 
         ObserverList<String> list = concurrentListOf(a, b, c);
 
-        assertEquals(3, list.Count());
-        assertFalse(list.IsEmpty());
+        assertEquals(3, list.size());
+        assertFalse(list.isEmpty());
 
         list.NotifyObservers("1");
         assertResults("a:1", "b:1", "c:1");
@@ -28,29 +28,29 @@ public class ObserverListTest extends TestCase {
     @Test
     public void TestAdd() {
         ObserverList<String> list = concurrentListOf();
-        assertEquals(0, list.Count());
-        assertTrue(list.IsEmpty());
+        assertEquals(0, list.size());
+        assertTrue(list.isEmpty());
 
         list.NotifyObservers("1");
         assertResults();
 
         list.Add(Callback("a"));
-        assertEquals(1, list.Count());
-        assertFalse(list.IsEmpty());
+        assertEquals(1, list.size());
+        assertFalse(list.isEmpty());
 
         list.NotifyObservers("2");
         assertResults("a:2");
 
         list.Add(Callback("b"));
-        assertEquals(2, list.Count());
-        assertFalse(list.IsEmpty());
+        assertEquals(2, list.size());
+        assertFalse(list.isEmpty());
 
         list.NotifyObservers("3");
         assertResults("a:3", "b:3");
 
         list.Add(Callback("c"));
-        assertEquals(3, list.Count());
-        assertFalse(list.IsEmpty());
+        assertEquals(3, list.size());
+        assertFalse(list.isEmpty());
 
         list.NotifyObservers("4");
         assertResults("a:4", "b:4", "c:4");
@@ -64,30 +64,30 @@ public class ObserverListTest extends TestCase {
 
         ObserverList<String> list = concurrentListOf(a, b, c);
 
-        list.Remove(b);
-        assertEquals(2, list.Count());
-        assertFalse(list.IsEmpty());
+        list.remove(b);
+        assertEquals(2, list.size());
+        assertFalse(list.isEmpty());
 
         list.NotifyObservers("1");
         assertResults("a:1", "c:1");
 
-        list.Remove(a);
-        assertEquals(1, list.Count());
-        assertFalse(list.IsEmpty());
+        list.remove(a);
+        assertEquals(1, list.size());
+        assertFalse(list.isEmpty());
 
         list.NotifyObservers("2");
         assertResults("c:2");
 
-        list.Remove(a);
-        assertEquals(1, list.Count());
-        assertFalse(list.IsEmpty());
+        list.remove(a);
+        assertEquals(1, list.size());
+        assertFalse(list.isEmpty());
 
         list.NotifyObservers("3");
         assertResults("c:3");
 
-        list.Remove(c);
-        assertEquals(0, list.Count());
-        assertTrue(list.IsEmpty());
+        list.remove(c);
+        assertEquals(0, list.size());
+        assertTrue(list.isEmpty());
 
         list.NotifyObservers("3");
         assertResults();
@@ -102,8 +102,8 @@ public class ObserverListTest extends TestCase {
         Observer<String> b = Callback("b", new Observer<String>() {
             @Override
             public void onChanged(String value) {
-                list.Remove(a);
-                list.Remove(c);
+                list.remove(a);
+                list.remove(c);
             }
         });
 
@@ -114,8 +114,8 @@ public class ObserverListTest extends TestCase {
         list.NotifyObservers("1");
         assertResults("a:1", "b:1");
 
-        assertEquals(1, list.Count());
-        assertFalse(list.IsEmpty());
+        assertEquals(1, list.size());
+        assertFalse(list.isEmpty());
 
         list.NotifyObservers("2");
         assertResults("b:2");
@@ -130,7 +130,7 @@ public class ObserverListTest extends TestCase {
         Observer<String> b = Callback("b", new Observer<String>() {
             @Override
             public void onChanged(String value) {
-                list.Clear();
+                list.clear();
             }
         });
 
@@ -141,8 +141,8 @@ public class ObserverListTest extends TestCase {
         list.NotifyObservers("1");
         assertResults("a:1", "b:1");
 
-        assertEquals(0, list.Count());
-        assertTrue(list.IsEmpty());
+        assertEquals(0, list.size());
+        assertTrue(list.isEmpty());
 
         list.NotifyObservers("2");
         assertResults();
