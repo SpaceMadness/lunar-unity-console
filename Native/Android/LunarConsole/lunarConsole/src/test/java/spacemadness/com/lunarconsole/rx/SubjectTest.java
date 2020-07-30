@@ -151,7 +151,7 @@ public class SubjectTest extends TestCase {
         assertResults();
     }
 
-    private class MockSubject<T> extends Subject<T> {
+    private static class MockSubject<T> extends Subject<T> {
         public void post(T value) {
             notifyObservers(value);
         }
