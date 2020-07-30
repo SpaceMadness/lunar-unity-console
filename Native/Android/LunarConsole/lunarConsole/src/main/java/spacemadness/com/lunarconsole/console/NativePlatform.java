@@ -32,18 +32,16 @@ import spacemadness.com.lunarconsole.core.LunarConsoleException;
 import spacemadness.com.lunarconsole.debug.Log;
 import spacemadness.com.lunarconsole.debug.TestHelper;
 import spacemadness.com.lunarconsole.utils.UIUtils;
-import static spacemadness.com.lunarconsole.debug.Tags.*;
+
+import static spacemadness.com.lunarconsole.debug.Tags.PLUGIN;
 import static spacemadness.com.lunarconsole.debug.TestHelper.TEST_EVENT_NATIVE_CALLBACK;
 
-public class NativePlatform implements Platform
-{
+public class NativePlatform implements Platform {
     private final WeakReference<View> rootViewRef;
 
-    public NativePlatform(Activity activity)
-    {
+    public NativePlatform(Activity activity) {
         View rootView = UIUtils.getRootViewGroup(activity);
-        if (rootView == null)
-        {
+        if (rootView == null) {
             throw new LunarConsoleException("Can't initialize plugin: root view not found");
         }
 
@@ -51,14 +49,12 @@ public class NativePlatform implements Platform
     }
 
     @Override
-    public View getTouchRecipientView()
-    {
+    public View getTouchRecipientView() {
         return rootViewRef.get();
     }
 
     @Override
-    public void sendUnityScriptMessage(String name, Map<String, Object> data)
-    {
+    public void sendUnityScriptMessage(String name, Map<String, Object> data) {
         Log.d(PLUGIN, "Send script message: %s(%s)", name, data);
         TestHelper.testEvent(TEST_EVENT_NATIVE_CALLBACK, "name", name, "arguments", data);
     }

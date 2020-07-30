@@ -30,15 +30,15 @@ import junit.framework.TestCase;
 import java.io.IOException;
 
 public class InstrumentationTestCase extends TestCase {
-	protected String readTextAsset(String path) {
-		try {
-			return TestUtils.readTextAsset(getContext(), path);
-		} catch (IOException e) {
-			throw new AssertionError("Unable to read text asset: " + path, e);
-		}
-	}
+    protected String readTextAsset(String path) {
+        try {
+            return TestUtils.readTextAsset(getContext(), path);
+        } catch (IOException e) {
+            throw new AssertionError("Unable to read text asset: " + path, e);
+        }
+    }
 
-	private Context getContext() {
-		return InstrumentationRegistry.getInstrumentation().getContext();
-	}
+    private Context getContext() {
+        return InstrumentationRegistry.getInstrumentation().getContext();
+    }
 }

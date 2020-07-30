@@ -26,15 +26,12 @@ import java.util.Map;
 
 import spacemadness.com.lunarconsole.utils.ObjectUtils;
 
-public class Notification
-{
+public class Notification {
     private final String name;
     private final Map<String, Object> userData;
 
-    public Notification(String name, Map<String, Object> userData)
-    {
-        if (name == null)
-        {
+    public Notification(String name, Map<String, Object> userData) {
+        if (name == null) {
             throw new NullPointerException("Name is null");
         }
 
@@ -42,23 +39,19 @@ public class Notification
         this.userData = userData;
     }
 
-    public String getName()
-    {
+    public String getName() {
         return name;
     }
 
-    public Map<String, Object> getUserData()
-    {
+    public Map<String, Object> getUserData() {
         return userData;
     }
 
-    public Object getUserData(String key)
-    {
+    public Object getUserData(String key) {
         return userData != null ? userData.get(key) : null;
     }
 
-    public <T> T getUserData(String key, Class<T> cls)
-    {
+    public <T> T getUserData(String key, Class<T> cls) {
         return ObjectUtils.as(getUserData(key), cls);
     }
 }

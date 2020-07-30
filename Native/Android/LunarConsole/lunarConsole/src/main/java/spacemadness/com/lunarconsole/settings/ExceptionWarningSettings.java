@@ -28,47 +28,50 @@ import spacemadness.com.lunarconsole.json.Required;
  * Exception warning settings from Unity editor.
  */
 public final class ExceptionWarningSettings {
-	public enum DisplayMode {
-		/**
-		 * Don't display anything.
-		 */
-		NONE,
+    /**
+     * Content display mode.
+     */
+    public @Required
+    DisplayMode displayMode;
 
-		/**
-		 * Display only errors.
-		 */
-		ERRORS,
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-		/**
-		 * Display only exceptions.
-		 */
-		EXCEPTIONS,
+        ExceptionWarningSettings that = (ExceptionWarningSettings) o;
 
-		/**
-		 * Display everything.
-		 */
-		ALL
-	}
+        return displayMode == that.displayMode;
+    }
 
-	/**
-	 * Content display mode.
-	 */
-	public @Required DisplayMode displayMode;
+    //region Equality
 
-	//region Equality
+    @Override
+    public int hashCode() {
+        return displayMode != null ? displayMode.hashCode() : 0;
+    }
 
-	@Override public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+    public enum DisplayMode {
+        /**
+         * Don't display anything.
+         */
+        NONE,
 
-		ExceptionWarningSettings that = (ExceptionWarningSettings) o;
+        /**
+         * Display only errors.
+         */
+        ERRORS,
 
-		return displayMode == that.displayMode;
-	}
+        /**
+         * Display only exceptions.
+         */
+        EXCEPTIONS,
 
-	@Override public int hashCode() {
-		return displayMode != null ? displayMode.hashCode() : 0;
-	}
+        /**
+         * Display everything.
+         */
+        ALL
+    }
 
-	//endregion
+    //endregion
 }

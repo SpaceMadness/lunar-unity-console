@@ -22,43 +22,36 @@
 
 package spacemadness.com.lunarconsole.ui.gestures;
 
-public class TouchMotion
-{
+public class TouchMotion {
     public int id;
     public float startX;
     public float startY;
     public float endX;
     public float endY;
 
-    public TouchMotion()
-    {
+    public TouchMotion() {
         reset();
     }
 
-    public void reset()
-    {
+    public void reset() {
         id = -1;
         startX = startY = endX = endY = 0;
     }
 
-    public float distanceX()
-    {
+    public float distanceX() {
         return endX - startX;
     }
 
-    public float distanceY()
-    {
+    public float distanceY() {
         return endY - startY;
     }
 
-    public boolean isActive()
-    {
+    public boolean isActive() {
         return id != -1;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return String.format("start: (%d, %d) end: (%d, %d) distanceX: %d distanceY: %d",
                 (int) startX, (int) startY, (int) endX, (int) endY, (int) distanceX(), (int) distanceY());
     }

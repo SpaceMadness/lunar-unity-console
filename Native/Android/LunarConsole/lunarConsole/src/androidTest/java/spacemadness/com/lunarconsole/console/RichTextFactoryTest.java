@@ -33,7 +33,7 @@ import org.junit.Test;
 import static android.support.test.InstrumentationRegistry.getContext;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
-import static spacemadness.com.lunarconsole.console.DefaultRichTextFactory.*;
+import static spacemadness.com.lunarconsole.console.DefaultRichTextFactory.Span;
 
 public class RichTextFactoryTest {
     private StyleSpan bold;

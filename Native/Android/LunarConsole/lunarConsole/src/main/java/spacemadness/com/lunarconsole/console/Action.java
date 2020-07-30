@@ -22,16 +22,13 @@
 
 package spacemadness.com.lunarconsole.console;
 
-public class Action extends IdentityEntry
-{
-    public Action(int actionId, String name)
-    {
+public class Action extends IdentityEntry {
+    public Action(int actionId, String name) {
         super(actionId, name);
     }
 
     @Override
-    public EntryType getEntryType()
-    {
+    public EntryType getEntryType() {
         return EntryType.Action;
     }
 }

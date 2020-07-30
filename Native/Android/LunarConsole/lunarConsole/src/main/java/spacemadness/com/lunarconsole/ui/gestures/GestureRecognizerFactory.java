@@ -30,14 +30,14 @@ import static spacemadness.com.lunarconsole.ui.gestures.TwoFingerSwipeGestureRec
 import static spacemadness.com.lunarconsole.utils.UIUtils.dpToPx;
 
 public class GestureRecognizerFactory {
-	public static GestureRecognizer create(Context context, Gesture gesture) {
-		switch (gesture) {
-			case SWIPE_DOWN: {
-				final float SWIPE_THRESHOLD = dpToPx(context, 100);
-				return new TwoFingerSwipeGestureRecognizer(SwipeDirection.Down, SWIPE_THRESHOLD);
-			}
-		}
+    public static GestureRecognizer create(Context context, Gesture gesture) {
+        switch (gesture) {
+            case SWIPE_DOWN: {
+                final float SWIPE_THRESHOLD = dpToPx(context, 100);
+                return new TwoFingerSwipeGestureRecognizer(SwipeDirection.Down, SWIPE_THRESHOLD);
+            }
+        }
 
-		return new NullGestureRecognizer();
-	}
+        return new NullGestureRecognizer();
+    }
 }

@@ -35,75 +35,75 @@ import spacemadness.com.lunarconsole.core.LunarConsoleException;
 import spacemadness.com.lunarconsole.debug.Log;
 import spacemadness.com.lunarconsole.utils.UIUtils;
 
-import static spacemadness.com.lunarconsole.debug.Tags.*;
+import static spacemadness.com.lunarconsole.debug.Tags.PLUGIN;
 
 public class ManagedPlatform implements Platform {
-	private final WeakReference<UnityPlayer> playerRef;
-	private final UnityScriptMessenger scriptMessenger;
+    private final WeakReference<UnityPlayer> playerRef;
+    private final UnityScriptMessenger scriptMessenger;
 
-	public ManagedPlatform(Activity activity, String target, String method) {
-		UnityPlayer player = resolveUnityPlayerInstance(activity);
-		if (player == null) {
-			throw new LunarConsoleException("Can't initialize plugin: UnityPlayer instance not resolved");
-		}
+    public ManagedPlatform(Activity activity, String target, String method) {
+        UnityPlayer player = resolveUnityPlayerInstance(activity);
+        if (player == null) {
+            throw new LunarConsoleException("Can't initialize plugin: UnityPlayer instance not resolved");
+        }
 
-		playerRef = new WeakReference<>(player);
-		scriptMessenger = new UnityScriptMessenger(target, method);
-	}
+        playerRef = new WeakReference<>(player);
+        scriptMessenger = new UnityScriptMessenger(target, method);
+    }
 
-	//region Helpers
+    //region Helpers
 
-	private static UnityPlayer resolveUnityPlayerInstance(Activity activity) {
-		return resolveUnityPlayerInstance(UIUtils.getRootViewGroup(activity));
-	}
+    private static UnityPlayer resolveUnityPlayerInstance(Activity activity) {
+        return resolveUnityPlayerInstance(UIUtils.getRootViewGroup(activity));
+    }
 
-	private static UnityPlayer resolveUnityPlayerInstance(ViewGroup root) {
-		if (root instanceof UnityPlayer) {
-			return (UnityPlayer) root;
-		}
+    private static UnityPlayer resolveUnityPlayerInstance(ViewGroup root) {
+        if (root instanceof UnityPlayer) {
+            return (UnityPlayer) root;
+        }
 
-		for (int i = 0; i < root.getChildCount(); ++i) {
-			View child = root.getChildAt(i);
-			if (child instanceof UnityPlayer) {
-				return (UnityPlayer) child;
-			}
+        for (int i = 0; i < root.getChildCount(); ++i) {
+            View child = root.getChildAt(i);
+            if (child instanceof UnityPlayer) {
+                return (UnityPlayer) child;
+            }
 
-			if (child instanceof ViewGroup) {
-				UnityPlayer player = resolveUnityPlayerInstance((ViewGroup) child);
-				if (player != null) {
-					return player;
-				}
-			}
-		}
+            if (child instanceof ViewGroup) {
+                UnityPlayer player = resolveUnityPlayerInstance((ViewGroup) child);
+                if (player != null) {
+                    return player;
+                }
+            }
+        }
 
-		return null;
-	}
+        return null;
+    }
 
-	//endregion
+    //endregion
 
-	//region Platform
+    //region Platform
 
-	@Override
-	public View getTouchRecipientView() {
-		return getPlayer();
-	}
+    @Override
+    public View getTouchRecipientView() {
+        return getPlayer();
+    }
 
-	@Override
-	public void sendUnityScriptMessage(String name, Map<String, Object> data) {
-		try {
-			scriptMessenger.sendMessage(name, data);
-		} catch (Exception e) {
-			Log.e(PLUGIN, "Error while sending Unity script message: name=%s param=%s", name, data);
-		}
-	}
+    @Override
+    public void sendUnityScriptMessage(String name, Map<String, Object> data) {
+        try {
+            scriptMessenger.sendMessage(name, data);
+        } catch (Exception e) {
+            Log.e(PLUGIN, "Error while sending Unity script message: name=%s param=%s", name, data);
+        }
+    }
 
-	//endregion
+    //endregion
 
-	//region Getters/Setters
+    //region Getters/Setters
 
-	private UnityPlayer getPlayer() {
-		return playerRef.get();
-	}
+    private UnityPlayer getPlayer() {
+        return playerRef.get();
+    }
 
-	//endregion
+    //endregion
 }

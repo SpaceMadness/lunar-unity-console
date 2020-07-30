@@ -28,14 +28,12 @@ import spacemadness.com.lunarconsole.console.ActionRegistry;
 import spacemadness.com.lunarconsole.console.Variable;
 import spacemadness.com.lunarconsole.console.VariableType;
 
-public class ActionRegistryTest extends TestCaseEx implements ActionRegistry.Delegate
-{
+public class ActionRegistryTest extends TestCaseEx implements ActionRegistry.Delegate {
     private ActionRegistry actionRegistry;
     private int nextActionId;
 
     @Override
-    protected void setUp() throws Exception
-    {
+    protected void setUp() throws Exception {
         super.setUp();
 
         actionRegistry = new ActionRegistry();
@@ -46,8 +44,7 @@ public class ActionRegistryTest extends TestCaseEx implements ActionRegistry.Del
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Register
 
-    public void testRegisterActionsAndVariables()
-    {
+    public void testRegisterActionsAndVariables() {
         registerActionWithName("a2");
         registerActionWithName("a1");
         registerActionWithName("a3");
@@ -60,8 +57,7 @@ public class ActionRegistryTest extends TestCaseEx implements ActionRegistry.Del
         assertVariables("v1", "v2", "v3");
     }
 
-    public void testRegisterMultipleActionsWithSameName()
-    {
+    public void testRegisterMultipleActionsWithSameName() {
         registerActionWithName("a2");
         registerActionWithName("a3");
         registerActionWithName("a1");
@@ -73,8 +69,7 @@ public class ActionRegistryTest extends TestCaseEx implements ActionRegistry.Del
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Unregister actions
 
-    public void testUnregisterAction()
-    {
+    public void testUnregisterAction() {
         int id2 = registerActionWithName("a2").actionId();
         int id1 = registerActionWithName("a1").actionId();
         int id3 = registerActionWithName("a3").actionId();
@@ -95,8 +90,7 @@ public class ActionRegistryTest extends TestCaseEx implements ActionRegistry.Del
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Delegate notifications
 
-    public void testDelegateNotifications()
-    {
+    public void testDelegateNotifications() {
         // register actions
         registerActionWithName("a2");
         assertResult("added action: a2 (0)");
@@ -135,63 +129,51 @@ public class ActionRegistryTest extends TestCaseEx implements ActionRegistry.Del
     // Delegate
 
     @Override
-    public void didAddAction(ActionRegistry registry, Action action, int index)
-    {
+    public void didAddAction(ActionRegistry registry, Action action, int index) {
         addResult(String.format("added action: %s (%d)", action.name(), index));
     }
 
     @Override
-    public void didRemoveAction(ActionRegistry registry, Action action, int index)
-    {
+    public void didRemoveAction(ActionRegistry registry, Action action, int index) {
         addResult(String.format("removed action: %s (%d)", action.name(), index));
     }
 
     @Override
-    public void didRegisterVariable(ActionRegistry registry, Variable variable, int index)
-    {
+    public void didRegisterVariable(ActionRegistry registry, Variable variable, int index) {
         addResult(String.format("register variable: %s %s %s (%d)", variable.type, variable.name(), variable.value, index));
     }
 
     @Override
-    public void didDidChangeVariable(ActionRegistry registry, Variable variable, int index)
-    {
+    public void didDidChangeVariable(ActionRegistry registry, Variable variable, int index) {
         fail("Implement me");
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Helpers
 
-    private Action registerActionWithName(String name)
-    {
+    private Action registerActionWithName(String name) {
         return actionRegistry.registerAction(nextActionId++, name);
     }
 
-    private Variable registerVariableWithName(String name)
-    {
+    private Variable registerVariableWithName(String name) {
         return registerVariableWithName(name, VariableType.String);
     }
 
-    private Variable registerVariableWithName(String name, VariableType type)
-    {
+    private Variable registerVariableWithName(String name, VariableType type) {
         return registerVariableWithName(name, type, "value");
     }
 
-    private Variable registerVariableWithName(String name, VariableType type, String value)
-    {
+    private Variable registerVariableWithName(String name, VariableType type, String value) {
         return actionRegistry.registerVariable(nextActionId++, name, type, value, value);
     }
 
-    private void unregisterActionWithId(int actionId)
-    {
+    private void unregisterActionWithId(int actionId) {
         actionRegistry.unregisterAction(actionId);
     }
 
-    private boolean unregisterActionWithName(String name)
-    {
-        for (Action action : actionRegistry.actions())
-        {
-            if (action.name().equals(name))
-            {
+    private boolean unregisterActionWithName(String name) {
+        for (Action action : actionRegistry.actions()) {
+            if (action.name().equals(name)) {
                 actionRegistry.unregisterAction(action.actionId());
                 return true;
             }
@@ -200,33 +182,28 @@ public class ActionRegistryTest extends TestCaseEx implements ActionRegistry.Del
         return false;
     }
 
-    private void assertActions(String... expected)
-    {
+    private void assertActions(String... expected) {
         assertEquals(expected.length, actionRegistry.actions().size());
 
         int index = 0;
-        for (Action action : actionRegistry.actions())
-        {
+        for (Action action : actionRegistry.actions()) {
             assertEquals(expected[index], action.name());
             ++index;
         }
     }
 
-    private void assertVariables(String... expected)
-    {
+    private void assertVariables(String... expected) {
         assertEquals(expected.length, actionRegistry.variables().size());
 
         int index = 0;
-        for (Variable cvar : actionRegistry.variables())
-        {
+        for (Variable cvar : actionRegistry.variables()) {
             assertEquals(expected[index], cvar.name());
             ++index;
         }
     }
 
     @Override
-    protected void assertResult(String... expected)
-    {
+    protected void assertResult(String... expected) {
         super.assertResult(expected);
         clearResult();
     }

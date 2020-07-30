@@ -28,19 +28,16 @@ import spacemadness.com.lunarconsole.console.ConsoleCollapsedLogEntry;
 import spacemadness.com.lunarconsole.console.ConsoleLogEntry;
 import spacemadness.com.lunarconsole.console.ConsoleLogType;
 
-public class ConsoleLogEntryLookupTableTest extends TestCase
-{
+public class ConsoleLogEntryLookupTableTest extends TestCase {
     private ConsoleLogEntryLookupTable table;
 
     @Override
-    protected void setUp() throws Exception
-    {
+    protected void setUp() throws Exception {
         super.setUp();
         table = new ConsoleLogEntryLookupTable();
     }
 
-    public void testAddEntry()
-    {
+    public void testAddEntry() {
         ConsoleCollapsedLogEntry entry = addEntryMessage("message1");
         assertEquals(1, entry.count);
 
@@ -54,13 +51,11 @@ public class ConsoleLogEntryLookupTableTest extends TestCase
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Helpers
 
-    private ConsoleCollapsedLogEntry addEntryMessage(String message)
-    {
+    private ConsoleCollapsedLogEntry addEntryMessage(String message) {
         return addEntryType(ConsoleLogType.LOG, message, "");
     }
 
-    private ConsoleCollapsedLogEntry addEntryType(byte type, String message, String stackTrace)
-    {
+    private ConsoleCollapsedLogEntry addEntryType(byte type, String message, String stackTrace) {
         ConsoleLogEntry entry = new ConsoleLogEntry(type, message, stackTrace);
         return table.addEntry(entry);
     }

@@ -26,13 +26,11 @@ import android.content.Context;
 
 import spacemadness.com.lunarconsole.R;
 
-public abstract class IdentityEntry extends BaseEntry implements Comparable<IdentityEntry>
-{
+public abstract class IdentityEntry extends BaseEntry implements Comparable<IdentityEntry> {
     private final int entryId;
     private final String name;
 
-    public IdentityEntry(int entryId, String name)
-    {
+    public IdentityEntry(int entryId, String name) {
         this.entryId = entryId;
         this.name = name;
     }
@@ -41,8 +39,7 @@ public abstract class IdentityEntry extends BaseEntry implements Comparable<Iden
     // Appearance
 
     @SuppressWarnings("deprecation")
-    public int getBackgroundColor(Context context, int position)
-    {
+    public int getBackgroundColor(Context context, int position) {
         int colorId = position % 2 == 0 ?
                 R.color.lunar_console_color_cell_background_dark :
                 R.color.lunar_console_color_cell_background_light;
@@ -53,8 +50,7 @@ public abstract class IdentityEntry extends BaseEntry implements Comparable<Iden
     // Getters/Setters
 
     @Override
-    public long getItemId()
-    {
+    public long getItemId() {
         return getEntryType().ordinal();
     }
 
@@ -74,8 +70,7 @@ public abstract class IdentityEntry extends BaseEntry implements Comparable<Iden
     // Comparable
 
     @Override
-    public int compareTo(IdentityEntry another)
-    {
+    public int compareTo(IdentityEntry another) {
         return name.compareTo(another.name);
     }
 }

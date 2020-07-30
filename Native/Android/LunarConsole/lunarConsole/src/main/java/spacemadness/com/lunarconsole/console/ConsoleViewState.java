@@ -29,13 +29,12 @@ import java.lang.ref.WeakReference;
 
 import spacemadness.com.lunarconsole.debug.Log;
 
-public class ConsoleViewState
-{
-    private static final String KEY_LEFT_MARGIN         = "leftMargin";
-    private static final String KEY_RIGHT_MARGIN        = "rightMargin";
-    private static final String KEY_TOP_MARGIN          = "topMargin";
-    private static final String KEY_BOTTOM_MARGIN       = "bottomMargin";
-    private static final String KEY_ACTION_FILTER_TEXT  = "actionFilterText";
+public class ConsoleViewState {
+    private static final String KEY_LEFT_MARGIN = "leftMargin";
+    private static final String KEY_RIGHT_MARGIN = "rightMargin";
+    private static final String KEY_TOP_MARGIN = "topMargin";
+    private static final String KEY_BOTTOM_MARGIN = "bottomMargin";
+    private static final String KEY_ACTION_FILTER_TEXT = "actionFilterText";
 
     private final WeakReference<Context> contextRef;
 
@@ -46,8 +45,7 @@ public class ConsoleViewState
 
     private String actionFilterText;
 
-    public ConsoleViewState(Context context)
-    {
+    public ConsoleViewState(Context context) {
         contextRef = new WeakReference<>(context);
         load();
     }
@@ -55,28 +53,33 @@ public class ConsoleViewState
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Getters/Setters
 
-    public int getBottomMargin()
-    {
+    private static SharedPreferences getSharedPreferences(Context context) {
+        String prefsName = ConsoleViewState.class.getCanonicalName();
+        return context.getSharedPreferences(prefsName, Context.MODE_PRIVATE);
+    }
+
+    // for testing
+    public static void clear(Context context) {
+        getSharedPreferences(context).edit().clear().apply();
+    }
+
+    public int getBottomMargin() {
         return bottomMargin;
     }
 
-    public int getTopMargin()
-    {
+    public int getTopMargin() {
         return topMargin;
     }
 
-    public int getRightMargin()
-    {
+    public int getRightMargin() {
         return rightMargin;
     }
 
-    public int getLeftMargin()
-    {
+    public int getLeftMargin() {
         return leftMargin;
     }
 
-    public void setMargins(int topMargin, int bottomMargin, int leftMargin, int rightMargin)
-    {
+    public void setMargins(int topMargin, int bottomMargin, int leftMargin, int rightMargin) {
         this.topMargin = topMargin;
         this.bottomMargin = bottomMargin;
         this.leftMargin = leftMargin;
@@ -85,25 +88,21 @@ public class ConsoleViewState
         saveMargins();
     }
 
-    public String getActionFilterText()
-    {
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    // Persistent storage
+
+    public String getActionFilterText() {
         return actionFilterText;
     }
 
-    public void setActionFilterText(String actionFilterText)
-    {
+    public void setActionFilterText(String actionFilterText) {
         this.actionFilterText = actionFilterText;
 
         saveActionFilterText();
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Persistent storage
-
-    private void load()
-    {
-        try
-        {
+    private void load() {
+        try {
             SharedPreferences preferences = getSharedPreferences();
             int leftMargin = preferences.getInt(KEY_LEFT_MARGIN, 0);
             int rightMargin = preferences.getInt(KEY_RIGHT_MARGIN, 0);
@@ -116,17 +115,13 @@ public class ConsoleViewState
             this.topMargin = topMargin;
             this.bottomMargin = bottomMargin;
             this.actionFilterText = actionFilterText;
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             Log.e(e, "Exception while loading margins");
         }
     }
 
-    private void saveMargins()
-    {
-        try
-        {
+    private void saveMargins() {
+        try {
             SharedPreferences preferences = getSharedPreferences();
             SharedPreferences.Editor editor = preferences.edit();
             editor.putInt(KEY_LEFT_MARGIN, leftMargin);
@@ -134,47 +129,27 @@ public class ConsoleViewState
             editor.putInt(KEY_TOP_MARGIN, topMargin);
             editor.putInt(KEY_BOTTOM_MARGIN, bottomMargin);
             editor.apply();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             Log.e(e, "Exception while saving margins");
         }
     }
 
-    private void saveActionFilterText()
-    {
-        try
-        {
+    private void saveActionFilterText() {
+        try {
             SharedPreferences preferences = getSharedPreferences();
             SharedPreferences.Editor editor = preferences.edit();
             editor.putString(KEY_ACTION_FILTER_TEXT, actionFilterText);
             editor.apply();
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             Log.e(e, "Exception while saving margins");
         }
     }
 
-    private SharedPreferences getSharedPreferences()
-    {
+    private SharedPreferences getSharedPreferences() {
         return getSharedPreferences(getContext());
     }
 
-    private static SharedPreferences getSharedPreferences(Context context)
-    {
-        String prefsName = ConsoleViewState.class.getCanonicalName();
-        return context.getSharedPreferences(prefsName, Context.MODE_PRIVATE);
-    }
-
-    private Context getContext()
-    {
+    private Context getContext() {
         return contextRef.get();
-    }
-
-    // for testing
-    public static void clear(Context context)
-    {
-        getSharedPreferences(context).edit().clear().apply();
     }
 }

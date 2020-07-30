@@ -30,5 +30,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface Rename {
-	String value();
+    String value();
 }

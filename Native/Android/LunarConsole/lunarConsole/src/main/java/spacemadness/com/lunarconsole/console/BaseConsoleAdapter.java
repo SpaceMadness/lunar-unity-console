@@ -28,14 +28,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-abstract class BaseConsoleAdapter<T extends BaseEntry> extends BaseAdapter
-{
+abstract class BaseConsoleAdapter<T extends BaseEntry> extends BaseAdapter {
     private final DataSource<T> dataSource;
 
-    BaseConsoleAdapter(DataSource<T> dataSource)
-    {
-        if (dataSource == null)
-        {
+    BaseConsoleAdapter(DataSource<T> dataSource) {
+        if (dataSource == null) {
             throw new NullPointerException("Data source is null");
         }
 
@@ -43,33 +40,26 @@ abstract class BaseConsoleAdapter<T extends BaseEntry> extends BaseAdapter
     }
 
     @Override
-    public int getCount()
-    {
+    public int getCount() {
         return dataSource.getEntryCount();
     }
 
     @Override
-    public Object getItem(int position)
-    {
+    public Object getItem(int position) {
         return dataSource.getEntry(position);
     }
 
     @Override
-    public long getItemId(int position)
-    {
+    public long getItemId(int position) {
         return dataSource.getEntry(position).getItemId();
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent)
-    {
+    public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder<T> viewHolder;
-        if (convertView != null)
-        {
+        if (convertView != null) {
             viewHolder = (ViewHolder) convertView.getTag();
-        }
-        else
-        {
+        } else {
             convertView = createConvertView(parent, position);
             viewHolder = createViewHolder(convertView, position);
 
@@ -85,52 +75,45 @@ abstract class BaseConsoleAdapter<T extends BaseEntry> extends BaseAdapter
     //////////////////////////////////////////////////////////////////////////////
     // Data Source
 
-    public interface DataSource<E extends BaseEntry>
-    {
-        E getEntry(int position);
-        int getEntryCount();
-    }
+    protected abstract ViewHolder createViewHolder(View convertView, int position);
 
     //////////////////////////////////////////////////////////////////////////////
     // View Holder
 
-    protected abstract ViewHolder createViewHolder(View convertView, int position);
-
     protected abstract View createConvertView(ViewGroup parent, int position);
 
-    public static abstract class ViewHolder<T extends BaseEntry>
-    {
+    public interface DataSource<E extends BaseEntry> {
+        E getEntry(int position);
+
+        int getEntryCount();
+    }
+
+    public static abstract class ViewHolder<T extends BaseEntry> {
         protected final View itemView;
 
-        public ViewHolder(View itemView)
-        {
+        public ViewHolder(View itemView) {
             this.itemView = itemView;
         }
 
-        void bindViewHolder(T entry, int position)
-        {
+        void bindViewHolder(T entry, int position) {
             onBindViewHolder(entry, position);
         }
 
         public abstract void onBindViewHolder(T entry, int position);
 
-        protected Context getContext()
-        {
+        protected Context getContext() {
             return itemView.getContext();
         }
 
-        protected Resources getResources()
-        {
+        protected Resources getResources() {
             return getContext().getResources();
         }
 
-        protected String getString(int id)
-        {
+        protected String getString(int id) {
             return getResources().getString(id);
         }
 
-        protected int getColor(int id)
-        {
+        protected int getColor(int id) {
             return getResources().getColor(id);
         }
     }

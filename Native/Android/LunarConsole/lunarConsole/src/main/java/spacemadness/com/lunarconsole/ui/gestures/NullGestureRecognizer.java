@@ -24,11 +24,9 @@ package spacemadness.com.lunarconsole.ui.gestures;
 
 import android.view.MotionEvent;
 
-public class NullGestureRecognizer extends GestureRecognizer<NullGestureRecognizer>
-{
+public class NullGestureRecognizer extends GestureRecognizer<NullGestureRecognizer> {
     @Override
-    public boolean onTouchEvent(MotionEvent event)
-    {
+    public boolean onTouchEvent(MotionEvent event) {
         return false; // do nothing
     }
 }

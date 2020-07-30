@@ -22,16 +22,13 @@
 
 package spacemadness.com.lunarconsole.console;
 
-public class HeaderEntry extends IdentityEntry
-{
-    public HeaderEntry(String name)
-    {
+public class HeaderEntry extends IdentityEntry {
+    public HeaderEntry(String name) {
         super(-1, name);
     }
 
     @Override
-    public EntryType getEntryType()
-    {
+    public EntryType getEntryType() {
         return EntryType.Header;
     }
 }

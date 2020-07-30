@@ -27,57 +27,48 @@ import java.util.Map;
 
 public class TestHelper // TODO: make a separate flavor for this class
 {
-    public static final String TEST_EVENT_OVERLAY_ADD_ITEM              = "TEST_EVENT_OVERLAY_ADD_ITEM"; // data: CycleArray<ConsoleLogEntry>
-    public static final String TEST_EVENT_OVERLAY_REMOVE_ITEM           = "TEST_EVENT_OVERLAY_REMOVE_ITEM"; // data: CycleArray<ConsoleLogEntry>
+    public static final String TEST_EVENT_OVERLAY_ADD_ITEM = "TEST_EVENT_OVERLAY_ADD_ITEM"; // data: CycleArray<ConsoleLogEntry>
+    public static final String TEST_EVENT_OVERLAY_REMOVE_ITEM = "TEST_EVENT_OVERLAY_REMOVE_ITEM"; // data: CycleArray<ConsoleLogEntry>
     public static final String TEST_EVENT_OVERLAY_SCHEDULE_ITEM_REMOVAL = "TEST_EVENT_OVERLAY_SCHEDULE_ITEM_REMOVAL";
-    public static final String TEST_EVENT_NATIVE_CALLBACK               = "TEST_EVENT_NATIVE_CALLBACK"; // data: Map<String, Object>
+    public static final String TEST_EVENT_NATIVE_CALLBACK = "TEST_EVENT_NATIVE_CALLBACK"; // data: Map<String, Object>
 
     public static boolean forceSeekBarChangeDelegate;
 
     private static TestHelper instance;
     private final EventListener listener;
 
-    public TestHelper(EventListener listener)
-    {
+    public TestHelper(EventListener listener) {
         this.listener = listener;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Initialization
 
-    public static void init(EventListener listener)
-    {
+    public static void init(EventListener listener) {
         instance = new TestHelper(listener);
     }
 
-    public static void shutdown()
-    {
+    public static void shutdown() {
         instance = null;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Initialization
 
-    public static void testEvent(String name)
-    {
-        if (instance != null)
-        {
+    public static void testEvent(String name) {
+        if (instance != null) {
             instance.event(name, null);
         }
     }
 
-    public static void testEvent(String name, Object data)
-    {
-        if (instance != null)
-        {
+    public static void testEvent(String name, Object data) {
+        if (instance != null) {
             instance.event(name, data);
         }
     }
 
-    public static void testEvent(String name, String key1, Object value1, String key2, Object value2)
-    {
-        if (instance != null)
-        {
+    public static void testEvent(String name, String key1, Object value1, String key2, Object value2) {
+        if (instance != null) {
             Map<String, Object> data = new HashMap<>();
             data.put(key1, value1);
             data.put(key2, value2);
@@ -85,13 +76,11 @@ public class TestHelper // TODO: make a separate flavor for this class
         }
     }
 
-    private synchronized void event(String name, Object data)
-    {
+    private synchronized void event(String name, Object data) {
         listener.onTestEvent(name, data);
     }
 
-    public interface EventListener
-    {
+    public interface EventListener {
         void onTestEvent(String name, Object data);
     }
 }

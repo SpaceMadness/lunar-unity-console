@@ -32,24 +32,22 @@ import spacemadness.com.lunarconsole.core.Destroyable;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
-public abstract class AbstractConsoleView extends LinearLayout implements Destroyable
-{
-    /** Root view from the layout file */
+public abstract class AbstractConsoleView extends LinearLayout implements Destroyable {
+    /**
+     * Root view from the layout file
+     */
     private final View rootView;
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Constructor
 
-    public AbstractConsoleView(Context context, int rootViewId)
-    {
+    public AbstractConsoleView(Context context, int rootViewId) {
         super(context);
 
         // disable touches
-        setOnTouchListener(new OnTouchListener()
-        {
+        setOnTouchListener(new OnTouchListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event)
-            {
+            public boolean onTouch(View v, MotionEvent event) {
                 return true; // don't let touch events to pass through the view group
             }
         });
@@ -66,31 +64,26 @@ public abstract class AbstractConsoleView extends LinearLayout implements Destro
     // Destroyable
 
     @Override
-    public void destroy()
-    {
+    public void destroy() {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Helpers
 
-    protected <T extends View> T findExistingViewById(int id) throws ClassCastException
-    {
+    protected <T extends View> T findExistingViewById(int id) throws ClassCastException {
         return findExistingViewById(rootView, id);
     }
 
-    protected <T extends View> T findExistingViewById(View parent, int id) throws ClassCastException
-    {
+    protected <T extends View> T findExistingViewById(View parent, int id) throws ClassCastException {
         View view = parent.findViewById(id);
-        if (view == null)
-        {
+        if (view == null) {
             throw new IllegalArgumentException("View with id " + id + " not found");
         }
 
         return (T) view;
     }
 
-    protected void setOnClickListener(int viewId, View.OnClickListener listener)
-    {
+    protected void setOnClickListener(int viewId, View.OnClickListener listener) {
         View view = findExistingViewById(viewId);
         view.setOnClickListener(listener);
     }

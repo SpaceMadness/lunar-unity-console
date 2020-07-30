@@ -34,99 +34,99 @@ import java.util.Map;
 import static spacemadness.com.lunarconsole.utils.ObjectUtils.checkNotNull;
 
 public class ListViewAdapter extends BaseAdapter {
-	private final List<ListViewItem> items;
-	private final Map<Integer, Factory> lookup;
+    private final List<ListViewItem> items;
+    private final Map<Integer, Factory> lookup;
 
-	public ListViewAdapter(List<ListViewItem> items) {
-		this.items = checkNotNull(items, "items");
-		this.lookup = new HashMap<>();
-	}
+    public ListViewAdapter(List<ListViewItem> items) {
+        this.items = checkNotNull(items, "items");
+        this.lookup = new HashMap<>();
+    }
 
-	@Override
-	public int getCount() {
-		return items.size();
-	}
+    @Override
+    public int getCount() {
+        return items.size();
+    }
 
-	@Override
-	public ListViewItem getItem(int position) {
-		return items.get(position);
-	}
+    @Override
+    public ListViewItem getItem(int position) {
+        return items.get(position);
+    }
 
-	@Override
-	public long getItemId(int position) {
-		return getItem(position).getItemId();
-	}
+    @Override
+    public long getItemId(int position) {
+        return getItem(position).getItemId();
+    }
 
-	@Override
-	public int getItemViewType(int position) {
-		return getItem(position).getItemViewType();
-	}
+    @Override
+    public int getItemViewType(int position) {
+        return getItem(position).getItemViewType();
+    }
 
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		ViewHolder viewHolder;
-		if (convertView != null) {
-			viewHolder = (ViewHolder) convertView.getTag();
-		} else {
-			final int itemViewType = getItemViewType(position);
-			final Factory factory = getFactory(itemViewType);
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder viewHolder;
+        if (convertView != null) {
+            viewHolder = (ViewHolder) convertView.getTag();
+        } else {
+            final int itemViewType = getItemViewType(position);
+            final Factory factory = getFactory(itemViewType);
 
-			convertView = factory.createConvertView(parent);
-			viewHolder = factory.createViewHolder(convertView);
+            convertView = factory.createConvertView(parent);
+            viewHolder = factory.createViewHolder(convertView);
 
-			convertView.setTag(viewHolder);
-		}
+            convertView.setTag(viewHolder);
+        }
 
-		final Object item = getItem(position);
-		//noinspection unchecked
-		viewHolder.bindView(item, position);
+        final Object item = getItem(position);
+        //noinspection unchecked
+        viewHolder.bindView(item, position);
 
-		return convertView;
-	}
+        return convertView;
+    }
 
-	public void register(Enum<?> itemType, Factory factory) {
-		register(itemType.ordinal(), factory);
-	}
+    public void register(Enum<?> itemType, Factory factory) {
+        register(itemType.ordinal(), factory);
+    }
 
-	public void register(int itemType, Factory factory) {
-		lookup.put(itemType, checkNotNull(factory, "factory"));
-	}
+    public void register(int itemType, Factory factory) {
+        lookup.put(itemType, checkNotNull(factory, "factory"));
+    }
 
-	private Factory getFactory(int itemType) {
-		Factory factory = lookup.get(itemType);
-		if (factory == null) {
-			throw new IllegalArgumentException("Item type not registered: " + itemType);
-		}
-		return factory;
-	}
+    private Factory getFactory(int itemType) {
+        Factory factory = lookup.get(itemType);
+        if (factory == null) {
+            throw new IllegalArgumentException("Item type not registered: " + itemType);
+        }
+        return factory;
+    }
 
-	public interface Factory {
-		View createConvertView(ViewGroup parent);
+    public interface Factory {
+        View createConvertView(ViewGroup parent);
 
-		ViewHolder createViewHolder(View convertView);
-	}
+        ViewHolder createViewHolder(View convertView);
+    }
 
-	public static abstract class LayoutIdFactory implements Factory {
-		private final int layoutId;
+    public static abstract class LayoutIdFactory implements Factory {
+        private final int layoutId;
 
-		public LayoutIdFactory(int layoutId) {
-			this.layoutId = layoutId;
-		}
+        public LayoutIdFactory(int layoutId) {
+            this.layoutId = layoutId;
+        }
 
-		@Override
-		public View createConvertView(ViewGroup parent) {
-			return LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
-		}
-	}
+        @Override
+        public View createConvertView(ViewGroup parent) {
+            return LayoutInflater.from(parent.getContext()).inflate(layoutId, parent, false);
+        }
+    }
 
-	public abstract static class ViewHolder<T> {
-		private final View view;
+    public abstract static class ViewHolder<T> {
+        private final View view;
 
-		public ViewHolder(View view) {
-			this.view = checkNotNull(view, "view");
-		}
+        public ViewHolder(View view) {
+            this.view = checkNotNull(view, "view");
+        }
 
-		protected abstract void bindView(T item, int position);
-	}
+        protected abstract void bindView(T item, int position);
+    }
 }
 

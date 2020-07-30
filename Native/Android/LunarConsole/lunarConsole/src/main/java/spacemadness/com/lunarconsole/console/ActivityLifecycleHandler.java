@@ -38,14 +38,11 @@ import static spacemadness.com.lunarconsole.console.Notifications.NOTIFICATION_A
 import static spacemadness.com.lunarconsole.console.Notifications.NOTIFICATION_KEY_ACTIVITY;
 
 @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-class ActivityLifecycleHandler implements Application.ActivityLifecycleCallbacks, Destroyable
-{
+class ActivityLifecycleHandler implements Application.ActivityLifecycleCallbacks, Destroyable {
     private final WeakReference<Application> applicationRef;
 
-    public ActivityLifecycleHandler(Application application)
-    {
-        if (application == null)
-        {
+    public ActivityLifecycleHandler(Application application) {
+        if (application == null) {
             throw new IllegalArgumentException("Application is null");
         }
         applicationRef = new WeakReference<>(application);
@@ -55,42 +52,35 @@ class ActivityLifecycleHandler implements Application.ActivityLifecycleCallbacks
     //region Activity Lifecycle Callbacks
 
     @Override
-    public void onActivityCreated(Activity activity, Bundle savedInstanceState)
-    {
+    public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
     }
 
     @Override
-    public void onActivityStarted(Activity activity)
-    {
+    public void onActivityStarted(Activity activity) {
         NotificationCenter.defaultCenter()
                 .postNotification(NOTIFICATION_ACTIVITY_STARTED, NOTIFICATION_KEY_ACTIVITY, activity);
     }
 
     @Override
-    public void onActivityResumed(Activity activity)
-    {
+    public void onActivityResumed(Activity activity) {
     }
 
     @Override
-    public void onActivityPaused(Activity activity)
-    {
+    public void onActivityPaused(Activity activity) {
     }
 
     @Override
-    public void onActivityStopped(Activity activity)
-    {
+    public void onActivityStopped(Activity activity) {
         NotificationCenter.defaultCenter()
                 .postNotification(NOTIFICATION_ACTIVITY_STOPPED, NOTIFICATION_KEY_ACTIVITY, activity);
     }
 
     @Override
-    public void onActivitySaveInstanceState(Activity activity, Bundle outState)
-    {
+    public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
     }
 
     @Override
-    public void onActivityDestroyed(Activity activity)
-    {
+    public void onActivityDestroyed(Activity activity) {
     }
 
     //endregion
@@ -98,11 +88,9 @@ class ActivityLifecycleHandler implements Application.ActivityLifecycleCallbacks
     //region Destroyable
 
     @Override
-    public void destroy()
-    {
+    public void destroy() {
         Application application = getApplication();
-        if (application != null)
-        {
+        if (application != null) {
             application.unregisterActivityLifecycleCallbacks(this);
         }
     }
@@ -111,8 +99,7 @@ class ActivityLifecycleHandler implements Application.ActivityLifecycleCallbacks
 
     //region Helpers
 
-    private Application getApplication()
-    {
+    private Application getApplication() {
         return applicationRef.get();
     }
 

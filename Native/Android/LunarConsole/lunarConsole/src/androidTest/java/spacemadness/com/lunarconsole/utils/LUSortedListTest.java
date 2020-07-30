@@ -24,13 +24,11 @@ package spacemadness.com.lunarconsole.utils;
 
 import spacemadness.com.lunarconsole.TestCaseEx;
 
-public class LUSortedListTest extends TestCaseEx
-{
+public class LUSortedListTest extends TestCaseEx {
     private LUSortedList<String> _list;
-    
+
     @Override
-    protected void setUp() throws Exception
-    {
+    protected void setUp() throws Exception {
         super.setUp();
         _list = new LUSortedList<>();
     }
@@ -38,8 +36,7 @@ public class LUSortedListTest extends TestCaseEx
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Testing
 
-    public void testSortedAdd()
-    {
+    public void testSortedAdd() {
         _list.addObject("3");
         _list.addObject("2");
         _list.addObject("1");
@@ -48,8 +45,7 @@ public class LUSortedListTest extends TestCaseEx
         assertList("1", "2", "3", "4");
     }
 
-    public void testDuplicateItems()
-    {
+    public void testDuplicateItems() {
         _list.addObject("3");
         _list.addObject("3");
         _list.addObject("2");
@@ -60,8 +56,7 @@ public class LUSortedListTest extends TestCaseEx
         assertList("1", "2", "3", "4");
     }
 
-    public void testRemoveItems()
-    {
+    public void testRemoveItems() {
         _list.addObject("3");
         _list.addObject("2");
         _list.addObject("1");
@@ -72,8 +67,7 @@ public class LUSortedListTest extends TestCaseEx
         assertList("1", "3", "4");
     }
 
-    public void testIndexOfItem()
-    {
+    public void testIndexOfItem() {
         _list.addObject("3");
         _list.addObject("3");
         _list.addObject("2");
@@ -90,11 +84,9 @@ public class LUSortedListTest extends TestCaseEx
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Helpers
 
-    private void assertList(String ...expected)
-    {
+    private void assertList(String... expected) {
         assertEquals(expected.length, _list.count());
-        for (int i = 0; i < expected.length; ++i)
-        {
+        for (int i = 0; i < expected.length; ++i) {
             assertEquals(expected[i], _list.objectAtIndex(i));
         }
     }

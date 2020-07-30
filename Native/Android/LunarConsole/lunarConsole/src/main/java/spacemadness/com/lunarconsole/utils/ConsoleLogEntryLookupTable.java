@@ -29,38 +29,30 @@ import spacemadness.com.lunarconsole.console.ConsoleCollapsedLogEntry;
 import spacemadness.com.lunarconsole.console.ConsoleLogEntry;
 
 // TODO: use trie data structure for a faster lookup
-public class ConsoleLogEntryLookupTable
-{
+public class ConsoleLogEntryLookupTable {
     private final Map<String, ConsoleCollapsedLogEntry> table;
 
-    public ConsoleLogEntryLookupTable()
-    {
+    public ConsoleLogEntryLookupTable() {
         table = new HashMap<>();
     }
 
-    public ConsoleCollapsedLogEntry addEntry(ConsoleLogEntry entry)
-    {
+    public ConsoleCollapsedLogEntry addEntry(ConsoleLogEntry entry) {
         ConsoleCollapsedLogEntry collapsedEntry = table.get(entry.message);
-        if (collapsedEntry == null)
-        {
+        if (collapsedEntry == null) {
             collapsedEntry = new ConsoleCollapsedLogEntry(entry);
             table.put(collapsedEntry.message, collapsedEntry);
-        }
-        else
-        {
+        } else {
             collapsedEntry.increaseCount();
         }
 
         return collapsedEntry;
     }
 
-    public void removeEntry(ConsoleCollapsedLogEntry entry)
-    {
+    public void removeEntry(ConsoleCollapsedLogEntry entry) {
         table.remove(entry.message);
     }
 
-    public void clear()
-    {
+    public void clear() {
         table.clear();
     }
 }

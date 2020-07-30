@@ -25,25 +25,21 @@ package spacemadness.com.lunarconsole.utils;
 import java.lang.reflect.Array;
 import java.util.Iterator;
 
-public class CycleArray<E> implements Iterable<E>
-{
+public class CycleArray<E> implements Iterable<E> {
     private final Class<? extends E> componentType;
     private E[] internalArray;
     private int headIndex;
     private int length;
 
-    public CycleArray(Class<? extends E> componentType, int capacity)
-    {
-        if (componentType == null)
-        {
+    public CycleArray(Class<? extends E> componentType, int capacity) {
+        if (componentType == null) {
             throw new NullPointerException("Component type is null");
         }
         this.componentType = componentType;
         this.internalArray = (E[]) Array.newInstance(componentType, capacity);
     }
 
-    public E add(E e)
-    {
+    public E add(E e) {
         int arrayIndex = toArrayIndex(length);
         E oldItem = internalArray[arrayIndex];
         internalArray[arrayIndex] = e;
@@ -58,25 +54,20 @@ public class CycleArray<E> implements Iterable<E>
         return null; // no items were destroyed
     }
 
-    public void clear()
-    {
-        for (int i = 0; i < internalArray.length; ++i)
-        {
+    public void clear() {
+        for (int i = 0; i < internalArray.length; ++i) {
             internalArray[i] = null;
         }
         length = 0;
         headIndex = 0;
     }
 
-    public void trimLength(int trimSize)
-    {
+    public void trimLength(int trimSize) {
         trimToLength(length - trimSize);
     }
 
-    public void trimToLength(int trimmedLength)
-    {
-        if (trimmedLength < headIndex || trimmedLength > length)
-        {
+    public void trimToLength(int trimmedLength) {
+        if (trimmedLength < headIndex || trimmedLength > length) {
             throw new IllegalArgumentException("Trimmed length " + trimmedLength +
                     " should be between head index " + headIndex +
                     " and length " + length);
@@ -85,15 +76,12 @@ public class CycleArray<E> implements Iterable<E>
         length = trimmedLength;
     }
 
-    public void trimHeadIndex(int trimSize)
-    {
+    public void trimHeadIndex(int trimSize) {
         trimToHeadIndex(headIndex + trimSize);
     }
 
-    public void trimToHeadIndex(int trimmedHeadIndex)
-    {
-        if (trimmedHeadIndex < headIndex || trimmedHeadIndex > length)
-        {
+    public void trimToHeadIndex(int trimmedHeadIndex) {
+        if (trimmedHeadIndex < headIndex || trimmedHeadIndex > length) {
             throw new IllegalArgumentException("Trimmed head index " + trimmedHeadIndex +
                     " should be between head index " + headIndex +
                     " and length " + length);
@@ -102,45 +90,37 @@ public class CycleArray<E> implements Iterable<E>
         headIndex = trimmedHeadIndex;
     }
 
-    public E get(int index)
-    {
+    public E get(int index) {
         int arrayIndex = toArrayIndex(index);
         return internalArray[arrayIndex];
     }
 
-    public void set(int index, E value)
-    {
+    public void set(int index, E value) {
         int arrayIndex = toArrayIndex(index);
         internalArray[arrayIndex] = value;
     }
 
-    public int toArrayIndex(int i)
-    {
+    public int toArrayIndex(int i) {
         return i % internalArray.length;
     }
 
-    public boolean isValidIndex(int index)
-    {
+    public boolean isValidIndex(int index) {
         return index >= headIndex && index < length;
     }
 
-    private int toArrayIndex(E[] array, int i)
-    {
+    private int toArrayIndex(E[] array, int i) {
         return i % array.length;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Properties
 
-    public int getCapacity()
-    {
+    public int getCapacity() {
         return internalArray.length;
     }
 
-    public void setCapacity(int value)
-    {
-        if (value > getCapacity())
-        {
+    public void setCapacity(int value) {
+        if (value > getCapacity()) {
             E[] data = (E[]) Array.newInstance(componentType, value);
 
             int totalCopyLength = realLength();
@@ -148,8 +128,7 @@ public class CycleArray<E> implements Iterable<E>
             int fromIndex = toArrayIndex(internalArray, headIndex);
             int toIndex = toArrayIndex(data, headIndex);
 
-            while (totalCopyLength > 0)
-            {
+            while (totalCopyLength > 0) {
                 int copyLength = Math.min(totalCopyLength, Math.min(internalArray.length - fromIndex, data.length - toIndex));
 
                 System.arraycopy(internalArray, fromIndex, data, toIndex, copyLength);
@@ -159,20 +138,15 @@ public class CycleArray<E> implements Iterable<E>
             }
 
             internalArray = data;
-        }
-        else if (value < getCapacity())
-        {
+        } else if (value < getCapacity()) {
             throw new NotImplementedException();
         }
     }
 
-    public boolean contains(Object element)
-    {
-        for (int i = headIndex; i < length; ++i)
-        {
+    public boolean contains(Object element) {
+        for (int i = headIndex; i < length; ++i) {
             int arrayIndex = toArrayIndex(i);
-            if (ObjectUtils.areEqual(internalArray[arrayIndex], element))
-            {
+            if (ObjectUtils.areEqual(internalArray[arrayIndex], element)) {
                 return true;
             }
         }
@@ -180,23 +154,19 @@ public class CycleArray<E> implements Iterable<E>
         return false;
     }
 
-    public int getHeadIndex()
-    {
+    public int getHeadIndex() {
         return headIndex;
     }
 
-    public int length()
-    {
+    public int length() {
         return length;
     }
 
-    public int realLength()
-    {
+    public int realLength() {
         return length - headIndex;
     }
 
-    public E[] internalArray()
-    {
+    public E[] internalArray() {
         return internalArray;
     }
 
@@ -204,35 +174,29 @@ public class CycleArray<E> implements Iterable<E>
     // Iterable
 
     @Override
-    public Iterator<E> iterator()
-    {
+    public Iterator<E> iterator() {
         return new CycleIterator();
     }
 
-    private class CycleIterator implements Iterator<E>
-    {
+    private class CycleIterator implements Iterator<E> {
         private int index;
 
-        public CycleIterator()
-        {
+        public CycleIterator() {
             index = getHeadIndex();
         }
 
         @Override
-        public boolean hasNext()
-        {
+        public boolean hasNext() {
             return index < length();
         }
 
         @Override
-        public E next()
-        {
+        public E next() {
             return get(index++);
         }
 
         @Override
-        public void remove()
-        {
+        public void remove() {
             throw new NotImplementedException();
         }
     }

@@ -24,25 +24,21 @@ package spacemadness.com.lunarconsole.utils;
 
 import junit.framework.TestCase;
 
-public class StringUtilsTest extends TestCase
-{
-    public void testLength() throws Exception
-    {
+public class StringUtilsTest extends TestCase {
+    public void testLength() throws Exception {
         assertEquals(5, StringUtils.length("12345"));
         assertEquals(0, StringUtils.length(""));
         assertEquals(0, StringUtils.length(null));
     }
 
-    public void testContains() throws Exception
-    {
+    public void testContains() throws Exception {
         assertTrue(StringUtils.contains("12345", "34"));
         assertFalse(StringUtils.contains("12345", null));
         assertFalse(StringUtils.contains(null, "34"));
         assertFalse(StringUtils.contains(null, null));
     }
 
-    public void testContainsIgnoreCase() throws Exception
-    {
+    public void testContainsIgnoreCase() throws Exception {
         assertTrue(StringUtils.containsIgnoreCase("TEST", "es"));
         assertTrue(StringUtils.containsIgnoreCase("TEST", "test"));
         assertFalse(StringUtils.containsIgnoreCase("TEST", "test!"));
@@ -51,8 +47,7 @@ public class StringUtilsTest extends TestCase
         assertFalse(StringUtils.containsIgnoreCase(null, null));
     }
 
-    public void testHasPrefix() throws Exception
-    {
+    public void testHasPrefix() throws Exception {
         assertTrue(StringUtils.hasPrefix("12345", "123"));
         assertTrue(StringUtils.hasPrefix("12345", "12345"));
         assertFalse(StringUtils.hasPrefix("12345", "12345!"));
@@ -61,8 +56,7 @@ public class StringUtilsTest extends TestCase
         assertFalse(StringUtils.hasPrefix(null, null));
     }
 
-    public void testCamelCaseToWords() throws Exception
-    {
+    public void testCamelCaseToWords() throws Exception {
         String string = "enableExceptionWarning";
         assertEquals("Enable Exception Warning", StringUtils.camelCaseToWords(string));
 

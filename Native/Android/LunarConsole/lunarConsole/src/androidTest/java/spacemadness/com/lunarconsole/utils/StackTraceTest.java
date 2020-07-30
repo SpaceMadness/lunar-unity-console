@@ -24,10 +24,8 @@ package spacemadness.com.lunarconsole.utils;
 
 import junit.framework.TestCase;
 
-public class StackTraceTest extends TestCase
-{
-    public void testOptimize() throws Exception
-    {
+public class StackTraceTest extends TestCase {
+    public void testOptimize() throws Exception {
         String stackTrace = "UnityEngine.Debug:LogError(Object)\n" +
                 "Test:Method(String) (at /Users/lunar-unity-console/Project/Assets/Scripts/Test.cs:30)\n" +
                 "<LogMessages>c__Iterator0:MoveNext() (at /Users/lunar-unity-console/Project/Assets/Logger.cs:85)\n" +

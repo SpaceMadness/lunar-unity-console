@@ -57,241 +57,243 @@ import spacemadness.com.lunarconsole.utils.UIUtils;
 import static spacemadness.com.lunarconsole.settings.PluginSettingsViewModel.ItemType;
 
 public class PluginSettingsActivity extends Activity {
-	private ListView listView;
-	private ListViewAdapter adapter;
+    private ListView listView;
+    private ListViewAdapter adapter;
 
-	private PluginSettingsEditor settingsEditor;
+    private PluginSettingsEditor settingsEditor;
 
-	private PluginSettingsViewModel viewModel;
+    private PluginSettingsViewModel viewModel;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.lunar_console_layout_activity_settings);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.lunar_console_layout_activity_settings);
 
-		settingsEditor = Provider.of(PluginSettingsEditorProvider.class).getSettingsEditor();
+        settingsEditor = Provider.of(PluginSettingsEditorProvider.class).getSettingsEditor();
 
-		viewModel = new PluginSettingsViewModel(settingsEditor);
+        viewModel = new PluginSettingsViewModel(settingsEditor);
 
-		adapter = createAdapter(viewModel);
+        adapter = createAdapter(viewModel);
 
-		listView = findViewById(R.id.lunar_console_settings_list_view);
-		listView.setDivider(null);
-		listView.setAdapter(adapter);
-	}
+        listView = findViewById(R.id.lunar_console_settings_list_view);
+        listView.setDivider(null);
+        listView.setAdapter(adapter);
+    }
 
-	private ListViewAdapter createAdapter(PluginSettingsViewModel viewModel) {
-		List<ListViewItem> items = viewModel.createItems();
-		ListViewAdapter adapter = new ListViewAdapter(items);
+    private ListViewAdapter createAdapter(PluginSettingsViewModel viewModel) {
+        List<ListViewItem> items = viewModel.createItems();
+        ListViewAdapter adapter = new ListViewAdapter(items);
 
-		// Header
-		adapter.register(ItemType.HEADER, new ListViewAdapter.LayoutIdFactory(R.layout.lunar_console_layout_settings_header) {
-			@Override
-			public ListViewAdapter.ViewHolder createViewHolder(View convertView) {
-				return new HeaderViewHolder(convertView);
-			}
-		});
+        // Header
+        adapter.register(ItemType.HEADER, new ListViewAdapter.LayoutIdFactory(R.layout.lunar_console_layout_settings_header) {
+            @Override
+            public ListViewAdapter.ViewHolder createViewHolder(View convertView) {
+                return new HeaderViewHolder(convertView);
+            }
+        });
 
-		// Property
-		adapter.register(ItemType.PROPERTY, new ListViewAdapter.LayoutIdFactory(R.layout.lunar_console_layout_settings_property) {
-			@Override
-			public ListViewAdapter.ViewHolder createViewHolder(View convertView) {
-				return new PropertyViewHolder(convertView);
-			}
-		});
+        // Property
+        adapter.register(ItemType.PROPERTY, new ListViewAdapter.LayoutIdFactory(R.layout.lunar_console_layout_settings_property) {
+            @Override
+            public ListViewAdapter.ViewHolder createViewHolder(View convertView) {
+                return new PropertyViewHolder(convertView);
+            }
+        });
 
-		return adapter;
-	}
+        return adapter;
+    }
 
-	private static class HeaderViewHolder extends ListViewAdapter.ViewHolder<HeaderItem> {
-		private final TextView headerTitleTextView;
+    private interface EnumDialogCallback {
+        void onValueSelected(Object value);
+    }
 
-		protected HeaderViewHolder(View view) {
-			super(view);
-			headerTitleTextView = view.findViewById(R.id.lunar_console_settings_header);
-		}
+    private static class HeaderViewHolder extends ListViewAdapter.ViewHolder<HeaderItem> {
+        private final TextView headerTitleTextView;
 
-		@Override
-		protected void bindView(HeaderItem item, int position) {
-			headerTitleTextView.setText(item.title);
-		}
-	}
+        protected HeaderViewHolder(View view) {
+            super(view);
+            headerTitleTextView = view.findViewById(R.id.lunar_console_settings_header);
+        }
 
-	private class PropertyViewHolder extends ListViewAdapter.ViewHolder<PropertyItem> {
-		private final TextView titleTextView;
-		private final EditText valueEditText;
-		private final Switch valueSwitch;
-		private final Button valueButton;
-		private final ImageButton lockButton;
+        @Override
+        protected void bindView(HeaderItem item, int position) {
+            headerTitleTextView.setText(item.title);
+        }
+    }
 
-		public PropertyViewHolder(View view) {
-			super(view);
+    private class PropertyViewHolder extends ListViewAdapter.ViewHolder<PropertyItem> {
+        private final TextView titleTextView;
+        private final EditText valueEditText;
+        private final Switch valueSwitch;
+        private final Button valueButton;
+        private final ImageButton lockButton;
 
-			titleTextView = view.findViewById(R.id.lunar_console_settings_property_name);
-			valueEditText = view.findViewById(R.id.lunar_console_settings_property_value);
-			valueSwitch = view.findViewById(R.id.lunar_console_settings_property_switch);
-			valueButton = view.findViewById(R.id.lunar_console_settings_property_button);
-			lockButton = view.findViewById(R.id.lunar_console_settings_property_lock_button);
-		}
+        public PropertyViewHolder(View view) {
+            super(view);
 
-		@Override
-		public void bindView(final PropertyItem item, int position) {
-			titleTextView.setText(item.displayName);
+            titleTextView = view.findViewById(R.id.lunar_console_settings_property_name);
+            valueEditText = view.findViewById(R.id.lunar_console_settings_property_value);
+            valueSwitch = view.findViewById(R.id.lunar_console_settings_property_switch);
+            valueButton = view.findViewById(R.id.lunar_console_settings_property_button);
+            lockButton = view.findViewById(R.id.lunar_console_settings_property_lock_button);
+        }
 
-			lockButton.setVisibility(item.enabled ? View.GONE : View.VISIBLE);
-			lockButton.setOnClickListener(item.enabled ? null : createLockClickListener(lockButton.getContext()));
+        @Override
+        public void bindView(final PropertyItem item, int position) {
+            titleTextView.setText(item.displayName);
 
-			int valueEditTextVisibility = View.GONE;
-			int valueSwitchVisibility = View.GONE;
-			int valueButtonVisibility = View.GONE;
+            lockButton.setVisibility(item.enabled ? View.GONE : View.VISIBLE);
+            lockButton.setOnClickListener(item.enabled ? null : createLockClickListener(lockButton.getContext()));
 
-			final Class<?> type = item.getType();
-			final Object value = item.getValue();
-			if (type == Boolean.class || type == boolean.class) {
-				valueSwitchVisibility = View.VISIBLE;
-				valueSwitch.setChecked(value == Boolean.TRUE);
-				valueSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-					@Override
-					public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-						item.setValue(isChecked);
-					}
-				});
-				valueSwitch.setEnabled(item.enabled);
-			} else {
-				final String valueStr = StringUtils.toString(value);
-				if (type.isEnum()) {
-					valueButtonVisibility = View.VISIBLE;
-					valueButton.setText(valueStr);
-					valueButton.setOnClickListener(new View.OnClickListener() {
-						@Override
-						public void onClick(View v) {
-							showEnumDialog(v.getContext(), item.displayName, value, new EnumDialogCallback() {
-								@Override
-								public void onValueSelected(Object value) {
-									item.setValue(value);
-									valueButton.setText(value.toString());
-								}
-							});
-						}
-					});
-					valueButton.setEnabled(item.enabled);
-				} else {
-					valueEditTextVisibility = View.VISIBLE;
-					valueEditText.setEnabled(item.enabled);
+            int valueEditTextVisibility = View.GONE;
+            int valueSwitchVisibility = View.GONE;
+            int valueButtonVisibility = View.GONE;
 
-					/* This helps avoiding a weird flickering while keyboard is shown */
-					if (!valueStr.equals(valueEditText.getText().toString())) {
-						valueEditText.setText(valueStr);
-						if (value instanceof Number) {
-							int inputType = InputType.TYPE_CLASS_NUMBER;
-							if (value instanceof Float || value instanceof Double) {
-								inputType |= InputType.TYPE_NUMBER_FLAG_DECIMAL;
-							}
-							valueEditText.setInputType(inputType);
-						}
-						valueEditText.setOnEditorActionListener(new EditText.OnEditorActionListener() {
-							@Override
-							public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-								if (actionId == EditorInfo.IME_ACTION_DONE) {
-									Object newValue = parseItemValue(v.getText().toString(), type);
-									if (newValue != null) {
-										item.setValue(newValue);
-									}
-								}
-								return false;
-							}
+            final Class<?> type = item.getType();
+            final Object value = item.getValue();
+            if (type == Boolean.class || type == boolean.class) {
+                valueSwitchVisibility = View.VISIBLE;
+                valueSwitch.setChecked(value == Boolean.TRUE);
+                valueSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        item.setValue(isChecked);
+                    }
+                });
+                valueSwitch.setEnabled(item.enabled);
+            } else {
+                final String valueStr = StringUtils.toString(value);
+                if (type.isEnum()) {
+                    valueButtonVisibility = View.VISIBLE;
+                    valueButton.setText(valueStr);
+                    valueButton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            showEnumDialog(v.getContext(), item.displayName, value, new EnumDialogCallback() {
+                                @Override
+                                public void onValueSelected(Object value) {
+                                    item.setValue(value);
+                                    valueButton.setText(value.toString());
+                                }
+                            });
+                        }
+                    });
+                    valueButton.setEnabled(item.enabled);
+                } else {
+                    valueEditTextVisibility = View.VISIBLE;
+                    valueEditText.setEnabled(item.enabled);
 
-							private Object parseItemValue(String value, Class<?> type) {
-								if (type == Integer.class || type == int.class) {
-									return StringUtils.parseInt(value);
-								}
-								if (type == Float.class || type == float.class) {
-									return StringUtils.parseFloat(value);
-								}
+                    /* This helps avoiding a weird flickering while keyboard is shown */
+                    if (!valueStr.equals(valueEditText.getText().toString())) {
+                        valueEditText.setText(valueStr);
+                        if (value instanceof Number) {
+                            int inputType = InputType.TYPE_CLASS_NUMBER;
+                            if (value instanceof Float || value instanceof Double) {
+                                inputType |= InputType.TYPE_NUMBER_FLAG_DECIMAL;
+                            }
+                            valueEditText.setInputType(inputType);
+                        }
+                        valueEditText.setOnEditorActionListener(new EditText.OnEditorActionListener() {
+                            @Override
+                            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                                    Object newValue = parseItemValue(v.getText().toString(), type);
+                                    if (newValue != null) {
+                                        item.setValue(newValue);
+                                    }
+                                }
+                                return false;
+                            }
 
-								throw new NotImplementedException("Unsupported type: " + type);
-							}
-						});
-					}
-				}
-			}
+                            private Object parseItemValue(String value, Class<?> type) {
+                                if (type == Integer.class || type == int.class) {
+                                    return StringUtils.parseInt(value);
+                                }
+                                if (type == Float.class || type == float.class) {
+                                    return StringUtils.parseFloat(value);
+                                }
 
-			valueEditText.setVisibility(valueEditTextVisibility);
-			valueSwitch.setVisibility(valueSwitchVisibility);
-			valueButton.setVisibility(valueButtonVisibility);
-		}
+                                throw new NotImplementedException("Unsupported type: " + type);
+                            }
+                        });
+                    }
+                }
+            }
 
-		private void showEnumDialog(Context context, String name, Object value, final EnumDialogCallback callback) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(context);
-			builder.setTitle(name);
-			builder.setCancelable(true);
+            valueEditText.setVisibility(valueEditTextVisibility);
+            valueSwitch.setVisibility(valueSwitchVisibility);
+            valueButton.setVisibility(valueButtonVisibility);
+        }
 
-			final Object[] values = EnumUtils.listValues((Enum<?>) value);
-			int checkItem = CollectionUtils.indexOf(values, value);
-			String[] names = CollectionUtils.map(values, new CollectionUtils.Map<Object, String>() {
-				@Override public String map(Object o) {
-					return StringUtils.toString(o);
-				}
-			});
+        private void showEnumDialog(Context context, String name, Object value, final EnumDialogCallback callback) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setTitle(name);
+            builder.setCancelable(true);
 
-			builder.setSingleChoiceItems(names, checkItem, null);
+            final Object[] values = EnumUtils.listValues((Enum<?>) value);
+            int checkItem = CollectionUtils.indexOf(values, value);
+            String[] names = CollectionUtils.map(values, new CollectionUtils.Map<Object, String>() {
+                @Override
+                public String map(Object o) {
+                    return StringUtils.toString(o);
+                }
+            });
 
-			builder.setPositiveButton(
-				android.R.string.ok,
-				new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
-						ListView lw = ((AlertDialog) dialog).getListView();
-						Object newValue = values[lw.getCheckedItemPosition()];
-						callback.onValueSelected(newValue);
-						dialog.cancel();
-					}
-				});
+            builder.setSingleChoiceItems(names, checkItem, null);
 
-			builder.setNegativeButton(
-				android.R.string.cancel,
-				new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int id) {
-						dialog.cancel();
-					}
-				});
+            builder.setPositiveButton(
+                    android.R.string.ok,
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            ListView lw = ((AlertDialog) dialog).getListView();
+                            Object newValue = values[lw.getCheckedItemPosition()];
+                            callback.onValueSelected(newValue);
+                            dialog.cancel();
+                        }
+                    });
 
-			builder.create().show();
-		}
+            builder.setNegativeButton(
+                    android.R.string.cancel,
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int id) {
+                            dialog.cancel();
+                        }
+                    });
 
-		private View.OnClickListener createLockClickListener(final Context context) {
-			return new View.OnClickListener() {
-				@Override public void onClick(View v) {
-					AlertDialog.Builder builder = new AlertDialog.Builder(context);
-					builder.setTitle(R.string.lunar_console_settings_lock_dialog_title);
-					builder.setCancelable(true);
+            builder.create().show();
+        }
 
-					builder.setPositiveButton(
-						R.string.lunar_console_settings_lock_dialog_learn_more,
-						new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int id) {
-								UIUtils.openURL(context, context.getString(R.string.lunar_console_settings_lock_dialog_learn_more_url));
-							}
-						});
+        private View.OnClickListener createLockClickListener(final Context context) {
+            return new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle(R.string.lunar_console_settings_lock_dialog_title);
+                    builder.setCancelable(true);
 
-					builder.setNegativeButton(
-						android.R.string.cancel,
-						new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int id) {
-								dialog.cancel();
-							}
-						});
+                    builder.setPositiveButton(
+                            R.string.lunar_console_settings_lock_dialog_learn_more,
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int id) {
+                                    UIUtils.openURL(context, context.getString(R.string.lunar_console_settings_lock_dialog_learn_more_url));
+                                }
+                            });
 
-					builder.create().show();
-				}
-			};
-		}
-	}
+                    builder.setNegativeButton(
+                            android.R.string.cancel,
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
 
-	private interface EnumDialogCallback {
-		void onValueSelected(Object value);
-	}
+                    builder.create().show();
+                }
+            };
+        }
+    }
 }

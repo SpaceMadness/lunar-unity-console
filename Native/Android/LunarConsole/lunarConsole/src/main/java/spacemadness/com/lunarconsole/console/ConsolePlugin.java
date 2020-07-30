@@ -75,22 +75,11 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
     private static final String SCRIPT_MESSAGE_CONSOLE_CLOSE = "console_close";
     private static final String SCRIPT_MESSAGE_ACTION = "console_action";
     private static final String SCRIPT_MESSAGE_VARIABLE_SET = "console_variable_set";
-
-    private Console console;
-    private ActivityLifecycleHandler activityLifecycleHandler;
     private final ActionRegistry actionRegistry;
     private final Platform platform;
     private final String version;
-    private PluginSettings settings;
     private final RichTextFactory richTextFactory;
-
     private final ConsoleViewState consoleViewState;
-
-    // Dialog for holding console related UI (starting Unity 5.6b we can use overlay views)
-    private ConsoleView consoleView;
-    private LogOverlayView logOverlayView;
-    private WarningView warningView;
-
     private final WeakReference<Activity> activityRef;
     private final GestureRecognizer gestureDetector;
     private final View.OnTouchListener gestureDetectorTouchListener = new View.OnTouchListener() {
@@ -100,6 +89,13 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
             return false; // do not block touch events!
         }
     };
+    private Console console;
+    private ActivityLifecycleHandler activityLifecycleHandler;
+    private PluginSettings settings;
+    // Dialog for holding console related UI (starting Unity 5.6b we can use overlay views)
+    private ConsoleView consoleView;
+    private LogOverlayView logOverlayView;
+    private WarningView warningView;
 
     public ConsolePlugin(Activity activity, Platform platform, String version, PluginSettings settings, RichTextFactory richTextFactory) {
         this.activityRef = new WeakReference<>(checkNotNull(activity, "activity"));
@@ -144,6 +140,20 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
     }
 
     //region ConsolePlugin
+
+    public static void setCapacity(int capacity) {
+//		Options options = new Options(capacity);
+//		options.setTrimCount(getConsoleInstance().getTrimSize());
+//		instance.console = new Console(options);
+        throw new NotImplementedException();
+    }
+
+    public static void setTrimSize(int trimCount) {
+//		Options options = new Options(getConsoleInstance().getCapacity());
+//		options.setTrimCount(trimCount);
+//		instance.console = new Console(options);
+        throw new NotImplementedException();
+    }
 
     public void start() {
         enableGestureRecognition();
@@ -207,6 +217,10 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
         actionRegistry.unregisterAction(actionId);
     }
 
+    //endregion
+
+    //region Destroyable
+
     public void registerVariable(int variableId, String name, String typeName, String value, String defaultValue, int flags, boolean hasRange, float rangeMin, float rangeMax) {
         VariableType type = VariableType.parse(typeName);
         if (type == VariableType.Unknown) {
@@ -227,13 +241,13 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
         }
     }
 
+    //endregion
+
+    //region Overlay Dialog
+
     public void updateVariable(int variableId, String value) {
         actionRegistry.updateVariable(variableId, value);
     }
-
-    //endregion
-
-    //region Destroyable
 
     @Override
     public void destroy() {
@@ -254,7 +268,7 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
 
     //endregion
 
-    //region Overlay Dialog
+    //region Console
 
     private void addOverlayView(Activity activity, View overlayView, LayoutParams layoutParams) {
         FrameLayout content = activity.getWindow().findViewById(android.R.id.content);
@@ -275,10 +289,6 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
         FrameLayout content = getActivity().getWindow().findViewById(android.R.id.content);
         content.removeView(overlayView);
     }
-
-    //endregion
-
-    //region Console
 
     private boolean showConsoleGuarded() {
         try {
@@ -339,6 +349,10 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
         return false;
     }
 
+    //endregion
+
+    //region Error warning
+
     private boolean hideConsoleGuarded() {
         if (consoleView == null) {
             return false;
@@ -391,10 +405,6 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
         }
     }
 
-    //endregion
-
-    //region Error warning
-
     private boolean shouldShowWarning(byte type) {
         if (!isErrorType(type)) {
             return false;
@@ -411,6 +421,10 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
 
         return true;
     }
+
+    //endregion
+
+    //region Overlay view
 
     private void showWarning(final CharSequence message) {
         try {
@@ -456,13 +470,13 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
         }
     }
 
-    //endregion
-
-    //region Overlay view
-
     private boolean isOverlayViewShown() {
         return logOverlayView != null;
     }
+
+    //endregion
+
+    //region Gesture recognition
 
     private boolean showLogOverlayView() {
         if (LunarConsoleConfig.isFree) {
@@ -512,7 +526,7 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
 
     //endregion
 
-    //region Gesture recognition
+    //region Native callbacks
 
     private void enableGestureRecognition() {
         Log.d(GESTURES, "Enable gesture recognition");
@@ -538,7 +552,7 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
 
     //endregion
 
-    //region Native callbacks
+    //region Notifications
 
     private void sendNativeCallback(String name) {
         sendNativeCallback(name, null);
@@ -547,10 +561,6 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
     private void sendNativeCallback(String name, Map<String, Object> data) {
         platform.sendUnityScriptMessage(name, data);
     }
-
-    //endregion
-
-    //region Notifications
 
     @Override
     public void onNotification(Notification notification) {
@@ -581,6 +591,10 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
         }
     }
 
+    //endregion
+
+    //region PluginSettingsEditorProvider
+
     private void registerNotifications() {
         NotificationCenter.defaultCenter()
                 .addListener(NOTIFICATION_ACTION_SELECT, this)
@@ -589,13 +603,13 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
                 .addListener(NOTIFICATION_ACTIVITY_STARTED, this);
     }
 
+    //endregion
+
+    //region Helpers
+
     private void unregisterNotifications() {
         NotificationCenter.defaultCenter().removeListener(this);
     }
-
-    //endregion
-
-    //region PluginSettingsEditorProvider
 
     @Override
     public PluginSettingsEditor getSettingsEditor() {
@@ -620,7 +634,7 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
 
     //endregion
 
-    //region Helpers
+    //region Getters/Setters
 
     private ConsoleLogEntry createLogEntry(byte type, String message, String stackTrace) {
         if (settings.richTextTags) {
@@ -641,10 +655,6 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
         return text;
     }
 
-    //endregion
-
-    //region Getters/Setters
-
     Console getConsole() {
         return console;
     }
@@ -663,20 +673,6 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
 
     public String getVersion() {
         return version;
-    }
-
-    public static void setCapacity(int capacity) {
-//		Options options = new Options(capacity);
-//		options.setTrimCount(getConsoleInstance().getTrimSize());
-//		instance.console = new Console(options);
-        throw new NotImplementedException();
-    }
-
-    public static void setTrimSize(int trimCount) {
-//		Options options = new Options(getConsoleInstance().getCapacity());
-//		options.setTrimCount(trimCount);
-//		instance.console = new Console(options);
-        throw new NotImplementedException();
     }
 
     private Activity getActivity() {

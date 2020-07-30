@@ -44,25 +44,6 @@ public class DefaultColorFactory implements ColorFactory {
         this.colorLookup = createColorLookup();
     }
 
-    @Override
-    public int fromValue(String value) {
-        if (StringUtils.IsNullOrEmpty(value)) {
-            return getColor(R.color.lunar_console_color_rich_text_error);
-        }
-
-        Integer predefinedColorId = colorLookup.get(value);
-        if (predefinedColorId != null) {
-            return getColor(predefinedColorId);
-        }
-
-        if (value.startsWith("#") && value.length() > 1) {
-            int colorId = parseInt(value.substring(1), R.color.lunar_console_color_rich_text_error);
-            return getColor(colorId);
-        }
-
-        return getColor(R.color.lunar_console_color_rich_text_error);
-    }
-
     private static Map<String, Integer> createColorLookup() {
         Map<String, Integer> lookup = new HashMap<>();
         lookup.put("aqua", R.color.lunar_console_color_rich_text_aqua);
@@ -88,6 +69,25 @@ public class DefaultColorFactory implements ColorFactory {
         lookup.put("white", R.color.lunar_console_color_rich_text_white);
         lookup.put("yellow", R.color.lunar_console_color_rich_text_yellow);
         return lookup;
+    }
+
+    @Override
+    public int fromValue(String value) {
+        if (StringUtils.IsNullOrEmpty(value)) {
+            return getColor(R.color.lunar_console_color_rich_text_error);
+        }
+
+        Integer predefinedColorId = colorLookup.get(value);
+        if (predefinedColorId != null) {
+            return getColor(predefinedColorId);
+        }
+
+        if (value.startsWith("#") && value.length() > 1) {
+            int colorId = parseInt(value.substring(1), R.color.lunar_console_color_rich_text_error);
+            return getColor(colorId);
+        }
+
+        return getColor(R.color.lunar_console_color_rich_text_error);
     }
 
     private Integer getColor(int colorId) {

@@ -31,26 +31,21 @@ import android.util.AttributeSet;
  * Created by alementuev on 1/23/17.
  */
 
-public class Switch extends android.widget.Switch
-{
-    public Switch(Context context)
-    {
+public class Switch extends android.widget.Switch {
+    public Switch(Context context) {
         super(context);
     }
 
-    public Switch(Context context, AttributeSet attrs)
-    {
+    public Switch(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public Switch(Context context, AttributeSet attrs, int defStyleAttr)
-    {
+    public Switch(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public Switch(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes)
-    {
+    public Switch(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 }

@@ -27,28 +27,22 @@ import spacemadness.com.lunarconsole.debug.Log;
 
 public class Console implements
         Destroyable,
-        ConsoleLogAdapter.DataSource
-{
-    private static final LunarConsoleListener NULL_LISTENER = new LunarConsoleListener()
-    {
+        ConsoleLogAdapter.DataSource {
+    private static final LunarConsoleListener NULL_LISTENER = new LunarConsoleListener() {
         @Override
-        public void onAddEntry(Console console, ConsoleLogEntry entry, boolean filtered)
-        {
+        public void onAddEntry(Console console, ConsoleLogEntry entry, boolean filtered) {
         }
 
         @Override
-        public void onRemoveEntries(Console console, int start, int length)
-        {
+        public void onRemoveEntries(Console console, int start, int length) {
         }
 
         @Override
-        public void onChangeEntries(Console console)
-        {
+        public void onChangeEntries(Console console) {
         }
 
         @Override
-        public void onClearEntries(Console console)
-        {
+        public void onClearEntries(Console console) {
         }
     };
 
@@ -56,10 +50,8 @@ public class Console implements
 
     private LunarConsoleListener consoleListener;
 
-    public Console(Options options)
-    {
-        if (options == null)
-        {
+    public Console(Options options) {
+        if (options == null) {
             throw new NullPointerException("Options is null");
         }
 
@@ -67,41 +59,35 @@ public class Console implements
         this.consoleListener = NULL_LISTENER;
     }
 
-    public ConsoleLogEntry entryAtIndex(int index)
-    {
+    public ConsoleLogEntry entryAtIndex(int index) {
         return entries.getEntry(index);
     }
 
-    public void logMessage(String message, String stackTrace, byte type)
-    {
+    public void logMessage(String message, String stackTrace, byte type) {
         logMessage(new ConsoleLogEntry(type, message, stackTrace));
     }
 
-    void logMessage(ConsoleLogEntry entry)
-    {
+    void logMessage(ConsoleLogEntry entry) {
         final int oldTrimmedCount = entries.trimmedCount(); // trimmed count before we added a new item
 
         // add new entry
         int index = entries.addEntry(entry);
 
         boolean filtered = index != -1;
-        if (filtered)
-        {
+        if (filtered) {
             entry.index = index; // update index for correct rendering
         }
 
         // notify listener
         final int trimmedCount = entries.trimmedCount() - oldTrimmedCount;
-        if (trimmedCount > 0)
-        {
+        if (trimmedCount > 0) {
             notifyRemoveEntries(0, trimmedCount);
         }
 
         notifyEntryAdded(entry, filtered);
     }
 
-    public void clear()
-    {
+    public void clear() {
         entries.clear();
         notifyEntriesCleared();
     }
@@ -110,118 +96,90 @@ public class Console implements
     // Destroyable
 
     @Override
-    public void destroy()
-    {
+    public void destroy() {
         entries.clear();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Listener notifications
 
-    private void notifyEntryAdded(ConsoleLogEntry entry, boolean filtered)
-    {
-        try
-        {
+    private void notifyEntryAdded(ConsoleLogEntry entry, boolean filtered) {
+        try {
             consoleListener.onAddEntry(this, entry, filtered);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             Log.e(e, "Error while notifying delegate");
         }
     }
 
-    private void notifyRemoveEntries(int start, int length)
-    {
-        try
-        {
+    private void notifyRemoveEntries(int start, int length) {
+        try {
             consoleListener.onRemoveEntries(this, start, length);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             Log.e(e, "Error while notifying delegate");
         }
     }
 
-    private void notifyEntriesChanged()
-    {
-        try
-        {
+    private void notifyEntriesChanged() {
+        try {
             consoleListener.onChangeEntries(this);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             Log.e(e, "Error while notifying delegate");
         }
     }
 
-    private void notifyEntriesCleared()
-    {
-        try
-        {
+    private void notifyEntriesCleared() {
+        try {
             consoleListener.onClearEntries(this);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             Log.e(e, "Error while notifying delegate");
         }
     }
 
-    public String getText()
-    {
+    public String getText() {
         return entries.getText();
     }
 
-    public LunarConsoleListener getConsoleListener()
-    {
+    public LunarConsoleListener getConsoleListener() {
         return consoleListener;
     }
 
-    public void setConsoleListener(LunarConsoleListener listener)
-    {
+    public void setConsoleListener(LunarConsoleListener listener) {
         this.consoleListener = listener != null ? listener : NULL_LISTENER;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Getters/Setters
 
-    public int getCapacity()
-    {
+    public int getCapacity() {
         return entries.capacity();
     }
 
-    public int getTrimSize()
-    {
+    public int getTrimSize() {
         return entries.trimCount();
     }
 
-    public ConsoleLogEntryList entries()
-    {
+    public ConsoleLogEntryList entries() {
         return entries;
     }
 
-    public void setCollapsed(boolean collapsed)
-    {
+    public boolean isCollapsed() {
+        return entries.isCollapsed();
+    }
+
+    public void setCollapsed(boolean collapsed) {
         entries.collapsed(collapsed);
         notifyEntriesChanged();
     }
 
-    public boolean isCollapsed()
-    {
-        return entries.isCollapsed();
-    }
-
-    public int entriesCount()
-    {
+    public int entriesCount() {
         return entries.count();
     }
 
-    public int trimmedCount()
-    {
+    public int trimmedCount() {
         return entries.trimmedCount();
     }
 
-    public boolean isTrimmed()
-    {
+    public boolean isTrimmed() {
         return entries.isTrimmed();
     }
 
@@ -229,56 +187,46 @@ public class Console implements
     // ConsoleLogAdapter.DataSource
 
     @Override
-    public ConsoleLogEntry getEntry(int position)
-    {
+    public ConsoleLogEntry getEntry(int position) {
         return entries.getEntry(position);
     }
 
     @Override
-    public int getEntryCount()
-    {
+    public int getEntryCount() {
         return entries.count();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Options
 
-    public static class Options
-    {
+    public static class Options {
         private final int capacity;
         private int trimCount;
 
-        public Options(int capacity)
-        {
-            if (capacity <= 0)
-            {
+        public Options(int capacity) {
+            if (capacity <= 0) {
                 throw new IllegalArgumentException("Invalid capacity: " + capacity);
             }
             this.capacity = capacity;
             this.trimCount = 1;
         }
 
-        public Options clone()
-        {
+        public Options clone() {
             Options options = new Options(capacity);
             options.trimCount = trimCount;
             return options;
         }
 
-        public int getCapacity()
-        {
+        public int getCapacity() {
             return capacity;
         }
 
-        public int getTrimCount()
-        {
+        public int getTrimCount() {
             return trimCount;
         }
 
-        public void setTrimCount(int count)
-        {
-            if (count <= 0 || count > capacity)
-            {
+        public void setTrimCount(int count) {
+            if (count <= 0 || count > capacity) {
                 throw new IllegalArgumentException("Illegal trim count: " + count);
             }
 

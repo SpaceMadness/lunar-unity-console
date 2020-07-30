@@ -56,6 +56,46 @@ public class DefaultRichTextFactory implements RichTextFactory {
         colorStyleMap = new HashMap<>();
     }
 
+    private static boolean isValidTagName(String name) {
+        return name.equals("b") || name.equals("i") || name.equals("color");
+    }
+
+    private static Tag tryCaptureTag(String str, int position, IntReference iterPtr) {
+        int end = iterPtr.value;
+        boolean isOpen = true;
+        if (end < str.length() && str.charAt(end) == '/') {
+            isOpen = false;
+            ++end;
+        }
+
+        int start = end;
+        boolean found = false;
+        while (end < str.length()) {
+            char chr = str.charAt(end++);
+            if (chr == '>') {
+                found = true;
+                break;
+            }
+        }
+
+        if (!found) {
+            return null;
+        }
+
+        String capture = str.substring(start, end - 1);
+        int index = capture.lastIndexOf('=');
+        String name = index != -1 ? capture.substring(0, index) : capture;
+        if (!isValidTagName(name)) {
+            return null;
+        }
+
+        String attribute = index != -1 ? capture.substring(index + 1) : null;
+        iterPtr.value = end;
+        return new Tag(name, attribute, isOpen, position);
+    }
+
+    //region Rich Text
+
     @Override
     public CharSequence createRichText(String text) {
         if (StringUtils.IsNullOrEmpty(text)) {
@@ -156,46 +196,6 @@ public class DefaultRichTextFactory implements RichTextFactory {
             string.setSpan(tag.style, tag.startIndex, tag.startIndex + tag.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
         return string;
-    }
-
-    //region Rich Text
-
-    private static boolean isValidTagName(String name) {
-        return name.equals("b") || name.equals("i") || name.equals("color");
-    }
-
-    private static Tag tryCaptureTag(String str, int position, IntReference iterPtr) {
-        int end = iterPtr.value;
-        boolean isOpen = true;
-        if (end < str.length() && str.charAt(end) == '/') {
-            isOpen = false;
-            ++end;
-        }
-
-        int start = end;
-        boolean found = false;
-        while (end < str.length()) {
-            char chr = str.charAt(end++);
-            if (chr == '>') {
-                found = true;
-                break;
-            }
-        }
-
-        if (!found) {
-            return null;
-        }
-
-        String capture = str.substring(start, end - 1);
-        int index = capture.lastIndexOf('=');
-        String name = index != -1 ? capture.substring(0, index) : capture;
-        if (!isValidTagName(name)) {
-            return null;
-        }
-
-        String attribute = index != -1 ? capture.substring(index + 1) : null;
-        iterPtr.value = end;
-        return new Tag(name, attribute, isOpen, position);
     }
 
     CharacterStyle styleFromColorValue(String value) {

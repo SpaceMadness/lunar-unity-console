@@ -34,6 +34,18 @@ public abstract class DispatchQueue implements Dispatcher {
         this.name = checkNotNull(name, "name");
     }
 
+    public static DispatchQueue mainQueue() {
+        return Holder.MAIN_QUEUE;
+    }
+
+    public static DispatchQueue createSerialQueue(String name) {
+        return Holder.provider.createSerialQueue(name);
+    }
+
+    public static boolean isMainQueue() {
+        return Holder.provider.isMainQueue();
+    }
+
     public boolean dispatchOnce(DispatchTask task) {
         return dispatchOnce(task, 0L);
     }
@@ -52,8 +64,8 @@ public abstract class DispatchQueue implements Dispatcher {
     }
 
     public void dispatch(DispatchTask task, long delay) {
-		task.setScheduled(true);
-		schedule(task, delay);
+        task.setScheduled(true);
+        schedule(task, delay);
     }
 
     protected abstract void schedule(DispatchTask task, long delay);
@@ -64,18 +76,6 @@ public abstract class DispatchQueue implements Dispatcher {
 
     public String getName() {
         return name;
-    }
-
-    public static DispatchQueue mainQueue() {
-        return Holder.MAIN_QUEUE;
-    }
-
-    public static DispatchQueue createSerialQueue(String name) {
-        return Holder.provider.createSerialQueue(name);
-    }
-
-    public static boolean isMainQueue() {
-        return Holder.provider.isMainQueue();
     }
 
     private static final class Holder {

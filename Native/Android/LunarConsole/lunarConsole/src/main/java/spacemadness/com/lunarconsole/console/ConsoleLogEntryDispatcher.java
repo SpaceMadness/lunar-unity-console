@@ -103,19 +103,11 @@ class ConsoleLogEntryDispatcher {
         }
     }
 
-    public interface OnDispatchListener {
-        void onDispatchEntries(List<Entry> entries);
-    }
-
-    private Entry createEntryData(byte type, String message, String stackTrack)
-    {
+    private Entry createEntryData(byte type, String message, String stackTrack) {
         Entry data;
-        if (freeList.size() > 0)
-        {
+        if (freeList.size() > 0) {
             data = freeList.remove(freeList.size() - 1);
-        }
-        else
-        {
+        } else {
             data = new Entry();
         }
         data.type = type;
@@ -124,8 +116,11 @@ class ConsoleLogEntryDispatcher {
         return data;
     }
 
-    public static class Entry
-    {
+    public interface OnDispatchListener {
+        void onDispatchEntries(List<Entry> entries);
+    }
+
+    public static class Entry {
         public byte type;
         public String message;
         public String stackTrace;

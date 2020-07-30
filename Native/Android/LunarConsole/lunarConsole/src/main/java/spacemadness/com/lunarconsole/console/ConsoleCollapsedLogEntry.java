@@ -25,21 +25,20 @@ package spacemadness.com.lunarconsole.console;
 /**
  * Created by alementuev on 2/4/16.
  */
-public class ConsoleCollapsedLogEntry extends ConsoleLogEntry
-{
-    /** Total amount of encounters */
+public class ConsoleCollapsedLogEntry extends ConsoleLogEntry {
+    /**
+     * Total amount of encounters
+     */
     public int count;
 
-    public ConsoleCollapsedLogEntry(ConsoleLogEntry entry)
-    {
+    public ConsoleCollapsedLogEntry(ConsoleLogEntry entry) {
         super(entry.type, entry.message, entry.spannedMessage, entry.stackTrace);
 
         count = 1;
         index = -1;
     }
 
-    public void increaseCount()
-    {
+    public void increaseCount() {
         ++count;
     }
 }

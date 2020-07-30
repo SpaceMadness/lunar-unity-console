@@ -36,186 +36,186 @@ import spacemadness.com.lunarconsole.utils.NotImplementedException;
 import spacemadness.com.lunarconsole.utils.ObjectUtils;
 
 public class JsonDecoder {
-	/**
-	 * Special marker-object to indicate that field should retain its default value.
-	 */
-	private static final Object DEFAULT = new Object();
+    /**
+     * Special marker-object to indicate that field should retain its default value.
+     */
+    private static final Object DEFAULT = new Object();
+    private static final ClassUtils.FieldFilter FIELD_FILTER = new ClassUtils.FieldFilter() {
+        @Override
+        public boolean accept(Field field) {
+            return !ClassUtils.isStatic(field) && !ClassUtils.isFinal(field);
+        }
+    };
 
-	public static String encode(Object object) {
-		try {
-			return encodeJsonObject(object).toString(2);
-		} catch (Exception e) {
-			throw new JsonDecoderException(e);
-		}
-	}
+    public static String encode(Object object) {
+        try {
+            return encodeJsonObject(object).toString(2);
+        } catch (Exception e) {
+            throw new JsonDecoderException(e);
+        }
+    }
 
-	private static JSONObject encodeJsonObject(Object object) throws JSONException {
-		JSONObject jsonObject = new JSONObject();
+    private static JSONObject encodeJsonObject(Object object) throws JSONException {
+        JSONObject jsonObject = new JSONObject();
 
-		// decode fields
-		List<Field> fields = ClassUtils.listFields(object.getClass(), FIELD_FILTER);
-		for (Field field : fields) {
-			final String name = getName(field);
-			final Object value = encodeObject(ClassUtils.getFieldValue(object, field));
+        // decode fields
+        List<Field> fields = ClassUtils.listFields(object.getClass(), FIELD_FILTER);
+        for (Field field : fields) {
+            final String name = getName(field);
+            final Object value = encodeObject(ClassUtils.getFieldValue(object, field));
 
-			jsonObject.put(name, value);
-		}
+            jsonObject.put(name, value);
+        }
 
-		return jsonObject;
-	}
+        return jsonObject;
+    }
 
-	private static Object encodeObject(Object value) throws JSONException {
-		if (value == null) {
-			return null;
-		}
+    private static Object encodeObject(Object value) throws JSONException {
+        if (value == null) {
+            return null;
+        }
 
-		if (value instanceof String ||
-		    value instanceof Number ||
-		    value instanceof Boolean ||
-				value instanceof Character) {
-			return value;
-		}
+        if (value instanceof String ||
+                value instanceof Number ||
+                value instanceof Boolean ||
+                value instanceof Character) {
+            return value;
+        }
 
-		Class<?> targetType = value.getClass();
-		if (targetType.isPrimitive()) {
-			return value;
-		}
+        Class<?> targetType = value.getClass();
+        if (targetType.isPrimitive()) {
+            return value;
+        }
 
-		if (targetType.isArray()) {
-			int length = Array.getLength(value);
-			List<Object> encoded = new ArrayList<>(length);
-			for (int i = 0; i < length; ++i) {
-				encoded.add(encodeObject(Array.get(value, i)));
-			}
+        if (targetType.isArray()) {
+            int length = Array.getLength(value);
+            List<Object> encoded = new ArrayList<>(length);
+            for (int i = 0; i < length; ++i) {
+                encoded.add(encodeObject(Array.get(value, i)));
+            }
 
-			return new JSONArray(encoded);
-		}
+            return new JSONArray(encoded);
+        }
 
-		if (targetType.isEnum()) {
-			return value.toString();
-		}
+        if (targetType.isEnum()) {
+            return value.toString();
+        }
 
-		return encodeJsonObject(value);
-	}
+        return encodeJsonObject(value);
+    }
 
-	public static <T> T decode(String json, Class<T> cls) throws JsonDecoderException {
-		try {
-			//noinspection unchecked
-			return (T) decode(new JSONObject(json), cls);
-		} catch (JSONException e) {
-			throw new JsonDecoderException(e);
-		}
-	}
+    public static <T> T decode(String json, Class<T> cls) throws JsonDecoderException {
+        try {
+            //noinspection unchecked
+            return (T) decode(new JSONObject(json), cls);
+        } catch (JSONException e) {
+            throw new JsonDecoderException(e);
+        }
+    }
 
-	private static Object decode(JSONObject json, Class<?> cls) {
-		// create instance
-		Object instance = ClassUtils.newInstance(cls);
+    private static Object decode(JSONObject json, Class<?> cls) {
+        // create instance
+        Object instance = ClassUtils.newInstance(cls);
 
-		// decode fields
-		List<Field> fields = ClassUtils.listFields(cls, FIELD_FILTER);
-		for (Field field : fields) {
-			final String name = getName(field);
-			final Object value = json.opt(name);
+        // decode fields
+        List<Field> fields = ClassUtils.listFields(cls, FIELD_FILTER);
+        for (Field field : fields) {
+            final String name = getName(field);
+            final Object value = json.opt(name);
 
-			// check required
-			if (value == null && isRequired(field)) {
-				throw new JsonDecoderException("Missing required field: " + name);
-			}
+            // check required
+            if (value == null && isRequired(field)) {
+                throw new JsonDecoderException("Missing required field: " + name);
+            }
 
-			// decode value
-			Object fieldValue = decode(value, field.getType());
-			if (fieldValue != DEFAULT) {
-				ClassUtils.setFieldValue(instance, field, fieldValue);
-			}
-		}
-		return instance;
-	}
+            // decode value
+            Object fieldValue = decode(value, field.getType());
+            if (fieldValue != DEFAULT) {
+                ClassUtils.setFieldValue(instance, field, fieldValue);
+            }
+        }
+        return instance;
+    }
 
-	private static Object decode(JSONArray json, Class<?> targetType) {
-		Class<?> targetComponentType = targetType.getComponentType();
+    private static Object decode(JSONArray json, Class<?> targetType) {
+        Class<?> targetComponentType = targetType.getComponentType();
 
-		int length = json.length();
-		Object array = Array.newInstance(targetComponentType, length);
-		for (int i = 0; i < length; ++i) {
-			try {
-				Array.set(array, i, decode(json.get(i), targetComponentType));
-			} catch (JSONException e) {
-				throw new JsonDecoderException(e);
-			}
-		}
+        int length = json.length();
+        Object array = Array.newInstance(targetComponentType, length);
+        for (int i = 0; i < length; ++i) {
+            try {
+                Array.set(array, i, decode(json.get(i), targetComponentType));
+            } catch (JSONException e) {
+                throw new JsonDecoderException(e);
+            }
+        }
 
-		return array;
-	}
+        return array;
+    }
 
-	/**
-	 * Transforms value from a decoded json into a target type.
-	 */
-	private static Object decode(Object jsonValue, Class<?> targetType) {
-		if (targetType == String.class) {
-			return jsonValue;
-		}
+    /**
+     * Transforms value from a decoded json into a target type.
+     */
+    private static Object decode(Object jsonValue, Class<?> targetType) {
+        if (targetType == String.class) {
+            return jsonValue;
+        }
 
-		if (targetType.isPrimitive()) {
-			// if value is missing - use default
-			if (jsonValue == null) {
-				return DEFAULT;
-			}
+        if (targetType.isPrimitive()) {
+            // if value is missing - use default
+            if (jsonValue == null) {
+                return DEFAULT;
+            }
 
-			// we need to do explicit down casts here
-			if (targetType == float.class && jsonValue.getClass() == Double.class) {
-				return ((Double) jsonValue).floatValue();
-			}
+            // we need to do explicit down casts here
+            if (targetType == float.class && jsonValue.getClass() == Double.class) {
+                return ((Double) jsonValue).floatValue();
+            }
 
-			return jsonValue;
-		}
+            return jsonValue;
+        }
 
-		if (jsonValue == null) {
-			return null;
-		}
+        if (jsonValue == null) {
+            return null;
+        }
 
-		if (targetType.isArray()) {
-			// json should also contain the array
-			JSONArray jsonArray = ObjectUtils.as(jsonValue, JSONArray.class);
-			if (jsonArray == null) {
-				throw new JsonDecoderException("Expected array but was: " + jsonValue.getClass());
-			}
+        if (targetType.isArray()) {
+            // json should also contain the array
+            JSONArray jsonArray = ObjectUtils.as(jsonValue, JSONArray.class);
+            if (jsonArray == null) {
+                throw new JsonDecoderException("Expected array but was: " + jsonValue.getClass());
+            }
 
-			return decode(jsonArray, targetType);
-		}
+            return decode(jsonArray, targetType);
+        }
 
-		if (jsonValue instanceof JSONObject) {
-			return decode((JSONObject) jsonValue, targetType);
-		}
+        if (jsonValue instanceof JSONObject) {
+            return decode((JSONObject) jsonValue, targetType);
+        }
 
-		if (targetType.isEnum()) {
-			if (jsonValue instanceof String) {
-				//noinspection unchecked
-				return Enum.valueOf((Class<? extends Enum>) targetType, (String) jsonValue);
-			}
+        if (targetType.isEnum()) {
+            if (jsonValue instanceof String) {
+                //noinspection unchecked
+                return Enum.valueOf((Class<? extends Enum>) targetType, (String) jsonValue);
+            }
 
-			if (jsonValue instanceof Integer) {
-				int ordinal = (Integer) jsonValue;
-				return ClassUtils.getEnumValue(targetType, ordinal);
-			}
+            if (jsonValue instanceof Integer) {
+                int ordinal = (Integer) jsonValue;
+                return ClassUtils.getEnumValue(targetType, ordinal);
+            }
 
-			throw new NotImplementedException("Invalid enum value: " + jsonValue);
-		}
+            throw new NotImplementedException("Invalid enum value: " + jsonValue);
+        }
 
-		throw new NotImplementedException("Type not supported: " + targetType);
-	}
+        throw new NotImplementedException("Type not supported: " + targetType);
+    }
 
-	private static String getName(Field field) {
-		Rename rename = field.getAnnotation(Rename.class);
-		return rename != null ? rename.value() : field.getName();
-	}
+    private static String getName(Field field) {
+        Rename rename = field.getAnnotation(Rename.class);
+        return rename != null ? rename.value() : field.getName();
+    }
 
-	private static boolean isRequired(Field field) {
-		return field.getAnnotation(Required.class) != null;
-	}
-
-	private static final ClassUtils.FieldFilter FIELD_FILTER = new ClassUtils.FieldFilter() {
-		@Override public boolean accept(Field field) {
-			return !ClassUtils.isStatic(field) && !ClassUtils.isFinal(field);
-		}
-	};
+    private static boolean isRequired(Field field) {
+        return field.getAnnotation(Required.class) != null;
+    }
 }

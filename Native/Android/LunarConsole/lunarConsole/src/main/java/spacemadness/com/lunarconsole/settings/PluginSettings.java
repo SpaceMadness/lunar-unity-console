@@ -30,87 +30,97 @@ import spacemadness.com.lunarconsole.json.Required;
  * Global settings from Unity editor.
  */
 public final class PluginSettings {
-	/**
-	 * Exception warning settings.
-	 */
-	public @Required ExceptionWarningSettings exceptionWarning;
+    /**
+     * Exception warning settings.
+     */
+    public @Required
+    ExceptionWarningSettings exceptionWarning;
 
-	/**
-	 * Log overlay settings
-	 */
-	public @Required @ProOnly LogOverlaySettings logOverlay;
+    /**
+     * Log overlay settings
+     */
+    public @Required
+    @ProOnly
+    LogOverlaySettings logOverlay;
 
-	/**
-	 * Log output would not grow bigger than this capacity.
-	 */
-	public @Required @Readonly int capacity;
+    /**
+     * Log output would not grow bigger than this capacity.
+     */
+    public @Required
+    @Readonly
+    int capacity;
 
-	/**
-	 * Log output will be trimmed this many lines when overflown.
-	 */
-	public @Required @Readonly int trim;
+    /**
+     * Log output will be trimmed this many lines when overflown.
+     */
+    public @Required
+    @Readonly
+    int trim;
 
-	/**
-	 * Gesture type to open the console.
-	 */
-	public @Required @Readonly Gesture gesture;
+    /**
+     * Gesture type to open the console.
+     */
+    public @Required
+    @Readonly
+    Gesture gesture;
 
-	/**
-	 * Indicates if reach text tags should be ignored.
-	 */
-	public boolean richTextTags;
+    /**
+     * Indicates if reach text tags should be ignored.
+     */
+    public boolean richTextTags;
 
-	/**
-	 * Indicates if actions should be sorted.
-	 */
-	public boolean sortActions;
+    /**
+     * Indicates if actions should be sorted.
+     */
+    public boolean sortActions;
 
-	/**
-	 * Indicates if variables should be sorted.
-	 */
-	public boolean sortVariables;
+    /**
+     * Indicates if variables should be sorted.
+     */
+    public boolean sortVariables;
 
-	/**
-	 * Optional list of the email recipients for sending a report.
-	 */
-	public @Readonly String[] emails;
+    /**
+     * Optional list of the email recipients for sending a report.
+     */
+    public @Readonly
+    String[] emails;
 
-	//region Equality
+    //region Equality
 
-	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-		PluginSettings settings = (PluginSettings) o;
+        PluginSettings settings = (PluginSettings) o;
 
-		if (capacity != settings.capacity) return false;
-		if (trim != settings.trim) return false;
-		if (richTextTags != settings.richTextTags) return false;
-		if (sortActions != settings.sortActions) return false;
-		if (sortVariables != settings.sortVariables) return false;
-		if (exceptionWarning != null ? !exceptionWarning.equals(settings.exceptionWarning) : settings.exceptionWarning != null)
-			return false;
-		if (logOverlay != null ? !logOverlay.equals(settings.logOverlay) : settings.logOverlay != null)
-			return false;
-		if (gesture != settings.gesture) return false;
-		// Probably incorrect - comparing Object[] arrays with Arrays.equals
-		return Arrays.equals(emails, settings.emails);
-	}
+        if (capacity != settings.capacity) return false;
+        if (trim != settings.trim) return false;
+        if (richTextTags != settings.richTextTags) return false;
+        if (sortActions != settings.sortActions) return false;
+        if (sortVariables != settings.sortVariables) return false;
+        if (exceptionWarning != null ? !exceptionWarning.equals(settings.exceptionWarning) : settings.exceptionWarning != null)
+            return false;
+        if (logOverlay != null ? !logOverlay.equals(settings.logOverlay) : settings.logOverlay != null)
+            return false;
+        if (gesture != settings.gesture) return false;
+        // Probably incorrect - comparing Object[] arrays with Arrays.equals
+        return Arrays.equals(emails, settings.emails);
+    }
 
-	@Override
-	public int hashCode() {
-		int result = exceptionWarning != null ? exceptionWarning.hashCode() : 0;
-		result = 31 * result + (logOverlay != null ? logOverlay.hashCode() : 0);
-		result = 31 * result + capacity;
-		result = 31 * result + trim;
-		result = 31 * result + (gesture != null ? gesture.hashCode() : 0);
-		result = 31 * result + (richTextTags ? 1 : 0);
-		result = 31 * result + (sortActions ? 1 : 0);
-		result = 31 * result + (sortVariables ? 1 : 0);
-		result = 31 * result + Arrays.hashCode(emails);
-		return result;
-	}
+    @Override
+    public int hashCode() {
+        int result = exceptionWarning != null ? exceptionWarning.hashCode() : 0;
+        result = 31 * result + (logOverlay != null ? logOverlay.hashCode() : 0);
+        result = 31 * result + capacity;
+        result = 31 * result + trim;
+        result = 31 * result + (gesture != null ? gesture.hashCode() : 0);
+        result = 31 * result + (richTextTags ? 1 : 0);
+        result = 31 * result + (sortActions ? 1 : 0);
+        result = 31 * result + (sortVariables ? 1 : 0);
+        result = 31 * result + Arrays.hashCode(emails);
+        return result;
+    }
 
-	//endregion
+    //endregion
 }

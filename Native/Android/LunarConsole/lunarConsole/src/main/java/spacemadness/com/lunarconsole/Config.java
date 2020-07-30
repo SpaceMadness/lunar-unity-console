@@ -22,7 +22,6 @@
 
 package spacemadness.com.lunarconsole;
 
-public class Config
-{
+public class Config {
     public static boolean DEBUG = false;
 }

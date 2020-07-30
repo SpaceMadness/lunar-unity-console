@@ -22,10 +22,7 @@
 
 package spacemadness.com.lunarconsole.ui;
 
-import android.annotation.TargetApi;
 import android.content.Context;
-import android.os.Build;
-import android.util.AttributeSet;
 import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -39,8 +36,7 @@ import spacemadness.com.lunarconsole.core.Destroyable;
 import spacemadness.com.lunarconsole.utils.Margins;
 import spacemadness.com.lunarconsole.utils.MathUtils;
 
-public class MoveResizeView extends LinearLayout implements Destroyable
-{
+public class MoveResizeView extends LinearLayout implements Destroyable {
     private static final int OPERATION_NONE = 0;
     private static final int OPERATION_MOVE = 1 << 0;
     private static final int OPERATION_RESIZE_TOP = 1 << 1;
@@ -50,21 +46,19 @@ public class MoveResizeView extends LinearLayout implements Destroyable
     private static final int OPERATION_RESIZE_TOP_LEFT = OPERATION_RESIZE_TOP | OPERATION_RESIZE_LEFT;
     private static final int OPERATION_RESIZE_TOP_RIGHT = OPERATION_RESIZE_TOP | OPERATION_RESIZE_RIGHT;
     private static final int OPERATION_RESIZE_BOTTOM_LEFT = OPERATION_RESIZE_BOTTOM | OPERATION_RESIZE_LEFT;
-
+    private final Margins margins;
     private int operation;
     private int minWidth;
     private int minHeight;
     private float lastX;
     private float lastY;
     private OnCloseListener closeListener;
-
-    /** The target layout for resizing */
+    /**
+     * The target layout for resizing
+     */
     private RelativeLayout targetView;
 
-    private final Margins margins;
-
-    public MoveResizeView(Context context, Margins margins)
-    {
+    public MoveResizeView(Context context, Margins margins) {
         super(context);
 
         if (margins == null) {
@@ -83,13 +77,10 @@ public class MoveResizeView extends LinearLayout implements Destroyable
 
         // close button
         targetView.findViewById(R.id.lunar_console_resize_button_close)
-                .setOnClickListener(new OnClickListener()
-                {
+                .setOnClickListener(new OnClickListener() {
                     @Override
-                    public void onClick(View v)
-                    {
-                        if (closeListener != null)
-                        {
+                    public void onClick(View v) {
+                        if (closeListener != null) {
                             closeListener.onClose(MoveResizeView.this);
                         }
                     }
@@ -105,13 +96,10 @@ public class MoveResizeView extends LinearLayout implements Destroyable
         operationLookup.append(R.id.lunar_console_resize_bar_top_right, OPERATION_RESIZE_TOP_RIGHT);
         operationLookup.append(R.id.lunar_console_resize_bar_bottom_left, OPERATION_RESIZE_BOTTOM_LEFT);
 
-        OnTouchListener resizeHandleTouchListener = new OnTouchListener()
-        {
+        OnTouchListener resizeHandleTouchListener = new OnTouchListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event)
-            {
-                if (event.getAction() == MotionEvent.ACTION_DOWN)
-                {
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     operation = operationLookup.get(v.getId());
                 }
 
@@ -119,8 +107,7 @@ public class MoveResizeView extends LinearLayout implements Destroyable
             }
         };
 
-        for (int i = 0; i < operationLookup.size(); ++i)
-        {
+        for (int i = 0; i < operationLookup.size(); ++i) {
             int id = operationLookup.keyAt(i);
             targetView.findViewById(id).setOnTouchListener(resizeHandleTouchListener);
         }
@@ -130,16 +117,13 @@ public class MoveResizeView extends LinearLayout implements Destroyable
     // Touch events
 
     @Override
-    public boolean onTouchEvent(MotionEvent event)
-    {
-        switch (event.getAction())
-        {
+    public boolean onTouchEvent(MotionEvent event) {
+        switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 lastX = event.getX();
                 lastY = event.getY();
 
-                if (operation == OPERATION_NONE)
-                {
+                if (operation == OPERATION_NONE) {
                     operation = OPERATION_MOVE;
                 }
                 return true;
@@ -159,30 +143,22 @@ public class MoveResizeView extends LinearLayout implements Destroyable
         return false;
     }
 
-    protected boolean onPointerMove(int dx, int dy)
-    {
+    protected boolean onPointerMove(int dx, int dy) {
         final MarginLayoutParams layoutParams = getMarginLayoutParams();
         final ViewGroup parentGroup = (ViewGroup) targetView.getParent();
         final int width = parentGroup.getWidth();
         final int height = parentGroup.getHeight();
 
-        if (operation == OPERATION_MOVE)
-        {
-            if (dx > 0 && layoutParams.rightMargin - dx < margins.right)
-            {
+        if (operation == OPERATION_MOVE) {
+            if (dx > 0 && layoutParams.rightMargin - dx < margins.right) {
                 dx = layoutParams.rightMargin - margins.right;
-            }
-            else if (dx < 0 && layoutParams.leftMargin + dx < margins.left)
-            {
+            } else if (dx < 0 && layoutParams.leftMargin + dx < margins.left) {
                 dx = -layoutParams.leftMargin + margins.left;
             }
 
-            if (dy > 0 && layoutParams.bottomMargin - dy < margins.bottom)
-            {
+            if (dy > 0 && layoutParams.bottomMargin - dy < margins.bottom) {
                 dy = layoutParams.bottomMargin - margins.bottom;
-            }
-            else if (dy < 0 && layoutParams.topMargin + dy < margins.top)
-            {
+            } else if (dy < 0 && layoutParams.topMargin + dy < margins.top) {
                 dy = -layoutParams.topMargin + margins.top;
             }
 
@@ -190,24 +166,16 @@ public class MoveResizeView extends LinearLayout implements Destroyable
             layoutParams.rightMargin -= dx;
             layoutParams.topMargin += dy;
             layoutParams.bottomMargin -= dy;
-        }
-        else
-        {
-            if ((operation & OPERATION_RESIZE_TOP) != 0)
-            {
+        } else {
+            if ((operation & OPERATION_RESIZE_TOP) != 0) {
                 layoutParams.topMargin = MathUtils.clamp(layoutParams.topMargin + dy, margins.top, height - (minHeight + layoutParams.bottomMargin));
-            }
-            else if ((operation & OPERATION_RESIZE_BOTTOM) != 0)
-            {
+            } else if ((operation & OPERATION_RESIZE_BOTTOM) != 0) {
                 layoutParams.bottomMargin = MathUtils.clamp(layoutParams.bottomMargin - dy, margins.bottom, height - (minHeight + layoutParams.topMargin));
             }
 
-            if ((operation & OPERATION_RESIZE_LEFT) != 0)
-            {
+            if ((operation & OPERATION_RESIZE_LEFT) != 0) {
                 layoutParams.leftMargin = MathUtils.clamp(layoutParams.leftMargin + dx, margins.left, width - (minWidth + layoutParams.rightMargin));
-            }
-            else if ((operation & OPERATION_RESIZE_RIGHT) != 0)
-            {
+            } else if ((operation & OPERATION_RESIZE_RIGHT) != 0) {
                 layoutParams.rightMargin = MathUtils.clamp(layoutParams.rightMargin - dx, margins.right, width - (minWidth + layoutParams.leftMargin));
             }
         }
@@ -221,45 +189,37 @@ public class MoveResizeView extends LinearLayout implements Destroyable
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Layout margins
 
-    public void setMargins(int left, int top, int right, int bottom)
-    {
+    public void setMargins(int left, int top, int right, int bottom) {
         final MarginLayoutParams layoutParams = (MarginLayoutParams) targetView.getLayoutParams();
         layoutParams.setMargins(left, top, right, bottom);
         targetView.invalidate();
     }
 
-    public int getTopMargin()
-    {
+    public int getTopMargin() {
         return getMarginLayoutParams().topMargin;
     }
 
-    public int getBottomMargin()
-    {
+    public int getBottomMargin() {
         return getMarginLayoutParams().bottomMargin;
     }
 
-    public int getLeftMargin()
-    {
+    public int getLeftMargin() {
         return getMarginLayoutParams().leftMargin;
     }
 
-    public int getRightMargin()
-    {
+    public int getRightMargin() {
         return getMarginLayoutParams().rightMargin;
     }
 
-    private MarginLayoutParams getMarginLayoutParams()
-    {
+    private MarginLayoutParams getMarginLayoutParams() {
         return (MarginLayoutParams) targetView.getLayoutParams();
     }
 
-    public OnCloseListener getOnCloseListener()
-    {
+    public OnCloseListener getOnCloseListener() {
         return closeListener;
     }
 
-    public void setOnCloseListener(OnCloseListener closeListener)
-    {
+    public void setOnCloseListener(OnCloseListener closeListener) {
         this.closeListener = closeListener;
     }
 
@@ -267,15 +227,13 @@ public class MoveResizeView extends LinearLayout implements Destroyable
     // Destroyable
 
     @Override
-    public void destroy()
-    {
+    public void destroy() {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////
     // Listener
 
-    public interface OnCloseListener
-    {
+    public interface OnCloseListener {
         void onClose(MoveResizeView view);
     }
 }

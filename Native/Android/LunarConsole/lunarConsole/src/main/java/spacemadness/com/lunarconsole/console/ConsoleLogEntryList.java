@@ -25,43 +25,69 @@ package spacemadness.com.lunarconsole.console;
 import spacemadness.com.lunarconsole.debug.Assert;
 import spacemadness.com.lunarconsole.utils.ConsoleLogEntryLookupTable;
 
-import static spacemadness.com.lunarconsole.utils.ObjectUtils.*;
-import static spacemadness.com.lunarconsole.utils.StringUtils.*;
-import static spacemadness.com.lunarconsole.console.ConsoleLogType.*;
+import static spacemadness.com.lunarconsole.console.ConsoleLogType.LOG;
+import static spacemadness.com.lunarconsole.console.ConsoleLogType.WARNING;
+import static spacemadness.com.lunarconsole.console.ConsoleLogType.getMask;
+import static spacemadness.com.lunarconsole.console.ConsoleLogType.isErrorType;
+import static spacemadness.com.lunarconsole.utils.ObjectUtils.areEqual;
+import static spacemadness.com.lunarconsole.utils.ObjectUtils.as;
+import static spacemadness.com.lunarconsole.utils.StringUtils.containsIgnoreCase;
+import static spacemadness.com.lunarconsole.utils.StringUtils.hasPrefix;
+import static spacemadness.com.lunarconsole.utils.StringUtils.length;
 
-/** A class which represents a console entry list.
+/**
+ * A class which represents a console entry list.
  * Supports collapsing similar items and filtering by text and log type.
  */
-public class ConsoleLogEntryList
-{
-    /** Stores all entries */
+public class ConsoleLogEntryList {
+    /**
+     * Stores all entries
+     */
     private final LimitSizeEntryList entries;
 
-    /** Stores only filtered entries */
+    /**
+     * Stores only filtered entries
+     */
     private LimitSizeEntryList filteredEntries;
 
-    /** Holds a reference to current entries list */
+    /**
+     * Holds a reference to current entries list
+     */
     private LimitSizeEntryList currentEntries;
 
-    /** Current filtering text (can be null) */
+    /**
+     * Current filtering text (can be null)
+     */
     private String filterText;
 
-    /** Lookup table for collapsed entries (or null is entries are not collapsed) */
+    /**
+     * Lookup table for collapsed entries (or null is entries are not collapsed)
+     */
     private ConsoleLogEntryLookupTable entryLookup;
 
-    /** Holds disabled log entries types bit mask */
+    /**
+     * Holds disabled log entries types bit mask
+     */
     private int logDisabledTypesMask;
 
-    /** Total count of 'plain' log messages */
+    /**
+     * Total count of 'plain' log messages
+     */
     private int logCount;
 
-    /** Total count of 'warning' log messages */
+    /**
+     * Total count of 'warning' log messages
+     */
     private int warningCount;
 
-    /** Total count of 'error' log messages */
+    /**
+     * Total count of 'error' log messages
+     */
     private int errorCount;
 
-    /** True if similar entries are collapsed */
+    /**
+     * True if similar entries are collapsed
+     */
     private boolean collapsed;
 
     /**
@@ -70,8 +96,7 @@ public class ConsoleLogEntryList
      * @param capacity the maximum amount of entries this list can store
      * @param trimSize the number of items trimmed when list overflows
      */
-    public ConsoleLogEntryList(int capacity, int trimSize)
-    {
+    public ConsoleLogEntryList(int capacity, int trimSize) {
         entries = new LimitSizeEntryList(capacity, trimSize);
         currentEntries = entries;
         logDisabledTypesMask = 0;
@@ -80,21 +105,17 @@ public class ConsoleLogEntryList
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Entries
 
-    /** Adds a new entry object */
-    public int addEntry(ConsoleLogEntry entry)
-    {
+    /**
+     * Adds a new entry object
+     */
+    public int addEntry(ConsoleLogEntry entry) {
         // count types
         int entryType = entry.type;
-        if (entryType == LOG)
-        {
+        if (entryType == LOG) {
             ++logCount;
-        }
-        else if (entryType == WARNING)
-        {
+        } else if (entryType == WARNING) {
             ++warningCount;
-        }
-        else if (isErrorType(entryType))
-        {
+        } else if (isErrorType(entryType)) {
             ++errorCount;
         }
 
@@ -102,12 +123,9 @@ public class ConsoleLogEntryList
         entries.addObject(entry);
 
         // filter entry
-        if (isFiltering())
-        {
-            if (filterEntry(entry))
-            {
-                if (collapsed)
-                {
+        if (isFiltering()) {
+            if (filterEntry(entry)) {
+                if (collapsed) {
                     ConsoleCollapsedLogEntry collapsedEntry = entryLookup.addEntry(entry);
                     if (collapsedEntry.index < filteredEntries.trimmedCount()) // first encounter or trimmed?
                     {
@@ -128,30 +146,31 @@ public class ConsoleLogEntryList
         return entries.totalCount() - 1; // entry was added at the end of the list
     }
 
-    /** Returns entry at index */
-    public ConsoleLogEntry getEntry(int index)
-    {
+    /**
+     * Returns entry at index
+     */
+    public ConsoleLogEntry getEntry(int index) {
         return currentEntries.objectAtIndex(index);
     }
 
-    /** Return collapsed entry at index or null if entry is not collapsed */
-    public ConsoleCollapsedLogEntry getCollapsedEntry(int index)
-    {
+    /**
+     * Return collapsed entry at index or null if entry is not collapsed
+     */
+    public ConsoleCollapsedLogEntry getCollapsedEntry(int index) {
         return as(getEntry(index), ConsoleCollapsedLogEntry.class);
     }
 
-    /** Removes all entries from the list */
-    public void clear()
-    {
+    /**
+     * Removes all entries from the list
+     */
+    public void clear() {
         entries.clear();
 
-        if (filteredEntries != null)
-        {
+        if (filteredEntries != null) {
             filteredEntries.clear();
         }
 
-        if (entryLookup != null)
-        {
+        if (entryLookup != null) {
             entryLookup.clear();
         }
 
@@ -163,13 +182,13 @@ public class ConsoleLogEntryList
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Filtering
 
-    /** Sets a text-based filtering
+    /**
+     * Sets a text-based filtering
      *
      * @param text a new text to filter or "" to remove the text filter
      * @return true if list was changed
      */
-    public boolean setFilterByText(String text)
-    {
+    public boolean setFilterByText(String text) {
         if (!areEqual(filterText, text)) // filter text has changed
         {
             String oldFilterText = filterText;
@@ -189,12 +208,11 @@ public class ConsoleLogEntryList
     /**
      * Sets log type based filtering
      *
-     * @param logType the target log type
+     * @param logType  the target log type
      * @param disabled true if log type should be disabled
      * @return true if list was changed
      */
-    public boolean setFilterByLogType(int logType, boolean disabled)
-    {
+    public boolean setFilterByLogType(int logType, boolean disabled) {
         return setFilterByLogTypeMask(getMask(logType), disabled);
     }
 
@@ -202,23 +220,18 @@ public class ConsoleLogEntryList
      * Sets log type based filtering
      *
      * @param logTypeMask the target log type mask
-     * @param disabled true if log type mask should be disabled
+     * @param disabled    true if log type mask should be disabled
      * @return true if list was changed
      */
-    public boolean setFilterByLogTypeMask(int logTypeMask, boolean disabled)
-    {
+    public boolean setFilterByLogTypeMask(int logTypeMask, boolean disabled) {
         int oldDisabledTypesMask = logDisabledTypesMask;
-        if (disabled)
-        {
+        if (disabled) {
             logDisabledTypesMask |= logTypeMask;
-        }
-        else
-        {
+        } else {
             logDisabledTypesMask &= ~logTypeMask;
         }
 
-        if (oldDisabledTypesMask != logDisabledTypesMask)
-        {
+        if (oldDisabledTypesMask != logDisabledTypesMask) {
             return disabled ? appendFilter() : applyFilter();
         }
 
@@ -231,19 +244,17 @@ public class ConsoleLogEntryList
      * @param type the target log type
      * @return true if log type is enabled
      */
-    public boolean isFilterLogTypeEnabled(int type)
-    {
+    public boolean isFilterLogTypeEnabled(int type) {
         return (logDisabledTypesMask & getMask(type)) == 0;
     }
 
     /**
      * Appends new filter to already filtered items
+     *
      * @return true if list was changed
      */
-    private boolean appendFilter()
-    {
-        if (isFiltering())
-        {
+    private boolean appendFilter() {
+        if (isFiltering()) {
             useFilteredFromEntries(filteredEntries);
             return true;
         }
@@ -253,15 +264,13 @@ public class ConsoleLogEntryList
 
     /**
      * Replaces or removes the current filter
+     *
      * @return true if list was changed
      */
-    private boolean applyFilter()
-    {
+    private boolean applyFilter() {
         boolean needsFiltering = collapsed || length(filterText) > 0 || hasLogTypeFilters(); // needs filtering?
-        if (needsFiltering)
-        {
-            if (entryLookup != null)
-            {
+        if (needsFiltering) {
+            if (entryLookup != null) {
                 entryLookup.clear(); // if we have collapsed items - we need to rebuild the lookup
             }
 
@@ -274,12 +283,11 @@ public class ConsoleLogEntryList
 
     /**
      * Returns current filter
+     *
      * @return true if filter was removed
      */
-    private boolean removeFilter()
-    {
-        if (isFiltering())
-        {
+    private boolean removeFilter() {
+        if (isFiltering()) {
             currentEntries = entries;
             filteredEntries = null;
 
@@ -294,8 +302,7 @@ public class ConsoleLogEntryList
      *
      * @param entries entries to filter
      */
-    private void useFilteredFromEntries(LimitSizeEntryList entries)
-    {
+    private void useFilteredFromEntries(LimitSizeEntryList entries) {
         LimitSizeEntryList filteredEntries = filterEntries(entries);
 
         // use filtered items
@@ -307,28 +314,22 @@ public class ConsoleLogEntryList
 
     /**
      * Creates new list based by applying current filter to entries
+     *
      * @param entries entries to filter
      * @return new list
      */
-    private LimitSizeEntryList filterEntries(LimitSizeEntryList entries)
-    {
+    private LimitSizeEntryList filterEntries(LimitSizeEntryList entries) {
         LimitSizeEntryList list = new LimitSizeEntryList(entries.capacity(), entries.getTrimSize()); // same as original list
 
-        if (collapsed)
-        {
-            for (ConsoleLogEntry entry : entries)
-            {
-                if (filterEntry(entry))
-                {
+        if (collapsed) {
+            for (ConsoleLogEntry entry : entries) {
+                if (filterEntry(entry)) {
                     ConsoleCollapsedLogEntry collapsedEntry = as(entry, ConsoleCollapsedLogEntry.class);
-                    if (collapsedEntry != null)
-                    {
+                    if (collapsedEntry != null) {
                         collapsedEntry.index = list.totalCount(); // update item's position
                         list.addObject(collapsedEntry);
-                    }
-                    else
-                    {
-                        collapsedEntry= entryLookup.addEntry(entry);
+                    } else {
+                        collapsedEntry = entryLookup.addEntry(entry);
                         if (collapsedEntry.count == 1) // first encounter
                         {
                             collapsedEntry.index = list.totalCount();
@@ -337,13 +338,9 @@ public class ConsoleLogEntryList
                     }
                 }
             }
-        }
-        else
-        {
-            for (ConsoleLogEntry entry : entries)
-            {
-                if (filterEntry(entry))
-                {
+        } else {
+            for (ConsoleLogEntry entry : entries) {
+                if (filterEntry(entry)) {
                     list.addObject(entry);
                 }
             }
@@ -354,14 +351,13 @@ public class ConsoleLogEntryList
 
     /**
      * Checks if entry passes the current filter
+     *
      * @param entry entry to check
      * @return true if entry passes the filter
      */
-    private boolean filterEntry(ConsoleLogEntry entry)
-    {
+    private boolean filterEntry(ConsoleLogEntry entry) {
         // filter by log type
-        if ((logDisabledTypesMask & getMask(entry.type)) != 0)
-        {
+        if ((logDisabledTypesMask & getMask(entry.type)) != 0) {
             return false;
         }
 
@@ -371,10 +367,10 @@ public class ConsoleLogEntryList
 
     /**
      * Check if list is filtering by log type mask
+     *
      * @return true if list is filtering by log type mask
      */
-    private boolean hasLogTypeFilters()
-    {
+    private boolean hasLogTypeFilters() {
         return logDisabledTypesMask != 0;
     }
 
@@ -384,23 +380,19 @@ public class ConsoleLogEntryList
     /**
      * Concatenates every message from all the entries into a single string
      */
-    public String getText()
-    {
+    public String getText() {
         StringBuilder text = new StringBuilder();
 
         int index = 0;
         int count = currentEntries.count();
-        for (ConsoleLogEntry entry : currentEntries)
-        {
+        for (ConsoleLogEntry entry : currentEntries) {
             text.append(entry.message);
-            if (entry.type == ConsoleLogType.EXCEPTION && entry.hasStackTrace())
-            {
+            if (entry.type == ConsoleLogType.EXCEPTION && entry.hasStackTrace()) {
                 text.append('\n');
                 text.append(entry.stackTrace);
             }
 
-            if (++index < count)
-            {
+            if (++index < count) {
                 text.append('\n');
             }
         }
@@ -413,18 +405,16 @@ public class ConsoleLogEntryList
 
     /**
      * Sets the boolean flag controlling similar entries collapse
+     *
      * @param collapsed <code>true</code> if similar entries should collapse
      */
     public void collapsed(boolean collapsed) // FIXME: java naming conventions
     {
         this.collapsed = collapsed;
-        if (collapsed)
-        {
+        if (collapsed) {
             Assert.IsNull(entryLookup);
             entryLookup = new ConsoleLogEntryLookupTable();
-        }
-        else
-        {
+        } else {
             entryLookup = null;
         }
 
@@ -434,8 +424,7 @@ public class ConsoleLogEntryList
     /**
      * Returns true if similar entries are collapsed
      */
-    public boolean isCollapsed()
-    {
+    public boolean isCollapsed() {
         return collapsed;
     }
 
@@ -449,8 +438,7 @@ public class ConsoleLogEntryList
         return currentEntries.count();
     }
 
-    public int trimCount()
-    {
+    public int trimCount() {
         return currentEntries.getTrimSize();
     }
 
@@ -459,28 +447,23 @@ public class ConsoleLogEntryList
         return currentEntries.totalCount();
     }
 
-    public int getLogCount()
-    {
+    public int getLogCount() {
         return logCount;
     }
 
-    public int getWarningCount()
-    {
+    public int getWarningCount() {
         return warningCount;
     }
 
-    public int getErrorCount()
-    {
+    public int getErrorCount() {
         return errorCount;
     }
 
-    public String getFilterText()
-    {
+    public String getFilterText() {
         return filterText;
     }
 
-    public boolean isFiltering()
-    {
+    public boolean isFiltering() {
         return filteredEntries != null;
     }
 
@@ -489,28 +472,23 @@ public class ConsoleLogEntryList
         return currentEntries.overflowCount();
     }
 
-    public boolean isOverfloating()
-    {
+    public boolean isOverfloating() {
         return currentEntries.isOverfloating();
     }
 
-    public int trimmedCount()
-    {
+    public int trimmedCount() {
         return currentEntries.trimmedCount();
     }
 
-    public boolean isTrimmed()
-    {
+    public boolean isTrimmed() {
         return currentEntries.isTrimmed();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // LimitSizeEntryList
 
-    private static class LimitSizeEntryList extends LimitSizeList<ConsoleLogEntry>
-    {
-        public LimitSizeEntryList(int capacity, int trimSize)
-        {
+    private static class LimitSizeEntryList extends LimitSizeList<ConsoleLogEntry> {
+        public LimitSizeEntryList(int capacity, int trimSize) {
             super(ConsoleLogEntry.class, capacity, trimSize);
         }
     }

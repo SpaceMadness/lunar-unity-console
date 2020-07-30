@@ -24,10 +24,8 @@ package spacemadness.com.lunarconsole.utils;
 
 import junit.framework.TestCase;
 
-public class CycleArrayTest extends TestCase
-{
-    public void testAddElements()
-    {
+public class CycleArrayTest extends TestCase {
+    public void testAddElements() {
         CycleArray<String> array = new CycleArray<>(String.class, 3);
         array.add("1");
 
@@ -37,8 +35,7 @@ public class CycleArrayTest extends TestCase
         AssertArray(array, "1");
     }
 
-    public void testAddElements2()
-    {
+    public void testAddElements2() {
         CycleArray<String> array = new CycleArray<>(String.class, 3);
         array.add("1");
         array.add("2");
@@ -49,8 +46,7 @@ public class CycleArrayTest extends TestCase
         AssertArray(array, "1", "2");
     }
 
-    public void testAddElements3()
-    {
+    public void testAddElements3() {
         CycleArray<String> array = new CycleArray<>(String.class, 3);
         array.add("1");
         array.add("2");
@@ -62,8 +58,7 @@ public class CycleArrayTest extends TestCase
         AssertArray(array, "1", "2", "3");
     }
 
-    public void testAddElements4()
-    {
+    public void testAddElements4() {
         CycleArray<String> array = new CycleArray<>(String.class, 3);
         array.add("1");
         array.add("2");
@@ -76,8 +71,7 @@ public class CycleArrayTest extends TestCase
         AssertArray(array, "2", "3", "4");
     }
 
-    public void testAddElements5()
-    {
+    public void testAddElements5() {
         CycleArray<String> array = new CycleArray<>(String.class, 3);
         array.add("1");
         array.add("2");
@@ -91,8 +85,7 @@ public class CycleArrayTest extends TestCase
         AssertArray(array, "3", "4", "5");
     }
 
-    public void testAddElements6()
-    {
+    public void testAddElements6() {
         CycleArray<String> array = new CycleArray<>(String.class, 3);
         array.add("1");
         array.add("2");
@@ -107,8 +100,7 @@ public class CycleArrayTest extends TestCase
         AssertArray(array, "4", "5", "6");
     }
 
-    public void testAddElements7()
-    {
+    public void testAddElements7() {
         CycleArray<String> array = new CycleArray<>(String.class, 3);
         array.add("1");
         array.add("2");
@@ -124,8 +116,7 @@ public class CycleArrayTest extends TestCase
         AssertArray(array, "5", "6", "7");
     }
 
-    public void testAddElements8()
-    {
+    public void testAddElements8() {
         CycleArray<String> array = new CycleArray<>(String.class, 3);
         array.add("1");
         array.add("2");
@@ -142,8 +133,7 @@ public class CycleArrayTest extends TestCase
         AssertArray(array, "6", "7", "8");
     }
 
-    public void testAddElements9()
-    {
+    public void testAddElements9() {
         CycleArray<String> array = new CycleArray<>(String.class, 3);
         array.add("1");
         array.add("2");
@@ -161,8 +151,7 @@ public class CycleArrayTest extends TestCase
         AssertArray(array, "7", "8", "9");
     }
 
-    public void testGrowCapacity()
-    {
+    public void testGrowCapacity() {
         CycleArray<String> array = new CycleArray<>(String.class, 5);
         array.add("1");
         array.add("2");
@@ -176,8 +165,7 @@ public class CycleArrayTest extends TestCase
         AssertArray(array, "1", "2", "3");
     }
 
-    public void testGrowCapacityForAFullArray()
-    {
+    public void testGrowCapacityForAFullArray() {
         CycleArray<String> array = new CycleArray<>(String.class, 5);
         array.add("1");
         array.add("2");
@@ -193,8 +181,7 @@ public class CycleArrayTest extends TestCase
         AssertArray(array, "1", "2", "3", "4", "5");
     }
 
-    public void testGrowCapacityForOverflowedArrayWithOneExtraElement()
-    {
+    public void testGrowCapacityForOverflowedArrayWithOneExtraElement() {
         CycleArray<String> array = new CycleArray<>(String.class, 3);
         array.add("1");
         array.add("2");
@@ -209,8 +196,7 @@ public class CycleArrayTest extends TestCase
         AssertArray(array, "2", "3", "4");
     }
 
-    public void testGrowCapacityForOverflowedArrayWithTwoExtraElements()
-    {
+    public void testGrowCapacityForOverflowedArrayWithTwoExtraElements() {
         CycleArray<String> array = new CycleArray<>(String.class, 3);
         array.add("1");
         array.add("2");
@@ -226,8 +212,7 @@ public class CycleArrayTest extends TestCase
         AssertArray(array, "3", "4", "5");
     }
 
-    public void testGrowCapacityForOverflowedArrayWithThreeExtraElements()
-    {
+    public void testGrowCapacityForOverflowedArrayWithThreeExtraElements() {
         CycleArray<String> array = new CycleArray<>(String.class, 3);
         array.add("1");
         array.add("2");
@@ -244,8 +229,7 @@ public class CycleArrayTest extends TestCase
         AssertArray(array, "4", "5", "6");
     }
 
-    public void testGrowCapacityForOverflowedArrayWithFourExtraElements()
-    {
+    public void testGrowCapacityForOverflowedArrayWithFourExtraElements() {
         CycleArray<String> array = new CycleArray<>(String.class, 3);
         array.add("1");
         array.add("2");
@@ -263,8 +247,7 @@ public class CycleArrayTest extends TestCase
         AssertArray(array, "5", "6", "7");
     }
 
-    public void testGrowCapacityAndAddMoreElements()
-    {
+    public void testGrowCapacityAndAddMoreElements() {
         CycleArray<String> array = new CycleArray<>(String.class, 3);
         array.add("1");
         array.add("2");
@@ -289,16 +272,14 @@ public class CycleArrayTest extends TestCase
         AssertArray(array, "5", "6", "7", "8", "9");
     }
 
-    public void testGrowCapacityBiggerArray()
-    {
+    public void testGrowCapacityBiggerArray() {
         CycleArray<String> array = new CycleArray<>(String.class, 7);
-        for (int i = 1; i <= 7; ++i)
-        {
+        for (int i = 1; i <= 7; ++i) {
             array.add(Integer.toString(i));
         }
 
         array.setCapacity(9);
-        AssertArray(array, "1", "2","3", "4", "5", "6", "7");
+        AssertArray(array, "1", "2", "3", "4", "5", "6", "7");
 
         array.add("8");
         array.add("9");
@@ -306,14 +287,12 @@ public class CycleArrayTest extends TestCase
         assertEquals(9, array.getCapacity());
         assertEquals(9, array.length());
         assertEquals(9, array.realLength());
-        AssertArray(array, "1", "2","3", "4", "5", "6", "7", "8", "9");
+        AssertArray(array, "1", "2", "3", "4", "5", "6", "7", "8", "9");
     }
 
-    public void testGrowCapacityAndOverflowMultipleTimes()
-    {
+    public void testGrowCapacityAndOverflowMultipleTimes() {
         CycleArray<String> array = new CycleArray<>(String.class, 3);
-        for (int i = 0; i < 10; ++i)
-        {
+        for (int i = 0; i < 10; ++i) {
             array.add(Integer.toString(i + 1));
         }
 
@@ -329,8 +308,7 @@ public class CycleArrayTest extends TestCase
         AssertArray(array, "8", "9", "10", "11", "12");
     }
 
-    public void testTrimLength()
-    {
+    public void testTrimLength() {
         CycleArray<String> array = new CycleArray<>(String.class, 5);
         array.add("1");
         array.add("2");
@@ -397,8 +375,7 @@ public class CycleArrayTest extends TestCase
         assertEquals(5, array.realLength());
     }
 
-    public void testTrimHeadIndex()
-    {
+    public void testTrimHeadIndex() {
         CycleArray<String> array = new CycleArray<>(String.class, 5);
         array.add("1");
         array.add("2");
@@ -465,8 +442,7 @@ public class CycleArrayTest extends TestCase
         assertEquals(5, array.realLength());
     }
 
-    public void testContains() throws Exception
-    {
+    public void testContains() throws Exception {
         CycleArray<String> array = new CycleArray<>(String.class, 3);
         array.add("1");
         array.add("2");
@@ -507,8 +483,7 @@ public class CycleArrayTest extends TestCase
         assertTrue(array.contains("7"));
     }
 
-    public void testRemovedItem() throws Exception
-    {
+    public void testRemovedItem() throws Exception {
         CycleArray<String> array = new CycleArray<>(String.class, 3);
 
         assertNull(array.add("1"));
@@ -524,8 +499,7 @@ public class CycleArrayTest extends TestCase
         assertEquals("6", array.add("9"));
     }
 
-    public void testIterator() throws Exception
-    {
+    public void testIterator() throws Exception {
         CycleArray<String> array = new CycleArray<>(String.class, 3);
 
         array.add("1");
@@ -546,20 +520,16 @@ public class CycleArrayTest extends TestCase
         assertArrayIterator(array, "5", "6", "7");
     }
 
-    private <T> void AssertArray(CycleArray<T> actual, T... expected)
-    {
+    private <T> void AssertArray(CycleArray<T> actual, T... expected) {
         assertEquals(expected.length, actual.realLength());
-        for (int i = 0, j = actual.getHeadIndex(); i < expected.length; ++i, ++j)
-        {
+        for (int i = 0, j = actual.getHeadIndex(); i < expected.length; ++i, ++j) {
             assertEquals(expected[i], actual.get(j));
         }
     }
 
-    private <T> void assertArrayIterator(CycleArray<T> actual, T... expected)
-    {
+    private <T> void assertArrayIterator(CycleArray<T> actual, T... expected) {
         int index = 0;
-        for (T e : actual)
-        {
+        for (T e : actual) {
             assertEquals(expected[index++], e);
         }
         assertEquals(expected.length, index);

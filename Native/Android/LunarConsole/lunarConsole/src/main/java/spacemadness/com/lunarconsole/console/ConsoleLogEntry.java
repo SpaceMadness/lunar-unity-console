@@ -32,7 +32,12 @@ import android.widget.TextView;
 import spacemadness.com.lunarconsole.R;
 import spacemadness.com.lunarconsole.utils.ObjectUtils;
 
-import static spacemadness.com.lunarconsole.console.ConsoleLogType.*;
+import static spacemadness.com.lunarconsole.console.ConsoleLogType.ASSERT;
+import static spacemadness.com.lunarconsole.console.ConsoleLogType.COUNT;
+import static spacemadness.com.lunarconsole.console.ConsoleLogType.ERROR;
+import static spacemadness.com.lunarconsole.console.ConsoleLogType.EXCEPTION;
+import static spacemadness.com.lunarconsole.console.ConsoleLogType.LOG;
+import static spacemadness.com.lunarconsole.console.ConsoleLogType.WARNING;
 
 /**
  * Class for representing console log messages
@@ -52,11 +57,11 @@ public class ConsoleLogEntry extends BaseEntry {
         LOG_ENTRY_ICON_RES_LOOKUP[EXCEPTION] = APPEARANCE_LOG_ERROR;
     }
 
-    public int index;
     public final byte type;
     public final String message;
-    final /* Nullable */ Spanned spannedMessage;
     public final String stackTrace;
+    final /* Nullable */ Spanned spannedMessage;
+    public int index;
 
     /**
      * For testing purposes
@@ -80,8 +85,12 @@ public class ConsoleLogEntry extends BaseEntry {
         this.stackTrace = stackTrace;
     }
 
-    public CharSequence getMessage()
-    {
+    static Appearance getAppearance(int type) {
+        return type >= 0 && type < LOG_ENTRY_ICON_RES_LOOKUP.length ?
+                LOG_ENTRY_ICON_RES_LOOKUP[type] : APPEARANCE_LOG;
+    }
+
+    public CharSequence getMessage() {
         return spannedMessage != null ? spannedMessage : message;
     }
 
@@ -106,11 +115,6 @@ public class ConsoleLogEntry extends BaseEntry {
 
     public boolean hasStackTrace() {
         return stackTrace != null && stackTrace.length() > 0;
-    }
-
-    static Appearance getAppearance(int type) {
-        return type >= 0 && type < LOG_ENTRY_ICON_RES_LOOKUP.length ?
-                LOG_ENTRY_ICON_RES_LOOKUP[type] : APPEARANCE_LOG;
     }
 
     //////////////////////////////////////////////////////////////////////////////

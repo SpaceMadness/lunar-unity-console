@@ -25,9 +25,9 @@ package spacemadness.com.lunarconsole.dependency;
 import spacemadness.com.lunarconsole.concurrent.DispatchQueue;
 
 public interface DispatchQueueProvider extends ProviderDependency {
-	DispatchQueue createMainQueue();
+    DispatchQueue createMainQueue();
 
-	DispatchQueue createSerialQueue(String name);
+    DispatchQueue createSerialQueue(String name);
 
-	boolean isMainQueue();
+    boolean isMainQueue();
 }

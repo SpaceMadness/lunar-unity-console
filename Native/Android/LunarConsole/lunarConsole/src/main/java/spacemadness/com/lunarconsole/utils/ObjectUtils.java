@@ -26,50 +26,50 @@ package spacemadness.com.lunarconsole.utils;
  * A collection of useful object utils.
  */
 public final class ObjectUtils {
-	/* Avoid creating instances */
-	private ObjectUtils() {
-	}
+    /* Avoid creating instances */
+    private ObjectUtils() {
+    }
 
-	/**
-	 * Throws <code>IllegalArgumentException</code> if the passed reference is <code>null</code>.
-	 */
-	public static <T> T checkNotNull(T reference, String name) throws IllegalArgumentException {
-		if (reference == null) {
-			throw new IllegalArgumentException(name + " is null");
-		}
-		return reference;
-	}
+    /**
+     * Throws <code>IllegalArgumentException</code> if the passed reference is <code>null</code>.
+     */
+    public static <T> T checkNotNull(T reference, String name) throws IllegalArgumentException {
+        if (reference == null) {
+            throw new IllegalArgumentException(name + " is null");
+        }
+        return reference;
+    }
 
-	/**
-	 * Throws <code>IllegalArgumentException</code> if the passed string is <code>null</code> or empty.
-	 */
-	public static String checkNotNullAndNotEmpty(String string, String name) throws IllegalArgumentException {
-		if (checkNotNull(string, name).length() == 0) {
-			throw new IllegalArgumentException(name + " is empty");
-		}
-		return string;
-	}
+    /**
+     * Throws <code>IllegalArgumentException</code> if the passed string is <code>null</code> or empty.
+     */
+    public static String checkNotNullAndNotEmpty(String string, String name) throws IllegalArgumentException {
+        if (checkNotNull(string, name).length() == 0) {
+            throw new IllegalArgumentException(name + " is empty");
+        }
+        return string;
+    }
 
-	/**
-	 * @return <code>true</code> if objects are equal (<code>null</code>-safe).
-	 */
-	public static boolean areEqual(Object o1, Object o2) {
-		return o1 != null && o1.equals(o2) || o1 == null && o2 == null;
-	}
+    /**
+     * @return <code>true</code> if objects are equal (<code>null</code>-safe).
+     */
+    public static boolean areEqual(Object o1, Object o2) {
+        return o1 != null && o1.equals(o2) || o1 == null && o2 == null;
+    }
 
-	/**
-	 * @return <code>obj.toString()</code> (<code>null</code>-safe)
-	 */
-	public static String toString(Object obj) {
-		return obj != null ? obj.toString() : null;
-	}
+    /**
+     * @return <code>obj.toString()</code> (<code>null</code>-safe)
+     */
+    public static String toString(Object obj) {
+        return obj != null ? obj.toString() : null;
+    }
 
-	/**
-	 * Safe cast operation.
-	 *
-	 * @return <code>null</code> instead of throwing <code>ClassCastException.</code>
-	 */
-	public static <T> T as(Object obj, Class<? extends T> cls) {
-		return cls.isInstance(obj) ? (T) obj : null;
-	}
+    /**
+     * Safe cast operation.
+     *
+     * @return <code>null</code> instead of throwing <code>ClassCastException.</code>
+     */
+    public static <T> T as(Object obj, Class<? extends T> cls) {
+        return cls.isInstance(obj) ? (T) obj : null;
+    }
 }

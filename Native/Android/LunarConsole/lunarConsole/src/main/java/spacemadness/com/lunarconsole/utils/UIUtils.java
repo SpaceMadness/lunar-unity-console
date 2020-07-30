@@ -35,32 +35,24 @@ import android.widget.Toast;
 import spacemadness.com.lunarconsole.debug.Assert;
 import spacemadness.com.lunarconsole.debug.Log;
 
-public class UIUtils
-{
-    public static boolean openURL(Context context, String url)
-    {
-        try
-        {
+public class UIUtils {
+    public static boolean openURL(Context context, String url) {
+        try {
             Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
             context.startActivity(browserIntent);
             return true;
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             Log.e(e, "Exception while opening URL '%s'", url);
             return false;
         }
     }
 
-    public static void showDialog(Context context, String title, String message)
-    {
+    public static void showDialog(Context context, String title, String message) {
         new AlertDialog.Builder(context)
                 .setTitle(title)
                 .setMessage(message)
-                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener()
-                {
-                    public void onClick(DialogInterface dialog, int which)
-                    {
+                .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
                         // nothing here
                     }
                 })
@@ -69,19 +61,15 @@ public class UIUtils
     }
 
 
-    public static void showToast(Context context, String message)
-    {
+    public static void showToast(Context context, String message) {
         Assert.IsNotNull(context);
-        if (context != null)
-        {
+        if (context != null) {
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
         }
     }
 
-    public static ViewGroup getRootViewGroup(Activity activity)
-    {
-        if (activity == null)
-        {
+    public static ViewGroup getRootViewGroup(Activity activity) {
+        if (activity == null) {
             throw new NullPointerException("Activity is null");
         }
 
@@ -91,18 +79,15 @@ public class UIUtils
         return ObjectUtils.as(rootView, ViewGroup.class);
     }
 
-    public static float dpToPx(Context context, float dp)
-    {
+    public static float dpToPx(Context context, float dp) {
         return dp * getScreenDensity(context);
     }
 
-    public static float pxToDp(Context context, float px)
-    {
+    public static float pxToDp(Context context, float px) {
         return px / getScreenDensity(context);
     }
 
-    private static float getScreenDensity(Context context)
-    {
+    private static float getScreenDensity(Context context) {
         return context.getResources().getDisplayMetrics().density;
     }
 }

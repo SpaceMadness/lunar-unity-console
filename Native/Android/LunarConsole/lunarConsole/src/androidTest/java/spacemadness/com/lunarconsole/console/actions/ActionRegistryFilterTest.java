@@ -33,11 +33,10 @@ import spacemadness.com.lunarconsole.console.IdentityEntry;
 import spacemadness.com.lunarconsole.console.Variable;
 import spacemadness.com.lunarconsole.console.VariableType;
 
-import static spacemadness.com.lunarconsole.utils.ObjectUtils.*;
-import static spacemadness.com.lunarconsole.utils.StringUtils.*;
+import static spacemadness.com.lunarconsole.utils.ObjectUtils.as;
+import static spacemadness.com.lunarconsole.utils.StringUtils.Join;
 
-public class ActionRegistryFilterTest extends TestCaseEx implements ActionRegistryFilter.Delegate
-{
+public class ActionRegistryFilterTest extends TestCaseEx implements ActionRegistryFilter.Delegate {
     private int _nextActionId;
     private ActionRegistry _actionRegistry;
     private ActionRegistryFilter _registryFilter;
@@ -45,8 +44,7 @@ public class ActionRegistryFilterTest extends TestCaseEx implements ActionRegist
     // MARK: - Setup
 
     @Override
-    protected void setUp() throws Exception
-    {
+    protected void setUp() throws Exception {
         super.setUp();
 
         _actionRegistry = new ActionRegistry();
@@ -57,8 +55,7 @@ public class ActionRegistryFilterTest extends TestCaseEx implements ActionRegist
 
     // MARK: - Filter by text
 
-    public void testFilterByText()
-    {
+    public void testFilterByText() {
         registerEntries(
                 new LUActionInfo("line1"),
                 new LUActionInfo("line11"),
@@ -171,8 +168,7 @@ public class ActionRegistryFilterTest extends TestCaseEx implements ActionRegist
 
     // MARK: - Register entries
 
-    public void testRegisterEntries()
-    {
+    public void testRegisterEntries() {
         registerAction("a11");
         registerVariable("v11");
 
@@ -186,8 +182,7 @@ public class ActionRegistryFilterTest extends TestCaseEx implements ActionRegist
         assertVariables("v1", "v11", "v111");
     }
 
-    public void testRegisterEntriesFiltered()
-    {
+    public void testRegisterEntriesFiltered() {
         setFilter("a11");
 
         registerAction("a11");
@@ -213,8 +208,7 @@ public class ActionRegistryFilterTest extends TestCaseEx implements ActionRegist
         assertVariables("v1", "v11", "v111");
     }
 
-    public void testRegisterMultipleActionsWithSameName()
-    {
+    public void testRegisterMultipleActionsWithSameName() {
         registerAction("a2");
         registerAction("a3");
         registerAction("a1");
@@ -223,8 +217,7 @@ public class ActionRegistryFilterTest extends TestCaseEx implements ActionRegist
         assertActions("a1", "a2", "a3");
     }
 
-    public void testRegisterMultipleActionsWithSameNameFiltered()
-    {
+    public void testRegisterMultipleActionsWithSameNameFiltered() {
         setFilter("a1");
         assertFiltering();
 
@@ -246,8 +239,7 @@ public class ActionRegistryFilterTest extends TestCaseEx implements ActionRegist
 
     // MARK: - Unregister actions
 
-    public void testUnregisterActions()
-    {
+    public void testUnregisterActions() {
         int id2 = registerAction("a2").actionId();
         int id1 = registerAction("a1").actionId();
         int id3 = registerAction("a3").actionId();
@@ -265,8 +257,7 @@ public class ActionRegistryFilterTest extends TestCaseEx implements ActionRegist
         assertNoActions();
     }
 
-    public void testUnregisterActionFiltered()
-    {
+    public void testUnregisterActionFiltered() {
         setFilter("a11");
 
         int id2 = registerAction("a11").actionId();
@@ -288,8 +279,7 @@ public class ActionRegistryFilterTest extends TestCaseEx implements ActionRegist
 
     // MARK: - Delegate notifications
 
-    public void testDelegateNotifications()
-    {
+    public void testDelegateNotifications() {
         // register actions
         registerAction("a2");
 
@@ -325,8 +315,7 @@ public class ActionRegistryFilterTest extends TestCaseEx implements ActionRegist
         assertResult("removed action: a2 (0)");
     }
 
-    public void testDelegateNotificationsFiltered()
-    {
+    public void testDelegateNotificationsFiltered() {
         // set filter
         setFilter("a1");
 
@@ -361,8 +350,7 @@ public class ActionRegistryFilterTest extends TestCaseEx implements ActionRegist
         assertResult("removed action: a12 (0)");
     }
 
-    public void testFilteringByTextAddActions()
-    {
+    public void testFilteringByTextAddActions() {
         assertNotFiltering();
 
         assertTrue(setFilter("line11"));
@@ -398,66 +386,54 @@ public class ActionRegistryFilterTest extends TestCaseEx implements ActionRegist
     // MARK: - LUActionRegistryFilterDelegate
 
     @Override
-    public void actionRegistryFilterDidAddAction(ActionRegistryFilter registryFilter, Action action, int index)
-    {
+    public void actionRegistryFilterDidAddAction(ActionRegistryFilter registryFilter, Action action, int index) {
         addResult("added action: %s (%d)", action.name(), index);
     }
 
     @Override
-    public void actionRegistryFilterDidRemoveAction(ActionRegistryFilter registryFilter, Action action, int index)
-    {
+    public void actionRegistryFilterDidRemoveAction(ActionRegistryFilter registryFilter, Action action, int index) {
         addResult("removed action: %s (%d)", action.name(), index);
     }
 
     @Override
-    public void actionRegistryFilterDidRegisterVariable(ActionRegistryFilter registryFilter, Variable variable, int index)
-    {
+    public void actionRegistryFilterDidRegisterVariable(ActionRegistryFilter registryFilter, Variable variable, int index) {
         addResult("register variable: %s %s %s (%d)", variable.type, variable.name(), variable.value, index);
     }
 
     @Override
-    public void actionRegistryFilterDidChangeVariable(ActionRegistryFilter registryFilter, Variable variable, int index)
-    {
+    public void actionRegistryFilterDidChangeVariable(ActionRegistryFilter registryFilter, Variable variable, int index) {
         fail("Implement me");
     }
 
     // MARK: - Helpers
 
-    private boolean setFilter(String text)
-    {
+    private boolean setFilter(String text) {
         return _registryFilter.setFilterText(text);
     }
 
-    private Action registerAction(String name)
-    {
+    private Action registerAction(String name) {
         _nextActionId = _nextActionId + 1;
         return registerAction(_nextActionId, name);
     }
 
-    private Action registerAction(int id, String name)
-    {
+    private Action registerAction(int id, String name) {
         return _actionRegistry.registerAction(id, name);
     }
 
-    private Variable registerVariable(String name, VariableType type, String value)
-    {
+    private Variable registerVariable(String name, VariableType type, String value) {
         _nextActionId = _nextActionId + 1;
         return _actionRegistry.registerVariable(_nextActionId, name, type, value, value);
     }
 
-    private Variable registerVariable(String name)
-    {
+    private Variable registerVariable(String name) {
         _nextActionId = _nextActionId + 1;
         return _actionRegistry.registerVariable(_nextActionId, name, VariableType.String, "value", "value");
     }
 
-    private boolean unregisterAction(String name)
-    {
-        for (int i = 0; i < _actionRegistry.actions().size(); ++i)
-        {
+    private boolean unregisterAction(String name) {
+        for (int i = 0; i < _actionRegistry.actions().size(); ++i) {
             Action action = as(_actionRegistry.actions().get(i), Action.class);
-            if (action != null && action.name().equals(name))
-            {
+            if (action != null && action.name().equals(name)) {
                 _actionRegistry.unregisterAction(action.actionId());
                 return true;
             }
@@ -466,27 +442,21 @@ public class ActionRegistryFilterTest extends TestCaseEx implements ActionRegist
         return false;
     }
 
-    private void unregisterAction(int id)
-    {
+    private void unregisterAction(int id) {
         _actionRegistry.unregisterAction(id);
     }
 
-    private void registerEntries(LUEntryInfo... entries)
-    {
+    private void registerEntries(LUEntryInfo... entries) {
 
-        for (LUEntryInfo info : entries)
-        {
+        for (LUEntryInfo info : entries) {
             _nextActionId = _nextActionId + 1;
 
-            if (info instanceof LUActionInfo)
-            {
+            if (info instanceof LUActionInfo) {
                 _actionRegistry.registerAction(_nextActionId, info.name);
-            } else if (info instanceof LUCVarInfo)
-            {
+            } else if (info instanceof LUCVarInfo) {
                 LUCVarInfo cvar = (LUCVarInfo) info;
                 _actionRegistry.registerVariable(_nextActionId, cvar.name, cvar.type, cvar.value, cvar.value);
-            } else
-            {
+            } else {
                 fail("Unexpected entry: " + info);
             }
         }
@@ -494,21 +464,17 @@ public class ActionRegistryFilterTest extends TestCaseEx implements ActionRegist
 
     // MARK: - Assertion Helpers
 
-    private void assertNoActions()
-    {
+    private void assertNoActions() {
         assertTrue(_registryFilter.actions().size() == 0);
     }
 
-    private void assertNoVariables()
-    {
+    private void assertNoVariables() {
         assertTrue(_registryFilter.variables().size() == 0);
     }
 
-    private void assertActions(String... names)
-    {
+    private void assertActions(String... names) {
         List<String> actualNames = new ArrayList<>();
-        for (int i = 0; i < _registryFilter.actions().size(); ++i)
-        {
+        for (int i = 0; i < _registryFilter.actions().size(); ++i) {
             Action action = as(_registryFilter.actions().get(i), Action.class);
             actualNames.add(action.name());
         }
@@ -516,17 +482,14 @@ public class ActionRegistryFilterTest extends TestCaseEx implements ActionRegist
         String message = String.format("Expected %s but was %s", Join(names, ","), Join(actualNames, ","));
         assertEquals(message, names.length, actualNames.size());
 
-        for (int i = 0; i < actualNames.size(); ++i)
-        {
+        for (int i = 0; i < actualNames.size(); ++i) {
             assertEquals(message, names[i], actualNames.get(i));
         }
     }
 
-    private void assertVariables(String... names)
-    {
+    private void assertVariables(String... names) {
         List<String> actualNames = new ArrayList<>();
-        for (int i = 0; i < _registryFilter.variables().size(); ++i)
-        {
+        for (int i = 0; i < _registryFilter.variables().size(); ++i) {
             Variable variable = as(_registryFilter.variables().get(i), Variable.class);
             actualNames.add(variable.name());
         }
@@ -534,67 +497,55 @@ public class ActionRegistryFilterTest extends TestCaseEx implements ActionRegist
         String message = String.format("Expected %s but was %s", Join(names, ","), Join(actualNames, ","));
         assertEquals(message, names.length, actualNames.size());
 
-        for (int i = 0; i < actualNames.size(); ++i)
-        {
+        for (int i = 0; i < actualNames.size(); ++i) {
             assertEquals(message, names[i], actualNames.get(i));
         }
     }
 
-    private void assertFiltering()
-    {
+    private void assertFiltering() {
         assertTrue(_registryFilter.isFiltering());
     }
 
-    private void assertNotFiltering()
-    {
+    private void assertNotFiltering() {
         assertFalse(_registryFilter.isFiltering());
     }
 
-    private static class LUEntryInfo
-    {
+    private static class LUEntryInfo {
         final String name;
 
-        LUEntryInfo(String name)
-        {
+        LUEntryInfo(String name) {
             this.name = name;
         }
 
-        public boolean isEqual(IdentityEntry entry)
-        {
+        public boolean isEqual(IdentityEntry entry) {
             return false;
         }
     }
 
-    private static class LUActionInfo extends LUEntryInfo
-    {
-        LUActionInfo(String name)
-        {
+    private static class LUActionInfo extends LUEntryInfo {
+        LUActionInfo(String name) {
             super(name);
         }
 
         @Override
-        public boolean isEqual(IdentityEntry entry)
-        {
+        public boolean isEqual(IdentityEntry entry) {
             Action action = as(entry, Action.class);
             return action != null && action.name().equals(name);
         }
     }
 
-    private static class LUCVarInfo extends LUEntryInfo
-    {
+    private static class LUCVarInfo extends LUEntryInfo {
         public final String value;
         public final VariableType type;
 
-        LUCVarInfo(String name, String value, VariableType type)
-        {
+        LUCVarInfo(String name, String value, VariableType type) {
             super(name);
             this.value = value;
             this.type = type;
         }
 
         @Override
-        public boolean isEqual(IdentityEntry entry)
-        {
+        public boolean isEqual(IdentityEntry entry) {
             Variable cvar = as(entry, Variable.class);
             return cvar != null &&
                     this.name.equals(cvar.name()) &&

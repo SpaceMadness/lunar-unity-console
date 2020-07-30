@@ -29,20 +29,16 @@ import java.util.Map;
 
 import spacemadness.com.lunarconsole.utils.StringUtils;
 
-public class UnityScriptMessenger
-{
+public class UnityScriptMessenger {
     private final String target;
     private final String methodName;
 
-    public UnityScriptMessenger(String target, String methodName)
-    {
-        if (target == null)
-        {
+    public UnityScriptMessenger(String target, String methodName) {
+        if (target == null) {
             throw new NullPointerException("Target is null");
         }
 
-        if (methodName == null)
-        {
+        if (methodName == null) {
             throw new NullPointerException("Method name is null");
         }
 
@@ -50,17 +46,14 @@ public class UnityScriptMessenger
         this.methodName = methodName;
     }
 
-    public void sendMessage(String name)
-    {
+    public void sendMessage(String name) {
         sendMessage(name, null);
     }
 
-    public void sendMessage(String name, Map<String, Object> data)
-    {
+    public void sendMessage(String name, Map<String, Object> data) {
         Map<String, Object> params = new HashMap<>();
         params.put("name", name);
-        if (data != null && data.size() > 0)
-        {
+        if (data != null && data.size() > 0) {
             params.putAll(data);
         }
 

@@ -22,10 +22,8 @@
 
 package spacemadness.com.lunarconsole.console;
 
-abstract class BaseConsoleLogAdapter extends BaseConsoleAdapter<ConsoleLogEntry>
-{
-    BaseConsoleLogAdapter(DataSource<ConsoleLogEntry> dataSource)
-    {
+abstract class BaseConsoleLogAdapter extends BaseConsoleAdapter<ConsoleLogEntry> {
+    BaseConsoleLogAdapter(DataSource<ConsoleLogEntry> dataSource) {
         super(dataSource);
     }
 }
