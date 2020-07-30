@@ -64,8 +64,13 @@ import spacemadness.com.lunarconsole.utils.StringUtils;
 import spacemadness.com.lunarconsole.utils.UIUtils;
 
 import static android.widget.LinearLayout.LayoutParams.MATCH_PARENT;
-import static spacemadness.com.lunarconsole.console.ConsoleLogType.*;
-import static spacemadness.com.lunarconsole.debug.Tags.*;
+import static spacemadness.com.lunarconsole.console.ConsoleLogType.ASSERT;
+import static spacemadness.com.lunarconsole.console.ConsoleLogType.ERROR;
+import static spacemadness.com.lunarconsole.console.ConsoleLogType.EXCEPTION;
+import static spacemadness.com.lunarconsole.console.ConsoleLogType.LOG;
+import static spacemadness.com.lunarconsole.console.ConsoleLogType.WARNING;
+import static spacemadness.com.lunarconsole.console.ConsoleLogType.getMask;
+import static spacemadness.com.lunarconsole.debug.Tags.CONSOLE;
 
 public class ConsoleLogView extends AbstractConsoleView implements
         LunarConsoleListener,

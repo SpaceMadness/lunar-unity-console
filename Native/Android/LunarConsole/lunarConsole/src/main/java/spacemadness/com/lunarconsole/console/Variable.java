@@ -24,8 +24,7 @@ package spacemadness.com.lunarconsole.console;
 
 import spacemadness.com.lunarconsole.utils.ObjectUtils;
 
-public class Variable extends IdentityEntry
-{
+public class Variable extends IdentityEntry {
     public static final int FLAG_NONE = 0;
     public static final int FLAG_HIDDEN = 1 << 1;
     public static final int FLAG_NO_ARCHIVE = 1 << 2;
@@ -37,8 +36,7 @@ public class Variable extends IdentityEntry
     private float max;
     private int flags;
 
-    public Variable(int entryId, String name, String value, String defaultValue, VariableType type)
-    {
+    public Variable(int entryId, String name, String value, String defaultValue, VariableType type) {
         super(entryId, name);
 
         this.value = value;
@@ -48,15 +46,13 @@ public class Variable extends IdentityEntry
     }
 
     @Override
-    public EntryType getEntryType()
-    {
+    public EntryType getEntryType() {
         return EntryType.Variable;
     }
 
     //region Default value
 
-    public boolean isDefaultValue()
-    {
+    public boolean isDefaultValue() {
         return ObjectUtils.areEqual(value, defaultValue);
     }
 
@@ -64,42 +60,36 @@ public class Variable extends IdentityEntry
 
     //region Getters/Setters
 
-    boolean boolValue()
-    {
+    boolean boolValue() {
         return value != null && value.length() > 0 && !value.equals("0");
     }
 
-    public boolean hasRange()
-    {
+    public boolean hasRange() {
         return !Float.isNaN(min) && !Float.isNaN(max);
     }
 
-    public void setRange(float min, float max)
-    {
+    public void setRange(float min, float max) {
         this.min = min;
         this.max = max;
     }
 
-    public float getMin()
-    {
+    public float getMin() {
         return min;
     }
 
-    public float getMax()
-    {
+    public float getMax() {
         return max;
-    }
-
-    public void setFlags(int flags) {
-        this.flags = flags;
     }
 
     public int getFlags() {
         return flags;
     }
 
-    public boolean hasFlag(int flag)
-    {
+    public void setFlags(int flags) {
+        this.flags = flags;
+    }
+
+    public boolean hasFlag(int flag) {
         return (flags & flag) != 0;
     }
 

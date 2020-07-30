@@ -42,31 +42,31 @@ public class LimitSizeListTest {
     @Test
     public void testTrimElements() {
         TestList list = new TestList(3, 2);
-        assertEquals(0, list.count());
+        assertEquals(0, list.size());
         assertEquals(0, list.totalCount());
         assertEquals(0, list.trimmedCount());
         assertFalse(list.isTrimmed());
 
         list.addObject("1");
-        assertEquals(1, list.count());
+        assertEquals(1, list.size());
         assertEquals(1, list.totalCount());
         assertEquals(0, list.trimmedCount());
         assertFalse(list.isTrimmed());
 
         list.addObject("2");
-        assertEquals(2, list.count());
+        assertEquals(2, list.size());
         assertEquals(2, list.totalCount());
         assertEquals(0, list.trimmedCount());
         assertFalse(list.isTrimmed());
 
         list.addObject("3");
-        assertEquals(3, list.count());
+        assertEquals(3, list.size());
         assertEquals(3, list.totalCount());
         assertEquals(0, list.trimmedCount());
         assertFalse(list.isTrimmed());
 
         list.addObject("4");
-        assertEquals(2, list.count());
+        assertEquals(2, list.size());
         assertEquals(4, list.totalCount());
         assertEquals(2, list.trimmedCount());
         assertTrue(list.isTrimmed());
@@ -74,7 +74,7 @@ public class LimitSizeListTest {
         listAssertObjects(list, "3", "4");
 
         list.addObject("5");
-        assertEquals(3, list.count());
+        assertEquals(3, list.size());
         assertEquals(5, list.totalCount());
         assertEquals(2, list.trimmedCount());
         assertTrue(list.isTrimmed());
@@ -82,7 +82,7 @@ public class LimitSizeListTest {
         listAssertObjects(list, "3", "4", "5");
 
         list.addObject("6");
-        assertEquals(2, list.count());
+        assertEquals(2, list.size());
         assertEquals(6, list.totalCount());
         assertEquals(4, list.trimmedCount());
         assertTrue(list.isTrimmed());
@@ -90,7 +90,7 @@ public class LimitSizeListTest {
         listAssertObjects(list, "5", "6");
 
         list.addObject("7");
-        assertEquals(3, list.count());
+        assertEquals(3, list.size());
         assertEquals(7, list.totalCount());
         assertEquals(4, list.trimmedCount());
         assertTrue(list.isTrimmed());
@@ -107,13 +107,13 @@ public class LimitSizeListTest {
         list.addObject("4");
 
         list.clear();
-        assertEquals(0, list.count());
+        assertEquals(0, list.size());
         assertEquals(0, list.totalCount());
         assertEquals(0, list.trimmedCount());
         assertFalse(list.isTrimmed());
 
         list.addObject("5");
-        assertEquals(1, list.count());
+        assertEquals(1, list.size());
         assertEquals(1, list.totalCount());
         assertEquals(0, list.trimmedCount());
         assertFalse(list.isTrimmed());
@@ -121,7 +121,7 @@ public class LimitSizeListTest {
         listAssertObjects(list, "5");
 
         list.addObject("6");
-        assertEquals(2, list.count());
+        assertEquals(2, list.size());
         assertEquals(2, list.totalCount());
         assertEquals(0, list.trimmedCount());
         assertFalse(list.isTrimmed());
@@ -129,7 +129,7 @@ public class LimitSizeListTest {
         listAssertObjects(list, "5", "6");
 
         list.addObject("7");
-        assertEquals(3, list.count());
+        assertEquals(3, list.size());
         assertEquals(3, list.totalCount());
         assertEquals(0, list.trimmedCount());
         assertFalse(list.isTrimmed());
@@ -137,7 +137,7 @@ public class LimitSizeListTest {
         listAssertObjects(list, "5", "6", "7");
 
         list.addObject("8");
-        assertEquals(2, list.count());
+        assertEquals(2, list.size());
         assertEquals(4, list.totalCount());
         assertEquals(2, list.trimmedCount());
         assertTrue(list.isTrimmed());
@@ -146,7 +146,7 @@ public class LimitSizeListTest {
     }
 
     private void listAssertObjects(TestList list, String... expected) {
-        assertEquals(expected.length, list.count());
+        assertEquals(expected.length, list.size());
         for (int i = 0; i < expected.length; ++i) {
             assertEquals(expected[i], list.objectAtIndex(i));
         }

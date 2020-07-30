@@ -22,7 +22,6 @@
 
 package spacemadness.com.lunarconsole.console;
 
-public interface BackButtonListener
-{
+public interface BackButtonListener {
     void onBackPressed();
 }

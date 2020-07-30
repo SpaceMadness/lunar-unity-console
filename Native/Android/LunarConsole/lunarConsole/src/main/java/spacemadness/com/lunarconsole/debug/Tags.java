@@ -22,8 +22,7 @@
 
 package spacemadness.com.lunarconsole.debug;
 
-public class Tags
-{
+public class Tags {
     public static final Tag PLUGIN = new Tag("Plugin");
     public static final Tag CORE = new Tag("Core");
     public static final Tag GESTURES = new Tag("Gestures");

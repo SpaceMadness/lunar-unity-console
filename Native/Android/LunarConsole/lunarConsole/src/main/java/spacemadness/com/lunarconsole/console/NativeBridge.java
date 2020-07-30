@@ -39,10 +39,9 @@ import spacemadness.com.lunarconsole.settings.PluginSettings;
  * Class representing a bridge between native and managed code.
  */
 public final class NativeBridge {
-    private static ConsolePlugin plugin;
-
     private static final DispatchQueue dispatchQueue;
     private static final ConsoleLogEntryDispatcher entryDispatcher;
+    private static ConsolePlugin plugin;
 
     static {
         // register default providers

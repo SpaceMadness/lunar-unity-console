@@ -22,7 +22,6 @@
 
 package spacemadness.com.lunarconsole.core;
 
-public interface Destroyable
-{
+public interface Destroyable {
     void destroy();
 }

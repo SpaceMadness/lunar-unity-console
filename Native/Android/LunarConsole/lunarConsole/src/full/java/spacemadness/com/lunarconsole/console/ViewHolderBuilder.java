@@ -24,7 +24,6 @@ package spacemadness.com.lunarconsole.console;
 
 import android.view.ViewGroup;
 
-public abstract class ViewHolderBuilder<T extends ConsoleLogEntry>
-{
+public abstract class ViewHolderBuilder<T extends ConsoleLogEntry> {
     public abstract ConsoleLogAdapter.ViewHolder<T> createViewHolder(ViewGroup parent);
 }

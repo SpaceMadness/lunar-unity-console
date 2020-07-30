@@ -26,8 +26,7 @@ package spacemadness.com.lunarconsole.console;
  * Created by alementuev on 1/23/17.
  */
 
-public enum EntryType
-{
+public enum EntryType {
     Action,
     Variable,
     Header

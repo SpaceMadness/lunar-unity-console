@@ -29,10 +29,8 @@ import spacemadness.com.lunarconsole.TestCaseEx;
 
 import static spacemadness.com.lunarconsole.console.Console.Options;
 
-public class ConsoleTest extends TestCaseEx implements LunarConsoleListener
-{
-    public void testLogMessages()
-    {
+public class ConsoleTest extends TestCaseEx implements LunarConsoleListener {
+    public void testLogMessages() {
         Console console = createConsole(5);
 
         console.logMessage("1", "", (byte) 0);
@@ -71,8 +69,7 @@ public class ConsoleTest extends TestCaseEx implements LunarConsoleListener
         );
     }
 
-    public void testLogMessagesFreeBlock()
-    {
+    public void testLogMessagesFreeBlock() {
         Console console = createConsole(5, 3);
 
         console.logMessage("1", "", (byte) 0);
@@ -127,8 +124,7 @@ public class ConsoleTest extends TestCaseEx implements LunarConsoleListener
         );
     }
 
-    public void testClear()
-    {
+    public void testClear() {
         Console console = createConsole(5);
 
         console.logMessage("1", "", (byte) 0);
@@ -180,13 +176,11 @@ public class ConsoleTest extends TestCaseEx implements LunarConsoleListener
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Helpers
 
-    private Console createConsole(int capacity)
-    {
+    private Console createConsole(int capacity) {
         return createConsole(capacity, 1);
     }
 
-    private Console createConsole(int capacity, int trimCount)
-    {
+    private Console createConsole(int capacity, int trimCount) {
         Options options = new Options(capacity);
         options.setTrimCount(trimCount);
         Console console = new Console(options);
@@ -194,11 +188,9 @@ public class ConsoleTest extends TestCaseEx implements LunarConsoleListener
         return console;
     }
 
-    private void assertResult(Console console, String... expected)
-    {
+    private void assertResult(Console console, String... expected) {
         List<String> actual = new ArrayList<>();
-        for (int i = 0; i < console.entriesCount(); ++i)
-        {
+        for (int i = 0; i < console.entriesCount(); ++i) {
             actual.add(console.entryAtIndex(i).message);
         }
 
@@ -206,8 +198,7 @@ public class ConsoleTest extends TestCaseEx implements LunarConsoleListener
     }
 
     @Override
-    protected void assertResult(String... expected)
-    {
+    protected void assertResult(String... expected) {
         super.assertResult(expected);
         clearResult();
     }
@@ -216,26 +207,22 @@ public class ConsoleTest extends TestCaseEx implements LunarConsoleListener
     // LunarConsoleListener
 
     @Override
-    public void onAddEntry(Console console, ConsoleLogEntry entry, boolean filtered)
-    {
+    public void onAddEntry(Console console, ConsoleLogEntry entry, boolean filtered) {
         addResult("add: " + entry.message);
     }
 
     @Override
-    public void onRemoveEntries(Console console, int start, int length)
-    {
+    public void onRemoveEntries(Console console, int start, int length) {
         addResult("remove: " + start + "," + length);
     }
 
     @Override
-    public void onChangeEntries(Console console)
-    {
+    public void onChangeEntries(Console console) {
         // TODO: add testing
     }
 
     @Override
-    public void onClearEntries(Console console)
-    {
+    public void onClearEntries(Console console) {
         addResult("clear");
     }
 }

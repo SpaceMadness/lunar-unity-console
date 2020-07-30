@@ -28,22 +28,18 @@ import android.view.ViewGroup;
 
 import spacemadness.com.lunarconsole.R;
 
-public class ConsoleLogAdapter extends BaseConsoleLogAdapter
-{
-    public ConsoleLogAdapter(DataSource dataSource)
-    {
+public class ConsoleLogAdapter extends BaseConsoleLogAdapter {
+    public ConsoleLogAdapter(DataSource dataSource) {
         super(dataSource);
     }
 
     @Override
-    protected ViewHolder createViewHolder(View convertView, int position)
-    {
+    protected ViewHolder createViewHolder(View convertView, int position) {
         return new ConsoleLogEntry.ViewHolder(convertView);
     }
 
     @Override
-    protected View createConvertView(ViewGroup parent, int position)
-    {
+    protected View createConvertView(ViewGroup parent, int position) {
         LayoutInflater inflater = LayoutInflater.from(parent.getContext());
         return inflater.inflate(R.layout.lunar_console_layout_console_log_entry, parent, false);
     }

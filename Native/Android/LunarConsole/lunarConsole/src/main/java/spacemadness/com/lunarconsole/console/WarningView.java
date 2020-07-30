@@ -36,43 +36,39 @@ import spacemadness.com.lunarconsole.R;
 import spacemadness.com.lunarconsole.core.Destroyable;
 import spacemadness.com.lunarconsole.debug.Log;
 
-import static android.widget.FrameLayout.LayoutParams.*;
-import static android.view.Gravity.*;
+import static android.view.Gravity.BOTTOM;
+import static android.view.Gravity.CENTER_HORIZONTAL;
+import static android.widget.FrameLayout.LayoutParams.MATCH_PARENT;
+import static android.widget.FrameLayout.LayoutParams.WRAP_CONTENT;
 import static spacemadness.com.lunarconsole.debug.Tags.WARNING_VIEW;
 
-public class WarningView extends FrameLayout implements Destroyable
-{
+public class WarningView extends FrameLayout implements Destroyable {
     private TextView messageText;
     private Listener listener;
 
-    public WarningView(Context context)
-    {
+    public WarningView(Context context) {
         super(context);
         init(context);
     }
 
-    public WarningView(Context context, AttributeSet attrs)
-    {
+    public WarningView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public WarningView(Context context, AttributeSet attrs, int defStyleAttr)
-    {
+    public WarningView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public WarningView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes)
-    {
+    public WarningView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init(context);
     }
 
-    private void init(Context context)
-    {
+    private void init(Context context) {
         View view = LayoutInflater.from(context).inflate(R.layout.lunar_console_layout_warning, null, false);
 
         setupUI(view);
@@ -81,39 +77,31 @@ public class WarningView extends FrameLayout implements Destroyable
         addView(view, params);
     }
 
-    private void setupUI(View view)
-    {
+    private void setupUI(View view) {
         messageText = view.findViewById(R.id.lunar_console_warning_text_message);
-        view.setOnTouchListener(new OnTouchListener()
-        {
+        view.setOnTouchListener(new OnTouchListener() {
             @Override
-            public boolean onTouch(View v, MotionEvent event)
-            {
+            public boolean onTouch(View v, MotionEvent event) {
                 return true; // don't let touch events to pass through the view group
             }
         });
 
-        setOnClickListener(view, R.id.lunar_console_warning_button_dismiss, new OnClickListener()
-        {
+        setOnClickListener(view, R.id.lunar_console_warning_button_dismiss, new OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 notifyDismiss();
             }
         });
 
-        setOnClickListener(view, R.id.lunar_console_warning_button_details, new OnClickListener()
-        {
+        setOnClickListener(view, R.id.lunar_console_warning_button_details, new OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 notifyDetails();
             }
         });
     }
 
-    private void setOnClickListener(View root, int id, View.OnClickListener listener)
-    {
+    private void setOnClickListener(View root, int id, View.OnClickListener listener) {
         root.findViewById(id).setOnClickListener(listener);
     }
 
@@ -121,8 +109,7 @@ public class WarningView extends FrameLayout implements Destroyable
     // Destroyable
 
     @Override
-    public void destroy()
-    {
+    public void destroy() {
         Log.d(WARNING_VIEW, "Destroy warning");
         listener = null;
     }
@@ -130,31 +117,21 @@ public class WarningView extends FrameLayout implements Destroyable
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Notifications
 
-    private void notifyDismiss()
-    {
-        if (listener != null)
-        {
-            try
-            {
+    private void notifyDismiss() {
+        if (listener != null) {
+            try {
                 listener.onDismissClick(this);
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 Log.e("Error while notifying listener");
             }
         }
     }
 
-    private void notifyDetails()
-    {
-        if (listener != null)
-        {
-            try
-            {
+    private void notifyDetails() {
+        if (listener != null) {
+            try {
                 listener.onDetailsClick(this);
-            }
-            catch (Exception e)
-            {
+            } catch (Exception e) {
                 Log.e("Error while notifying listener");
             }
         }
@@ -163,27 +140,24 @@ public class WarningView extends FrameLayout implements Destroyable
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Getters/Setters
 
-    public void setMessage(CharSequence message)
-    {
+    public void setMessage(CharSequence message) {
         messageText.setText(message);
     }
 
-    public Listener getListener()
-    {
+    public Listener getListener() {
         return listener;
     }
 
-    public void setListener(Listener listener)
-    {
+    public void setListener(Listener listener) {
         this.listener = listener;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Listener
 
-    public interface Listener
-    {
+    public interface Listener {
         void onDismissClick(WarningView view);
+
         void onDetailsClick(WarningView view);
     }
 }

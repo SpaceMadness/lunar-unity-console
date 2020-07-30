@@ -25,19 +25,19 @@ package spacemadness.com.lunarconsole.console;
 import java.util.ArrayList;
 import java.util.List;
 
-import static spacemadness.com.lunarconsole.utils.ObjectUtils.*;
-import static spacemadness.com.lunarconsole.utils.StringUtils.*;
+import static spacemadness.com.lunarconsole.utils.ObjectUtils.areEqual;
+import static spacemadness.com.lunarconsole.utils.StringUtils.containsIgnoreCase;
+import static spacemadness.com.lunarconsole.utils.StringUtils.hasPrefix;
+import static spacemadness.com.lunarconsole.utils.StringUtils.length;
 
-public class ActionRegistryFilter implements ActionRegistry.Delegate
-{
+public class ActionRegistryFilter implements ActionRegistry.Delegate {
     private final ActionRegistry _registry;
     private String _filterText;
     private List<Action> _filteredActions;
     private List<Variable> _filteredVariables;
     private Delegate _delegate;
 
-    public ActionRegistryFilter(ActionRegistry actionRegistry)
-    {
+    public ActionRegistryFilter(ActionRegistry actionRegistry) {
         _registry = actionRegistry;
         _registry.setDelegate(this);
     }
@@ -45,14 +45,13 @@ public class ActionRegistryFilter implements ActionRegistry.Delegate
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Filtering
 
-    public boolean setFilterText(String filterText)
-    {
+    public boolean setFilterText(String filterText) {
         if (!areEqual(_filterText, filterText)) // filter text has changed
         {
             String oldFilterText = _filterText;
             _filterText = filterText;
 
-            if (length(filterText) > length(oldFilterText) && (length(oldFilterText) == 0 ||  hasPrefix(filterText, oldFilterText))) // added more characters
+            if (length(filterText) > length(oldFilterText) && (length(oldFilterText) == 0 || hasPrefix(filterText, oldFilterText))) // added more characters
             {
                 return appendFilter();
             }
@@ -63,11 +62,11 @@ public class ActionRegistryFilter implements ActionRegistry.Delegate
         return false;
     }
 
-    /** applies filter to already filtered items */
-    private boolean appendFilter()
-    {
-        if (isFiltering())
-        {
+    /**
+     * applies filter to already filtered items
+     */
+    private boolean appendFilter() {
+        if (isFiltering()) {
             _filteredActions = filterEntries(_filteredActions);
             _filteredVariables = filterEntries(_filteredVariables);
             return true;
@@ -76,11 +75,11 @@ public class ActionRegistryFilter implements ActionRegistry.Delegate
         return applyFilter();
     }
 
-    /** setup filtering for the list */
-    private boolean applyFilter()
-    {
-        if (length(_filterText) > 0)
-        {
+    /**
+     * setup filtering for the list
+     */
+    private boolean applyFilter() {
+        if (length(_filterText) > 0) {
             _filteredActions = filterEntries(getAllActions());
             _filteredVariables = filterEntries(getAllVariables());
             return true;
@@ -89,10 +88,8 @@ public class ActionRegistryFilter implements ActionRegistry.Delegate
         return removeFilter();
     }
 
-    private boolean removeFilter()
-    {
-        if (isFiltering())
-        {
+    private boolean removeFilter() {
+        if (isFiltering()) {
             _filteredActions = null;
             _filteredVariables = null;
             return true;
@@ -101,13 +98,10 @@ public class ActionRegistryFilter implements ActionRegistry.Delegate
         return false;
     }
 
-    private <T extends IdentityEntry> List<T> filterEntries(List<T> entries)
-    {
+    private <T extends IdentityEntry> List<T> filterEntries(List<T> entries) {
         List<T> filteredEntries = new ArrayList<>();
-        for (T entry : entries)
-        {
-            if (filterEntry(entry))
-            {
+        for (T entry : entries) {
+            if (filterEntry(entry)) {
                 filteredEntries.add(entry);
             }
         }
@@ -115,24 +109,18 @@ public class ActionRegistryFilter implements ActionRegistry.Delegate
         return filteredEntries;
     }
 
-    private boolean filterEntry(IdentityEntry entry)
-    {
-        return length(_filterText) == 0 || containsIgnoreCase(entry.name(), _filterText);
+    private boolean filterEntry(IdentityEntry entry) {
+        return length(_filterText) == 0 || containsIgnoreCase(entry.getName(), _filterText);
     }
 
-    private <T extends IdentityEntry> int filteredArrayAddEntry(List<T> array, T entry)
-    {
+    private <T extends IdentityEntry> int filteredArrayAddEntry(List<T> array, T entry) {
         // insert in the sorted order
-        for (int index = 0; index < array.size(); ++index)
-        {
+        for (int index = 0; index < array.size(); ++index) {
             int comparisonResult = entry.compareTo(array.get(index));
-            if (comparisonResult < 0)
-            {
+            if (comparisonResult < 0) {
                 array.add(index, entry);
                 return index;
-            }
-            else if (comparisonResult == 0)
-            {
+            } else if (comparisonResult == 0) {
                 return index; // filtered group exists
             }
         }
@@ -141,30 +129,24 @@ public class ActionRegistryFilter implements ActionRegistry.Delegate
         return array.size() - 1;
     }
 
-    private int filteredArrayIndexOfEntry(List<? extends IdentityEntry> array, IdentityEntry entry)
-    {
-        for (int index = 0; index < array.size(); ++index)
-        {
+    private int filteredArrayIndexOfEntry(List<? extends IdentityEntry> array, IdentityEntry entry) {
+        for (int index = 0; index < array.size(); ++index) {
             IdentityEntry existing = array.get(index);
-            if (existing.actionId() == entry.actionId())
-            {
+            if (existing.getActionId() == entry.getActionId()) {
                 return index;
             }
         }
 
         return -1;
     }
-    
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // LUActionRegistryDelegate
 
     @Override
-    public void didAddAction(ActionRegistry registry, Action action, int index)
-    {
-        if (isFiltering())
-        {
-            if (!filterEntry(action))
-            {
+    public void didAddAction(ActionRegistry registry, Action action, int index) {
+        if (isFiltering()) {
+            if (!filterEntry(action)) {
                 return;
             }
 
@@ -175,13 +157,10 @@ public class ActionRegistryFilter implements ActionRegistry.Delegate
     }
 
     @Override
-    public void didRemoveAction(ActionRegistry registry, Action action, int index)
-    {
-        if (isFiltering())
-        {
+    public void didRemoveAction(ActionRegistry registry, Action action, int index) {
+        if (isFiltering()) {
             index = filteredArrayIndexOfEntry(_filteredActions, action);
-            if (index == -1)
-            {
+            if (index == -1) {
                 return;
             }
 
@@ -193,12 +172,9 @@ public class ActionRegistryFilter implements ActionRegistry.Delegate
     }
 
     @Override
-    public void didRegisterVariable(ActionRegistry registry, Variable variable, int index)
-    {
-        if (isFiltering())
-        {
-            if (!filterEntry(variable))
-            {
+    public void didRegisterVariable(ActionRegistry registry, Variable variable, int index) {
+        if (isFiltering()) {
+            if (!filterEntry(variable)) {
                 return;
             }
 
@@ -209,12 +185,9 @@ public class ActionRegistryFilter implements ActionRegistry.Delegate
     }
 
     @Override
-    public void didDidChangeVariable(ActionRegistry registry, Variable variable, int index)
-    {
-        if (isFiltering())
-        {
-            if (!filterEntry(variable))
-            {
+    public void didDidChangeVariable(ActionRegistry registry, Variable variable, int index) {
+        if (isFiltering()) {
+            if (!filterEntry(variable)) {
                 return;
             }
 
@@ -223,58 +196,52 @@ public class ActionRegistryFilter implements ActionRegistry.Delegate
 
         _delegate.actionRegistryFilterDidChangeVariable(this, variable, index);
     }
-    
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Properties
 
-    public List<Action> actions()
-    {
+    public List<Action> actions() {
         return isFiltering() ? _filteredActions : getAllActions();
     }
 
-    public List<Action> getAllActions()
-    {
-        return _registry.actions();
+    public List<Action> getAllActions() {
+        return _registry.getActions();
     }
 
-    public List<Variable> variables()
-    {
+    public List<Variable> variables() {
         return isFiltering() ? _filteredVariables : getAllVariables();
     }
 
-    public List<Variable> getAllVariables()
-    {
-        return _registry.variables();
+    public List<Variable> getAllVariables() {
+        return _registry.getVariables();
     }
 
-    public boolean isFiltering()
-    {
+    public boolean isFiltering() {
         return _filteredActions != null || _filteredVariables != null;
     }
 
-    public String getFilterText()
-    {
+    public String getFilterText() {
         return _filterText;
     }
 
-    public Delegate getDelegate()
-    {
+    public Delegate getDelegate() {
         return _delegate;
     }
 
-    public void setDelegate(Delegate delegate)
-    {
+    public void setDelegate(Delegate delegate) {
         this._delegate = delegate;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // TODO: proper name
 
-    public interface Delegate
-    {
+    public interface Delegate {
         void actionRegistryFilterDidAddAction(ActionRegistryFilter registryFilter, Action action, int index);
+
         void actionRegistryFilterDidRemoveAction(ActionRegistryFilter registryFilter, Action action, int index);
+
         void actionRegistryFilterDidRegisterVariable(ActionRegistryFilter registryFilter, Variable variable, int index);
+
         void actionRegistryFilterDidChangeVariable(ActionRegistryFilter registryFilter, Variable variable, int index);
     }
 }

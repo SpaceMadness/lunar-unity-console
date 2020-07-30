@@ -29,43 +29,35 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.Button;
 
-public class ToggleButton extends Button
-{
+public class ToggleButton extends Button {
     private OnStateChangeListener stateChangeListener;
     private boolean on;
 
-    public ToggleButton(Context context)
-    {
+    public ToggleButton(Context context) {
         super(context);
         init();
     }
 
-    public ToggleButton(Context context, AttributeSet attrs, int defStyleAttr)
-    {
+    public ToggleButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public ToggleButton(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes)
-    {
+    public ToggleButton(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init();
     }
 
-    public ToggleButton(Context context, AttributeSet attrs)
-    {
+    public ToggleButton(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    private void init()
-    {
-        setOnClickListener(new OnClickListener()
-        {
+    private void init() {
+        setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 setOn(!on);
             }
         });
@@ -74,10 +66,8 @@ public class ToggleButton extends Button
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Listener notifications
 
-    private void notifyStateChanged()
-    {
-        if (stateChangeListener != null)
-        {
+    private void notifyStateChanged() {
+        if (stateChangeListener != null) {
             stateChangeListener.onStateChanged(ToggleButton.this);
         }
     }
@@ -85,35 +75,29 @@ public class ToggleButton extends Button
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Getters/Setters
 
-    public boolean isOn()
-    {
+    public boolean isOn() {
         return on;
     }
 
-    public void setOn(boolean flag)
-    {
-        if (on != flag)
-        {
+    public void setOn(boolean flag) {
+        if (on != flag) {
             on = flag;
             notifyStateChanged();
         }
     }
 
-    public OnStateChangeListener getOnStateChangeListener()
-    {
+    public OnStateChangeListener getOnStateChangeListener() {
         return stateChangeListener;
     }
 
-    public void setOnStateChangeListener(OnStateChangeListener onStateChangeListener)
-    {
+    public void setOnStateChangeListener(OnStateChangeListener onStateChangeListener) {
         this.stateChangeListener = onStateChangeListener;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Listener
 
-    public interface OnStateChangeListener
-    {
+    public interface OnStateChangeListener {
         void onStateChanged(ToggleButton button);
     }
 }

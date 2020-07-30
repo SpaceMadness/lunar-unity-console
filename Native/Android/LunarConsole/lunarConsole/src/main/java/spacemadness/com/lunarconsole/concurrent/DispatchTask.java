@@ -72,20 +72,20 @@ public abstract class DispatchTask implements Runnable {
         }
     }
 
-    synchronized void setScheduled(boolean scheduled) {
-        this.scheduled = scheduled;
-    }
-
     public synchronized boolean isScheduled() {
         return scheduled;
     }
 
-    private synchronized void setCancelled(boolean cancelled) {
-        this.cancelled = cancelled;
+    synchronized void setScheduled(boolean scheduled) {
+        this.scheduled = scheduled;
     }
 
     public synchronized boolean isCancelled() {
         return cancelled;
+    }
+
+    private synchronized void setCancelled(boolean cancelled) {
+        this.cancelled = cancelled;
     }
 
     public synchronized void cancel() {

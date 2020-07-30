@@ -22,25 +22,30 @@
 
 package spacemadness.com.lunarconsole.console;
 
-import static spacemadness.com.lunarconsole.console.ConsoleLogType.*;
+import static spacemadness.com.lunarconsole.console.ConsoleLogType.ASSERT;
+import static spacemadness.com.lunarconsole.console.ConsoleLogType.COUNT;
+import static spacemadness.com.lunarconsole.console.ConsoleLogType.ERROR;
+import static spacemadness.com.lunarconsole.console.ConsoleLogType.EXCEPTION;
+import static spacemadness.com.lunarconsole.console.ConsoleLogType.LOG;
+import static spacemadness.com.lunarconsole.console.ConsoleLogType.WARNING;
 
 public final class LogViewStyle {
-	private final LogEntryStyle[] styles = new LogEntryStyle[COUNT];
+    private final LogEntryStyle[] styles = new LogEntryStyle[COUNT];
 
-	public LogViewStyle(
-		LogEntryStyle exception,
-		LogEntryStyle error,
-		LogEntryStyle warning,
-		LogEntryStyle debug
-	) {
-		styles[ERROR] = error;
-		styles[ASSERT] = error;
-		styles[WARNING] = warning;
-		styles[LOG] = debug;
-		styles[EXCEPTION] = exception;
-	}
+    public LogViewStyle(
+            LogEntryStyle exception,
+            LogEntryStyle error,
+            LogEntryStyle warning,
+            LogEntryStyle debug
+    ) {
+        styles[ERROR] = error;
+        styles[ASSERT] = error;
+        styles[WARNING] = warning;
+        styles[LOG] = debug;
+        styles[EXCEPTION] = exception;
+    }
 
-	public LogEntryStyle getEntryStyle(int type) {
-		return styles[type];
-	}
+    public LogEntryStyle getEntryStyle(int type) {
+        return styles[type];
+    }
 }

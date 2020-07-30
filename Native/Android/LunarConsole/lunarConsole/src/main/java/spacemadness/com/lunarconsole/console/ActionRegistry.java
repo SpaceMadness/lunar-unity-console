@@ -28,14 +28,12 @@ import spacemadness.com.lunarconsole.debug.Log;
 import spacemadness.com.lunarconsole.utils.LUSortedList;
 import spacemadness.com.lunarconsole.utils.ObjectUtils;
 
-public class ActionRegistry
-{
+public class ActionRegistry {
     private final LUSortedList<Action> actions;
     private final LUSortedList<Variable> variables;
     private Delegate delegate;
 
-    public ActionRegistry()
-    {
+    public ActionRegistry() {
         actions = new LUSortedList<>();
         variables = new LUSortedList<>();
     }
@@ -43,11 +41,9 @@ public class ActionRegistry
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Actions
 
-    public Action registerAction(int actionId, String actionName)
-    {
+    public Action registerAction(int actionId, String actionName) {
         int actionIndex = indexOfAction(actionName);
-        if (actionIndex == -1)
-        {
+        if (actionIndex == -1) {
             Action action = new Action(actionId, actionName);
             actionIndex = actions.addObject(action);
             notifyActionAdd(action, actionIndex);
@@ -56,13 +52,10 @@ public class ActionRegistry
         return actions.objectAtIndex(actionIndex);
     }
 
-    public boolean unregisterAction(int actionId)
-    {
-        for (int actionIndex = actions.count() - 1; actionIndex >= 0; --actionIndex)
-        {
+    public boolean unregisterAction(int actionId) {
+        for (int actionIndex = actions.count() - 1; actionIndex >= 0; --actionIndex) {
             Action action = actions.objectAtIndex(actionIndex);
-            if (action.actionId() == actionId)
-            {
+            if (action.getActionId() == actionId) {
                 actions.removeObjectAtIndex(actionIndex);
                 notifyActionRemove(action, actionIndex);
 
@@ -73,14 +66,11 @@ public class ActionRegistry
         return false;
     }
 
-    private int indexOfAction(String actionName)
-    {
+    private int indexOfAction(String actionName) {
         // TODO: more optimized search
-        for (int index = 0; index < actions.count(); ++index)
-        {
+        for (int index = 0; index < actions.count(); ++index) {
             Action action = actions.objectAtIndex(index);
-            if (ObjectUtils.areEqual(action.name(), actionName))
-            {
+            if (ObjectUtils.areEqual(action.getName(), actionName)) {
                 return index;
             }
         }
@@ -101,34 +91,27 @@ public class ActionRegistry
 
     }
 
-    public void updateVariable(int variableId, String value)
-    {
+    public void updateVariable(int variableId, String value) {
         int index = indexOfVariable(variableId);
-        if (index != -1)
-        {
+        if (index != -1) {
             Variable cvar = variables.objectAtIndex(index);
             cvar.value = value;
             notifyVariableChange(cvar, index);
-        }
-        else
-        {
+        } else {
             Log.e("Can't server cvar value: variable id %d not found", variableId);
         }
     }
 
-    public Variable findVariable(int variableId)
-    {
+    public Variable findVariable(int variableId) {
         int index = indexOfVariable(variableId);
         return index != -1 ? variables.objectAtIndex(index) : null;
     }
 
-    private int indexOfVariable(int variableId) // FIXME: rename
+    private int indexOfVariable(int variableId)
     {
         int index = 0;
-        for (Variable cvar : variables)
-        {
-            if (cvar.actionId() == variableId)
-            {
+        for (Variable cvar : variables) {
+            if (cvar.getActionId() == variableId) {
                 return index;
             }
 
@@ -141,67 +124,51 @@ public class ActionRegistry
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Delegate notifications
 
-    private void notifyActionAdd(Action action, int actionIndex)
-    {
-        if (delegate != null)
-        {
+    private void notifyActionAdd(Action action, int actionIndex) {
+        if (delegate != null) {
             delegate.didAddAction(this, action, actionIndex);
         }
     }
 
-    private void notifyActionRemove(Action action, int actionIndex)
-    {
-        if (delegate != null)
-        {
+    private void notifyActionRemove(Action action, int actionIndex) {
+        if (delegate != null) {
             delegate.didRemoveAction(this, action, actionIndex);
         }
     }
 
-    private void notifyVariableRegister(Variable variable, int index)
-    {
-        if (delegate != null)
-        {
+    private void notifyVariableRegister(Variable variable, int index) {
+        if (delegate != null) {
             delegate.didRegisterVariable(this, variable, index);
         }
     }
 
-    private void notifyVariableChange(Variable cvar, int index)
-    {
-        if (delegate != null)
-        {
+    private void notifyVariableChange(Variable cvar, int index) {
+        if (delegate != null) {
             delegate.didDidChangeVariable(this, cvar, index);
         }
     }
 
     //region Getters/Setters
 
-    public List<Action> actions() // FIXME: rename
+    public List<Action> getActions()
     {
         return actions.list();
     }
 
-    public List<Variable> variables() // FIXME: rename
+    public List<Variable> getVariables()
     {
         return variables.list();
     }
 
-    public Delegate getDelegate()
-    {
-        return delegate;
-    }
-
-    public void setDelegate(Delegate delegate)
-    {
+    public void setDelegate(Delegate delegate) {
         this.delegate = delegate;
     }
 
-    public void setActionSortingEnabled(boolean sortingEnabled)
-    {
+    public void setActionSortingEnabled(boolean sortingEnabled) {
         actions.setSortingEnabled(sortingEnabled);
     }
 
-    public void setVariableSortingEnabled(boolean sortingEnabled)
-    {
+    public void setVariableSortingEnabled(boolean sortingEnabled) {
         variables.setSortingEnabled(sortingEnabled);
     }
 
@@ -212,8 +179,11 @@ public class ActionRegistry
     public interface Delegate // FIXME: rename
     {
         void didAddAction(ActionRegistry registry, Action action, int index);
+
         void didRemoveAction(ActionRegistry registry, Action action, int index);
+
         void didRegisterVariable(ActionRegistry registry, Variable variable, int index);
+
         void didDidChangeVariable(ActionRegistry registry, Variable variable, int index);
     }
 

@@ -26,8 +26,7 @@ package spacemadness.com.lunarconsole.console;
  * Created by alementuev on 12/20/16.
  */
 
-public class Notifications
-{
+public class Notifications {
     public static final String NOTIFICATION_ACTIVITY_STARTED = "ACTIVITY_STARTED"; // { activity: Activity }
     public static final String NOTIFICATION_ACTIVITY_STOPPED = "ACTIVITY_STOPPED"; // { activity: Activity }
 

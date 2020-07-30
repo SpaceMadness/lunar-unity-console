@@ -23,5 +23,5 @@
 package spacemadness.com.lunarconsole.concurrent;
 
 public interface Dispatcher {
-	void dispatch(DispatchTask task);
+    void dispatch(DispatchTask task);
 }

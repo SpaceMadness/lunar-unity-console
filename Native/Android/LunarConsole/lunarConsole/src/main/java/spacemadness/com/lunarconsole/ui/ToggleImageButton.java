@@ -30,46 +30,38 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageButton;
 
-public class ToggleImageButton extends ImageButton
-{
+public class ToggleImageButton extends ImageButton {
     private OnStateChangeListener stateChangeListener;
     private boolean on;
 
     private Drawable onDrawable;
     private Drawable offDrawable;
 
-    public ToggleImageButton(Context context)
-    {
+    public ToggleImageButton(Context context) {
         super(context);
         init();
     }
 
-    public ToggleImageButton(Context context, AttributeSet attrs, int defStyleAttr)
-    {
+    public ToggleImageButton(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public ToggleImageButton(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes)
-    {
+    public ToggleImageButton(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
         init();
     }
 
-    public ToggleImageButton(Context context, AttributeSet attrs)
-    {
+    public ToggleImageButton(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
 
-    private void init()
-    {
-        setOnClickListener(new OnClickListener()
-        {
+    private void init() {
+        setOnClickListener(new OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 setOn(!on);
             }
         });
@@ -78,10 +70,8 @@ public class ToggleImageButton extends ImageButton
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Listener notifications
 
-    private void notifyStateChanged()
-    {
-        if (stateChangeListener != null)
-        {
+    private void notifyStateChanged() {
+        if (stateChangeListener != null) {
             stateChangeListener.onStateChanged(ToggleImageButton.this);
         }
     }
@@ -89,64 +79,53 @@ public class ToggleImageButton extends ImageButton
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Getters/Setters
 
-    public boolean isOn()
-    {
+    public boolean isOn() {
         return on;
     }
 
-    public void setOn(boolean flag)
-    {
+    public void setOn(boolean flag) {
         boolean oldFlag = on;
 
         on = flag;
 
         Drawable stateDrawable = on ? onDrawable : offDrawable;
-        if (stateDrawable != null)
-        {
+        if (stateDrawable != null) {
             setImageDrawable(stateDrawable);
         }
 
-        if (oldFlag != flag)
-        {
+        if (oldFlag != flag) {
             notifyStateChanged();
         }
     }
 
-    public OnStateChangeListener getOnStateChangeListener()
-    {
+    public OnStateChangeListener getOnStateChangeListener() {
         return stateChangeListener;
     }
 
-    public void setOnStateChangeListener(OnStateChangeListener onStateChangeListener)
-    {
+    public void setOnStateChangeListener(OnStateChangeListener onStateChangeListener) {
         this.stateChangeListener = onStateChangeListener;
     }
 
-    public Drawable getOnDrawable()
-    {
+    public Drawable getOnDrawable() {
         return onDrawable;
     }
 
-    public void setOnDrawable(Drawable onDrawable)
-    {
+    public void setOnDrawable(Drawable onDrawable) {
         this.onDrawable = onDrawable;
     }
 
-    public Drawable getOffDrawable()
-    {
+    public Drawable getOffDrawable() {
         return offDrawable;
     }
 
-    public void setOffDrawable(Drawable offDrawable)
-    {
+    public void setOffDrawable(Drawable offDrawable) {
         this.offDrawable = offDrawable;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Listener
 
-    public interface OnStateChangeListener
-    {
+    public interface OnStateChangeListener {
         void onStateChanged(ToggleImageButton button);
     }
 }

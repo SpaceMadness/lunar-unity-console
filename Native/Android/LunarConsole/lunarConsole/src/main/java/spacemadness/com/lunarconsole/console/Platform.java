@@ -26,11 +26,14 @@ import android.view.View;
 
 import java.util.Map;
 
-interface Platform
-{
-    /** View to attach gesture detector */
+interface Platform {
+    /**
+     * View to attach gesture detector
+     */
     View getTouchRecipientView();
 
-    /** Send message to Unity runtime */
+    /**
+     * Send message to Unity runtime
+     */
     void sendUnityScriptMessage(String name, Map<String, Object> data);
 }

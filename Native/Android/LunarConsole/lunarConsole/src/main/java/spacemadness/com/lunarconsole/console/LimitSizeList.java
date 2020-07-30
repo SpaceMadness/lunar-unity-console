@@ -26,15 +26,12 @@ import java.util.Iterator;
 
 import spacemadness.com.lunarconsole.utils.CycleArray;
 
-public class LimitSizeList<T> implements Iterable<T>
-{
+public class LimitSizeList<T> implements Iterable<T> {
     private final CycleArray<T> internalArray;
     private final int trimSize;
 
-    public LimitSizeList(Class<? extends T> cls, int capacity, int trimSize)
-    {
-        if (capacity < 0)
-        {
+    public LimitSizeList(Class<? extends T> cls, int capacity, int trimSize) {
+        if (capacity < 0) {
             throw new IllegalArgumentException("Illegal capacity: " + capacity);
         }
 
@@ -42,78 +39,55 @@ public class LimitSizeList<T> implements Iterable<T>
         this.trimSize = trimSize;
     }
 
-    public T objectAtIndex(int index)
-    {
+    public T objectAtIndex(int index) {
         return internalArray.get(internalArray.getHeadIndex() + index);
     }
 
-    public void addObject(T object)
-    {
-        if (willOverflow())
-        {
+    public void addObject(T object) {
+        if (willOverflow()) {
             trimHead(trimSize);
         }
         internalArray.add(object);
     }
 
-    public void trimHead(int count)
-    {
+    public void trimHead(int count) {
         internalArray.trimHeadIndex(count);
     }
 
-    public void clear()
-    {
+    public void clear() {
         internalArray.clear();
     }
 
     @Override
-    public Iterator<T> iterator()
-    {
+    public Iterator<T> iterator() {
         return internalArray.iterator();
     }
 
-    public int capacity()
-    {
+    public int getCapacity() {
         return internalArray.getCapacity();
     }
 
-    public int totalCount()
-    {
+    public int totalCount() {
         return internalArray.length();
     }
 
-    public int count()
-    {
+    public int size() {
         return internalArray.realLength();
     }
 
-    public int getTrimSize()
-    {
+    public int getTrimSize() {
         return trimSize;
     }
 
-    public int overflowCount()
-    {
-        return internalArray.getHeadIndex();
-    }
-
-    public boolean isOverfloating()
-    {
-        return internalArray.getHeadIndex() > 0 && willOverflow();
-    }
-
-    public boolean willOverflow()
-    {
+    public boolean willOverflow() {
         return internalArray.realLength() == internalArray.getCapacity();
     }
 
-    public boolean isTrimmed()
-    {
+    public boolean isTrimmed() {
         return trimmedCount() > 0;
     }
 
-    public int trimmedCount()
-    {
-        return totalCount() - count();
+    public int trimmedCount() {
+        return totalCount() - size();
     }
 }

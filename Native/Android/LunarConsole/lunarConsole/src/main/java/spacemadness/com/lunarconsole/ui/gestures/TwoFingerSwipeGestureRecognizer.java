@@ -24,24 +24,12 @@ package spacemadness.com.lunarconsole.ui.gestures;
 
 import android.view.MotionEvent;
 
-public class TwoFingerSwipeGestureRecognizer extends GestureRecognizer<TwoFingerSwipeGestureRecognizer>
-{
-    public enum SwipeDirection
-    {
-        Up,
-        Down,
-        Left,
-        Right
-    }
-
+public class TwoFingerSwipeGestureRecognizer extends GestureRecognizer<TwoFingerSwipeGestureRecognizer> {
     private final SwipeDirection direction;
     private final float threshold;
-
     private final TouchMotion firstTouchMotion;
     private final TouchMotion secondTouchMotion;
-
-    public TwoFingerSwipeGestureRecognizer(SwipeDirection direction, float threshold)
-    {
+    public TwoFingerSwipeGestureRecognizer(SwipeDirection direction, float threshold) {
         this.direction = direction;
         this.threshold = threshold;
 
@@ -50,16 +38,13 @@ public class TwoFingerSwipeGestureRecognizer extends GestureRecognizer<TwoFinger
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event)
-    {
+    public boolean onTouchEvent(MotionEvent event) {
         int action = event.getActionMasked();
         int index = event.getActionIndex();
         int id = event.getPointerId(index);
 
-        switch (action)
-        {
-            case MotionEvent.ACTION_DOWN:
-            {
+        switch (action) {
+            case MotionEvent.ACTION_DOWN: {
                 firstTouchMotion.reset();
                 secondTouchMotion.reset();
 
@@ -70,12 +55,9 @@ public class TwoFingerSwipeGestureRecognizer extends GestureRecognizer<TwoFinger
                 break;
             }
 
-            case MotionEvent.ACTION_UP:
-            {
-                if (firstTouchMotion.isActive() && secondTouchMotion.isActive())
-                {
-                    if (isRightDirection(direction, firstTouchMotion) && isRightDirection(direction, secondTouchMotion))
-                    {
+            case MotionEvent.ACTION_UP: {
+                if (firstTouchMotion.isActive() && secondTouchMotion.isActive()) {
+                    if (isRightDirection(direction, firstTouchMotion) && isRightDirection(direction, secondTouchMotion)) {
                         notifyGestureRecognizer();
                     }
                 }
@@ -85,40 +67,31 @@ public class TwoFingerSwipeGestureRecognizer extends GestureRecognizer<TwoFinger
                 break;
             }
 
-            case MotionEvent.ACTION_POINTER_DOWN:
-            {
-                if (firstTouchMotion.isActive() && !secondTouchMotion.isActive())
-                {
+            case MotionEvent.ACTION_POINTER_DOWN: {
+                if (firstTouchMotion.isActive() && !secondTouchMotion.isActive()) {
                     secondTouchMotion.id = id;
                     secondTouchMotion.startX = event.getX(index);
                     secondTouchMotion.startY = event.getY(index);
-                }
-                else
-                {
+                } else {
                     firstTouchMotion.reset();
                     secondTouchMotion.reset();
                 }
                 break;
             }
 
-            case MotionEvent.ACTION_POINTER_UP:
-            {
+            case MotionEvent.ACTION_POINTER_UP: {
                 break;
             }
 
-            case MotionEvent.ACTION_MOVE:
-            {
+            case MotionEvent.ACTION_MOVE: {
                 int pointerCount = event.getPointerCount();
-                for(int pointerIndex = 0; pointerIndex < pointerCount; ++pointerIndex)
-                {
+                for (int pointerIndex = 0; pointerIndex < pointerCount; ++pointerIndex) {
                     int pointerId = event.getPointerId(pointerIndex);
-                    if(pointerId == firstTouchMotion.id)
-                    {
+                    if (pointerId == firstTouchMotion.id) {
                         firstTouchMotion.endX = event.getX(pointerIndex);
                         firstTouchMotion.endY = event.getY(pointerIndex);
                     }
-                    if(pointerId == secondTouchMotion.id)
-                    {
+                    if (pointerId == secondTouchMotion.id) {
                         secondTouchMotion.endX = event.getX(pointerIndex);
                         secondTouchMotion.endY = event.getY(pointerIndex);
                     }
@@ -130,13 +103,19 @@ public class TwoFingerSwipeGestureRecognizer extends GestureRecognizer<TwoFinger
         return true;
     }
 
-    private boolean isRightDirection(SwipeDirection direction, TouchMotion touch)
-    {
+    private boolean isRightDirection(SwipeDirection direction, TouchMotion touch) {
         float distX = touch.distanceX();
         float distY = touch.distanceY();
         return direction == SwipeDirection.Down && distY >= threshold ||
                 direction == SwipeDirection.Up && -distY >= threshold ||
                 direction == SwipeDirection.Right && distX >= threshold ||
                 direction == SwipeDirection.Left && -distX >= threshold;
+    }
+
+    public enum SwipeDirection {
+        Up,
+        Down,
+        Left,
+        Right
     }
 }

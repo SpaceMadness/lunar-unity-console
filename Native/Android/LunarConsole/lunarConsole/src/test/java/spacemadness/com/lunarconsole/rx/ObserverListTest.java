@@ -4,9 +4,21 @@ import org.junit.Test;
 
 import spacemadness.com.lunarconsole.TestCase;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class ObserverListTest extends TestCase {
+    @SafeVarargs
+    private static ObserverList<String> concurrentListOf(Observer<String>... observables) {
+        ObserverList<String> list = new ObserverList<>();
+        for (Observer<String> observable : observables) {
+            list.add(observable);
+        }
+
+        return list;
+    }
+
     @Test
     public void TestNotifyObservers() {
         Observer<String> a = Callback("a");
@@ -146,16 +158,6 @@ public class ObserverListTest extends TestCase {
 
         list.notifyObservers("2");
         assertResults();
-    }
-
-    @SafeVarargs
-    private static ObserverList<String> concurrentListOf(Observer<String>... observables) {
-        ObserverList<String> list = new ObserverList<>();
-        for (Observer<String> observable : observables) {
-            list.add(observable);
-        }
-
-        return list;
     }
 
     private Observer<String> Callback(String name) {

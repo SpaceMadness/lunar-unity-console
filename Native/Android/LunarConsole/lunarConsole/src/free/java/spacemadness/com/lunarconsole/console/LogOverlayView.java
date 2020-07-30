@@ -27,31 +27,30 @@ import android.view.View;
 
 import spacemadness.com.lunarconsole.core.Destroyable;
 
-public class LogOverlayView extends View implements Destroyable
-{
-    public LogOverlayView(Context context, Console console, Object settings)
-    {
+public class LogOverlayView extends View implements Destroyable {
+    public LogOverlayView(Context context, Console console, Object settings) {
         super(context);
     }
 
     @Override
-    public void destroy()
-    {
+    public void destroy() {
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Settings
 
-    public static class Settings
-    {
-        /** How many entries can be visible at the same time */
+    public static class Settings {
+        /**
+         * How many entries can be visible at the same time
+         */
         public int maxVisibleEntries;
 
-        /** How much time each row would be displayed on the screen */
+        /**
+         * How much time each row would be displayed on the screen
+         */
         public long entryDisplayTimeMillis;
 
-        public Settings()
-        {
+        public Settings() {
             maxVisibleEntries = 3;
             entryDisplayTimeMillis = 1000;
         }

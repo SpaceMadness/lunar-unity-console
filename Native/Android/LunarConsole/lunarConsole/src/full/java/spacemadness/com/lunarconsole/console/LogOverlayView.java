@@ -37,8 +37,10 @@ import spacemadness.com.lunarconsole.utils.CycleArray;
 
 import static spacemadness.com.lunarconsole.console.BaseConsoleLogAdapter.DataSource;
 import static spacemadness.com.lunarconsole.debug.Tags.OVERLAY_VIEW;
-
-import static spacemadness.com.lunarconsole.debug.TestHelper.*;
+import static spacemadness.com.lunarconsole.debug.TestHelper.TEST_EVENT_OVERLAY_ADD_ITEM;
+import static spacemadness.com.lunarconsole.debug.TestHelper.TEST_EVENT_OVERLAY_REMOVE_ITEM;
+import static spacemadness.com.lunarconsole.debug.TestHelper.TEST_EVENT_OVERLAY_SCHEDULE_ITEM_REMOVAL;
+import static spacemadness.com.lunarconsole.debug.TestHelper.testEvent;
 
 public class LogOverlayView extends ListView implements Destroyable, DataSource, LunarConsoleListener {
     private final Console console;

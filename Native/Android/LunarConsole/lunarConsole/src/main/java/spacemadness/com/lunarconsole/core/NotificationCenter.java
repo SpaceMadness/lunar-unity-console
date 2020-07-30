@@ -33,139 +33,111 @@ public class NotificationCenter // FIXME: cover with unit-tests
 {
     private final Map<String, NotificationList> listLookup;
 
-    public NotificationCenter()
-    {
+    public NotificationCenter() {
         this.listLookup = new HashMap<>();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Notifications
 
-    public void postNotification(String name)
-    {
+    public static NotificationCenter defaultCenter() {
+        return Holder.INSTANCE;
+    }
+
+    public void postNotification(String name) {
         postNotification(name, null);
     }
 
-    public void postNotification(String name, String key, Object value)
-    {
+    public void postNotification(String name, String key, Object value) {
         Map<String, Object> userData = new HashMap<>();
         userData.put(key, value);
         postNotification(name, userData);
     }
 
-    public void postNotification(String name, Map<String, Object> userData)
-    {
+    public void postNotification(String name, Map<String, Object> userData) {
         final NotificationList list = findNotificationList(name);
-        if (list != null)
-        {
+        if (list != null) {
             final Notification notification = new Notification(name, userData);
             list.postNotification(notification);
         }
     }
 
-    public NotificationCenter addListener(String name, OnNotificationListener listener)
-    {
+    public NotificationCenter addListener(String name, OnNotificationListener listener) {
         NotificationList list = resolveNotificationList(name);
         list.add(listener);
         return this;
     }
 
-    public NotificationCenter removeListener(String name, OnNotificationListener listener)
-    {
+    public NotificationCenter removeListener(String name, OnNotificationListener listener) {
         NotificationList list = findNotificationList(name);
-        if (list != null)
-        {
+        if (list != null) {
             list.remove(listener);
-            if (list.isEmpty())
-            {
+            if (list.isEmpty()) {
                 removeNotificationList(name);
             }
         }
         return this;
     }
 
-    public void removeListener(OnNotificationListener listener)
-    {
+    public void removeListener(OnNotificationListener listener) {
         List<String> keysToRemove = null;
-        for (Map.Entry<String, NotificationList> entry : listLookup.entrySet())
-        {
+        for (Map.Entry<String, NotificationList> entry : listLookup.entrySet()) {
             NotificationList list = entry.getValue();
-            if (list.remove(listener) && list.isEmpty())
-            {
-                if (keysToRemove == null)
-                {
+            if (list.remove(listener) && list.isEmpty()) {
+                if (keysToRemove == null) {
                     keysToRemove = new ArrayList<>();
                 }
                 keysToRemove.add(entry.getKey());
             }
         }
 
-        if (keysToRemove != null)
-        {
-            for (String key : keysToRemove)
-            {
+        if (keysToRemove != null) {
+            for (String key : keysToRemove) {
                 listLookup.remove(key);
             }
         }
     }
 
-    private NotificationList resolveNotificationList(String name)
-    {
+    private NotificationList resolveNotificationList(String name) {
         NotificationList list = listLookup.get(name);
-        if (list == null)
-        {
+        if (list == null) {
             list = new NotificationList();
             listLookup.put(name, list);
         }
         return list;
     }
 
-    private void removeNotificationList(String name)
-    {
+    private void removeNotificationList(String name) {
         listLookup.remove(name);
-    }
-
-    private NotificationList findNotificationList(String name)
-    {
-        return listLookup.get(name);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Getters/Setters
 
-    public static NotificationCenter defaultCenter()
-    {
-        return Holder.INSTANCE;
+    private NotificationList findNotificationList(String name) {
+        return listLookup.get(name);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Instance holder
 
-    private static class Holder
-    {
-        private static final NotificationCenter INSTANCE = new NotificationCenter();
+    public interface OnNotificationListener {
+        void onNotification(Notification notification);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Callback
 
-    public interface OnNotificationListener
-    {
-        void onNotification(Notification notification);
+    private static class Holder {
+        private static final NotificationCenter INSTANCE = new NotificationCenter();
     }
 
-    private static class NotificationList extends ArrayList<OnNotificationListener>
-    {
-        public void postNotification(Notification notification)
-        {
-            for (OnNotificationListener listener : this)
-            {
-                try
-                {
+    private static class NotificationList extends ArrayList<OnNotificationListener> {
+        public void postNotification(Notification notification) {
+            for (OnNotificationListener listener : this) {
+                try {
                     listener.onNotification(notification);
-                }
-                catch (Exception e)
-                {
+                } catch (Exception e) {
                     Log.e(e, "Exception while notifying listener: %s", listener.getClass());
                 }
             }

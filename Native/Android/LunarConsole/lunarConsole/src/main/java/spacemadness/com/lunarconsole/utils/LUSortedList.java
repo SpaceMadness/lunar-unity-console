@@ -26,36 +26,27 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class LUSortedList<T extends Comparable> implements Iterable<T>
-{
+public class LUSortedList<T extends Comparable> implements Iterable<T> {
     private final List<T> list;
     private boolean sortingEnabled = true;
 
-    public LUSortedList()
-    {
+    public LUSortedList() {
         list = new ArrayList<>();
     }
 
-    public T objectAtIndex(int index)
-    {
+    public T objectAtIndex(int index) {
         return list.get(index);
     }
 
-    public int addObject(T object)
-    {
-        if (sortingEnabled)
-        {
+    public int addObject(T object) {
+        if (sortingEnabled) {
             // TODO: use binary search to insert in a sorted order
-            for (int i = 0; i < list.size(); ++i)
-            {
+            for (int i = 0; i < list.size(); ++i) {
                 int comparisonResult = object.compareTo(list.get(i));
-                if (comparisonResult < 0)
-                {
+                if (comparisonResult < 0) {
                     list.add(i, object);
                     return i;
-                }
-                else if (comparisonResult == 0)
-                {
+                } else if (comparisonResult == 0) {
                     list.set(i, object);
                     return i;
                 }
@@ -66,51 +57,42 @@ public class LUSortedList<T extends Comparable> implements Iterable<T>
         return list.size() - 1;
     }
 
-    public void removeObject(T object)
-    {
+    public void removeObject(T object) {
         list.remove(object);
     }
 
-    public void removeObjectAtIndex(int index)
-    {
+    public void removeObjectAtIndex(int index) {
         list.remove(index);
     }
 
-    public void removeAllObjects()
-    {
+    public void removeAllObjects() {
         list.clear();
     }
 
-    public int indexOfObject(T object)
-    {
+    public int indexOfObject(T object) {
         return list.indexOf(object);
     }
 
-    public int count()
-    {
+    public int count() {
         return list.size();
     }
 
-    public List<T> list()
-    {
+    public List<T> list() {
         return list;
     }
 
-    public boolean isSortingEnabled()
-    {
+    public boolean isSortingEnabled() {
         return sortingEnabled;
     }
 
-    public void setSortingEnabled(boolean sortingEnabled)
-    {
+    public void setSortingEnabled(boolean sortingEnabled) {
         this.sortingEnabled = sortingEnabled;
     }
 
     //region Iterable
 
     @Override
-    public Iterator<T> iterator()
-    {
+    public Iterator<T> iterator() {
         return list.iterator();
     }
 

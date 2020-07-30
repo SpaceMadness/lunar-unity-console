@@ -28,19 +28,15 @@ import android.view.ViewGroup;
 
 import spacemadness.com.lunarconsole.R;
 
-public class ConsoleActionAdapter extends BaseConsoleActionAdapter<IdentityEntry>
-{
-    public ConsoleActionAdapter(DataSource<IdentityEntry> dataSource)
-    {
+public class ConsoleActionAdapter extends BaseConsoleActionAdapter<IdentityEntry> {
+    public ConsoleActionAdapter(DataSource<IdentityEntry> dataSource) {
         super(dataSource);
     }
 
     @Override
-    protected ViewHolder createViewHolder(View convertView, int position)
-    {
+    protected ViewHolder createViewHolder(View convertView, int position) {
         EntryType type = getEntryType(position);
-        switch (type)
-        {
+        switch (type) {
             case Action:
                 return new ActionViewHolder(convertView);
             case Variable:
@@ -53,12 +49,10 @@ public class ConsoleActionAdapter extends BaseConsoleActionAdapter<IdentityEntry
     }
 
     @Override
-    protected View createConvertView(ViewGroup parent, int position)
-    {
+    protected View createConvertView(ViewGroup parent, int position) {
         EntryType type = getEntryType(position);
         int layoutId;
-        switch (type)
-        {
+        switch (type) {
             case Action:
                 layoutId = R.layout.lunar_console_layout_console_action_entry;
                 break;
@@ -77,19 +71,16 @@ public class ConsoleActionAdapter extends BaseConsoleActionAdapter<IdentityEntry
     }
 
     @Override
-    public int getItemViewType(int position)
-    {
+    public int getItemViewType(int position) {
         return getEntryType(position).ordinal();
     }
 
     @Override
-    public int getViewTypeCount()
-    {
+    public int getViewTypeCount() {
         return EntryType.values().length;
     }
 
-    private EntryType getEntryType(int position)
-    {
+    private EntryType getEntryType(int position) {
         IdentityEntry entry = (IdentityEntry) getItem(position);
         return entry.getEntryType();
     }

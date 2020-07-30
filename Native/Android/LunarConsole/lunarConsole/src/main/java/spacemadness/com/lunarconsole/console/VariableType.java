@@ -24,18 +24,13 @@ package spacemadness.com.lunarconsole.console;
 
 import spacemadness.com.lunarconsole.debug.Log;
 
-public enum VariableType
-{
+public enum VariableType {
     Unknown, Boolean, Integer, Float, String;
 
-    public static VariableType parse(String name)
-    {
-        try
-        {
+    public static VariableType parse(String name) {
+        try {
             return Enum.valueOf(VariableType.class, name);
-        }
-        catch (Exception e)
-        {
+        } catch (Exception e) {
             Log.e(e, "Exception while parsing variable type: %s", name);
             return VariableType.Unknown;
         }
