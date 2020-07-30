@@ -1,6 +1,6 @@
 package spacemadness.com.lunarconsole.core;
 
 // FIXME: java naming conventions
-public interface IDisposable {
+public interface Disposable {
     void Dispose();
 }

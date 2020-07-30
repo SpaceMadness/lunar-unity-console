@@ -3,26 +3,26 @@ package spacemadness.com.lunarconsole.rx;
 import org.junit.Test;
 
 import spacemadness.com.lunarconsole.TestCase;
-import spacemadness.com.lunarconsole.core.IDisposable;
+import spacemadness.com.lunarconsole.core.Disposable;
 
 public class SubjectTest extends TestCase {
     @Test
     public void TestObservers() {
         MockSubject<String> subject = new MockSubject<>();
 
-        IDisposable a = subject.subscribe(new Observer<String>() {
+        Disposable a = subject.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
                 addResult("A:" + value + "");
             }
         });
-        IDisposable b = subject.subscribe(new Observer<String>() {
+        Disposable b = subject.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
                 addResult("B:" + value + "");
             }
         });
-        IDisposable c = subject.subscribe(new Observer<String>() {
+        Disposable c = subject.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
                 addResult("C:" + value + "");
@@ -40,7 +40,7 @@ public class SubjectTest extends TestCase {
         subject.post("3");
         assertResults("C:3");
 
-        IDisposable d = subject.subscribe(new Observer<String>() {
+        Disposable d = subject.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
                 addResult("D:" + value + "");
@@ -62,19 +62,19 @@ public class SubjectTest extends TestCase {
     @Test
     public void TestObserversAllObservers() {
         MockSubject<String> subject = new MockSubject<>();
-        IDisposable a = subject.subscribe(new Observer<String>() {
+        Disposable a = subject.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
                 addResult("A:" + value + "");
             }
         });
-        IDisposable b = subject.subscribe(new Observer<String>() {
+        Disposable b = subject.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
                 addResult("B:" + value + "");
             }
         });
-        IDisposable c = subject.subscribe(new Observer<String>() {
+        Disposable c = subject.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
                 addResult("C:" + value + "");
@@ -100,7 +100,7 @@ public class SubjectTest extends TestCase {
     @Test
     public void TestRemoveObserverWhileNotifying() {
         MockSubject<String> observable = new MockSubject<String>();
-        final IDisposable subscriptionA = observable.subscribe(new Observer<String>() {
+        final Disposable subscriptionA = observable.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
                 addResult("A:" + value + "");

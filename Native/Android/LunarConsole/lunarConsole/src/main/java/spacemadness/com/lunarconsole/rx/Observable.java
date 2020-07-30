@@ -1,7 +1,7 @@
 package spacemadness.com.lunarconsole.rx;
 
-import spacemadness.com.lunarconsole.core.IDisposable;
+import spacemadness.com.lunarconsole.core.Disposable;
 
 public interface Observable<T> {
-    IDisposable subscribe(Observer<T> observer);
+    Disposable subscribe(Observer<T> observer);
 }

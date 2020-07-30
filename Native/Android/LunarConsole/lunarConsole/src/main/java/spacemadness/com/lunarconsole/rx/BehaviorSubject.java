@@ -1,6 +1,6 @@
 package spacemadness.com.lunarconsole.rx;
 
-import spacemadness.com.lunarconsole.core.IDisposable;
+import spacemadness.com.lunarconsole.core.Disposable;
 
 public final class BehaviorSubject<T> extends Subject<T> {
     private T m_value;
@@ -14,8 +14,8 @@ public final class BehaviorSubject<T> extends Subject<T> {
     }
 
     @Override
-    public IDisposable subscribe(Observer<T> observer) {
-        IDisposable disposable = super.subscribe(observer);
+    public Disposable subscribe(Observer<T> observer) {
+        Disposable disposable = super.subscribe(observer);
         NotifyObserver(observer, getValue());
         return disposable;
     }

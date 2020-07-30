@@ -3,14 +3,14 @@ package spacemadness.com.lunarconsole.rx;
 import org.junit.Test;
 
 import spacemadness.com.lunarconsole.TestCase;
-import spacemadness.com.lunarconsole.core.IDisposable;
+import spacemadness.com.lunarconsole.core.Disposable;
 
 public class BehaviorSubjectTest extends TestCase {
     @Test
     public void TestValue() {
         BehaviorSubject<String> observable = new BehaviorSubject<>("1");
         // new observer should get current value
-        IDisposable subscriptionA = observable.subscribe(new Observer<String>() {
+        Disposable subscriptionA = observable.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
                 addResult("A" + value + "");
@@ -19,7 +19,7 @@ public class BehaviorSubjectTest extends TestCase {
         AssertResults("A1");
 
         // new observer should get current value (but others - won't)
-        IDisposable subscriptionB = observable.subscribe(new Observer<String>() {
+        Disposable subscriptionB = observable.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
                 addResult("B" + value + "");
@@ -76,7 +76,7 @@ public class BehaviorSubjectTest extends TestCase {
     public void TestRemoveObserverWhileNotifying() {
         BehaviorSubject<String> observable = new BehaviorSubject<>("1");
 
-        final IDisposable subscriptionA = observable.subscribe(new Observer<String>() {
+        final Disposable subscriptionA = observable.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
                 addResult("A" + value + "");

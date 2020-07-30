@@ -1,13 +1,13 @@
 package spacemadness.com.lunarconsole.rx;
 
-import spacemadness.com.lunarconsole.core.IDisposable;
+import spacemadness.com.lunarconsole.core.Disposable;
 
 public abstract class Subject<T> implements Observable<T> {
     private final ObserverList<T> observers = new ObserverList<T>();
 
-    public IDisposable subscribe(final Observer<T> observer) {
+    public Disposable subscribe(final Observer<T> observer) {
         observers.Add(observer);
-        return new IDisposable() {
+        return new Disposable() {
             @Override
             public void Dispose() {
                 RemoveObserver(observer);
