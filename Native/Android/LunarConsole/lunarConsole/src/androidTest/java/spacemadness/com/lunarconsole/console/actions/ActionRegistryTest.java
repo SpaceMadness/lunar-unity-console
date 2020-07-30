@@ -172,7 +172,7 @@ public class ActionRegistryTest extends TestCaseEx implements ActionRegistry.Del
     }
 
     private boolean unregisterActionWithName(String name) {
-        for (Action action : actionRegistry.actions()) {
+        for (Action action : actionRegistry.getActions()) {
             if (action.getName().equals(name)) {
                 actionRegistry.unregisterAction(action.getActionId());
                 return true;
@@ -183,20 +183,20 @@ public class ActionRegistryTest extends TestCaseEx implements ActionRegistry.Del
     }
 
     private void assertActions(String... expected) {
-        assertEquals(expected.length, actionRegistry.actions().size());
+        assertEquals(expected.length, actionRegistry.getActions().size());
 
         int index = 0;
-        for (Action action : actionRegistry.actions()) {
+        for (Action action : actionRegistry.getActions()) {
             assertEquals(expected[index], action.getName());
             ++index;
         }
     }
 
     private void assertVariables(String... expected) {
-        assertEquals(expected.length, actionRegistry.variables().size());
+        assertEquals(expected.length, actionRegistry.getVariables().size());
 
         int index = 0;
-        for (Variable cvar : actionRegistry.variables()) {
+        for (Variable cvar : actionRegistry.getVariables()) {
             assertEquals(expected[index], cvar.getName());
             ++index;
         }

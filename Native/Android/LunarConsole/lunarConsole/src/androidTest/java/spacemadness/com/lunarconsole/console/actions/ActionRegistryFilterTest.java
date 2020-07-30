@@ -431,8 +431,8 @@ public class ActionRegistryFilterTest extends TestCaseEx implements ActionRegist
     }
 
     private boolean unregisterAction(String name) {
-        for (int i = 0; i < _actionRegistry.actions().size(); ++i) {
-            Action action = as(_actionRegistry.actions().get(i), Action.class);
+        for (int i = 0; i < _actionRegistry.getActions().size(); ++i) {
+            Action action = as(_actionRegistry.getActions().get(i), Action.class);
             if (action != null && action.getName().equals(name)) {
                 _actionRegistry.unregisterAction(action.getActionId());
                 return true;

@@ -107,7 +107,7 @@ public class ActionRegistry {
         return index != -1 ? variables.objectAtIndex(index) : null;
     }
 
-    private int indexOfVariable(int variableId) // FIXME: rename
+    private int indexOfVariable(int variableId)
     {
         int index = 0;
         for (Variable cvar : variables) {
@@ -150,18 +150,14 @@ public class ActionRegistry {
 
     //region Getters/Setters
 
-    public List<Action> actions() // FIXME: rename
+    public List<Action> getActions()
     {
         return actions.list();
     }
 
-    public List<Variable> variables() // FIXME: rename
+    public List<Variable> getVariables()
     {
         return variables.list();
-    }
-
-    public Delegate getDelegate() {
-        return delegate;
     }
 
     public void setDelegate(Delegate delegate) {

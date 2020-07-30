@@ -205,7 +205,7 @@ public class ActionRegistryFilter implements ActionRegistry.Delegate {
     }
 
     public List<Action> getAllActions() {
-        return _registry.actions();
+        return _registry.getActions();
     }
 
     public List<Variable> variables() {
@@ -213,7 +213,7 @@ public class ActionRegistryFilter implements ActionRegistry.Delegate {
     }
 
     public List<Variable> getAllVariables() {
-        return _registry.variables();
+        return _registry.getVariables();
     }
 
     public boolean isFiltering() {
