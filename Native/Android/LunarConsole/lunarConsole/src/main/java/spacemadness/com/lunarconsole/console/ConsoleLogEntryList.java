@@ -319,7 +319,7 @@ public class ConsoleLogEntryList {
      * @return new list
      */
     private LimitSizeEntryList filterEntries(LimitSizeEntryList entries) {
-        LimitSizeEntryList list = new LimitSizeEntryList(entries.capacity(), entries.getTrimSize()); // same as original list
+        LimitSizeEntryList list = new LimitSizeEntryList(entries.getCapacity(), entries.getTrimSize()); // same as original list
 
         if (collapsed) {
             for (ConsoleLogEntry entry : entries) {
@@ -384,7 +384,7 @@ public class ConsoleLogEntryList {
         StringBuilder text = new StringBuilder();
 
         int index = 0;
-        int count = currentEntries.count();
+        int count = currentEntries.size();
         for (ConsoleLogEntry entry : currentEntries) {
             text.append(entry.message);
             if (entry.type == ConsoleLogType.EXCEPTION && entry.hasStackTrace()) {
@@ -428,23 +428,18 @@ public class ConsoleLogEntryList {
         return collapsed;
     }
 
-    public int capacity() // FIXME: java naming conventions
+    public int getCapacity()
     {
-        return currentEntries.capacity();
+        return currentEntries.getCapacity();
     }
 
-    public int count() // FIXME: java naming conventions
+    public int size()
     {
-        return currentEntries.count();
+        return currentEntries.size();
     }
 
-    public int trimCount() {
+    public int getTrimCount() {
         return currentEntries.getTrimSize();
-    }
-
-    public int totalCount() // FIXME: java naming conventions
-    {
-        return currentEntries.totalCount();
     }
 
     public int getLogCount() {
@@ -467,16 +462,7 @@ public class ConsoleLogEntryList {
         return filteredEntries != null;
     }
 
-    public int overflowAmount() // FIXME: java naming conventions
-    {
-        return currentEntries.overflowCount();
-    }
-
-    public boolean isOverfloating() {
-        return currentEntries.isOverfloating();
-    }
-
-    public int trimmedCount() {
+    public int getTrimmedCount() {
         return currentEntries.trimmedCount();
     }
 

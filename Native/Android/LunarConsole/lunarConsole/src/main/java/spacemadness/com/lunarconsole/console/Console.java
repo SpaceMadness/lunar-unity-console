@@ -68,7 +68,7 @@ public class Console implements
     }
 
     void logMessage(ConsoleLogEntry entry) {
-        final int oldTrimmedCount = entries.trimmedCount(); // trimmed count before we added a new item
+        final int oldTrimmedCount = entries.getTrimmedCount(); // trimmed count before we added a new item
 
         // add new entry
         int index = entries.addEntry(entry);
@@ -79,7 +79,7 @@ public class Console implements
         }
 
         // notify listener
-        final int trimmedCount = entries.trimmedCount() - oldTrimmedCount;
+        final int trimmedCount = entries.getTrimmedCount() - oldTrimmedCount;
         if (trimmedCount > 0) {
             notifyRemoveEntries(0, trimmedCount);
         }
@@ -151,11 +151,11 @@ public class Console implements
     // Getters/Setters
 
     public int getCapacity() {
-        return entries.capacity();
+        return entries.getCapacity();
     }
 
     public int getTrimSize() {
-        return entries.trimCount();
+        return entries.getTrimCount();
     }
 
     public ConsoleLogEntryList entries() {
@@ -172,11 +172,11 @@ public class Console implements
     }
 
     public int entriesCount() {
-        return entries.count();
+        return entries.size();
     }
 
     public int trimmedCount() {
-        return entries.trimmedCount();
+        return entries.getTrimmedCount();
     }
 
     public boolean isTrimmed() {
@@ -193,7 +193,7 @@ public class Console implements
 
     @Override
     public int getEntryCount() {
-        return entries.count();
+        return entries.size();
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////

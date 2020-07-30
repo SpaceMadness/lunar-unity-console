@@ -63,7 +63,7 @@ public class LimitSizeList<T> implements Iterable<T> {
         return internalArray.iterator();
     }
 
-    public int capacity() {
+    public int getCapacity() {
         return internalArray.getCapacity();
     }
 
@@ -71,20 +71,12 @@ public class LimitSizeList<T> implements Iterable<T> {
         return internalArray.length();
     }
 
-    public int count() {
+    public int size() {
         return internalArray.realLength();
     }
 
     public int getTrimSize() {
         return trimSize;
-    }
-
-    public int overflowCount() {
-        return internalArray.getHeadIndex();
-    }
-
-    public boolean isOverfloating() {
-        return internalArray.getHeadIndex() > 0 && willOverflow();
     }
 
     public boolean willOverflow() {
@@ -96,6 +88,6 @@ public class LimitSizeList<T> implements Iterable<T> {
     }
 
     public int trimmedCount() {
-        return totalCount() - count();
+        return totalCount() - size();
     }
 }

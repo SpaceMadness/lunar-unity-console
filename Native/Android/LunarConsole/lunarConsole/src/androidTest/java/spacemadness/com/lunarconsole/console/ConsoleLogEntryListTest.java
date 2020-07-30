@@ -745,7 +745,7 @@ public class ConsoleLogEntryListTest extends TestCase {
     // Helpers
 
     private void listAssertMessages(ConsoleLogEntryList list, String... expected) {
-        assertEquals(expected.length, list.count());
+        assertEquals(expected.length, list.size());
         for (int i = 0; i < expected.length; ++i) {
             ConsoleLogEntry entry = list.getEntry(i);
             assertEquals(expected[i], entry.message);
