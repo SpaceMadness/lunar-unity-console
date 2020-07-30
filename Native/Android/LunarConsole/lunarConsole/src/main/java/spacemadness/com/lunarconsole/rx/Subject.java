@@ -6,7 +6,7 @@ public abstract class Subject<T> implements Observable<T> {
     private final ObserverList<T> observers = new ObserverList<T>();
 
     public Disposable subscribe(final Observer<T> observer) {
-        observers.Add(observer);
+        observers.add(observer);
         return new Disposable() {
             @Override
             public void dispose() {
@@ -24,7 +24,7 @@ public abstract class Subject<T> implements Observable<T> {
     }
 
     protected void notifyObservers(T value) {
-        observers.NotifyObservers(value);
+        observers.notifyObservers(value);
     }
 
     protected void notifyObserver(Observer<T> observer, T value) {

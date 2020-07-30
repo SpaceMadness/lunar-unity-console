@@ -11,7 +11,7 @@ public final class ObserverList<T> extends ConcurrentModificationList<Observer<T
         super(capacity);
     }
 
-    public void NotifyObservers(T value) {
+    public void notifyObservers(T value) {
         try {
             updating = true;
             int size = data.size();

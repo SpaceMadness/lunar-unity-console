@@ -12,7 +12,7 @@ public abstract class ConcurrentModificationList<E> {
         data = new ArrayList<>(capacity);
     }
 
-    public void Add(E element) {
+    public void add(E element) {
         data.add(element);
     }
 
