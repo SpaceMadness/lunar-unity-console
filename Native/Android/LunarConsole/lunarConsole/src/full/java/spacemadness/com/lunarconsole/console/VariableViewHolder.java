@@ -264,7 +264,6 @@ public class VariableViewHolder extends ConsoleActionAdapter.ViewHolder<Variable
         updateUI();
     }
 
-    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     void updateUI() {
         final int style = variable.isDefaultValue() ? Typeface.NORMAL : Typeface.BOLD;
         nameTextView.setTypeface(null, style);

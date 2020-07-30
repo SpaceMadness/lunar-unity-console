@@ -37,7 +37,6 @@ import static spacemadness.com.lunarconsole.console.Notifications.NOTIFICATION_A
 import static spacemadness.com.lunarconsole.console.Notifications.NOTIFICATION_ACTIVITY_STOPPED;
 import static spacemadness.com.lunarconsole.console.Notifications.NOTIFICATION_KEY_ACTIVITY;
 
-@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 class ActivityLifecycleHandler implements Application.ActivityLifecycleCallbacks, Destroyable {
     private final WeakReference<Application> applicationRef;
 
