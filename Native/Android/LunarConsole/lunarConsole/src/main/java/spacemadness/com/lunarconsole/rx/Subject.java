@@ -2,7 +2,7 @@ package spacemadness.com.lunarconsole.rx;
 
 import spacemadness.com.lunarconsole.core.IDisposable;
 
-public abstract class Subject<T> implements IObservable<T> {
+public abstract class Subject<T> implements Observable<T> {
     private final ObserverList<T> observers = new ObserverList<T>();
 
     public IDisposable Subscribe(final Observer<T> observer) {
