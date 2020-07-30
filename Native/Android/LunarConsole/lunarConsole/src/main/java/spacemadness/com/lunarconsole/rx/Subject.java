@@ -10,16 +10,16 @@ public abstract class Subject<T> implements Observable<T> {
         return new Disposable() {
             @Override
             public void dispose() {
-                RemoveObserver(observer);
+                removeObserver(observer);
             }
         };
     }
 
-    public void RemoveObserver(Observer<T> observer) {
+    public void removeObserver(Observer<T> observer) {
         observers.Remove(observer);
     }
 
-    public void RemoveAllObservers() {
+    public void removeAllObservers() {
         observers.Clear();
     }
 

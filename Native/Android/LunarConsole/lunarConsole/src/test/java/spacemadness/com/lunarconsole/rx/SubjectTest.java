@@ -84,7 +84,7 @@ public class SubjectTest extends TestCase {
         subject.post("1");
         assertResults("A:1", "B:1", "C:1");
 
-        subject.RemoveAllObservers();
+        subject.removeAllObservers();
 
         subject.post("2");
         assertResults();
@@ -134,7 +134,7 @@ public class SubjectTest extends TestCase {
             @Override
             public void onChanged(String value) {
                 addResult("B:" + value + "");
-                observable.RemoveAllObservers();
+                observable.removeAllObservers();
             }
         });
         observable.subscribe(new Observer<String>() {

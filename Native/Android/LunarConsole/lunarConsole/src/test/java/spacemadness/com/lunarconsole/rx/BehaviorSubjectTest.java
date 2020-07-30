@@ -66,7 +66,7 @@ public class BehaviorSubjectTest extends TestCase {
 
         AssertResults("1");
 
-        observable.RemoveObserver(observer);
+        observable.removeObserver(observer);
 
         observable.setValue("2");
         AssertResults();

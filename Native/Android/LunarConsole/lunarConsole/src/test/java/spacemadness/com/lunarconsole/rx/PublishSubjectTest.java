@@ -76,7 +76,7 @@ public class PublishSubjectTest extends TestCase {
         observable.Post("1");
         AssertResults("1");
 
-        observable.RemoveObserver(observer);
+        observable.removeObserver(observer);
 
         observable.Post("2");
         AssertResults();
