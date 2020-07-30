@@ -9,7 +9,7 @@ public class PublishSubjectTest extends TestCase {
     @Test
     public void TestValue() {
         PublishSubject<String> observable = new PublishSubject<>();
-        observable.Post("1");
+        observable.post("1");
 
         // new observer should NOT get the value
         Disposable subscriptionA = observable.subscribe(new Observer<String>() {
@@ -21,7 +21,7 @@ public class PublishSubjectTest extends TestCase {
         AssertResults();
 
         // the observer should get the value
-        observable.Post("2");
+        observable.post("2");
         AssertResults("A2");
 
         // new observer should NOT get current value
@@ -34,19 +34,19 @@ public class PublishSubjectTest extends TestCase {
         AssertResults();
 
         // new value
-        observable.Post("3");
+        observable.post("3");
         AssertResults("A3", "B3");
 
         // remove subscription
         subscriptionA.dispose();
 
-        observable.Post("4");
+        observable.post("4");
         AssertResults("B4");
 
         // remove subscription
         subscriptionB.dispose();
 
-        observable.Post("5");
+        observable.post("5");
         AssertResults();
 
         observable.subscribe(new Observer<String>() {
@@ -57,7 +57,7 @@ public class PublishSubjectTest extends TestCase {
         });
         AssertResults();
 
-        observable.Post("6");
+        observable.post("6");
         AssertResults("C6");
     }
 
@@ -73,12 +73,12 @@ public class PublishSubjectTest extends TestCase {
         PublishSubject<String> observable = new PublishSubject<>();
         observable.subscribe(observer);
 
-        observable.Post("1");
+        observable.post("1");
         AssertResults("1");
 
         observable.removeObserver(observer);
 
-        observable.Post("2");
+        observable.post("2");
         AssertResults();
     }
 
@@ -99,10 +99,10 @@ public class PublishSubjectTest extends TestCase {
             }
         });
 
-        observable.Post("1");
+        observable.post("1");
         AssertResults("A1", "B1");
 
-        observable.Post("2");
+        observable.post("2");
         AssertResults("B2");
     }
 
