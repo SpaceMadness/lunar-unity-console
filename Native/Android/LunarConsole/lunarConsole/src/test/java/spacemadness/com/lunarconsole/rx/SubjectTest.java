@@ -32,11 +32,11 @@ public class SubjectTest extends TestCase {
         subject.post("1");
         assertResults("A:1", "B:1", "C:1");
 
-        b.Dispose();
+        b.dispose();
         subject.post("2");
         assertResults("A:2", "C:2");
 
-        a.Dispose();
+        a.dispose();
         subject.post("3");
         assertResults("C:3");
 
@@ -49,12 +49,12 @@ public class SubjectTest extends TestCase {
         subject.post("4");
         assertResults("C:4", "D:4");
 
-        c.Dispose();
+        c.dispose();
 
         subject.post("5");
         assertResults("D:5");
 
-        d.Dispose();
+        d.dispose();
         subject.post("6");
         assertResults();
     }
@@ -89,9 +89,9 @@ public class SubjectTest extends TestCase {
         subject.post("2");
         assertResults();
 
-        a.Dispose();
-        b.Dispose();
-        c.Dispose();
+        a.dispose();
+        b.dispose();
+        c.dispose();
 
         subject.post("3");
         assertResults();
@@ -110,7 +110,7 @@ public class SubjectTest extends TestCase {
             @Override
             public void onChanged(String value) {
                 addResult("B:" + value + "");
-                subscriptionA.Dispose();
+                subscriptionA.dispose();
             }
         });
 

@@ -9,7 +9,7 @@ public abstract class Subject<T> implements Observable<T> {
         observers.Add(observer);
         return new Disposable() {
             @Override
-            public void Dispose() {
+            public void dispose() {
                 RemoveObserver(observer);
             }
         };

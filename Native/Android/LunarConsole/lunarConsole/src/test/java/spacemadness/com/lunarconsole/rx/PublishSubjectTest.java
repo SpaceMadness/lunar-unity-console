@@ -38,13 +38,13 @@ public class PublishSubjectTest extends TestCase {
         AssertResults("A3", "B3");
 
         // remove subscription
-        subscriptionA.Dispose();
+        subscriptionA.dispose();
 
         observable.Post("4");
         AssertResults("B4");
 
         // remove subscription
-        subscriptionB.Dispose();
+        subscriptionB.dispose();
 
         observable.Post("5");
         AssertResults();
@@ -95,7 +95,7 @@ public class PublishSubjectTest extends TestCase {
             @Override
             public void onChanged(String value) {
                 addResult("B" + value + "");
-                subscriptionA.Dispose();
+                subscriptionA.dispose();
             }
         });
 

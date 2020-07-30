@@ -32,13 +32,13 @@ public class BehaviorSubjectTest extends TestCase {
         AssertResults("A2", "B2");
 
         // remove subscription
-        subscriptionA.Dispose();
+        subscriptionA.dispose();
 
         observable.setValue("3");
         AssertResults("B3");
 
         // remove subscription
-        subscriptionB.Dispose();
+        subscriptionB.dispose();
 
         observable.setValue("4");
         AssertResults();
@@ -88,7 +88,7 @@ public class BehaviorSubjectTest extends TestCase {
             @Override
             public void onChanged(String value) {
                 addResult("B" + value + "");
-                subscriptionA.Dispose();
+                subscriptionA.dispose();
             }
         });
         AssertResults("B1");
