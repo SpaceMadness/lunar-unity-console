@@ -55,7 +55,7 @@ public class ActionRegistry {
     public boolean unregisterAction(int actionId) {
         for (int actionIndex = actions.count() - 1; actionIndex >= 0; --actionIndex) {
             Action action = actions.objectAtIndex(actionIndex);
-            if (action.actionId() == actionId) {
+            if (action.getActionId() == actionId) {
                 actions.removeObjectAtIndex(actionIndex);
                 notifyActionRemove(action, actionIndex);
 
@@ -70,7 +70,7 @@ public class ActionRegistry {
         // TODO: more optimized search
         for (int index = 0; index < actions.count(); ++index) {
             Action action = actions.objectAtIndex(index);
-            if (ObjectUtils.areEqual(action.name(), actionName)) {
+            if (ObjectUtils.areEqual(action.getName(), actionName)) {
                 return index;
             }
         }
@@ -111,7 +111,7 @@ public class ActionRegistry {
     {
         int index = 0;
         for (Variable cvar : variables) {
-            if (cvar.actionId() == variableId) {
+            if (cvar.getActionId() == variableId) {
                 return index;
             }
 

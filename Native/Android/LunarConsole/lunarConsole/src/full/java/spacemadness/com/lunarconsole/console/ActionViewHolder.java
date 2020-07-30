@@ -43,6 +43,6 @@ public class ActionViewHolder extends ConsoleActionAdapter.ViewHolder<Action> {
     public void onBindViewHolder(Action action, int position) {
         Context context = getContext();
         layout.setBackgroundColor(action.getBackgroundColor(context, position));
-        nameView.setText(action.name());
+        nameView.setText(action.getName());
     }
 }

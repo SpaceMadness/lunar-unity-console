@@ -570,7 +570,7 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
                 Assert.IsNotNull(action);
 
                 if (action != null) {
-                    sendNativeCallback(SCRIPT_MESSAGE_ACTION, DictionaryUtils.createMap("id", action.actionId()));
+                    sendNativeCallback(SCRIPT_MESSAGE_ACTION, DictionaryUtils.createMap("id", action.getActionId()));
                 }
                 break;
             }
@@ -580,7 +580,7 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
 
                 if (variable != null) {
                     Map<String, Object> params = DictionaryUtils.createMap(
-                            "id", variable.actionId(),
+                            "id", variable.getActionId(),
                             "value", variable.value
                     );
 

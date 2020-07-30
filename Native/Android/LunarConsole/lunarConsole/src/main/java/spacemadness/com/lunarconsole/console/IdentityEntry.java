@@ -54,12 +54,12 @@ public abstract class IdentityEntry extends BaseEntry implements Comparable<Iden
         return getEntryType().ordinal();
     }
 
-    public int actionId() // FIXME: rename
+    public int getActionId()
     {
         return entryId;
     }
 
-    public String name() // FIXME: rename
+    public String getName()
     {
         return name;
     }

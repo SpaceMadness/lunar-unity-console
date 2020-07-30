@@ -240,9 +240,9 @@ public class ActionRegistryFilterTest extends TestCaseEx implements ActionRegist
     // MARK: - Unregister actions
 
     public void testUnregisterActions() {
-        int id2 = registerAction("a2").actionId();
-        int id1 = registerAction("a1").actionId();
-        int id3 = registerAction("a3").actionId();
+        int id2 = registerAction("a2").getActionId();
+        int id1 = registerAction("a1").getActionId();
+        int id3 = registerAction("a3").getActionId();
 
         unregisterAction(id1);
         assertActions("a2", "a3");
@@ -260,9 +260,9 @@ public class ActionRegistryFilterTest extends TestCaseEx implements ActionRegist
     public void testUnregisterActionFiltered() {
         setFilter("a11");
 
-        int id2 = registerAction("a11").actionId();
-        int id1 = registerAction("a1").actionId();
-        int id3 = registerAction("a111").actionId();
+        int id2 = registerAction("a11").getActionId();
+        int id1 = registerAction("a1").getActionId();
+        int id3 = registerAction("a111").getActionId();
 
         unregisterAction(id1);
         assertActions("a11", "a111");
@@ -387,17 +387,17 @@ public class ActionRegistryFilterTest extends TestCaseEx implements ActionRegist
 
     @Override
     public void actionRegistryFilterDidAddAction(ActionRegistryFilter registryFilter, Action action, int index) {
-        addResult("added action: %s (%d)", action.name(), index);
+        addResult("added action: %s (%d)", action.getName(), index);
     }
 
     @Override
     public void actionRegistryFilterDidRemoveAction(ActionRegistryFilter registryFilter, Action action, int index) {
-        addResult("removed action: %s (%d)", action.name(), index);
+        addResult("removed action: %s (%d)", action.getName(), index);
     }
 
     @Override
     public void actionRegistryFilterDidRegisterVariable(ActionRegistryFilter registryFilter, Variable variable, int index) {
-        addResult("register variable: %s %s %s (%d)", variable.type, variable.name(), variable.value, index);
+        addResult("register variable: %s %s %s (%d)", variable.type, variable.getName(), variable.value, index);
     }
 
     @Override
@@ -433,8 +433,8 @@ public class ActionRegistryFilterTest extends TestCaseEx implements ActionRegist
     private boolean unregisterAction(String name) {
         for (int i = 0; i < _actionRegistry.actions().size(); ++i) {
             Action action = as(_actionRegistry.actions().get(i), Action.class);
-            if (action != null && action.name().equals(name)) {
-                _actionRegistry.unregisterAction(action.actionId());
+            if (action != null && action.getName().equals(name)) {
+                _actionRegistry.unregisterAction(action.getActionId());
                 return true;
             }
         }
@@ -476,7 +476,7 @@ public class ActionRegistryFilterTest extends TestCaseEx implements ActionRegist
         List<String> actualNames = new ArrayList<>();
         for (int i = 0; i < _registryFilter.actions().size(); ++i) {
             Action action = as(_registryFilter.actions().get(i), Action.class);
-            actualNames.add(action.name());
+            actualNames.add(action.getName());
         }
 
         String message = String.format("Expected %s but was %s", Join(names, ","), Join(actualNames, ","));
@@ -491,7 +491,7 @@ public class ActionRegistryFilterTest extends TestCaseEx implements ActionRegist
         List<String> actualNames = new ArrayList<>();
         for (int i = 0; i < _registryFilter.variables().size(); ++i) {
             Variable variable = as(_registryFilter.variables().get(i), Variable.class);
-            actualNames.add(variable.name());
+            actualNames.add(variable.getName());
         }
 
         String message = String.format("Expected %s but was %s", Join(names, ","), Join(actualNames, ","));
@@ -530,7 +530,7 @@ public class ActionRegistryFilterTest extends TestCaseEx implements ActionRegist
         @Override
         public boolean isEqual(IdentityEntry entry) {
             Action action = as(entry, Action.class);
-            return action != null && action.name().equals(name);
+            return action != null && action.getName().equals(name);
         }
     }
 
@@ -548,7 +548,7 @@ public class ActionRegistryFilterTest extends TestCaseEx implements ActionRegist
         public boolean isEqual(IdentityEntry entry) {
             Variable cvar = as(entry, Variable.class);
             return cvar != null &&
-                    this.name.equals(cvar.name()) &&
+                    this.name.equals(cvar.getName()) &&
                     this.value.equals(cvar.value) &&
                     this.type.equals(cvar.type);
 

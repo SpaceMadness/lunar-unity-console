@@ -70,9 +70,9 @@ public class ActionRegistryTest extends TestCaseEx implements ActionRegistry.Del
     // Unregister actions
 
     public void testUnregisterAction() {
-        int id2 = registerActionWithName("a2").actionId();
-        int id1 = registerActionWithName("a1").actionId();
-        int id3 = registerActionWithName("a3").actionId();
+        int id2 = registerActionWithName("a2").getActionId();
+        int id1 = registerActionWithName("a1").getActionId();
+        int id3 = registerActionWithName("a3").getActionId();
 
         unregisterActionWithId(id1);
         assertActions("a2", "a3");
@@ -130,17 +130,17 @@ public class ActionRegistryTest extends TestCaseEx implements ActionRegistry.Del
 
     @Override
     public void didAddAction(ActionRegistry registry, Action action, int index) {
-        addResult(String.format("added action: %s (%d)", action.name(), index));
+        addResult(String.format("added action: %s (%d)", action.getName(), index));
     }
 
     @Override
     public void didRemoveAction(ActionRegistry registry, Action action, int index) {
-        addResult(String.format("removed action: %s (%d)", action.name(), index));
+        addResult(String.format("removed action: %s (%d)", action.getName(), index));
     }
 
     @Override
     public void didRegisterVariable(ActionRegistry registry, Variable variable, int index) {
-        addResult(String.format("register variable: %s %s %s (%d)", variable.type, variable.name(), variable.value, index));
+        addResult(String.format("register variable: %s %s %s (%d)", variable.type, variable.getName(), variable.value, index));
     }
 
     @Override
@@ -173,8 +173,8 @@ public class ActionRegistryTest extends TestCaseEx implements ActionRegistry.Del
 
     private boolean unregisterActionWithName(String name) {
         for (Action action : actionRegistry.actions()) {
-            if (action.name().equals(name)) {
-                actionRegistry.unregisterAction(action.actionId());
+            if (action.getName().equals(name)) {
+                actionRegistry.unregisterAction(action.getActionId());
                 return true;
             }
         }
@@ -187,7 +187,7 @@ public class ActionRegistryTest extends TestCaseEx implements ActionRegistry.Del
 
         int index = 0;
         for (Action action : actionRegistry.actions()) {
-            assertEquals(expected[index], action.name());
+            assertEquals(expected[index], action.getName());
             ++index;
         }
     }
@@ -197,7 +197,7 @@ public class ActionRegistryTest extends TestCaseEx implements ActionRegistry.Del
 
         int index = 0;
         for (Variable cvar : actionRegistry.variables()) {
-            assertEquals(expected[index], cvar.name());
+            assertEquals(expected[index], cvar.getName());
             ++index;
         }
     }

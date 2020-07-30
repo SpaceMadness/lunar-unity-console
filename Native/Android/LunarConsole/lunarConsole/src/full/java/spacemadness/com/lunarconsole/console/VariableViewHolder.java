@@ -80,7 +80,7 @@ public class VariableViewHolder extends ConsoleActionAdapter.ViewHolder<Variable
             // we don't want to trigger listener callbacks while setting an initial value
             ignoreListenerCallbacks = true;
 
-            nameTextView.setText(cvar.name());
+            nameTextView.setText(cvar.getName());
             if (cvar.hasFlag(Variable.FLAG_NO_ARCHIVE)) {
                 nameTextView.setTextColor(getResources().getColor(R.color.lunar_console_color_variable_volatile_text));
             } else {
@@ -120,7 +120,7 @@ public class VariableViewHolder extends ConsoleActionAdapter.ViewHolder<Variable
     public void onClick(View v) {
         final Context context = v.getContext();
         final Dialog dialog = new Dialog(context);
-        dialog.setTitle(variable.name());
+        dialog.setTitle(variable.getName());
         dialog.setContentView(variable.hasRange() ? R.layout.lunar_console_layout_edit_variable_range_dialog : R.layout.lunar_console_layout_edit_variable_dialog);
 
         final TextView defaultText = (TextView) dialog.findViewById(R.id.lunar_console_edit_variable_default_value);

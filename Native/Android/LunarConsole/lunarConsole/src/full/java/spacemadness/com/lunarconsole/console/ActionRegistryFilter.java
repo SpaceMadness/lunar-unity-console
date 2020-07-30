@@ -110,7 +110,7 @@ public class ActionRegistryFilter implements ActionRegistry.Delegate {
     }
 
     private boolean filterEntry(IdentityEntry entry) {
-        return length(_filterText) == 0 || containsIgnoreCase(entry.name(), _filterText);
+        return length(_filterText) == 0 || containsIgnoreCase(entry.getName(), _filterText);
     }
 
     private <T extends IdentityEntry> int filteredArrayAddEntry(List<T> array, T entry) {
@@ -132,7 +132,7 @@ public class ActionRegistryFilter implements ActionRegistry.Delegate {
     private int filteredArrayIndexOfEntry(List<? extends IdentityEntry> array, IdentityEntry entry) {
         for (int index = 0; index < array.size(); ++index) {
             IdentityEntry existing = array.get(index);
-            if (existing.actionId() == entry.actionId()) {
+            if (existing.getActionId() == entry.getActionId()) {
                 return index;
             }
         }
