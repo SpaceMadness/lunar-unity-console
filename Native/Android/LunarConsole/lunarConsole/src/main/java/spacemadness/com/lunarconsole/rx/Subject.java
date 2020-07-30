@@ -23,11 +23,11 @@ public abstract class Subject<T> implements Observable<T> {
         observers.Clear();
     }
 
-    protected void NotifyObservers(T value) {
+    protected void notifyObservers(T value) {
         observers.NotifyObservers(value);
     }
 
-    protected void NotifyObserver(Observer<T> observer, T value) {
+    protected void notifyObserver(Observer<T> observer, T value) {
         observer.onChanged(value);
     }
 }

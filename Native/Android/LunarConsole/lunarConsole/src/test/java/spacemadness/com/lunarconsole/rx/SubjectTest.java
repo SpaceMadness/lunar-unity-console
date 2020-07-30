@@ -153,7 +153,7 @@ public class SubjectTest extends TestCase {
 
     private class MockSubject<T> extends Subject<T> {
         public void post(T value) {
-            NotifyObservers(value);
+            notifyObservers(value);
         }
     }
 }
