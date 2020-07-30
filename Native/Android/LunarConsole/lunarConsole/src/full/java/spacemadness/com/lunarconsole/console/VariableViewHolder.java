@@ -22,11 +22,9 @@
 
 package spacemadness.com.lunarconsole.console;
 
-import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Typeface;
-import android.os.Build;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;

@@ -23,6 +23,8 @@
 package spacemadness.com.lunarconsole.utils;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CollectionUtils {
     public static <T> int indexOf(T[] array, T value) {
@@ -43,6 +45,15 @@ public class CollectionUtils {
                 out = (Out[]) Array.newInstance(value.getClass(), in.length);
             }
             out[i] = value;
+        }
+
+        return out;
+    }
+
+    public static <In, Out> List<Out> map(List<In> in, Map<In, Out> map) {
+        List<Out> out = new ArrayList<>(in.size());
+        for (int i = 0; i < in.size(); ++i) {
+            out.add(map.map(in.get(i)));
         }
 
         return out;
