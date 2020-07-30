@@ -13,7 +13,7 @@ public class BehaviorSubjectTest extends TestCase {
         Disposable subscriptionA = observable.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
-                addResult("A" + value + "");
+                addResult("A" + value);
             }
         });
         AssertResults("A1");
@@ -22,7 +22,7 @@ public class BehaviorSubjectTest extends TestCase {
         Disposable subscriptionB = observable.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
-                addResult("B" + value + "");
+                addResult("B" + value);
             }
         });
         AssertResults("B1");
@@ -46,7 +46,7 @@ public class BehaviorSubjectTest extends TestCase {
         observable.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
-                addResult("C" + value + "");
+                addResult("C" + value);
             }
         });
         AssertResults("C4");
@@ -79,7 +79,7 @@ public class BehaviorSubjectTest extends TestCase {
         final Disposable subscriptionA = observable.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
-                addResult("A" + value + "");
+                addResult("A" + value);
             }
         });
         AssertResults("A1");
@@ -87,7 +87,7 @@ public class BehaviorSubjectTest extends TestCase {
         observable.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
-                addResult("B" + value + "");
+                addResult("B" + value);
                 subscriptionA.dispose();
             }
         });

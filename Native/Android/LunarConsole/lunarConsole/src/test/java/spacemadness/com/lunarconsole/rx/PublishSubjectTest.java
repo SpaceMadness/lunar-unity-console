@@ -15,7 +15,7 @@ public class PublishSubjectTest extends TestCase {
         Disposable subscriptionA = observable.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
-                addResult("A" + value + "");
+                addResult("A" + value);
             }
         });
         AssertResults();
@@ -28,7 +28,7 @@ public class PublishSubjectTest extends TestCase {
         Disposable subscriptionB = observable.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
-                addResult("B" + value + "");
+                addResult("B" + value);
             }
         });
         AssertResults();
@@ -52,7 +52,7 @@ public class PublishSubjectTest extends TestCase {
         observable.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
-                addResult("C" + value + "");
+                addResult("C" + value);
             }
         });
         AssertResults();
@@ -88,13 +88,13 @@ public class PublishSubjectTest extends TestCase {
         final Disposable subscriptionA = observable.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
-                addResult("A" + value + "");
+                addResult("A" + value);
             }
         });
         observable.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
-                addResult("B" + value + "");
+                addResult("B" + value);
                 subscriptionA.dispose();
             }
         });

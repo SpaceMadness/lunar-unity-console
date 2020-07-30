@@ -13,19 +13,19 @@ public class SubjectTest extends TestCase {
         Disposable a = subject.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
-                addResult("A:" + value + "");
+                addResult("A:" + value);
             }
         });
         Disposable b = subject.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
-                addResult("B:" + value + "");
+                addResult("B:" + value);
             }
         });
         Disposable c = subject.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
-                addResult("C:" + value + "");
+                addResult("C:" + value);
             }
         });
 
@@ -43,7 +43,7 @@ public class SubjectTest extends TestCase {
         Disposable d = subject.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
-                addResult("D:" + value + "");
+                addResult("D:" + value);
             }
         });
         subject.post("4");
@@ -65,19 +65,19 @@ public class SubjectTest extends TestCase {
         Disposable a = subject.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
-                addResult("A:" + value + "");
+                addResult("A:" + value);
             }
         });
         Disposable b = subject.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
-                addResult("B:" + value + "");
+                addResult("B:" + value);
             }
         });
         Disposable c = subject.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
-                addResult("C:" + value + "");
+                addResult("C:" + value);
             }
         });
 
@@ -103,13 +103,13 @@ public class SubjectTest extends TestCase {
         final Disposable subscriptionA = observable.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
-                addResult("A:" + value + "");
+                addResult("A:" + value);
             }
         });
         observable.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
-                addResult("B:" + value + "");
+                addResult("B:" + value);
                 subscriptionA.dispose();
             }
         });
@@ -127,20 +127,20 @@ public class SubjectTest extends TestCase {
         observable.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
-                addResult("A:" + value + "");
+                addResult("A:" + value);
             }
         });
         observable.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
-                addResult("B:" + value + "");
+                addResult("B:" + value);
                 observable.removeAllObservers();
             }
         });
         observable.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
-                addResult("C:" + value + "");
+                addResult("C:" + value);
             }
         });
 
