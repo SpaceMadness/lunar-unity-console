@@ -5,7 +5,7 @@ import spacemadness.com.lunarconsole.core.IDisposable;
 public abstract class Subject<T> implements Observable<T> {
     private final ObserverList<T> observers = new ObserverList<T>();
 
-    public IDisposable Subscribe(final Observer<T> observer) {
+    public IDisposable subscribe(final Observer<T> observer) {
         observers.Add(observer);
         return new IDisposable() {
             @Override

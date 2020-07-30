@@ -10,19 +10,19 @@ public class SubjectTest extends TestCase {
     public void TestObservers() {
         MockSubject<String> subject = new MockSubject<>();
 
-        IDisposable a = subject.Subscribe(new Observer<String>() {
+        IDisposable a = subject.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
                 addResult("A:" + value + "");
             }
         });
-        IDisposable b = subject.Subscribe(new Observer<String>() {
+        IDisposable b = subject.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
                 addResult("B:" + value + "");
             }
         });
-        IDisposable c = subject.Subscribe(new Observer<String>() {
+        IDisposable c = subject.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
                 addResult("C:" + value + "");
@@ -40,7 +40,7 @@ public class SubjectTest extends TestCase {
         subject.post("3");
         assertResults("C:3");
 
-        IDisposable d = subject.Subscribe(new Observer<String>() {
+        IDisposable d = subject.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
                 addResult("D:" + value + "");
@@ -62,19 +62,19 @@ public class SubjectTest extends TestCase {
     @Test
     public void TestObserversAllObservers() {
         MockSubject<String> subject = new MockSubject<>();
-        IDisposable a = subject.Subscribe(new Observer<String>() {
+        IDisposable a = subject.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
                 addResult("A:" + value + "");
             }
         });
-        IDisposable b = subject.Subscribe(new Observer<String>() {
+        IDisposable b = subject.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
                 addResult("B:" + value + "");
             }
         });
-        IDisposable c = subject.Subscribe(new Observer<String>() {
+        IDisposable c = subject.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
                 addResult("C:" + value + "");
@@ -100,13 +100,13 @@ public class SubjectTest extends TestCase {
     @Test
     public void TestRemoveObserverWhileNotifying() {
         MockSubject<String> observable = new MockSubject<String>();
-        final IDisposable subscriptionA = observable.Subscribe(new Observer<String>() {
+        final IDisposable subscriptionA = observable.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
                 addResult("A:" + value + "");
             }
         });
-        observable.Subscribe(new Observer<String>() {
+        observable.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
                 addResult("B:" + value + "");
@@ -124,20 +124,20 @@ public class SubjectTest extends TestCase {
     @Test
     public void TestRemoveAllObserversWhileNotifying() {
         final MockSubject<String> observable = new MockSubject<String>();
-        observable.Subscribe(new Observer<String>() {
+        observable.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
                 addResult("A:" + value + "");
             }
         });
-        observable.Subscribe(new Observer<String>() {
+        observable.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
                 addResult("B:" + value + "");
                 observable.RemoveAllObservers();
             }
         });
-        observable.Subscribe(new Observer<String>() {
+        observable.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
                 addResult("C:" + value + "");

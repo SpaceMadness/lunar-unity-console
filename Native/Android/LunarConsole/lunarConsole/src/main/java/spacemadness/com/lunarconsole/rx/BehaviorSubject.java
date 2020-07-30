@@ -14,8 +14,8 @@ public final class BehaviorSubject<T> extends Subject<T> {
     }
 
     @Override
-    public IDisposable Subscribe(Observer<T> observer) {
-        IDisposable disposable = super.Subscribe(observer);
+    public IDisposable subscribe(Observer<T> observer) {
+        IDisposable disposable = super.subscribe(observer);
         NotifyObserver(observer, getValue());
         return disposable;
     }

@@ -12,7 +12,7 @@ public class PublishSubjectTest extends TestCase {
         observable.Post("1");
 
         // new observer should NOT get the value
-        IDisposable subscriptionA = observable.Subscribe(new Observer<String>() {
+        IDisposable subscriptionA = observable.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
                 addResult("A" + value + "");
@@ -25,7 +25,7 @@ public class PublishSubjectTest extends TestCase {
         AssertResults("A2");
 
         // new observer should NOT get current value
-        IDisposable subscriptionB = observable.Subscribe(new Observer<String>() {
+        IDisposable subscriptionB = observable.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
                 addResult("B" + value + "");
@@ -49,7 +49,7 @@ public class PublishSubjectTest extends TestCase {
         observable.Post("5");
         AssertResults();
 
-        observable.Subscribe(new Observer<String>() {
+        observable.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
                 addResult("C" + value + "");
@@ -71,7 +71,7 @@ public class PublishSubjectTest extends TestCase {
         };
 
         PublishSubject<String> observable = new PublishSubject<>();
-        observable.Subscribe(observer);
+        observable.subscribe(observer);
 
         observable.Post("1");
         AssertResults("1");
@@ -85,13 +85,13 @@ public class PublishSubjectTest extends TestCase {
     @Test
     public void TestRemoveObserverWhileNotifying() {
         PublishSubject<String> observable = new PublishSubject<>();
-        final IDisposable subscriptionA = observable.Subscribe(new Observer<String>() {
+        final IDisposable subscriptionA = observable.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
                 addResult("A" + value + "");
             }
         });
-        observable.Subscribe(new Observer<String>() {
+        observable.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
                 addResult("B" + value + "");

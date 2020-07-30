@@ -5,14 +5,12 @@ import org.junit.Test;
 import spacemadness.com.lunarconsole.TestCase;
 import spacemadness.com.lunarconsole.core.IDisposable;
 
-import static org.junit.Assert.*;
-
 public class BehaviorSubjectTest extends TestCase {
     @Test
     public void TestValue() {
         BehaviorSubject<String> observable = new BehaviorSubject<>("1");
         // new observer should get current value
-        IDisposable subscriptionA = observable.Subscribe(new Observer<String>() {
+        IDisposable subscriptionA = observable.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
                 addResult("A" + value + "");
@@ -21,7 +19,7 @@ public class BehaviorSubjectTest extends TestCase {
         AssertResults("A1");
 
         // new observer should get current value (but others - won't)
-        IDisposable subscriptionB = observable.Subscribe(new Observer<String>() {
+        IDisposable subscriptionB = observable.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
                 addResult("B" + value + "");
@@ -45,7 +43,7 @@ public class BehaviorSubjectTest extends TestCase {
         observable.setValue("4");
         AssertResults();
 
-        observable.Subscribe(new Observer<String>() {
+        observable.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
                 addResult("C" + value + "");
@@ -64,7 +62,7 @@ public class BehaviorSubjectTest extends TestCase {
         };
 
         BehaviorSubject<String> observable = new BehaviorSubject<>("1");
-        observable.Subscribe(observer);
+        observable.subscribe(observer);
 
         AssertResults("1");
 
@@ -78,7 +76,7 @@ public class BehaviorSubjectTest extends TestCase {
     public void TestRemoveObserverWhileNotifying() {
         BehaviorSubject<String> observable = new BehaviorSubject<>("1");
 
-        final IDisposable subscriptionA = observable.Subscribe(new Observer<String>() {
+        final IDisposable subscriptionA = observable.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
                 addResult("A" + value + "");
@@ -86,7 +84,7 @@ public class BehaviorSubjectTest extends TestCase {
         });
         AssertResults("A1");
 
-        observable.Subscribe(new Observer<String>() {
+        observable.subscribe(new Observer<String>() {
             @Override
             public void onChanged(String value) {
                 addResult("B" + value + "");
