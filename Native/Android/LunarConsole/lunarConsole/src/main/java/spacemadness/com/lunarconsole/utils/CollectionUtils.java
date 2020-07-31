@@ -59,6 +59,14 @@ public class CollectionUtils {
         return out;
     }
 
+    public static <T> List<T> listOf(T element, int size) {
+        List<T> list = new ArrayList<>(size);
+        for (int i = 0; i < size; ++i) {
+            list.add(element);
+        }
+        return list;
+    }
+
     public interface MapFunction<In, Out> {
         Out map(In in);
     }

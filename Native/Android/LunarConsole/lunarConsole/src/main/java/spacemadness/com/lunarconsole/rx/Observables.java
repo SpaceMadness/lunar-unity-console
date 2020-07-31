@@ -1,5 +1,7 @@
 package spacemadness.com.lunarconsole.rx;
 
+import java.util.List;
+
 import spacemadness.com.lunarconsole.utils.CollectionUtils.MapFunction;
 
 public class Observables {
@@ -7,7 +9,8 @@ public class Observables {
         return new MapObservable<>(observable, function);
     }
 
-    public static <T> Observable<T> combine(Observable<T>... observables) {
-        return new CombineObservable<>(observables);
+    @SafeVarargs
+    public static <T> Observable<List<T>> combineLatest(Observable<T>... observables) {
+        return new CombineLatestObservable<>(observables);
     }
 }
