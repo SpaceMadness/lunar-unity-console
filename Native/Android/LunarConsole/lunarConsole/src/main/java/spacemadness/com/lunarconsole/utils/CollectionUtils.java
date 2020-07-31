@@ -36,7 +36,7 @@ public class CollectionUtils {
         return -1;
     }
 
-    public static <In, Out> Out[] map(In[] in, Map<In, Out> map) {
+    public static <In, Out> Out[] map(In[] in, MapFunction<In, Out> map) {
         Out[] out = null;
         for (int i = 0; i < in.length; ++i) {
             Out value = map.map(in[i]);
@@ -50,7 +50,7 @@ public class CollectionUtils {
         return out;
     }
 
-    public static <In, Out> List<Out> map(List<In> in, Map<In, Out> map) {
+    public static <In, Out> List<Out> map(List<In> in, MapFunction<In, Out> map) {
         List<Out> out = new ArrayList<>(in.size());
         for (int i = 0; i < in.size(); ++i) {
             out.add(map.map(in.get(i)));
@@ -59,7 +59,7 @@ public class CollectionUtils {
         return out;
     }
 
-    public interface Map<In, Out> {
+    public interface MapFunction<In, Out> {
         Out map(In in);
     }
 }

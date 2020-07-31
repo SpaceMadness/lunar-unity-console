@@ -232,7 +232,7 @@ public class PluginSettingsActivity extends Activity {
 
             final Object[] values = EnumUtils.listValues((Enum<?>) value);
             int checkItem = CollectionUtils.indexOf(values, value);
-            String[] names = CollectionUtils.map(values, new CollectionUtils.Map<Object, String>() {
+            String[] names = CollectionUtils.map(values, new CollectionUtils.MapFunction<Object, String>() {
                 @Override
                 public String map(Object o) {
                     return StringUtils.toString(o);
