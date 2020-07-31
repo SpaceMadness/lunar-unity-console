@@ -59,6 +59,14 @@ public class CollectionUtils {
         return out;
     }
 
+    public static <T> List<T> merge(List<List<T>> list) {
+        List<T> result = new ArrayList<>();
+        for (List<T> l : list) {
+            result.addAll(l);
+        }
+        return result;
+    }
+
     public static <T> List<T> listOf(T element, int size) {
         List<T> list = new ArrayList<>(size);
         for (int i = 0; i < size; ++i) {

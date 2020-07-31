@@ -2,53 +2,70 @@ package spacemadness.com.lunarconsole.console;
 
 import java.util.List;
 
+import spacemadness.com.lunarconsole.R;
+import spacemadness.com.lunarconsole.core.StringProvider;
 import spacemadness.com.lunarconsole.rx.Observable;
-import spacemadness.com.lunarconsole.rx.Observables;
 import spacemadness.com.lunarconsole.ui.ListViewItem;
 import spacemadness.com.lunarconsole.utils.CollectionUtils;
 import spacemadness.com.lunarconsole.utils.CollectionUtils.MapFunction;
-import spacemadness.com.lunarconsole.utils.NotImplementedException;
 
 public class ConsoleActionViewModel {
     private final Registrar registrar;
+    private final StringProvider strings;
 
-    public ConsoleActionViewModel(Registrar registrar) {
+    public ConsoleActionViewModel(Registrar registrar, StringProvider strings) {
         this.registrar = registrar;
+        this.strings = strings;
     }
 
     public Observable<List<ListViewItem>> getItemsStream() {
-        Observable<List<ListViewItem>> actionStream = Observables.map(registrar.getActionStream(), new MapFunction<List<Action>, List<ListViewItem>>() {
+        Observable<List<ListViewItem>> actionStream = registrar.getActionStream().map(new MapFunction<List<Action>, List<ListViewItem>>() {
             @Override
             public List<ListViewItem> map(List<Action> actions) {
                 return createActionItems(actions);
             }
         });
 
-        Observable<List<ListViewItem>> variableStream = Observables.map(registrar.getVariableStream(), new MapFunction<List<Variable>, List<ListViewItem>>() {
+        Observable<List<ListViewItem>> variableStream = registrar.getVariableStream().map(new MapFunction<List<Variable>, List<ListViewItem>>() {
             @Override
             public List<ListViewItem> map(List<Variable> variables) {
                 return createVariableItems(variables);
             }
         });
 
-        throw new NotImplementedException();
+        return Observable
+                .combineLatest(actionStream, variableStream)
+                .map(new MapFunction<List<List<ListViewItem>>, List<ListViewItem>>() {
+                    @Override
+                    public List<ListViewItem> map(List<List<ListViewItem>> lists) {
+                        return CollectionUtils.merge(lists);
+                    }
+                });
     }
 
-    private static List<ListViewItem> createActionItems(List<Action> actions) {
-        return CollectionUtils.map(actions, new MapFunction<Action, ListViewItem>() {
+    private List<ListViewItem> createActionItems(List<Action> actions) {
+        List<ListViewItem> items = CollectionUtils.map(actions, new MapFunction<Action, ListViewItem>() {
             @Override
             public ActionListItem map(Action action) {
-                throw new NotImplementedException();
+                return new ActionListItem(action);
             }
         });
+        if (items.size() > 0) {
+            items.add(0, new HeaderListItem(strings.getString(R.string.header_actions)));
+        }
+        return items;
     }
 
     private List<ListViewItem> createVariableItems(List<Variable> variables) {
-        return CollectionUtils.map(variables, new MapFunction<Variable, ListViewItem>() {
+        List<ListViewItem> items = CollectionUtils.map(variables, new MapFunction<Variable, ListViewItem>() {
             @Override
             public VariableListItem map(Variable variable) {
-                throw new NotImplementedException();
+                return new VariableListItem(variable);
             }
         });
+        if (items.size() > 0) {
+            items.add(0, new HeaderListItem(strings.getString(R.string.header_variables)));
+        }
+        return items;
     }
 }

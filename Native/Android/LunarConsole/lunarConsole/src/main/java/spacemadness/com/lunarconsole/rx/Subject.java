@@ -2,9 +2,10 @@ package spacemadness.com.lunarconsole.rx;
 
 import spacemadness.com.lunarconsole.core.Disposable;
 
-public abstract class Subject<T> implements Observable<T> {
+public abstract class Subject<T> extends Observable<T> {
     private final ObserverList<T> observers = new ObserverList<T>();
 
+    @Override
     public Disposable subscribe(final Observer<T> observer) {
         observers.add(observer);
         return new Disposable() {

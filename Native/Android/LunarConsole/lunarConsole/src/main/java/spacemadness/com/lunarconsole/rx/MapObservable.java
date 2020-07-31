@@ -3,7 +3,7 @@ package spacemadness.com.lunarconsole.rx;
 import spacemadness.com.lunarconsole.core.Disposable;
 import spacemadness.com.lunarconsole.utils.CollectionUtils.MapFunction;
 
-final class MapObservable<T, R> implements Observable<R> {
+final class MapObservable<T, R> extends Observable<R> {
     private final Observable<T> source;
     private final MapFunction<T, R> function;
 
@@ -18,6 +18,7 @@ final class MapObservable<T, R> implements Observable<R> {
         this.function = function;
     }
 
+    @Override
     public Disposable subscribe(final Observer<R> observer) {
         return source.subscribe(new Observer<T>() {
             @Override

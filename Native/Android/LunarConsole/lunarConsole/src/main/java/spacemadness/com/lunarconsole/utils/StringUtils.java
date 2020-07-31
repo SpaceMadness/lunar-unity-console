@@ -121,7 +121,12 @@ public class StringUtils {
 
     //region Nullability
 
+    @Deprecated
     public static boolean IsNullOrEmpty(String str) {
+        return isNullOrEmpty(str);
+    }
+
+    public static boolean isNullOrEmpty(String str) {
         return str == null || str.length() == 0;
     }
 

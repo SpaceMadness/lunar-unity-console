@@ -2,16 +2,15 @@ package spacemadness.com.lunarconsole.rx
 
 import org.junit.Test
 import spacemadness.com.lunarconsole.TestCase
-import spacemadness.com.lunarconsole.rx.Observables.combineLatest
-import spacemadness.com.lunarconsole.rx.Observables.map
-import spacemadness.com.lunarconsole.utils.CollectionUtils.MapFunction
+import spacemadness.com.lunarconsole.rx.Observable.combineLatest
 import spacemadness.com.lunarconsole.utils.StringUtils
 
 class ObservableOperatorTest : TestCase() {
     @Test
     fun map() {
         val stream = PublishSubject<Int>()
-        val subscription = map(stream, MapFunction { value: Int -> value.toString() })
+        val subscription = stream
+                .map { value: Int -> value.toString() }
                 .subscribe { value -> addResult(value) }
 
         stream.post(1)

@@ -6,7 +6,7 @@ import spacemadness.com.lunarconsole.core.Disposable;
 import spacemadness.com.lunarconsole.utils.CollectionUtils;
 import spacemadness.com.lunarconsole.utils.CompositeDisposable;
 
-public class CombineLatestObservable<T> implements Observable<List<T>> {
+public class CombineLatestObservable<T> extends Observable<List<T>> {
     private final Observable<T>[] observables;
     private final List<T> latestValues;
     private final boolean[] hasValues;
