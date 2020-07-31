@@ -30,7 +30,8 @@ public class ConsoleActionViewModel {
                 return createVariableItems(variables);
             }
         });
-        return actionStream;
+
+        throw new NotImplementedException();
     }
 
     private static List<ListViewItem> createActionItems(List<Action> actions) {
