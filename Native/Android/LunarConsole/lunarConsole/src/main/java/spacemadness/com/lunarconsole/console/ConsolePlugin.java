@@ -76,6 +76,7 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
     private static final String SCRIPT_MESSAGE_ACTION = "console_action";
     private static final String SCRIPT_MESSAGE_VARIABLE_SET = "console_variable_set";
     private final ActionRegistry actionRegistry;
+    private final Registrar registrar;
     private final Platform platform;
     private final String version;
     private final RichTextFactory richTextFactory;
@@ -124,6 +125,7 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
         Options options = new Options(settings.capacity);
         options.setTrimCount(settings.trim);
         console = new Console(options);
+        registrar = new Registrar();
         actionRegistry = new ActionRegistry();
         actionRegistry.setActionSortingEnabled(settings.sortActions);
         actionRegistry.setVariableSortingEnabled(settings.sortVariables);
@@ -210,11 +212,13 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
     }
 
     public void registerAction(int actionId, String actionName) {
-        actionRegistry.registerAction(actionId, actionName);
+        actionRegistry.registerAction(actionId, actionName); // FIXME: remove this call
+        registrar.registerAction(new Action(actionId, actionName));
     }
 
     public void unregisterAction(int actionId) {
-        actionRegistry.unregisterAction(actionId);
+        actionRegistry.unregisterAction(actionId); // FIXME: remove this call
+        registrar.unregisterAction(actionId);
     }
 
     //endregion
@@ -239,6 +243,8 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
         if (hasRange) {
             variable.setRange(rangeMin, rangeMax);
         }
+
+        registrar.registerVariable(variable);
     }
 
     //endregion
@@ -665,6 +671,10 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
 
     ActionRegistry getActionRegistry() {
         return actionRegistry;
+    }
+
+    public Registrar getRegistrar() {
+        return registrar;
     }
 
     boolean isConsoleShown() {

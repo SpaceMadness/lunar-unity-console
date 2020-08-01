@@ -47,7 +47,7 @@ import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 public class ConsoleView extends LinearLayout implements BackButtonListener, Destroyable {
     private final ConsoleViewState consoleViewState;
     private final ConsoleLogView consoleLogView;
-    private final ConsoleActionView consoleActionView;
+    private final ConsoleActionViewNew consoleActionView;
 
     /**
      * An overlay layout for move/resize operations
@@ -77,7 +77,8 @@ public class ConsoleView extends LinearLayout implements BackButtonListener, Des
         consoleLogView.setEmails(consolePlugin.getEmails());
         viewPager.addPageView(consoleLogView);
 
-        consoleActionView = new ConsoleActionView(activity, consolePlugin); // FIXME: these classes know too much about each other
+        ConsoleActionViewModel viewModel = new ConsoleActionViewModel(consolePlugin.getRegistrar(), new ContextStringProvider(activity));
+        consoleActionView = new ConsoleActionViewNew(activity, viewModel);
         viewPager.addPageView(consoleActionView);
 
         consoleLogView.setOnMoveSizeListener(new ConsoleLogView.OnMoveSizeListener() {

@@ -29,6 +29,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import spacemadness.com.lunarconsole.core.Destroyable;
+import spacemadness.com.lunarconsole.core.Disposable;
+import spacemadness.com.lunarconsole.utils.CompositeDisposable;
 
 import static android.view.ViewGroup.LayoutParams.MATCH_PARENT;
 
@@ -38,8 +40,7 @@ public abstract class AbstractConsoleView extends LinearLayout implements Destro
      */
     private final View rootView;
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Constructor
+    private final CompositeDisposable disposables;
 
     public AbstractConsoleView(Context context, int rootViewId) {
         super(context);
@@ -52,6 +53,8 @@ public abstract class AbstractConsoleView extends LinearLayout implements Destro
             }
         });
 
+        disposables = new CompositeDisposable();
+
         // might not be the most efficient way but we'll keep it for now
         rootView = LayoutInflater.from(context).inflate(rootViewId, this, false);
         addView(rootView, new LayoutParams(MATCH_PARENT, MATCH_PARENT));
@@ -60,15 +63,20 @@ public abstract class AbstractConsoleView extends LinearLayout implements Destro
         setFocusableInTouchMode(true);
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Destroyable
-
     @Override
     public void destroy() {
+        disposables.dispose();
     }
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////
-    // Helpers
+    //region Subscriptions
+
+    protected void registerSubscription(Disposable subscription) {
+        disposables.add(subscription);
+    }
+
+    //endregion
+
+    //region Helpers
 
     protected <T extends View> T findExistingViewById(int id) throws ClassCastException {
         return findExistingViewById(rootView, id);
@@ -87,4 +95,6 @@ public abstract class AbstractConsoleView extends LinearLayout implements Destro
         View view = findExistingViewById(viewId);
         view.setOnClickListener(listener);
     }
+
+    //endregion
 }

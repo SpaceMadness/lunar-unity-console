@@ -8,6 +8,7 @@ import spacemadness.com.lunarconsole.rx.Observable;
 import spacemadness.com.lunarconsole.ui.ListViewItem;
 import spacemadness.com.lunarconsole.utils.CollectionUtils;
 import spacemadness.com.lunarconsole.utils.CollectionUtils.MapFunction;
+import spacemadness.com.lunarconsole.utils.NotImplementedException;
 
 public class ConsoleActionViewModel {
     private final Registrar registrar;
@@ -67,5 +68,14 @@ public class ConsoleActionViewModel {
             items.add(0, new HeaderListItem(strings.getString(R.string.header_variables)));
         }
         return items;
+    }
+
+    public ConsoleViewState getConsoleViewState() {
+        return null;
+    }
+
+    public void openHelp() {
+        // UIUtils.openURL(getContext(), "https://goo.gl/in0obv");
+        throw new NotImplementedException();
     }
 }

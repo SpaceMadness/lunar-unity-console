@@ -42,6 +42,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import spacemadness.com.lunarconsole.R;
+import spacemadness.com.lunarconsole.console.HeaderListItem;
 import spacemadness.com.lunarconsole.dependency.PluginSettingsEditorProvider;
 import spacemadness.com.lunarconsole.dependency.Provider;
 import spacemadness.com.lunarconsole.settings.PluginSettingsViewModel.HeaderItem;
@@ -82,12 +83,12 @@ public class PluginSettingsActivity extends Activity {
 
     private ListViewAdapter createAdapter(PluginSettingsViewModel viewModel) {
         List<ListViewItem> items = viewModel.createItems();
-        ListViewAdapter adapter = new ListViewAdapter(items);
+        ListViewAdapter adapter = new ListViewAdapter();
 
         // Header
         adapter.register(ItemType.HEADER, new ListViewAdapter.LayoutIdFactory(R.layout.lunar_console_layout_settings_header) {
             @Override
-            public ListViewAdapter.ViewHolder createViewHolder(View convertView) {
+            public ListViewAdapter.ViewHolder<?> createViewHolder(View convertView) {
                 return new HeaderViewHolder(convertView);
             }
         });
@@ -95,11 +96,12 @@ public class PluginSettingsActivity extends Activity {
         // Property
         adapter.register(ItemType.PROPERTY, new ListViewAdapter.LayoutIdFactory(R.layout.lunar_console_layout_settings_property) {
             @Override
-            public ListViewAdapter.ViewHolder createViewHolder(View convertView) {
+            public ListViewAdapter.ViewHolder<?> createViewHolder(View convertView) {
                 return new PropertyViewHolder(convertView);
             }
         });
 
+        adapter.submitList(items);
         return adapter;
     }
 

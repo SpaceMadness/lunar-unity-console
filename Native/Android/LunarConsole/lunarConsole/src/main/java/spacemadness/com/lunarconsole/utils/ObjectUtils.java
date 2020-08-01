@@ -22,6 +22,8 @@
 
 package spacemadness.com.lunarconsole.utils;
 
+import spacemadness.com.lunarconsole.core.Check;
+
 /**
  * A collection of useful object utils.
  */
@@ -33,21 +35,17 @@ public final class ObjectUtils {
     /**
      * Throws <code>IllegalArgumentException</code> if the passed reference is <code>null</code>.
      */
-    public static <T> T checkNotNull(T reference, String name) throws IllegalArgumentException {
-        if (reference == null) {
-            throw new IllegalArgumentException(name + " is null");
-        }
-        return reference;
+    @Deprecated
+    public static <T> T checkNotNull(T arg, String name) throws IllegalArgumentException {
+        return Check.notNullArg(arg, name);
     }
 
     /**
      * Throws <code>IllegalArgumentException</code> if the passed string is <code>null</code> or empty.
      */
-    public static String checkNotNullAndNotEmpty(String string, String name) throws IllegalArgumentException {
-        if (checkNotNull(string, name).length() == 0) {
-            throw new IllegalArgumentException(name + " is empty");
-        }
-        return string;
+    @Deprecated
+    public static String checkNotNullAndNotEmpty(String arg, String name) throws IllegalArgumentException {
+        return Check.notEmptyArg(arg, name);
     }
 
     /**

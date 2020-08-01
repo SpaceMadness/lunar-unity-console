@@ -22,23 +22,27 @@
 
 package spacemadness.com.lunarconsole.ui;
 
+import android.content.Context;
+import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static spacemadness.com.lunarconsole.core.Check.notNullArg;
 import static spacemadness.com.lunarconsole.utils.ObjectUtils.checkNotNull;
 
 public class ListViewAdapter extends BaseAdapter {
     private final List<ListViewItem> items;
     private final Map<Integer, Factory> lookup;
 
-    public ListViewAdapter(List<ListViewItem> items) {
-        this.items = checkNotNull(items, "items");
+    public ListViewAdapter() {
+        this.items = new ArrayList<>();
         this.lookup = new HashMap<>();
     }
 
@@ -84,12 +88,19 @@ public class ListViewAdapter extends BaseAdapter {
         return convertView;
     }
 
-    public void register(Enum<?> itemType, Factory factory) {
-        register(itemType.ordinal(), factory);
+    public void submitList(List<? extends ListViewItem> items) {
+        this.items.clear();
+        this.items.addAll(items);
+        notifyDataSetChanged();
     }
 
-    public void register(int itemType, Factory factory) {
+    public ListViewAdapter register(Enum<?> itemType, Factory factory) {
+        return register(itemType.ordinal(), factory);
+    }
+
+    public ListViewAdapter register(int itemType, Factory factory) {
         lookup.put(itemType, checkNotNull(factory, "factory"));
+        return this;
     }
 
     private Factory getFactory(int itemType) {
@@ -103,7 +114,7 @@ public class ListViewAdapter extends BaseAdapter {
     public interface Factory {
         View createConvertView(ViewGroup parent);
 
-        ViewHolder createViewHolder(View convertView);
+        ViewHolder<?> createViewHolder(View convertView);
     }
 
     public static abstract class LayoutIdFactory implements Factory {
@@ -120,13 +131,21 @@ public class ListViewAdapter extends BaseAdapter {
     }
 
     public abstract static class ViewHolder<T> {
-        private final View view;
+        private final View convertView;
 
-        public ViewHolder(View view) {
-            this.view = checkNotNull(view, "view");
+        public ViewHolder(View convertView) {
+            this.convertView = notNullArg(convertView, "convertView");
         }
 
         protected abstract void bindView(T item, int position);
+
+        protected Context getContext() {
+            return convertView.getContext();
+        }
+
+        protected Resources getResources() {
+            return getContext().getResources();
+        }
     }
 }
 
