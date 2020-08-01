@@ -67,6 +67,11 @@ public class ListViewAdapter extends BaseAdapter {
     }
 
     @Override
+    public int getViewTypeCount() {
+        return lookup.size();
+    }
+
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
         if (convertView != null) {
@@ -86,6 +91,11 @@ public class ListViewAdapter extends BaseAdapter {
         viewHolder.bindView(item, position);
 
         return convertView;
+    }
+
+    @Override
+    public boolean hasStableIds() {
+        return true;
     }
 
     public void submitList(List<? extends ListViewItem> items) {
