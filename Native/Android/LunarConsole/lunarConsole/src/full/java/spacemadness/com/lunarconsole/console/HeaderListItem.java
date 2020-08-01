@@ -3,16 +3,10 @@ package spacemadness.com.lunarconsole.console;
 import android.view.View;
 
 import spacemadness.com.lunarconsole.ui.ListViewAdapter;
-import spacemadness.com.lunarconsole.ui.ListViewItem;
-
-import static spacemadness.com.lunarconsole.core.Check.notEmptyArg;
 
 public class HeaderListItem extends EntryListItem {
-    public final String title;
-
     public HeaderListItem(String title) {
-        super(EntryType.Header, -1);
-        this.title = notEmptyArg(title);
+        super(EntryType.Header, -1, title);
     }
 
     public static class ViewHolder extends ListViewAdapter.ViewHolder<HeaderListItem> {

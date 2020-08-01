@@ -6,25 +6,13 @@ import android.widget.TextView;
 
 import spacemadness.com.lunarconsole.R;
 import spacemadness.com.lunarconsole.ui.ListViewAdapter;
-import spacemadness.com.lunarconsole.ui.ListViewItem;
 
 public class ActionListItem extends EntryListItem {
-    private final Action action;
-
-    public ActionListItem(Action action) {
-        super(EntryType.Action, action.getActionId());
-        this.action = action;
+    public ActionListItem(int id, String name) {
+        super(EntryType.Action, id, name);
     }
 
-    public int getId() {
-        return action.getActionId();
-    }
-
-    public String getName() {
-        return action.getName();
-    }
-
-    private int getBackgroundColor(Context context, int position) {
+    private int getBackgroundColor() {
         return 0;
     }
 
@@ -41,9 +29,8 @@ public class ActionListItem extends EntryListItem {
 
         @Override
         protected void bindView(ActionListItem item, int position) {
-            Context context = getContext();
-            layout.setBackgroundColor(item.getBackgroundColor(context, position));
-            nameView.setText(item.getName());
+            layout.setBackgroundColor(item.getBackgroundColor());
+            nameView.setText(item.name);
         }
     }
 }

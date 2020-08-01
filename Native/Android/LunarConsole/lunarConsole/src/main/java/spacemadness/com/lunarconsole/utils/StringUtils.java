@@ -80,6 +80,10 @@ public class StringUtils {
         }
     }
 
+    public static boolean parseBoolean(String value) {
+        return value != null && (value.equals("1") || value.equalsIgnoreCase("true"));
+    }
+
     public static int length(String str) {
         return str != null ? str.length() : 0;
     }

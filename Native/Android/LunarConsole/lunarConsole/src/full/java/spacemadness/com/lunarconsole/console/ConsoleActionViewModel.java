@@ -48,7 +48,7 @@ public class ConsoleActionViewModel {
         List<ListViewItem> items = CollectionUtils.map(actions, new MapFunction<Action, ListViewItem>() {
             @Override
             public ActionListItem map(Action action) {
-                return new ActionListItem(action);
+                return new ActionListItem(action.getActionId(), action.getName());
             }
         });
         if (items.size() > 0) {
@@ -57,13 +57,14 @@ public class ConsoleActionViewModel {
         return items;
     }
 
-    private List<ListViewItem> createVariableItems(List<Variable> variables) {
+    private List<ListViewItem> createVariableItems(final List<Variable> variables) {
         List<ListViewItem> items = CollectionUtils.map(variables, new MapFunction<Variable, ListViewItem>() {
             @Override
-            public VariableListItem map(Variable variable) {
-                return new VariableListItem(variable);
+            public VariableListItem map(Variable v) {
+                return new VariableListItem(v.getActionId(), v.type, v.getName(), v.value, v.isDefaultValue());
             }
         });
+
         if (items.size() > 0) {
             items.add(0, new HeaderListItem(strings.getString(R.string.header_variables)));
         }

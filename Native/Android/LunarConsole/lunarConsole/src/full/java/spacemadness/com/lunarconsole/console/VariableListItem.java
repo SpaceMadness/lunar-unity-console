@@ -7,23 +7,21 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 
 import spacemadness.com.lunarconsole.R;
-import spacemadness.com.lunarconsole.core.Disposable;
 import spacemadness.com.lunarconsole.debug.Log;
-import spacemadness.com.lunarconsole.rx.Observable;
-import spacemadness.com.lunarconsole.rx.Observer;
 import spacemadness.com.lunarconsole.ui.ListViewAdapter;
 import spacemadness.com.lunarconsole.ui.Switch;
+import spacemadness.com.lunarconsole.utils.StringUtils;
 
 public class VariableListItem extends EntryListItem {
-    private final Variable variable;
+    private final VariableType type;
+    private final String value;
+    private boolean isDefaultValue;
 
-    public VariableListItem(Variable variable) {
-        super(EntryType.Variable, variable.getActionId());
-        this.variable = variable;
-    }
-
-    public String getName() {
-        return variable.getName();
+    public VariableListItem(int id, VariableType type, String name, String value, boolean isDefaultValue) {
+        super(EntryType.Variable, id, name);
+        this.type = type;
+        this.value = value;
+        this.isDefaultValue = isDefaultValue;
     }
 
     private void setChecked(boolean isChecked) {
@@ -32,6 +30,10 @@ public class VariableListItem extends EntryListItem {
 
     private void click() {
         Log.d("Click");
+    }
+
+    public boolean boolValue() {
+        return StringUtils.parseBoolean(value);
     }
 
     private int getTextColor() {
@@ -48,8 +50,6 @@ public class VariableListItem extends EntryListItem {
         private final Button valueEditButton;
         private final Switch toggleSwitch;
 
-        private Disposable subscription;
-
         public ViewHolder(View convertView) {
             super(convertView);
 
@@ -63,26 +63,22 @@ public class VariableListItem extends EntryListItem {
         protected void bindView(final VariableListItem item, int position) {
             layout.setBackgroundColor(item.getBackgroundColor());
 
-            nameTextView.setText(item.getName());
+            nameTextView.setText(item.name);
             nameTextView.setTextColor(item.getTextColor());
 
-            subscription = item.getValueStream().subscribe(new Observer<Variable>() {
-                @Override
-                public void onChanged(Variable variable) {
-                    final int style = variable.isDefaultValue() ? Typeface.NORMAL : Typeface.BOLD;
-                    nameTextView.setTypeface(null, style);
-                    if (variable.type == VariableType.Boolean) {
-                        toggleSwitch.setTypeface(null, style);
-                        toggleSwitch.setChecked(variable.boolValue());
-                    } else {
-                        valueEditButton.setTypeface(null, style);
-                        valueEditButton.setText(variable.value);
-                    }
-                }
-            });
+            final int style = item.isDefaultValue ? Typeface.NORMAL : Typeface.BOLD;
+            nameTextView.setTypeface(null, style);
+            if (item.type == VariableType.Boolean) {
+                toggleSwitch.setTypeface(null, style);
+                toggleSwitch.setChecked(item.boolValue());
+            } else {
+                valueEditButton.setTypeface(null, style);
+                valueEditButton.setText(item.value);
+            }
 
-            if (item.variable.type == VariableType.Boolean) {
+            if (item.type == VariableType.Boolean) {
                 valueEditButton.setVisibility(View.GONE);
+                valueEditButton.setOnClickListener(null);
                 toggleSwitch.setVisibility(View.VISIBLE);
                 toggleSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
@@ -92,6 +88,7 @@ public class VariableListItem extends EntryListItem {
                 });
             } else {
                 toggleSwitch.setVisibility(View.GONE);
+                toggleSwitch.setOnClickListener(null);
                 valueEditButton.setVisibility(View.VISIBLE);
                 valueEditButton.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -101,19 +98,5 @@ public class VariableListItem extends EntryListItem {
                 });
             }
         }
-
-        @Override
-        protected void recycle() {
-            valueEditButton.setOnClickListener(null);
-            toggleSwitch.setOnCheckedChangeListener(null);
-            if (subscription != null) {
-                subscription.dispose();
-                subscription = null;
-            }
-        }
-    }
-
-    private Observable<Variable> getValueStream() {
-        return variable.getValueStream();
     }
 }

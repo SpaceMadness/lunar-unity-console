@@ -22,8 +22,6 @@
 
 package spacemadness.com.lunarconsole.ui;
 
-import android.content.Context;
-import android.content.res.Resources;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -100,7 +98,8 @@ public class ListViewAdapter extends BaseAdapter {
     }
 
     public void submitList(List<? extends ListViewItem> items) {
-        this.items.clear();
+        clear();
+
         this.items.addAll(items);
         notifyDataSetChanged();
     }
@@ -120,6 +119,13 @@ public class ListViewAdapter extends BaseAdapter {
             throw new IllegalArgumentException("Item type not registered: " + itemType);
         }
         return factory;
+    }
+
+    private void clear() {
+        for (int i = 0; i < items.size(); ++i) {
+            items.get(i).recycle();
+        }
+        items.clear();
     }
 
     public interface Factory {
@@ -151,14 +157,6 @@ public class ListViewAdapter extends BaseAdapter {
         protected abstract void bindView(T item, int position);
 
         protected void recycle() {
-        }
-
-        protected Context getContext() {
-            return convertView.getContext();
-        }
-
-        protected Resources getResources() {
-            return getContext().getResources();
         }
     }
 }

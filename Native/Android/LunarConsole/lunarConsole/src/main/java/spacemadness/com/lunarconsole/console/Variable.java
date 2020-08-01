@@ -25,6 +25,7 @@ package spacemadness.com.lunarconsole.console;
 import spacemadness.com.lunarconsole.rx.BehaviorSubject;
 import spacemadness.com.lunarconsole.rx.Observable;
 import spacemadness.com.lunarconsole.utils.ObjectUtils;
+import spacemadness.com.lunarconsole.utils.StringUtils;
 
 public class Variable extends IdentityEntry {
     public static final int FLAG_NONE = 0;
@@ -70,7 +71,7 @@ public class Variable extends IdentityEntry {
     }
 
     boolean boolValue() {
-        return value != null && value.length() > 0 && !value.equals("0");
+        return StringUtils.parseBoolean(value);
     }
 
     public boolean hasRange() {

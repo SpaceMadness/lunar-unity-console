@@ -3,12 +3,14 @@ package spacemadness.com.lunarconsole.console;
 import spacemadness.com.lunarconsole.ui.ListViewItem;
 
 public abstract class EntryListItem extends ListViewItem {
-    public final EntryType type;
-    public final int id;
+    public final String name;
+    private final EntryType type;
+    private final int id;
 
-    protected EntryListItem(EntryType type, int id) {
+    protected EntryListItem(EntryType type, int id, String name) {
         this.type = type;
         this.id = id;
+        this.name = name;
     }
 
     @Override

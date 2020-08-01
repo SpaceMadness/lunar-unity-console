@@ -30,4 +30,7 @@ public class ListViewItem {
     protected int getItemViewType() {
         return 0;
     }
+
+    protected void recycle() {
+    }
 }
