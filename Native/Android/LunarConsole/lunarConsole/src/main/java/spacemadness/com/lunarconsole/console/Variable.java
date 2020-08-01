@@ -22,6 +22,8 @@
 
 package spacemadness.com.lunarconsole.console;
 
+import spacemadness.com.lunarconsole.rx.BehaviorSubject;
+import spacemadness.com.lunarconsole.rx.Observable;
 import spacemadness.com.lunarconsole.utils.ObjectUtils;
 
 public class Variable extends IdentityEntry {
@@ -35,6 +37,7 @@ public class Variable extends IdentityEntry {
     private float min;
     private float max;
     private int flags;
+    private BehaviorSubject<Variable> variableSubject;
 
     public Variable(int entryId, String name, String value, String defaultValue, VariableType type) {
         super(entryId, name);
@@ -43,6 +46,8 @@ public class Variable extends IdentityEntry {
         this.defaultValue = defaultValue;
         this.type = type;
         min = max = Float.NaN;
+
+        variableSubject = new BehaviorSubject<>(this);
     }
 
     @Override
@@ -59,6 +64,10 @@ public class Variable extends IdentityEntry {
     //endregion
 
     //region Getters/Setters
+
+    public Observable<Variable> getValueStream() {
+        return variableSubject;
+    }
 
     boolean boolValue() {
         return value != null && value.length() > 0 && !value.equals("0");

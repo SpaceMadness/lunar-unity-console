@@ -76,6 +76,7 @@ public class ListViewAdapter extends BaseAdapter {
         ViewHolder viewHolder;
         if (convertView != null) {
             viewHolder = (ViewHolder) convertView.getTag();
+            viewHolder.recycle();
         } else {
             final int itemViewType = getItemViewType(position);
             final Factory factory = getFactory(itemViewType);
@@ -148,6 +149,9 @@ public class ListViewAdapter extends BaseAdapter {
         }
 
         protected abstract void bindView(T item, int position);
+
+        protected void recycle() {
+        }
 
         protected Context getContext() {
             return convertView.getContext();
