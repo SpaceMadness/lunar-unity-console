@@ -49,7 +49,7 @@ namespace LunarConsolePlugin
         public bool Equals(ref CValue other)
         {
             return other.intValue == intValue &&
-            other.floatValue == floatValue &&
+            Math.Abs(other.floatValue - floatValue) < 0.00001f &&
             other.stringValue == stringValue;
         }
     }
