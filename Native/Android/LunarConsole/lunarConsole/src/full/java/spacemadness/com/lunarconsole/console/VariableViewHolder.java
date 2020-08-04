@@ -33,6 +33,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewStub;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -46,6 +47,7 @@ import spacemadness.com.lunarconsole.core.NotificationCenter;
 import spacemadness.com.lunarconsole.debug.Log;
 import spacemadness.com.lunarconsole.debug.TestHelper;
 import spacemadness.com.lunarconsole.ui.Switch;
+import spacemadness.com.lunarconsole.utils.CollectionUtils;
 import spacemadness.com.lunarconsole.utils.StringUtils;
 import spacemadness.com.lunarconsole.utils.UIUtils;
 
@@ -139,10 +141,23 @@ public class VariableViewHolder extends ConsoleActionAdapter.ViewHolder<Variable
         defaultText.setText(String.format(getString(R.string.lunar_console_edit_variable_title_default_value), variable.defaultValue));
 
         if (variable.type.equals(VariableType.Enum)) {
+            final String[] values = variable.values;
+
             Spinner spinner = contentView.findViewById(R.id.lunar_console_edit_variable_enum);
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, variable.values);
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, values);
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             spinner.setAdapter(adapter);
+            spinner.setSelection(Math.max(0, CollectionUtils.indexOf(values, variable.value)));
+            spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                    updateValue(values[position]);
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> parent) {
+                }
+            });
 
             builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                 @Override

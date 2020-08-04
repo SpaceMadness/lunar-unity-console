@@ -23,11 +23,21 @@
 package spacemadness.com.lunarconsole.utils;
 
 import java.lang.reflect.Array;
+import java.util.List;
 
 public class CollectionUtils {
     public static <T> int indexOf(T[] array, T value) {
         for (int i = 0; i < array.length; ++i) {
             if (array[i] == value) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    public static <T> int indexOf(List<T> list, T value) {
+        for (int i = 0; i < list.size(); ++i) {
+            if (list.get(i) == value) {
                 return i;
             }
         }
