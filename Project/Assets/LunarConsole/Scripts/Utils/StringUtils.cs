@@ -543,6 +543,11 @@ namespace LunarConsolePluginInternal
 
         #region string representation
 
+        internal static string ToString(object value)
+        {
+            return value != null ? value.ToString() : null;
+        }
+        
         internal static string ToString(int value)
         {
             return value.ToString();

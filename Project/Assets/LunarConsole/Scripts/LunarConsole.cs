@@ -34,7 +34,6 @@
 using UnityEngine;
 
 #if UNITY_EDITOR
-using UnityEditor;
 using System.Runtime.CompilerServices;
 #endif
 
@@ -42,12 +41,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Threading;
 using System.Text;
 using System.IO;
-
-using LunarConsolePlugin;
 using LunarConsolePluginInternal;
 
 #if UNITY_EDITOR
@@ -737,7 +733,7 @@ namespace LunarConsolePlugin
             private readonly jvalue[] m_args1 = new jvalue[1];
             private readonly jvalue[] m_args2 = new jvalue[2];
             private readonly jvalue[] m_args3 = new jvalue[3];
-            private readonly jvalue[] m_args9 = new jvalue[9];
+            private readonly jvalue[] m_args10 = new jvalue[10];
 
             private static readonly string kPluginClassName = "spacemadness.com.lunarconsole.console.NativeBridge";
 
@@ -791,7 +787,7 @@ namespace LunarConsolePlugin
                 m_methodClearConsole = GetStaticMethod(m_pluginClassRaw, "clearConsole", "()V");
                 m_methodRegisterAction = GetStaticMethod(m_pluginClassRaw, "registerAction", "(ILjava.lang.String;)V");
                 m_methodUnregisterAction = GetStaticMethod(m_pluginClassRaw, "unregisterAction", "(I)V");
-                m_methodRegisterVariable = GetStaticMethod(m_pluginClassRaw, "registerVariable", "(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IZFF)V");
+                m_methodRegisterVariable = GetStaticMethod(m_pluginClassRaw, "registerVariable", "(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IZFFLjava/lang/String;)V");
                 m_methodUpdateVariable = GetStaticMethod(m_pluginClassRaw, "updateVariable", "(ILjava/lang/String;)V");
                 m_methodDestroy = GetStaticMethod(m_pluginClassRaw, "destroy", "()V");
 
@@ -923,20 +919,22 @@ namespace LunarConsolePlugin
             {
                 try
                 {
-                    m_args9[0] = jval(cvar.Id);
-                    m_args9[1] = jval(cvar.Name);
-                    m_args9[2] = jval(cvar.Type.ToString());
-                    m_args9[3] = jval(cvar.Value);
-                    m_args9[4] = jval(cvar.DefaultValue);
-                    m_args9[5] = jval((int)cvar.Flags);
-                    m_args9[6] = jval(cvar.HasRange);
-                    m_args9[7] = jval(cvar.Range.min);
-                    m_args9[8] = jval(cvar.Range.max);
-                    CallStaticVoidMethod(m_methodRegisterVariable, m_args9);
-                    AndroidJNI.DeleteLocalRef(m_args9[1].l);
-                    AndroidJNI.DeleteLocalRef(m_args9[2].l);
-                    AndroidJNI.DeleteLocalRef(m_args9[3].l);
-                    AndroidJNI.DeleteLocalRef(m_args9[4].l);
+                    m_args10[0] = jval(cvar.Id);
+                    m_args10[1] = jval(cvar.Name);
+                    m_args10[2] = jval(cvar.Type.ToString());
+                    m_args10[3] = jval(cvar.Value);
+                    m_args10[4] = jval(cvar.DefaultValue);
+                    m_args10[5] = jval((int)cvar.Flags);
+                    m_args10[6] = jval(cvar.HasRange);
+                    m_args10[7] = jval(cvar.Range.min);
+                    m_args10[8] = jval(cvar.Range.max);
+                    m_args10[9] = jval(cvar.AvailableValues != null ? cvar.AvailableValues.Join() : null);
+                    CallStaticVoidMethod(m_methodRegisterVariable, m_args10);
+                    AndroidJNI.DeleteLocalRef(m_args10[1].l);
+                    AndroidJNI.DeleteLocalRef(m_args10[2].l);
+                    AndroidJNI.DeleteLocalRef(m_args10[3].l);
+                    AndroidJNI.DeleteLocalRef(m_args10[4].l);
+                    AndroidJNI.DeleteLocalRef(m_args10[9].l);
                 }
                 catch (Exception e)
                 {
