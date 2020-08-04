@@ -222,6 +222,10 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
     //region Destroyable
 
     public void registerVariable(int variableId, String name, String typeName, String value, String defaultValue, int flags, boolean hasRange, float rangeMin, float rangeMax) {
+        registerVariable(variableId, name, typeName, value, defaultValue, flags, hasRange, rangeMin, rangeMax, null);
+    }
+
+    public void registerVariable(int variableId, String name, String typeName, String value, String defaultValue, int flags, boolean hasRange, float rangeMin, float rangeMax, String[] values) {
         VariableType type = VariableType.parse(typeName);
         if (type == VariableType.Unknown) {
             Log.e("Unexpected variable type: %s", typeName);
@@ -236,6 +240,7 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
 
         Variable variable = actionRegistry.registerVariable(variableId, name, type, value, defaultValue);
         variable.setFlags(flags);
+        variable.values = values;
         if (hasRange) {
             variable.setRange(rangeMin, rangeMax);
         }

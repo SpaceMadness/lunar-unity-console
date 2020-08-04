@@ -150,11 +150,12 @@ public final class NativeBridge {
         });
     }
 
-    public static void registerVariable(final int variableId, final String name, final String type, final String value, final String defaultValue, final int flags, final boolean hasRange, final float rangeMin, final float rangeMax) {
+    public static void registerVariable(final int variableId, final String name, final String type, final String value, final String defaultValue, final int flags, final boolean hasRange, final float rangeMin, final float rangeMax, final String availableValues) {
         dispatchQueue.dispatch(new DispatchTask("register variable") {
             @Override
             protected void execute() {
-                plugin.registerVariable(variableId, name, type, value, defaultValue, flags, hasRange, rangeMin, rangeMax);
+                String[] values = availableValues != null && availableValues.length() > 0 ? availableValues.split(",") : null;
+                plugin.registerVariable(variableId, name, type, value, defaultValue, flags, hasRange, rangeMin, rangeMax, values);
             }
         });
     }

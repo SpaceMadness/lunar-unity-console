@@ -25,7 +25,7 @@ package spacemadness.com.lunarconsole.console;
 import spacemadness.com.lunarconsole.debug.Log;
 
 public enum VariableType {
-    Unknown, Boolean, Integer, Float, String;
+    Unknown, Boolean, Integer, Float, String, Enum;
 
     public static VariableType parse(String name) {
         try {

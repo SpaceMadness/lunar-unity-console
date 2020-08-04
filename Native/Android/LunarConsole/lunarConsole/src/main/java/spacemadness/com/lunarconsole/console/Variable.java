@@ -35,6 +35,7 @@ public class Variable extends IdentityEntry {
     private float min;
     private float max;
     private int flags;
+    public String[] values;
 
     public Variable(int entryId, String name, String value, String defaultValue, VariableType type) {
         super(entryId, name);
