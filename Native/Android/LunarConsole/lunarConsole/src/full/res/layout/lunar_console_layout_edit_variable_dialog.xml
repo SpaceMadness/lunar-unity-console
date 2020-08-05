@@ -2,8 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="8dp"
-    android:layout_marginBottom="8dp"
+    android:layout_margin="16dp"
     android:orientation="vertical"
     android:paddingBottom="8dp">
 
@@ -17,18 +16,21 @@
         android:id="@+id/lunar_console_edit_variable_value_stub"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="8dp"
         android:layout="@layout/lunar_console_layout_edit_variable_value" />
 
     <ViewStub
         android:id="@+id/lunar_console_edit_variable_range_stub"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="8dp"
         android:layout="@layout/lunar_console_layout_edit_variable_range" />
 
     <ViewStub
         android:id="@+id/lunar_console_edit_variable_enum_stub"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="8dp"
         android:layout="@layout/lunar_console_layout_edit_variable_enum" />
 
 </LinearLayout>

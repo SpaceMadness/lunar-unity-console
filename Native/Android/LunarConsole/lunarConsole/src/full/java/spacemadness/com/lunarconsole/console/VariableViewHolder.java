@@ -128,7 +128,7 @@ public class VariableViewHolder extends ConsoleActionAdapter.ViewHolder<Variable
     public void onClick(View v) {
         final Context context = v.getContext();
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.lunar_console_dialog);
         builder.setTitle(variable.getName());
 
         View contentView = LayoutInflater.from(context).inflate(R.layout.lunar_console_layout_edit_variable_dialog, null, false);
