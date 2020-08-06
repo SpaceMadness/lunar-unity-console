@@ -225,8 +225,45 @@
 
 @end
 
+@interface LUCVarEnumController () <UIPickerViewDelegate, UIPickerViewDataSource>
+
+@property (nonatomic, weak) IBOutlet UIPickerView * pickerView;
+
+@end
+
 @implementation LUCVarEnumController
 
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+}
 
+#pragma mark -
+#pragma mark UIPickerViewDelegate
+
+- (nullable NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    return self.variable.values[row];
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    
+}
+
+#pragma mark -
+#pragma mark UIPickerViewDataSource
+
+// returns the number of 'columns' to display.
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+    return 1;
+}
+
+// returns the # of rows in each component..
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+    return self.variable.values.count;
+}
 
 @end
