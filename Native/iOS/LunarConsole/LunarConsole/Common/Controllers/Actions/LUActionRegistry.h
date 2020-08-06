@@ -51,6 +51,7 @@
 - (BOOL)unregisterActionWithId:(int)actionId;
 
 - (LUCVar *)registerVariableWithId:(int)variableId name:(NSString *)name typeName:(NSString *)type value:(NSString *)value defaultValue:(NSString *)defaultValue;
+- (LUCVar *)registerVariableWithId:(int)variableId name:(NSString *)name typeName:(NSString *)type value:(NSString *)value defaultValue:(NSString *)defaultValue values:(NSArray<NSString *> *)values;
 - (void)setValue:(NSString *)value forVariableWithId:(int)variableId;
 - (LUCVar *)variableWithId:(int)variableId;
 
