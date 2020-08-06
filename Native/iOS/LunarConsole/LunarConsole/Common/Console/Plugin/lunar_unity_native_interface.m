@@ -117,15 +117,17 @@ void __lunar_console_action_unregister(int actionId)
     }
 }
 
-void __lunar_console_cvar_register(int entryId, const char *nameStr, const char *typeStr, const char *valueStr, const char *defaultValueStr, int flags, BOOL hasRange, float min, float max)
+void __lunar_console_cvar_register(int entryId, const char *nameStr, const char *typeStr, const char *valueStr, const char *defaultValueStr, int flags, BOOL hasRange, float min, float max, const char *valuesStr)
 {
     lunar_dispatch_main(^{
         NSString *name = [[NSString alloc] initWithUTF8String:nameStr];
         NSString *type = [[NSString alloc] initWithUTF8String:typeStr];
         NSString *value = [[NSString alloc] initWithUTF8String:valueStr];
         NSString *defaultValue = [[NSString alloc] initWithUTF8String:defaultValueStr];
+        NSString *values = valuesStr ? [[NSString alloc] initWithUTF8String:valuesStr] : nil;
 
         LUCVar *cvar = [_lunarConsolePlugin registerVariableWithId:entryId name:name type:type value:value defaultValue:defaultValue];
+        cvar.values = [values componentsSeparatedByString:@","];
         cvar.flags = flags;
         if (!isnan(min) && !isnan(max)) {
             cvar.range = LUMakeCVarRange(min, max);

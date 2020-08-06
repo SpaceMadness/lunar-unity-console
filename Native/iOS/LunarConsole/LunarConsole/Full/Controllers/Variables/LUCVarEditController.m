@@ -33,8 +33,6 @@
 @property (nonatomic, weak) IBOutlet UITextField * textField;
 @property (nonatomic, weak) IBOutlet UILabel *errorLabel;
 @property (nonatomic, weak) IBOutlet NSLayoutConstraint *errorLabelHeightConstraint;
-@property (nonatomic, weak) IBOutlet NSLayoutConstraint *sliderLeadingConstraint;
-@property (nonatomic, weak) IBOutlet NSLayoutConstraint *sliderWidthConstraint;
 
 @end
 
@@ -82,8 +80,6 @@
     else
     {
         _slider.hidden = YES;
-        _sliderLeadingConstraint.constant = 0.0;
-        _sliderWidthConstraint.constant = 0.0;
         _errorLabelHeightConstraint.constant = 0.0f;
     }
     
