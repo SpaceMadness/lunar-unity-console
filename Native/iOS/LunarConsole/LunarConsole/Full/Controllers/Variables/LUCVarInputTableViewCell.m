@@ -94,7 +94,10 @@
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
 {
-    LUCVarEditController *controller = [[LUCVarEditController alloc] initWithVariable:self.variable];
+    Class controllerClass = self.variable.type == LUCVarTypeEnum
+                        ? [LUCVarEnumController class]
+                        : [LUCVarValueController class];
+    LUCVarEditController *controller = [[controllerClass alloc] initWithVariable:self.variable];
     controller.delegate = self;
 
     LUConsolePopupController *popupController = [[LUConsolePopupController alloc] initWithContentController:controller];
