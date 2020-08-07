@@ -20,8 +20,7 @@
 //
 
 
-﻿using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEditor;
 
@@ -143,7 +142,7 @@ namespace LunarConsoleEditorInternal
                     OnVariableFieldGUI(cvar);
 
                     GUI.SetNextControlName("Reset Button");
-                    if (GUILayout.Button("Reset", resetButtonStyle, GUILayout.Width(40)))
+                    if (GUILayout.Button("Reset", resetButtonStyle, GUILayout.Width(60)))
                     {
                         cvar.Value = cvar.DefaultValue;
                         GUI.FocusControl("Reset Button");
@@ -177,6 +176,14 @@ namespace LunarConsoleEditorInternal
                     break;
                 case CVarType.String:
                     cvar.Value = EditorGUILayout.TextField(cvar.Name, cvar.Value);
+                    break;
+                case CVarType.Enum:
+                    var selectedIndex = Array.IndexOf(cvar.AvailableValues, cvar.Value);
+                    var newSelectedIndex = EditorGUILayout.Popup(cvar.Name, selectedIndex, cvar.AvailableValues);
+                    if (selectedIndex != newSelectedIndex)
+                    {
+                        cvar.Value = cvar.AvailableValues[newSelectedIndex];
+                    }
                     break;
                 default:
                     EditorGUILayout.LabelField(cvar.Name, cvar.Value);
