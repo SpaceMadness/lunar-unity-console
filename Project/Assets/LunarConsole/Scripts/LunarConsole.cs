@@ -1270,6 +1270,20 @@ namespace LunarConsolePlugin
                         m_variablesDirty = true;
                         break;
                     }
+                    case CVarType.Enum:
+                    {
+                        var index = Array.IndexOf(variable.AvailableValues, variable.Value);
+                        if (index != -1)
+                        {
+                            variable.Value = value;
+                            m_variablesDirty = true;
+                        }
+                        else
+                        {
+                            Log.e("Unexpected variable '{0}' value: {1}", variable.Name, variable.Value);
+                        }
+                        break;
+                    }
                     default:
                     {
                         Log.e("Unexpected variable type: {0}", variable.Type);
