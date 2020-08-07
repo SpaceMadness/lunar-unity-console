@@ -15,7 +15,7 @@ filters = {
 	settings = true
 }
 scopes = {
-	"last_search.AB59B443" = "main"
+	"last_search.AB59B443" = "variablessc"
 }
 providers = {
 	asset = {
@@ -44,6 +44,16 @@ providers = {
 		defaultAction = null
 	}
 	query = {
+		active = true
+		priority = 100
+		defaultAction = null
+	}
+	store = {
+		active = true
+		priority = 100
+		defaultAction = null
+	}
+	res = {
 		active = true
 		priority = 100
 		defaultAction = null

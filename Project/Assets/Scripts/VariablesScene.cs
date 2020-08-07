@@ -20,34 +20,40 @@
 //
 
 
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
-
+using System;
 using UnityEngine;
-using UnityEngine.UI;
 using LunarConsolePlugin;
+using UnityEngine.UI;
 
 public class VariablesScene : MonoBehaviour
 {
-    CVar[] m_variables = {
+    private readonly CVar[] m_variables = {
         Variables.c_bool,
         Variables.c_float,
         Variables.c_int,
         Variables.c_range,
-        Variables.c_string
+        Variables.c_string,
+        Variables.c_enum
     };
 
-    void Start()
+    [SerializeField]
+    private Text[] m_variableLabels;
+
+    private void Start()
     {
+        for (var index = 0; index < m_variables.Length; index++)
+        {
+            var cvar = m_variables[index];
+            m_variableLabels[index].text = $"{cvar.Name}: {cvar.Value}";
+        }
+
         foreach (CVar cvar in m_variables)
         {
             cvar.AddDelegate(OnVariableChanged);
         }
     }
 
-    void OnDestroy()
+    private void OnDestroy()
     {
         foreach (CVar cvar in m_variables)
         {
@@ -55,8 +61,9 @@ public class VariablesScene : MonoBehaviour
         }
     }
 
-    void OnVariableChanged(CVar cvar)
+    private void OnVariableChanged(CVar cvar)
     {
-        Debug.LogFormat("{0} {1}", cvar.Name, cvar.Value);
+        int index = Array.IndexOf(m_variables, cvar);
+        m_variableLabels[index].text = $"{cvar.Name}: {cvar.Value}";
     }
 }
