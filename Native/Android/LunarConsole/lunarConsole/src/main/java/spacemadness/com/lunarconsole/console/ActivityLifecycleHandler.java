@@ -22,10 +22,8 @@
 
 package spacemadness.com.lunarconsole.console;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Application;
-import android.os.Build;
 import android.os.Bundle;
 
 import java.lang.ref.WeakReference;
