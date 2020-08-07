@@ -236,19 +236,32 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    NSUInteger row = [self.variable.values indexOfObject:self.variable.value];
+    [self.pickerView selectRow:row inComponent:0 animated:NO];
+}
+
+- (void)onResetButton:(id)sender
+{
+    [super onResetButton:sender];
+    
+    NSUInteger row = [self.variable.values indexOfObject:self.variable.value];
+    [self.pickerView selectRow:row inComponent:0 animated:YES];
 }
 
 #pragma mark -
 #pragma mark UIPickerViewDelegate
 
-- (nullable NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component
+- (NSAttributedString *)pickerView:(UIPickerView *)pickerView attributedTitleForRow:(NSInteger)row forComponent:(NSInteger)component
 {
-    return self.variable.values[row];
+    NSString *value = self.variable.values[row];
+    return [[NSAttributedString alloc] initWithString:value attributes:@{ NSForegroundColorAttributeName : LUTheme.mainTheme.variableTextColor }];
 }
 
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
 {
-    
+    NSString *value = self.variable.values[row];
+    [self notifyValueUpdate:value];
 }
 
 #pragma mark -
@@ -265,5 +278,14 @@
 {
     return self.variable.values.count;
 }
+
+#pragma mark -
+#pragma mark Popup Controller
+
+- (CGSize)preferredPopupSize
+{
+    return CGSizeMake(0, 216);
+}
+
 
 @end

@@ -249,7 +249,7 @@ static NSString *const kScriptMessageTrackEvent = @"track_event";
 
 - (LUCVar *)registerVariableWithId:(int)entryId name:(NSString *)name type:(NSString *)type value:(NSString *)value defaultValue:(NSString *)defaultValue values:(NSArray<NSString *> *)values
 {
-    return [_actionRegistry registerVariableWithId:entryId name:name typeName:type value:value defaultValue:defaultValue];
+    return [_actionRegistry registerVariableWithId:entryId name:name typeName:type value:value defaultValue:defaultValue values:values];
 }
 
 - (void)setValue:(NSString *)value forVariableWithId:(int)variableId
