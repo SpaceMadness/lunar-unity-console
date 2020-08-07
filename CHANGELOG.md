@@ -1,5 +1,11 @@
 # Lunar Console Changelog
 
+## v.1.8.0 - 08/07/2019
+
+**Changes:**
+
+* Enum Variables Support.
+
 ## v.1.7.0 - 07/29/2019
 
 **Changes:**
