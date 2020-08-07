@@ -44,6 +44,7 @@ using System.Reflection;
 using System.Threading;
 using System.Text;
 using System.IO;
+using System.Runtime.InteropServices;
 using LunarConsolePluginInternal;
 
 #if UNITY_EDITOR
@@ -458,7 +459,7 @@ namespace LunarConsolePlugin
                 {
                     foreach (var field in fields)
                     {
-                        if (!field.FieldType.IsAssignableFrom(typeof(CVar)))
+                        if (!field.FieldType.IsAssignableFrom(typeof(CVar)) && !field.FieldType.IsSubclassOf(typeof(CVar)))
                         {
                             continue;
                         }
@@ -644,7 +645,7 @@ namespace LunarConsolePlugin
             private static extern void __lunar_console_action_unregister(int actionId);
 
             [DllImport("__Internal")]
-            private static extern void __lunar_console_cvar_register(int variableId, string name, string type, string value, string defaultValue, int flags, bool hasRange, float min, float max);
+            private static extern void __lunar_console_cvar_register(int variableId, string name, string type, string value, string defaultValue, int flags, bool hasRange, float min, float max, string values);
 
             [DllImport("__Internal")]
             private static extern void __lunar_console_cvar_update(int variableId, string value);
@@ -709,7 +710,8 @@ namespace LunarConsolePlugin
 
             public void OnVariableRegistered(CRegistry registry, CVar cvar)
             {
-                __lunar_console_cvar_register(cvar.Id, cvar.Name, cvar.Type.ToString(), cvar.Value, cvar.DefaultValue, (int)cvar.Flags, cvar.HasRange, cvar.Range.min, cvar.Range.max);
+                string values = cvar.Type == CVarType.Enum ? cvar.AvailableValues.Join(",") : null;
+                __lunar_console_cvar_register(cvar.Id, cvar.Name, cvar.Type.ToString(), cvar.Value, cvar.DefaultValue, (int)cvar.Flags, cvar.HasRange, cvar.Range.min, cvar.Range.max, values);
             }
 
             public void OnVariableUpdated(CRegistry registry, CVar cvar)
