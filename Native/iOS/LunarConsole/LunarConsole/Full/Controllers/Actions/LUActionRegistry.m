@@ -102,6 +102,11 @@
 
 - (LUCVar *)registerVariableWithId:(int)variableId name:(NSString *)name typeName:(NSString *)typeName value:(NSString *)value defaultValue:(NSString *)defaultValue
 {
+    return [self registerVariableWithId:variableId name:name typeName:typeName value:value defaultValue:defaultValue values:nil];
+}
+
+- (LUCVar *)registerVariableWithId:(int)variableId name:(NSString *)name typeName:(NSString *)typeName value:(NSString *)value defaultValue:(NSString *)defaultValue values:(NSArray<NSString *> *)values
+{
     LUCVarType type = [LUCVar typeForName:typeName];
     if (type == LUCVarTypeUnknown)
     {
@@ -110,6 +115,8 @@
     }
     
     LUCVar *variable = [LUCVarFactory variableWithId:variableId name:name value:value defaultValue:defaultValue type:type];
+    variable.values = values;
+    
     NSInteger index = [_variables addObject:variable];
     [_delegate actionRegistry:self didRegisterVariable:variable atIndex:index];
     

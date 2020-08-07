@@ -62,9 +62,13 @@ public class UIUtils {
 
 
     public static void showToast(Context context, String message) {
+        showToast(context, message, Toast.LENGTH_LONG);
+    }
+
+    public static void showToast(Context context, String message, int length) {
         Assert.IsNotNull(context);
         if (context != null) {
-            Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, message, length).show();
         }
     }
 

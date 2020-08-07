@@ -28,6 +28,7 @@ NSString * const LUCVarTypeNameBoolean = @"Boolean";
 NSString * const LUCVarTypeNameInteger = @"Integer";
 NSString * const LUCVarTypeNameFloat   = @"Float";
 NSString * const LUCVarTypeNameString  = @"String";
+NSString * const LUCVarTypeNameEnum    = @"Enum";
 NSString * const LUCVarTypeNameUnknown = @"Unknown";
 
 @implementation LUCVar

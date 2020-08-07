@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/lunar_console_edit_variable_range"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="8dp"
+    android:layout_marginRight="8dp"
+    android:layout_marginBottom="8dp"
+    android:orientation="horizontal">
+
+    <SeekBar
+        android:id="@+id/lunar_console_edit_variable_seek_bar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_weight="2" />
+
+    <include
+        layout="@layout/lunar_console_layout_edit_variable_value"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content" />
+</LinearLayout>
+

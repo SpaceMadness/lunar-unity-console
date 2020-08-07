@@ -37,7 +37,8 @@ namespace LunarConsolePlugin
         Boolean,
         Integer,
         Float,
-        String
+        String,
+        Enum
     }
 
     struct CValue
@@ -133,8 +134,8 @@ namespace LunarConsolePlugin
             this.Value = defaultValue;
             m_defaultValue = m_value;
         }
-
-        private CVar(string name, CVarType type, CFlags flags)
+        
+        protected CVar(string name, CVarType type, CFlags flags)
         {
             if (name == null)
             {
@@ -147,8 +148,6 @@ namespace LunarConsolePlugin
             m_type = type;
             m_flags = flags;
         }
-
-        //////////////////////////////////////////////////////////////////////////////
 
         #region Delegates
 
@@ -212,8 +211,6 @@ namespace LunarConsolePlugin
 
         #endregion
 
-        //////////////////////////////////////////////////////////////////////////////
-
         #region IEquatable
 
         public bool Equals(CVar other)
@@ -227,8 +224,6 @@ namespace LunarConsolePlugin
 
         #endregion
 
-        //////////////////////////////////////////////////////////////////////////////
-
         #region IComparable
 
         public int CompareTo(CVar other)
@@ -237,8 +232,6 @@ namespace LunarConsolePlugin
         }
 
         #endregion
-
-        //////////////////////////////////////////////////////////////////////////////
 
         #region Properties
 
@@ -260,6 +253,7 @@ namespace LunarConsolePlugin
         public string DefaultValue
         {
             get { return m_defaultValue.stringValue; }
+            protected set { m_defaultValue.stringValue = value; }
         }
 
         public bool IsString
@@ -353,6 +347,11 @@ namespace LunarConsolePlugin
             set { this.IntValue = value ? 1 : 0; }
         }
 
+        public virtual string[] AvailableValues
+        {
+            get { return null; }
+        }
+
         public bool IsDefault
         {
             get { return m_value.Equals(m_defaultValue); }
@@ -405,6 +404,41 @@ namespace LunarConsolePlugin
         #endregion
     }
 
+    public class CEnumVar<T> : CVar where T : Enum
+    {
+        private readonly IDictionary<string, T> m_valueLookup;
+        private readonly string[] m_names;
+
+        public CEnumVar(string name, T defaultValue, CFlags flags = CFlags.None) : base(name, CVarType.Enum, flags)
+        {
+            var value = defaultValue.ToString();
+            
+            Value = value;
+            DefaultValue = value;
+            
+            var values = Enum.GetValues(typeof(T));
+            m_names = Enum.GetNames(typeof(T));
+            
+            m_valueLookup = new Dictionary<string, T>();
+            for (int i = 0; i < values.Length; i++)
+            {
+                m_valueLookup[m_names[i]] = (T) values.GetValue(i);
+            }
+        }
+
+        public override string[] AvailableValues
+        {
+            get { return m_names; }
+        }
+
+        public T EnumValue => m_valueLookup[Value];
+
+        public static implicit operator T(CEnumVar<T> cvar)
+        {
+            return cvar.EnumValue;
+        }
+    }
+    
     public class CVarList : IEnumerable<CVar>
     {
         private readonly List<CVar> m_variables;

@@ -214,7 +214,7 @@
 		4D02A82F1E5940C2009F4998 /* LUSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUSlider.m; sourceTree = "<group>"; };
 		4D02A8361E594AEE009F4998 /* LUCVarEditController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUCVarEditController.h; sourceTree = "<group>"; };
 		4D02A8371E594AEE009F4998 /* LUCVarEditController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUCVarEditController.m; sourceTree = "<group>"; };
-		4D02A8451E5A8E2B009F4998 /* LUCVarEditController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LUCVarEditController.xib; sourceTree = "<group>"; };
+		4D02A8451E5A8E2B009F4998 /* LUCVarValueController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LUCVarValueController.xib; sourceTree = "<group>"; };
 		4D02A8461E5A8EA4009F4998 /* LUTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LUTextField.h; sourceTree = "<group>"; };
 		4D02A8471E5A8EA4009F4998 /* LUTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUTextField.m; sourceTree = "<group>"; };
 		4DBF29321E624EDA006E2C8A /* LUCVar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LUCVar.m; sourceTree = "<group>"; };
@@ -400,6 +400,7 @@
 		EF0944C8224EE8DE00F5F3BF /* LUUIHelper.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LUUIHelper.m; sourceTree = "<group>"; };
 		EF1D47A61E04A60A005BEC07 /* LunarConsoleTests-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "LunarConsoleTests-Bridging-Header.h"; sourceTree = "<group>"; };
 		EF1D47A71E04A60B005BEC07 /* LUActionRegistryFilterTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LUActionRegistryFilterTest.swift; sourceTree = "<group>"; };
+		EF22216824DBB0EB00E10E1E /* LUCVarEnumController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LUCVarEnumController.xib; sourceTree = "<group>"; };
 		EF30B266223C65F700898849 /* LUPluginSettings.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LUPluginSettings.h; sourceTree = "<group>"; };
 		EF30B267223C65F700898849 /* LUPluginSettings.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = LUPluginSettings.m; sourceTree = "<group>"; };
 		EF30B26A223C6CAC00898849 /* LUPluginSettingsTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LUPluginSettingsTest.swift; sourceTree = "<group>"; };
@@ -538,7 +539,8 @@
 				4D02A7971E496C93009F4998 /* LUCVarBooleanTableViewCell.xib */,
 				4D02A8361E594AEE009F4998 /* LUCVarEditController.h */,
 				4D02A8371E594AEE009F4998 /* LUCVarEditController.m */,
-				4D02A8451E5A8E2B009F4998 /* LUCVarEditController.xib */,
+				4D02A8451E5A8E2B009F4998 /* LUCVarValueController.xib */,
+				EF22216824DBB0EB00E10E1E /* LUCVarEnumController.xib */,
 				4D02A7981E496C93009F4998 /* LUCVarFactory.h */,
 				4D02A7991E496C93009F4998 /* LUCVarFactory.m */,
 				4D02A79C1E496C93009F4998 /* LUCVarInputTableViewCell.h */,

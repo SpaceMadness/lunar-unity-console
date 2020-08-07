@@ -55,6 +55,7 @@
         case LUCVarTypeInteger: return [LUCVarInputTableViewCell class];
         case LUCVarTypeFloat:   return [LUCVarInputTableViewCell class];
         case LUCVarTypeString:  return [LUCVarStringTableViewCell class];
+        case LUCVarTypeEnum:    return [LUCVarStringTableViewCell class];
         case LUCVarTypeUnknown: return NULL;
     }
 }

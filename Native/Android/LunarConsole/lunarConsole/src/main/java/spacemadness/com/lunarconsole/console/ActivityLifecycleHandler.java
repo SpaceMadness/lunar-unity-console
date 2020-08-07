@@ -22,10 +22,8 @@
 
 package spacemadness.com.lunarconsole.console;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Application;
-import android.os.Build;
 import android.os.Bundle;
 
 import java.lang.ref.WeakReference;
@@ -37,7 +35,6 @@ import static spacemadness.com.lunarconsole.console.Notifications.NOTIFICATION_A
 import static spacemadness.com.lunarconsole.console.Notifications.NOTIFICATION_ACTIVITY_STOPPED;
 import static spacemadness.com.lunarconsole.console.Notifications.NOTIFICATION_KEY_ACTIVITY;
 
-@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 class ActivityLifecycleHandler implements Application.ActivityLifecycleCallbacks, Destroyable {
     private final WeakReference<Application> applicationRef;
 

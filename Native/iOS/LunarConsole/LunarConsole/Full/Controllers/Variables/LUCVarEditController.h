@@ -33,8 +33,15 @@
 
 @interface LUCVarEditController : LUViewController
 
+@property (nonatomic, weak, readonly) LUCVar * variable;
 @property (nonatomic, weak) id<LUCVarEditControllerDelegate> delegate;
 
 - (instancetype)initWithVariable:(LUCVar *)variable;
 
+@end
+
+@interface LUCVarValueController : LUCVarEditController
+@end
+
+@interface LUCVarEnumController : LUCVarEditController
 @end

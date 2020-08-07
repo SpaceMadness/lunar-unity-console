@@ -28,6 +28,7 @@ NSString * const LUCVarTypeNameBoolean = @"Boolean";
 NSString * const LUCVarTypeNameInteger = @"Integer";
 NSString * const LUCVarTypeNameFloat   = @"Float";
 NSString * const LUCVarTypeNameString  = @"String";
+NSString * const LUCVarTypeNameEnum    = @"Enum";
 NSString * const LUCVarTypeNameUnknown = @"Unknown";
 
 @interface LUCVar ()
@@ -109,6 +110,7 @@ NSString * const LUCVarTypeNameUnknown = @"Unknown";
     if ([type isEqualToString:LUCVarTypeNameInteger]) return LUCVarTypeInteger;
     if ([type isEqualToString:LUCVarTypeNameFloat])   return LUCVarTypeFloat;
     if ([type isEqualToString:LUCVarTypeNameString])  return LUCVarTypeString;
+    if ([type isEqualToString:LUCVarTypeNameEnum])    return LUCVarTypeEnum;
     
     return LUCVarTypeUnknown;
 }
@@ -121,6 +123,7 @@ NSString * const LUCVarTypeNameUnknown = @"Unknown";
         case LUCVarTypeInteger: return LUCVarTypeNameInteger;
         case LUCVarTypeFloat:   return LUCVarTypeNameFloat;
         case LUCVarTypeString:  return LUCVarTypeNameString;
+        case LUCVarTypeEnum:    return LUCVarTypeNameEnum;
         case LUCVarTypeUnknown: return LUCVarTypeNameUnknown;
     }
 }

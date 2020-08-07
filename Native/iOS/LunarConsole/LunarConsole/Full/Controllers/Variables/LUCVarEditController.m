@@ -24,20 +24,6 @@
 
 #import "Lunar-Full.h"
 
-@interface LUCVarEditController () <UITextFieldDelegate>
-{
-    __weak LUCVar * _variable;
-}
-
-@property (nonatomic, weak) IBOutlet UISlider * slider;
-@property (nonatomic, weak) IBOutlet UITextField * textField;
-@property (nonatomic, weak) IBOutlet UILabel *errorLabel;
-@property (nonatomic, weak) IBOutlet NSLayoutConstraint *errorLabelHeightConstraint;
-@property (nonatomic, weak) IBOutlet NSLayoutConstraint *sliderLeadingConstraint;
-@property (nonatomic, weak) IBOutlet NSLayoutConstraint *sliderWidthConstraint;
-
-@end
-
 @implementation LUCVarEditController
 
 - (instancetype)initWithVariable:(LUCVar *)variable
@@ -45,7 +31,7 @@
     self = [super initWithNibName:NSStringFromClass([self class]) bundle:nil];
     if (self) {
         _variable = variable;
-        self.popupTitle = _variable.name;
+        self.popupTitle = variable.name;
         self.popupIcon = LUGetImage(@"lunar_console_icon_settings");
         self.popupButtons = @[
             [LUConsolePopupButton buttonWithIcon:LUGetImage(@"lunar_console_icon_button_variable_reset")
@@ -61,16 +47,69 @@
     [super viewDidLoad];
     
     self.view.backgroundColor = [LUTheme mainTheme].backgroundColorDark;
-    
-    if (_variable.type == LUCVarTypeFloat && _variable.hasRange)
+}
+
+#pragma mark -
+#pragma mark Actions
+
+- (void)onResetButton:(id)sender
+{
+    [self notifyValueUpdate:_variable.defaultValue];
+}
+
+- (void)notifyValueUpdate:(NSString *)value
+{
+    if (![_variable.value isEqualToString:value])
     {
-        CGFloat min = _variable.range.min;
-        CGFloat max = _variable.range.max;
+        if ([_delegate respondsToSelector:@selector(editController:didChangeValue:)])
+        {
+            [_delegate editController:self didChangeValue:value];
+        }
+    }
+}
+
+#pragma mark -
+#pragma mark Popup Controller
+
+- (CGSize)preferredPopupSize
+{
+    return CGSizeMake(0, 70);
+}
+
+@end
+
+@interface LUCVarValueController () <UITextFieldDelegate>
+
+@property (nonatomic, weak) IBOutlet UISlider * slider;
+@property (nonatomic, weak) IBOutlet UITextField * textField;
+@property (nonatomic, weak) IBOutlet UILabel *errorLabel;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *errorLabelHeightConstraint;
+
+@end
+
+@implementation LUCVarValueController
+
+- (instancetype)initWithVariable:(LUCVar *)variable
+{
+    self = [super initWithVariable:variable];
+    if (self) {
+    }
+    return self;
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    if (self.variable.type == LUCVarTypeFloat && self.variable.hasRange)
+    {
+        CGFloat min = self.variable.range.min;
+        CGFloat max = self.variable.range.max;
         if (max - min > 0.000001)
         {
             _slider.minimumValue = min;
             _slider.maximumValue = max;
-            _slider.value = [_variable.value floatValue];
+            _slider.value = [self.variable.value floatValue];
             _errorLabelHeightConstraint.constant = 0.0f;
         }
         else
@@ -82,12 +121,10 @@
     else
     {
         _slider.hidden = YES;
-        _sliderLeadingConstraint.constant = 0.0;
-        _sliderWidthConstraint.constant = 0.0;
         _errorLabelHeightConstraint.constant = 0.0f;
     }
     
-    _textField.text = _variable.value;
+    _textField.text = self.variable.value;
 	LU_SET_ACCESSIBILITY_IDENTIFIER(_textField, @"Editor Input Field")
 }
 
@@ -111,12 +148,12 @@
 
 - (void)onResetButton:(id)sender
 {
-    _textField.text = _variable.defaultValue;
-    if (_variable.type == LUCVarTypeFloat && _variable.hasRange)
+    _textField.text = self.variable.defaultValue;
+    if (self.variable.type == LUCVarTypeFloat && self.variable.hasRange)
     {
-        _slider.value = [_variable.defaultValue floatValue];
+        _slider.value = [self.variable.defaultValue floatValue];
     }
-    [self notifyValueUpdate:_variable.defaultValue];
+    [super onResetButton:sender];
 }
 
 #pragma mark -
@@ -127,19 +164,19 @@
     NSString *valueText = textField.text;
     if ([self isValidValue:valueText])
     {
-        if (_variable.type == LUCVarTypeFloat)
+        if (self.variable.type == LUCVarTypeFloat)
         {
             float value;
             LUStringTryParseFloat(valueText, &value);
-            if (_variable.hasRange)
+            if (self.variable.hasRange)
             {
-                if (value < _variable.range.min)
+                if (value < self.variable.range.min)
                 {
-                    value = _variable.range.min;
+                    value = self.variable.range.min;
                 }
-                else if (value > _variable.range.max)
+                else if (value > self.variable.range.max)
                 {
-                    value = _variable.range.max;
+                    value = self.variable.range.max;
                 }
                 _slider.value = value;
             }
@@ -167,7 +204,7 @@
 
 - (BOOL)isValidValue:(NSString *)value
 {
-    switch (_variable.type)
+    switch (self.variable.type)
     {
         case LUCVarTypeFloat:
             return LUStringTryParseFloat(value, NULL);
@@ -178,17 +215,6 @@
     }
 }
 
-- (void)notifyValueUpdate:(NSString *)value
-{
-    if (![_variable.value isEqualToString:value])
-    {
-        if ([_delegate respondsToSelector:@selector(editController:didChangeValue:)])
-        {
-            [_delegate editController:self didChangeValue:value];
-        }
-    }
-}
-
 #pragma mark -
 #pragma mark Popup Controller
 
@@ -196,5 +222,70 @@
 {
     return CGSizeMake(0, 70);
 }
+
+@end
+
+@interface LUCVarEnumController () <UIPickerViewDelegate, UIPickerViewDataSource>
+
+@property (nonatomic, weak) IBOutlet UIPickerView * pickerView;
+
+@end
+
+@implementation LUCVarEnumController
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    NSUInteger row = [self.variable.values indexOfObject:self.variable.value];
+    [self.pickerView selectRow:row inComponent:0 animated:NO];
+}
+
+- (void)onResetButton:(id)sender
+{
+    [super onResetButton:sender];
+    
+    NSUInteger row = [self.variable.values indexOfObject:self.variable.value];
+    [self.pickerView selectRow:row inComponent:0 animated:YES];
+}
+
+#pragma mark -
+#pragma mark UIPickerViewDelegate
+
+- (NSAttributedString *)pickerView:(UIPickerView *)pickerView attributedTitleForRow:(NSInteger)row forComponent:(NSInteger)component
+{
+    NSString *value = self.variable.values[row];
+    return [[NSAttributedString alloc] initWithString:value attributes:@{ NSForegroundColorAttributeName : LUTheme.mainTheme.variableTextColor }];
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component
+{
+    NSString *value = self.variable.values[row];
+    [self notifyValueUpdate:value];
+}
+
+#pragma mark -
+#pragma mark UIPickerViewDataSource
+
+// returns the number of 'columns' to display.
+- (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView
+{
+    return 1;
+}
+
+// returns the # of rows in each component..
+- (NSInteger)pickerView:(UIPickerView *)pickerView numberOfRowsInComponent:(NSInteger)component
+{
+    return self.variable.values.count;
+}
+
+#pragma mark -
+#pragma mark Popup Controller
+
+- (CGSize)preferredPopupSize
+{
+    return CGSizeMake(0, 216);
+}
+
 
 @end
