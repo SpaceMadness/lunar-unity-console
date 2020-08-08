@@ -44,7 +44,7 @@ public class VariablesScene : MonoBehaviour
         for (var index = 0; index < m_variables.Length; index++)
         {
             var cvar = m_variables[index];
-            m_variableLabels[index].text = $"{cvar.Name}: {cvar.Value}";
+            m_variableLabels[index].text = string.Format("{0}: {1}", cvar.Name, cvar.Value);
         }
 
         foreach (CVar cvar in m_variables)
@@ -64,6 +64,6 @@ public class VariablesScene : MonoBehaviour
     private void OnVariableChanged(CVar cvar)
     {
         int index = Array.IndexOf(m_variables, cvar);
-        m_variableLabels[index].text = $"{cvar.Name}: {cvar.Value}";
+        m_variableLabels[index].text = string.Format("{0}: {1}", cvar.Name, cvar.Value);
     }
 }

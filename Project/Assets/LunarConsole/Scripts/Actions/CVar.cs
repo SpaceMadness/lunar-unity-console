@@ -441,10 +441,14 @@ namespace LunarConsolePlugin
             get { return m_valueLookup[Value]; }
         }
 
+        #if UNITY_2017_1_OR_NEWER
+        
         public static implicit operator T(CEnumVar<T> cvar)
         {
             return cvar.EnumValue;
         }
+        
+        #endif
     }
     
     public class CVarList : IEnumerable<CVar>
