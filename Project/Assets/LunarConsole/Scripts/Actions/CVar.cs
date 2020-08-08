@@ -404,13 +404,18 @@ namespace LunarConsolePlugin
         #endregion
     }
 
-    public class CEnumVar<T> : CVar where T : Enum
+    public class CEnumVar<T> : CVar  where T : struct, IConvertible
     {
         private readonly IDictionary<string, T> m_valueLookup;
         private readonly string[] m_names;
 
         public CEnumVar(string name, T defaultValue, CFlags flags = CFlags.None) : base(name, CVarType.Enum, flags)
         {
+            if (!typeof(T).IsEnum) 
+            {
+                throw new ArgumentException("T must be an enumerated type");
+            }
+            
             var value = defaultValue.ToString();
             
             Value = value;
