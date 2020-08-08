@@ -431,7 +431,10 @@ namespace LunarConsolePlugin
             get { return m_names; }
         }
 
-        public T EnumValue => m_valueLookup[Value];
+        public T EnumValue
+        {
+            get { return m_valueLookup[Value]; }
+        }
 
         public static implicit operator T(CEnumVar<T> cvar)
         {
