@@ -28,12 +28,12 @@ using UnityEngine.UI;
 public class VariablesScene : MonoBehaviour
 {
     private readonly CVar[] m_variables = {
-        Variables.c_bool,
-        Variables.c_float,
-        Variables.c_int,
-        Variables.c_range,
-        Variables.c_string,
-        Variables.c_enum
+        Variables.myBool,
+        Variables.myFloat,
+        Variables.myInt,
+        Variables.myRange,
+        Variables.myString,
+        Variables.myEnum
     };
 
     [SerializeField]

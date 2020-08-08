@@ -32,13 +32,11 @@ public enum MyEnum
 [CVarContainer]
 public static class Variables
 {
-    public static readonly CVar c_int = new CVar("int", 10);
-    public static readonly CVar c_bool = new CVar("bool", true);
-    public static readonly CVar c_float = new CVar("float", 3.14f);
-    public static readonly CVar c_string = new CVar("string", "Test");
-    public static readonly CEnumVar<MyEnum> c_enum = new CEnumVar<MyEnum>("enum", MyEnum.Two);
-    public static readonly CVar c_volatile = new CVar("volatile", 0.0f, CFlags.NoArchive);
-
-    [CVarRange(1.5f, 11.5f)]
-    public static readonly CVar c_range = new CVar("range", 2.5f);
+    public static readonly CVar myBool = new CVar("My boolean value", true);
+    public static readonly CVar myFloat = new CVar("My float value", 3.14f);
+    public static readonly CVar myInt = new CVar("My integer value", 10);
+    public static readonly CVar myString = new CVar("My string value", "Test");
+    [CVarRange(0.0f, 1.0f)]
+    public static readonly CVar myRange = new CVar("My range value", 0.5f);
+    public static readonly CEnumVar<MyEnum> myEnum = new CEnumVar<MyEnum>("My enum value", MyEnum.Two);
 }
