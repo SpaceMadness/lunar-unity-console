@@ -61,6 +61,11 @@
     return nil;
 }
 
+- (LUCVar *)registerVariableWithId:(int)variableId name:(NSString *)name typeName:(NSString *)type value:(NSString *)value defaultValue:(NSString *)defaultValue values:(NSArray<NSString *> *)values
+{
+    return nil;
+}
+
 - (void)setValue:(NSString *)value forVariableWithId:(int)variableId
 {
 }
