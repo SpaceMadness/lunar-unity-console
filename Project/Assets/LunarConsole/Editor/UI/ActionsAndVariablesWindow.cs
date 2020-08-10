@@ -131,6 +131,11 @@ namespace LunarConsoleEditorInternal
 
         void OnVariableGUI(CVar cvar)
         {
+            if (cvar.IsHidden)
+            {
+                return;
+            }
+            
             if (cvar.IsDefault)
             {
                 OnVariableFieldGUI(cvar);

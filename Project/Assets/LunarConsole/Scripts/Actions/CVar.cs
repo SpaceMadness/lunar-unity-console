@@ -74,6 +74,7 @@ namespace LunarConsolePlugin
         }
     }
 
+    [Flags]
     public enum CFlags
     {   
         /// <summary>
@@ -375,6 +376,11 @@ namespace LunarConsolePlugin
         public CFlags Flags
         {
             get { return m_flags; }
+        }
+
+        public bool IsHidden
+        {
+            get { return (m_flags & CFlags.Hidden) != 0; }
         }
 
         #endregion
