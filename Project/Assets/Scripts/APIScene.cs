@@ -20,7 +20,7 @@
 //
 
 
-﻿using System.Collections;
+ using System.Collections;
 using System.Collections.Generic;
 
 using UnityEngine;
@@ -63,6 +63,11 @@ public class APIScene : MonoBehaviour
     public void DisableConsole()
     {
         LunarConsole.SetConsoleEnabled(false);
+    }
+    
+    public void ShowToast()
+    {
+        LunarConsole.Toast("This is toast", ToastDuration.Long);
     }
 
     private void OnConsoleOpened()

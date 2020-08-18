@@ -60,7 +60,7 @@ namespace LunarConsolePlugin
         SwipeDown
     }
 
-    public enum SnackbarDuration
+    public enum ToastDuration
     {
         Short,
         Long
@@ -1538,7 +1538,7 @@ namespace LunarConsolePlugin
             #endif // LUNAR_CONSOLE_PLATFORM_SUPPORTED
         }
 
-        public static void Snackbar(string message, SnackbarDuration duration = SnackbarDuration.Short)
+        public static void Toast(string message, ToastDuration duration = ToastDuration.Short)
         {
             #if LUNAR_CONSOLE_PLATFORM_SUPPORTED
             #if LUNAR_CONSOLE_FULL
@@ -1663,7 +1663,7 @@ namespace LunarConsolePlugin
             }
         }
         
-        private void ShowToast(string message, SnackbarDuration duration)
+        private void ShowToast(string message, ToastDuration duration)
         {
             if (m_platform != null)
             {
