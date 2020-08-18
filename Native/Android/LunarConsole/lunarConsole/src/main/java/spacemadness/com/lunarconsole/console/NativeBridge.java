@@ -123,6 +123,15 @@ public final class NativeBridge {
         });
     }
 
+    public static void showToast(final String message, final int duration) {
+        dispatchQueue.dispatch(new DispatchTask("show toast") {
+            @Override
+            protected void execute() {
+                plugin.showToast(message, duration);
+            }
+        });
+    }
+
     public static void clearConsole() {
         dispatchQueue.dispatch(new DispatchTask("clear console") {
             @Override

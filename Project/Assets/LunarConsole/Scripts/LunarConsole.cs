@@ -403,7 +403,7 @@ namespace LunarConsolePlugin
             void OnLogMessageReceived(string message, string stackTrace, LogType type);
             bool ShowConsole();
             bool HideConsole();
-            void ShowSnackbar(string message, SnackbarDuration duration);
+            void ShowToast(string message, int duration);
             void ClearConsole();
             void Destroy();
         }
@@ -702,9 +702,9 @@ namespace LunarConsolePlugin
                 return true;
             }
 
-            public void ShowSnackbar(string message, SnackbarDuration duration)
+            public void ShowToast(string message, int duration)
             {
-                __lunar_console_show_snackbar(message, (int) duration);
+                __lunar_console_show_snackbar(message, duration);
             }
 
             public void ClearConsole()
@@ -759,6 +759,7 @@ namespace LunarConsolePlugin
             private readonly IntPtr m_methodLogMessage;
             private readonly IntPtr m_methodShowConsole;
             private readonly IntPtr m_methodHideConsole;
+            private readonly IntPtr m_methodShowSnackbar;
             private readonly IntPtr m_methodClearConsole;
             private readonly IntPtr m_methodRegisterAction;
             private readonly IntPtr m_methodUnregisterAction;
@@ -800,6 +801,7 @@ namespace LunarConsolePlugin
                 m_methodLogMessage = GetStaticMethod(m_pluginClassRaw, "logMessage", "(Ljava.lang.String;Ljava.lang.String;I)V");
                 m_methodShowConsole = GetStaticMethod(m_pluginClassRaw, "showConsole", "()V");
                 m_methodHideConsole = GetStaticMethod(m_pluginClassRaw, "hideConsole", "()V");
+                m_methodShowSnackbar = GetStaticMethod(m_pluginClassRaw, "showToast", "(Ljava.lang.String;I)V");
                 m_methodClearConsole = GetStaticMethod(m_pluginClassRaw, "clearConsole", "()V");
                 m_methodRegisterAction = GetStaticMethod(m_pluginClassRaw, "registerAction", "(ILjava.lang.String;)V");
                 m_methodUnregisterAction = GetStaticMethod(m_pluginClassRaw, "unregisterAction", "(I)V");
@@ -891,17 +893,21 @@ namespace LunarConsolePlugin
                 }
             }
 
-            public void ShowSnackbar(string message, SnackbarDuration duration)
+            public void ShowToast(string message, int duration)
             {
                 try
                 {
-                    CallStaticVoidMethod(m_methodHideConsole, m_args0);
-                    return true;
+                    m_args2[0] = jvalue(message);
+                    m_args2[1] = jvalue(duration);
+                    CallStaticVoidMethod(m_methodShowSnackbar, m_args2);
                 }
                 catch (Exception e)
                 {
-                    Debug.LogError("Exception while calling 'LunarConsole.HideConsole': " + e.Message);
-                    return false;
+                    Debug.LogError("Exception while calling 'LunarConsole.ShowToast': " + e.Message);
+                }
+                finally
+                {
+                    AndroidJNI.DeleteLocalRef(m_args2[0].l);
                 }
             }
 
@@ -1075,7 +1081,7 @@ namespace LunarConsolePlugin
                 return false;
             }
 
-            public void ShowSnackbar(string message, SnackbarDuration duration)
+            public void ShowToast(string message, SnackbarDuration duration)
             {
             }
 
@@ -1537,7 +1543,7 @@ namespace LunarConsolePlugin
             #if LUNAR_CONSOLE_ENABLED
             if (s_instance != null)
             {
-                s_instance.ShowSnackbar(message, duration);
+                s_instance.ShowToast(message, duration);
             }
             #endif // LUNAR_CONSOLE_ENABLED
             #endif // LUNAR_CONSOLE_FULL
@@ -1655,11 +1661,11 @@ namespace LunarConsolePlugin
             }
         }
         
-        private void ShowSnackbar(string message, SnackbarDuration duration)
+        private void ShowToast(string message, SnackbarDuration duration)
         {
             if (m_platform != null)
             {
-                m_platform.ShowSnackbar(message, duration);
+                m_platform.ShowToast(message, (int) duration);
             }
         }
 

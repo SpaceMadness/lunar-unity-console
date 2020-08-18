@@ -22,6 +22,7 @@
 
 package spacemadness.com.lunarconsole.console;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
 import android.text.Spanned;
@@ -30,6 +31,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import java.lang.ref.WeakReference;
 import java.util.Map;
@@ -75,6 +77,10 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
     private static final String SCRIPT_MESSAGE_CONSOLE_CLOSE = "console_close";
     private static final String SCRIPT_MESSAGE_ACTION = "console_action";
     private static final String SCRIPT_MESSAGE_VARIABLE_SET = "console_variable_set";
+
+    private static final int TOAST_DURATION_SHORT = 0;
+    private static final int TOAST_DURATION_LONG = 1;
+
     private final ActionRegistry actionRegistry;
     private final Platform platform;
     private final String version;
@@ -195,6 +201,24 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
         } catch (Exception e) {
             Log.e(e, "Exception while hiding console");
         }
+    }
+
+    @SuppressLint("WrongConstant")
+    public void showToast(String message, int duration) {
+        int toastLength = getToastLength(duration);
+        Toast.makeText(getActivity(), message, toastLength).show();
+    }
+
+    private static int getToastLength(int duration) {
+        switch (duration) {
+            case TOAST_DURATION_SHORT:
+                return Toast.LENGTH_SHORT;
+            case TOAST_DURATION_LONG:
+                return Toast.LENGTH_LONG;
+        }
+
+        Log.e("Unexpected duration: %s", Integer.toString(duration));
+        return Toast.LENGTH_LONG;
     }
 
     public void showOverlay() {
