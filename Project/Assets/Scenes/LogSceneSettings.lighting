@@ -6,7 +6,7 @@ LightingSettings:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: MainSceneSettings
+  m_Name: LogSceneSettings
   serializedVersion: 3
   m_GIWorkflowMode: 0
   m_EnableBakedLightmaps: 1
@@ -23,7 +23,7 @@ LightingSettings:
   m_TextureCompression: 1
   m_AO: 0
   m_AOMaxDistance: 1
-  m_CompAOExponent: 1
+  m_CompAOExponent: 0
   m_CompAOExponentDirect: 0
   m_ExtractAO: 0
   m_MixedBakeMode: 1
@@ -36,7 +36,7 @@ LightingSettings:
   m_ForceWhiteAlbedo: 0
   m_ForceUpdates: 0
   m_FinalGather: 0
-  m_FinalGatherRayCount: 256
+  m_FinalGatherRayCount: 1024
   m_FinalGatherFiltering: 1
   m_PVRCulling: 1
   m_PVRSampling: 1
@@ -48,7 +48,7 @@ LightingSettings:
   m_PVRBounces: 2
   m_PVRMinBounces: 2
   m_PVREnvironmentMIS: 0
-  m_PVRFilteringMode: 2
+  m_PVRFilteringMode: 0
   m_PVRDenoiserTypeDirect: 0
   m_PVRDenoiserTypeIndirect: 0
   m_PVRDenoiserTypeAO: 0
