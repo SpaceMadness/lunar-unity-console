@@ -41,7 +41,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Threading;
 using System.Text;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -57,6 +56,12 @@ namespace LunarConsolePlugin
     {
         None,
         SwipeDown
+    }
+
+    public enum SnackbarDuration
+    {
+        Short,
+        Long
     }
 
     delegate void LunarConsoleNativeMessageCallback(string message);
@@ -398,6 +403,7 @@ namespace LunarConsolePlugin
             void OnLogMessageReceived(string message, string stackTrace, LogType type);
             bool ShowConsole();
             bool HideConsole();
+            void ShowSnackbar(string message, SnackbarDuration duration);
             void ClearConsole();
             void Destroy();
         }
@@ -633,6 +639,9 @@ namespace LunarConsolePlugin
             private static extern void __lunar_console_show();
 
             [DllImport("__Internal")]
+            private static extern void __lunar_console_show_snackbar(string message, int duration);
+
+            [DllImport("__Internal")]
             private static extern void __lunar_console_hide();
 
             [DllImport("__Internal")]
@@ -691,6 +700,11 @@ namespace LunarConsolePlugin
             {
                 __lunar_console_hide();
                 return true;
+            }
+
+            public void ShowSnackbar(string message, SnackbarDuration duration)
+            {
+                __lunar_console_show_snackbar(message, (int) duration);
             }
 
             public void ClearConsole()
@@ -877,6 +891,20 @@ namespace LunarConsolePlugin
                 }
             }
 
+            public void ShowSnackbar(string message, SnackbarDuration duration)
+            {
+                try
+                {
+                    CallStaticVoidMethod(m_methodHideConsole, m_args0);
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError("Exception while calling 'LunarConsole.HideConsole': " + e.Message);
+                    return false;
+                }
+            }
+
             public void Destroy()
             {
                 try
@@ -1045,6 +1073,10 @@ namespace LunarConsolePlugin
             public bool HideConsole()
             {
                 return false;
+            }
+
+            public void ShowSnackbar(string message, SnackbarDuration duration)
+            {
             }
 
             public void ClearConsole()
@@ -1498,6 +1530,20 @@ namespace LunarConsolePlugin
             #endif // LUNAR_CONSOLE_PLATFORM_SUPPORTED
         }
 
+        public static void Snackbar(string message, SnackbarDuration duration = SnackbarDuration.Short)
+        {
+            #if LUNAR_CONSOLE_PLATFORM_SUPPORTED
+            #if LUNAR_CONSOLE_FULL
+            #if LUNAR_CONSOLE_ENABLED
+            if (s_instance != null)
+            {
+                s_instance.ShowSnackbar(message, duration);
+            }
+            #endif // LUNAR_CONSOLE_ENABLED
+            #endif // LUNAR_CONSOLE_FULL
+            #endif // LUNAR_CONSOLE_PLATFORM_SUPPORTED
+        }
+
         /// <summary>
         /// Sets console enabled or disabled.
         /// Disabled console cannot be opened by user or API calls and does not collect logs.
@@ -1606,6 +1652,14 @@ namespace LunarConsolePlugin
             else
             {
                 Log.w("Can't unregister actions for target '{0}': registry is not property initialized", target);
+            }
+        }
+        
+        private void ShowSnackbar(string message, SnackbarDuration duration)
+        {
+            if (m_platform != null)
+            {
+                m_platform.ShowSnackbar(message, duration);
             }
         }
 
