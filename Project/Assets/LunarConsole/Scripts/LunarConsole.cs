@@ -44,6 +44,8 @@ using System.Reflection;
 using System.Text;
 using System.IO;
 using System.Runtime.InteropServices;
+using System.Threading;
+
 using LunarConsolePluginInternal;
 
 #if UNITY_EDITOR
@@ -897,8 +899,8 @@ namespace LunarConsolePlugin
             {
                 try
                 {
-                    m_args2[0] = jvalue(message);
-                    m_args2[1] = jvalue(duration);
+                    m_args2[0] = jval(message);
+                    m_args2[1] = jval(duration);
                     CallStaticVoidMethod(m_methodShowSnackbar, m_args2);
                 }
                 catch (Exception e)
@@ -1081,7 +1083,7 @@ namespace LunarConsolePlugin
                 return false;
             }
 
-            public void ShowToast(string message, SnackbarDuration duration)
+            public void ShowToast(string message, int duration)
             {
             }
 
