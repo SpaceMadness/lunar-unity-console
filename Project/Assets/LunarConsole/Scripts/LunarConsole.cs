@@ -479,6 +479,12 @@ namespace LunarConsolePlugin
                             continue;
                         }
 
+                        if ((cvar.Flags & CFlags.Hidden) != 0)
+                        {
+                            Log.w("Skipping hidden variable {0}", cvar.Name);
+                            continue;
+                        }
+
                         var variableRange = ResolveVariableRange(field);
                         if (variableRange.IsValid)
                         {
