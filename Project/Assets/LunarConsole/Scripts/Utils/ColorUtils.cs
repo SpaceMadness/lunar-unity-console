@@ -25,7 +25,7 @@ using System.Collections;
 
 namespace LunarConsolePluginInternal
 {
-    static class ColorUtils
+    internal static class ColorUtils
     {
         private const float kMultiplier = 1.0f / 255.0f;
 

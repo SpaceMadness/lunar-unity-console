@@ -39,22 +39,22 @@ namespace LunarConsolePluginInternal
     {
         #pragma warning disable 0649
 
-        static readonly object[] kEmptyArgs = {};
+        private static readonly object[] kEmptyArgs = {};
 
         [SerializeField]
-        string m_name;
+        private string m_name;
 
         [SerializeField]
-        GameObject m_target;
+        private GameObject m_target;
 
         [SerializeField]
-        string m_componentTypeName;
+        private string m_componentTypeName;
 
         [SerializeField]
-        string m_componentMethodName;
+        private string m_componentMethodName;
 
-        Type m_componentType;
-        MethodInfo m_componentMethod;
+        private Type m_componentType;
+        private MethodInfo m_componentMethod;
 
         #pragma warning restore 0649
 
@@ -83,7 +83,7 @@ namespace LunarConsolePluginInternal
             LunarConsole.UnregisterAction(Invoke);
         }
 
-        void Invoke()
+        private void Invoke()
         {
             if (m_target == null)
             {
@@ -132,7 +132,7 @@ namespace LunarConsolePluginInternal
             }
         }
 
-        bool ResolveInvocation()
+        private bool ResolveInvocation()
         {
             try
             {
@@ -184,15 +184,15 @@ namespace LunarConsolePluginInternal
         #pragma warning disable 0649
 
         [SerializeField]
-        bool m_dontDestroyOnLoad;
+        private bool m_dontDestroyOnLoad;
 
         [SerializeField]
         [HideInInspector]
-        List<LunarConsoleLegacyAction> m_actions;
+        private List<LunarConsoleLegacyAction> m_actions;
 
         #pragma warning restore 0649
 
-        void Awake()
+        private void Awake()
         {
             if (!actionsEnabled)
             {
@@ -205,7 +205,7 @@ namespace LunarConsolePluginInternal
             }
         }
 
-        void Start()
+        private void Start()
         {
             if (actionsEnabled)
             {
@@ -220,7 +220,7 @@ namespace LunarConsolePluginInternal
             }
         }
 
-        void OnDestroy()
+        private void OnDestroy()
         {
             if (actionsEnabled)
             {
@@ -241,7 +241,7 @@ namespace LunarConsolePluginInternal
             get { return m_actions; }
         }
 
-        bool actionsEnabled
+        private bool actionsEnabled
         {
             get { return LunarConsoleConfig.actionsEnabled; }
         }

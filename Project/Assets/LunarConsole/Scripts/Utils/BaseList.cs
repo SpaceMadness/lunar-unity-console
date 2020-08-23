@@ -25,7 +25,7 @@ using System.Collections.Generic;
 
 namespace LunarConsolePluginInternal
 {
-    abstract class BaseList<T> where T : class // TODO: thread safety
+    internal abstract class BaseList<T> where T : class // TODO: thread safety
     {
         protected readonly List<T> list;
 

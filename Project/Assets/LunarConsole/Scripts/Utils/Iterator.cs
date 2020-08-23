@@ -27,7 +27,7 @@ using System.Collections.Generic;
 
 namespace LunarConsolePluginInternal
 {
-    class Iterator<T>
+    internal class Iterator<T>
     {
         private IList<T> m_target;
         private int m_current;

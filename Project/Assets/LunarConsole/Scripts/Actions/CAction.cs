@@ -31,12 +31,12 @@ namespace LunarConsolePluginInternal
 {
     public class CAction : IComparable<CAction>
     {
-        static readonly string[] kEmptyArgs = new String[0];
-        static int s_nextActionId;
+        private static readonly string[] kEmptyArgs = new String[0];
+        private static int s_nextActionId;
 
-        readonly int m_id;
-        readonly string m_name;
-        Delegate m_actionDelegate;
+        private readonly int m_id;
+        private readonly string m_name;
+        private Delegate m_actionDelegate;
 
         public CAction(string name, Delegate actionDelegate)
         {

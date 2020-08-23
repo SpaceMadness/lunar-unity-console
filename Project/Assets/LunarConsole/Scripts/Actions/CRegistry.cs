@@ -30,7 +30,7 @@ using LunarConsolePlugin;
 
 namespace LunarConsolePluginInternal
 {
-    delegate bool CActionFilter(CAction action);
+    internal delegate bool CActionFilter(CAction action);
 
     public interface ICRegistryDelegate
     {
@@ -118,7 +118,7 @@ namespace LunarConsolePluginInternal
             });
         }
 
-        bool Unregister(CActionFilter filter)
+        private bool Unregister(CActionFilter filter)
         {
             if (filter == null)
             {
@@ -142,7 +142,7 @@ namespace LunarConsolePluginInternal
             return actionsToRemove.Count > 0;
         }
 
-        bool RemoveAction(CAction action)
+        private bool RemoveAction(CAction action)
         {
             if (m_actions.Remove(action.Id))
             {

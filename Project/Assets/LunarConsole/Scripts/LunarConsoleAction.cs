@@ -21,16 +21,11 @@
 
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
-
-using UnityEngine;
-using UnityEngine.Events;
-
-using Object = UnityEngine.Object;
-
 using LunarConsolePlugin;
+using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace LunarConsolePluginInternal
 {
@@ -48,7 +43,7 @@ namespace LunarConsolePluginInternal
     internal class LunarArgumentCache : ISerializationCallbackReceiver
     {
         [SerializeField]
-        private UnityEngine.Object m_objectArgument;
+        private Object m_objectArgument;
 
         [SerializeField]
         private string m_objectArgumentAssemblyTypeName;
@@ -65,16 +60,16 @@ namespace LunarConsolePluginInternal
         [SerializeField]
         private bool m_boolArgument;
 
-        public UnityEngine.Object unityObjectArgument
+        public Object unityObjectArgument
         {
             get
             {
-                return this.m_objectArgument;
+                return m_objectArgument;
             }
             set
             {
-                this.m_objectArgument = value;
-                this.m_objectArgumentAssemblyTypeName = ((!(value != null)) ? string.Empty : value.GetType().AssemblyQualifiedName);
+                m_objectArgument = value;
+                m_objectArgumentAssemblyTypeName = ((!(value != null)) ? string.Empty : value.GetType().AssemblyQualifiedName);
             }
         }
 
@@ -82,7 +77,7 @@ namespace LunarConsolePluginInternal
         {
             get
             {
-                return this.m_objectArgumentAssemblyTypeName;
+                return m_objectArgumentAssemblyTypeName;
             }
         }
 
@@ -90,11 +85,11 @@ namespace LunarConsolePluginInternal
         {
             get
             {
-                return this.m_intArgument;
+                return m_intArgument;
             }
             set
             {
-                this.m_intArgument = value;
+                m_intArgument = value;
             }
         }
 
@@ -102,11 +97,11 @@ namespace LunarConsolePluginInternal
         {
             get
             {
-                return this.m_floatArgument;
+                return m_floatArgument;
             }
             set
             {
-                this.m_floatArgument = value;
+                m_floatArgument = value;
             }
         }
 
@@ -114,11 +109,11 @@ namespace LunarConsolePluginInternal
         {
             get
             {
-                return this.m_stringArgument;
+                return m_stringArgument;
             }
             set
             {
-                this.m_stringArgument = value;
+                m_stringArgument = value;
             }
         }
 
@@ -126,49 +121,49 @@ namespace LunarConsolePluginInternal
         {
             get
             {
-                return this.m_boolArgument;
+                return m_boolArgument;
             }
             set
             {
-                this.m_boolArgument = value;
+                m_boolArgument = value;
             }
         }
 
         private void TidyAssemblyTypeName()
         {
-            if (!string.IsNullOrEmpty(this.m_objectArgumentAssemblyTypeName))
+            if (!string.IsNullOrEmpty(m_objectArgumentAssemblyTypeName))
             {
                 int num = 2147483647;
-                int num2 = this.m_objectArgumentAssemblyTypeName.IndexOf(", Version=");
+                int num2 = m_objectArgumentAssemblyTypeName.IndexOf(", Version=");
                 if (num2 != -1)
                 {
                     num = Math.Min(num2, num);
                 }
-                num2 = this.m_objectArgumentAssemblyTypeName.IndexOf(", Culture=");
+                num2 = m_objectArgumentAssemblyTypeName.IndexOf(", Culture=");
                 if (num2 != -1)
                 {
                     num = Math.Min(num2, num);
                 }
-                num2 = this.m_objectArgumentAssemblyTypeName.IndexOf(", PublicKeyToken=");
+                num2 = m_objectArgumentAssemblyTypeName.IndexOf(", PublicKeyToken=");
                 if (num2 != -1)
                 {
                     num = Math.Min(num2, num);
                 }
                 if (num != 2147483647)
                 {
-                    this.m_objectArgumentAssemblyTypeName = this.m_objectArgumentAssemblyTypeName.Substring(0, num);
+                    m_objectArgumentAssemblyTypeName = m_objectArgumentAssemblyTypeName.Substring(0, num);
                 }
             }
         }
 
         public void OnBeforeSerialize()
         {
-            this.TidyAssemblyTypeName();
+            TidyAssemblyTypeName();
         }
 
         public void OnAfterDeserialize()
         {
-            this.TidyAssemblyTypeName();
+            TidyAssemblyTypeName();
         }
     }
 
@@ -185,16 +180,16 @@ namespace LunarConsolePluginInternal
         #pragma warning disable 0649
 
         [SerializeField]
-        Object m_target;
+        private Object m_target;
 
         [SerializeField]
-        string m_methodName;
+        private string m_methodName;
 
         [SerializeField]
-        LunarPersistentListenerMode m_mode;
+        private LunarPersistentListenerMode m_mode;
 
         [SerializeField]
-        LunarArgumentCache m_arguments;
+        private LunarArgumentCache m_arguments;
 
         #pragma warning restore 0649
 
@@ -230,7 +225,7 @@ namespace LunarConsolePluginInternal
                     break;
 
                 case LunarPersistentListenerMode.Object:
-                    method = ResolveMethod(m_target, m_methodName, typeof(UnityEngine.Object));
+                    method = ResolveMethod(m_target, m_methodName, typeof(Object));
                     invokeParams = new object[] { m_arguments.unityObjectArgument };
                     break;
 
@@ -249,7 +244,7 @@ namespace LunarConsolePluginInternal
             }
         }
 
-        static MethodInfo ResolveMethod(object target, string methodName, Type paramType)
+        private static MethodInfo ResolveMethod(object target, string methodName, Type paramType)
         {
             var methods = ClassUtils.ListInstanceMethods(target.GetType(), delegate(MethodInfo method)
             {
@@ -269,7 +264,7 @@ namespace LunarConsolePluginInternal
             return methods.Count == 1 ? methods[0] : null;
         }
 
-        public static bool IsPersistantListenerValid(UnityEngine.Object target, string methodName, LunarPersistentListenerMode mode)
+        public static bool IsPersistantListenerValid(Object target, string methodName, LunarPersistentListenerMode mode)
         {
             if (target == null)
             {
@@ -308,7 +303,7 @@ namespace LunarConsolePluginInternal
                         {
                             return true;
                         }
-                        if (mode == LunarPersistentListenerMode.Object && paramType.IsSubclassOf(typeof(UnityEngine.Object)))
+                        if (mode == LunarPersistentListenerMode.Object && paramType.IsSubclassOf(typeof(Object)))
                         {
                             return true;
                         }
@@ -361,7 +356,7 @@ namespace LunarConsolePluginInternal
             if (methodParams.Length == 1)
             {
                 var paramType = methodParams[0].ParameterType;
-                if (!paramType.IsSubclassOf(typeof(UnityEngine.Object)) && Array.IndexOf(kParamTypes, paramType) == -1)
+                if (!paramType.IsSubclassOf(typeof(Object)) && Array.IndexOf(kParamTypes, paramType) == -1)
                 {
                     return false;
                 }
@@ -391,15 +386,15 @@ namespace LunarConsolePluginInternal
         #pragma warning disable 0649
 
         [SerializeField]
-        string m_title = "Untitled Action";
+        private string m_title = "Untitled Action";
 
         [SerializeField]
         [HideInInspector]
-        List<LunarConsoleActionCall> m_calls;
+        private List<LunarConsoleActionCall> m_calls;
 
         #pragma warning restore 0649
 
-        void Awake()
+        private void Awake()
         {
             if (!actionsEnabled)
             {
@@ -407,7 +402,7 @@ namespace LunarConsolePluginInternal
             }
         }
 
-        void Start()
+        private void Start()
         {
             if (actionsEnabled)
             {
@@ -419,7 +414,7 @@ namespace LunarConsolePluginInternal
             }
         }
 
-        void OnValidate()
+        private void OnValidate()
         {
             if (m_calls != null && m_calls.Count > 0)
             {
@@ -430,7 +425,7 @@ namespace LunarConsolePluginInternal
             }
         }
 
-        void Validate(LunarConsoleActionCall call)
+        private void Validate(LunarConsoleActionCall call)
         {
             if (call.target == null)
             {
@@ -441,8 +436,8 @@ namespace LunarConsolePluginInternal
                 Debug.LogWarning(string.Format("Action '{0}' ({1}) is missing a handler <{2}.{3} ({4})>", m_title, gameObject.name, call.target.GetType(), call.methodName, ModeParamTypeName(call.mode)), gameObject); 
             }
         }
-        
-        void OnDestroy()
+
+        private void OnDestroy()
         {
             if (actionsEnabled)
             {
@@ -480,7 +475,7 @@ namespace LunarConsolePluginInternal
             }
         }
 
-        static string ModeParamTypeName(LunarPersistentListenerMode mode)
+        private static string ModeParamTypeName(LunarPersistentListenerMode mode)
         {
             switch (mode)
             {
@@ -506,7 +501,7 @@ namespace LunarConsolePluginInternal
             return "???";
         }
 
-        bool actionsEnabled
+        private bool actionsEnabled
         {
             get { return LunarConsoleConfig.actionsEnabled; }
         }

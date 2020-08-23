@@ -49,9 +49,9 @@ using UnityEngine;
 
 namespace LunarConsolePluginInternal
 {
-    static class Log
+    internal static class Log
     {
-        static readonly string TAG = "[" + Constants.PluginDisplayName + "]";
+        private static readonly string TAG = "[" + Constants.PluginDisplayName + "]";
 
         [System.Diagnostics.Conditional("LUNAR_CONSOLE_DEVELOPMENT")]
         public static void dev(string format, params object[] args)

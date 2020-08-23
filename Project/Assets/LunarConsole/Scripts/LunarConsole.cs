@@ -66,8 +66,9 @@ namespace LunarConsolePlugin
         Long
     }
 
-    delegate void LunarConsoleNativeMessageCallback(string message);
-    delegate void LunarConsoleNativeMessageHandler(IDictionary<string, string> data);
+    internal delegate void LunarConsoleNativeMessageCallback(string message);
+
+    internal delegate void LunarConsoleNativeMessageHandler(IDictionary<string, string> data);
 
     [Serializable]
     public class LogEntryColors
@@ -94,7 +95,7 @@ namespace LunarConsolePlugin
         [SerializeField]
         public LogEntryColors debug = MakeColors(0xFF9BDDFF, 0xFF1E1E1E);
 
-        static LogEntryColors MakeColors(uint foreground, uint background)
+        private static LogEntryColors MakeColors(uint foreground, uint background)
         {
             var colors = new LogEntryColors();
             colors.foreground = MakeColor(foreground);
@@ -102,7 +103,7 @@ namespace LunarConsolePlugin
             return colors;
         }
 
-        static Color32 MakeColor(uint argb)
+        private static Color32 MakeColor(uint argb)
         {
             byte a = (byte)((argb >> 24) & 0xff);
             byte r = (byte)((argb >> 16) & 0xff);
@@ -197,40 +198,40 @@ namespace LunarConsolePlugin
         #pragma warning disable 0414
 
         [SerializeField]
-        LunarConsoleSettings m_settings = new LunarConsoleSettings();
+        private LunarConsoleSettings m_settings = new LunarConsoleSettings();
 
-        static LunarConsole s_instance;
+        private static LunarConsole s_instance;
 
-        CRegistry m_registry;
-        bool m_variablesDirty;
+        private CRegistry m_registry;
+        private bool m_variablesDirty;
 
         #pragma warning restore 0649
         #pragma warning restore 0414
 
         #if LUNAR_CONSOLE_ENABLED
 
-        IPlatform m_platform;
+        private IPlatform m_platform;
 
-        IDictionary<string, LunarConsoleNativeMessageHandler> m_nativeHandlerLookup;
+        private IDictionary<string, LunarConsoleNativeMessageHandler> m_nativeHandlerLookup;
 
         #region Life cycle
 
-        void Awake()
+        private void Awake()
         {
             InitInstance();
         }
 
-        void OnEnable()
+        private void OnEnable()
         {
             EnablePlatform();
         }
 
-        void OnDisable()
+        private void OnDisable()
         {
             DisablePlatform();
         }
 
-        void Update()
+        private void Update()
         {
             if (m_platform != null)
             {
@@ -243,7 +244,7 @@ namespace LunarConsolePlugin
             }
         }
 
-        void OnDestroy()
+        private void OnDestroy()
         {
             DestroyInstance();
         }
@@ -252,7 +253,7 @@ namespace LunarConsolePlugin
 
         #region Plugin Lifecycle
 
-        void InitInstance()
+        private void InitInstance()
         {
             if (s_instance == null)
             {
@@ -275,7 +276,7 @@ namespace LunarConsolePlugin
             }
         }
 
-        void EnablePlatform()
+        private void EnablePlatform()
         {
             if (s_instance != null)
             {
@@ -284,7 +285,7 @@ namespace LunarConsolePlugin
             }
         }
 
-        void DisablePlatform()
+        private void DisablePlatform()
         {
             if (s_instance != null)
             {
@@ -293,7 +294,7 @@ namespace LunarConsolePlugin
             }
         }
 
-        static bool IsPlatformSupported()
+        private static bool IsPlatformSupported()
         {
             #if UNITY_EDITOR
             return true;
@@ -310,7 +311,7 @@ namespace LunarConsolePlugin
 
         #region Platforms
 
-        bool InitPlatform(LunarConsoleSettings settings)
+        private bool InitPlatform(LunarConsoleSettings settings)
         {
             try
             {
@@ -341,7 +342,7 @@ namespace LunarConsolePlugin
             return false;
         }
 
-        bool DestroyPlatform()
+        private bool DestroyPlatform()
         {
             if (m_platform != null)
             {
@@ -362,7 +363,7 @@ namespace LunarConsolePlugin
             return false;
         }
 
-        IPlatform CreatePlatform(LunarConsoleSettings settings)
+        private IPlatform CreatePlatform(LunarConsoleSettings settings)
         {
             #if UNITY_IOS || UNITY_IPHONE
             if (Application.platform == RuntimePlatform.IPhonePlayer)
@@ -385,7 +386,7 @@ namespace LunarConsolePlugin
             #endif
         }
 
-        void DestroyInstance()
+        private void DestroyInstance()
         {
             if (s_instance == this)
             {
@@ -399,7 +400,7 @@ namespace LunarConsolePlugin
             return gesture.ToString();
         }
 
-        interface IPlatform : ICRegistryDelegate
+        private interface IPlatform : ICRegistryDelegate
         {
             void Update();
             void OnLogMessageReceived(string message, string stackTrace, LogType type);
@@ -508,7 +509,7 @@ namespace LunarConsolePlugin
             }
         }
 
-        static CVarValueRange ResolveVariableRange(FieldInfo field)
+        private static CVarValueRange ResolveVariableRange(FieldInfo field)
         {
             try
             {
@@ -538,7 +539,7 @@ namespace LunarConsolePlugin
             return CVarValueRange.Undefined;
         }
 
-        void LoadVariables()
+        private void LoadVariables()
         {
             try
             {
@@ -579,7 +580,7 @@ namespace LunarConsolePlugin
             }
         }
 
-        void SaveVariables()
+        private void SaveVariables()
         {
             try
             {
@@ -617,7 +618,7 @@ namespace LunarConsolePlugin
             }
         }
 
-        bool ShouldSaveVar(CVar cvar)
+        private static bool ShouldSaveVar(CVar cvar)
         {
             return !cvar.IsDefault && !cvar.HasFlag(CFlags.NoArchive);
         }
@@ -749,7 +750,7 @@ namespace LunarConsolePlugin
 
         #elif UNITY_ANDROID
 
-        class PlatformAndroid : IPlatform
+        private class PlatformAndroid : IPlatform
         {
             private readonly int m_mainThreadId;
 
@@ -1051,7 +1052,7 @@ namespace LunarConsolePlugin
             #endregion
         }
 
-        struct LogMessageEntry
+        private struct LogMessageEntry
         {
             public readonly string message;
             public readonly string stackTrace;
@@ -1069,7 +1070,7 @@ namespace LunarConsolePlugin
 
         #if UNITY_EDITOR
 
-        class PlatformEditor : IPlatform
+        private class PlatformEditor : IPlatform
         {
             public void Update()
             {
@@ -1091,6 +1092,7 @@ namespace LunarConsolePlugin
 
             public void ShowToast(string message, int duration)
             {
+                Debug.Log(message);
             }
 
             public void ClearConsole()
@@ -1124,7 +1126,7 @@ namespace LunarConsolePlugin
 
         #region Native callback
 
-        void NativeMessageCallback(string param)
+        private void NativeMessageCallback(string param)
         {
             IDictionary<string, string> data = StringUtils.DeserializeString(param);
             string name = data["name"];
@@ -1151,7 +1153,7 @@ namespace LunarConsolePlugin
             }
         }
 
-        IDictionary<string, LunarConsoleNativeMessageHandler> nativeHandlerLookup
+        private IDictionary<string, LunarConsoleNativeMessageHandler> nativeHandlerLookup
         {
             get
             {
@@ -1169,7 +1171,7 @@ namespace LunarConsolePlugin
             }
         }
 
-        void ConsoleOpenHandler(IDictionary<string, string> data)
+        private void ConsoleOpenHandler(IDictionary<string, string> data)
         {
             if (onConsoleOpened != null)
             {
@@ -1179,7 +1181,7 @@ namespace LunarConsolePlugin
             TrackEvent("Console", "console_open");
         }
 
-        void ConsoleCloseHandler(IDictionary<string, string> data)
+        private void ConsoleCloseHandler(IDictionary<string, string> data)
         {
             if (onConsoleClosed != null)
             {
@@ -1189,7 +1191,7 @@ namespace LunarConsolePlugin
             TrackEvent("Console", "console_close");
         }
 
-        void ConsoleActionHandler(IDictionary<string, string> data)
+        private void ConsoleActionHandler(IDictionary<string, string> data)
         {
             string actionIdStr;
             if (!data.TryGetValue("id", out actionIdStr))
@@ -1228,7 +1230,7 @@ namespace LunarConsolePlugin
             }
         }
 
-        void ConsoleVariableSetHandler(IDictionary<string, string> data)
+        private void ConsoleVariableSetHandler(IDictionary<string, string> data)
         {
             string variableIdStr;
             if (!data.TryGetValue("id", out variableIdStr))
@@ -1343,7 +1345,7 @@ namespace LunarConsolePlugin
             }
         }
 
-        void TrackEventHandler(IDictionary<string, string> data)
+        private void TrackEventHandler(IDictionary<string, string> data)
         {
             #if LUNAR_CONSOLE_ANALYTICS_ENABLED
             string category;
@@ -1377,7 +1379,7 @@ namespace LunarConsolePlugin
 
         #region Analytics
 
-        void TrackEvent(string category, string action, int value = LunarConsoleAnalytics.kUndefinedValue)
+        private void TrackEvent(string category, string action, int value = LunarConsoleAnalytics.kUndefinedValue)
         {
             #if LUNAR_CONSOLE_ANALYTICS_ENABLED
             StartCoroutine(LunarConsoleAnalytics.TrackEvent(category, action, value));
@@ -1597,7 +1599,7 @@ namespace LunarConsolePlugin
 
         #if LUNAR_CONSOLE_ENABLED
 
-        void ShowConsole()
+        private void ShowConsole()
         {
             if (m_platform != null)
             {
@@ -1605,7 +1607,7 @@ namespace LunarConsolePlugin
             }
         }
 
-        void HideConsole()
+        private void HideConsole()
         {
             if (m_platform != null)
             {
@@ -1613,7 +1615,7 @@ namespace LunarConsolePlugin
             }
         }
 
-        void ClearConsole()
+        private void ClearConsole()
         {
             if (m_platform != null)
             {
@@ -1621,7 +1623,7 @@ namespace LunarConsolePlugin
             }
         }
 
-        void RegisterConsoleAction(string name, Action actionDelegate)
+        private void RegisterConsoleAction(string name, Action actionDelegate)
         {
             if (m_registry != null)
             {
@@ -1633,7 +1635,7 @@ namespace LunarConsolePlugin
             }
         }
 
-        void UnregisterConsoleAction(Action actionDelegate)
+        private void UnregisterConsoleAction(Action actionDelegate)
         {
             if (m_registry != null)
             {
@@ -1645,7 +1647,7 @@ namespace LunarConsolePlugin
             }
         }
 
-        void UnregisterConsoleAction(string name)
+        private void UnregisterConsoleAction(string name)
         {
             if (m_registry != null)
             {
@@ -1657,7 +1659,7 @@ namespace LunarConsolePlugin
             }
         }
 
-        void UnregisterAllConsoleActions(object target)
+        private void UnregisterAllConsoleActions(object target)
         {
             if (m_registry != null)
             {
@@ -1677,7 +1679,7 @@ namespace LunarConsolePlugin
             }
         }
 
-        void SetConsoleInstanceEnabled(bool enabled)
+        private void SetConsoleInstanceEnabled(bool enabled)
         {
             this.enabled = enabled;
         }

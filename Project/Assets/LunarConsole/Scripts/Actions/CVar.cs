@@ -41,7 +41,7 @@ namespace LunarConsolePlugin
         Enum
     }
 
-    struct CValue
+    internal struct CValue
     {
         public string stringValue;
         public int intValue;
@@ -555,7 +555,7 @@ namespace LunarConsolePlugin
     {
     }
 
-    class CVarChangedDelegateList : BaseList<CVarChangedDelegate>
+    internal class CVarChangedDelegateList : BaseList<CVarChangedDelegate>
     {
         public CVarChangedDelegateList(int capacity)
             : base(NullCVarChangedDelegate, capacity)
@@ -587,7 +587,7 @@ namespace LunarConsolePlugin
             }
         }
 
-        static void NullCVarChangedDelegate(CVar cvar)
+        private static void NullCVarChangedDelegate(CVar cvar)
         {
         }
     }

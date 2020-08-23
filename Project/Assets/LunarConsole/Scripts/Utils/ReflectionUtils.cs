@@ -312,7 +312,7 @@ namespace LunarConsolePluginInternal
         #endregion
     }
 
-    class ReflectionException : Exception
+    internal class ReflectionException : Exception
     {
         public ReflectionException(string message)
             : base(message)
