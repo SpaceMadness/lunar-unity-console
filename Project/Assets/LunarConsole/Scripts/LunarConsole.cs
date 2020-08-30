@@ -1622,7 +1622,7 @@ namespace LunarConsolePlugin
         {
             if (m_registry != null)
             {
-                m_registry.Unregister(actionDelegate);
+                m_registry.UnregisterAction(actionDelegate);
             }
             else
             {
@@ -1634,7 +1634,7 @@ namespace LunarConsolePlugin
         {
             if (m_registry != null)
             {
-                m_registry.Unregister(actionId);
+                m_registry.UnregisterAction(actionId);
             }
             else
             {
@@ -1646,7 +1646,7 @@ namespace LunarConsolePlugin
         {
             if (m_registry != null)
             {
-                m_registry.Unregister(name);
+                m_registry.UnregisterAction(name);
             }
             else
             {

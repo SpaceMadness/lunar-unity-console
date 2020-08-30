@@ -20,23 +20,20 @@
 //
 
 
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
-
-using UnityEngine;
 
 namespace LunarConsolePluginInternal
 {
-    public class CAction : IComparable<CAction>
+    public class CAction : ConsoleEntry, IComparable<CAction>
     {
-        static readonly string[] kEmptyArgs = new String[0];
-        static int s_nextActionId;
+        private static readonly string[] kEmptyArgs = new string[0];
+        private static int s_nextActionId;
 
-        readonly int m_id;
-        readonly string m_name;
-        Delegate m_actionDelegate;
+        private readonly int m_id;
+        private readonly string m_name;
+        private Delegate m_actionDelegate;
 
         public CAction(string name, Delegate actionDelegate)
         {
@@ -78,15 +75,6 @@ namespace LunarConsolePluginInternal
             return false;
         }
 
-        #region Helpers
-
-        internal bool StartsWith(string prefix)
-        {
-            return StringUtils.StartsWithIgnoreCase(Name, prefix);
-        }
-
-        #endregion
-
         #region IComparable
 
         public int CompareTo(CAction other)
@@ -107,7 +95,7 @@ namespace LunarConsolePluginInternal
 
         #region Properties
 
-        public int Id
+        public override int Id
         {
             get { return m_id; }
         }

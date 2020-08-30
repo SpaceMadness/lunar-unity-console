@@ -93,7 +93,7 @@ namespace LunarConsolePlugin
         NoArchive = 1 << 2
     }
 
-    public class CVar : IEquatable<CVar>, IComparable<CVar>
+    public class CVar : ConsoleEntry, IEquatable<CVar>, IComparable<CVar>
     {
         private static int s_nextId;
 
@@ -236,7 +236,7 @@ namespace LunarConsolePlugin
 
         #region Properties
 
-        public int Id
+        public override int Id
         {
             get { return m_id; }
         }
