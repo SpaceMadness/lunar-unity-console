@@ -23,15 +23,10 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
-
-using UnityEngine;
-
 using LunarConsolePlugin;
 
 namespace LunarConsolePluginInternal
 {
-    delegate bool CActionFilter(CAction action);
-
     public interface ICRegistryDelegate
     {
         void OnActionRegistered(CRegistry registry, CAction action);
@@ -44,10 +39,69 @@ namespace LunarConsolePluginInternal
     {
         private readonly CActionList m_actions = new CActionList();
         private readonly CVarList m_vars = new CVarList();
-
         private ICRegistryDelegate m_delegate;
+        private int m_nextEntryId;
+        
+        /// <summary>
+        /// Registers all actions defined in the target class.
+        /// <returns>Disposable object which will remove all registered items.</returns> 
+        /// </summary>
+        public IDisposable Register(object target)
+        {
+            List<ConsoleEntry> entries = new List<ConsoleEntry>();
+            
+            var type = target.GetType();
+            var methods = ClassUtils.ListMethods(type, MethodFilter);
+            for (var index = 0; index < methods.Count; index++)
+            {
+                var method = methods[index];
+                var attribute = method.GetCustomAttribute<ConsoleActionAttribute>();
+                if (attribute == null)
+                {
+                    continue;
+                }
 
-        #region Commands registry
+                var returnType = method.ReturnType;
+                if (returnType != typeof(void))
+                {
+                    Log.w("Action method with non-void return types are not supported yet: {0}", method);
+                    continue;
+                }
+
+                var parameterCount = method.GetParameters().Length;
+                if (parameterCount > 0)
+                {
+                    Log.w("Action method parameters are not supported yet: {0}", method);
+                    continue;
+                }
+                
+                var actionName = string.IsNullOrWhiteSpace(attribute.Name)
+                    ? StringUtils.ToDisplayName(method.Name)
+                    : attribute.Name;
+
+                var delegateType = typeof(Action);
+                Delegate callback = method.IsStatic ? method.CreateDelegate(delegateType) : method.CreateDelegate(delegateType, target);
+                var action = RegisterAction(actionName, callback);
+                entries.Add(action);
+            }
+            
+            return new EntriesDisposer(this, entries);
+        }
+
+        private void Unregister(ConsoleEntry entry)
+        {
+            if (entry is CAction)
+            {
+                var action = entry as CAction;
+                UnregisterAction(action.Id);
+            }
+            else
+            {
+                throw new NotImplementedException("Can't unregister entry: " + entry);
+            }
+        }
+        
+        #region Action registry
 
         public CAction RegisterAction(string name, Delegate actionDelegate)
         {
@@ -66,45 +120,43 @@ namespace LunarConsolePluginInternal
                 throw new ArgumentNullException("actionDelegate");
             }
 
-            CAction action = m_actions.Find(name);
-            if (action != null)
+            var existingAction = m_actions.Find(name);
+            if (existingAction != null)
             {
-                // Log.w("Overriding action: {0}", name);
-                action.ActionDelegate = actionDelegate;
+                Log.w("Duplicate actions:\n{0}: {1}\n{2}: {3}", existingAction.Name, existingAction.ActionDelegate,
+                    name, actionDelegate);
             }
-            else
-            {
-                action = new CAction(name, actionDelegate);
-                m_actions.Add(action);
+            
+            var action = new CAction(m_nextEntryId++, name, actionDelegate);
+            m_actions.Add(action);
 
-                if (m_delegate != null)
-                {
-                    m_delegate.OnActionRegistered(this, action);
-                }
+            if (m_delegate != null)
+            {
+                m_delegate.OnActionRegistered(this, action);
             }
 
             return action;
         }
 
-        public bool Unregister(string name)
+        public bool UnregisterAction(string name)
         {
-            return Unregister(delegate(CAction action)
+            return UnregisterAction(delegate(CAction action)
             {
                 return action.Name == name;
             });
         }
 
-        public bool Unregister(int id)
+        public bool UnregisterAction(int id)
         {
-            return Unregister(delegate(CAction action)
+            return UnregisterAction(delegate(CAction action)
             {
                 return action.Id == id;
             });
         }
 
-        public bool Unregister(Delegate del)
+        public bool UnregisterAction(Delegate del)
         {
-            return Unregister(delegate(CAction action)
+            return UnregisterAction(delegate(CAction action)
             {
                 return action.ActionDelegate == del;
             });
@@ -112,13 +164,13 @@ namespace LunarConsolePluginInternal
 
         public bool UnregisterAll(object target)
         {
-            return target != null && Unregister(delegate(CAction action)
+            return target != null && UnregisterAction(delegate(CAction action)
             {
                 return action.ActionDelegate.Target == target;
             });
         }
 
-        bool Unregister(CActionFilter filter)
+        private bool UnregisterAction(Predicate<CAction> filter)
         {
             if (filter == null)
             {
@@ -142,7 +194,7 @@ namespace LunarConsolePluginInternal
             return actionsToRemove.Count > 0;
         }
 
-        bool RemoveAction(CAction action)
+        private bool RemoveAction(CAction action)
         {
             if (m_actions.Remove(action.Id))
             {
@@ -188,6 +240,15 @@ namespace LunarConsolePluginInternal
 
         #endregion
 
+        #region Helpers
+
+        private static bool MethodFilter(MethodInfo method)
+        {
+            return true; // list all methods
+        }
+
+        #endregion
+
         #region Destroyable
 
         public void Destroy()
@@ -218,5 +279,26 @@ namespace LunarConsolePluginInternal
         }
 
         #endregion
+
+        private sealed class EntriesDisposer : IDisposable
+        {
+            private readonly CRegistry m_registry;
+            private readonly List<ConsoleEntry> m_entries;
+
+            public EntriesDisposer(CRegistry registry, List<ConsoleEntry> entries)
+            {
+                m_entries = entries;
+                m_registry = registry;
+            }
+
+            public void Dispose()
+            {
+                foreach (ConsoleEntry entry in m_entries)
+                {
+                    m_registry.Unregister(entry);
+                }
+                m_entries.Clear();
+            }
+        }
     }
 }

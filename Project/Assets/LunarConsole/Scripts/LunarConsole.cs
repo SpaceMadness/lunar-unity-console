@@ -1414,6 +1414,34 @@ namespace LunarConsolePlugin
             Log.w("Can't clear console: current platform is not supported");
             #endif
         }
+        
+        /// <summary>
+        /// Registers all user-defined items in a specified MonoBehaviour.
+        /// Does nothing if platform is not supported or if plugin is not initialized.
+        /// </summary>
+        public static IDisposable Register(MonoBehaviour target)
+        {
+            #if LUNAR_CONSOLE_PLATFORM_SUPPORTED
+            #if LUNAR_CONSOLE_FULL
+            #if LUNAR_CONSOLE_ENABLED
+            if (s_instance != null)
+            {
+                return s_instance.RegisterTarget(target);
+            }
+            else
+            {
+                Log.w("Can't register action: instance is not initialized. Make sure you've installed it correctly");
+            }
+            #else  // LUNAR_CONSOLE_ENABLED
+            Log.w("Can't register action: plugin is disabled");
+            #endif // LUNAR_CONSOLE_ENABLED
+            #else  // LUNAR_CONSOLE_FULL
+            Log.w("Can't register action: feature is not available in FREE version. Learn more about PRO version: https://goo.gl/TLInmD");
+            #endif // LUNAR_CONSOLE_FULL
+            #endif // LUNAR_CONSOLE_PLATFORM_SUPPORTED
+            
+            return NullDisposable.Instance;
+        }
 
         /// <summary>
         /// Registers a user-defined action with a specific name and callback.
@@ -1582,7 +1610,9 @@ namespace LunarConsolePlugin
 
         #if LUNAR_CONSOLE_ENABLED
 
-        void ShowConsole()
+        #region Console
+
+        private void ShowConsole()
         {
             if (m_platform != null)
             {
@@ -1590,7 +1620,7 @@ namespace LunarConsolePlugin
             }
         }
 
-        void HideConsole()
+        private void HideConsole()
         {
             if (m_platform != null)
             {
@@ -1598,7 +1628,7 @@ namespace LunarConsolePlugin
             }
         }
 
-        void ClearConsole()
+        private void ClearConsole()
         {
             if (m_platform != null)
             {
@@ -1606,7 +1636,24 @@ namespace LunarConsolePlugin
             }
         }
 
-        void RegisterConsoleAction(string name, Action actionDelegate)
+        #endregion
+
+        #region Actions & Variables
+        
+        private IDisposable RegisterTarget(MonoBehaviour target)
+        {
+            if (m_registry != null)
+            {
+                return m_registry.Register(target);
+            }
+            else
+            {
+                Log.w("Can't register target '{0}': registry is not property initialized", target);
+                return NullDisposable.Instance;
+            }
+        }
+
+        private void RegisterConsoleAction(string name, Action actionDelegate)
         {
             if (m_registry != null)
             {
@@ -1618,7 +1665,7 @@ namespace LunarConsolePlugin
             }
         }
 
-        void UnregisterConsoleAction(Action actionDelegate)
+        private void UnregisterConsoleAction(Action actionDelegate)
         {
             if (m_registry != null)
             {
@@ -1642,7 +1689,7 @@ namespace LunarConsolePlugin
             }
         }
 
-        void UnregisterConsoleAction(string name)
+        private void UnregisterConsoleAction(string name)
         {
             if (m_registry != null)
             {
@@ -1654,7 +1701,7 @@ namespace LunarConsolePlugin
             }
         }
 
-        void UnregisterAllConsoleActions(object target)
+        private void UnregisterAllConsoleActions(object target)
         {
             if (m_registry != null)
             {
@@ -1666,6 +1713,8 @@ namespace LunarConsolePlugin
             }
         }
 
+        #endregion
+
         void SetConsoleInstanceEnabled(bool enabled)
         {
             this.enabled = enabled;
@@ -1673,8 +1722,10 @@ namespace LunarConsolePlugin
 
         #endif // LUNAR_CONSOLE_ENABLED
 
-        public static bool isConsoleEnabled {
-            get {
+        public static bool isConsoleEnabled
+        {
+            get
+            {
                 #if LUNAR_CONSOLE_ENABLED
                 return instance != null;
                 #else

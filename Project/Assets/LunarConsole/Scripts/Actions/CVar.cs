@@ -20,12 +20,9 @@
 //
 
 
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
-
-using UnityEngine;
 using LunarConsolePluginInternal;
 
 namespace LunarConsolePlugin
@@ -50,7 +47,7 @@ namespace LunarConsolePlugin
         public bool Equals(ref CValue other)
         {
             return other.intValue == intValue &&
-            other.floatValue == floatValue &&
+            Math.Abs(other.floatValue - floatValue) < 0.000001f &&
             other.stringValue == stringValue;
         }
     }
@@ -97,7 +94,6 @@ namespace LunarConsolePlugin
     {
         private static int s_nextId;
 
-        private readonly int m_id;
         private readonly string m_name;
         private readonly CVarType m_type;
         private readonly CFlags m_flags;
@@ -136,14 +132,12 @@ namespace LunarConsolePlugin
             m_defaultValue = m_value;
         }
         
-        protected CVar(string name, CVarType type, CFlags flags)
+        protected CVar(string name, CVarType type, CFlags flags) : base(++s_nextId)
         {
             if (name == null)
             {
                 throw new ArgumentNullException("name");
             }
-
-            m_id = ++s_nextId;
 
             m_name = name;
             m_type = type;
@@ -236,11 +230,6 @@ namespace LunarConsolePlugin
 
         #region Properties
 
-        public override int Id
-        {
-            get { return m_id; }
-        }
-
         public string Name
         {
             get { return m_name; }
@@ -305,7 +294,7 @@ namespace LunarConsolePlugin
 
                 m_value.stringValue = StringUtils.ToString(value);
                 m_value.intValue = value;
-                m_value.floatValue = (float)value;
+                m_value.floatValue = value;
 
                 if (changed)
                 {
@@ -330,7 +319,7 @@ namespace LunarConsolePlugin
                 m_value.intValue = (int)value;
                 m_value.floatValue = value;
 
-                if (oldValue != value)
+                if (Math.Abs(oldValue - value) > 0.000001f)
                 {
                     NotifyValueChanged();
                 }
@@ -523,7 +512,7 @@ namespace LunarConsolePlugin
 
         #region IEnumerable implementation
 
-        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        IEnumerator IEnumerable.GetEnumerator()
         {
             return m_variables.GetEnumerator();
         }

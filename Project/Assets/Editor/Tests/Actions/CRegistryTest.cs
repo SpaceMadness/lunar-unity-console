@@ -21,11 +21,10 @@
 
 
 using System;
-using System.Threading;
+using System.Collections;
 using System.Collections.Generic;
-
+using System.Linq;
 using NUnit.Framework;
-
 using LunarConsolePlugin;
 using LunarConsolePluginInternal;
 
@@ -34,7 +33,7 @@ namespace Actions
     [TestFixture]
     public class CRegistryTest : TestFixtureBase, ICRegistryDelegate
     {
-        CRegistry m_registry;
+        private CRegistry m_registry;
 
         #region Setup
 
@@ -45,6 +44,30 @@ namespace Actions
 
             m_registry = new CRegistry();
             m_registry.registryDelegate = this;
+        }
+
+        #endregion
+
+        #region Target Registration
+
+        [Test]
+        public void TestRegisterTargets()
+        {
+            var target = new DummyTarget();
+            var disposable = m_registry.Register(target);
+
+            var actual = m_registry.actions.ToList();
+            var expected = new[]
+            {
+                new CAction(0, "Public Action", (Action) target.PublicAction),
+                new CAction(1, "Private Action", (Action) target.privateAction),
+                new CAction(2, "Public Static Action", (Action) DummyTarget.PublicStaticAction),
+                new CAction(3, "Private Static Action", (Action) DummyTarget.privateStaticAction)
+            };
+            Assert.AreEqual(expected, actual);
+
+            disposable.Dispose();
+            Assert.AreEqual(0, m_registry.actions.Count);
         }
 
         #endregion
@@ -192,7 +215,7 @@ namespace Actions
             CAction c = RegisterAction("c1", Del1);
             CAction d = RegisterAction("d1", Del1);
 
-            CAction[] actions = { a, b, c, d };
+            CAction[] actions = {a, b, c, d};
             for (int i = 0; i < actions.Length - 1; ++i)
             {
                 for (int j = i + 1; j < actions.Length; ++j)
@@ -299,17 +322,17 @@ namespace Actions
 
         private void UnregisterAction(string name)
         {
-            m_registry.Unregister(name);
+            m_registry.UnregisterAction(name);
         }
 
         private void UnregisterAction(int id)
         {
-            m_registry.Unregister(id);
+            m_registry.UnregisterAction(id);
         }
 
         private void UnregisterAction(Action actionDelegate)
         {
-            m_registry.Unregister(actionDelegate);
+            m_registry.UnregisterAction(actionDelegate);
         }
 
         private void UnregisterAllActions(object target)
@@ -398,5 +421,64 @@ namespace Actions
         }
 
         #endregion
+    }
+
+    internal class DummyTarget
+    {
+        [ConsoleAction]
+        public void PublicAction()
+        {
+        }
+
+        [ConsoleAction]
+        private void PrivateAction()
+        {
+        }
+
+        [ConsoleAction]
+        public static void PublicStaticAction()
+        {
+        }
+
+        [ConsoleAction]
+        private static void PrivateStaticAction()
+        {
+        }
+
+        [ConsoleAction]
+        public void UnsupportedMethod1(bool arg)
+        {
+            throw new AssertionException("Should not get here");
+        }
+
+        [ConsoleAction]
+        public bool UnsupportedMethod2()
+        {
+            throw new AssertionException("Should not get here");
+        }
+
+        [ConsoleAction]
+        public IEnumerator UnsupportedCoroutine()
+        {
+            throw new AssertionException("Should not get here");
+        }
+
+        public Delegate privateAction
+        {
+            get
+            {
+                Action action = PrivateAction;
+                return action;
+            }
+        }
+
+        public static Delegate privateStaticAction
+        {
+            get
+            {
+                Action action = PrivateStaticAction;
+                return action;
+            }
+        }
     }
 }

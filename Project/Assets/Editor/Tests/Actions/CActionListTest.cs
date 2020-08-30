@@ -21,12 +21,7 @@
 
 
 using System;
-using System.Threading;
-using System.Collections.Generic;
-
 using NUnit.Framework;
-
-using LunarConsolePlugin;
 using LunarConsolePluginInternal;
 
 namespace Actions
@@ -34,12 +29,15 @@ namespace Actions
     [TestFixture]
     public class CActionListTest : TestFixtureBase
     {
+        private int m_nextActionId;
+        
         #region Setup
         
         [SetUp]
         public void SetUp()
         {
             RunSetUp();
+            m_nextActionId = 0;
         }
         
         #endregion
@@ -52,9 +50,9 @@ namespace Actions
             Action del3 = Del3;
 
             CActionList actionList = new CActionList();
-            CAction a1 = new CAction("a1", del1);
-            CAction a2 = new CAction("a2", del2);
-            CAction a3 = new CAction("a3", del3);
+            CAction a1 = CreateAction("a1", del1);
+            CAction a2 = CreateAction("a2", del2);
+            CAction a3 = CreateAction("a3", del3);
 
             actionList.Add(a1);
             actionList.Add(a2);
@@ -80,9 +78,9 @@ namespace Actions
             Action del3 = Del3;
             
             CActionList actionList = new CActionList();
-            CAction a1 = new CAction("a1", del1);
-            CAction a2 = new CAction("a2", del2);
-            CAction a3 = new CAction("a3", del3);
+            CAction a1 = CreateAction("a1", del1);
+            CAction a2 = CreateAction("a2", del2);
+            CAction a3 = CreateAction("a3", del3);
             
             actionList.Add(a1);
             actionList.Add(a2);
@@ -126,9 +124,9 @@ namespace Actions
             Action del3 = Del3;
             
             CActionList actionList = new CActionList();
-            CAction a1 = new CAction("a1", del1);
-            CAction a2 = new CAction("a2", del2);
-            CAction a3 = new CAction("a3", del3);
+            CAction a1 = CreateAction("a1", del1);
+            CAction a2 = CreateAction("a2", del2);
+            CAction a3 = CreateAction("a3", del3);
             
             actionList.Add(a1);
             actionList.Add(a2);
@@ -155,6 +153,11 @@ namespace Actions
 
         private void Del3()
         {
+        }
+        
+        private CAction CreateAction(string name, Action callback)
+        {
+            return new CAction(m_nextActionId++, name, callback);
         }
 
         #endregion

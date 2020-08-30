@@ -22,6 +22,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 
 namespace LunarConsolePluginInternal
@@ -29,13 +30,11 @@ namespace LunarConsolePluginInternal
     public class CAction : ConsoleEntry, IComparable<CAction>
     {
         private static readonly string[] kEmptyArgs = new string[0];
-        private static int s_nextActionId;
-
-        private readonly int m_id;
+        
         private readonly string m_name;
-        private Delegate m_actionDelegate;
+        private readonly Delegate m_callback;
 
-        public CAction(string name, Delegate actionDelegate)
+        public CAction(int id, string name, Delegate callback) : base(id)
         {
             if (name == null)
             {
@@ -47,14 +46,13 @@ namespace LunarConsolePluginInternal
                 throw new ArgumentException("Action name is empty");
             }
 
-            if (actionDelegate == null)
+            if (callback == null)
             {
-                throw new ArgumentNullException("actionDelegate");
+                throw new ArgumentNullException("callback");
             }
 
-            m_id = s_nextActionId++;
             m_name = name;
-            m_actionDelegate = actionDelegate;
+            m_callback = callback;
         }
 
         public bool Execute()
@@ -93,12 +91,20 @@ namespace LunarConsolePluginInternal
 
         #endregion
 
-        #region Properties
-
-        public override int Id
+        protected bool Equals(CAction other)
         {
-            get { return m_id; }
+            return base.Equals(other) && m_name == other.m_name && Equals(m_callback, other.m_callback);
         }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != this.GetType()) return false;
+            return Equals((CAction) obj);
+        }
+
+        #region Properties
 
         public string Name
         {
@@ -107,15 +113,7 @@ namespace LunarConsolePluginInternal
 
         public Delegate ActionDelegate
         {
-            get { return m_actionDelegate; }
-            set
-            {
-                if (value == null)
-                {
-                    throw new ArgumentNullException("actionDelegate");
-                }
-                m_actionDelegate = value;
-            }
+            get { return m_callback; }
         }
 
         #endregion
@@ -192,5 +190,13 @@ namespace LunarConsolePluginInternal
         }
 
         #endregion
+
+        public int Count
+        {
+            get
+            {
+                return m_actions.Count;
+            }
+        }
     }
 }
