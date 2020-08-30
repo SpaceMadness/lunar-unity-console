@@ -32,7 +32,7 @@ using LunarConsolePluginInternal;
 namespace Actions
 {
     [TestFixture]
-    public class CActionRegistryTest : TestFixtureBase, ICRegistryDelegate
+    public class CRegistryTest : TestFixtureBase, ICRegistryDelegate
     {
         CRegistry m_registry;
 
