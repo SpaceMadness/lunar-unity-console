@@ -20,6 +20,7 @@
 //
 
 
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -27,6 +28,19 @@ namespace LunarConsolePluginInternal
 {
     public static class Collections
     {
+        public static List<T> Filter<T>(this IList<T> list, Predicate<T> predicate)
+        {
+            List<T> result = new List<T>(list.Count);
+            for (var i = 0; i < list.Count; i++)
+            {
+                if (predicate.Invoke(list[i]))
+                {
+                    result.Add(list[i]);
+                }
+            }
+            return result;
+        }
+        
         public static string Join<T>(this IList<T> list, string separator = ",")
         {
             StringBuilder builder = new StringBuilder();

@@ -1442,6 +1442,33 @@ namespace LunarConsolePlugin
             #endif // LUNAR_CONSOLE_FULL
             #endif // LUNAR_CONSOLE_PLATFORM_SUPPORTED
         }
+        
+        /// <summary>
+        /// Registers a user-defined action.
+        /// Does nothing if platform is not supported or if plugin is not initialized.
+        /// </summary>
+        /// <param name="action">Console action</param>
+        public static void RegisterAction(CAction action)
+        {
+            #if LUNAR_CONSOLE_PLATFORM_SUPPORTED
+            #if LUNAR_CONSOLE_FULL
+            #if LUNAR_CONSOLE_ENABLED
+            if (s_instance != null)
+            {
+                throw new NotImplementedException();
+            }
+            else
+            {
+                Log.w("Can't register action: instance is not initialized. Make sure you've installed it correctly");
+            }
+            #else  // LUNAR_CONSOLE_ENABLED
+                        Log.w("Can't register action: plugin is disabled");
+            #endif // LUNAR_CONSOLE_ENABLED
+            #else  // LUNAR_CONSOLE_FULL
+                        Log.w("Can't register action: feature is not available in FREE version. Learn more about PRO version: https://goo.gl/TLInmD");
+            #endif // LUNAR_CONSOLE_FULL
+            #endif // LUNAR_CONSOLE_PLATFORM_SUPPORTED
+        }
 
         /// <summary>
         /// Un-registers a user-defined action with a specific callback.
@@ -1455,6 +1482,24 @@ namespace LunarConsolePlugin
             if (s_instance != null)
             {
                 s_instance.UnregisterConsoleAction(action);
+            }
+            #endif // LUNAR_CONSOLE_ENABLED
+            #endif // LUNAR_CONSOLE_FULL
+            #endif // LUNAR_CONSOLE_PLATFORM_SUPPORTED
+        }
+        
+        /// <summary>
+        /// Un-registers a user-defined action with a specific id.
+        /// Does nothing if platform is not supported or if plugin is not initialized.
+        /// </summary>
+        public static void UnregisterAction(int actionId)
+        {
+            #if LUNAR_CONSOLE_PLATFORM_SUPPORTED
+            #if LUNAR_CONSOLE_FULL
+            #if LUNAR_CONSOLE_ENABLED
+            if (s_instance != null)
+            {
+                s_instance.UnregisterConsoleAction(actionId);
             }
             #endif // LUNAR_CONSOLE_ENABLED
             #endif // LUNAR_CONSOLE_FULL
@@ -1582,6 +1627,18 @@ namespace LunarConsolePlugin
             else
             {
                 Log.w("Can't unregister action '{0}': registry is not property initialized", actionDelegate);
+            }
+        }
+        
+        private void UnregisterConsoleAction(int actionId)
+        {
+            if (m_registry != null)
+            {
+                m_registry.Unregister(actionId);
+            }
+            else
+            {
+                Log.w("Can't unregister action '{0}': registry is not property initialized", actionId.ToString());
             }
         }
 

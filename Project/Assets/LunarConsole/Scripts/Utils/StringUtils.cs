@@ -634,7 +634,7 @@ namespace LunarConsolePluginInternal
 
         #region Display name
 
-        public static String ToDisplayName(string value)
+        public static string ToDisplayName(string value)
         {
             if (string.IsNullOrEmpty(value))
             {
@@ -650,9 +650,9 @@ namespace LunarConsolePluginInternal
 
                 if (i == 0)
                 {
-                    chr = Char.ToUpper(chr);
+                    chr = char.ToUpper(chr);
                 }
-                else if (Char.IsUpper(chr) || Char.IsDigit(chr) && !Char.IsDigit(prevChr))
+                else if (char.IsUpper(chr) || char.IsDigit(chr) && !char.IsDigit(prevChr))
                 {
                     if (result.Length > 0)
                     {

@@ -20,13 +20,11 @@
 //
 
 
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Reflection;
-
-using UnityEngine;
 
 namespace LunarConsolePluginInternal
 {
@@ -34,40 +32,6 @@ namespace LunarConsolePluginInternal
 
     public static class ClassUtils
     {
-        public static T Cast<T>(object obj) where T : class
-        {
-            return obj as T;
-        }
-
-        public static T TryCast<T>(object obj) where T : class
-        {
-            return obj as T;
-        }
-
-        public static T CreateInstance<T>(Type t, params object[] args) where T : class
-        {
-            try
-            {
-                return (T) Activator.CreateInstance(t, args);
-            }
-            catch (Exception e)
-            {
-                Log.e(e, "Exception while creating an instance of type '{0}'", t);
-            }
-
-            return null;
-        }
-
-        public static bool IsValidEnumValue<T>(int value)
-        {
-            return Enum.IsDefined(typeof(T), value);
-        }
-
-        public static bool IsValidEnumValue<T>(T value)
-        {
-            return Enum.IsDefined(typeof(T), value);
-        }
-
         public static string TypeShortName(Type type)
         {
             if (type != null)
@@ -94,6 +58,11 @@ namespace LunarConsolePluginInternal
             return ListMethods(outList, type, filter, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.DeclaredOnly);
         }
 
+        public static List<MethodInfo> ListMethods(Type type, ListMethodsFilter filter, BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
+        {
+            return ListMethods(new List<MethodInfo>(), type, filter, flags);
+        }
+
         public static List<MethodInfo> ListMethods(List<MethodInfo> outList, Type type, ListMethodsFilter filter, BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static)
         {
             MethodInfo[] methods = type.GetMethods(flags);
@@ -112,11 +81,6 @@ namespace LunarConsolePluginInternal
                 }
             }
             return outList;
-        }
-
-        public static bool ShouldListMethod(MethodInfo m, string prefix)
-        {
-            return StringUtils.StartsWithIgnoreCase(m.Name, prefix);
         }
 
         public static T GetObjectField<T>(object target, string name)
