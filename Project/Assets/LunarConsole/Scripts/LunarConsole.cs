@@ -397,11 +397,6 @@ namespace LunarConsolePlugin
             }
         }
 
-        private static string GetGestureName(Gesture gesture)
-        {
-            return gesture.ToString();
-        }
-
         interface IPlatform : ICRegistryDelegate
         {
             void Update();

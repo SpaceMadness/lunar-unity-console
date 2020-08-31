@@ -20,10 +20,9 @@
 //
 
 
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
 
 using UnityEngine;
 
@@ -47,7 +46,7 @@ namespace LunarConsolePluginInternal
             return Invoke(del.Target, del.Method, invokeArgs);
         }
 
-        public static bool Invoke(object target, MethodInfo method, string[] invokeArgs)
+        private static bool Invoke(object target, MethodInfo method, string[] invokeArgs)
         {
             ParameterInfo[] parameters = method.GetParameters();
             if (parameters.Length == 0)
@@ -257,7 +256,7 @@ namespace LunarConsolePluginInternal
             return FindAttributeTypes(assembly, typeof(T));
         }
 
-        public static List<Type> FindAttributeTypes(Assembly assembly, Type attributeType)
+        private static List<Type> FindAttributeTypes(Assembly assembly, Type attributeType)
         {
             return FindTypes(assembly, delegate(Type type)
             {
@@ -266,7 +265,7 @@ namespace LunarConsolePluginInternal
             });
         }
 
-        public static List<Type> FindTypes(Assembly assembly, ReflectionTypeFilter filter)
+        private static List<Type> FindTypes(Assembly assembly, ReflectionTypeFilter filter)
         {
             var list = new List<Type>();
 

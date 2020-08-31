@@ -79,14 +79,6 @@ namespace LunarConsolePluginInternal
             }
         }
 
-        public string unityObjectArgumentAssemblyTypeName
-        {
-            get
-            {
-                return this.m_objectArgumentAssemblyTypeName;
-            }
-        }
-
         public int intArgument
         {
             get
