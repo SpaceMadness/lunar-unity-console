@@ -1,5 +1,5 @@
 //
-//  Constants.cs
+//  Collections.cs
 //
 //  Lunar Unity Mobile Console
 //  https://github.com/SpaceMadness/lunar-unity-console
@@ -20,17 +20,23 @@
 //
 
 
+using System.Collections.Generic;
+using System.Text;
+
 namespace LunarConsolePluginInternal
 {
-    public static class Constants
+    public static class Collections
     {
-        public static readonly string Version = "1.9.0";
-        public static readonly string UpdateJsonURLFull = "https://raw.githubusercontent.com/SpaceMadness/lunar-unity-console/master/Builder/updater-full.json";
-        public static readonly string UpdateJsonURLFree = "https://raw.githubusercontent.com/SpaceMadness/lunar-unity-console/master/Builder/updater-free.json";
+        public static string Join<T>(this IList<T> list, string separator = ",")
+        {
+            StringBuilder builder = new StringBuilder();
+            for (int i = 0; i < list.Count; ++i)
+            {
+                builder.Append(list[i]);
+                if (i < list.Count - 1) builder.Append(separator);
+            }
 
-        public static readonly string PluginName = "LunarConsole";
-        public static readonly string PluginDisplayName = "Lunar Mobile Console";
-
-        public static readonly string EditorPrefsKeyBase = "com.spacemadness.lunar.console";
+            return builder.ToString();
+        }
     }
 }

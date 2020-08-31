@@ -59,6 +59,12 @@ namespace LunarConsolePlugin
         SwipeDown
     }
 
+    public enum ToastDuration
+    {
+        Short,
+        Long
+    }
+
     delegate void LunarConsoleNativeMessageCallback(string message);
     delegate void LunarConsoleNativeMessageHandler(IDictionary<string, string> data);
 
@@ -365,7 +371,7 @@ namespace LunarConsolePlugin
             return false;
         }
 
-        private static IPlatform CreatePlatform(LunarConsoleSettings settings)
+        private IPlatform CreatePlatform(LunarConsoleSettings settings)
         {
             #if UNITY_IOS || UNITY_IPHONE
             if (Application.platform == RuntimePlatform.IPhonePlayer)
@@ -403,6 +409,7 @@ namespace LunarConsolePlugin
             void OnLogMessageReceived(string message, string stackTrace, LogType type);
             bool ShowConsole();
             bool HideConsole();
+            void ShowToast(string message, int duration);
             void ClearConsole();
             void Destroy();
         }
@@ -473,6 +480,12 @@ namespace LunarConsolePlugin
                         if (cvar == null)
                         {
                             Log.w("Unable to register variable {0}.{0}", type.Name, field.Name);
+                            continue;
+                        }
+
+                        if ((cvar.Flags & CFlags.Hidden) != 0)
+                        {
+                            Log.w("Skipping hidden variable {0}", cvar.Name);
                             continue;
                         }
 
@@ -638,6 +651,9 @@ namespace LunarConsolePlugin
             private static extern void __lunar_console_show();
 
             [DllImport("__Internal")]
+            private static extern void __lunar_console_show_snackbar(string message, int duration);
+
+            [DllImport("__Internal")]
             private static extern void __lunar_console_hide();
 
             [DllImport("__Internal")]
@@ -698,6 +714,11 @@ namespace LunarConsolePlugin
                 return true;
             }
 
+            public void ShowToast(string message, int duration)
+            {
+                __lunar_console_show_snackbar(message, duration);
+            }
+
             public void ClearConsole()
             {
                 __lunar_console_clear();
@@ -750,6 +771,7 @@ namespace LunarConsolePlugin
             private readonly IntPtr m_methodLogMessage;
             private readonly IntPtr m_methodShowConsole;
             private readonly IntPtr m_methodHideConsole;
+            private readonly IntPtr m_methodShowSnackbar;
             private readonly IntPtr m_methodClearConsole;
             private readonly IntPtr m_methodRegisterAction;
             private readonly IntPtr m_methodUnregisterAction;
@@ -791,6 +813,7 @@ namespace LunarConsolePlugin
                 m_methodLogMessage = GetStaticMethod(m_pluginClassRaw, "logMessage", "(Ljava.lang.String;Ljava.lang.String;I)V");
                 m_methodShowConsole = GetStaticMethod(m_pluginClassRaw, "showConsole", "()V");
                 m_methodHideConsole = GetStaticMethod(m_pluginClassRaw, "hideConsole", "()V");
+                m_methodShowSnackbar = GetStaticMethod(m_pluginClassRaw, "showToast", "(Ljava.lang.String;I)V");
                 m_methodClearConsole = GetStaticMethod(m_pluginClassRaw, "clearConsole", "()V");
                 m_methodRegisterAction = GetStaticMethod(m_pluginClassRaw, "registerAction", "(ILjava.lang.String;)V");
                 m_methodUnregisterAction = GetStaticMethod(m_pluginClassRaw, "unregisterAction", "(I)V");
@@ -879,6 +902,24 @@ namespace LunarConsolePlugin
                 catch (Exception e)
                 {
                     Debug.LogError("Exception while calling 'LunarConsole.ClearConsole': " + e.Message);
+                }
+            }
+
+            public void ShowToast(string message, int duration)
+            {
+                try
+                {
+                    m_args2[0] = jval(message);
+                    m_args2[1] = jval(duration);
+                    CallStaticVoidMethod(m_methodShowSnackbar, m_args2);
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError("Exception while calling 'LunarConsole.ShowToast': " + e.Message);
+                }
+                finally
+                {
+                    AndroidJNI.DeleteLocalRef(m_args2[0].l);
                 }
             }
 
@@ -1050,6 +1091,11 @@ namespace LunarConsolePlugin
             public bool HideConsole()
             {
                 return false;
+            }
+
+            public void ShowToast(string message, int duration)
+            {
+                Debug.Log(message);
             }
 
             public void ClearConsole()
@@ -1456,14 +1502,14 @@ namespace LunarConsolePlugin
         /// <param name="displayName">Display name</param>
         /// <param name="callback">Callback delegate</param>
         /// <param name="requiresConfirmation">Indicates if a confirmation dialog should be displayed before running the action</param>
-        public static void RegisterAction(string displayName, Action callback, bool requiresConfirmation = false)
+        public static IDisposable RegisterAction(string displayName, Action callback, bool requiresConfirmation = false)
         {
             #if LUNAR_CONSOLE_PLATFORM_SUPPORTED
             #if LUNAR_CONSOLE_FULL
             #if LUNAR_CONSOLE_ENABLED
             if (s_instance != null)
             {
-                s_instance.RegisterConsoleAction(displayName, callback, requiresConfirmation);
+                return s_instance.RegisterConsoleAction(displayName, callback, requiresConfirmation);
             }
             else
             {
@@ -1476,6 +1522,8 @@ namespace LunarConsolePlugin
             Log.w("Can't register action: feature is not available in FREE version. Learn more about PRO version: https://goo.gl/TLInmD");
             #endif // LUNAR_CONSOLE_FULL
             #endif // LUNAR_CONSOLE_PLATFORM_SUPPORTED
+
+            return NullDisposable.Instance;
         }
         
         /// <summary>
@@ -1578,6 +1626,20 @@ namespace LunarConsolePlugin
             #endif // LUNAR_CONSOLE_PLATFORM_SUPPORTED
         }
 
+        public static void Toast(string message, ToastDuration duration = ToastDuration.Short)
+        {
+            #if LUNAR_CONSOLE_PLATFORM_SUPPORTED
+            #if LUNAR_CONSOLE_FULL
+            #if LUNAR_CONSOLE_ENABLED
+            if (s_instance != null)
+            {
+                s_instance.ShowToast(message, duration);
+            }
+            #endif // LUNAR_CONSOLE_ENABLED
+            #endif // LUNAR_CONSOLE_FULL
+            #endif // LUNAR_CONSOLE_PLATFORM_SUPPORTED
+        }
+
         /// <summary>
         /// Sets console enabled or disabled.
         /// Disabled console cannot be opened by user or API calls and does not collect logs.
@@ -1666,16 +1728,18 @@ namespace LunarConsolePlugin
             }
         }
 
-        private void RegisterConsoleAction(string displayName, Action callback, bool requiresConfirmation)
+        private IDisposable RegisterConsoleAction(string displayName, Action callback, bool requiresConfirmation)
         {
             if (m_registry != null)
             {
-                m_registry.RegisterAction(displayName, callback, requiresConfirmation);
+                return m_registry.RegisterAction(displayName, callback, requiresConfirmation);
             }
             else
             {
                 Log.w("Can't register action '{0}': registry is not property initialized", displayName);
             }
+
+            return NullDisposable.Instance;
         }
 
         private void UnregisterConsoleAction(Action actionDelegate)
@@ -1723,6 +1787,14 @@ namespace LunarConsolePlugin
             else
             {
                 Log.w("Can't unregister actions for target '{0}': registry is not property initialized", target);
+            }
+        }
+        
+        private void ShowToast(string message, ToastDuration duration)
+        {
+            if (m_platform != null)
+            {
+                m_platform.ShowToast(message, (int) duration);
             }
         }
 

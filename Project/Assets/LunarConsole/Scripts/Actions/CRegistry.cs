@@ -48,10 +48,10 @@ namespace LunarConsolePluginInternal
         /// </summary>
         public IDisposable Register(object target)
         {
-            List<ConsoleEntry> entries = new List<ConsoleEntry>();
-            
             var type = target.GetType();
             var methods = ClassUtils.ListMethods(type, MethodFilter);
+            var disposables = new CompositeDisposable(methods.Count);
+            
             for (var index = 0; index < methods.Count; index++)
             {
                 var method = methods[index];
@@ -87,14 +87,15 @@ namespace LunarConsolePluginInternal
 
                 var delegateType = typeof(Action);
                 Delegate callback = method.IsStatic ? method.CreateDelegate(delegateType) : method.CreateDelegate(delegateType, target);
-                var action = RegisterAction(actionName, callback, attribute.RequiresConfirmation);
-                entries.Add(action);
+                disposables.Add(
+                    RegisterAction(actionName, callback, attribute.RequiresConfirmation)
+                );
             }
-            
-            return new EntriesDisposer(this, entries);
+
+            return disposables;
         }
 
-        private void Unregister(ConsoleEntry entry)
+        internal void Unregister(ConsoleEntry entry)
         {
             if (entry is CAction)
             {
@@ -109,7 +110,7 @@ namespace LunarConsolePluginInternal
         
         #region Action registry
 
-        public CAction RegisterAction(string name, Delegate callback, bool requiresConfirmation)
+        public IDisposable RegisterAction(string name, Delegate callback, bool requiresConfirmation)
         {
             if (name == null)
             {
@@ -141,7 +142,7 @@ namespace LunarConsolePluginInternal
                 m_delegate.OnActionRegistered(this, action);
             }
 
-            return action;
+            return new ConsoleEntryDisposer(this, action);
         }
 
         public bool UnregisterAction(string name)
@@ -285,26 +286,5 @@ namespace LunarConsolePluginInternal
         }
 
         #endregion
-
-        private sealed class EntriesDisposer : IDisposable
-        {
-            private readonly CRegistry m_registry;
-            private readonly List<ConsoleEntry> m_entries;
-
-            public EntriesDisposer(CRegistry registry, List<ConsoleEntry> entries)
-            {
-                m_entries = entries;
-                m_registry = registry;
-            }
-
-            public void Dispose()
-            {
-                foreach (ConsoleEntry entry in m_entries)
-                {
-                    m_registry.Unregister(entry);
-                }
-                m_entries.Clear();
-            }
-        }
     }
 }
