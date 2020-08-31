@@ -157,7 +157,7 @@ namespace Actions
         
         private CAction CreateAction(string name, Action callback)
         {
-            return new CAction(m_nextActionId++, name, callback);
+            return new CAction(m_nextActionId++, name, callback, requiresConfirmation: false);
         }
 
         #endregion

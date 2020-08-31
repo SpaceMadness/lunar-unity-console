@@ -127,7 +127,7 @@ namespace LunarConsolePluginInternal
                     name, callback);
             }
             
-            var action = new CAction(m_nextEntryId++, name, callback);
+            var action = new CAction(m_nextEntryId++, name, callback, requiresConfirmation);
             m_actions.Add(action);
 
             if (m_delegate != null)

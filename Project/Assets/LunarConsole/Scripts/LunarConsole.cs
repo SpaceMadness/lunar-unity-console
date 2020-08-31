@@ -1424,29 +1424,30 @@ namespace LunarConsolePlugin
             Log.w("Can't clear console: current platform is not supported");
             #endif
         }
-        
+
         /// <summary>
         /// Registers all user-defined items in a specified MonoBehaviour.
         /// Does nothing if platform is not supported or if plugin is not initialized.
+        /// <param name="automaticDisposal">Indicates if all registered items must be disposed when the target behaviour becomes disabled</param>
         /// </summary>
-        public static IDisposable Register(MonoBehaviour target)
+        public static IDisposable Register(MonoBehaviour target, bool automaticDisposal = true)
         {
             #if LUNAR_CONSOLE_PLATFORM_SUPPORTED
             #if LUNAR_CONSOLE_FULL
             #if LUNAR_CONSOLE_ENABLED
             if (s_instance != null)
             {
-                return s_instance.RegisterTarget(target);
+                return s_instance.RegisterTarget(target, automaticDisposal);
             }
             else
             {
                 Log.w("Can't register action: instance is not initialized. Make sure you've installed it correctly");
             }
             #else  // LUNAR_CONSOLE_ENABLED
-            Log.w("Can't register action: plugin is disabled");
+            Log.w("Can't register MonoBehaviour: plugin is disabled");
             #endif // LUNAR_CONSOLE_ENABLED
             #else  // LUNAR_CONSOLE_FULL
-            Log.w("Can't register action: feature is not available in FREE version. Learn more about PRO version: https://goo.gl/TLInmD");
+            Log.w("Can't register MonoBehaviour: feature is not available in FREE version. Learn more about PRO version: https://goo.gl/TLInmD");
             #endif // LUNAR_CONSOLE_FULL
             #endif // LUNAR_CONSOLE_PLATFORM_SUPPORTED
             
@@ -1501,10 +1502,10 @@ namespace LunarConsolePlugin
                 Log.w("Can't register action: instance is not initialized. Make sure you've installed it correctly");
             }
             #else  // LUNAR_CONSOLE_ENABLED
-                        Log.w("Can't register action: plugin is disabled");
+            Log.w("Can't register action: plugin is disabled");
             #endif // LUNAR_CONSOLE_ENABLED
             #else  // LUNAR_CONSOLE_FULL
-                        Log.w("Can't register action: feature is not available in FREE version. Learn more about PRO version: https://goo.gl/TLInmD");
+            Log.w("Can't register action: feature is not available in FREE version. Learn more about PRO version: https://goo.gl/TLInmD");
             #endif // LUNAR_CONSOLE_FULL
             #endif // LUNAR_CONSOLE_PLATFORM_SUPPORTED
         }
@@ -1651,11 +1652,17 @@ namespace LunarConsolePlugin
 
         #region Actions & Variables
         
-        private IDisposable RegisterTarget(MonoBehaviour target)
+        private IDisposable RegisterTarget(Component target, bool automaticDisposal)
         {
             if (m_registry != null)
             {
-                return m_registry.Register(target);
+                IDisposable disposable = m_registry.Register(target);
+                if (automaticDisposal)
+                {
+                    var component = target.gameObject.AddComponent<LunarDisposableComponent>();
+                    component.disposable = disposable;
+                }
+                return disposable;
             }
             else
             {

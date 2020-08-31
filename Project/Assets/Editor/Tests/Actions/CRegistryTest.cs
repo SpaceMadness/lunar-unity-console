@@ -59,10 +59,10 @@ namespace Actions
             var actual = m_registry.actions.ToList();
             var expected = new[]
             {
-                new CAction(0, "Public Action", (Action) target.PublicAction),
-                new CAction(1, "Private Action", (Action) target.privateAction),
-                new CAction(2, "Public Static Action", (Action) DummyTarget.PublicStaticAction),
-                new CAction(3, "Private Static Action", (Action) DummyTarget.privateStaticAction)
+                new CAction(0, "Public Action", (Action) target.PublicAction, requiresConfirmation: false),
+                new CAction(1, "Private Action", (Action) target.privateAction, requiresConfirmation: false),
+                new CAction(2, "Public Static Action", (Action) DummyTarget.PublicStaticAction, requiresConfirmation: false),
+                new CAction(3, "Private Static Action", (Action) DummyTarget.privateStaticAction, requiresConfirmation: false)
             };
             Assert.AreEqual(expected, actual);
 
@@ -317,7 +317,7 @@ namespace Actions
 
         private CAction RegisterAction(string name, Action actionDelegate)
         {
-            return m_registry.RegisterAction(name, actionDelegate);
+            return m_registry.RegisterAction(name, actionDelegate, requiresConfirmation: false);
         }
 
         private void UnregisterAction(string name)
