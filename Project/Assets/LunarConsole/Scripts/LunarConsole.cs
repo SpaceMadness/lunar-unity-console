@@ -66,7 +66,7 @@ namespace LunarConsolePlugin
     public enum TargetPlatform
     {
         Android = 0x1,
-        iOS = 0x2,
+        IOS = 0x2,
         Editor = 0x4,
         All = 0xff
     }
