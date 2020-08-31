@@ -75,9 +75,9 @@ namespace LunarConsolePluginInternal
                     continue;
                 }
                 
-                var actionName = string.IsNullOrWhiteSpace(attribute.Name)
+                var actionName = string.IsNullOrWhiteSpace(attribute.DisplayName)
                     ? StringUtils.ToDisplayName(method.Name)
-                    : attribute.Name;
+                    : attribute.DisplayName;
 
                 var delegateType = typeof(Action);
                 Delegate callback = method.IsStatic ? method.CreateDelegate(delegateType) : method.CreateDelegate(delegateType, target);

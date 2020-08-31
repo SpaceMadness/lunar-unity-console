@@ -62,6 +62,15 @@ namespace LunarConsolePlugin
     delegate void LunarConsoleNativeMessageCallback(string message);
     delegate void LunarConsoleNativeMessageHandler(IDictionary<string, string> data);
 
+    [Flags]
+    public enum TargetPlatform
+    {
+        Android = 0x1,
+        iOS = 0x2,
+        Editor = 0x4,
+        All = 0xff
+    }
+    
     [Serializable]
     public class LogEntryColors
     {
