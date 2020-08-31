@@ -31,6 +31,7 @@ using UnityEngine.Events;
 using Object = UnityEngine.Object;
 
 using LunarConsolePlugin;
+using UnityEngine.Serialization;
 
 namespace LunarConsolePluginInternal
 {
@@ -391,7 +392,17 @@ namespace LunarConsolePluginInternal
         #pragma warning disable 0649
 
         [SerializeField]
-        private string m_title = "Untitled Action";
+        [FormerlySerializedAs("m_title")]
+        [Tooltip("Action display name")]
+        private string m_displayName = "Untitled Action";
+
+        [SerializeField]
+        [Tooltip("Platforms supported by the action")]
+        private TargetPlatform m_targetPlatform = TargetPlatform.All;
+        
+        [SerializeField]
+        [Tooltip("Indicates if a confirmation dialog needs to be displayed before running the action")]
+        private bool m_requiresConfirmation;
 
         [SerializeField]
         [HideInInspector]
@@ -407,15 +418,19 @@ namespace LunarConsolePluginInternal
             }
         }
 
-        private void Start()
-        {
-            if (actionsEnabled)
+        private void OnEnable()
+        {   
+            if (m_targetPlatform.IsSupported())
             {
                 RegisterAction();
             }
-            else
+        }
+
+        private void OnDisable()
+        {
+            if (m_targetPlatform.IsSupported())
             {
-                Destroy(this);
+                UnregisterAction();
             }
         }
 
@@ -434,30 +449,17 @@ namespace LunarConsolePluginInternal
         {
             if (call.target == null)
             {
-                Debug.LogWarning(string.Format("Action '{0}' ({1}) is missing a target object", m_title, gameObject.name), gameObject); 
+                Debug.LogWarning(string.Format("Action '{0}' ({1}) is missing a target object", m_displayName, gameObject.name), gameObject); 
             }
             else if (!LunarConsoleActionCall.IsPersistantListenerValid(call.target, call.methodName, call.mode))
             {
-                Debug.LogWarning(string.Format("Action '{0}' ({1}) is missing a handler <{2}.{3} ({4})>", m_title, gameObject.name, call.target.GetType(), call.methodName, ModeParamTypeName(call.mode)), gameObject); 
+                Debug.LogWarning(string.Format("Action '{0}' ({1}) is missing a handler <{2}.{3} ({4})>", m_displayName, gameObject.name, call.target.GetType(), call.methodName, ModeParamTypeName(call.mode)), gameObject); 
             }
-        }
-
-        private void OnDestroy()
-        {
-            if (actionsEnabled)
-            {
-                UnregisterAction();
-            }
-        }
-        
-        public List<LunarConsoleActionCall> calls
-        {
-            get { return m_calls; }
         }
 
         private void RegisterAction()
         {
-            LunarConsole.RegisterAction(m_title, InvokeAction);
+            LunarConsole.RegisterAction(m_displayName, InvokeAction, m_requiresConfirmation);
         }
 
         private void UnregisterAction()
@@ -476,7 +478,7 @@ namespace LunarConsolePluginInternal
             }
             else
             {
-                Debug.LogWarningFormat("Action '{0}' has 0 calls", m_title);
+                Debug.LogWarningFormat("Action '{0}' has 0 calls", m_displayName);
             }
         }
 

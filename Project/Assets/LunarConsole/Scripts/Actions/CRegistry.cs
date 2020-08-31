@@ -81,7 +81,7 @@ namespace LunarConsolePluginInternal
 
                 var delegateType = typeof(Action);
                 Delegate callback = method.IsStatic ? method.CreateDelegate(delegateType) : method.CreateDelegate(delegateType, target);
-                var action = RegisterAction(actionName, callback);
+                var action = RegisterAction(actionName, callback, attribute.RequiresConfirmation);
                 entries.Add(action);
             }
             
@@ -103,7 +103,7 @@ namespace LunarConsolePluginInternal
         
         #region Action registry
 
-        public CAction RegisterAction(string name, Delegate actionDelegate)
+        public CAction RegisterAction(string name, Delegate callback, bool requiresConfirmation)
         {
             if (name == null)
             {
@@ -115,19 +115,19 @@ namespace LunarConsolePluginInternal
                 throw new ArgumentException("Action's name is empty");
             }
             
-            if (actionDelegate == null)
+            if (callback == null)
             {
-                throw new ArgumentNullException("actionDelegate");
+                throw new ArgumentNullException("callback");
             }
 
             var existingAction = m_actions.Find(name);
             if (existingAction != null)
             {
                 Log.w("Duplicate actions:\n{0}: {1}\n{2}: {3}", existingAction.Name, existingAction.ActionDelegate,
-                    name, actionDelegate);
+                    name, callback);
             }
             
-            var action = new CAction(m_nextEntryId++, name, actionDelegate);
+            var action = new CAction(m_nextEntryId++, name, callback);
             m_actions.Add(action);
 
             if (m_delegate != null)

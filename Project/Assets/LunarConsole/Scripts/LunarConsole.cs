@@ -65,6 +65,7 @@ namespace LunarConsolePlugin
     [Flags]
     public enum TargetPlatform
     {
+        None = 0x0,
         Android = 0x1,
         IOS = 0x2,
         Editor = 0x4,
@@ -1456,16 +1457,17 @@ namespace LunarConsolePlugin
         /// Registers a user-defined action with a specific name and callback.
         /// Does nothing if platform is not supported or if plugin is not initialized.
         /// </summary>
-        /// <param name="name">Display name</param>
-        /// <param name="action">Callback delegate</param>
-        public static void RegisterAction(string name, Action action)
+        /// <param name="displayName">Display name</param>
+        /// <param name="callback">Callback delegate</param>
+        /// <param name="requiresConfirmation">Indicates if a confirmation dialog should be displayed before running the action</param>
+        public static void RegisterAction(string displayName, Action callback, bool requiresConfirmation = false)
         {
             #if LUNAR_CONSOLE_PLATFORM_SUPPORTED
             #if LUNAR_CONSOLE_FULL
             #if LUNAR_CONSOLE_ENABLED
             if (s_instance != null)
             {
-                s_instance.RegisterConsoleAction(name, action);
+                s_instance.RegisterConsoleAction(displayName, callback, requiresConfirmation);
             }
             else
             {
@@ -1662,15 +1664,15 @@ namespace LunarConsolePlugin
             }
         }
 
-        private void RegisterConsoleAction(string name, Action actionDelegate)
+        private void RegisterConsoleAction(string displayName, Action callback, bool requiresConfirmation)
         {
             if (m_registry != null)
             {
-                m_registry.RegisterAction(name, actionDelegate);
+                m_registry.RegisterAction(displayName, callback, requiresConfirmation);
             }
             else
             {
-                Log.w("Can't register action '{0}': registry is not property initialized", name);
+                Log.w("Can't register action '{0}': registry is not property initialized", displayName);
             }
         }
 

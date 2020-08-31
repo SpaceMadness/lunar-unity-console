@@ -32,8 +32,9 @@ namespace LunarConsolePluginInternal
         
         private readonly string m_name;
         private readonly Delegate m_callback;
+        private readonly bool m_requiresConfirmation;
 
-        public CAction(int id, string name, Delegate callback) : base(id)
+        public CAction(int id, string name, Delegate callback, bool requiresConfirmation) : base(id)
         {
             if (name == null)
             {
@@ -52,6 +53,7 @@ namespace LunarConsolePluginInternal
 
             m_name = name;
             m_callback = callback;
+            m_requiresConfirmation = requiresConfirmation;
         }
 
         public bool Execute()
@@ -90,9 +92,11 @@ namespace LunarConsolePluginInternal
 
         #endregion
 
+        #region Equality
+
         protected bool Equals(CAction other)
         {
-            return base.Equals(other) && m_name == other.m_name && Equals(m_callback, other.m_callback);
+            return base.Equals(other) && m_name == other.m_name && Equals(m_callback, other.m_callback) && m_requiresConfirmation == other.m_requiresConfirmation;
         }
 
         public override bool Equals(object obj)
@@ -102,6 +106,8 @@ namespace LunarConsolePluginInternal
             if (obj.GetType() != this.GetType()) return false;
             return Equals((CAction) obj);
         }
+
+        #endregion
 
         #region Properties
 
