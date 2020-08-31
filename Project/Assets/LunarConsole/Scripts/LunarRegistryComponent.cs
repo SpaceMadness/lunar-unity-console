@@ -24,7 +24,8 @@ namespace LunarConsolePluginInternal
             var components = ListComponents();
             for (var index = 0; index < components.Length; index++)
             {
-                var disposable = LunarConsole.Register(components[index]);
+                var component = components[index];
+                var disposable = LunarConsole.Register(component, false);
                 if (disposable is NullDisposable)
                 {
                     continue;
