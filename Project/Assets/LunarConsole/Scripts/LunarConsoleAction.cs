@@ -185,16 +185,16 @@ namespace LunarConsolePluginInternal
         #pragma warning disable 0649
 
         [SerializeField]
-        Object m_target;
+        private Object m_target;
 
         [SerializeField]
-        string m_methodName;
+        private string m_methodName;
 
         [SerializeField]
-        LunarPersistentListenerMode m_mode;
+        private LunarPersistentListenerMode m_mode;
 
         [SerializeField]
-        LunarArgumentCache m_arguments;
+        private LunarArgumentCache m_arguments;
 
         #pragma warning restore 0649
 
@@ -249,7 +249,7 @@ namespace LunarConsolePluginInternal
             }
         }
 
-        static MethodInfo ResolveMethod(object target, string methodName, Type paramType)
+        private static MethodInfo ResolveMethod(object target, string methodName, Type paramType)
         {
             var methods = ClassUtils.ListInstanceMethods(target.GetType(), delegate(MethodInfo method)
             {
@@ -391,15 +391,15 @@ namespace LunarConsolePluginInternal
         #pragma warning disable 0649
 
         [SerializeField]
-        string m_title = "Untitled Action";
+        private string m_title = "Untitled Action";
 
         [SerializeField]
         [HideInInspector]
-        List<LunarConsoleActionCall> m_calls;
+        private List<LunarConsoleActionCall> m_calls;
 
         #pragma warning restore 0649
 
-        void Awake()
+        private void Awake()
         {
             if (!actionsEnabled)
             {
@@ -407,7 +407,7 @@ namespace LunarConsolePluginInternal
             }
         }
 
-        void Start()
+        private void Start()
         {
             if (actionsEnabled)
             {
@@ -419,7 +419,7 @@ namespace LunarConsolePluginInternal
             }
         }
 
-        void OnValidate()
+        private void OnValidate()
         {
             if (m_calls != null && m_calls.Count > 0)
             {
@@ -430,7 +430,7 @@ namespace LunarConsolePluginInternal
             }
         }
 
-        void Validate(LunarConsoleActionCall call)
+        private void Validate(LunarConsoleActionCall call)
         {
             if (call.target == null)
             {
@@ -441,8 +441,8 @@ namespace LunarConsolePluginInternal
                 Debug.LogWarning(string.Format("Action '{0}' ({1}) is missing a handler <{2}.{3} ({4})>", m_title, gameObject.name, call.target.GetType(), call.methodName, ModeParamTypeName(call.mode)), gameObject); 
             }
         }
-        
-        void OnDestroy()
+
+        private void OnDestroy()
         {
             if (actionsEnabled)
             {
@@ -480,7 +480,7 @@ namespace LunarConsolePluginInternal
             }
         }
 
-        static string ModeParamTypeName(LunarPersistentListenerMode mode)
+        private static string ModeParamTypeName(LunarPersistentListenerMode mode)
         {
             switch (mode)
             {
@@ -506,7 +506,7 @@ namespace LunarConsolePluginInternal
             return "???";
         }
 
-        bool actionsEnabled
+        private bool actionsEnabled
         {
             get { return LunarConsoleConfig.actionsEnabled; }
         }
