@@ -20,7 +20,7 @@
 //
 
 
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 
 using UnityEngine;
 using UnityEditor;
@@ -79,6 +79,12 @@ public class StringUtilsTest
     public void TestDisplayName5()
     {
         Assert.AreEqual("Display 12", StringUtils.ToDisplayName("display12"));
+    }
+    
+    [Test]
+    public void TestDisplayName6()
+    {
+        Assert.AreEqual("IOS Build", StringUtils.ToDisplayName("IOSBuild"));
     }
 
     #endregion

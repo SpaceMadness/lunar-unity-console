@@ -61,6 +61,12 @@ namespace LunarConsolePluginInternal
                     continue;
                 }
 
+                if (!attribute.Platform.IsSupported())
+                {
+                    Log.dev("Action platform not supported: {0}", attribute.Platform);
+                    continue;
+                }
+
                 var returnType = method.ReturnType;
                 if (returnType != typeof(void))
                 {

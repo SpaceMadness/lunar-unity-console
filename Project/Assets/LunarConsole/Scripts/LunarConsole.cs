@@ -287,7 +287,7 @@ namespace LunarConsolePlugin
             }
         }
 
-        void DisablePlatform()
+        private void DisablePlatform()
         {
             if (s_instance != null)
             {
@@ -296,7 +296,7 @@ namespace LunarConsolePlugin
             }
         }
 
-        static bool IsPlatformSupported()
+        private static bool IsPlatformSupported()
         {
             #if UNITY_EDITOR
             return true;
@@ -313,7 +313,7 @@ namespace LunarConsolePlugin
 
         #region Platforms
 
-        bool InitPlatform(LunarConsoleSettings settings)
+        private bool InitPlatform(LunarConsoleSettings settings)
         {
             try
             {
@@ -365,7 +365,7 @@ namespace LunarConsolePlugin
             return false;
         }
 
-        IPlatform CreatePlatform(LunarConsoleSettings settings)
+        private static IPlatform CreatePlatform(LunarConsoleSettings settings)
         {
             #if UNITY_IOS || UNITY_IPHONE
             if (Application.platform == RuntimePlatform.IPhonePlayer)
@@ -1088,7 +1088,7 @@ namespace LunarConsolePlugin
 
         #region Native callback
 
-        void NativeMessageCallback(string param)
+        private void NativeMessageCallback(string param)
         {
             IDictionary<string, string> data = StringUtils.DeserializeString(param);
             string name = data["name"];
@@ -1923,7 +1923,7 @@ namespace LunarConsolePluginInternal
         internal static IEnumerator TrackEvent(string category, string action, int value = kUndefinedValue)
         {
             var payload = CreatePayload(category, action, value);
-            var www = new WWW(TrackingURL, System.Text.Encoding.UTF8.GetBytes(payload));
+            var www = new WWW(TrackingURL, Encoding.UTF8.GetBytes(payload));
             yield return www;
         }
 
