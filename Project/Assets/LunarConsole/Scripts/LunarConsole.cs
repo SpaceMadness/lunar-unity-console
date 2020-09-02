@@ -1398,7 +1398,7 @@ namespace LunarConsolePlugin
         #region Public API
 
         /// <summary>
-        /// Shows the console on top of everything. Does nothing if current platform is not supported or if the plugin is not initialized.
+        /// Shows the console on top of everything. Does nothing if the current platform is not supported or if the plugin is not initialized.
         /// </summary>
         public static void Show()
         {
@@ -1421,7 +1421,7 @@ namespace LunarConsolePlugin
         }
 
         /// <summary>
-        /// Hides the console. Does nothing if platform is not supported or if plugin is not initialized.
+        /// Hides the console. Does nothing if the current platform is not supported or if the plugin is not initialized.
         /// </summary>
         public static void Hide()
         {
@@ -1444,7 +1444,7 @@ namespace LunarConsolePlugin
         }
 
         /// <summary>
-        /// Clears log messages. Does nothing if platform is not supported or if plugin is not initialized.
+        /// Clears log messages. Does nothing if the current platform is not supported or if the plugin is not initialized.
         /// </summary>
         public static void Clear()
         {
@@ -1468,7 +1468,7 @@ namespace LunarConsolePlugin
 
         /// <summary>
         /// Registers all user-defined items in a specified MonoBehaviour.
-        /// Does nothing if platform is not supported or if plugin is not initialized.
+        /// Does nothing if the current platform is not supported or if the plugin is not initialized.
         /// <param name="automaticDisposal">Indicates if all registered items must be disposed when the target behaviour becomes disabled</param>
         /// </summary>
         public static IDisposable Register(MonoBehaviour target, bool automaticDisposal = true)
@@ -1497,7 +1497,7 @@ namespace LunarConsolePlugin
 
         /// <summary>
         /// Registers a user-defined action with a specific name and callback.
-        /// Does nothing if platform is not supported or if plugin is not initialized.
+        /// Does nothing if the current platform is not supported or if the plugin is not initialized.
         /// </summary>
         /// <param name="displayName">Display name</param>
         /// <param name="callback">Callback delegate</param>
@@ -1528,17 +1528,18 @@ namespace LunarConsolePlugin
         
         /// <summary>
         /// Registers a user-defined action.
-        /// Does nothing if platform is not supported or if plugin is not initialized.
+        /// Does nothing if the current platform is not supported or if the plugin is not initialized.
         /// </summary>
         /// <param name="action">Console action</param>
-        public static void RegisterAction(CAction action)
+        [Obsolete("Use RegisterAction(string, System.Action, bool) instead")]
+        public static IDisposable RegisterAction(CAction action)
         {
             #if LUNAR_CONSOLE_PLATFORM_SUPPORTED
             #if LUNAR_CONSOLE_FULL
             #if LUNAR_CONSOLE_ENABLED
             if (s_instance != null)
             {
-                throw new NotImplementedException();
+                return RegisterAction(action.Name, (Action) action.Callback);
             }
             else
             {
@@ -1551,12 +1552,15 @@ namespace LunarConsolePlugin
             Log.w("Can't register action: feature is not available in FREE version. Learn more about PRO version: https://goo.gl/TLInmD");
             #endif // LUNAR_CONSOLE_FULL
             #endif // LUNAR_CONSOLE_PLATFORM_SUPPORTED
+
+            return NullDisposable.Instance;
         }
 
         /// <summary>
         /// Un-registers a user-defined action with a specific callback.
-        /// Does nothing if platform is not supported or if plugin is not initialized.
+        /// Does nothing if the current platform is not supported or if the plugin is not initialized.
         /// </summary>
+        [Obsolete("User IDisposable object which is return from the LunarConsole.RegisterAction(...) call")]
         public static void UnregisterAction(Action action)
         {
             #if LUNAR_CONSOLE_PLATFORM_SUPPORTED
@@ -1573,8 +1577,9 @@ namespace LunarConsolePlugin
         
         /// <summary>
         /// Un-registers a user-defined action with a specific id.
-        /// Does nothing if platform is not supported or if plugin is not initialized.
+        /// Does nothing if the current platform is not supported or if the plugin is not initialized.
         /// </summary>
+        [Obsolete("User IDisposable object which is return from the LunarConsole.RegisterAction(...) call")]
         public static void UnregisterAction(int actionId)
         {
             #if LUNAR_CONSOLE_PLATFORM_SUPPORTED
@@ -1591,8 +1596,9 @@ namespace LunarConsolePlugin
 
         /// <summary>
         /// Un-registers a user-defined action with a specific name.
-        /// Does nothing if platform is not supported or if plugin is not initialized.
+        /// Does nothing if the current platform is not supported or if the plugin is not initialized.
         /// </summary>
+        [Obsolete("User IDisposable object which is return from the LunarConsole.RegisterAction(...) call")]
         public static void UnregisterAction(string name)
         {
             #if LUNAR_CONSOLE_PLATFORM_SUPPORTED
@@ -1610,8 +1616,9 @@ namespace LunarConsolePlugin
         /// <summary>
         /// Un-registers all user-defined actions with a specific target
         /// (the object of the class which contains callback methods).
-        /// Does nothing if platform is not supported or if plugin is not initialized.
+        /// Does nothing if the current platform is not supported or if the plugin is not initialized.
         /// </summary>
+        [Obsolete("User IDisposable object which is return from the LunarConsole.RegisterAction(...) call")]
         public static void UnregisterAllActions(object target)
         {
             #if LUNAR_CONSOLE_PLATFORM_SUPPORTED
@@ -1643,7 +1650,7 @@ namespace LunarConsolePlugin
         /// <summary>
         /// Sets console enabled or disabled.
         /// Disabled console cannot be opened by user or API calls and does not collect logs.
-        /// Does nothing if platform is not supported or if plugin is not initialized.
+        /// Does nothing if the current platform is not supported or if the plugin is not initialized.
         /// </summary>
         public static void SetConsoleEnabled(bool enabled)
         {
@@ -1800,7 +1807,7 @@ namespace LunarConsolePlugin
 
         #endregion
 
-        void SetConsoleInstanceEnabled(bool enabled)
+        private void SetConsoleInstanceEnabled(bool enabled)
         {
             this.enabled = enabled;
         }

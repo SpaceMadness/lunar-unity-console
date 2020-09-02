@@ -400,6 +400,8 @@ namespace LunarConsolePluginInternal
         [HideInInspector]
         private List<LunarConsoleActionCall> m_calls;
 
+        private IDisposable m_disposable;
+
         #pragma warning restore 0649
 
         private void Awake()
@@ -451,12 +453,17 @@ namespace LunarConsolePluginInternal
 
         private void RegisterAction()
         {
-            LunarConsole.RegisterAction(m_displayName, InvokeAction, m_requiresConfirmation);
+            UnregisterAction();
+            m_disposable = LunarConsole.RegisterAction(m_displayName, InvokeAction, m_requiresConfirmation);
         }
 
         private void UnregisterAction()
         {
-            LunarConsole.UnregisterAction(InvokeAction);
+            if (m_disposable != null)
+            {
+                m_disposable.Dispose();
+                m_disposable = null;
+            }
         }
 
         private void InvokeAction()

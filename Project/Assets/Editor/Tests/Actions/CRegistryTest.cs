@@ -209,11 +209,16 @@ namespace Actions
         [Test]
         public void TestLookupAction()
         {
-            CAction a = RegisterAction("a1", Del1);
-            CAction b = RegisterAction("b1", Del1);
-            CAction c = RegisterAction("c1", Del1);
-            CAction d = RegisterAction("d1", Del1);
+            RegisterAction("A", Del1);
+            RegisterAction("B", Del1);
+            RegisterAction("C", Del1);
+            RegisterAction("D", Del1);
 
+            var a = new CAction(0, "A", (Action) Del1, false);
+            var b = new CAction(1, "B", (Action) Del1, false);
+            var c = new CAction(2, "C", (Action) Del1, false);
+            var d = new CAction(3, "D", (Action) Del1, false);
+            
             CAction[] actions = {a, b, c, d};
             for (int i = 0; i < actions.Length - 1; ++i)
             {
@@ -223,28 +228,28 @@ namespace Actions
                 }
             }
 
-            Assert.AreSame(a, FindAction(a.Id));
-            Assert.AreSame(b, FindAction(b.Id));
-            Assert.AreSame(c, FindAction(c.Id));
-            Assert.AreSame(d, FindAction(d.Id));
+            Assert.AreEqual(a, FindAction(a.Id));
+            Assert.AreEqual(b, FindAction(b.Id));
+            Assert.AreEqual(c, FindAction(c.Id));
+            Assert.AreEqual(d, FindAction(d.Id));
 
             UnregisterAction(a.Id);
             Assert.IsNull(FindAction(a.Id));
-            Assert.AreSame(b, FindAction(b.Id));
-            Assert.AreSame(c, FindAction(c.Id));
-            Assert.AreSame(d, FindAction(d.Id));
+            Assert.AreEqual(b, FindAction(b.Id));
+            Assert.AreEqual(c, FindAction(c.Id));
+            Assert.AreEqual(d, FindAction(d.Id));
 
             UnregisterAction(b.Id);
             Assert.IsNull(FindAction(a.Id));
             Assert.IsNull(FindAction(b.Id));
-            Assert.AreSame(c, FindAction(c.Id));
-            Assert.AreSame(d, FindAction(d.Id));
+            Assert.AreEqual(c, FindAction(c.Id));
+            Assert.AreEqual(d, FindAction(d.Id));
 
             UnregisterAction(c.Id);
             Assert.IsNull(FindAction(a.Id));
             Assert.IsNull(FindAction(b.Id));
             Assert.IsNull(FindAction(c.Id));
-            Assert.AreSame(d, FindAction(d.Id));
+            Assert.AreEqual(d, FindAction(d.Id));
 
             UnregisterAction(d.Id);
             Assert.IsNull(FindAction(a.Id));
@@ -314,7 +319,7 @@ namespace Actions
             return m_registry.FindAction(id);
         }
 
-        private CAction RegisterAction(string name, Action actionDelegate)
+        private IDisposable RegisterAction(string name, Action actionDelegate)
         {
             return m_registry.RegisterAction(name, actionDelegate, requiresConfirmation: false);
         }

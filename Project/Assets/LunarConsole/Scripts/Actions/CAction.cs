@@ -60,7 +60,7 @@ namespace LunarConsolePluginInternal
         {
             try
             {
-                return ReflectionUtils.Invoke(ActionDelegate, kEmptyArgs); // TODO: remove it
+                return ReflectionUtils.Invoke(Callback, kEmptyArgs); // TODO: remove it
             }
             catch (TargetInvocationException e)
             {
@@ -87,7 +87,7 @@ namespace LunarConsolePluginInternal
 
         public override string ToString()
         {
-            return string.Format("{0} ({1})", Name, ActionDelegate);
+            return string.Format("{0} ({1})", Name, Callback);
         }
 
         #endregion
@@ -116,7 +116,13 @@ namespace LunarConsolePluginInternal
             get { return m_name; }
         }
 
+        [Obsolete("Use Callback property instead")]
         public Delegate ActionDelegate
+        {
+            get { return Callback; }
+        }
+
+        public Delegate Callback
         {
             get { return m_callback; }
         }

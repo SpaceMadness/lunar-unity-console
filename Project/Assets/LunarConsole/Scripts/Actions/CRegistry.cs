@@ -130,8 +130,7 @@ namespace LunarConsolePluginInternal
             var existingAction = m_actions.Find(name);
             if (existingAction != null)
             {
-                Log.w("Duplicate actions:\n{0}: {1}\n{2}: {3}", existingAction.Name, existingAction.ActionDelegate,
-                    name, callback);
+                Log.w("Duplicate actions:\n{0}: {1}\n{2}: {3}", existingAction.Name, existingAction.Callback, name, callback);
             }
             
             var action = new CAction(m_nextEntryId++, name, callback, requiresConfirmation);
@@ -165,7 +164,7 @@ namespace LunarConsolePluginInternal
         {
             return UnregisterAction(delegate(CAction action)
             {
-                return action.ActionDelegate == del;
+                return action.Callback == del;
             });
         }
 
@@ -173,7 +172,7 @@ namespace LunarConsolePluginInternal
         {
             return target != null && UnregisterAction(delegate(CAction action)
             {
-                return action.ActionDelegate.Target == target;
+                return action.Callback.Target == target;
             });
         }
 
