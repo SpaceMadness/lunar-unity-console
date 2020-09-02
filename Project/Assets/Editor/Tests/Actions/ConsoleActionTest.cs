@@ -26,7 +26,7 @@ namespace Actions
         public void TestNonEquality2()
         {
             var action1 = new CAction(id: 0, name: "action", callback: (Action) Action1, requiresConfirmation: false);
-            var action2 = new CAction(id: 0, name: "action", callback: (Action) Action1, requiresConfirmation: false);
+            var action2 = new CAction(id: 0, name: "other action", callback: (Action) Action1, requiresConfirmation: false);
             Assert.AreNotEqual(action1, action2);
         }
         
@@ -34,20 +34,12 @@ namespace Actions
         public void TestNonEquality3()
         {
             var action1 = new CAction(id: 0, name: "action", callback: (Action) Action1, requiresConfirmation: false);
-            var action2 = new CAction(id: 0, name: "other action", callback: (Action) Action1, requiresConfirmation: false);
-            Assert.AreNotEqual(action1, action2);
-        }
-        
-        [Test]
-        public void TestNonEquality4()
-        {
-            var action1 = new CAction(id: 0, name: "action", callback: (Action) Action1, requiresConfirmation: false);
             var action2 = new CAction(id: 0, name: "action", callback: (Action) Action2, requiresConfirmation: false);
             Assert.AreNotEqual(action1, action2);
         }
         
         [Test]
-        public void TestNonEquality5()
+        public void TestNonEquality4()
         {
             var action1 = new CAction(id: 0, name: "action", callback: (Action) Action1, requiresConfirmation: false);
             var action2 = new CAction(id: 0, name: "action", callback: (Action) Action1, requiresConfirmation: true);
