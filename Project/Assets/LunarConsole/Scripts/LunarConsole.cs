@@ -485,6 +485,12 @@ namespace LunarConsolePlugin
                         }
 
                         m_registry.Register(cvar);
+                        
+                        // trigger native UI-update
+                        cvar.AddDelegate(delegate(CVar v)
+                        {
+                            m_platform.OnVariableUpdated(m_registry, v);
+                        });
                     }
                 }
             }
