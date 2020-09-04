@@ -102,6 +102,20 @@ public class ActionRegistry {
         }
     }
 
+    public boolean unregisterVariable(int variableId) {
+        for (int index = variables.count() - 1; index >= 0; --index) {
+            Variable variable = variables.objectAtIndex(index);
+            if (variable.getActionId() == variableId) {
+                variables.removeObjectAtIndex(index);
+                notifyVariableRemove(variable, index);
+
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public Variable findVariable(int variableId) {
         int index = indexOfVariable(variableId);
         return index != -1 ? variables.objectAtIndex(index) : null;
@@ -148,6 +162,12 @@ public class ActionRegistry {
         }
     }
 
+    private void notifyVariableRemove(Variable variable, int index) {
+        if (delegate != null) {
+            delegate.didRemoveVariable(this, variable, index);
+        }
+    }
+
     //region Getters/Setters
 
     public List<Action> getActions()
@@ -185,6 +205,8 @@ public class ActionRegistry {
         void didRegisterVariable(ActionRegistry registry, Variable variable, int index);
 
         void didDidChangeVariable(ActionRegistry registry, Variable variable, int index);
+
+        void didRemoveVariable(ActionRegistry actionRegistry, Variable variable, int index);
     }
 
     //endregion

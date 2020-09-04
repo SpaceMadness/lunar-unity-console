@@ -236,6 +236,12 @@ public class ConsoleActionView extends AbstractConsoleView implements
         notifyDataChanged();
     }
 
+    @Override
+    public void actionRegistryFilterDidRemoveVariable(ActionRegistryFilter registryFilter, Variable variable, int index) {
+        notifyDataChanged();
+        updateNoActionWarningView();
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Data Source
 

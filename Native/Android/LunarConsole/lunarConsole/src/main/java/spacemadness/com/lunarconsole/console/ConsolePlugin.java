@@ -246,13 +246,17 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
         }
     }
 
-    //endregion
-
-    //region Overlay Dialog
-
     public void updateVariable(int variableId, String value) {
         actionRegistry.updateVariable(variableId, value);
     }
+
+    public void unregisterVariable(int variableId) {
+        actionRegistry.unregisterVariable(variableId);
+    }
+
+    //endregion
+
+    //region Overlay Dialog
 
     @Override
     public void destroy() {
