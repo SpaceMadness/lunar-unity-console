@@ -678,6 +678,9 @@ namespace LunarConsolePlugin
             private static extern void __lunar_console_cvar_update(int variableId, string value);
 
             [DllImport("__Internal")]
+            private static extern void __lunar_console_cvar_unregister(int variableId);
+
+            [DllImport("__Internal")]
             private static extern void __lunar_console_destroy();
 
             /// <summary>
@@ -751,6 +754,11 @@ namespace LunarConsolePlugin
                 __lunar_console_cvar_update(cvar.Id, cvar.Value);
             }
 
+            public void OnVariableUnregistered(CRegistry registry, CVar cvar)
+            {
+                __lunar_console_cvar_unregister(cvar.Id);
+            }
+
             public void Destroy()
             {
                 __lunar_console_destroy();
@@ -783,6 +791,7 @@ namespace LunarConsolePlugin
             private readonly IntPtr m_methodUnregisterAction;
             private readonly IntPtr m_methodRegisterVariable;
             private readonly IntPtr m_methodUpdateVariable;
+            private readonly IntPtr m_methodUnregisterVariable;
             private readonly IntPtr m_methodDestroy;
 
             private readonly Queue<LogMessageEntry> m_messageQueue;
@@ -825,6 +834,7 @@ namespace LunarConsolePlugin
                 m_methodUnregisterAction = GetStaticMethod(m_pluginClassRaw, "unregisterAction", "(I)V");
                 m_methodRegisterVariable = GetStaticMethod(m_pluginClassRaw, "registerVariable", "(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;IZFFLjava/lang/String;)V");
                 m_methodUpdateVariable = GetStaticMethod(m_pluginClassRaw, "updateVariable", "(ILjava/lang/String;)V");
+                m_methodUnregisterVariable = GetStaticMethod(m_pluginClassRaw, "unregisterVariable", "(I)V");
                 m_methodDestroy = GetStaticMethod(m_pluginClassRaw, "destroy", "()V");
 
                 m_messageQueue = new Queue<LogMessageEntry>();
@@ -1011,6 +1021,19 @@ namespace LunarConsolePlugin
                 }
             }
 
+            public void OnVariableUnregistered(CRegistry registry, CVar cvar)
+            {
+                try
+                {
+                    m_args1[0] = jval(cvar.Id);
+                    CallStaticVoidMethod(m_methodUnregisterVariable, m_args1);
+                }
+                catch (Exception e)
+                {
+                    Debug.LogError("Exception while calling 'LunarConsole.OnVariableUnregistered': " + e.Message);
+                }
+            }
+
             #endregion
 
             #region Helpers
@@ -1125,6 +1148,10 @@ namespace LunarConsolePlugin
             }
 
             public void OnVariableUpdated(CRegistry registry, CVar cvar)
+            {
+            }
+
+            public void OnVariableUnregistered(CRegistry registry, CVar cvar)
             {
             }
         }

@@ -310,6 +310,10 @@ namespace Actions
         {
         }
 
+        public void OnVariableUnregistered(CRegistry registry, CVar cvar)
+        {
+        }
+
         #endregion
 
         #region Helpers

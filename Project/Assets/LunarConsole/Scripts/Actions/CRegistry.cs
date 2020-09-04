@@ -33,6 +33,7 @@ namespace LunarConsolePluginInternal
         void OnActionUnregistered(CRegistry registry, CAction action);
         void OnVariableRegistered(CRegistry registry, CVar cvar);
         void OnVariableUpdated(CRegistry registry, CVar cvar);
+        void OnVariableUnregistered(CRegistry registry, CVar cvar);
     }
 
     public class CRegistry
@@ -101,6 +102,11 @@ namespace LunarConsolePluginInternal
             {
                 var action = entry as CAction;
                 UnregisterAction(action.Id);
+            }
+            else if (entry is CVar)
+            {
+                var variable = entry as CVar;
+                UnregisterVariable(variable);
             }
             else
             {
@@ -232,6 +238,21 @@ namespace LunarConsolePluginInternal
             {
                 m_delegate.OnVariableRegistered(this, cvar);
             }
+        }
+
+        public bool UnregisterVariable(CVar cvar)
+        {
+            if (m_vars.Remove(cvar.Id))
+            {
+                if (m_delegate != null)
+                {
+                    m_delegate.OnVariableUnregistered(this, cvar);
+                }
+
+                return true;
+            }
+
+            return false;
         }
 
         public CVar FindVariable(int variableId)
