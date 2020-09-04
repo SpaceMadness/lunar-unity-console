@@ -3,8 +3,11 @@
 [![Build Status](https://travis-ci.com/SpaceMadness/lunar-unity-console.svg?branch=master)](https://travis-ci.com/SpaceMadness/lunar-unity-console)
 [![saythanks](https://img.shields.io/badge/say-thanks-ff69b4.svg)](https://saythanks.io/to/weeeBox)
 
-Asset store link: [https://www.assetstore.unity3d.com/en/#!/content/43800](https://goo.gl/lQKEbW)  
-Requires Unity 5.0 or later.
+Asset store links:  
+- PRO: [https://assetstore.unity.com/packages/tools/gui/lunar-mobile-console-pro-43800](https://assetstore.unity.com/packages/tools/gui/lunar-mobile-console-pro-43800)  
+- FREE: [https://assetstore.unity.com/packages/tools/gui/lunar-mobile-console-free-82881](https://assetstore.unity.com/packages/tools/gui/lunar-mobile-console-free-82881)  
+  
+Requires Unity 5.2 or later.
 
 **iOS demo app:** ~~coming soon~~ Apple forbids any kind of demos on the AppStore. Investigating...  
 **Android demo app:** https://play.google.com/store/apps/details?id=com.spacemadness.LunarConsole
