@@ -42,7 +42,8 @@ OBJC_EXTERN void __lunar_console_action_register(int actionId, const char *actio
 OBJC_EXTERN void __lunar_console_action_unregister(int actionId);
 
 // variables
-OBJC_EXTERN void __lunar_console_cvar_register(int entryId, const char *name, const char *type, const char *value, const char *defaultValue, int flags, BOOL hasRange, float min, float max, const char *values);
-OBJC_EXTERN void __lunar_console_cvar_update(int entryId, const char *value);
+OBJC_EXTERN void __lunar_console_cvar_register(int variableId, const char *name, const char *type, const char *value, const char *defaultValue, int flags, BOOL hasRange, float min, float max, const char *values);
+OBJC_EXTERN void __lunar_console_cvar_update(int variableId, const char *value);
+OBJC_EXTERN void __lunar_console_cvar_unregister(int variableId);
 
 #endif /* defined(__LunarConsole__unity_native_interface__) */

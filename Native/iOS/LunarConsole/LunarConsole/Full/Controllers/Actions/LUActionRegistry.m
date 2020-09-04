@@ -84,7 +84,6 @@
 
 - (NSUInteger)indexOfActionWithName:(NSString *)actionName
 {
-    // TODO: more optimized search
     for (NSUInteger index = 0; index < _actions.count; ++index)
     {
         LUAction *action = _actions[index];
@@ -136,6 +135,23 @@
     {
         NSLog(@"Can't server cvar value: variable id %d not found", variableId);
     }
+}
+
+- (BOOL)unregisterVariableWithId:(int)variableId
+{
+    for (NSInteger index = _variables.count - 1; index >= 0; --index)
+    {
+        LUCVar *variable = _variables[index];
+        if (variable.actionId == variableId)
+        {
+            [_variables removeObjectAtIndex:index];
+            [_delegate actionRegistry:self didRemoveVariable:variable atIndex:index];
+            
+            return YES;
+        }
+    }
+    
+    return NO;
 }
 
 - (NSUInteger)indexOfVariableWithId:(int)variableId

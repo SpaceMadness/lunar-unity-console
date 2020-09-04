@@ -70,6 +70,11 @@
 {
 }
 
+- (BOOL)unregisterVariableWithId:(int)variableId
+{
+    return NO;
+}
+
 - (LUCVar *)variableWithId:(int)variableId
 {
     return nil;

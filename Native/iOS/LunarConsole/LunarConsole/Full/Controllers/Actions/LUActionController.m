@@ -265,6 +265,14 @@ static const NSInteger kSectionCount = 2;
     [self.tableView reloadRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationNone];
 }
 
+- (void)actionRegistryFilter:(LUActionRegistryFilter *)registry didRemoveVarialbe:(LUCVar *)variable atIndex:(NSUInteger)index
+{
+    NSArray *array = [NSArray arrayWithObject:[NSIndexPath indexPathForRow:index inSection:kSectionIndexVariables]];
+    [self.tableView deleteRowsAtIndexPaths:array withRowAnimation:UITableViewRowAnimationNone];
+    
+    [self updateNoActionWarningView];
+}
+
 #pragma mark -
 #pragma mark Actions
 

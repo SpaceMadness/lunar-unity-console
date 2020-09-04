@@ -117,7 +117,7 @@ void __lunar_console_action_unregister(int actionId)
     }
 }
 
-void __lunar_console_cvar_register(int entryId, const char *nameStr, const char *typeStr, const char *valueStr, const char *defaultValueStr, int flags, BOOL hasRange, float min, float max, const char *valuesStr)
+void __lunar_console_cvar_register(int variableId, const char *nameStr, const char *typeStr, const char *valueStr, const char *defaultValueStr, int flags, BOOL hasRange, float min, float max, const char *valuesStr)
 {
     lunar_dispatch_main(^{
         NSString *name = [[NSString alloc] initWithUTF8String:nameStr];
@@ -126,7 +126,7 @@ void __lunar_console_cvar_register(int entryId, const char *nameStr, const char 
         NSString *defaultValue = [[NSString alloc] initWithUTF8String:defaultValueStr];
         NSString *values = valuesStr ? [[NSString alloc] initWithUTF8String:valuesStr] : nil;
 
-        LUCVar *cvar = [_lunarConsolePlugin registerVariableWithId:entryId name:name type:type value:value defaultValue:defaultValue];
+        LUCVar *cvar = [_lunarConsolePlugin registerVariableWithId:variableId name:name type:type value:value defaultValue:defaultValue];
         cvar.values = [values componentsSeparatedByString:@","];
         cvar.flags = flags;
         if (!isnan(min) && !isnan(max)) {
@@ -135,10 +135,17 @@ void __lunar_console_cvar_register(int entryId, const char *nameStr, const char 
     });
 }
 
-void __lunar_console_cvar_update(int entryId, const char *valueStr)
+void __lunar_console_cvar_update(int variableId, const char *valueStr)
 {
     lunar_dispatch_main(^{
         NSString *value = [[NSString alloc] initWithUTF8String:valueStr];
-        [_lunarConsolePlugin setValue:value forVariableWithId:entryId];
+        [_lunarConsolePlugin setValue:value forVariableWithId:variableId];
+    });
+}
+
+void __lunar_console_cvar_unregister(int variableId)
+{
+    lunar_dispatch_main(^{
+        [_lunarConsolePlugin unregisterVariableWithId:variableId];
     });
 }
