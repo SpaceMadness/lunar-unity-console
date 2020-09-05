@@ -52,8 +52,14 @@ namespace Actions
         [Test]
         public void TestRegisterTargets()
         {
-            var target = new DummyTarget();
+            var target = new DummyTarget(AddResult);
             var disposable = m_registry.Register(target);
+            AssertResult(
+                "added: Public Action",
+                "added: Private Action",
+                "added: Public Static Action",
+                "added: Private Static Action"
+            );
 
             var actual = m_registry.actions.ToList();
             var expected = new[]
@@ -65,7 +71,26 @@ namespace Actions
             };
             Assert.AreEqual(expected, actual);
 
+            m_registry.FindAction(0).Execute();
+            AssertResult("PublicAction");
+            
+            m_registry.FindAction(1).Execute();
+            AssertResult("PrivateAction");
+            
+            m_registry.FindAction(2).Execute();
+            AssertResult("PublicStaticAction");
+            
+            m_registry.FindAction(3).Execute();
+            AssertResult("PrivateStaticAction");
+
             disposable.Dispose();
+            AssertResult(
+                "removed: Public Action",
+                "removed: Private Action",
+                "removed: Public Static Action",
+                "removed: Private Static Action"
+            );
+            
             Assert.AreEqual(0, m_registry.actions.Count);
         }
 
@@ -433,24 +458,47 @@ namespace Actions
 
     internal class DummyTarget
     {
+        private static Action<string> _callback;
+
+        public DummyTarget(Action<string> callback = null)
+        {
+            _callback = callback;
+        }
+
         [ConsoleAction]
         public void PublicAction()
         {
+            if (_callback != null)
+            {
+                _callback.Invoke("PublicAction");
+            }
         }
 
         [ConsoleAction]
         private void PrivateAction()
         {
+            if (_callback != null)
+            {
+                _callback.Invoke("PrivateAction");
+            }
         }
 
         [ConsoleAction]
         public static void PublicStaticAction()
         {
+            if (_callback != null)
+            {
+                _callback.Invoke("PublicStaticAction");
+            }
         }
 
         [ConsoleAction]
         private static void PrivateStaticAction()
         {
+            if (_callback != null)
+            {
+                _callback.Invoke("PrivateStaticAction");
+            }
         }
 
         [ConsoleAction]
