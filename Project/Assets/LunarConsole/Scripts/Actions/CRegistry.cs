@@ -136,9 +136,10 @@ namespace LunarConsolePluginInternal
             var existingAction = m_actions.Find(name);
             if (existingAction != null)
             {
-                Log.w("Duplicate actions:\n{0}: {1}\n{2}: {3}", existingAction.Name, existingAction.Callback, name, callback);
+                Log.w("Overriding duplicate action:\n{0}: {1}\n{2}: {3}", existingAction.Name, existingAction.Callback, name, callback);
+                m_actions.Remove(existingAction.Id);
             }
-            
+
             var action = new CAction(m_nextEntryId++, name, callback, requiresConfirmation);
             m_actions.Add(action);
 
