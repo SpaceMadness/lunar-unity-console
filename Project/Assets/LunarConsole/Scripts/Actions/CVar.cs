@@ -38,7 +38,7 @@ namespace LunarConsolePlugin
         Enum
     }
 
-    struct CValue
+    internal struct CValue
     {
         public string stringValue;
         public int intValue;
@@ -85,7 +85,7 @@ namespace LunarConsolePlugin
         Hidden    = 1 << 1,
 
         /// <summary>
-        /// Don't save between sessions
+        /// Won't persist between sessions
         /// </summary>
         NoArchive = 1 << 2
     }
@@ -107,28 +107,28 @@ namespace LunarConsolePlugin
         public CVar(string name, bool defaultValue, CFlags flags = CFlags.None)
             : this(name, CVarType.Boolean, flags)
         {
-            this.IntValue = defaultValue ? 1 : 0;
+            IntValue = defaultValue ? 1 : 0;
             m_defaultValue = m_value;
         }
 
         public CVar(string name, int defaultValue, CFlags flags = CFlags.None)
             : this(name, CVarType.Integer, flags)
         {
-            this.IntValue = defaultValue;
+            IntValue = defaultValue;
             m_defaultValue = m_value;
         }
 
         public CVar(string name, float defaultValue, CFlags flags = CFlags.None)
             : this(name, CVarType.Float, flags)
         {
-            this.FloatValue = defaultValue;
+            FloatValue = defaultValue;
             m_defaultValue = m_value;
         }
 
         public CVar(string name, string defaultValue, CFlags flags = CFlags.None)
             : this(name, CVarType.String, flags)
         {
-            this.Value = defaultValue;
+            Value = defaultValue;
             m_defaultValue = m_value;
         }
         

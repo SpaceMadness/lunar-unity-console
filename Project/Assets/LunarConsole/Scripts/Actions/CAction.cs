@@ -60,7 +60,7 @@ namespace LunarConsolePluginInternal
         {
             try
             {
-                return ReflectionUtils.Invoke(Callback, kEmptyArgs); // TODO: remove it
+                return ReflectionUtils.Invoke(Callback, kEmptyArgs);
             }
             catch (TargetInvocationException e)
             {
@@ -78,7 +78,7 @@ namespace LunarConsolePluginInternal
 
         public int CompareTo(CAction other)
         {
-            return Name.CompareTo(other.Name);
+            return string.Compare(Name, other.Name, StringComparison.Ordinal);
         }
 
         #endregion
@@ -143,6 +143,8 @@ namespace LunarConsolePluginInternal
             m_actionLookupByName = new Dictionary<string, CAction>();
         }
 
+        #region Actions
+
         public void Add(CAction action)
         {
             m_actions.Add(action);
@@ -183,6 +185,8 @@ namespace LunarConsolePluginInternal
             m_actionLookupById.Clear();
             m_actionLookupByName.Clear();
         }
+        
+        #endregion
 
         #region IEnumerable implementation
 
@@ -202,6 +206,8 @@ namespace LunarConsolePluginInternal
 
         #endregion
 
+        #region Properties
+
         public int Count
         {
             get
@@ -209,5 +215,7 @@ namespace LunarConsolePluginInternal
                 return m_actions.Count;
             }
         }
+
+        #endregion
     }
 }
