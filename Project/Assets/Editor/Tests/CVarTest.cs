@@ -36,6 +36,29 @@ public class CVarTest : TestFixtureBase
     public void TestIntVar()
     {
         CVar v = new CVar("int", 10);
+        Assert.IsTrue(v.IsDefault);
+        Assert.AreEqual(10, v.IntValue);
+        Assert.AreEqual(10.0f, v.FloatValue);
+        Assert.AreEqual("10", v.Value);
+        Assert.AreEqual(true, v.BoolValue);
+        Assert.AreEqual(10, (int)v);
+        Assert.AreEqual(10.0f, (float)v);
+        Assert.AreEqual("10", (string)v);
+        Assert.AreEqual(true, (bool)v);
+
+        v.IntValue = 20;
+        Assert.IsFalse(v.IsDefault);
+        Assert.AreEqual(20, v.IntValue);
+        Assert.AreEqual(20.0f, v.FloatValue);
+        Assert.AreEqual("20", v.Value);
+        Assert.AreEqual(true, v.BoolValue);
+        Assert.AreEqual(20, (int)v);
+        Assert.AreEqual(20.0f, (float)v);
+        Assert.AreEqual("20", (string)v);
+        Assert.AreEqual(true, (bool)v);
+
+        v.Reset();
+        Assert.IsTrue(v.IsDefault);
         Assert.AreEqual(10, v.IntValue);
         Assert.AreEqual(10.0f, v.FloatValue);
         Assert.AreEqual("10", v.Value);
@@ -83,6 +106,36 @@ public class CVarTest : TestFixtureBase
         Assert.AreEqual("0", (string)v);
         Assert.AreEqual(false, (bool)v);
     }
+    
+    [Test]
+    public void TestStringVar()
+    {
+        CVar v = new CVar("string", "default");
+        Assert.AreEqual(0, v.IntValue);
+        Assert.AreEqual(0.0f, v.FloatValue);
+        Assert.AreEqual("default", v.Value);
+        Assert.AreEqual(true, v.BoolValue);
+        Assert.AreEqual(0, (int)v);
+        Assert.AreEqual(0.0f, (float)v);
+        Assert.AreEqual("default", (string)v);
+        Assert.AreEqual(true, (bool)v);
+    }
+    
+    [Test]
+    public void TestEnumVar()
+    {
+        CEnumVar<MyEnum> v = new CEnumVar<MyEnum>("enum", MyEnum.Two);
+        Assert.AreEqual(0, v.IntValue);
+        Assert.AreEqual(0.0f, v.FloatValue);
+        Assert.AreEqual("Two", v.Value);
+        Assert.AreEqual(true, v.BoolValue);
+        Assert.AreEqual(MyEnum.Two, v.EnumValue);
+        Assert.AreEqual(0, (int)v);
+        Assert.AreEqual(0.0f, (float)v);
+        Assert.AreEqual("default", (string)v);
+        Assert.AreEqual(true, (bool)v);
+        Assert.AreEqual(MyEnum.Two, (MyEnum) v);
+    }
 
     [Test]
     public void TestDelegate()
@@ -125,5 +178,12 @@ public class CVarTest : TestFixtureBase
 
         stringVar.Value = "new value";
         AssertResult("string new value");
+    }
+    
+    public enum MyEnum
+    {
+        One,
+        Two,
+        Three
     }
 }

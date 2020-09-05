@@ -334,7 +334,7 @@ namespace LunarConsolePlugin
         public bool BoolValue
         {
             get { return m_value.intValue != 0; }
-            set { this.IntValue = value ? 1 : 0; }
+            set { IntValue = value ? 1 : 0; }
         }
 
         public virtual string[] AvailableValues
@@ -345,16 +345,11 @@ namespace LunarConsolePlugin
         public bool IsDefault
         {
             get { return m_value.Equals(m_defaultValue); }
-            set
-            {
-                bool changed = this.IsDefault ^ value;
-                m_value = m_defaultValue;
+        }
 
-                if (changed)
-                {
-                    NotifyValueChanged();
-                }
-            }
+        public void Reset()
+        {
+            Value = DefaultValue;
         }
 
         public bool HasFlag(CFlags flag)
