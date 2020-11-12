@@ -35,13 +35,14 @@ static NSArray *_cellSkinLookup;
 
 @implementation LUConsoleLogEntry
 
-+ (void)load
++ (void)initialize
 {
     if (!LU_IOS_MIN_VERSION_AVAILABLE) {
         return;
     }
 
-    if ([self class] == [LUConsoleLogEntry class]) {
+    if (_cellSkinLookup == nil) // initialize can be called multiple times
+    {
         LUTheme *theme = [LUTheme mainTheme];
 
         _cellSkinLookup = [[NSArray alloc] initWithObjects:
