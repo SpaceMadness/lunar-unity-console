@@ -1,19 +1,25 @@
 # Lunar Console Changelog
 
-## v.1.8.0 - 08/07/2019
+## v.1.8.1 - 11/12/2020
+
+**Fixes:**
+
+* iOS watchdog crash fix.
+
+## v.1.8.0 - 08/07/2020
 
 **Changes:**
 
 * Enum Variables Support.
 
-## v.1.7.0 - 07/29/2019
+## v.1.7.0 - 07/29/2020
 
 **Changes:**
 
 * Rich Text support.
 * Ability to toggle the plugin from a BuildPostProcessor.
 
-## v.1.6.6 - 06/10/2019
+## v.1.6.6 - 06/10/2020
 
 **Fixes:**
 
