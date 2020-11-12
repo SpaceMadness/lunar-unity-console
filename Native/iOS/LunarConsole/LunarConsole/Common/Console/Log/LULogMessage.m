@@ -165,7 +165,7 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger position, NS
 #pragma mark Description
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"style=%ld range=%@", _style, NSStringFromRange(self.range)];
+    return [NSString stringWithFormat:@"style=%lu range=%@", (unsigned long)_style, NSStringFromRange(self.range)];
 }
 
 @end

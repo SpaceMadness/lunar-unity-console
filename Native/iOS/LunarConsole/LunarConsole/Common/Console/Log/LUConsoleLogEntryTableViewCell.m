@@ -62,13 +62,14 @@ static UIEdgeInsets _messageInsets;
 
 @implementation LUConsoleLogEntryTableViewCell
 
-+ (void)load
++ (void)initialize
 {
     if (!LU_IOS_MIN_VERSION_AVAILABLE) {
         return;
     }
 
-    if ([self class] == [LUConsoleLogEntryTableViewCell class]) {
+    if (_messageInsets.left == _messageInsets.right) // initialize can be called multiple times
+    {
         LUTheme *theme = [LUTheme mainTheme];
 
         UIImage *icon = theme.cellLog.icon;
