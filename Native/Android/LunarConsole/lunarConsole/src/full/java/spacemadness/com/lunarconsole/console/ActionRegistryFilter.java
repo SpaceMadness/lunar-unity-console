@@ -197,6 +197,21 @@ public class ActionRegistryFilter implements ActionRegistry.Delegate {
         _delegate.actionRegistryFilterDidChangeVariable(this, variable, index);
     }
 
+    @Override
+    public void didRemoveVariable(ActionRegistry registry, Variable variable, int index) {
+        if (isFiltering()) {
+            index = filteredArrayIndexOfEntry(_filteredVariables, variable);
+            if (index == -1) {
+                return;
+            }
+
+            variable = _filteredVariables.get(index);
+            _filteredVariables.remove(index);
+        }
+
+        _delegate.actionRegistryFilterDidRemoveVariable(this, variable, index);
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Properties
 
@@ -243,5 +258,7 @@ public class ActionRegistryFilter implements ActionRegistry.Delegate {
         void actionRegistryFilterDidRegisterVariable(ActionRegistryFilter registryFilter, Variable variable, int index);
 
         void actionRegistryFilterDidChangeVariable(ActionRegistryFilter registryFilter, Variable variable, int index);
+
+        void actionRegistryFilterDidRemoveVariable(ActionRegistryFilter registryFilter, Variable variable, int index);
     }
 }

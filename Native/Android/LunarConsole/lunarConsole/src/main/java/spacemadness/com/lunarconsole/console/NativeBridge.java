@@ -169,6 +169,15 @@ public final class NativeBridge {
         });
     }
 
+    public static void removeVariable(final int variableId){
+        dispatchQueue.dispatch(new DispatchTask() {
+            @Override
+            protected void execute() {
+                plugin.removeVariable(variableId);
+            }
+        });
+    }
+
     public static void destroy() {
         dispatchQueue.dispatch(new DispatchTask("destroy plugin") {
             @Override

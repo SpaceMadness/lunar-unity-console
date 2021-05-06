@@ -87,6 +87,8 @@ extern NSString * const LUConsoleCheckFullVersionNotificationSource;
 - (LUCVar *)registerVariableWithId:(int)entryId name:(NSString *)name type:(NSString *)type value:(NSString *)value defaultValue:(NSString *)defaultValue values:(NSArray<NSString *> *)values;
 - (void)setValue:(NSString *)value forVariableWithId:(int)variableId;
 
+- (void)removeVariableWithId:(int)variableId;
+
 - (void)enableGestureRecognition;
 - (void)disableGestureRecognition;
 
