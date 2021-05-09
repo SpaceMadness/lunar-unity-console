@@ -411,9 +411,11 @@ static NSUInteger _parseColor(NSString *value) {
     }
     
     if ([value hasPrefix:@"#"]) {
-        NSInteger result;
-        if (LUStringTryParseHex([value substringFromIndex:1], &result)) {
-            return result;
+        NSUInteger result;
+        NSString *hex = [value substringFromIndex:1];
+        if (LUStringTryParseHex(hex, &result)) {
+            // #RRGGBB or #RRGGBBAA
+            return hex.length <= 6 ? ((result << 8) | 0xff) : (result | 0xff);
         }
         return 0xff00ffff;
     }
