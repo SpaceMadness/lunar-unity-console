@@ -318,6 +318,57 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger position, NS
         }
     }
     
+    // "close" un-matched tags
+    while (stack.count > 0)
+    {
+        LURichTextTagInfo *tag = stack.lastObject;
+        [stack removeLastObject];
+        
+        if ([tag.name isEqualToString:@"b"])
+        {
+            boldCount--;
+            if (boldCount > 0)
+            {
+                continue;
+            }
+        }
+        else if ([tag.name isEqualToString:@"i"])
+        {
+            italicCount--;
+            if (italicCount > 0)
+            {
+                continue;
+            }
+        }
+        
+        // create rich text tag
+        NSInteger len = bufferSize - tag.position;
+        if (len > 0)
+        {
+            NSRange range = NSMakeRange(tag.position, len);
+            if (tags == nil) tags = [NSMutableArray new];
+            if ([tag.name isEqualToString:@"b"])
+            {
+                LURichTextStyle style = italicCount > 0 ? LURichTextStyleBoldItalic : LURichTextStyleBold;
+                [tags addObject:[[LURichTextStyleTag alloc] initWithStyle:style range:range]];
+            }
+            else if ([tag.name isEqualToString:@"i"])
+            {
+                LURichTextStyle style = boldCount > 0 ? LURichTextStyleBoldItalic : LURichTextStyleItalic;
+                [tags addObject:[[LURichTextStyleTag alloc] initWithStyle:style range:range]];
+            }
+            else if ([tag.name isEqualToString:@"color"])
+            {
+                NSString *colorValue = tag.attribute;
+                if (colorValue != nil)
+                {
+                    NSUInteger color = _parseColor(colorValue);
+                    [tags addObject:[[LURichTextColorTag alloc] initWithColor:LUUIColorFromRGB(color) range:range]];
+                }
+            }
+        }
+    }
+    
     if (tags && bufferSize > 0)
     {
         return [[self alloc] initWithText:[[NSString alloc] initWithCharacters:buffer length:bufferSize] tags:tags];

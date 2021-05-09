@@ -61,6 +61,27 @@ class LULogMessageTest: XCTestCase {
         XCTAssertEqual(expected, actual);
     }
     
+    func testBoldTagsIncomplete() throws {
+        let tags = [LURichTextStyleTag(style: LURichTextStyleBold, range: NSMakeRange(8, 5))];
+        let expected = LULogMessage(text: "This is text.", tags: tags);
+        let actual = LULogMessage.fromRichText("This is <b>text.");
+        XCTAssertEqual(expected, actual);
+    }
+    
+    func testBoldTagsIncompleteMalformed1() throws {
+        let tags = [LURichTextStyleTag(style: LURichTextStyleBold, range: NSMakeRange(8, 5))];
+        let expected = LULogMessage(text: "This is text.", tags: tags);
+        let actual = LULogMessage.fromRichText("This is <b>te<b>xt.");
+        XCTAssertEqual(expected, actual);
+    }
+    
+    func testBoldTagsIncompleteMalformed2() throws {
+        let tags = [LURichTextStyleTag(style: LURichTextStyleBold, range: NSMakeRange(5, 17))];
+        let expected = LULogMessage(text: "This is malfored text.", tags: tags);
+        let actual = LULogMessage.fromRichText("This <b>is <b>malfored</b> text.");
+        XCTAssertEqual(expected, actual);
+    }
+    
     func testItalicTags1() throws {
         let tags = [LURichTextStyleTag(style: LURichTextStyleItalic, range: NSMakeRange(5, 2))];
         let expected = LULogMessage(text: "This is text.", tags: tags);
@@ -158,27 +179,9 @@ class LULogMessageTest: XCTestCase {
         XCTAssertEqual(expected, actual);
     }
     
-    func testMalformedTags1() throws {
-        let expected = LULogMessage(text: "This is text.", tags: nil);
-        let actual = LULogMessage.fromRichText("This <b>is text.");
-        XCTAssertEqual(expected, actual);
-    }
-    
-    func testMalformedTags2() throws {
-        let expected = LULogMessage(text: "This is text.", tags: nil);
-        let actual = LULogMessage.fromRichText("This <b>is<b> text.");
-        XCTAssertEqual(expected, actual);
-    }
-    
     func testMalformedTags3() throws {
         let expected = LULogMessage(text: "This is text.", tags: nil);
         let actual = LULogMessage.fromRichText("This <b>is</i> text.");
-        XCTAssertEqual(expected, actual);
-    }
-    
-    func testMalformedTags4() throws {
-        let expected = LULogMessage(text: "This is malfored text.", tags: nil);
-        let actual = LULogMessage.fromRichText("This <b>is <b>malfored</b> text.");
         XCTAssertEqual(expected, actual);
     }
 }
