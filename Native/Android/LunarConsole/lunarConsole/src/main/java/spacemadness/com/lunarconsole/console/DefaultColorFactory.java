@@ -77,14 +77,21 @@ public class DefaultColorFactory implements ColorFactory {
             return getColor(R.color.lunar_console_color_rich_text_error);
         }
 
-        Integer predefinedColorId = colorLookup.get(value);
+        Integer predefinedColorId = colorLookup.get(value.toLowerCase());
         if (predefinedColorId != null) {
             return getColor(predefinedColorId);
         }
 
         if (value.startsWith("#") && value.length() > 1) {
-            int colorId = parseInt(value.substring(1), R.color.lunar_console_color_rich_text_error);
-            return getColor(colorId);
+            final String hexValue = value.substring(1);
+            try {
+                final long hex = Long.parseLong(hexValue, 16);
+                if (hexValue.length() > 6) { // #RRGGBBAA
+                    return (int) (hex >> 8) | 0xff000000;
+                }
+                return (int) hex | 0xff000000;
+            } catch (NumberFormatException ignored) {
+            }
         }
 
         return getColor(R.color.lunar_console_color_rich_text_error);

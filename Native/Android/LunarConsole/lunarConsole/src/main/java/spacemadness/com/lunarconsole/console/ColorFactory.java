@@ -23,5 +23,8 @@
 package spacemadness.com.lunarconsole.console;
 
 public interface ColorFactory {
+    /**
+     * @return color value in ARGB format or and error color if invalid
+     */
     int fromValue(String value);
 }
