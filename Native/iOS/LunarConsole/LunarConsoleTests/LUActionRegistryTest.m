@@ -162,6 +162,11 @@
     XCTFail(@"Implement me");
 }
 
+- (void)actionRegistry:(LUActionRegistry *)registry didRemoveVariable:(LUCVar *)variable atIndex:(NSUInteger)index
+{
+    [self addResult:[NSString stringWithFormat:@"removed variable %@ (%d)", variable.name, (int) index]];
+}
+
 #pragma mark -
 #pragma mark Helpers
 
@@ -188,6 +193,11 @@
 - (void)unregisterActionWithId:(int)actionId
 {
     [_actionRegistry unregisterActionWithId:actionId];
+}
+
+- (void)removeVariableWithId:(int)variableId
+{
+    [_actionRegistry removeVariableWithId:variableId];
 }
 
 - (BOOL)unregisterActionWithName:(NSString *)name
