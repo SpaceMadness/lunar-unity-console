@@ -178,6 +178,50 @@ public class DefaultRichTextFactory implements RichTextFactory {
             }
         }
 
+        // handle un-matched tags
+        if (stack != null) {
+            while (stack.size() > 0) {
+                Tag tag = stack.pop();
+
+                if ("b".equals(tag.name)) {
+                    boldCount--;
+                    if (boldCount > 0) {
+                        continue;
+                    }
+                } else if ("i".equals(tag.name)) {
+                    italicCount--;
+                    if (italicCount > 0) {
+                        continue;
+                    }
+                }
+
+                // create rich text tag
+                int len = buffer.length() - tag.position;
+                if (len > 0) {
+                    if (tags == null) tags = new ArrayList<>();
+                    switch (tag.name) {
+                        case "b": {
+                            StyleSpan style = italicCount > 0 ? boldItalic : bold;
+                            tags.add(new Span(style, tag.position, len));
+                            break;
+                        }
+                        case "i": {
+                            StyleSpan style = boldCount > 0 ? boldItalic : italic;
+                            tags.add(new Span(style, tag.position, len));
+                            break;
+                        }
+                        case "color":
+                            String colorValue = tag.attribute;
+                            if (colorValue != null) {
+                                CharacterStyle style = styleFromColorValue(colorValue);
+                                tags.add(new Span(style, tag.position, len));
+                            }
+                            break;
+                    }
+                }
+            }
+        }
+
         if (tags != null && buffer.length() > 0) {
             return createSpannedString(buffer.toString(), tags);
         }
