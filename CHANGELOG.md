@@ -1,5 +1,12 @@
 # Lunar Console Changelog
 
+## v.1.8.2 - 5/16/2021
+
+**Fixes:**
+
+* Rich text color tags hex values fixes.
+* Rich text nested tags fixes.
+
 ## v.1.8.1 - 11/12/2020
 
 **Fixes:**
