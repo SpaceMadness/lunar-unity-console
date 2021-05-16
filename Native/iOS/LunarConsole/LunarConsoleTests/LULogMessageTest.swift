@@ -150,8 +150,8 @@ class LULogMessageTest: XCTestCase {
     
     func testMultipleTags1() throws {
         let tags = [
-            LURichTextStyleTag(style: LURichTextStyleBold, range: NSMakeRange(5, 2)),
-            LURichTextColorTag(color: LUUIColorFromRGB(0xff0000ff), range: NSMakeRange(5, 2))
+            LURichTextColorTag(color: LUUIColorFromRGB(0xff0000ff), range: NSMakeRange(5, 2)),
+            LURichTextStyleTag(style: LURichTextStyleBold, range: NSMakeRange(5, 2))
         ];
         let expected = LULogMessage(text: "This is text.", tags: tags);
         let actual = LULogMessage.fromRichText("This <color=red><b>is</b></color> text.");
@@ -160,8 +160,8 @@ class LULogMessageTest: XCTestCase {
     
     func testMultipleTags2() throws {
         let tags = [
-            LURichTextStyleTag(style: LURichTextStyleBold, range: NSMakeRange(12, 4)),
-            LURichTextColorTag(color: LUUIColorFromRGB(0xff0000ff), range: NSMakeRange(8, 19))
+            LURichTextColorTag(color: LUUIColorFromRGB(0xff0000ff), range: NSMakeRange(8, 19)),
+            LURichTextStyleTag(style: LURichTextStyleBold, range: NSMakeRange(12, 4))
         ];
         let expected = LULogMessage(text: "This is red bold attributed text.", tags: tags);
         let actual = LULogMessage.fromRichText("This is <color=red>red <b>bold</b> attributed</color> text.");
@@ -170,9 +170,9 @@ class LULogMessageTest: XCTestCase {
     
     func testMultipleTags3() throws {
         let tags = [
-            LURichTextStyleTag(style: LURichTextStyleBoldItalic, range: NSMakeRange(17, 3)),
+            LURichTextColorTag(color: LUUIColorFromRGB(0xff0000ff), range: NSMakeRange(8, 26)),
             LURichTextStyleTag(style: LURichTextStyleBold, range: NSMakeRange(12, 11)),
-            LURichTextColorTag(color: LUUIColorFromRGB(0xff0000ff), range: NSMakeRange(8, 26))
+            LURichTextStyleTag(style: LURichTextStyleBoldItalic, range: NSMakeRange(17, 3))
         ];
         let expected = LULogMessage(text: "This is red bold italic attributed text.", tags: tags);
         let actual = LULogMessage.fromRichText("This is <color=red>red <b>bold <i>ita</i>lic</b> attributed</color> text.");

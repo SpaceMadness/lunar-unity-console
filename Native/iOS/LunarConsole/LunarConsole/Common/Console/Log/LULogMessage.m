@@ -371,7 +371,8 @@ static LURichTextTagInfo * _tryCaptureTag(NSString *str, NSUInteger position, NS
     
     if (tags && bufferSize > 0)
     {
-        return [[self alloc] initWithText:[[NSString alloc] initWithCharacters:buffer length:bufferSize] tags:tags];
+        NSArray *reversedTags = [[tags reverseObjectEnumerator] allObjects];
+        return [[self alloc] initWithText:[[NSString alloc] initWithCharacters:buffer length:bufferSize] tags:reversedTags];
     }
     
     if (bufferSize < text.length)

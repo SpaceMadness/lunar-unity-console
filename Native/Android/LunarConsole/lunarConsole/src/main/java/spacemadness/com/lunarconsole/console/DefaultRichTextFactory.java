@@ -30,6 +30,7 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -223,6 +224,7 @@ public class DefaultRichTextFactory implements RichTextFactory {
         }
 
         if (tags != null && buffer.length() > 0) {
+            Collections.reverse(tags); // we need to reverse the list to support nested tags
             return createSpannedString(buffer.toString(), tags);
         }
 
