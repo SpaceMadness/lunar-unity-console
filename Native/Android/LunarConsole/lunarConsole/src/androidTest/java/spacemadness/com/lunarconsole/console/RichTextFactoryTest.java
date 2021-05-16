@@ -110,6 +110,13 @@ public class RichTextFactoryTest {
     }
 
     @Test
+    public void testBoldTags6() {
+        CharSequence expected = createSpanned("This is text.", new Span(bold, 2, 8));
+        CharSequence actual = fromRichText("Th<b>i<b>s <b>is</b> t</b>e</b>xt.");
+        assertEquals(expected, actual);
+    }
+
+    @Test
     public void testItalicTags1() {
         CharSequence expected = createSpanned("This is text.", new Span(italic, 5, 2));
         CharSequence actual = fromRichText("This <i>is</i> text.");
@@ -141,6 +148,13 @@ public class RichTextFactoryTest {
     public void testItalicTags5() {
         CharSequence expected = "This is text.";
         CharSequence actual = fromRichText("This is <i><i></i></i>text.");
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testItalicTags6() {
+        CharSequence expected = createSpanned("This is text.", new Span(italic, 2, 8));
+        CharSequence actual = fromRichText("Th<i>i<i>s <i>is</i> t</i>e</i>xt.");
         assertEquals(expected, actual);
     }
 
@@ -182,8 +196,8 @@ public class RichTextFactoryTest {
     @Test
     public void testMultipleTags1() {
         Span[] spans = {
-                new Span(bold, 5, 2),
-                new Span(createCharacterStyle("red"), 5, 2)
+                new Span(createCharacterStyle("red"), 5, 2),
+                new Span(bold, 5, 2)
         };
         CharSequence expected = createSpanned("This is text.", spans);
         CharSequence actual = fromRichText("This <color=red><b>is</b></color> text.");
@@ -193,8 +207,8 @@ public class RichTextFactoryTest {
     @Test
     public void testMultipleTags2() {
         Span[] spans = {
-                new Span(bold, 12, 4),
-                new Span(createCharacterStyle("red"), 8, 19)
+                new Span(createCharacterStyle("red"), 8, 19),
+                new Span(bold, 12, 4)
         };
         CharSequence expected = createSpanned("This is red bold attributed text.", spans);
         CharSequence actual = fromRichText("This is <color=red>red <b>bold</b> attributed</color> text.");
@@ -204,9 +218,9 @@ public class RichTextFactoryTest {
     @Test
     public void testMultipleTags3() {
         Span[] spans = {
-                new Span(boldItalic, 17, 3),
+                new Span(createCharacterStyle("red"), 8, 26),
                 new Span(bold, 12, 11),
-                new Span(createCharacterStyle("red"), 8, 26)
+                new Span(boldItalic, 17, 3)
         };
         CharSequence expected = createSpanned("This is red bold italic attributed text.", spans);
         CharSequence actual = fromRichText("This is <color=red>red <b>bold <i>ita</i>lic</b> attributed</color> text.");
@@ -215,14 +229,14 @@ public class RichTextFactoryTest {
 
     @Test
     public void testMalformedTags1() {
-        CharSequence expected = "This is text.";
-        CharSequence actual = fromRichText("This <b>is text.");
+        CharSequence expected = createSpanned("This is text.", new Span(bold, 8, 5));
+        CharSequence actual = fromRichText("This is <b>text.");
         assertEquals(expected, actual);
     }
 
     @Test
     public void testMalformedTags2() {
-        CharSequence expected = "This is text.";
+        CharSequence expected = createSpanned("This is text.", new Span(bold, 5, 8));
         CharSequence actual = fromRichText("This <b>is<b> text.");
         assertEquals(expected, actual);
     }
@@ -236,8 +250,21 @@ public class RichTextFactoryTest {
 
     @Test
     public void testMalformedTags4() {
-        CharSequence expected = "This is malformed text.";
+        Span span = new Span(bold, 5, 18);
+        CharSequence expected = createSpanned("This is malformed text.", span);
         CharSequence actual = fromRichText("This <b>is <b>malformed</b> text.");
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    public void testMalformedTags5() {
+        Span[] spans = {
+                new Span(italic, 2, 7),
+                new Span(boldItalic, 4, 5),
+                new Span(createCharacterStyle("red"), 6, 3)
+        };
+        CharSequence expected = createSpanned("012345678", spans);
+        CharSequence actual = fromRichText("01<i>23<b>45<color=red>678");
         assertEquals(expected, actual);
     }
 

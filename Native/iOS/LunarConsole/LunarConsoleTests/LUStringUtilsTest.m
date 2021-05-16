@@ -94,6 +94,29 @@ inline static BOOL isEpsilonEqual(float a, float b)
 }
 
 #pragma mark -
+#pragma mark Hex
+
+- (void)testParseHex {
+    NSUInteger res = 0;
+    XCTAssertTrue(LUStringTryParseHex(@"1234567890", &res));
+    XCTAssertEqual(0x1234567890, res);
+    
+    XCTAssertTrue(LUStringTryParseHex(@"ABCDEF", &res));
+    XCTAssertEqual(0xABCDEF, res);
+    
+    XCTAssertTrue(LUStringTryParseHex(@"abcdef", &res));
+    XCTAssertEqual(0xabcdef, res);
+}
+
+- (void)testParseInvalidHex {
+    NSUInteger res = 0;
+    XCTAssertFalse(LUStringTryParseHex(@"abcdex", &res));
+    XCTAssertFalse(LUStringTryParseHex(@"132-A", &res));
+    XCTAssertFalse(LUStringTryParseHex(@"", &res));
+    XCTAssertFalse(LUStringTryParseHex(nil, &res));
+}
+
+#pragma mark -
 #pragma mark Serialization
 
 - (void)testDictionaryToStringSerialization

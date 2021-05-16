@@ -138,7 +138,20 @@ public class MainActivity extends Activity {
 				consolePlugin.registerVariable(3, "Toggle variable", "Boolean", "1", "1", 0, false, 0, 0);
 				consolePlugin.registerVariable(4, "Range", "Float", "6.28", "6.28", 0, true, 1.0f, 10.0f);
 				consolePlugin.registerVariable(5, "Volatile", "Integer", "25", "25", Variable.FLAG_NO_ARCHIVE, true, 1.0f, 10.0f);
-				*/
+
+                consolePlugin.logMessage(LOG, "", "<color=#ff0000>red</color>");
+                consolePlugin.logMessage(LOG, "", "<color=#ff00007f>red</color>");
+
+                consolePlugin.logMessage(LOG, "", "<color=#00ff00>green</color>");
+                consolePlugin.logMessage(LOG, "", "<color=#00ff007f>green</color>");
+
+                consolePlugin.logMessage(LOG, "", "<color=#0000ff>blue</color>");
+                consolePlugin.logMessage(LOG, "", "<color=#0000ff7f>blue</color>");
+
+                consolePlugin.logMessage(LOG, "", "<color=#ff0000>r<i>r<color=#00ff00>g<b>g<color=#0000ff>bb");
+                consolePlugin.logMessage(LOG, "", "This is <color=red>red <b>bold <i>ita</i>lic</b> attributed</color> text.");
+                consolePlugin.showConsole();
+                */
             }
         });
 

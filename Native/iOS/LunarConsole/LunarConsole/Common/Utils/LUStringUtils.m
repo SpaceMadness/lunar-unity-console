@@ -50,10 +50,37 @@ BOOL LUStringTryParseInteger(NSString *str, NSInteger *outResult)
     return NO;
 }
 
-BOOL LUStringTryParseHex(NSString *str, NSInteger *outResult) {
-    if (str.length > 0) {
-        NSScanner *scanner = [[NSScanner alloc] initWithString:str];
-        return [scanner scanInteger:outResult];
+BOOL LUStringTryParseHex(NSString *str, NSUInteger *outResult)
+{
+    if (str.length > 0)
+    {
+        NSUInteger base = 1;
+        NSUInteger result = 0;
+         
+        for (NSInteger i = str.length - 1; i >= 0; i--) {
+            int c = [str characterAtIndex:i];
+            if (c >= '0' && c <= '9')
+            {
+                result += (c - '0') * base;
+            }
+            else if (c >= 'A' && c <= 'F')
+            {
+                result += (c - 'A' + 10) * base;
+            }
+            else if (c >= 'a' && c <= 'f')
+            {
+                result += (c - 'a' + 10) * base;
+            }
+            else
+            {
+                return NO;
+            }
+            base = base * 16;
+        }
+        
+        if (outResult) *outResult = result;
+        
+        return YES;
     }
     
     return NO;
