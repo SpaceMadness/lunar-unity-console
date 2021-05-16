@@ -111,7 +111,7 @@ public class RichTextFactoryTest {
 
     @Test
     public void testBoldTags6() {
-        CharSequence expected = createSpanned("This is text.", new Span(bold, 2, 11));
+        CharSequence expected = createSpanned("This is text.", new Span(bold, 2, 8));
         CharSequence actual = fromRichText("Th<b>i<b>s <b>is</b> t</b>e</b>xt.");
         assertEquals(expected, actual);
     }
@@ -153,7 +153,7 @@ public class RichTextFactoryTest {
 
     @Test
     public void testItalicTags6() {
-        CharSequence expected = createSpanned("This is text.", new Span(bold, 2, 11));
+        CharSequence expected = createSpanned("This is text.", new Span(italic, 2, 8));
         CharSequence actual = fromRichText("Th<i>i<i>s <i>is</i> t</i>e</i>xt.");
         assertEquals(expected, actual);
     }
@@ -236,7 +236,7 @@ public class RichTextFactoryTest {
 
     @Test
     public void testMalformedTags2() {
-        CharSequence expected = "This is text.";
+        CharSequence expected = createSpanned("This is text.", new Span(bold, 5, 8));
         CharSequence actual = fromRichText("This <b>is<b> text.");
         assertEquals(expected, actual);
     }
