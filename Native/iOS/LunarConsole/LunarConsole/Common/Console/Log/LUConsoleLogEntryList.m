@@ -314,8 +314,8 @@
     NSMutableString *text = [NSMutableString string];
     
     NSUInteger index = 0;
-    NSUInteger count = _currentEntries.count;
-    for (LUConsoleLogEntry *entry in _currentEntries)
+    NSUInteger count = _entries.count;
+    for (LUConsoleLogEntry *entry in _entries)
     {
         [text appendString:entry.message.text];
         if (entry.type == LUConsoleLogTypeException && entry.hasStackTrace)
