@@ -1,5 +1,11 @@
 # Lunar Console Changelog
 
+## v.1.8.3 - 5/18/2021
+
+**Changes:**
+
+* Export unfiltered log.
+
 ## v.1.8.2 - 5/16/2021
 
 **Fixes:**
