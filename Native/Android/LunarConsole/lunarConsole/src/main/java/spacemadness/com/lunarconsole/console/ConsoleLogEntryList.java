@@ -384,8 +384,8 @@ public class ConsoleLogEntryList {
         StringBuilder text = new StringBuilder();
 
         int index = 0;
-        int count = currentEntries.size();
-        for (ConsoleLogEntry entry : currentEntries) {
+        int count = entries.size();
+        for (ConsoleLogEntry entry : entries) {
             text.append(entry.message);
             if (entry.type == ConsoleLogType.EXCEPTION && entry.hasStackTrace()) {
                 text.append('\n');
