@@ -142,3 +142,14 @@ void __lunar_console_cvar_update(int entryId, const char *valueStr)
         [_lunarConsolePlugin setValue:value forVariableWithId:entryId];
     });
 }
+
+void __lunar_console_cvar_remove(int variableId)
+{
+    if ([NSThread isMainThread]) {
+        [_lunarConsolePlugin removeVariableWithId:variableId];
+    } else {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [_lunarConsolePlugin removeVariableWithId:variableId];
+        });
+    }
+}
