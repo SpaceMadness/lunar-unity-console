@@ -1,5 +1,11 @@
 # Lunar Console Changelog
 
+## v.1.8.4 - 7/16/2021
+
+**Fixes:**
+
+* **Android:** fixed ProGuard obfuscation.
+
 ## v.1.8.3 - 5/18/2021
 
 **Changes:**
