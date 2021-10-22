@@ -23,12 +23,17 @@
 package spacemadness.com.lunarconsole.utils;
 
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class StringUtils {
-    private static final NumberFormat FLOATING_POINT_FORMAT = new DecimalFormat("0.#");
+    // Force floating point numbers to '.' format
+    private static final NumberFormat FLOATING_POINT_FORMAT = new DecimalFormat(
+            "0.#", DecimalFormatSymbols.getInstance(Locale.ENGLISH));
 
     public static boolean isValidInteger(String str) {
         try {
@@ -40,12 +45,7 @@ public class StringUtils {
     }
 
     public static boolean isValidFloat(String str) {
-        try {
-            Float.parseFloat(str);
-            return true;
-        } catch (NumberFormatException e) {
-            return false;
-        }
+        return parseFloat(str) != null;
     }
 
     public static Integer parseInt(String str) {
@@ -66,18 +66,16 @@ public class StringUtils {
 
     public static Float parseFloat(String str) {
         try {
-            return Float.parseFloat(str);
-        } catch (NumberFormatException e) {
+            final Number number = FLOATING_POINT_FORMAT.parse(str);
+            return number != null ? number.floatValue() : null;
+        } catch (NumberFormatException | ParseException e) {
             return null;
         }
     }
 
     public static float parseFloat(String str, float defaultValue) {
-        try {
-            return Float.parseFloat(str);
-        } catch (NumberFormatException e) {
-            return defaultValue;
-        }
+        final Float number = parseFloat(str);
+        return number != null ? number : defaultValue;
     }
 
     public static int length(String str) {

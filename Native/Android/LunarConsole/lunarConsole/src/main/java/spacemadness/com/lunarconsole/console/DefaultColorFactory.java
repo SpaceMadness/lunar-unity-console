@@ -30,8 +30,6 @@ import java.util.Map;
 import spacemadness.com.lunarconsole.R;
 import spacemadness.com.lunarconsole.utils.StringUtils;
 
-import static spacemadness.com.lunarconsole.utils.StringUtils.parseInt;
-
 public class DefaultColorFactory implements ColorFactory {
     private final Context context;
     private final Map<String, Integer> colorLookup;
