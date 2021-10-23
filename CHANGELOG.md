@@ -1,10 +1,16 @@
 # Lunar Console Changelog
 
+## v.1.8.6 - ??/??/2021
+
+**Fixes:**
+
+* **Android:** fixed rich text color (#203).
+
 ## v.1.8.5 - 10/22/2021
 
 **Fixes:**
 
-* Forced decimal points to en-US locale.
+* Forced decimal points to en-US locale (#201).
 
 ## v.1.8.4 - 7/16/2021
 
