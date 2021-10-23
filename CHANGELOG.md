@@ -1,5 +1,11 @@
 # Lunar Console Changelog
 
+## v.1.8.5 - 10/22/2021
+
+**Fixes:**
+
+* Forced decimal points to en-US locale.
+
 ## v.1.8.4 - 7/16/2021
 
 **Fixes:**
