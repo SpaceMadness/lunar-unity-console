@@ -22,9 +22,11 @@
 
 package spacemadness.com.lunarconsole.console;
 
+import android.graphics.Typeface;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.CharacterStyle;
+import android.text.style.ForegroundColorSpan;
 import android.text.style.StyleSpan;
 
 import org.junit.Before;
@@ -34,6 +36,9 @@ import static android.support.test.InstrumentationRegistry.getContext;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static spacemadness.com.lunarconsole.console.DefaultRichTextFactory.Span;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class RichTextFactoryTest {
     private StyleSpan bold;
@@ -46,12 +51,14 @@ public class RichTextFactoryTest {
     @Before
     public void setup() {
         colorFactory = new DefaultColorFactory(getContext());
-        richTextFactory = new DefaultRichTextFactory(colorFactory);
+
+        // we need to use fake style factory which will use cached objects to make test pass
+        richTextFactory = new DefaultRichTextFactory(colorFactory, FAKE_STYLE_FACTORY);
 
         // need to use exact styles: otherwise SpannedString equality fails
-        bold = richTextFactory.bold;
-        italic = richTextFactory.italic;
-        boldItalic = richTextFactory.boldItalic;
+        bold = FAKE_STYLE_FACTORY.createBold();
+        italic = FAKE_STYLE_FACTORY.createItalic();
+        boldItalic = FAKE_STYLE_FACTORY.createBoldItalic();
     }
 
     @Test
@@ -284,4 +291,39 @@ public class RichTextFactoryTest {
         // we need to re-use the same style objects (otherwise SpannedString equality fails)
         return richTextFactory.styleFromColorValue(value);
     }
+
+    // we need to use cached values for tests since it would break unit tests otherwise.
+    // at the same time - each span/style object
+    private final StyleFactory FAKE_STYLE_FACTORY = new StyleFactory() {
+        private final StyleSpan italic = new StyleSpan(Typeface.ITALIC);
+        private final StyleSpan bold = new StyleSpan(Typeface.BOLD);
+        private final StyleSpan boldItalic = new StyleSpan(Typeface.BOLD_ITALIC);
+        private final Map<Integer, CharacterStyle> styleCache = new HashMap<>();
+
+        @Override
+        public StyleSpan createItalic() {
+            return italic;
+        }
+
+        @Override
+        public StyleSpan createBold() {
+            return bold;
+        }
+
+        @Override
+        public StyleSpan createBoldItalic() {
+            return boldItalic;
+        }
+
+        @Override
+        public CharacterStyle createCharacterStyle(int color) {
+            CharacterStyle style = styleCache.get(color);
+            if (style == null) {
+                style = new ForegroundColorSpan(color);
+                styleCache.put(color, style);
+            }
+
+            return style;
+        }
+    };
 }
