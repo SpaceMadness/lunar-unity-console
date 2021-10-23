@@ -548,7 +548,7 @@ namespace LunarConsolePlugin
                                     continue;
                                 }
 
-                                cvar.Value = value;
+                                cvar.Value = FixLegacyValue(cvar.Type, value);
                                 m_platform.OnVariableUpdated(m_registry, cvar);
                             }
                         }
@@ -606,6 +606,17 @@ namespace LunarConsolePlugin
         bool ShouldSaveVar(CVar cvar)
         {
             return !cvar.IsDefault && !cvar.HasFlag(CFlags.NoArchive);
+        }
+
+        private static string FixLegacyValue(CVarType type, string value)
+        {
+            // we need to fix incorrect value: https://github.com/SpaceMadness/lunar-unity-console/issues/201
+            if (type == CVarType.Float)
+            {
+                return value.Replace(',', '.');
+            }
+
+            return value;
         }
 
         #endregion
@@ -1253,7 +1264,7 @@ namespace LunarConsolePlugin
                     case CVarType.Float:
                     {
                         float floatValue;
-                        if (float.TryParse(value, out floatValue))
+                        if (StringUtils.ParseFloat(value, out floatValue))
                         {
                             variable.FloatValue = floatValue;
                             m_variablesDirty = true;

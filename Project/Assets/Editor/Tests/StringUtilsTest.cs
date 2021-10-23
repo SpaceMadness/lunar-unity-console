@@ -31,6 +31,55 @@ using LunarConsolePluginInternal;
 
 public class StringUtilsTest
 {
+    #region Parsing
+
+    [Test]
+    public void TestParseFloat()
+    {
+        Assert.AreEqual(123f, StringUtils.ParseFloat("123"));
+        Assert.AreEqual(-123f, StringUtils.ParseFloat("-123"));
+        Assert.AreEqual(0f, StringUtils.ParseFloat("0", float.NaN));
+        Assert.AreEqual(3.14f, StringUtils.ParseFloat("3.14"));
+        Assert.AreEqual(-3.14f, StringUtils.ParseFloat("-3.14"));
+        Assert.AreEqual(float.NaN, StringUtils.ParseFloat("3.14f", float.NaN));
+        Assert.AreEqual(float.NaN, StringUtils.ParseFloat("abs", float.NaN));
+
+        float actual;
+        Assert.IsTrue(StringUtils.ParseFloat("123", out actual));
+        Assert.AreEqual(123f, actual);
+
+        Assert.IsTrue(StringUtils.ParseFloat("-123", out actual));
+        Assert.AreEqual(-123f, actual);
+
+        Assert.IsTrue(StringUtils.ParseFloat("0", out actual));
+        Assert.AreEqual(0f, actual);
+
+        Assert.IsTrue(StringUtils.ParseFloat("3.14", out actual));
+        Assert.AreEqual(3.14f, actual);
+
+        Assert.IsTrue(StringUtils.ParseFloat("-3.14", out actual));
+        Assert.AreEqual(-3.14f, actual);
+
+        Assert.IsFalse(StringUtils.ParseFloat("-3.14f", out _));
+        Assert.IsFalse(StringUtils.ParseFloat("abs", out _));
+    }
+
+    #endregion
+
+    #region String Representation
+
+    [Test]
+    public void TestFloatString()
+    {
+        Assert.AreEqual("3.14", StringUtils.ToString(3.14f));
+        Assert.AreEqual("-3.14", StringUtils.ToString(-3.14f));
+        Assert.AreEqual("0", StringUtils.ToString(0.0f));
+        Assert.AreEqual("123", StringUtils.ToString(123.0f));
+        Assert.AreEqual("-123", StringUtils.ToString(-123.0f));
+    }
+
+    #endregion
+
     #region Serialization
 
     [Test]
