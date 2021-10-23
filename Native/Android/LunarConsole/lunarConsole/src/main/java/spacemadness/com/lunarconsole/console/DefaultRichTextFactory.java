@@ -22,7 +22,6 @@
 
 package spacemadness.com.lunarconsole.console;
 
-import android.graphics.Typeface;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.CharacterStyle;
@@ -31,9 +30,7 @@ import android.text.style.StyleSpan;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Stack;
 
 import spacemadness.com.lunarconsole.utils.IntReference;
@@ -41,20 +38,22 @@ import spacemadness.com.lunarconsole.utils.StringUtils;
 
 /* This class is not thread-safe */
 public class DefaultRichTextFactory implements RichTextFactory {
-    final StyleSpan bold = new StyleSpan(Typeface.BOLD);
-    final StyleSpan italic = new StyleSpan(Typeface.ITALIC);
-    final StyleSpan boldItalic = new StyleSpan(Typeface.BOLD_ITALIC);
-
-    private final Map<String, CharacterStyle> colorStyleMap;
-
     private final ColorFactory colorFactory;
+    private final StyleFactory styleFactory;
 
     public DefaultRichTextFactory(ColorFactory colorFactory) {
+        this(colorFactory, new DefaultStyleFactory());
+    }
+
+    public DefaultRichTextFactory(ColorFactory colorFactory, StyleFactory styleFactory) {
         if (colorFactory == null) {
             throw new IllegalArgumentException("Color factory is null");
         }
+        if (styleFactory == null) {
+            throw new IllegalArgumentException("Style factory is null");
+        }
         this.colorFactory = colorFactory;
-        colorStyleMap = new HashMap<>();
+        this.styleFactory = styleFactory;
     }
 
     private static boolean isValidTagName(String name) {
@@ -152,12 +151,12 @@ public class DefaultRichTextFactory implements RichTextFactory {
                             if (tags == null) tags = new ArrayList<>();
                             switch (tag.name) {
                                 case "b": {
-                                    StyleSpan style = italicCount > 0 ? boldItalic : bold;
+                                    StyleSpan style = italicCount > 0 ? styleFactory.createBoldItalic() : styleFactory.createBold();
                                     tags.add(new Span(style, opposingTag.position, len));
                                     break;
                                 }
                                 case "i": {
-                                    StyleSpan style = boldCount > 0 ? boldItalic : italic;
+                                    StyleSpan style = boldCount > 0 ? styleFactory.createBoldItalic() : styleFactory.createItalic();
                                     tags.add(new Span(style, opposingTag.position, len));
                                     break;
                                 }
@@ -202,12 +201,12 @@ public class DefaultRichTextFactory implements RichTextFactory {
                     if (tags == null) tags = new ArrayList<>();
                     switch (tag.name) {
                         case "b": {
-                            StyleSpan style = italicCount > 0 ? boldItalic : bold;
+                            StyleSpan style = italicCount > 0 ? styleFactory.createBoldItalic() : styleFactory.createBold();
                             tags.add(new Span(style, tag.position, len));
                             break;
                         }
                         case "i": {
-                            StyleSpan style = boldCount > 0 ? boldItalic : italic;
+                            StyleSpan style = boldCount > 0 ? styleFactory.createBoldItalic() : styleFactory.createItalic();
                             tags.add(new Span(style, tag.position, len));
                             break;
                         }
@@ -245,13 +244,8 @@ public class DefaultRichTextFactory implements RichTextFactory {
     }
 
     CharacterStyle styleFromColorValue(String value) {
-        CharacterStyle style = colorStyleMap.get(value);
-        if (style == null) {
-            int color = colorFactory.fromValue(value);
-            style = new ForegroundColorSpan(color);
-            colorStyleMap.put(value, style);
-        }
-        return style;
+        int color = colorFactory.fromValue(value);
+        return styleFactory.createCharacterStyle(color);
     }
 
     public static class Span {
