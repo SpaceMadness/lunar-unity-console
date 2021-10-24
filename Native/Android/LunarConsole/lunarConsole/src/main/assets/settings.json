@@ -69,6 +69,7 @@
    "trim":512,
    "gesture":1,
    "richTextTags":true,
+   "logEntryLines": 0,
    "sortActions":true,
    "sortVariables":true,
    "emails":[

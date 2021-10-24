@@ -23,6 +23,7 @@
 package spacemadness.com.lunarconsole.settings;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 import spacemadness.com.lunarconsole.json.Required;
 
@@ -70,6 +71,11 @@ public final class PluginSettings {
     public boolean richTextTags;
 
     /**
+     * Maximum lines to display in the log output (0 - no limit).
+     */
+    public int logEntryLines;
+
+    /**
      * Indicates if actions should be sorted.
      */
     public boolean sortActions;
@@ -91,36 +97,36 @@ public final class PluginSettings {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
-        PluginSettings settings = (PluginSettings) o;
-
-        if (capacity != settings.capacity) return false;
-        if (trim != settings.trim) return false;
-        if (richTextTags != settings.richTextTags) return false;
-        if (sortActions != settings.sortActions) return false;
-        if (sortVariables != settings.sortVariables) return false;
-        if (exceptionWarning != null ? !exceptionWarning.equals(settings.exceptionWarning) : settings.exceptionWarning != null)
-            return false;
-        if (logOverlay != null ? !logOverlay.equals(settings.logOverlay) : settings.logOverlay != null)
-            return false;
-        if (gesture != settings.gesture) return false;
-        // Probably incorrect - comparing Object[] arrays with Arrays.equals
-        return Arrays.equals(emails, settings.emails);
+        PluginSettings that = (PluginSettings) o;
+        return capacity == that.capacity &&
+                trim == that.trim &&
+                richTextTags == that.richTextTags &&
+                logEntryLines == that.logEntryLines &&
+                sortActions == that.sortActions &&
+                sortVariables == that.sortVariables &&
+                Objects.equals(exceptionWarning, that.exceptionWarning) &&
+                Objects.equals(logOverlay, that.logOverlay) &&
+                gesture == that.gesture &&
+                Arrays.equals(emails, that.emails);
     }
 
     @Override
     public int hashCode() {
-        int result = exceptionWarning != null ? exceptionWarning.hashCode() : 0;
-        result = 31 * result + (logOverlay != null ? logOverlay.hashCode() : 0);
-        result = 31 * result + capacity;
-        result = 31 * result + trim;
-        result = 31 * result + (gesture != null ? gesture.hashCode() : 0);
-        result = 31 * result + (richTextTags ? 1 : 0);
-        result = 31 * result + (sortActions ? 1 : 0);
-        result = 31 * result + (sortVariables ? 1 : 0);
+        int result = Objects.hash(
+                exceptionWarning,
+                logOverlay,
+                capacity,
+                trim,
+                gesture,
+                richTextTags,
+                logEntryLines,
+                sortActions,
+                sortVariables
+        );
         result = 31 * result + Arrays.hashCode(emails);
         return result;
     }
+
 
     //endregion
 }

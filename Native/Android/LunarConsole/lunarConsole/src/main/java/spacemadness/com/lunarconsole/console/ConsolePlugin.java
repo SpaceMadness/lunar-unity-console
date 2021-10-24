@@ -642,13 +642,15 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
     //region Getters/Setters
 
     private ConsoleLogEntry createLogEntry(byte type, String message, String stackTrace) {
+        byte maxLines = (byte) Math.min(settings.logEntryLines, Byte.MAX_VALUE);
+
         if (settings.richTextTags) {
             CharSequence text = createRichText(message);
             String rawMessage = text.toString();
             Spanned spannedMessage = text instanceof Spanned ? (Spanned) text : null;
-            return new ConsoleLogEntry(type, rawMessage, spannedMessage, stackTrace);
+            return new ConsoleLogEntry(type, rawMessage, spannedMessage, stackTrace, maxLines);
         }
-        return new ConsoleLogEntry(type, message, stackTrace);
+        return new ConsoleLogEntry(type, message, stackTrace, maxLines);
     }
 
     private CharSequence createRichText(String text) {

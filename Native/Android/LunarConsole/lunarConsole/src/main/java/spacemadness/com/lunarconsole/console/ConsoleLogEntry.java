@@ -57,32 +57,45 @@ public class ConsoleLogEntry extends BaseEntry {
         LOG_ENTRY_ICON_RES_LOOKUP[EXCEPTION] = APPEARANCE_LOG_ERROR;
     }
 
+    /** Log message type. See: {@link ConsoleLogType}. */
     public final byte type;
+
+    /** Short log message to be display in the main log view. */
     public final String message;
+
+    /** Log message stack trace. */
     public final String stackTrace;
+
+    /** Spanned string if the message contains rich-text tags (or null for plain text). */
     final /* Nullable */ Spanned spannedMessage;
+
+    /** Maximum visible lines for the message (or 0 if unlimited). */
+    final byte maxLines;
+
+    /** Log message index (for tracking message position). */
     public int index;
 
     /**
      * For testing purposes
      */
     ConsoleLogEntry(String message) {
-        this(ConsoleLogType.LOG, message, "");
+        this(ConsoleLogType.LOG, message, "", (byte) 0);
     }
 
     public ConsoleLogEntry(byte type, String message) {
-        this(type, message, null);
+        this(type, message, null, (byte) 0);
     }
 
-    public ConsoleLogEntry(byte type, String message, String stackTrace) {
-        this(type, message, null, stackTrace);
+    public ConsoleLogEntry(byte type, String message, String stackTrace, byte maxLines) {
+        this(type, message, null, stackTrace, maxLines);
     }
 
-    public ConsoleLogEntry(byte type, String message, Spanned spannedMessage, String stackTrace) {
+    public ConsoleLogEntry(byte type, String message, Spanned spannedMessage, String stackTrace, byte maxLines) {
         this.type = type;
         this.message = message;
         this.spannedMessage = spannedMessage;
         this.stackTrace = stackTrace;
+        this.maxLines = maxLines;
     }
 
     static Appearance getAppearance(int type) {
@@ -154,6 +167,10 @@ public class ConsoleLogEntry extends BaseEntry {
             layout.setBackgroundColor(entry.getBackgroundColor(context, position));
             iconView.setImageDrawable(entry.getIconDrawable(context));
             messageView.setText(entry.getMessage());
+
+            if (entry.maxLines > 0) {
+                messageView.setMaxLines(entry.maxLines);
+            }
 
             ConsoleCollapsedLogEntry collapsedEntry = ObjectUtils.as(entry, ConsoleCollapsedLogEntry.class);
             if (collapsedEntry != null && collapsedEntry.count > 1) {

@@ -64,7 +64,7 @@ public class Console implements
     }
 
     public void logMessage(String message, String stackTrace, byte type) {
-        logMessage(new ConsoleLogEntry(type, message, stackTrace));
+        logMessage(new ConsoleLogEntry(type, message, stackTrace, (byte) 0));
     }
 
     void logMessage(ConsoleLogEntry entry) {
