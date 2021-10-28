@@ -148,6 +148,11 @@ public class ActionRegistryTest extends TestCaseEx implements ActionRegistry.Del
         fail("Implement me");
     }
 
+    @Override
+    public void didRemoveVariable(ActionRegistry registry, Variable variable, int index) {
+        addResult(String.format("removed variable: %s (%d)", variable.getName(), index));
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////
     // Helpers
 

@@ -102,6 +102,19 @@ public class ActionRegistry {
         }
     }
 
+    public boolean removeVariable(int variableId) {
+        int index = indexOfVariable(variableId);
+        if (index != -1) {
+            Variable var = variables.objectAtIndex(index);
+            variables.removeObjectAtIndex(index);
+            notifyVariableRemove(var, index);
+            return true;
+        } else {
+            Log.e("Can't server cvar value: variable id %d not found", variableId);
+        }
+        return false;
+    }
+
     public Variable findVariable(int variableId) {
         int index = indexOfVariable(variableId);
         return index != -1 ? variables.objectAtIndex(index) : null;
@@ -148,6 +161,12 @@ public class ActionRegistry {
         }
     }
 
+    private void notifyVariableRemove(Variable cvar, int index){
+        if(delegate != null){
+            delegate.didRemoveVariable(this, cvar, index);
+        }
+    }
+
     //region Getters/Setters
 
     public List<Action> getActions()
@@ -185,6 +204,8 @@ public class ActionRegistry {
         void didRegisterVariable(ActionRegistry registry, Variable variable, int index);
 
         void didDidChangeVariable(ActionRegistry registry, Variable variable, int index);
+
+        void didRemoveVariable(ActionRegistry registry, Variable variable, int index);
     }
 
     //endregion

@@ -123,6 +123,24 @@
     return variable;
 }
 
+- (BOOL)removeVariableWithId:(int)variableId
+{
+    NSUInteger index = [self indexOfVariableWithId:variableId];
+    if (index != NSNotFound)
+    {
+        LUCVar *cvar = [_variables objectAtIndex:index];
+        [_variables removeObjectAtIndex:index];
+        [_delegate actionRegistry:self didRemoveVariable:cvar atIndex:index];
+        return YES;
+    }
+    else
+    {
+        NSLog(@"Can't server cvar value: variable id %d not found", variableId);
+    }
+    
+    return NO;
+}
+
 - (void)setValue:(NSString *)value forVariableWithId:(int)variableId
 {
     NSUInteger index = [self indexOfVariableWithId:variableId];
