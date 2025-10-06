@@ -82,11 +82,31 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
     private final ConsoleViewState consoleViewState;
     private final WeakReference<Activity> activityRef;
     private final GestureRecognizer gestureDetector;
+    private boolean trackingMultiTouch = false;
     private final View.OnTouchListener gestureDetectorTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
             gestureDetector.onTouchEvent(event);
-            return false; // do not block touch events!
+            
+            int action = event.getActionMasked();
+            int pointerCount = event.getPointerCount();
+            
+            // Track when we enter/exit multi-touch mode
+            if (action == MotionEvent.ACTION_POINTER_DOWN && pointerCount >= 2) {
+                trackingMultiTouch = true;
+            } else if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL) {
+                trackingMultiTouch = false;
+            }
+            
+            // In Unity 6, we need to consume multi-touch events to ensure we receive
+            // the complete gesture sequence (ACTION_MOVE, ACTION_POINTER_UP, etc.)
+            // Single-touch events are passed through to Unity
+            if (trackingMultiTouch || action == MotionEvent.ACTION_POINTER_DOWN || 
+                action == MotionEvent.ACTION_POINTER_UP) {
+                return true; // Consume multi-touch gesture events
+            }
+            
+            return false; // Allow Unity to handle single-touch events
         }
     };
     private Console console;
