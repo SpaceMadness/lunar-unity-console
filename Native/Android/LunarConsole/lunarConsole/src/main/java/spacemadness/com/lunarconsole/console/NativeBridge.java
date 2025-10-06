@@ -24,6 +24,8 @@ package spacemadness.com.lunarconsole.console;
 
 import android.app.Activity;
 
+import androidx.annotation.Keep;
+
 import com.unity3d.player.UnityPlayer;
 
 import java.util.List;
@@ -38,6 +40,7 @@ import spacemadness.com.lunarconsole.settings.PluginSettings;
 /**
  * Class representing a bridge between native and managed code.
  */
+@Keep
 public final class NativeBridge {
     private static final DispatchQueue dispatchQueue;
     private static final ConsoleLogEntryDispatcher entryDispatcher;

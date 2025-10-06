@@ -90,7 +90,7 @@ def exec_shell(command, error_message, options=None):
         if result.returncode != 0:
             print(error_message)
     else:
-        fail_script_unless(result.returncode == 0, f"{error_message}\nShell failed: {command}\n{result.stderr.strip()}")
+        fail_script_unless(result.returncode == 0, f"{error_message}\nShell failed: {command}\n{result.stdout.strip()}")
 
     return result.stdout.strip()
 

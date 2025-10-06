@@ -31,6 +31,7 @@ import com.unity3d.player.UnityPlayer;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.util.Map;
 
 import spacemadness.com.lunarconsole.debug.Log;
@@ -72,7 +73,16 @@ public class ManagedPlatform implements Platform {
             return (View) unityPlayerObject;
         }
 
-        return unityPlayer.getFrameLayout();
+        try {
+            final Method getFrameLayoutMethod = UnityPlayer.class.getMethod("getFrameLayout");
+            return (ViewGroup) getFrameLayoutMethod.invoke(unityPlayer);
+        } catch (NoSuchMethodException e) {
+            Log.w(PLUGIN, "UnityPlayer does not have getFrameLayout method, skipping");
+            throw new IllegalStateException("UnityPlayer does not have getFrameLayout method", e);
+        } catch (Exception e) {
+            Log.e(PLUGIN, "Error while invoking getFrameLayout method", e);
+            throw new IllegalStateException("Error while invoking getFrameLayout method", e);
+        }
     }
 
     @Override
