@@ -1,5 +1,11 @@
 # Lunar Console Changelog
 
+## v.1.9.1 - 10/05/2025
+
+**Fixes:**
+
+* Fixed handling **multi-touch** input on Unity 6.
+
 ## v.1.9.0 - 02/09/2025
 
 **Fixes:**
@@ -11,13 +17,13 @@
 
 **Fixes:**
 
-* Forced decimal points to en-US locale.
+* Forced decimal points to **en-US** locale.
 
 ## v.1.8.4 - 7/16/2021
 
 **Fixes:**
 
-* **Android:** fixed ProGuard obfuscation.
+* **Android:** Fixed ProGuard obfuscation.
 
 ## v.1.8.3 - 5/18/2021
 
@@ -29,27 +35,27 @@
 
 **Fixes:**
 
-* Rich text color tags hex values fixes.
-* Rich text nested tags fixes.
+* Fixed rich text color tag hex value issues.
+* Fixed rich text nested tag issues.
 
 ## v.1.8.1 - 11/12/2020
 
 **Fixes:**
 
-* iOS watchdog crash fix.
+* Fixed iOS watchdog crash.
 
 ## v.1.8.0 - 08/07/2020
 
 **Changes:**
 
-* Enum Variables Support.
+* Enum variables support.
 
 ## v.1.7.0 - 07/29/2020
 
 **Changes:**
 
 * Rich Text support.
-* Ability to toggle the plugin from a BuildPostProcessor.
+* Ability to toggle the plugin from a **BuildPostProcessor**.
 
 ## v.1.6.6 - 06/10/2020
 
@@ -61,20 +67,20 @@
 
 **Fixes:**
 
-* Unity 2020.x incompatibility fix.
+* Fixed Unity 2020.x incompatibility.
 
 ## v.1.6.3 - 11/3/2019
 
 **Fixes:**
 
-* Unity 2019.3 incompatibility fix.
+* Fixed Unity 2019.3 incompatibility.
 
 ## v.1.6.2 - 4/5/2019
 
 **Fixes:**
 
-* Exceptions while resolving variables.
-* Properly disabling editor analytics.
+* Fixed exceptions while resolving variables.
+* Fixed issue with properly disabling editor analytics.
 
 **Changes:**
 
@@ -114,7 +120,7 @@
 
 **Fixes:**
 
-* **Android:** fixed black settings screen when building on Unity 2018.x.
+* **Android:** Fixed black settings screen when building on Unity 2018.x.
 
 ## v.1.5.4 - 4/26/2018
 
@@ -126,7 +132,7 @@
 
 **Fixes:**
 
-* Fixed blocking app after minimize/restore.
+* Fixed app blocking after minimize/restore.
 
 ## v.1.5.2 - 9/14/2017
 
@@ -138,7 +144,7 @@
 
 **Fixes:**
 
-* Console variables are not properly loaded and duplicated.
+* Fixed issue where console variables were not properly loaded and duplicated.
 
 ## v.1.5.0 - 8/20/2017
 
@@ -154,13 +160,13 @@
 
 **Fixes:**
 
-* Console variables are not properly serialized after reset in the editor mode.
+* Fixed issue where console variables were not properly serialized after reset in editor mode.
 
 ## v.1.4.8 - 8/18/2017
 
 **Fixes:**
 
-* iOS build portability issues.
+* Fixed iOS build portability issues.
 
 ## v.1.4.7 - 8/1/2017
 
@@ -170,19 +176,19 @@
 
 **Fixes:**
 
-* ‘onConsoleClosed’ callbacks not called when dismissing the console programmatically.
+* Fixed 'onConsoleClosed' callbacks not being called when dismissing the console programmatically.
 
 ## v.1.4.6 - 7/11/2017
 
 **Fixes:**
 
-* **Android:** java.lang.NullPointerException: Attempt to invoke virtual method 'void spacemadness.com.lunarconsole.console.WarningView.destroy()' on a null object reference.
+* **Android:** Fixed `java.lang.NullPointerException`: Attempt to invoke virtual method 'void spacemadness.com.lunarconsole.console.WarningView.destroy()' on a null object reference.
 
 ## v.1.4.5 - 6/26/2017
 
 **Fixes:**
 
-* **iOS:** Fixed NSRangeException in the log overlay controller.
+* **iOS:** Fixed `NSRangeException` in the log overlay controller.
 * Fixed editor actions bug.
 
 ## v.1.4.4 - 6/19/2017
@@ -195,7 +201,7 @@
 
 **New:**
 
-* Default e-mail configuration.
+* Default **e-mail** configuration.
 
 ## v.1.4.2 - 5/15/2017
 
@@ -213,27 +219,27 @@
 
 **New:**
 
-* Added 'Actions & Variables' window.
+* Added **'Actions & Variables'** window.
 
 ## v.1.3.0 - 4/12/2017
 
 **Changes:**
 
-* **Android**: Replaced legacy plugin installation 'Assets\Plugins\Android\LunarConsole' with a single 'aar' file.
+* **Android**: Replaced legacy plugin installation (`Assets\Plugins\Android\LunarConsole`) with a single `aar` file.
 * **iOS**: Removed texture compression for plugin images to decrease build and platform switching time.
 
 ## v.1.2.2 - 4/4/2017
 
 **Fixes:**
 
-* Fixed auto updater.
-* **Android**: Wrong layout with large log message.
+* Fixed **auto-updater**.
+* **Android**: Fixed wrong layout with large log message.
 
 ## v.1.2.1 - 4/3/2017
 
 **Fixes:**
 
-* **iOS**: Wrong layout with large log message.
+* **iOS**: Fixed wrong layout with large log message.
 
 ## v.1.2.0 - 3/31/2017
 
@@ -251,13 +257,13 @@
 
 **New:**
 
-* Added Range Variables!
+* Added Range Variables.
 * Added ability to enable/disable the console programmatically.
 
 **Fixes:**
 
-* User-defined variables UI bug.
-* Button icons colors and compression.
+* Fixed user-defined variables UI bug.
+* Fixed button icons colors and compression.
 * **Android**: Fixed `Gradle (New)` build system.
 * **iOS**: Fixed popup controllers bug.
 
@@ -265,11 +271,11 @@
 
 **New:**
 
-* Added FREE version!
+* Added FREE version.
 
 **Fixes:**
 
-* **Android**: Fixed filtering case-sensitive actions and variables.
+* **Android**: Fixed filtering **case-sensitive** actions and variables.
 
 ## v.0.9.0 - 1/30/2017
 
@@ -279,7 +285,7 @@
 
 **Fixes:**
 
-* Fixed UI-layout
+* Fixed **UI** layout.
 
 ## v.0.8.0 - 1/21/2017
 
@@ -289,34 +295,34 @@
 
 **Fixes:**
 
-* **iOS**: Fixed Unity Cloud Build error '[xcode] xcodebuild: error: Unable to read project Unity-iPhone.xcodeproj.
-* **Android**: Fixed 'JNI ERROR (app bug): local reference table overflow (max=512)'
+* **iOS**: Fixed Unity Cloud Build error '`[xcode] xcodebuild: error: Unable to read project Unity-iPhone.xcodeproj.`'
+* **Android**: Fixed '`JNI ERROR (app bug): local reference table overflow (max=512)`'
 
 **Changes:**
-* Renamed Unity Cloud Build 'Pre-Export Method Name' from 'LunarConsolePluginInternal.Installer.*' to 'LunarConsoleEditorInternal.Installer.*'
+* Renamed Unity Cloud Build 'Pre-Export Method Name' from `LunarConsolePluginInternal.Installer.*` to `LunarConsoleEditorInternal.Installer.*`
 
 ## v.0.7.0 - 12/7/2016
 
 **New:**
 
-* Added support for console move/resize.
+* Added support for console **move/resize**.
 
 **Fixes:**
 
-* **iOS**: Xcode 7 compatibility and UI fixes.
+* **iOS**: Xcode 7 compatibility and **UI** fixes.
 * **Android**: Android Nougat compatibility fixes.
 
 **Improvements:**
 
-* Added move/resize feature.
-* **iOS**: improved memory usage.
+* Added **move/resize** feature.
+* **iOS**: Improved memory usage.
 
 ## v.0.6.1 - 9/19/2016
 
 **Fixes:**
 
-* Multithreaded logging.
-* Vuforia plugin compatibility issues.
+* Fixed multithreaded logging.
+* Fixed Vuforia plugin compatibility issues.
 
 ## v.0.6.0 - 8/29/2016
 
@@ -329,32 +335,31 @@
 
 **Fixes:**
 
-* Unity 5.4 compatibility bugs.
-* **iOS**: fixed multiple invocation of console callbacks.
+* Fixed Unity 5.4 compatibility bugs.
+* **iOS**: Fixed multiple invocation of console callbacks.
 
 **Improvements:**
 
 * Added an option to remove rich text tags from the output.
-* Added stack trace for email/clipboard log text.
-
+* Added stack trace for **e-mail** / clipboard log text.
 
 ## v.0.4.2b - 7/20/2016
 
 **Fixes:**
 
-* **iOS**: fixed potential linking issue while building for IL2CPP script backend.
+* **iOS**: Fixed potential linking issue while building for **IL2CPP** script backend.
 
 ## v.0.4.1b - 6/15/2016
 
 **Fixes:**
 
-* **iOS**: fixed warning text for missing stack trace frames.
+* **iOS**: Fixed warning text for missing stack trace frames.
 
 ## v.0.4.0b - 6/15/2016
 
 **Fixes:**
 
-* **iOS**: fixed sending log emails.
+* **iOS**: Fixed sending log **e-mails**.
 
 ## v.0.3.0b - 4/16/2016
 
@@ -364,79 +369,79 @@
 
 **Improvements:**
 
-* Added LunarConsole.onConsoleOpened and LunarConsole.onConsoleClosed callbacks.
+* Added `LunarConsole.onConsoleOpened` and `LunarConsole.onConsoleClosed` callbacks.
 
 **Changes:**
 
-* Auto scrolling is turned ON every time console is opened (would be configurable in a future release).
-* Renamed 'LunarConsole' to 'LunarConsolePlugin'.
-* Renamed 'LunarConsoleInternal' to 'LunarConsolePluginInternal'.
+* Auto scrolling is turned **on** every time console is opened (would be configurable in a future release).
+* Renamed `LunarConsole` to `LunarConsolePlugin`.
+* Renamed `LunarConsoleInternal` to `LunarConsolePluginInternal`.
 
 ## v.0.2.0b - 2/14/2016
 
 **Improvements:**
 
-* **Android**: collapse similar entries option.
+* **Android**: Added 'collapse similar entries' option.
 
 ## v.0.1.0b - 2/3/2016
 
 **Improvements:**
 
-* **iOS**: collapse similar entries option.
+* **iOS**: Added 'collapse similar entries' option.
 
 ## v.0.0.10b - 1/24/2016
 
 **Improvements:**
 
-* Added LunarConsole.Clear() method to clear the console output.
+* Added `LunarConsole.Clear()` method to clear the console output.
 
 ## v.0.0.9b - 1/23/2016
 
 **Improvements:**
 
-* Added an option to disable multi touch gesture recognition.
+* Added an option to disable **multi-touch** gesture recognition.
 
 **Fixes:**
 
-* **Android**: fixed a conflicting between 2-finger swipe down and zoom (pinch) gesture recognition.
-* **Editor**: fixed 'Report bug...' url
+* **Android**: Fixed a conflicting between **2-finger** swipe down and zoom (pinch) gesture recognition.
+* **Editor**: Fixed 'Report bug...' URL.
 
 ## v.0.0.8b - 11/30/2015
 
 **Improvements:**
 
-* **Android**: added stack trace info for every log entry.
-* **iOS**: improved stack trace info for every log entry.
+* **Android**: Added stack trace info for every log entry.
+* **iOS**: Improved stack trace info for every log entry.
 
 **Fixes:**
 
-* **Android**: fixed touches passing through some are of the console into the scene.
+* **Android**: Fixed touches passing through some **area** of the console into the scene.
 
 ## v.0.0.7b - 11/23/2015
 
 **Fixes:**
 
-* **Android**: fixed clicks through exception warning.
+* **Android**: Fixed clicks through exception warning.
 
 ## v.0.0.6b - 11/17/2015
 
 **Fixes:**
 
-* **Android**: resolved conflicts with 3rd party Android plugins (GPGS, Facebook, etc).
-* **iOS**: fixed tab bar buttons layout.
+* **Android**: Resolved conflicts with **third-party** Android plugins (GPGS, Facebook, etc).
+* **iOS**: Fixed tab bar buttons layout.
 
 **Improvements:**
 
 * Dramatically reduced plugin size (from 1.6M to 250k)
-* Optimized UI resources.
+* Optimized **UI** resources.
 
 ## v.0.0.5b - 11/11/2015
 
 **Fixes:**
 
-* **iOS**: fixed poor scrolling perfomance.
-* **iOS**: dismiss keyboard when pressing 'Search' button for log filtering.
-* **iOS**: fixed missing 'ShowConsole' and 'HideConsole' API calls.
+* **iOS**: Fixed poor scrolling **performance**.
+* **iOS**: Dismiss keyboard when pressing **'Search'** button for log filtering.
+* **iOS**: Fixed missing **'ShowConsole'** and **'HideConsole'** API calls.
 
 **Improvements:**
 
@@ -450,34 +455,34 @@
 
 **Fixes:**
 
-* **iOS**: fixed "scroll lock" button state.
+* **iOS**: Fixed **'scroll lock'** button state.
 
 ## v.0.0.3b - 10/6/15
 
 **New:**
 
-* Android platform support (FUCK YES!!!).
+* Android platform support.
 * Enable/Disable plugin from your build system.
 
 **Improvements:**
 
-* **Android**: stop scrolling on touch-and-drag.
+* **Android**: Stop scrolling on touch-and-drag.
 * Destroy LunarConsole game object when running on unsupported platforms (everything except iOS and Android).
-* Added 'ShowConsole' and 'HideConsole' methods.
+* Added **'ShowConsole'** and **'HideConsole'** methods.
 
 **Fixes:**
 
-* Fixed change log messages for auto updater.
+* Fixed change log messages for **auto-updater**.
 
 ## v.0.0.2b - 9/2/2015
 
 **Improvements:**
 
-* Preserve console UI state between sessions.
+* Preserve console **UI** state between sessions.
 
-**Fixes:**  
+**Fixes:**
 
-* Fixed filtering after console UI is closed.
+* Fixed filtering after console **UI** is closed.
 
 ## v.0.0.1b - 8/25/2015
 
