@@ -4,7 +4,7 @@
 ## Linux
 - TBD
 ## Windows
-- `mklink /D "C:\Program Files\Unity-Publish" "C:\Program Files\Unity\Hub\Editor\2019.4.0f1"`
+- `mklink /D "C:\Program Files\Unity-Publish" "C:\Program Files\Unity\Hub\Editor\2019.4.41f1"`
 - `mklink /D "C:\Program Files\Unity-Export" "C:\Program Files\Unity\Hub\Editor\6000.2.6f2"`
 
 # JDK
