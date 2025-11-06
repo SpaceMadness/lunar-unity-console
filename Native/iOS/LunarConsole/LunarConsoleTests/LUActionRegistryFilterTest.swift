@@ -416,6 +416,10 @@ class LUActionRegistryFilterTest: TestCase, LUActionRegistryFilterDelegate {
         XCTFail("Implement me")
     }
     
+    func actionRegistryFilter(_ registry: LUActionRegistryFilter!, didRemoveVariable variable: LUCVar!, at index: UInt) {
+        addResult("removed variable: \(variable.name!) (\(index))")
+    }
+    
     // MARK: - Helpers
     
     @discardableResult

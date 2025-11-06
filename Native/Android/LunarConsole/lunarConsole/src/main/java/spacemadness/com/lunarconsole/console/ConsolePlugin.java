@@ -274,6 +274,10 @@ public class ConsolePlugin implements NotificationCenter.OnNotificationListener,
         actionRegistry.updateVariable(variableId, value);
     }
 
+    public void removeVariable(int variableId){
+        actionRegistry.removeVariable(variableId);
+    }
+
     @Override
     public void destroy() {
         removeConsoleView();

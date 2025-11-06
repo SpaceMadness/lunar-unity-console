@@ -239,6 +239,23 @@
     [_delegate actionRegistryFilter:self didChangeVariable:variable atIndex:index];
 }
 
+- (void)actionRegistry:(LUActionRegistry *)registry didRemoveVariable:(LUCVar *)variable atIndex:(NSUInteger)index
+{
+    if (self.isFiltering)
+    {
+        index = [self filteredArray:_filteredVariables indexOfEntry:variable];
+        if (index == NSNotFound)
+        {
+            return;
+        }
+        
+        variable = [_filteredVariables objectAtIndex:index];
+        [_filteredVariables removeObjectAtIndex:index];
+    }
+    
+    [_delegate actionRegistryFilter:self didRemoveVariable:variable atIndex:index];
+}
+
 #pragma mark -
 #pragma mark Properties
 

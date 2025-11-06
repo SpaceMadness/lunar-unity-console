@@ -32,6 +32,7 @@
 - (void)actionRegistry:(LUActionRegistry *)registry didRemoveAction:(LUAction *)action atIndex:(NSUInteger)index;
 - (void)actionRegistry:(LUActionRegistry *)registry didRegisterVariable:(LUCVar *)variable atIndex:(NSUInteger)index;
 - (void)actionRegistry:(LUActionRegistry *)registry didDidChangeVariable:(LUCVar *)variable atIndex:(NSUInteger)index;
+- (void)actionRegistry:(LUActionRegistry *)registry didRemoveVariable:(LUCVar *)variable atIndex:(NSUInteger)index;
 
 @end
 
@@ -54,5 +55,6 @@
 - (LUCVar *)registerVariableWithId:(int)variableId name:(NSString *)name typeName:(NSString *)type value:(NSString *)value defaultValue:(NSString *)defaultValue values:(NSArray<NSString *> *)values;
 - (void)setValue:(NSString *)value forVariableWithId:(int)variableId;
 - (LUCVar *)variableWithId:(int)variableId;
+- (BOOL)removeVariableWithId:(int)variableId;
 
 @end

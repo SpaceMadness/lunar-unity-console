@@ -257,6 +257,11 @@ static NSString *const kScriptMessageTrackEvent = @"track_event";
     [_actionRegistry setValue:value forVariableWithId:variableId];
 }
 
+- (void)removeVariableWithId:(int)actionId
+{
+    [_actionRegistry removeVariableWithId:actionId];
+}
+
 #pragma mark -
 #pragma mark Warnings
 
