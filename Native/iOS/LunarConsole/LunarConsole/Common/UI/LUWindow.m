@@ -26,6 +26,31 @@
 
 @implementation LUWindow
 
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self)
+    {
+        if (@available(iOS 13.0, *))
+        {
+            // Under the UIScene lifecycle (Unity 6000.0.71+) a window without a scene is never shown (#235).
+            if (self.windowScene == nil)
+            {
+                // ponytail: first foreground-active scene only; per-scene windows if iPad multi-window support is ever needed
+                UIWindowScene *pick = nil;
+                for (UIScene *scene in [UIApplication sharedApplication].connectedScenes)
+                {
+                    if (![scene isKindOfClass:[UIWindowScene class]]) continue;
+                    if (scene.activationState == UISceneActivationStateForegroundActive) { pick = (UIWindowScene *)scene; break; }
+                    if (pick == nil) pick = (UIWindowScene *)scene;
+                }
+                self.windowScene = pick;
+            }
+        }
+    }
+    return self;
+}
+
 - (BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event
 {
     return [self.rootViewController.view pointInside:point withEvent:event];
