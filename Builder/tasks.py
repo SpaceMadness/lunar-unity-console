@@ -276,9 +276,11 @@ def list_ios_files(dir_project, **kwargs):
     def is_valid_file(file):
         if os.path.isdir(file):
             return False
-        if '/Full/' in file and configuration == 'Free':
+        # os.walk yields '\' separators on Windows, so match on normalized '/' (#229)
+        normalized = file.replace('\\', '/')
+        if '/Full/' in normalized and configuration == 'Free':
             return False
-        if '/Free/' in file and configuration == 'Full':
+        if '/Free/' in normalized and configuration == 'Full':
             return False
         return os.path.splitext(file)[1] in extensions
 
