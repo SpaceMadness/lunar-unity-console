@@ -47,6 +47,36 @@
 
 static UIEdgeInsets _messageInsets;
 
+// Messages longer than this are truncated in the list (layout and display only);
+// the details view, copy and share still use the full message.
+static const NSUInteger kMaxListMessageLength = 4000;
+
+// Length to keep so that a composed character sequence is not split
+static NSUInteger LUListMessageLength(NSString *text)
+{
+    if (text.length <= kMaxListMessageLength) {
+        return text.length;
+    }
+    return [text rangeOfComposedCharacterSequenceAtIndex:kMaxListMessageLength].location;
+}
+
+static NSString *LUListMessageText(NSString *text)
+{
+    NSUInteger length = LUListMessageLength(text);
+    return length == text.length ? text : [[text substringToIndex:length] stringByAppendingString:@"\u2026"];
+}
+
+static NSAttributedString *LUListMessageAttributedText(NSAttributedString *text)
+{
+    NSUInteger length = LUListMessageLength(text.string);
+    if (length == text.length) {
+        return text;
+    }
+    NSMutableAttributedString *result = [[text attributedSubstringFromRange:NSMakeRange(0, length)] mutableCopy];
+    [result appendAttributedString:[[NSAttributedString alloc] initWithString:@"\u2026" attributes:[text attributesAtIndex:length - 1 effectiveRange:NULL]]];
+    return result;
+}
+
 @interface LUConsoleLogEntryTableViewCell ()
 
 @property (nonatomic, strong) UILabel *messageLabel;
@@ -149,6 +179,7 @@ static UIEdgeInsets _messageInsets;
     CGSize constraintSize = CGSizeMake(width - (_messageInsets.left + _messageInsets.right), CGFLOAT_MAX);
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    text = LUListMessageText(text);
     CGFloat textHeight = [text sizeWithFont:theme.font constrainedToSize:constraintSize lineBreakMode:theme.lineBreakMode].height;
     CGFloat height = (int)(textHeight + (_messageInsets.top + _messageInsets.bottom) + .99); // size should not be a fracture number (or gray lines will appear)
 #pragma clang diagnostic pop
@@ -188,11 +219,11 @@ static UIEdgeInsets _messageInsets;
 {
     if (message.tags.count > 0)
     {
-        _messageLabel.attributedText = [message createAttributedTextWithSkin:self.theme.attributedTextSkin];
+        _messageLabel.attributedText = LUListMessageAttributedText([message createAttributedTextWithSkin:self.theme.attributedTextSkin]);
     }
     else
     {
-        _messageLabel.text = message.text;
+        _messageLabel.text = LUListMessageText(message.text);
     }
 }
 
@@ -323,6 +354,7 @@ static UIEdgeInsets _messageInsets;
     CGSize constraintSize = CGSizeMake(width - 2 * theme.indentHorTiny, CGFLOAT_MAX);
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+    text = LUListMessageText(text);
     CGFloat textHeight = [text sizeWithFont:theme.font constrainedToSize:constraintSize lineBreakMode:theme.lineBreakMode].height;
     CGFloat height = (int)(textHeight + 2 * theme.indentVerTiny + .99); // size should not be a fracture number (or gray lines will appear)
 #pragma clang diagnostic pop
@@ -346,8 +378,8 @@ static UIEdgeInsets _messageInsets;
 - (void)setMessage:(LULogMessage *)message attributes:(NSDictionary<NSAttributedStringKey, id> *)attributes
 {
     self.messageLabel.attributedText = message.tags.count > 0
-        ? [message createAttributedTextWithSkin:[LUTheme mainTheme].attributedTextSkin attributes:attributes]
-        : [[NSAttributedString alloc] initWithString:message.text attributes:attributes];
+        ? LUListMessageAttributedText([message createAttributedTextWithSkin:[LUTheme mainTheme].attributedTextSkin attributes:attributes])
+        : [[NSAttributedString alloc] initWithString:LUListMessageText(message.text) attributes:attributes];
     
 }
 
