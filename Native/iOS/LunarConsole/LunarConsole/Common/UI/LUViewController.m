@@ -48,6 +48,20 @@
     return NO;
 }
 
+- (UIInterfaceOrientationMask)supportedInterfaceOrientations
+{
+    // iOS 16+ rotates each window to its root controller's mask (default: AllButUpsideDown on iPhone),
+    // so follow the host app's main root controller instead. Don't ask UIApplication for our own window:
+    // Unity's app delegate answers with [window.rootViewController supportedInterfaceOrientations] -> recursion.
+    id<UIApplicationDelegate> delegate = [UIApplication sharedApplication].delegate;
+    UIViewController *host = [delegate respondsToSelector:@selector(window)] ? delegate.window.rootViewController : nil;
+    if (host != nil && ![host isKindOfClass:[LUViewController class]])
+    {
+        return host.supportedInterfaceOrientations;
+    }
+    return [super supportedInterfaceOrientations];
+}
+
 #pragma mark -
 #pragma mark Popup controller
 
