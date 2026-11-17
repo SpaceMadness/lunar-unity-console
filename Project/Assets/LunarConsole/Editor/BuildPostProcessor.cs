@@ -53,11 +53,7 @@ namespace LunarConsoleEditorInternal
 
         static void OnPostprocessIOS(string buildPath)
         {
-            // Workaround for:
-            // FileNotFoundException: Could not load file or assembly 'UnityEditor.iOS.Extensions.Xcode, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null' or one of its dependencies.
-            // For more information see: http://answers.unity3d.com/questions/1016975/filenotfoundexception-when-using-xcode-api.html
-            // Copy plugin files to the build directory so you can later move to another machine and build it there
-            #if LUNAR_CONSOLE_EXPORT_IOS_FILES
+            // Copy plugin files into the build folder so the Xcode project is self-contained (CI, moved projects): #216
             var pluginPath = Path.Combine(buildPath, Constants.PluginName);
             FileUtil.DeleteFileOrDirectory(pluginPath);
             FileUtil.CopyFileOrDirectory(EditorConstants.EditorPathIOS, pluginPath);
@@ -67,9 +63,6 @@ namespace LunarConsoleEditorInternal
             {
                 FileUtil.DeleteFileOrDirectory(file);
             }
-            #else  // LUNAR_CONSOLE_EXPORT_IOS_FILES
-            var pluginPath = EditorConstants.EditorPathIOS;
-            #endif // LUNAR_CONSOLE_EXPORT_IOS_FILES
 
             var projectMod = new XcodeProjMod(buildPath, pluginPath);
             projectMod.UpdateProject();

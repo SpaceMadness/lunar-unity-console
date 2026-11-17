@@ -46,9 +46,11 @@ class TestProject
 
   def compare_ios_build_and_plugin_files
     dir_ios_plugin = 'Assets/LunarConsole/Editor/iOS'
+    # plugin files are copied into <build>/LunarConsole (#216), so pbxproj refs are relative to that folder
+    dir_ios_build_plugin = 'LunarConsole'
 
     file_xcodeproj = resolve_path "#{@unity_project.dir_project}/Build/iOS/Unity-iPhone.xcodeproj/project.pbxproj"
-    xcodeproj_files = list_xcodeproj_plugin_files file_xcodeproj, dir_ios_plugin
+    xcodeproj_files = list_xcodeproj_plugin_files file_xcodeproj, dir_ios_build_plugin
     return :no_files if xcodeproj_files.empty?
 
     plugin_files = list_ios_plugin_files resolve_path "#{@unity_project.dir_project}/#{dir_ios_plugin}"
@@ -175,8 +177,11 @@ class TestProject
   end
 
   def list_xcodeproj_plugin_files(file_proj, subpath)
-    text = File.read file_proj
-    regex = Regexp.new(%({isa\s+=\s+PBXFileReference;\s+lastKnownFileType\s+=\s+.*?;\s+name\s+=\s+.*?;\s+path =\s+"?../../#{subpath}/(.*?)"?;\s+sourceTree\s+=\s+SOURCE_ROOT;\s+};))
+    parse_xcodeproj_plugin_files File.read(file_proj), subpath
+  end
+
+  def parse_xcodeproj_plugin_files(text, subpath)
+    regex = Regexp.new(%({isa\s+=\s+PBXFileReference;\s+lastKnownFileType\s+=\s+.*?;\s+name\s+=\s+.*?;\s+path =\s+"?#{subpath}/(.*?)"?;\s+sourceTree\s+=\s+SOURCE_ROOT;\s+};))
     actual_files = []
     text.scan(regex).each { |capture|
       actual_files.push capture.first
