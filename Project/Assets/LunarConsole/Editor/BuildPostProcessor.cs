@@ -74,6 +74,15 @@ namespace LunarConsoleEditorInternal
             var projectMod = new XcodeProjMod(buildPath, pluginPath);
             projectMod.UpdateProject();
         }
+        #else
+        [PostProcessBuild(1000)]
+        static void OnPostprocessBuild(BuildTarget target, string buildPath)
+        {
+            if (target == BuildTarget.iOS && LunarConsoleConfig.consoleEnabled)
+            {
+                throw new UnityEditor.Build.BuildFailedException("Lunar Console: building for iOS while the active editor platform is not iOS, so the Xcode post-processor was not compiled and the native plugin would not be linked (undefined symbol ___lunar_console_destroy). Switch the active build target to iOS before building (EditorUserBuildSettings.SwitchActiveBuildTarget, or -buildTarget iOS in batchmode), or disable Lunar Console.");
+            }
+        }
         #endif //UNITY_IOS || UNITY_IPHONE
     }
 
