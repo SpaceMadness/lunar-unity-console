@@ -127,6 +127,8 @@ To
 
 **Important:** Always "replace" your generated Xcode project when switching the plugin's status to avoid unexpected results.
 
+iOS plugin sources are now copied into `<build>/LunarConsole`, so the exported Xcode project builds on CI and other machines. Use "Replace" (not "Append") for the first iOS build after upgrading.
+
 <img width="404" src="https://cloud.githubusercontent.com/assets/786644/18031143/985708a4-6c87-11e6-995a-69073b6eff6b.png">
 
 For more detailed information check Wiki page: [Enabling and Disabling Lunar Mobile Console](https://github.com/SpaceMadness/lunar-unity-console/wiki/Enabling-and-Disabling-Lunar-Mobile-Console).
