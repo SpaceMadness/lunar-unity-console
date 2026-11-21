@@ -382,6 +382,8 @@ static NSString *const kScriptMessageTrackEvent = @"track_event";
                                                                                  action:@selector(handleGesture:)];
         gr.numberOfTouchesRequired = 2;
         gr.direction = UISwipeGestureRecognizerDirectionDown;
+        // Don't withhold touch-ended from the game while the 2-finger swipe is still "possible" (#155)
+        gr.delaysTouchesEnded = NO;
 
         [[self keyWindow] addGestureRecognizer:gr];
 
