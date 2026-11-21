@@ -408,6 +408,17 @@ namespace LunarConsolePlugin
         {
             try
             {   
+                #if UNITY_EDITOR
+                // The editor already indexes attributed types: avoid scanning every type of every assembly on Play Mode entry (#133)
+                var assemblies = new HashSet<Assembly>(ListAssemblies());
+                foreach (var type in UnityEditor.TypeCache.GetTypesWithAttribute<CVarContainerAttribute>())
+                {
+                    if (assemblies.Contains(type.Assembly))
+                    {
+                        RegisterVariables(type);
+                    }
+                }
+                #else
                 foreach (var assembly in ListAssemblies())
                 {
                     Log.dev("Checking '{0}'...", assembly);
@@ -425,6 +436,7 @@ namespace LunarConsolePlugin
                         Log.e(e, "Unable to register variables from assembly: {0}", assembly);
                     }
                 }
+                #endif
             }
             catch (Exception e)
             {
